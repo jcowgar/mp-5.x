@@ -215,7 +215,7 @@ int mp_delete_char(fdm_v txt, int * x, int * y)
 	v=fdm_aget(txt, *y);
 
 	/* deleting a newline? */
-	if(*x == v->size)
+	if(*x == v->size && *y < txt->size - 1)
 	{
 		/* creates a two element array */
 		w=FDM_A(2);
