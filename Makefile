@@ -50,6 +50,7 @@ libfdm.a:
 
 clean:
 	rm -f $(BIN) $(LIB) $(OBJS) config.h config.libs Changelog tags
+	$(MAKE) -C fdm clean
 
 dist: clean doc Changelog
 	cd .. ; ln -s $(PROJ) $(PROJ)-$(VERSION); \
@@ -60,6 +61,3 @@ install:
 	install $(BIN) -o root -g root -m 755 $(PREFIX)/bin
 	install -o root -d $(PREFIX)/share/doc/$(PROJ)
 	install -o root -m 0644 $(DOCS) $(PREFIX)/share/doc/$(PROJ)
-
-tags:
-	ctags -R
