@@ -369,11 +369,15 @@ void mp_load_file(mpdm_v t, char * file)
 
 int mp_startup(void)
 {
+	mpdm_startup();
+
 	return(1);
 }
 
 
 int mp_shutdown(void)
 {
+	mpdm_shutdown();
+
 	return(1);
 }
