@@ -116,15 +116,15 @@ int main(void)
 	}
 
 	dump();
-	fdm_dup(txt);
+	fdm_copy(txt);
 	mp_insert_char(txt, &x, &y, '-');
 	dump();
 
-	fdm_dup(txt);
+	fdm_copy(txt);
 	mp_delete_char(txt, &x, &y);
 	dump();
 
-	fdm_dup(txt);
+	fdm_copy(txt);
 	mp_insert_char(txt, &x, &y, '\n');
 	dump();
 
