@@ -429,13 +429,11 @@ int mp_delete_char(fdm_v txt, int * x, int * y)
 fdm_v mp_fgets(fdm_v fv)
 {
 	char line[128];
-	fdm_v v;
+	fdm_v v=NULL;
 	int i;
 	FILE * f;
 
 	f=(FILE *)fv->data;
-
-	v=FDM_A(0);
 
 	while(fgets(line, sizeof(line) - 1, f) != NULL)
 	{
@@ -450,18 +448,13 @@ fdm_v mp_fgets(fdm_v fv)
 		}
 
 		/* store */
-		fdm_apush(v, FDM_S(line));
+		v=fdm_strcat(v, FDM_S(line));
 
 		/* exit if the line is completely read */
 		if(i == 0) break;
 	}
 
-	/* if some lines were read, join and return */
-	if(v->size > 0)
-		return(fdm_ajoin(NULL, v));
-
-	/* EOF */
-	return(NULL);
+	return(v);
 }
 
 
