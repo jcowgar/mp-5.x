@@ -251,8 +251,9 @@ int mp_startup(void)
 	/* store in fdm's root */
 	fdm_hset(fdm_root(), FDM_LS("mp"), _mp);
 
-	fdm_hset(_mp, FDM_LS("docs"), FDM_A(0));
-	fdm_hset(_mp, FDM_LS("keys"), FDM_H(0));
+	_mp_docs=FDM_A(0);
+
+	fdm_hset(_mp, FDM_LS("docs"), _mp_docs);
 
 	return(1);
 }
