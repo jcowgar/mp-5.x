@@ -152,11 +152,14 @@ int mp_insert_char(fdm_v txt, int * x, int * y, int c)
 {
 	char tmp[2];
 	fdm_v v;
+	fdm_v w;
 
 	v=fdm_aget(txt, *y);
 
 	tmp[0]=c; tmp[1]='\0';
-	fdm_aset(txt, fdm_splice(v, *x, 0, tmp), *y);
+	w=fdm_splice(v, FDM_LS(tmp), *x, 0);
+
+	fdm_aset(txt, fdm_aget(w, 0), *y);
 	mp_move_right(txt, x, y);
 
 	return(1);
@@ -166,10 +169,12 @@ int mp_insert_char(fdm_v txt, int * x, int * y, int c)
 int mp_delete_char(fdm_v txt, int * x, int * y)
 {
 	fdm_v v;
+	fdm_v w;
 
 	v=fdm_aget(txt, *y);
 
-	fdm_aset(txt, fdm_splice(v, *x, 1, ""), *y);
+	w=fdm_splice(v, FDM_LS(""), *x, 1);
+	fdm_aset(txt, fdm_aget(w, 0), *y);
 
 	return(1);
 }
