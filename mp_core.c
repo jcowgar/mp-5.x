@@ -25,6 +25,7 @@
 #include "config.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "mpdm.h"
@@ -48,215 +49,203 @@ mpdm_v _mp_tags;
 mpdm_v _mp_keys;
 */
 
+struct mp_txt
+{
+	mpdm_v lines;	/* document content */
+	int x;		/* x cursor position */
+	int y;		/* y cursor position */
+	mpdm_v undo;	/* undo queue */
+};
+
 /*******************
 	Code
 ********************/
 
-void _mp_get(mpdm_v cdata, int * x, int * y, int * mx, int * my)
+static mpdm_v _tie_d(mpdm_v v)
 {
-	mpdm_v txt;
-	mpdm_v lines;
-	mpdm_v line;
+	struct mp_txt * txt;
 
-	txt=mpdm_hget(cdata, MPDM_LS("txt"));
-
-	if(x != NULL)
-		*x=mpdm_ival(mpdm_hget(txt, MPDM_LS("x")));
-
-	if(y != NULL)
-		*y=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
-
-	if(my != NULL || mx != NULL)
+	if(v->data != NULL)
 	{
-		lines=mpdm_hget(txt, MPDM_LS("lines"));
+		txt=(struct mp_txt *)v->data;
 
-		if(my != NULL)
-			*my=mpdm_size(lines) - 1;
+		/* unrefs the values */
+		mpdm_unref(txt->lines);
+		mpdm_unref(txt->undo);
 
-		if(mx != NULL)
-		{
-			int i=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
-			line=mpdm_aget(lines, i);
-
-			*mx=mpdm_size(line);
-		}
+		/* frees the struct itself */
+		free(txt);
+		v->data=NULL;
 	}
+
+	return(NULL);
 }
 
 
-int _mp_set_x(mpdm_v cdata, int x)
+static mpdm_v _tie_mp(void)
 {
-	mpdm_v txt;
-	mpdm_v lines;
-	mpdm_v line;
-	int nx, ny, i;
+	static mpdm_v _tie=NULL;
+
+	if(_tie == NULL)
+	{
+		_tie=mpdm_ref(mpdm_clone(_mpdm_tie_cpy()));
+
+		mpdm_aset(_tie, MPDM_X(_tie_d), MPDM_TIE_DESTROY);
+	}
+
+	return(_tie);
+}
+
+
+mpdm_v mp_new(void)
+{
+	struct mp_txt txt;
+
+	/* clean */
+	memset(&txt, '\0', sizeof(struct mp_txt));
+
+	/* create internal data */
+	txt.lines=mpdm_ref(MPDM_A(0));
+	txt.undo=mpdm_ref(MPDM_A(0));
+
+	return mpdm_new(0, &txt, sizeof(struct mp_txt), _tie_mp());
+}
+
+
+int _mp_set_x(mpdm_v t, int x)
+{
+	struct mp_txt * txt;
 	int ret=0;
 
-	txt=mpdm_hget(cdata, MPDM_LS("txt"));
-	lines=mpdm_hget(txt, MPDM_LS("lines"));
-
-	nx=ny=-1;
-
-	i=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
+	txt=(struct mp_txt *) t->data;
 
 	if(x < 0)
 	{
 		/* cursor moved left of the bol;
 		   effective cursor up + eol */
-		if(i > 0)
+		if(txt->y > 0)
 		{
-			ny=i - 1;
-			line=mpdm_aget(lines, ny);
-			nx=mpdm_size(line);
+			txt->y--;
+			txt->x=mpdm_size(mpdm_aget(txt->lines, txt->y));
 		}
 	}
 	else
 	{
 		/* test if moved beyond end of line */
-		line=mpdm_aget(lines, i);
-
-		if(x > mpdm_size(line))
+		if(x > mpdm_size(mpdm_aget(txt->lines, txt->y)))
 		{
-			if(i < mpdm_size(lines) - 1)
+			if(txt->y < mpdm_size(txt->lines) - 1)
 			{
 				/* cursor moved right of eol;
 				   effective cursor down + bol */
-				nx=0;
-				ny=i + 1;
+				txt->x=0;
+				txt->y++;
 			}
 		}
 		else
-			nx=x;
-	}
-
-	/* store new coords */
-	if(nx >= 0)
-	{
-		mpdm_hset(txt, MPDM_LS("x"), MPDM_I(nx));
-		ret++;
-	}
-
-	if(ny >= 0)
-	{
-		mpdm_hset(txt, MPDM_LS("y"), MPDM_I(ny));
-		ret++;
+			txt->x=x;
 	}
 
 	return(ret);
 }
 
 
-int _mp_set_y(mpdm_v cdata, int y)
+int _mp_set_y(mpdm_v t, int y)
 {
-	mpdm_v txt;
-	mpdm_v lines;
-	mpdm_v line;
-	int nx, ny;
+	mpdm_v c;
+	struct mp_txt * txt;
 	int ret=0;
 
-	txt=mpdm_hget(cdata, MPDM_LS("txt"));
-	lines=mpdm_hget(txt, MPDM_LS("lines"));
-
-	nx=ny=-1;
-
-	/* never move beyond last line */
-	ny=y > mpdm_size(lines) - 1 ? mpdm_size(lines) - 1 : y;
-
-	/* gets new line */
-	line=mpdm_aget(lines, ny);
-
-	/* test if y movement made x be far beyond current line eol */
-	if(mpdm_ival(mpdm_hget(txt, MPDM_LS("x"))) > mpdm_size(line))
-		nx=mpdm_size(line);
-
-	/* store new coords */
-	if(nx >= 0)
+	if(y > 0)
 	{
-		mpdm_hset(txt, MPDM_LS("x"), MPDM_I(nx));
-		ret++;
-	}
+		txt=(struct mp_txt *) t->data;
 
-	if(ny >= 0)
-	{
-		mpdm_hset(txt, MPDM_LS("y"), MPDM_I(ny));
-		ret++;
+		/* never move beyond last line */
+		if(y > mpdm_size(txt->lines) - 1)
+			y=mpdm_size(txt->lines) - 1;
+
+		txt->y=y;
+
+		/* gets new line */
+		c=mpdm_aget(txt->lines, y);
+
+		/* test if y movement made x be
+		   far beyond current line eol */
+		if(txt->x > mpdm_size(c))
+			txt->x=mpdm_size(c);
 	}
 
 	return(ret);
 }
 
 
-void mp_move_up(mpdm_v cdata)
+void mp_move_up(mpdm_v t)
 {
-	int y;
+	struct mp_txt * txt=t->data;
 
-	_mp_get(cdata, NULL, &y, NULL, NULL);
-	_mp_set_y(cdata, y - 1);
+	_mp_set_y(t, txt->y - 1);
 }
 
 
-void mp_move_down(mpdm_v cdata)
+void mp_move_down(mpdm_v t)
 {
-	int y;
+	struct mp_txt * txt=t->data;
 
-	_mp_get(cdata, NULL, &y, NULL, NULL);
-	_mp_set_y(cdata, y + 1);
+	_mp_set_y(t, txt->y - 1);
 }
 
 
-void mp_move_bol(mpdm_v cdata)
+void mp_move_bol(mpdm_v t)
 {
-	_mp_set_x(cdata, 0);
+	_mp_set_x(t, 0);
 }
 
 
-void mp_move_eol(mpdm_v cdata)
+void mp_move_eol(mpdm_v t)
 {
-	int mx;
+	struct mp_txt * txt=t->data;
+	mpdm_v c;
 
-	_mp_get(cdata, NULL, NULL, &mx, NULL);
-	_mp_set_x(cdata, mx);
+	c=mpdm_aget(txt->lines, txt->y);
+	_mp_set_x(t, mpdm_size(c));
 }
 
 
-void mp_move_bof(mpdm_v cdata)
+void mp_move_bof(mpdm_v t)
 {
-	_mp_set_y(cdata, 0);
-	_mp_set_x(cdata, 0);
+	_mp_set_y(t, 0);
+	_mp_set_x(t, 0);
 }
 
 
-void mp_move_eof(mpdm_v cdata)
+void mp_move_eof(mpdm_v t)
 {
-	int my;
+	struct mp_txt * txt=t->data;
 
-	_mp_get(cdata, NULL, NULL, NULL, &my);
-	_mp_set_y(cdata, my);
+	_mp_set_y(t, mpdm_size(txt->lines) - 1);
 }
 
 
-void mp_move_left(mpdm_v cdata)
+void mp_move_left(mpdm_v t)
 {
-	int x;
+	struct mp_txt * txt=t->data;
 
-	_mp_get(cdata, &x, NULL, NULL, NULL);
-	_mp_set_x(cdata, x - 1);
+	_mp_set_x(t, txt->x - 1);
 }
 
 
-void mp_move_right(mpdm_v cdata)
+void mp_move_right(mpdm_v t)
 {
-	int x;
+	struct mp_txt * txt=t->data;
 
-	_mp_get(cdata, &x, NULL, NULL, NULL);
-	_mp_set_x(cdata, x + 1);
+	_mp_set_x(t, txt->x + 1);
 }
 
 
-void mp_move_xy(mpdm_v cdata, int x, int y)
+void mp_move_xy(mpdm_v t, int x, int y)
 {
-	_mp_set_y(cdata, y);
-	_mp_set_x(cdata, x);
+	_mp_set_y(t, y);
+	_mp_set_x(t, x);
 }
 
 
