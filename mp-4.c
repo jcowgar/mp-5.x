@@ -107,7 +107,6 @@ int main(void)
 	fdm_ref(txt);
 	fdm_dump(txt, 0);
 
-	mp_move_eof(txt, &x, &y);
 	mp_move_eol(txt, &x, &y);
 
 	for(n=0;n < 8;n++)
