@@ -84,6 +84,64 @@ sub mp.set_y(txt, y)
 }
 
 
+sub mp.move_up(txt)
+/* moves one line up */
+{
+	mp.set_y(txt, txt.y - 1);
+}
+
+
+sub mp.move_down(txt)
+/* moves one line down */
+{
+	mp.set_y(txt, txt.y + 1);
+}
+
+
+sub mp.move_left(txt)
+/* moves one char left */
+{
+	mp.set_x(txt, txt.x - 1);
+}
+
+
+sub mp.move_right(txt)
+/* moves one char right */
+{
+	mp.set_x(txt, txt.x + 1);
+}
+
+
+sub mp.move_bol(txt)
+/* moves to the beginning of the line */
+{
+	txt.x=0;
+}
+
+
+sub mp.move_eol(txt)
+/* moves to the end of the line */
+{
+	txt.x=size(txt.lines[txt.y]);
+}
+
+
+sub mp.move_bof(txt)
+/* moves to the beginning of the file */
+{
+	txt.x=0;
+	txt.y=0;
+}
+
+
+sub mp.move_eof(txt)
+/* moves to the end of the file */
+{
+	txt.y=size(txt.lines) - 1;
+	mp.move_eol(txt);
+}
+
+
 t={};
 t.x=3;
 t.y=0;
