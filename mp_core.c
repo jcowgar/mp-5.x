@@ -35,20 +35,6 @@
 	Data
 ********************/
 
-/* root hash */
-mpdm_v _mp;
-
-/* array of documents */
-mpdm_v _mp_docs;
-
-/* document hash template */
-mpdm_v _mp_template;
-
-/*
-mpdm_v _mp_tags;
-mpdm_v _mp_keys;
-*/
-
 /*******************
 	Code
 ********************/
@@ -383,16 +369,6 @@ void mp_load_file(mpdm_v t, char * file)
 
 int mp_startup(void)
 {
-	/* mp's root */
-	_mp=MPDM_H(7);
-
-	/* store in mpdm's root */
-	mpdm_hset(mpdm_root(), MPDM_LS("mp"), _mp);
-
-	_mp_docs=MPDM_A(0);
-
-	mpdm_hset(_mp, MPDM_LS("docs"), _mp_docs);
-
 	return(1);
 }
 
