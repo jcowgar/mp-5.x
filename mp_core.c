@@ -274,8 +274,25 @@ int mp_insert_line(mpdm_v t)
 	/* insert a new line here */
 	mpdm_aexpand(txt->lines, txt->y, 1);
 
+	/* get second part of the line */
+	w=mpdm_aget(w, 1);
+
+	/* if auto-indenting... */
+	if(MP_CONF_GET_I(L"auto_indent"))
+	{
+		int n;
+		wchar_t * ptr=c->data;
+
+		/* count spaces and tabs */
+		for(n=0;ptr[n] == L' ' || ptr[n] == L'\t';n++);
+
+		/* if any, concat before second part of line */
+		if(n)
+			w=mpdm_strcat(MPDM_NS(ptr, n), w);
+	}
+
 	/* store second part of line as a new one */
-	mpdm_aset(txt->lines, mpdm_aget(w, 1), txt->y);
+	mpdm_aset(txt->lines, w, txt->y);
 
 	/* move to that line, to the beginning */
 	_mp_set_x(t, 0);
@@ -418,7 +435,7 @@ int mp_startup(void)
 
 	/* default configuration values */
 	MP_CONF_SET_I(L"tab_size", 8);
-	MP_CONF_SET_I(L"word_wrap", 0);
+	MP_CONF_SET_I(L"word_wrap", 1);
 	MP_CONF_SET_I(L"auto_indent", 0);
 	MP_CONF_SET_I(L"undo_levels", 8);
 	MP_CONF_SET_I(L"cr_lf", 0);
