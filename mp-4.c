@@ -33,7 +33,7 @@
 	Data
 ********************/
 
-mpdm_v cdata;
+mpdm_v t;
 
 /*******************
 	Code
@@ -41,6 +41,7 @@ mpdm_v cdata;
 
 void dump(void)
 {
+	struct mp_txt * txt;
 /*	mpdm_v v;
 	int n, m;
 	char * ptr;
@@ -72,7 +73,7 @@ void dump(void)
 		printf("\n");
 	}
 */
-
+/*
 	{
 		int x,y;
 		mpdm_v lines;
@@ -85,9 +86,13 @@ void dump(void)
 
 		printf("[%c]\n", ((char *)line->data)[x]);
 	}
-
+*/
 	mpdm_sweep(0);
-	mpdm_dump(cdata);
+	mpdm_dump(t);
+
+	txt=t->data;
+	printf("[%d, %d]\n", txt->x, txt->y);
+	mpdm_dump(txt->lines);
 
 	getchar();
 }
@@ -101,108 +106,93 @@ int main(void)
 
 /*	mpdm_dump(mpdm_root(), 0); */
 
-	cdata=MPDM_H(7);
-	mpdm_ref(cdata);
-	MPDM_SSET(cdata, "txt", MPDM_H(7));
-	MPDM_SSET(cdata, "txt.lines", mp_load_file("config.h"));
-	MPDM_SSET(cdata, "txt.x", MPDM_I(0));
-	MPDM_SSET(cdata, "txt.y", MPDM_I(0));
-	MPDM_SSET(cdata, "undo", MPDM_A(0));
-
-#ifdef QQ
-	mpdm_ains(txt, MPDM_S("/* esto es la leche que te cagas"), 0);
-	mpdm_ains(txt, MPDM_S("una prueba */"), 1);
-	mpdm_ains(txt, MPDM_S("int main(void) { return 0;}"), 2);
-
-	txt=mp_load_file("config.h");
-	mpdm_ref(txt);
-	mpdm_dump(txt);
-#endif
+	t=mpdm_ref(mp_new());
+	mp_load_file(t, "config.h");
 
 	dump();
 
-	mp_move_right(cdata);
+	mp_move_right(t);
 	dump();
-	mp_move_right(cdata);
-	dump();
-
-	mp_move_eol(cdata);
+	mp_move_right(t);
 	dump();
 
-	mp_move_left(cdata);
-	dump();
-	mp_move_left(cdata);
-	dump();
-	mp_move_left(cdata);
-	dump();
-	mp_move_left(cdata);
-	dump();
-	mp_move_left(cdata);
+	mp_move_eol(t);
 	dump();
 
-	mp_move_down(cdata);
+	mp_move_left(t);
 	dump();
-	mp_move_down(cdata);
+	mp_move_left(t);
 	dump();
-
-	mp_move_left(cdata);
+	mp_move_left(t);
 	dump();
-	mp_move_left(cdata);
+	mp_move_left(t);
 	dump();
-
-	mp_move_bol(cdata);
+	mp_move_left(t);
 	dump();
 
-	mp_move_left(cdata);
+	mp_move_down(t);
 	dump();
-	mp_move_left(cdata);
-	dump();
-	mp_move_left(cdata);
+	mp_move_down(t);
 	dump();
 
-	mp_move_right(cdata);
+	mp_move_left(t);
 	dump();
-	mp_move_right(cdata);
-	dump();
-	mp_move_right(cdata);
-	dump();
-	mp_move_right(cdata);
+	mp_move_left(t);
 	dump();
 
-	mp_move_eol(cdata);
-	dump();
-	mp_move_right(cdata);
-	dump();
-	mp_move_right(cdata);
+	mp_move_bol(t);
 	dump();
 
-	mp_move_up(cdata);
+	mp_move_left(t);
+	dump();
+	mp_move_left(t);
+	dump();
+	mp_move_left(t);
 	dump();
 
-	mp_insert_line(cdata);
+	mp_move_right(t);
+	dump();
+	mp_move_right(t);
+	dump();
+	mp_move_right(t);
+	dump();
+	mp_move_right(t);
 	dump();
 
-	mp_insert(cdata, MPDM_LS("uah!"));
+	mp_move_eol(t);
 	dump();
-	mp_insert(cdata, MPDM_LS("UAH?"));
+	mp_move_right(t);
 	dump();
-	mp_move_eol(cdata);
-	mp_insert(cdata, MPDM_LS("MUAHAHAHA!!!"));
-	dump();
-
-	mp_move_bol(cdata);
-	mp_move_right(cdata);
-	mp_move_right(cdata);
-	mp_move_right(cdata);
-	mp_delete(cdata);
+	mp_move_right(t);
 	dump();
 
-	mp_move_eol(cdata);
-	mp_delete(cdata);
+	mp_move_up(t);
 	dump();
 
-	mp_move_eol(cdata);
-	mp_delete(cdata);
+	mp_insert_line(t);
+	dump();
+
+	mp_insert(t, MPDM_LS("uah!"));
+	dump();
+	mp_insert(t, MPDM_LS("UAH?"));
+	dump();
+	mp_move_eol(t);
+	mp_insert(t, MPDM_LS("MUAHAHAHA!!!"));
+	dump();
+
+	mp_move_bol(t);
+	mp_move_right(t);
+	mp_move_right(t);
+	mp_move_right(t);
+	mp_delete(t);
+	dump();
+
+	mp_move_eol(t);
+	mp_delete(t);
+	dump();
+
+	mp_move_eol(t);
+	mp_delete(t);
 	dump();
 
 	mpdm_sweep(-1);
