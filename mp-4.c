@@ -103,6 +103,10 @@ int main(void)
 	fdm_ains(txt, FDM_S("una prueba */"), 1);
 	fdm_ains(txt, FDM_S("int main(void) { return 0;}"), 2);
 
+	txt=mp_load_file("config.h");
+	fdm_ref(txt);
+	fdm_dump(txt, 0);
+
 	mp_move_eol(txt, &x, &y);
 
 	for(n=0;n < 8;n++)

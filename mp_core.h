@@ -37,5 +37,7 @@ void mp_move_xy(fdm_v txt, int * x, int * y);
 int mp_insert_char(fdm_v txt, int * x, int * y, int c);
 int mp_delete_char(fdm_v txt, int * x, int * y);
 
+fdm_v mp_load_file(char * file);
+
 int mp_startup(void);
 int mp_shutdown(void);

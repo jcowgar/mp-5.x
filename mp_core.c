@@ -25,6 +25,7 @@
 #include "config.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "fdm.h"
 #include "mp_core.h"
@@ -34,11 +35,18 @@
 ********************/
 
 /* root hash */
-fdm_v _mp=NULL;
+fdm_v _mp;
 
 /* array of documents */
-fdm_v _mp_docs=NULL;
+fdm_v _mp_docs;
 
+/* document hash template */
+fdm_v _mp_template;
+
+/*
+fdm_v _mp_tags;
+fdm_v _mp_keys;
+*/
 
 /*******************
 	Code
@@ -243,6 +251,36 @@ int mp_delete_char(fdm_v txt, int * x, int * y)
 }
 
 
+fdm_v mp_load_file(char * file)
+{
+	char line[1024];
+	FILE * f;
+	fdm_v v;
+	int i;
+
+	if((f=fopen(file, "r")) == NULL)
+		return(NULL);
+
+	v=FDM_A(0);
+
+	while(fgets(line, sizeof(line) - 1, f) != NULL)
+	{
+		if((i=strlen(line)) == 0)
+			continue;
+
+		/* FIXME: lines longer than sizeof(line) are truncated */
+		if(line[i - 1] == '\n')
+			line[i - 1]='\0';
+
+		fdm_apush(v, FDM_S(line));
+	}
+
+	fclose(f);
+
+	return(v);
+}
+
+
 int mp_startup(void)
 {
 	/* mp's root */
@@ -254,6 +292,15 @@ int mp_startup(void)
 	_mp_docs=FDM_A(0);
 
 	fdm_hset(_mp, FDM_LS("docs"), _mp_docs);
+
+	/* builds the document template */
+	_mp_template=FDM_H(7);
+	fdm_hset(_mp_template, FDM_LS("txt"), FDM_A(0));
+	fdm_hset(_mp_template, FDM_LS("x"), FDM_I(0));
+	fdm_hset(_mp_template, FDM_LS("y"), FDM_I(0));
+
+	/* store in mp's root */
+	fdm_hset(_mp, FDM_LS("template"), _mp_template);
 
 	return(1);
 }
