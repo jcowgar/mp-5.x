@@ -35,12 +35,15 @@
 	Data
 ********************/
 
+/* configuration hash */
+mpdm_v mp_config=NULL;
+
 /*******************
 	Code
 ********************/
 
-#define MP_GET_I(k) mpdm_ival(mpdm_sget(NULL, MPDM_LS(k)))
-#define MP_SET_I(k,v) mpdm_sset(NULL, MPDM_LS(k), MPDM_I(v))
+#define MP_CONF_GET_I(k) mpdm_ival(mpdm_sget(mp_config, MPDM_LS(k)))
+#define MP_CONF_SET_I(k,v) mpdm_sset(mp_config, MPDM_LS(k), MPDM_I(v))
 
 static mpdm_v _tie_txt_d(mpdm_v v)
 {
@@ -245,7 +248,7 @@ void mp_move_xy(mpdm_v t, int x, int y)
 void mp_save_undo(mpdm_v t, mpdm_v u)
 {
 	/* enqueue */
-	mpdm_aqueue(u, mpdm_clone(t), MP_GET_I(L"mp.config.undo_levels"));
+	mpdm_aqueue(u, mpdm_clone(t), MP_CONF_GET_I(L"undo_levels"));
 }
 
 
@@ -410,16 +413,17 @@ int mp_startup(void)
 	mpdm_startup();
 
 	mpdm_sset(NULL, MPDM_LS(L"mp"), MPDM_H(0));
-	mpdm_sset(NULL, MPDM_LS(L"mp.config"), MPDM_H(0));
+	mp_config=MPDM_H(0);
+	mpdm_sset(NULL, MPDM_LS(L"mp.config"), mp_config);
 
 	/* default configuration values */
-	MP_SET_I(L"mp.config.tab_size", 8);
-	MP_SET_I(L"mp.config.word_wrap", 0);
-	MP_SET_I(L"mp.config.auto_indent", 0);
-	MP_SET_I(L"mp.config.undo_levels", 8);
-	MP_SET_I(L"mp.config.cr_lf", 0);
-	MP_SET_I(L"mp.config.case_cmp", 1);
-	MP_SET_I(L"mp.config.use_regex", 1);
+	MP_CONF_SET_I(L"tab_size", 8);
+	MP_CONF_SET_I(L"word_wrap", 0);
+	MP_CONF_SET_I(L"auto_indent", 0);
+	MP_CONF_SET_I(L"undo_levels", 8);
+	MP_CONF_SET_I(L"cr_lf", 0);
+	MP_CONF_SET_I(L"case_cmp", 1);
+	MP_CONF_SET_I(L"use_regex", 1);
 
 	return(1);
 }
