@@ -86,6 +86,8 @@ int main(void)
 
 	mp_startup();
 
+	fdm_dump(fdm_root(), 0);
+
 	txt=FDM_A(0);
 	fdm_ains(txt, FDM_S("/* esto es la leche que te cagas"), 0);
 	fdm_ains(txt, FDM_S("una prueba */"), 1);

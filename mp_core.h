@@ -22,6 +22,8 @@
 
 */
 
+extern fdm_v _mp;
+
 int mp_move_up(fdm_v txt, int * x, int * y);
 int mp_move_down(fdm_v txt, int * x, int * y);
 void mp_move_bol(fdm_v txt, int * x, int * y);

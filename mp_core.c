@@ -33,8 +33,11 @@
 	Data
 ********************/
 
-/* array of texts */
-fdm_v _mp_texts=NULL;
+/* root hash */
+fdm_v _mp=NULL;
+
+/* array of documents */
+fdm_v _mp_docs=NULL;
 
 
 /*******************
@@ -174,6 +177,15 @@ int mp_delete_char(fdm_v txt, int * x, int * y)
 
 int mp_startup(void)
 {
+	/* mp's root */
+	_mp=FDM_H(7);
+
+	/* store in fdm's root */
+	fdm_hset(fdm_root(), FDM_LS("mp"), _mp);
+
+	fdm_hset(_mp, FDM_LS("docs"), FDM_A(0));
+	fdm_hset(_mp, FDM_LS("keys"), FDM_H(0));
+
 	return(1);
 }
 
