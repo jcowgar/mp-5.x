@@ -41,6 +41,7 @@ mpdm_v t;
 	Code
 ********************/
 
+#if 0
 void dump(void)
 {
 	struct mp_txt * txt;
@@ -246,7 +247,7 @@ void mp_4_c(void)
 #endif
 
 }
-
+#endif /* #if 0 */
 
 void mp_4_mpsl(void)
 {
@@ -261,11 +262,15 @@ int main(void)
 {
 	int n;
 
-	mp_startup();
+/*	mp_startup();*/
+
+	mpdm_startup();
 
 	mp_4_mpsl();
 
-	mp_shutdown();
+	mpdm_shutdown();
+
+/*	mp_shutdown();*/
 
 	return(0);
 }

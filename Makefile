@@ -11,6 +11,7 @@ DOCS=README COPYING Changelog
 PREFIX=/usr/local
 
 OBJS=mp_core.o
+LIB=
 
 ##################################################################
 
