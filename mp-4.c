@@ -127,6 +127,9 @@ int main(void)
 	mp_move_eol(txt, &x, &y);
 	dump();
 	mp_insert_char(txt, &x, &y, '2');
+	dump();
+
+	mp_delete_char(txt, &x, &y);
 
 	{
 		int n;
