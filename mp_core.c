@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "fdm.h"
+#include "mpdm.h"
 #include "mp_core.h"
 
 /*******************
@@ -35,48 +35,48 @@
 ********************/
 
 /* root hash */
-fdm_v _mp;
+mpdm_v _mp;
 
 /* array of documents */
-fdm_v _mp_docs;
+mpdm_v _mp_docs;
 
 /* document hash template */
-fdm_v _mp_template;
+mpdm_v _mp_template;
 
 /*
-fdm_v _mp_tags;
-fdm_v _mp_keys;
+mpdm_v _mp_tags;
+mpdm_v _mp_keys;
 */
 
 /*******************
 	Code
 ********************/
 
-void _mp_get(fdm_v cdata, int * x, int * y, int * mx, int * my)
+void _mp_get(mpdm_v cdata, int * x, int * y, int * mx, int * my)
 {
-	fdm_v txt;
-	fdm_v lines;
-	fdm_v line;
+	mpdm_v txt;
+	mpdm_v lines;
+	mpdm_v line;
 
-	txt=fdm_hget(cdata, FDM_LS("txt"));
+	txt=mpdm_hget(cdata, MPDM_LS("txt"));
 
 	if(x != NULL)
-		*x=fdm_ival(fdm_hget(txt, FDM_LS("x")));
+		*x=mpdm_ival(mpdm_hget(txt, MPDM_LS("x")));
 
 	if(y != NULL)
-		*y=fdm_ival(fdm_hget(txt, FDM_LS("y")));
+		*y=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
 
 	if(my != NULL || mx != NULL)
 	{
-		lines=fdm_hget(txt, FDM_LS("lines"));
+		lines=mpdm_hget(txt, MPDM_LS("lines"));
 
 		if(my != NULL)
 			*my=lines->size - 1;
 
 		if(mx != NULL)
 		{
-			int i=fdm_ival(fdm_hget(txt, FDM_LS("y")));
-			line=fdm_aget(lines, i);
+			int i=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
+			line=mpdm_aget(lines, i);
 
 			*mx=line->size;
 		}
@@ -84,20 +84,20 @@ void _mp_get(fdm_v cdata, int * x, int * y, int * mx, int * my)
 }
 
 
-int _mp_set_x(fdm_v cdata, int x)
+int _mp_set_x(mpdm_v cdata, int x)
 {
-	fdm_v txt;
-	fdm_v lines;
-	fdm_v line;
+	mpdm_v txt;
+	mpdm_v lines;
+	mpdm_v line;
 	int nx, ny, i;
 	int ret=0;
 
-	txt=fdm_hget(cdata, FDM_LS("txt"));
-	lines=fdm_hget(txt, FDM_LS("lines"));
+	txt=mpdm_hget(cdata, MPDM_LS("txt"));
+	lines=mpdm_hget(txt, MPDM_LS("lines"));
 
 	nx=ny=-1;
 
-	i=fdm_ival(fdm_hget(txt, FDM_LS("y")));
+	i=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
 
 	if(x < 0)
 	{
@@ -106,14 +106,14 @@ int _mp_set_x(fdm_v cdata, int x)
 		if(i > 0)
 		{
 			ny=i - 1;
-			line=fdm_aget(lines, ny);
+			line=mpdm_aget(lines, ny);
 			nx=line->size;
 		}
 	}
 	else
 	{
 		/* test if moved beyond end of line */
-		line=fdm_aget(lines, i);
+		line=mpdm_aget(lines, i);
 
 		if(x > line->size)
 		{
@@ -132,13 +132,13 @@ int _mp_set_x(fdm_v cdata, int x)
 	/* store new coords */
 	if(nx >= 0)
 	{
-		fdm_hset(txt, FDM_LS("x"), FDM_I(nx));
+		mpdm_hset(txt, MPDM_LS("x"), MPDM_I(nx));
 		ret++;
 	}
 
 	if(ny >= 0)
 	{
-		fdm_hset(txt, FDM_LS("y"), FDM_I(ny));
+		mpdm_hset(txt, MPDM_LS("y"), MPDM_I(ny));
 		ret++;
 	}
 
@@ -146,16 +146,16 @@ int _mp_set_x(fdm_v cdata, int x)
 }
 
 
-int _mp_set_y(fdm_v cdata, int y)
+int _mp_set_y(mpdm_v cdata, int y)
 {
-	fdm_v txt;
-	fdm_v lines;
-	fdm_v line;
+	mpdm_v txt;
+	mpdm_v lines;
+	mpdm_v line;
 	int nx, ny;
 	int ret=0;
 
-	txt=fdm_hget(cdata, FDM_LS("txt"));
-	lines=fdm_hget(txt, FDM_LS("lines"));
+	txt=mpdm_hget(cdata, MPDM_LS("txt"));
+	lines=mpdm_hget(txt, MPDM_LS("lines"));
 
 	nx=ny=-1;
 
@@ -163,22 +163,22 @@ int _mp_set_y(fdm_v cdata, int y)
 	ny=y > lines->size - 1 ? lines->size - 1 : y;
 
 	/* gets new line */
-	line=fdm_aget(lines, ny);
+	line=mpdm_aget(lines, ny);
 
 	/* test if y movement made x be far beyond current line eol */
-	if(fdm_ival(fdm_hget(txt, FDM_LS("x"))) > line->size)
+	if(mpdm_ival(mpdm_hget(txt, MPDM_LS("x"))) > line->size)
 		nx=line->size;
 
 	/* store new coords */
 	if(nx >= 0)
 	{
-		fdm_hset(txt, FDM_LS("x"), FDM_I(nx));
+		mpdm_hset(txt, MPDM_LS("x"), MPDM_I(nx));
 		ret++;
 	}
 
 	if(ny >= 0)
 	{
-		fdm_hset(txt, FDM_LS("y"), FDM_I(ny));
+		mpdm_hset(txt, MPDM_LS("y"), MPDM_I(ny));
 		ret++;
 	}
 
@@ -186,7 +186,7 @@ int _mp_set_y(fdm_v cdata, int y)
 }
 
 
-void mp_move_up(fdm_v cdata)
+void mp_move_up(mpdm_v cdata)
 {
 	int y;
 
@@ -195,7 +195,7 @@ void mp_move_up(fdm_v cdata)
 }
 
 
-void mp_move_down(fdm_v cdata)
+void mp_move_down(mpdm_v cdata)
 {
 	int y;
 
@@ -204,13 +204,13 @@ void mp_move_down(fdm_v cdata)
 }
 
 
-void mp_move_bol(fdm_v cdata)
+void mp_move_bol(mpdm_v cdata)
 {
 	_mp_set_x(cdata, 0);
 }
 
 
-void mp_move_eol(fdm_v cdata)
+void mp_move_eol(mpdm_v cdata)
 {
 	int mx;
 
@@ -219,14 +219,14 @@ void mp_move_eol(fdm_v cdata)
 }
 
 
-void mp_move_bof(fdm_v cdata)
+void mp_move_bof(mpdm_v cdata)
 {
 	_mp_set_y(cdata, 0);
 	_mp_set_x(cdata, 0);
 }
 
 
-void mp_move_eof(fdm_v cdata)
+void mp_move_eof(mpdm_v cdata)
 {
 	int my;
 
@@ -235,7 +235,7 @@ void mp_move_eof(fdm_v cdata)
 }
 
 
-void mp_move_left(fdm_v cdata)
+void mp_move_left(mpdm_v cdata)
 {
 	int x;
 
@@ -244,7 +244,7 @@ void mp_move_left(fdm_v cdata)
 }
 
 
-void mp_move_right(fdm_v cdata)
+void mp_move_right(mpdm_v cdata)
 {
 	int x;
 
@@ -253,7 +253,7 @@ void mp_move_right(fdm_v cdata)
 }
 
 
-void mp_move_xy(fdm_v cdata, int x, int y)
+void mp_move_xy(mpdm_v cdata, int x, int y)
 {
 	_mp_set_y(cdata, y);
 	_mp_set_x(cdata, x);
@@ -262,58 +262,58 @@ void mp_move_xy(fdm_v cdata, int x, int y)
 
 /* modifying */
 
-void mp_save_undo(fdm_v cdata)
+void mp_save_undo(mpdm_v cdata)
 {
-	fdm_v txt;
-	fdm_v undo;
+	mpdm_v txt;
+	mpdm_v undo;
 	int undo_levels;
 
-	txt=fdm_hget(cdata, FDM_LS("txt"));
-	if((undo=fdm_hget(cdata, FDM_LS("undo"))) == NULL)
+	txt=mpdm_hget(cdata, MPDM_LS("txt"));
+	if((undo=mpdm_hget(cdata, MPDM_LS("undo"))) == NULL)
 	{
-		undo=FDM_A(0);
-		fdm_hset(cdata, FDM_LS("undo"), undo);
+		undo=MPDM_A(0);
+		mpdm_hset(cdata, MPDM_LS("undo"), undo);
 	}
 
 	/* gets from config */
-	if((undo_levels=fdm_ival(FDM_SGET(NULL, "mp.config.undo_levels"))) == 0)
+	if((undo_levels=mpdm_ival(MPDM_SGET(NULL, "mp.config.undo_levels"))) == 0)
 		undo_levels=8;
 
 	/* enqueue */
-	fdm_aqueue(undo, fdm_clone(txt), undo_levels);
+	mpdm_aqueue(undo, mpdm_clone(txt), undo_levels);
 }
 
 
-int mp_insert_line(fdm_v cdata)
+int mp_insert_line(mpdm_v cdata)
 {
-	fdm_v txt;
-	fdm_v lines;
-	fdm_v line;
-	fdm_v w;
+	mpdm_v txt;
+	mpdm_v lines;
+	mpdm_v line;
+	mpdm_v w;
 	int x,y;
 
 	mp_save_undo(cdata);
 
-	txt=fdm_hget(cdata, FDM_LS("txt"));
-	lines=fdm_hget(txt, FDM_LS("lines"));
-	x=fdm_ival(fdm_hget(txt, FDM_LS("x")));
-	y=fdm_ival(fdm_hget(txt, FDM_LS("y")));
-	line=fdm_aget(lines, y);
+	txt=mpdm_hget(cdata, MPDM_LS("txt"));
+	lines=mpdm_hget(txt, MPDM_LS("lines"));
+	x=mpdm_ival(mpdm_hget(txt, MPDM_LS("x")));
+	y=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
+	line=mpdm_aget(lines, y);
 	
 	/* split current line in two */
-	w=fdm_splice(line, NULL, x, line->size - x);
+	w=mpdm_splice(line, NULL, x, line->size - x);
 
 	/* store first part inside current line */
-	fdm_aset(lines, fdm_aget(w, 0), y);
+	mpdm_aset(lines, mpdm_aget(w, 0), y);
 
 	/* move to next line */
 	y++;
 
 	/* insert a new line here */
-	fdm_aexpand(lines, y, 1);
+	mpdm_aexpand(lines, y, 1);
 
 	/* store second part of line as a new one */
-	fdm_aset(lines, fdm_aget(w, 1), y);
+	mpdm_aset(lines, mpdm_aget(w, 1), y);
 
 	/* move to that line, to the beginning */
 	_mp_set_y(cdata, y);
@@ -323,27 +323,27 @@ int mp_insert_line(fdm_v cdata)
 }
 
 
-int mp_insert(fdm_v cdata, fdm_v str)
+int mp_insert(mpdm_v cdata, mpdm_v str)
 {
-	fdm_v txt;
-	fdm_v lines;
-	fdm_v line;
-	fdm_v w;
+	mpdm_v txt;
+	mpdm_v lines;
+	mpdm_v line;
+	mpdm_v w;
 	int x,y;
 
 	mp_save_undo(cdata);
 
-	txt=fdm_hget(cdata, FDM_LS("txt"));
-	lines=fdm_hget(txt, FDM_LS("lines"));
-	x=fdm_ival(fdm_hget(txt, FDM_LS("x")));
-	y=fdm_ival(fdm_hget(txt, FDM_LS("y")));
-	line=fdm_aget(lines, y);
+	txt=mpdm_hget(cdata, MPDM_LS("txt"));
+	lines=mpdm_hget(txt, MPDM_LS("lines"));
+	x=mpdm_ival(mpdm_hget(txt, MPDM_LS("x")));
+	y=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
+	line=mpdm_aget(lines, y);
 	
 	/* insert */
-	w=fdm_splice(line, str, x, 0);
+	w=mpdm_splice(line, str, x, 0);
 
 	/* store as new line */
-	fdm_aset(lines, fdm_aget(w, 0), y);
+	mpdm_aset(lines, mpdm_aget(w, 0), y);
 
 	/* move cursor right */
 	_mp_set_x(cdata, x + str->size);
@@ -352,41 +352,41 @@ int mp_insert(fdm_v cdata, fdm_v str)
 }
 
 
-int mp_delete(fdm_v cdata)
+int mp_delete(mpdm_v cdata)
 {
-	fdm_v txt;
-	fdm_v lines;
-	fdm_v line;
-	fdm_v w;
+	mpdm_v txt;
+	mpdm_v lines;
+	mpdm_v line;
+	mpdm_v w;
 	int x,y;
 
 	mp_save_undo(cdata);
 
-	txt=fdm_hget(cdata, FDM_LS("txt"));
-	lines=fdm_hget(txt, FDM_LS("lines"));
-	x=fdm_ival(fdm_hget(txt, FDM_LS("x")));
-	y=fdm_ival(fdm_hget(txt, FDM_LS("y")));
-	line=fdm_aget(lines, y);
+	txt=mpdm_hget(cdata, MPDM_LS("txt"));
+	lines=mpdm_hget(txt, MPDM_LS("lines"));
+	x=mpdm_ival(mpdm_hget(txt, MPDM_LS("x")));
+	y=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
+	line=mpdm_aget(lines, y);
 	
 	if(x == line->size && y < lines->size - 1)
 	{
 		/* deleting at end of line:
 		   effectively join both lines */
-		w=fdm_splice(line, fdm_aget(lines, y + 1), x, 0);
+		w=mpdm_splice(line, mpdm_aget(lines, y + 1), x, 0);
 
 		/* store as new */
-		fdm_aset(lines, fdm_aget(w, 0), y);
+		mpdm_aset(lines, mpdm_aget(w, 0), y);
 
 		/* collapse array (one line less) */
-		fdm_acollapse(lines, y + 1, 1);
+		mpdm_acollapse(lines, y + 1, 1);
 	}
 	else
 	{
 		/* creates a new string without current char */
-		w=fdm_splice(line, NULL, x, 1);
+		w=mpdm_splice(line, NULL, x, 1);
 
 		/* set as new */
-		fdm_aset(lines, fdm_aget(w, 0), y);
+		mpdm_aset(lines, mpdm_aget(w, 0), y);
 	}
 
 	return(1);
@@ -394,42 +394,42 @@ int mp_delete(fdm_v cdata)
 
 
 #ifdef QQ
-int mp_delete_char(fdm_v txt, int * x, int * y)
+int mp_delete_char(mpdm_v txt, int * x, int * y)
 {
-	fdm_v v;
-	fdm_v w;
+	mpdm_v v;
+	mpdm_v w;
 
-	v=fdm_aget(txt, *y);
+	v=mpdm_aget(txt, *y);
 
 	/* deleting a newline? */
 	if(*x == v->size && *y < txt->size - 1)
 	{
 		/* joins both lines */
-		w=fdm_splice(v, fdm_aget(txt, (*y) + 1), *x, 0);
+		w=mpdm_splice(v, mpdm_aget(txt, (*y) + 1), *x, 0);
 
 		/* store */
-		fdm_aset(txt, fdm_aget(w, 0), *y);
+		mpdm_aset(txt, mpdm_aget(w, 0), *y);
 
 		/* collapse array (one line less) */
-		fdm_acollapse(txt, (*y) + 1, 1);
+		mpdm_acollapse(txt, (*y) + 1, 1);
 	}
 	else
 	{
 		/* creates a new string without current char */
-		w=fdm_splice(v, NULL, *x, 1);
+		w=mpdm_splice(v, NULL, *x, 1);
 
 		/* set as new */
-		fdm_aset(txt, fdm_aget(w, 0), *y);
+		mpdm_aset(txt, mpdm_aget(w, 0), *y);
 	}
 
 	return(1);
 }
 #endif
 
-fdm_v mp_fgets(fdm_v fv)
+mpdm_v mp_fgets(mpdm_v fv)
 {
 	char line[128];
-	fdm_v v=NULL;
+	mpdm_v v=NULL;
 	int i;
 	FILE * f;
 
@@ -448,7 +448,7 @@ fdm_v mp_fgets(fdm_v fv)
 		}
 
 		/* store */
-		v=fdm_strcat(v, FDM_S(line));
+		v=mpdm_strcat(v, MPDM_S(line));
 
 		/* exit if the line is completely read */
 		if(i == 0) break;
@@ -458,35 +458,35 @@ fdm_v mp_fgets(fdm_v fv)
 }
 
 
-fdm_v mp_load_file(char * file)
+mpdm_v mp_load_file(char * file)
 {
 	FILE * f;
-	fdm_v w;
-	fdm_v v;
-	fdm_v fv;
+	mpdm_v w;
+	mpdm_v v;
+	mpdm_v fv;
 /*
 	if((f=fopen(file, "r")) == NULL)
 		return(NULL);
 
-	fv=fdm_new(FDM_FILE, f, 0);
+	fv=mpdm_new(MPDM_FILE, f, 0);
 
-	w=FDM_A(0);
+	w=MPDM_A(0);
 
 	while((v=mp_fgets(fv)) != NULL)
-		fdm_apush(w, v);
+		mpdm_apush(w, v);
 
 	fclose(f);
 */
 
-	if((fv=fdm_open(FDM_LS(file), FDM_LS("r"))) == NULL)
+	if((fv=mpdm_open(MPDM_LS(file), MPDM_LS("r"))) == NULL)
 		return(NULL);
 
-	w=FDM_A(0);
+	w=MPDM_A(0);
 
-	while((v=fdm_read(fv)) != NULL)
-		fdm_apush(w, v);
+	while((v=mpdm_read(fv)) != NULL)
+		mpdm_apush(w, v);
 
-	fdm_close(fv);
+	mpdm_close(fv);
 
 	return(w);
 }
@@ -495,23 +495,23 @@ fdm_v mp_load_file(char * file)
 int mp_startup(void)
 {
 	/* mp's root */
-	_mp=FDM_H(7);
+	_mp=MPDM_H(7);
 
-	/* store in fdm's root */
-	fdm_hset(fdm_root(), FDM_LS("mp"), _mp);
+	/* store in mpdm's root */
+	mpdm_hset(mpdm_root(), MPDM_LS("mp"), _mp);
 
-	_mp_docs=FDM_A(0);
+	_mp_docs=MPDM_A(0);
 
-	fdm_hset(_mp, FDM_LS("docs"), _mp_docs);
+	mpdm_hset(_mp, MPDM_LS("docs"), _mp_docs);
 
 	/* builds the document template */
-	_mp_template=FDM_H(7);
-	fdm_hset(_mp_template, FDM_LS("txt"), FDM_A(0));
-	fdm_hset(_mp_template, FDM_LS("x"), FDM_I(0));
-	fdm_hset(_mp_template, FDM_LS("y"), FDM_I(0));
+	_mp_template=MPDM_H(7);
+	mpdm_hset(_mp_template, MPDM_LS("txt"), MPDM_A(0));
+	mpdm_hset(_mp_template, MPDM_LS("x"), MPDM_I(0));
+	mpdm_hset(_mp_template, MPDM_LS("y"), MPDM_I(0));
 
 	/* store in mp's root */
-	fdm_hset(_mp, FDM_LS("template"), _mp_template);
+	mpdm_hset(_mp, MPDM_LS("template"), _mp_template);
 
 	return(1);
 }

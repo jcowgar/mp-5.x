@@ -11,7 +11,7 @@ echo "/* automatically created by config.sh - do not modify */" > config.h
 # add variables
 cat VERSION >> config.h
 
-cd fdm
+cd mpdm
 ./config.sh
 make
 cd ..

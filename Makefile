@@ -29,10 +29,10 @@ Changelog:
 	rcs2log > Changelog
 
 %.o: %.c
-	$(CC) $(CFLAGS) -Ifdm -c $<
+	$(CC) $(CFLAGS) -Impdm -c $<
 
 dep: config
-	gcc -Ifdm -MM *.c > makefile.depend
+	gcc -Impdm -MM *.c > makefile.depend
 
 # include dependencies
 -include makefile.depend
@@ -42,15 +42,15 @@ $(LIB): $(OBJS)
 	$(AR) rv $(LIB) $(OBJS)
 
 # main binary
-$(BIN): $(MAIN) $(LIB) libfdm.a
-	$(CC) $(CFLAGS) $< -Ifdm -Lfdm $(LIB) `cat config.libs` -lfdm -o $@
+$(BIN): $(MAIN) $(LIB) libmpdm.a
+	$(CC) $(CFLAGS) $< -Impdm -Lmpdm $(LIB) `cat config.libs` -lmpdm -o $@
 
-libfdm.a:
-	$(MAKE) -C fdm
+libmpdm.a:
+	$(MAKE) -C mpdm
 
 clean:
 	rm -f $(BIN) $(LIB) $(OBJS) config.h config.libs Changelog tags
-	$(MAKE) -C fdm clean
+	$(MAKE) -C mpdm clean
 
 dist: clean doc Changelog
 	cd .. ; ln -s $(PROJ) $(PROJ)-$(VERSION); \

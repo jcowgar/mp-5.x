@@ -26,14 +26,14 @@
 
 #include <stdio.h>
 
-#include "fdm.h"
+#include "mpdm.h"
 #include "mp_core.h"
 
 /*******************
 	Data
 ********************/
 
-fdm_v cdata;
+mpdm_v cdata;
 
 /*******************
 	Code
@@ -41,13 +41,13 @@ fdm_v cdata;
 
 void dump(void)
 {
-/*	fdm_v v;
+/*	mpdm_v v;
 	int n, m;
 	char * ptr;
 
 	for(n=0;n < txt->size;n++)
 	{
-		v=fdm_aget(txt, n);
+		v=mpdm_aget(txt, n);
 		ptr=(char *)v->data;
 
 		printf("[%d]", v->ref);
@@ -75,19 +75,19 @@ void dump(void)
 
 	{
 		int x,y;
-		fdm_v lines;
-		fdm_v line;
+		mpdm_v lines;
+		mpdm_v line;
 
-		x=fdm_ival(FDM_SGET(cdata, "txt.x"));
-		y=fdm_ival(FDM_SGET(cdata, "txt.y"));
-		lines=FDM_SGET(cdata, "txt.lines");
-		line=fdm_aget(lines, y);
+		x=mpdm_ival(MPDM_SGET(cdata, "txt.x"));
+		y=mpdm_ival(MPDM_SGET(cdata, "txt.y"));
+		lines=MPDM_SGET(cdata, "txt.lines");
+		line=mpdm_aget(lines, y);
 
 		printf("[%c]\n", ((char *)line->data)[x]);
 	}
 
-	fdm_sweep(0);
-	fdm_dump(cdata);
+	mpdm_sweep(0);
+	mpdm_dump(cdata);
 
 	getchar();
 }
@@ -99,24 +99,24 @@ int main(void)
 
 	mp_startup();
 
-/*	fdm_dump(fdm_root(), 0); */
+/*	mpdm_dump(mpdm_root(), 0); */
 
-	cdata=FDM_H(7);
-	fdm_ref(cdata);
-	FDM_SSET(cdata, "txt", FDM_H(7));
-	FDM_SSET(cdata, "txt.lines", mp_load_file("config.h"));
-	FDM_SSET(cdata, "txt.x", FDM_I(0));
-	FDM_SSET(cdata, "txt.y", FDM_I(0));
-	FDM_SSET(cdata, "undo", FDM_A(0));
+	cdata=MPDM_H(7);
+	mpdm_ref(cdata);
+	MPDM_SSET(cdata, "txt", MPDM_H(7));
+	MPDM_SSET(cdata, "txt.lines", mp_load_file("config.h"));
+	MPDM_SSET(cdata, "txt.x", MPDM_I(0));
+	MPDM_SSET(cdata, "txt.y", MPDM_I(0));
+	MPDM_SSET(cdata, "undo", MPDM_A(0));
 
 #ifdef QQ
-	fdm_ains(txt, FDM_S("/* esto es la leche que te cagas"), 0);
-	fdm_ains(txt, FDM_S("una prueba */"), 1);
-	fdm_ains(txt, FDM_S("int main(void) { return 0;}"), 2);
+	mpdm_ains(txt, MPDM_S("/* esto es la leche que te cagas"), 0);
+	mpdm_ains(txt, MPDM_S("una prueba */"), 1);
+	mpdm_ains(txt, MPDM_S("int main(void) { return 0;}"), 2);
 
 	txt=mp_load_file("config.h");
-	fdm_ref(txt);
-	fdm_dump(txt);
+	mpdm_ref(txt);
+	mpdm_dump(txt);
 #endif
 
 	dump();
@@ -182,12 +182,12 @@ int main(void)
 	mp_insert_line(cdata);
 	dump();
 
-	mp_insert(cdata, FDM_LS("uah!"));
+	mp_insert(cdata, MPDM_LS("uah!"));
 	dump();
-	mp_insert(cdata, FDM_LS("UAH?"));
+	mp_insert(cdata, MPDM_LS("UAH?"));
 	dump();
 	mp_move_eol(cdata);
-	mp_insert(cdata, FDM_LS("MUAHAHAHA!!!"));
+	mp_insert(cdata, MPDM_LS("MUAHAHAHA!!!"));
 	dump();
 
 	mp_move_bol(cdata);
@@ -205,7 +205,7 @@ int main(void)
 	mp_delete(cdata);
 	dump();
 
-	fdm_sweep(-1);
+	mpdm_sweep(-1);
 	dump();
 
 #ifdef QQ
@@ -218,15 +218,15 @@ int main(void)
 	}
 
 	dump();
-	fdm_copy(txt);
+	mpdm_copy(txt);
 	mp_insert_char(txt, &x, &y, '-');
 	dump();
 
-	fdm_copy(txt);
+	mpdm_copy(txt);
 	mp_delete_char(txt, &x, &y);
 	dump();
 
-	fdm_copy(txt);
+	mpdm_copy(txt);
 	mp_insert_char(txt, &x, &y, '\n');
 	dump();
 
