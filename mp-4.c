@@ -33,9 +33,7 @@
 	Data
 ********************/
 
-fdm_v txt;
-int x;
-int y;
+fdm_v cdata;
 
 /*******************
 	Code
@@ -74,15 +72,22 @@ void dump(void)
 		printf("\n");
 	}
 */
-	{
-		fdm_v v;
 
-		v=fdm_aget(txt, y);
-		printf("[%c]\n", ((char *)v->data)[x]);
+	{
+		int x,y;
+		fdm_v lines;
+		fdm_v line;
+
+		x=fdm_ival(FDM_SGET(cdata, "txt.x"));
+		y=fdm_ival(FDM_SGET(cdata, "txt.y"));
+		lines=FDM_SGET(cdata, "txt.lines");
+		line=fdm_aget(lines, y);
+
+		printf("[%c]\n", ((char *)line->data)[x]);
 	}
 
 	fdm_sweep(0);
-	fdm_dump(txt, 0);
+	fdm_dump(cdata, 0);
 
 	getchar();
 }
@@ -94,11 +99,17 @@ int main(void)
 
 	mp_startup();
 
-	fdm_dump(fdm_root(), 0);
+/*	fdm_dump(fdm_root(), 0); */
 
-	txt=FDM_A(0);
-	fdm_ref(txt);
+	cdata=FDM_H(7);
+	fdm_ref(cdata);
+	FDM_SSET(cdata, "txt", FDM_H(7));
+	FDM_SSET(cdata, "txt.lines", mp_load_file("config.h"));
+	FDM_SSET(cdata, "txt.x", FDM_I(0));
+	FDM_SSET(cdata, "txt.y", FDM_I(0));
+	FDM_SSET(cdata, "undo", FDM_A(0));
 
+#ifdef QQ
 	fdm_ains(txt, FDM_S("/* esto es la leche que te cagas"), 0);
 	fdm_ains(txt, FDM_S("una prueba */"), 1);
 	fdm_ains(txt, FDM_S("int main(void) { return 0;}"), 2);
@@ -106,7 +117,95 @@ int main(void)
 	txt=mp_load_file("config.h");
 	fdm_ref(txt);
 	fdm_dump(txt, 0);
+#endif
 
+	dump();
+
+	mp_move_right(cdata);
+	dump();
+	mp_move_right(cdata);
+	dump();
+
+	mp_move_eol(cdata);
+	dump();
+
+	mp_move_left(cdata);
+	dump();
+	mp_move_left(cdata);
+	dump();
+	mp_move_left(cdata);
+	dump();
+	mp_move_left(cdata);
+	dump();
+	mp_move_left(cdata);
+	dump();
+
+	mp_move_down(cdata);
+	dump();
+	mp_move_down(cdata);
+	dump();
+
+	mp_move_left(cdata);
+	dump();
+	mp_move_left(cdata);
+	dump();
+
+	mp_move_bol(cdata);
+	dump();
+
+	mp_move_left(cdata);
+	dump();
+	mp_move_left(cdata);
+	dump();
+	mp_move_left(cdata);
+	dump();
+
+	mp_move_right(cdata);
+	dump();
+	mp_move_right(cdata);
+	dump();
+	mp_move_right(cdata);
+	dump();
+	mp_move_right(cdata);
+	dump();
+
+	mp_move_eol(cdata);
+	dump();
+	mp_move_right(cdata);
+	dump();
+	mp_move_right(cdata);
+	dump();
+
+	mp_move_up(cdata);
+	dump();
+
+	mp_insert_line(cdata);
+	dump();
+
+	mp_insert(cdata, FDM_LS("uah!"));
+	dump();
+	mp_insert(cdata, FDM_LS("UAH?"));
+	dump();
+	mp_move_eol(cdata);
+	mp_insert(cdata, FDM_LS("MUAHAHAHA!!!"));
+	dump();
+
+	mp_move_bol(cdata);
+	mp_move_right(cdata);
+	mp_move_right(cdata);
+	mp_move_right(cdata);
+	mp_delete(cdata);
+	dump();
+
+	mp_move_eol(cdata);
+	mp_delete(cdata);
+	dump();
+
+	mp_move_eol(cdata);
+	mp_delete(cdata);
+	dump();
+
+#ifdef QQ
 	mp_move_eol(txt, &x, &y);
 
 	for(n=0;n < 8;n++)
@@ -141,7 +240,7 @@ int main(void)
 		for(n=0;n < 25;n++)
 			dump();
 	}
-
+#endif
 	mp_shutdown();
 
 	return(0);
