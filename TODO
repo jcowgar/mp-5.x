@@ -1,6 +1,10 @@
-The main text editing structure (lines, x and y) will be stored in a
-C struct. This will simplify the code. It will be possible because of the
-(to be done) 'tie' code.
+Refactored to ties!
+
+ * The undo data is non-functional now; a place must be found to store the
+   data in. A hash with the mpdm_v t as keys is tempting, but keys are
+   lost on every undo operation. There will probably be an upper structure
+   or value (probably holding also the filename and such, probably just
+   the originally thought cdata); this can be used as the key to undo.
 
 #####################################################
 
