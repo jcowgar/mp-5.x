@@ -217,23 +217,11 @@ int mp_delete_char(fdm_v txt, int * x, int * y)
 	/* deleting a newline? */
 	if(*x == v->size && *y < txt->size - 1)
 	{
-		/* creates a two element array */
-		w=FDM_A(2);
+		/* joins both lines */
+		w=fdm_splice(v, fdm_aget(txt, (*y) + 1), *x, 0);
 
-		/* insert current line as elem 0 */
-		fdm_aset(w, v, 0);
-
-		/* insert next line as elem 1 */
-		fdm_aset(w, fdm_aget(txt, (*y) + 1), 1);
-
-		/* join using "" as joiner */
-		v=fdm_ajoin(FDM_LS(""), w);
-
-		/* set the joined element as the new line */
-		fdm_aset(txt, v, *y);
-
-		/* set lower line as NULL (unreferencing it) */
-		fdm_aset(txt, NULL, (*y) + 1);
+		/* store */
+		fdm_aset(txt, fdm_aget(w, 0), *y);
 
 		/* collapse array (one line less) */
 		fdm_acollapse(txt, (*y) + 1, 1);
