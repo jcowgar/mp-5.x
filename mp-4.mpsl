@@ -37,14 +37,6 @@ mp={};
 sub mp.set_x(txt, x)
 /* sets the x position */
 {
-	dump(t);
-	dump(txt);
-
-	local a=txt.y;
-
-	print("y: ", txt.y, " a: ", a, "\n");
-	print("Cursor: ", txt.lines[txt.y], "\n");
-
 	if(x < 0)
 	{
 		/* cursor moved left of the bol; effective cursor up + eol */
@@ -62,7 +54,7 @@ sub mp.set_x(txt, x)
 		/* test if moved beyond end of line */
 		if(x > size(txt.lines[txt.y]))
 		{
-			if(txt.y < txt.lines - 1)
+			if(txt.y < size(txt.lines) - 1)
 			{
 				/* cursor moved right of eol;
 				   effective cursor down + bol */
@@ -73,25 +65,40 @@ sub mp.set_x(txt, x)
 		else
 			txt.x=x;
 	}
-
-	dump(txt);
 }
 
 
-sub test(v)
+sub mp.set_y(txt, y)
+/* sets the y position */
 {
-	dump(v);
+	/* if line exists... */
+	if(y >= 0 && y < size(txt.lines))
+	{
+		/* move there */
+		txt.y=y;
+
+		/* if x is beyond last char, move to end of line */
+		if(txt.x > size(txt.lines[txt.y]))
+			txt.x=size(txt.lines[txt.y]);
+	}
 }
 
 
 t={};
 t.x=3;
 t.y=0;
-t.lines=[ "Esto es", "un texto", "con varias", "líneas dentro" ];
+t.lines=[ "Esto es", "un texto", "con varias", "líneas dentro", "de él" ];
 
-/*dump(t);*/
+dump(t);
 
 print("t.x: ", t.x, "\n");
 
-/*mp.set_x(t, 15);*/
-test(t);
+mp.set_x(t, 15);
+dump(t);
+
+mp.set_y(t, 3);
+mp.set_x(t, 12);
+dump(t);
+
+mp.set_y(t, t.y + 1);
+dump(t);
