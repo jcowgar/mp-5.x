@@ -239,11 +239,14 @@ int mp_delete_char(fdm_v txt, int * x, int * y)
 }
 
 
-fdm_v mp_fgets(FILE * f)
+fdm_v mp_fgets(fdm_v fv)
 {
 	char line[128];
 	fdm_v v;
 	int i;
+	FILE * f;
+
+	f=(FILE *)fv->data;
 
 	v=FDM_A(0);
 
@@ -280,13 +283,16 @@ fdm_v mp_load_file(char * file)
 	FILE * f;
 	fdm_v w;
 	fdm_v v;
+	fdm_v fv;
 
 	if((f=fopen(file, "r")) == NULL)
 		return(NULL);
 
+	fv=fdm_new(FDM_FILE, f, 0);
+
 	w=FDM_A(0);
 
-	while((v=mp_fgets(f)) != NULL)
+	while((v=mp_fgets(fv)) != NULL)
 		fdm_apush(w, v);
 
 	fclose(f);
