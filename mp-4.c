@@ -43,7 +43,7 @@ int y;
 
 void dump(void)
 {
-	fdm_v v;
+/*	fdm_v v;
 	int n, m;
 	char * ptr;
 
@@ -73,6 +73,8 @@ void dump(void)
 
 		printf("\n");
 	}
+*/
+	fdm_dump(txt, 0);
 
 	getchar();
 }
