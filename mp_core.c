@@ -39,7 +39,10 @@
 	Code
 ********************/
 
-static mpdm_v _tie_d(mpdm_v v)
+#define MP_GET_I(k) mpdm_ival(mpdm_sget(NULL, MPDM_LS(k)))
+#define MP_SET_I(k,v) mpdm_sset(NULL, MPDM_LS(k), MPDM_I(v))
+
+static mpdm_v _tie_txt_d(mpdm_v v)
 {
 	struct mp_txt * txt=v->data;
 
@@ -57,14 +60,14 @@ static mpdm_v _tie_d(mpdm_v v)
 }
 
 
-static mpdm_v _tie_mp(void);
+static mpdm_v _tie_mp_txt(void);
 
-static mpdm_v _tie_clo(mpdm_v v)
+static mpdm_v _tie_txt_clo(mpdm_v v)
 {
 	struct mp_txt * txt=v->data;
 
 	/* creates a new value, copying the contents of the original */
-	v=mpdm_new(0, txt, v->size, _tie_mp());
+	v=mpdm_new(0, txt, v->size, _tie_mp_txt());
 
 	/* creates and references a clone of the content */
 	txt->lines=mpdm_ref(mpdm_clone(txt->lines));
@@ -73,7 +76,7 @@ static mpdm_v _tie_clo(mpdm_v v)
 }
 
 
-static mpdm_v _tie_mp(void)
+static mpdm_v _tie_mp_txt(void)
 {
 	static mpdm_v _tie=NULL;
 
@@ -81,8 +84,8 @@ static mpdm_v _tie_mp(void)
 	{
 		_tie=mpdm_ref(mpdm_clone(_mpdm_tie_cpy()));
 
-		mpdm_aset(_tie, MPDM_X(_tie_d), MPDM_TIE_DESTROY);
-		mpdm_aset(_tie, MPDM_X(_tie_clo), MPDM_TIE_CLONE);
+		mpdm_aset(_tie, MPDM_X(_tie_txt_d), MPDM_TIE_DESTROY);
+		mpdm_aset(_tie, MPDM_X(_tie_txt_clo), MPDM_TIE_CLONE);
 	}
 
 	return(_tie);
@@ -98,7 +101,7 @@ mpdm_v mp_new(void)
 	/* creates internal data */
 	txt.lines=mpdm_ref(MPDM_A(0));
 
-	return mpdm_new(0, &txt, sizeof(struct mp_txt), _tie_mp());
+	return mpdm_new(0, &txt, sizeof(struct mp_txt), _tie_mp_txt());
 }
 
 
@@ -241,14 +244,8 @@ void mp_move_xy(mpdm_v t, int x, int y)
 
 void mp_save_undo(mpdm_v t, mpdm_v u)
 {
-	int undo_levels;
-
-	/* gets from config */
-	if((undo_levels=mpdm_ival(MPDM_SGET(NULL, L"mp.config.undo_levels"))) == 0)
-		undo_levels=8;
-
 	/* enqueue */
-	mpdm_aqueue(u, mpdm_clone(t), undo_levels);
+	mpdm_aqueue(u, mpdm_clone(t), MP_GET_I(L"mp.config.undo_levels"));
 }
 
 
@@ -411,6 +408,18 @@ void mp_load_file(mpdm_v t, char * file)
 int mp_startup(void)
 {
 	mpdm_startup();
+
+	mpdm_sset(NULL, MPDM_LS(L"mp"), MPDM_H(0));
+	mpdm_sset(NULL, MPDM_LS(L"mp.config"), MPDM_H(0));
+
+	/* default configuration values */
+	MP_SET_I(L"mp.config.tab_size", 8);
+	MP_SET_I(L"mp.config.word_wrap", 0);
+	MP_SET_I(L"mp.config.auto_indent", 0);
+	MP_SET_I(L"mp.config.undo_levels", 8);
+	MP_SET_I(L"mp.config.cr_lf", 0);
+	MP_SET_I(L"mp.config.case_cmp", 1);
+	MP_SET_I(L"mp.config.use_regex", 1);
 
 	return(1);
 }
