@@ -88,3 +88,11 @@ sub undo
 
 	if u->size > 0 then this=v->apop
 end
+
+/undo {
+	$mp.undo{$mp.active.name} dup
+	size 0 > { apop /active #= } { pop } ifelse
+} set
+
+\mp.undo{$mp.active.name} $mp.active apush
+\mp.undo{$mp.active.name} size $mp.config.undo_levels > { 0 adel } if
