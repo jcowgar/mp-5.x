@@ -29,10 +29,10 @@ Changelog:
 	rcs2log > Changelog
 
 %.o: %.c
-	$(CC) $(CFLAGS) -Impdm -c $<
+	$(CC) $(CFLAGS) -Impdm -Impsl -c $<
 
 dep: config
-	gcc -Impdm -MM *.c > makefile.depend
+	gcc -Impdm -Impsl -MM *.c > makefile.depend
 
 # include dependencies
 -include makefile.depend
@@ -43,7 +43,7 @@ $(LIB): $(OBJS)
 
 # main binary
 $(BIN): $(MAIN) $(LIB) libmpdm.a
-	$(CC) $(CFLAGS) $< -Impdm -Lmpdm $(LIB) `cat config.libs` -lmpdm -o $@
+	$(CC) $(CFLAGS) $< -Impdm -Lmpdm -Impsl -Lmpsl $(LIB) `cat config.libs` -lmpsl -lmpdm -o $@
 
 libmpdm.a:
 	$(MAKE) -C mpdm

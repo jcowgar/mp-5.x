@@ -16,6 +16,11 @@ cd mpdm
 make
 cd ..
 
+cd mpsl
+./config.sh
+make
+cd ..
+
 # test for esound library
 #echo "#include <esd.h>" > .tmp.c
 #echo "int main(void) { return 0; }" >> .tmp.c

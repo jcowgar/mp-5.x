@@ -27,6 +27,8 @@
 #include <stdio.h>
 
 #include "mpdm.h"
+#include "mpsl.h"
+
 #include "mp_core.h"
 
 /*******************
@@ -98,12 +100,8 @@ void dump(void)
 }
 
 
-int main(void)
+void mp_4_c(void)
 {
-	int n;
-
-	mp_startup();
-
 /*	mpdm_dump(mpdm_root(), 0); */
 
 	t=mpdm_ref(mp_new());
@@ -246,6 +244,26 @@ int main(void)
 			dump();
 	}
 #endif
+
+}
+
+
+void mp_4_mpsl(void)
+{
+	mpdm_v v;
+
+	v=mpsl_compile_file(MPDM_LS(L"mp-4.mpsl"));
+	mpdm_exec(v, NULL);
+}
+
+
+int main(void)
+{
+	int n;
+
+	mp_startup();
+
+	mp_4_mpsl();
 
 	mp_shutdown();
 
