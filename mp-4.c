@@ -44,30 +44,61 @@ int y;
 void dump(void)
 {
 	fdm_v v;
-	int n;
-
-	printf("{\n");
+	int n, m;
+	char * ptr;
 
 	for(n=0;n < txt->size;n++)
 	{
 		v=fdm_aget(txt, n);
+		ptr=(char *)v->data;
 
-		printf("%s\n", (char *)v->data);
+		for(m=0;m < v->size;m++)
+		{
+			if(m == x && n == y)
+				printf("_");
+
+			if(ptr[m] == '\0')
+			{
+				printf(">");
+				break;
+			}
+
+			printf("%c", ptr[m]);
+		}
+
+			if(m == x && n == y)
+				printf("_");
+
+		printf("\n");
 	}
 
-	printf("}\n");
+	getchar();
 }
 
 
 int main(void)
 {
+	int n;
+
 	mp_startup();
 
 	txt=FDM_A(0);
-	fdm_ains(txt, FDM_S("/* esto es"), 0);
+	fdm_ains(txt, FDM_S("/* esto es la leche que te cagas"), 0);
 	fdm_ains(txt, FDM_S("una prueba */"), 1);
-	fdm_ains(txt, FDM_S("int main(void)"), 2);
+	fdm_ains(txt, FDM_S("int main(void) { return 0;}"), 2);
 
+	mp_move_eol(txt, &x, &y);
+
+	for(n=0;n < 8;n++)
+	{
+		dump();
+		mp_move_left(txt, &x, &y);
+	}
+
+	dump();
+	mp_insert_char(txt, &x, &y, '-');
+	dump();
+	mp_delete_char(txt, &x, &y);
 	dump();
 
 	mp_shutdown();

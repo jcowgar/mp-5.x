@@ -22,8 +22,8 @@
 
 */
 
-void mp_move_up(fdm_v txt, int * x, int * y);
-void mp_move_down(fdm_v txt, int * x, int * y);
+int mp_move_up(fdm_v txt, int * x, int * y);
+int mp_move_down(fdm_v txt, int * x, int * y);
 void mp_move_bol(fdm_v txt, int * x, int * y);
 void mp_move_eol(fdm_v txt, int * x, int * y);
 void mp_move_bof(fdm_v txt, int * x, int * y);
@@ -31,6 +31,9 @@ void mp_move_eof(fdm_v txt, int * x, int * y);
 void mp_move_left(fdm_v txt, int * x, int * y);
 void mp_move_right(fdm_v txt, int * x, int * y);
 void mp_move_xy(fdm_v txt, int * x, int * y);
+
+int mp_insert_char(fdm_v txt, int * x, int * y, int c);
+int mp_delete_char(fdm_v txt, int * x, int * y);
 
 int mp_startup(void);
 int mp_shutdown(void);

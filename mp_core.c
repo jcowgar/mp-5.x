@@ -53,25 +53,31 @@ static void _mp_recover_x(fdm_v txt, int * x, int * y)
 }
 
 
-void mp_move_up(fdm_v txt, int * x, int * y)
+int mp_move_up(fdm_v txt, int * x, int * y)
 {
 	/* can't go up beyond the first line */
 	if(*y > 0)
 	{
-		*y--;
+		(*y)--;
 		_mp_recover_x(txt, x, y);
+		return(1);
 	}
+
+	return(0);
 }
 
 
-void mp_move_down(fdm_v txt, int * x, int * y)
+int mp_move_down(fdm_v txt, int * x, int * y)
 {
 	/* can't go down beyond the last line */
 	if(*y < txt->size - 1)
 	{
-		*y++;
+		(*y)++;
 		_mp_recover_x(txt, x, y);
+		return(1);
 	}
+
+	return(0);
 }
 
 
@@ -105,11 +111,11 @@ void mp_move_eof(fdm_v txt, int * x, int * y)
 void mp_move_left(fdm_v txt, int * x, int * y)
 {
 	if(*x > 0)
-		*x--;
+		(*x)--;
 	else
 	{
-		mp_move_up(txt, x, y);
-		mp_move_eol(txt, x, y);
+		if(mp_move_up(txt, x, y))
+			mp_move_eol(txt, x, y);
 	}
 }
 
@@ -121,11 +127,11 @@ void mp_move_right(fdm_v txt, int * x, int * y)
 	v=fdm_aget(txt, *y);
 
 	if(*x < v->size)
-		*x++;
+		(*x)++;
 	else
 	{
-		mp_move_down(txt, x, y);
-		mp_move_bol(txt, x, y);
+		if(mp_move_down(txt, x, y))
+			mp_move_bol(txt, x, y);
 	}
 }
 
@@ -136,6 +142,33 @@ void mp_move_xy(fdm_v txt, int * x, int * y)
 		*y=txt->size;
 
 	_mp_recover_x(txt, x, y);
+}
+
+
+int mp_insert_char(fdm_v txt, int * x, int * y, int c)
+{
+	char tmp[2];
+	fdm_v v;
+
+	v=fdm_aget(txt, *y);
+
+	tmp[0]=c; tmp[1]='\0';
+	fdm_aset(txt, fdm_splice(v, *x, 0, tmp), *y);
+	mp_move_right(txt, x, y);
+
+	return(1);
+}
+
+
+int mp_delete_char(fdm_v txt, int * x, int * y)
+{
+	fdm_v v;
+
+	v=fdm_aget(txt, *y);
+
+	fdm_aset(txt, fdm_splice(v, *x, 1, ""), *y);
+
+	return(1);
 }
 
 
