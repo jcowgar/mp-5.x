@@ -165,7 +165,6 @@ int mp_insert_char(fdm_v txt, int * x, int * y, int c)
 		fdm_aset(txt, fdm_aget(w, 0), *y);
 
 		/* move to next line */
-/*		mp_move_down(txt, x, y); */
 		(*y)++;
 
 		/* insert a new line here */
