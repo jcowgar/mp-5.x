@@ -30,6 +30,9 @@
 /* main data */
 mp={};
 
+/* configuration */
+mp.config={};
+
 /*******************
 	Code
 ********************/
@@ -142,10 +145,46 @@ sub mp.move_eof(txt)
 }
 
 
+sub mp.insert_line(txt)
+/* inserts a newline (breaks current line in two) */
+{
+	local c, w;
+
+	/* gets line where cursor is */
+	c=txt.lines[txt.y];
+
+	/* deletes from cursor to end of line */
+	w=splice(c, NULL, txt.x, size(c) - txt.x);
+
+	/* set first part as current line */
+	txt.lines[txt.y]=w[0];
+
+	/* move to next line */
+	txt.y++;
+
+	/* insert a new line here */
+	aexpand(txt.lines, txt.y, 1);
+
+	/* if autoindenting... */
+	if(mp.config.auto_indent)
+	{
+		/* extract leading blanks in the original line
+		   and prepend them to the line to be inserted */
+		w[1]=regex("/^[ \t]*/", c, 0) ~ w[1];
+	}
+
+	/* put second part there */
+	txt.lines[txt.y]=w[1];
+
+	/* move to bol */
+	txt.x=0;
+}
+
+
 t={};
 t.x=3;
 t.y=0;
-t.lines=[ "Esto es", "un texto", "con varias", "líneas dentro", "de él" ];
+t.lines=[ "This is", "a text", "  with some", "lines inside", "it" ];
 
 dump(t);
 
@@ -159,4 +198,28 @@ mp.set_x(t, 12);
 dump(t);
 
 mp.set_y(t, t.y + 1);
+dump(t);
+
+mp.move_bol(t);
+dump(t);
+
+mp.move_left(t);
+mp.move_left(t);
+mp.move_left(t);
+mp.move_left(t);
+mp.move_left(t);
+mp.move_left(t);
+dump(t);
+
+mp.insert_line(t);
+dump(t);
+
+mp.move_up(t);
+mp.move_left(t);
+mp.move_left(t);
+mp.move_left(t);
+dump(t);
+
+mp.config.auto_indent=1;
+mp.insert_line(t);
 dump(t);
