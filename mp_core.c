@@ -240,7 +240,7 @@ void mp_save_undo(mpdm_v t, mpdm_v u)
 	int undo_levels;
 
 	/* gets from config */
-	if((undo_levels=mpdm_ival(MPDM_SGET(NULL, "mp.config.undo_levels"))) == 0)
+	if((undo_levels=mpdm_ival(MPDM_SGET(NULL, L"mp.config.undo_levels"))) == 0)
 		undo_levels=8;
 
 	/* enqueue */
@@ -357,7 +357,7 @@ void mp_load_file(mpdm_v t, char * file)
 	fclose(f);
 */
 
-	if((fv=mpdm_open(MPDM_LS(file), MPDM_LS("r"))) == NULL)
+	if((fv=mpdm_open(MPDM_MBS(file), MPDM_LS(L"r"))) == NULL)
 		return;
 
 	while((v=mpdm_read(fv)) != NULL)

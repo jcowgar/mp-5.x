@@ -172,12 +172,12 @@ int main(void)
 	mp_insert_line(t);
 	dump();
 
-	mp_insert(t, MPDM_LS("uah!"));
+	mp_insert(t, MPDM_LS(L"uah!"));
 	dump();
-	mp_insert(t, MPDM_LS("UAH?"));
+	mp_insert(t, MPDM_LS(L"UAH?"));
 	dump();
 	mp_move_eol(t);
-	mp_insert(t, MPDM_LS("MUAHAHAHA!!!"));
+	mp_insert(t, MPDM_LS(L"MUAHAHAHA!!!"));
 	dump();
 
 	mp_move_bol(t);
