@@ -3,9 +3,9 @@
 
 VERSION=$(shell cut -f2 -d\" VERSION)
 PROJ=$(shell basename `pwd`)
-LIB=lib$(PROJ).a
+LIB=libmp-4.a
 BIN=$(PROJ)
-MAIN=$(PROJ).c
+MAIN=mp-4.c
 CFLAGS=-g -Wall
 DOCS=README COPYING Changelog
 PREFIX=/usr/local
@@ -15,6 +15,9 @@ OBJS=mp_core.o
 ##################################################################
 
 all: $(BIN)
+
+libfdm.a:
+	$(MAKE) -C fdm
 
 config.h: VERSION config.sh
 	sh config.sh
@@ -29,10 +32,10 @@ Changelog:
 	rcs2log > Changelog
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -Ifdm -Lfdm -c $<
 
 dep: config
-	gcc -MM *.c > makefile.depend
+	gcc -Ifdm -MM *.c > makefile.depend
 
 # include dependencies
 -include makefile.depend
@@ -43,7 +46,7 @@ $(LIB): $(OBJS)
 
 # main binary
 $(BIN): $(MAIN) $(LIB)
-	$(CC) $(CFLAGS) $< $(LIB) `cat config.libs` -o $@
+	$(CC) $(CFLAGS) $< -Ifdm -Lfdm $(LIB) `cat config.libs` -o $@
 
 clean:
 	rm -f $(BIN) $(LIB) $(OBJS) config.h config.libs Changelog tags

@@ -3,7 +3,7 @@
 echo "Configuring..."
 
 echo "/* automatically created by config.sh - do not modify */" > config.h
->config.libs
+> config.libs
 
 # set compiler
 [ "$CC" = "" ] && CC=cc
