@@ -110,3 +110,11 @@ end
 
 $mp.active.y \mp.active.txt size -- < { /mp.active.y ++ } if
 
+/* a minimum profit text cdata */
+cdata
+cdata.txt
+cdata.txt.lines
+cdata.txt.x
+cdata.txt.y
+cdata.txt.sel[4]
+cdata.undo
