@@ -176,6 +176,18 @@ int main(void)
 	dump();
 	mp_insert(t, MPDM_LS(L"UAH?"));
 	dump();
+
+	{
+		mpdm_v w=MPDM_A(0);
+		mpdm_aset(w, MPDM_LS(L"000"), 0);
+		mpdm_aset(w, MPDM_LS(L"111"), 1);
+		mpdm_aset(w, MPDM_LS(L"222"), 2);
+		mpdm_aset(w, MPDM_LS(L"333"), 3);
+
+		mp_insert(t, w);
+		dump();
+	}
+
 	mp_move_eol(t);
 	mp_insert(t, MPDM_LS(L"MUAHAHAHA!!!"));
 	dump();

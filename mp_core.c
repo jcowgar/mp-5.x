@@ -285,19 +285,56 @@ int mp_insert(mpdm_v t, mpdm_v s)
 	struct mp_txt * txt=t->data;
 	mpdm_v c;
 	mpdm_v w;
+	int l, n;
 
-/*	mp_save_undo(cdata); */
+	/* is s a multiple value? */
+	if(s->flags & MPDM_MULTIPLE)
+	{
+		l=mpdm_size(s);
 
-	c=mpdm_aget(txt->lines, txt->y);
+		if(l)
+		{
+			/* insert first element */
+			mp_insert(t, mpdm_aget(s, 0));
+		}
 
-	/* insert */
-	w=mpdm_splice(c, s, txt->x, 0);
+		if(l > 1)
+		{
+			/* break line at current x position */
+			mp_insert_line(t);
 
-	/* store as new line */
-	mpdm_aset(txt->lines, mpdm_aget(w, 0), txt->y);
+			if(l > 2)
+			{
+				/* expand l - 2 elements */
+				mpdm_aexpand(txt->lines, txt->y, l - 2);
 
-	/* move cursor right */
-	_mp_set_x(t, txt->x + mpdm_size(s));
+				/* put all lines except first
+				   and last in the middle */
+				for(n=1;n < l - 1;n++, txt->y++)
+					mpdm_aset(txt->lines,
+					mpdm_aget(s, n), txt->y);
+			}
+
+			/* insert last element */
+			mp_insert(t, mpdm_aget(s, l - 1));
+		}
+	}
+	else
+	{
+		/* s is scalar */
+
+		/* gets current line */
+		c=mpdm_aget(txt->lines, txt->y);
+
+		/* insert */
+		w=mpdm_splice(c, s, txt->x, 0);
+
+		/* store as new line */
+		mpdm_aset(txt->lines, mpdm_aget(w, 0), txt->y);
+
+		/* move cursor right */
+		_mp_set_x(t, txt->x + mpdm_size(s));
+	}
 
 	return(1);
 }
