@@ -54,7 +54,6 @@ struct mp_txt
 	mpdm_v lines;	/* document content */
 	int x;		/* x cursor position */
 	int y;		/* y cursor position */
-	mpdm_v undo;	/* undo queue */
 };
 
 /*******************
@@ -63,15 +62,12 @@ struct mp_txt
 
 static mpdm_v _tie_d(mpdm_v v)
 {
-	struct mp_txt * txt;
+	struct mp_txt * txt=v->data;
 
-	if(v->data != NULL)
+	if(txt != NULL)
 	{
-		txt=(struct mp_txt *)v->data;
-
 		/* unrefs the values */
 		mpdm_unref(txt->lines);
-		mpdm_unref(txt->undo);
 
 		/* frees the struct itself */
 		free(txt);
@@ -79,6 +75,20 @@ static mpdm_v _tie_d(mpdm_v v)
 	}
 
 	return(NULL);
+}
+
+
+static mpdm_v _tie_clo(mpdm_v v)
+{
+	struct mp_txt * txt=v->data;
+
+	/* creates a new value, copying the contents of the original */
+	v=mpdm_new(0, txt, v->size, _tie_mp());
+
+	/* creates and references a clone of the content */
+	txt->lines=mpdm_ref(mpdm_clone(v->lines));
+
+	return(v);
 }
 
 
@@ -91,6 +101,7 @@ static mpdm_v _tie_mp(void)
 		_tie=mpdm_ref(mpdm_clone(_mpdm_tie_cpy()));
 
 		mpdm_aset(_tie, MPDM_X(_tie_d), MPDM_TIE_DESTROY);
+		mpdm_aset(_tie, MPDM_X(_tie_clo), MPDM_TIE_CLONE);
 	}
 
 	return(_tie);
@@ -99,14 +110,12 @@ static mpdm_v _tie_mp(void)
 
 mpdm_v mp_new(void)
 {
-	struct mp_txt txt;
+	struct mpdm_txt txt;
 
-	/* clean */
-	memset(&txt, '\0', sizeof(struct mp_txt));
+	memset(&txt, '\0', sizeof(txt));
 
-	/* create internal data */
-	txt.lines=mpdm_ref(MPDM_A(0));
-	txt.undo=mpdm_ref(MPDM_A(0));
+	/* creates internal data */
+	txt->lines=mpdm_ref(MPDM_A(0));
 
 	return mpdm_new(0, &txt, sizeof(struct mp_txt), _tie_mp());
 }
@@ -156,14 +165,10 @@ int _mp_set_y(mpdm_v t, int y)
 	struct mp_txt * txt;
 	int ret=0;
 
-	if(y > 0)
+	txt=(struct mp_txt *) t->data;
+
+	if(y > 0 && y < mpdm_size(txt->lines) - 1)
 	{
-		txt=(struct mp_txt *) t->data;
-
-		/* never move beyond last line */
-		if(y > mpdm_size(txt->lines) - 1)
-			y=mpdm_size(txt->lines) - 1;
-
 		txt->y=y;
 
 		/* gets new line */
@@ -191,7 +196,7 @@ void mp_move_down(mpdm_v t)
 {
 	struct mp_txt * txt=t->data;
 
-	_mp_set_y(t, txt->y - 1);
+	_mp_set_y(t, txt->y + 1);
 }
 
 
@@ -204,10 +209,8 @@ void mp_move_bol(mpdm_v t)
 void mp_move_eol(mpdm_v t)
 {
 	struct mp_txt * txt=t->data;
-	mpdm_v c;
 
-	c=mpdm_aget(txt->lines, txt->y);
-	_mp_set_x(t, mpdm_size(c));
+	_mp_set_x(t, mpdm_size(mpdm_aget(txt->lines, txt->y)));
 }
 
 
@@ -251,25 +254,17 @@ void mp_move_xy(mpdm_v t, int x, int y)
 
 /* modifying */
 
-void mp_save_undo(mpdm_v cdata)
+void mp_save_undo(mpdm_v t)
 {
-	mpdm_v txt;
-	mpdm_v undo;
+	struct mp_txt * txt=t->data;
 	int undo_levels;
-
-	txt=mpdm_hget(cdata, MPDM_LS("txt"));
-	if((undo=mpdm_hget(cdata, MPDM_LS("undo"))) == NULL)
-	{
-		undo=MPDM_A(0);
-		mpdm_hset(cdata, MPDM_LS("undo"), undo);
-	}
 
 	/* gets from config */
 	if((undo_levels=mpdm_ival(MPDM_SGET(NULL, "mp.config.undo_levels"))) == 0)
 		undo_levels=8;
 
 	/* enqueue */
-	mpdm_aqueue(undo, mpdm_clone(txt), undo_levels);
+	mpdm_aqueue(txt->undo, mpdm_clone(txt), undo_levels);
 }
 
 
