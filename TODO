@@ -92,7 +92,21 @@ end
 /undo {
 	$mp.undo{$mp.active.name} dup
 	size 0 > { apop /active #= } { pop } ifelse
+
+	$mp.undo size 0 >
+		{ /mp.active /mp.undo apop = } if
+} set
+
+/undo_store {
+	/mp.undo $mp.active apush
+	$mp.undo size $mp.config.undo_levels >
+		{ mp.undo 0 adel } if
 } set
 
 \mp.undo{$mp.active.name} $mp.active apush
 \mp.undo{$mp.active.name} size $mp.config.undo_levels > { 0 adel } if
+
+/mp.active.x 0 =
+
+$mp.active.y \mp.active.txt size -- < { /mp.active.y ++ } if
+
