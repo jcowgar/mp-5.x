@@ -280,7 +280,7 @@ void mp_save_undo(fdm_v cdata)
 		undo_levels=8;
 
 	/* enqueue */
-	fdm_aqueue(undo, fdm_copy(txt), undo_levels);
+	fdm_aqueue(undo, fdm_clone(txt), undo_levels);
 }
 
 
