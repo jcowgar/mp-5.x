@@ -117,8 +117,11 @@ void mp_move_left(fdm_v txt, int * x, int * y)
 		(*x)--;
 	else
 	{
-		if(mp_move_up(txt, x, y))
+		if(*y > 0)
+		{
+			(*y)--;
 			mp_move_eol(txt, x, y);
+		}
 	}
 }
 
@@ -133,8 +136,11 @@ void mp_move_right(fdm_v txt, int * x, int * y)
 		(*x)++;
 	else
 	{
-		if(mp_move_down(txt, x, y))
+		if(*y < txt->size - 1)
+		{
+			(*y)++;
 			mp_move_bol(txt, x, y);
+		}
 	}
 }
 
