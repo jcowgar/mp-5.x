@@ -173,7 +173,7 @@ int mp_insert_char(fdm_v txt, int * x, int * y, int c)
 	if(c == '\n')
 	{
 		/* split line in two */
-		w=fdm_splice(v, FDM_LS(""), *x, v->size - *x);
+		w=fdm_splice(v, NULL, *x, v->size - *x);
 
 		/* store first part inside current line */
 		fdm_aset(txt, fdm_aget(w, 0), *y);
@@ -229,7 +229,7 @@ int mp_delete_char(fdm_v txt, int * x, int * y)
 	else
 	{
 		/* creates a new string without current char */
-		w=fdm_splice(v, FDM_LS(""), *x, 1);
+		w=fdm_splice(v, NULL, *x, 1);
 
 		/* set as new */
 		fdm_aset(txt, fdm_aget(w, 0), *y);
