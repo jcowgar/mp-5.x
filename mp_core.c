@@ -141,8 +141,8 @@ void mp_move_right(fdm_v txt, int * x, int * y)
 
 void mp_move_xy(fdm_v txt, int * x, int * y)
 {
-	if(*y > txt->size)
-		*y=txt->size;
+	if(*y > txt->size - 1)
+		*y=txt->size - 1;
 
 	_mp_recover_x(txt, x, y);
 }
@@ -165,7 +165,8 @@ int mp_insert_char(fdm_v txt, int * x, int * y, int c)
 		fdm_aset(txt, fdm_aget(w, 0), *y);
 
 		/* move to next line */
-		mp_move_down(txt, x, y);
+/*		mp_move_down(txt, x, y); */
+		(*y)++;
 
 		/* insert a new line here */
 		fdm_aexpand(txt, *y, 1);

@@ -74,6 +74,13 @@ void dump(void)
 		printf("\n");
 	}
 */
+	{
+		fdm_v v;
+
+		v=fdm_aget(txt, y);
+		printf("[%c]\n", ((char *)v->data)[x]);
+	}
+
 	fdm_sweep(0);
 	fdm_dump(txt, 0);
 
@@ -116,6 +123,10 @@ int main(void)
 	fdm_dup(txt);
 	mp_insert_char(txt, &x, &y, '\n');
 	dump();
+
+	mp_move_eol(txt, &x, &y);
+	dump();
+	mp_insert_char(txt, &x, &y, '2');
 
 	{
 		int n;
