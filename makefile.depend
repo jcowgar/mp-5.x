@@ -1,2 +1,2 @@
 mp-4.o: mp-4.c config.h fdm/fdm.h
-mp_core.o: mp_core.c config.h fdm/fdm.h
+mp_core.o: mp_core.c config.h fdm/fdm.h mp_core.h

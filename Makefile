@@ -16,9 +16,6 @@ OBJS=mp_core.o
 
 all: $(BIN)
 
-libfdm.a:
-	$(MAKE) -C fdm
-
 config.h: VERSION config.sh
 	sh config.sh
 
@@ -32,7 +29,7 @@ Changelog:
 	rcs2log > Changelog
 
 %.o: %.c
-	$(CC) $(CFLAGS) -Ifdm -Lfdm -c $<
+	$(CC) $(CFLAGS) -Ifdm -c $<
 
 dep: config
 	gcc -Ifdm -MM *.c > makefile.depend
@@ -45,8 +42,11 @@ $(LIB): $(OBJS)
 	$(AR) rv $(LIB) $(OBJS)
 
 # main binary
-$(BIN): $(MAIN) $(LIB)
-	$(CC) $(CFLAGS) $< -Ifdm -Lfdm $(LIB) `cat config.libs` -o $@
+$(BIN): $(MAIN) $(LIB) libfdm.a
+	$(CC) $(CFLAGS) $< -Ifdm -Lfdm $(LIB) `cat config.libs` -lfdm -o $@
+
+libfdm.a:
+	$(MAKE) -C fdm
 
 clean:
 	rm -f $(BIN) $(LIB) $(OBJS) config.h config.libs Changelog tags
@@ -60,3 +60,6 @@ install:
 	install $(BIN) -o root -g root -m 755 $(PREFIX)/bin
 	install -o root -d $(PREFIX)/share/doc/$(PROJ)
 	install -o root -m 0644 $(DOCS) $(PREFIX)/share/doc/$(PROJ)
+
+tags:
+	ctags -R

@@ -22,55 +22,15 @@
 
 */
 
-#include "config.h"
+void mp_move_up(fdm_v txt, int * x, int * y);
+void mp_move_down(fdm_v txt, int * x, int * y);
+void mp_move_bol(fdm_v txt, int * x, int * y);
+void mp_move_eol(fdm_v txt, int * x, int * y);
+void mp_move_bof(fdm_v txt, int * x, int * y);
+void mp_move_eof(fdm_v txt, int * x, int * y);
+void mp_move_left(fdm_v txt, int * x, int * y);
+void mp_move_right(fdm_v txt, int * x, int * y);
+void mp_move_xy(fdm_v txt, int * x, int * y);
 
-#include <stdio.h>
-
-#include "fdm.h"
-#include "mp_core.h"
-
-/*******************
-	Data
-********************/
-
-fdm_v txt;
-int x;
-int y;
-
-/*******************
-	Code
-********************/
-
-void dump(void)
-{
-	fdm_v v;
-	int n;
-
-	printf("{\n");
-
-	for(n=0;n < txt->size;n++)
-	{
-		v=fdm_aget(txt, n);
-
-		printf("%s\n", (char *)v->data);
-	}
-
-	printf("}\n");
-}
-
-
-int main(void)
-{
-	mp_startup();
-
-	txt=FDM_A(0);
-	fdm_ains(txt, FDM_S("/* esto es"), 0);
-	fdm_ains(txt, FDM_S("una prueba */"), 1);
-	fdm_ains(txt, FDM_S("int main(void)"), 2);
-
-	dump();
-
-	mp_shutdown();
-
-	return(0);
-}
+int mp_startup(void);
+int mp_shutdown(void);

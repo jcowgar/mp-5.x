@@ -24,12 +24,128 @@
 
 #include "config.h"
 
+#include <stdio.h>
+
 #include "fdm.h"
+#include "mp_core.h"
 
 /*******************
 	Data
 ********************/
 
+/* array of texts */
+fdm_v _mp_texts=NULL;
+
+
 /*******************
 	Code
 ********************/
+
+static void _mp_recover_x(fdm_v txt, int * x, int * y)
+{
+	fdm_v c;
+
+	c=fdm_aget(txt, *y);
+
+	/* try to move to previous column */
+	if(*x > c->size)
+		*x=c->size;
+}
+
+
+void mp_move_up(fdm_v txt, int * x, int * y)
+{
+	/* can't go up beyond the first line */
+	if(*y > 0)
+	{
+		*y--;
+		_mp_recover_x(txt, x, y);
+	}
+}
+
+
+void mp_move_down(fdm_v txt, int * x, int * y)
+{
+	/* can't go down beyond the last line */
+	if(*y < txt->size - 1)
+	{
+		*y++;
+		_mp_recover_x(txt, x, y);
+	}
+}
+
+
+void mp_move_bol(fdm_v txt, int * x, int * y)
+{
+	*x=0;
+}
+
+
+void mp_move_eol(fdm_v txt, int * x, int * y)
+{
+	fdm_v v;
+
+	v=fdm_aget(txt, *y);
+	*x=v->size;
+}
+
+
+void mp_move_bof(fdm_v txt, int * x, int * y)
+{
+	*x=*y=0;
+}
+
+
+void mp_move_eof(fdm_v txt, int * x, int * y)
+{
+	*y=txt->size - 1;
+}
+
+
+void mp_move_left(fdm_v txt, int * x, int * y)
+{
+	if(*x > 0)
+		*x--;
+	else
+	{
+		mp_move_up(txt, x, y);
+		mp_move_eol(txt, x, y);
+	}
+}
+
+
+void mp_move_right(fdm_v txt, int * x, int * y)
+{
+	fdm_v v;
+
+	v=fdm_aget(txt, *y);
+
+	if(*x < v->size)
+		*x++;
+	else
+	{
+		mp_move_down(txt, x, y);
+		mp_move_bol(txt, x, y);
+	}
+}
+
+
+void mp_move_xy(fdm_v txt, int * x, int * y)
+{
+	if(*y > txt->size)
+		*y=txt->size;
+
+	_mp_recover_x(txt, x, y);
+}
+
+
+int mp_startup(void)
+{
+	return(1);
+}
+
+
+int mp_shutdown(void)
+{
+	return(1);
+}
