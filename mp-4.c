@@ -205,6 +205,9 @@ int main(void)
 	mp_delete(cdata);
 	dump();
 
+	fdm_sweep(-1);
+	dump();
+
 #ifdef QQ
 	mp_move_eol(txt, &x, &y);
 
@@ -241,6 +244,7 @@ int main(void)
 			dump();
 	}
 #endif
+
 	mp_shutdown();
 
 	return(0);
