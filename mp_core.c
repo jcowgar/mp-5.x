@@ -478,7 +478,7 @@ fdm_v mp_load_file(char * file)
 	fclose(f);
 */
 
-	if((fv=fdm_open(file, "r")) == NULL)
+	if((fv=fdm_open(FDM_LS(file), FDM_LS("r"))) == NULL)
 		return(NULL);
 
 	w=FDM_A(0);
