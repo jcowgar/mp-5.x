@@ -262,7 +262,7 @@ fdm_v mp_fgets(FILE * f)
 		/* store */
 		fdm_apush(v, FDM_S(line));
 
-		/* exit if the line is complete read */
+		/* exit if the line is completely read */
 		if(i == 0) break;
 	}
 
