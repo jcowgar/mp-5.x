@@ -52,6 +52,8 @@ void dump(void)
 		v=fdm_aget(txt, n);
 		ptr=(char *)v->data;
 
+		printf("[%d]", v->ref);
+
 		for(m=0;m < v->size;m++)
 		{
 			if(m == x && n == y)
@@ -96,8 +98,10 @@ int main(void)
 	}
 
 	dump();
+	fdm_dup(txt);
 	mp_insert_char(txt, &x, &y, '-');
 	dump();
+	fdm_dup(txt);
 	mp_delete_char(txt, &x, &y);
 	dump();
 
