@@ -5,6 +5,17 @@ Refactored to ties!
    lost on every undo operation. There will probably be an upper structure
    or value (probably holding also the filename and such, probably just
    the originally thought cdata); this can be used as the key to undo.
+ * There should exists many, many callback / hooks. For example, a hook
+   that could be called when a word is 'finished' (that is, when a blank
+   is inserted after some characters). This can be used to implement basic
+   'translating' functions, autocorrection (e.g. fixing two capitals
+   TOgether), word wrapping, etc.
+
+Callbacks
+---------
+
+ * End of word
+ * Enter pressed (new line)
 
 #####################################################
 
