@@ -464,7 +464,7 @@ fdm_v mp_load_file(char * file)
 	fdm_v w;
 	fdm_v v;
 	fdm_v fv;
-
+/*
 	if((f=fopen(file, "r")) == NULL)
 		return(NULL);
 
@@ -476,6 +476,17 @@ fdm_v mp_load_file(char * file)
 		fdm_apush(w, v);
 
 	fclose(f);
+*/
+
+	if((fv=fdm_open(file, "r")) == NULL)
+		return(NULL);
+
+	w=FDM_A(0);
+
+	while((v=fdm_read(fv)) != NULL)
+		fdm_apush(w, v);
+
+	fdm_close(fv);
 
 	return(w);
 }
