@@ -228,8 +228,12 @@ void mp_move_right(mpdm_v t)
 
 void mp_move_xy(mpdm_v t, int x, int y)
 {
+	struct mp_txt * txt=t->data;
+
+	/* set x inconditionally; _mp_set_y will correct
+	   invalid or out-of-bound values of x */
+	txt->x=x;
 	_mp_set_y(t, y);
-	_mp_set_x(t, x);
 }
 
 
