@@ -239,15 +239,11 @@ int mp_delete_char(fdm_v txt, int * x, int * y)
 }
 
 
-fdm_v mp_load_file(char * file)
+fdm_v mp_fgets(FILE * f)
 {
-	char line[1024];
-	FILE * f;
+	char line[128];
 	fdm_v v;
 	int i;
-
-	if((f=fopen(file, "r")) == NULL)
-		return(NULL);
 
 	v=FDM_A(0);
 
@@ -256,16 +252,46 @@ fdm_v mp_load_file(char * file)
 		if((i=strlen(line)) == 0)
 			continue;
 
-		/* FIXME: lines longer than sizeof(line) are truncated */
+		/* if line includes \n, it's complete */
 		if(line[i - 1] == '\n')
+		{
 			line[i - 1]='\0';
+			i=0;
+		}
 
+		/* store */
 		fdm_apush(v, FDM_S(line));
+
+		/* exit if the line is complete read */
+		if(i == 0) break;
 	}
+
+	/* if some lines were read, join and return */
+	if(v->size > 0)
+		return(fdm_ajoin(NULL, v));
+
+	/* EOF */
+	return(NULL);
+}
+
+
+fdm_v mp_load_file(char * file)
+{
+	FILE * f;
+	fdm_v w;
+	fdm_v v;
+
+	if((f=fopen(file, "r")) == NULL)
+		return(NULL);
+
+	w=FDM_A(0);
+
+	while((v=mp_fgets(f)) != NULL)
+		fdm_apush(w, v);
 
 	fclose(f);
 
-	return(v);
+	return(w);
 }
 
 
