@@ -156,11 +156,38 @@ int mp_insert_char(fdm_v txt, int * x, int * y, int c)
 
 	v=fdm_aget(txt, *y);
 
-	tmp[0]=c; tmp[1]='\0';
-	w=fdm_splice(v, FDM_LS(tmp), *x, 0);
+	if(c == '\n')
+	{
+		/* split line in two */
+		w=fdm_splice(v, FDM_LS(""), *x, v->size - *x);
 
-	fdm_aset(txt, fdm_aget(w, 0), *y);
-	mp_move_right(txt, x, y);
+		/* store first part inside current line */
+		fdm_aset(txt, fdm_aget(w, 0), *y);
+
+		/* move to next line */
+		mp_move_down(txt, x, y);
+
+		/* insert a new line here */
+		fdm_aexpand(txt, *y, 1);
+
+		/* store second part of line as a new one */
+		fdm_aset(txt, fdm_aget(w, 1), *y);
+
+		/* move to bol */
+		mp_move_bol(txt, x, y);
+	}
+	else
+	{
+		/* insert the char */
+		tmp[0]=c; tmp[1]='\0';
+		w=fdm_splice(v, FDM_LS(tmp), *x, 0);
+
+		/* store as new line */
+		fdm_aset(txt, fdm_aget(w, 0), *y);
+
+		/* move one char right */
+		mp_move_right(txt, x, y);
+	}
 
 	return(1);
 }

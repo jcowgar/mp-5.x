@@ -74,6 +74,7 @@ void dump(void)
 		printf("\n");
 	}
 */
+	fdm_sweep(0);
 	fdm_dump(txt, 0);
 
 	getchar();
@@ -89,6 +90,8 @@ int main(void)
 	fdm_dump(fdm_root(), 0);
 
 	txt=FDM_A(0);
+	fdm_ref(txt);
+
 	fdm_ains(txt, FDM_S("/* esto es la leche que te cagas"), 0);
 	fdm_ains(txt, FDM_S("una prueba */"), 1);
 	fdm_ains(txt, FDM_S("int main(void) { return 0;}"), 2);
@@ -105,9 +108,21 @@ int main(void)
 	fdm_dup(txt);
 	mp_insert_char(txt, &x, &y, '-');
 	dump();
+
 	fdm_dup(txt);
 	mp_delete_char(txt, &x, &y);
 	dump();
+
+	fdm_dup(txt);
+	mp_insert_char(txt, &x, &y, '\n');
+	dump();
+
+	{
+		int n;
+
+		for(n=0;n < 15;n++)
+			dump();
+	}
 
 	mp_shutdown();
 
