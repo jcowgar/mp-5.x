@@ -1,0 +1,90 @@
+sub move_left
+
+	if this.x > 0
+		this.x--
+	else
+		if this->move_down then this->move_bol
+	end
+end
+
+
+function move_down
+
+	if this.y < this.txt->size - 1
+		this.y++
+		recover_x(this)
+	end
+end
+
+sub move_bol
+	this.x=0
+end
+
+
+
+sub insert_char(c)
+
+	local v, w
+
+	v=this.txt[this.y]
+
+	if c eq "\n"
+
+		w=splice(v, "", this.x, v->size - this.x)
+
+		this.txt[this.y]=w[0]
+
+		this.y++
+		aexpand(this.txt, this.y, 1)
+		this.txt[this.y]=w[1]
+
+		this->move_bol
+	else
+
+		w=splice(v, c, this.x, 0)
+		this.txt[this.y]=w[0]
+
+		this->move_right
+	end
+end
+
+sub delete_char
+
+	local v, w
+
+	v=this.txt[this.y]
+
+	if this.x == v->size
+
+		w=[2]
+		w[0]=v
+		w[1]=this.txt[this.y + 1]
+
+		v=ajoin("", w)
+		this.txt[this.y]=v
+		this.txt[this.y + 1]=NULL
+		acollapse(this.txt, this.y + 1, 1)
+	else
+
+		w=splice(v, "", this.x, 1)
+		this.txt[this.y]=w[0]
+	end
+
+end
+
+sub undo_store
+	apush(mp.undo{this.name}, this)
+	if mp.undo{this.name}->size > mp.config.undo_levels
+		adel(mp.undo{this.name}, 0)
+	end
+
+	this=dup(this)
+end
+
+sub undo
+	local u
+
+	u=mp.undo{this.name}
+
+	if u->size > 0 then this=v->apop
+end
