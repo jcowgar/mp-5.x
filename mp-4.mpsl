@@ -1,0 +1,97 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Copyright (C) 2005 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+/*******************
+	Data
+********************/
+
+/* main data */
+mp={};
+
+/*******************
+	Code
+********************/
+
+sub mp.set_x(txt, x)
+/* sets the x position */
+{
+	dump(t);
+	dump(txt);
+
+	local a=txt.y;
+
+	print("y: ", txt.y, " a: ", a, "\n");
+	print("Cursor: ", txt.lines[txt.y], "\n");
+
+	if(x < 0)
+	{
+		/* cursor moved left of the bol; effective cursor up + eol */
+		if(txt.y > 0)
+		{
+			/* one line up */
+			txt.y--;
+
+			/* set x to the end of the line */
+			txt.x=size(txt.lines[txt.y]);
+		}
+	}
+	else
+	{
+		/* test if moved beyond end of line */
+		if(x > size(txt.lines[txt.y]))
+		{
+			if(txt.y < txt.lines - 1)
+			{
+				/* cursor moved right of eol;
+				   effective cursor down + bol */
+				txt.x=0;
+				txt.y++;
+			}
+		}
+		else
+			txt.x=x;
+	}
+
+	dump(txt);
+}
+
+
+sub test(v)
+{
+	dump(v);
+}
+
+
+t={};
+t.x=3;
+t.y=0;
+t.lines=[ "Esto es", "un texto", "con varias", "líneas dentro" ];
+
+/*dump(t);*/
+
+print("t.x: ", t.x, "\n");
+
+/*mp.set_x(t, 15);*/
+test(t);
