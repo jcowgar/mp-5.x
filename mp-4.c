@@ -87,7 +87,7 @@ void dump(void)
 	}
 
 	fdm_sweep(0);
-	fdm_dump(cdata, 0);
+	fdm_dump(cdata);
 
 	getchar();
 }
@@ -116,7 +116,7 @@ int main(void)
 
 	txt=mp_load_file("config.h");
 	fdm_ref(txt);
-	fdm_dump(txt, 0);
+	fdm_dump(txt);
 #endif
 
 	dump();
