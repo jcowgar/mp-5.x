@@ -71,14 +71,14 @@ void _mp_get(mpdm_v cdata, int * x, int * y, int * mx, int * my)
 		lines=mpdm_hget(txt, MPDM_LS("lines"));
 
 		if(my != NULL)
-			*my=lines->size - 1;
+			*my=mpdm_size(lines) - 1;
 
 		if(mx != NULL)
 		{
 			int i=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
 			line=mpdm_aget(lines, i);
 
-			*mx=line->size;
+			*mx=mpdm_size(line);
 		}
 	}
 }
@@ -107,7 +107,7 @@ int _mp_set_x(mpdm_v cdata, int x)
 		{
 			ny=i - 1;
 			line=mpdm_aget(lines, ny);
-			nx=line->size;
+			nx=mpdm_size(line);
 		}
 	}
 	else
@@ -115,9 +115,9 @@ int _mp_set_x(mpdm_v cdata, int x)
 		/* test if moved beyond end of line */
 		line=mpdm_aget(lines, i);
 
-		if(x > line->size)
+		if(x > mpdm_size(line))
 		{
-			if(i < lines->size - 1)
+			if(i < mpdm_size(lines) - 1)
 			{
 				/* cursor moved right of eol;
 				   effective cursor down + bol */
@@ -160,14 +160,14 @@ int _mp_set_y(mpdm_v cdata, int y)
 	nx=ny=-1;
 
 	/* never move beyond last line */
-	ny=y > lines->size - 1 ? lines->size - 1 : y;
+	ny=y > mpdm_size(lines) - 1 ? mpdm_size(lines) - 1 : y;
 
 	/* gets new line */
 	line=mpdm_aget(lines, ny);
 
 	/* test if y movement made x be far beyond current line eol */
-	if(mpdm_ival(mpdm_hget(txt, MPDM_LS("x"))) > line->size)
-		nx=line->size;
+	if(mpdm_ival(mpdm_hget(txt, MPDM_LS("x"))) > mpdm_size(line))
+		nx=mpdm_size(line);
 
 	/* store new coords */
 	if(nx >= 0)
@@ -301,7 +301,7 @@ int mp_insert_line(mpdm_v cdata)
 	line=mpdm_aget(lines, y);
 	
 	/* split current line in two */
-	w=mpdm_splice(line, NULL, x, line->size - x);
+	w=mpdm_splice(line, NULL, x, mpdm_size(line) - x);
 
 	/* store first part inside current line */
 	mpdm_aset(lines, mpdm_aget(w, 0), y);
@@ -346,7 +346,7 @@ int mp_insert(mpdm_v cdata, mpdm_v str)
 	mpdm_aset(lines, mpdm_aget(w, 0), y);
 
 	/* move cursor right */
-	_mp_set_x(cdata, x + str->size);
+	_mp_set_x(cdata, x + mpdm_size(str));
 
 	return(1);
 }
@@ -368,7 +368,7 @@ int mp_delete(mpdm_v cdata)
 	y=mpdm_ival(mpdm_hget(txt, MPDM_LS("y")));
 	line=mpdm_aget(lines, y);
 	
-	if(x == line->size && y < lines->size - 1)
+	if(x == mpdm_size(line) && y < mpdm_size(lines) - 1)
 	{
 		/* deleting at end of line:
 		   effectively join both lines */
@@ -402,7 +402,7 @@ int mp_delete_char(mpdm_v txt, int * x, int * y)
 	v=mpdm_aget(txt, *y);
 
 	/* deleting a newline? */
-	if(*x == v->size && *y < txt->size - 1)
+	if(*x == mpdm_size(v) && *y < mpdm_size(txt) - 1)
 	{
 		/* joins both lines */
 		w=mpdm_splice(v, mpdm_aget(txt, (*y) + 1), *x, 0);
