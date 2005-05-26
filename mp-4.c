@@ -35,7 +35,7 @@
 	Data
 ********************/
 
-mpdm_v t;
+mpdm_t t;
 
 /*******************
 	Code
@@ -45,7 +45,7 @@ mpdm_v t;
 void dump(void)
 {
 	struct mp_txt * txt;
-/*	mpdm_v v;
+/*	mpdm_t v;
 	int n, m;
 	char * ptr;
 
@@ -79,8 +79,8 @@ void dump(void)
 /*
 	{
 		int x,y;
-		mpdm_v lines;
-		mpdm_v line;
+		mpdm_t lines;
+		mpdm_t line;
 
 		x=mpdm_ival(MPDM_SGET(cdata, "txt.x"));
 		y=mpdm_ival(MPDM_SGET(cdata, "txt.y"));
@@ -177,7 +177,7 @@ void mp_4_c(void)
 	dump();
 
 	{
-		mpdm_v w=MPDM_A(0);
+		mpdm_t w=MPDM_A(0);
 		mpdm_aset(w, MPDM_LS(L"000"), 0);
 		mpdm_aset(w, MPDM_LS(L"111"), 1);
 		mpdm_aset(w, MPDM_LS(L"222"), 2);
@@ -251,7 +251,7 @@ void mp_4_c(void)
 
 void mp_4_mpsl(void)
 {
-	mpdm_v v;
+	mpdm_t v;
 
 	v=mpsl_compile_file(MPDM_LS(L"mp-4.mpsl"));
 	mpdm_exec(v, NULL);

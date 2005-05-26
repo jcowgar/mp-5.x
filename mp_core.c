@@ -36,7 +36,7 @@
 ********************/
 
 /* configuration hash */
-mpdm_v mp_config=NULL;
+mpdm_t mp_config=NULL;
 
 /*******************
 	Code
@@ -45,7 +45,7 @@ mpdm_v mp_config=NULL;
 #define MP_CONF_GET_I(k) mpdm_ival(mpdm_sget(mp_config, MPDM_LS(k)))
 #define MP_CONF_SET_I(k,v) mpdm_sset(mp_config, MPDM_LS(k), MPDM_I(v))
 
-static mpdm_v _tie_txt_d(mpdm_v v)
+static mpdm_t _tie_txt_d(mpdm_t v)
 {
 	struct mp_txt * txt=v->data;
 
@@ -63,9 +63,9 @@ static mpdm_v _tie_txt_d(mpdm_v v)
 }
 
 
-static mpdm_v _tie_mp_txt(void);
+static mpdm_t _tie_mp_txt(void);
 
-static mpdm_v _tie_txt_clo(mpdm_v v)
+static mpdm_t _tie_txt_clo(mpdm_t v)
 {
 	struct mp_txt * txt=v->data;
 
@@ -79,9 +79,9 @@ static mpdm_v _tie_txt_clo(mpdm_v v)
 }
 
 
-static mpdm_v _tie_mp_txt(void)
+static mpdm_t _tie_mp_txt(void)
 {
-	static mpdm_v _tie=NULL;
+	static mpdm_t _tie=NULL;
 
 	if(_tie == NULL)
 	{
@@ -95,7 +95,7 @@ static mpdm_v _tie_mp_txt(void)
 }
 
 
-mpdm_v mp_new(void)
+mpdm_t mp_new(void)
 {
 	struct mp_txt txt;
 
@@ -108,7 +108,7 @@ mpdm_v mp_new(void)
 }
 
 
-int _mp_set_x(mpdm_v t, int x)
+int _mp_set_x(mpdm_t t, int x)
 {
 	struct mp_txt * txt;
 	int ret=0;
@@ -146,9 +146,9 @@ int _mp_set_x(mpdm_v t, int x)
 }
 
 
-int _mp_set_y(mpdm_v t, int y)
+int _mp_set_y(mpdm_t t, int y)
 {
-	mpdm_v c;
+	mpdm_t c;
 	struct mp_txt * txt;
 	int ret=0;
 
@@ -171,7 +171,7 @@ int _mp_set_y(mpdm_v t, int y)
 }
 
 
-void mp_move_up(mpdm_v t)
+void mp_move_up(mpdm_t t)
 {
 	struct mp_txt * txt=t->data;
 
@@ -179,7 +179,7 @@ void mp_move_up(mpdm_v t)
 }
 
 
-void mp_move_down(mpdm_v t)
+void mp_move_down(mpdm_t t)
 {
 	struct mp_txt * txt=t->data;
 
@@ -187,13 +187,13 @@ void mp_move_down(mpdm_v t)
 }
 
 
-void mp_move_bol(mpdm_v t)
+void mp_move_bol(mpdm_t t)
 {
 	_mp_set_x(t, 0);
 }
 
 
-void mp_move_eol(mpdm_v t)
+void mp_move_eol(mpdm_t t)
 {
 	struct mp_txt * txt=t->data;
 
@@ -201,14 +201,14 @@ void mp_move_eol(mpdm_v t)
 }
 
 
-void mp_move_bof(mpdm_v t)
+void mp_move_bof(mpdm_t t)
 {
 	_mp_set_y(t, 0);
 	_mp_set_x(t, 0);
 }
 
 
-void mp_move_eof(mpdm_v t)
+void mp_move_eof(mpdm_t t)
 {
 	struct mp_txt * txt=t->data;
 
@@ -216,7 +216,7 @@ void mp_move_eof(mpdm_v t)
 }
 
 
-void mp_move_left(mpdm_v t)
+void mp_move_left(mpdm_t t)
 {
 	struct mp_txt * txt=t->data;
 
@@ -224,7 +224,7 @@ void mp_move_left(mpdm_v t)
 }
 
 
-void mp_move_right(mpdm_v t)
+void mp_move_right(mpdm_t t)
 {
 	struct mp_txt * txt=t->data;
 
@@ -232,7 +232,7 @@ void mp_move_right(mpdm_v t)
 }
 
 
-void mp_move_xy(mpdm_v t, int x, int y)
+void mp_move_xy(mpdm_t t, int x, int y)
 {
 	struct mp_txt * txt=t->data;
 
@@ -245,18 +245,18 @@ void mp_move_xy(mpdm_v t, int x, int y)
 
 /* modifying */
 
-void mp_save_undo(mpdm_v t, mpdm_v u)
+void mp_save_undo(mpdm_t t, mpdm_t u)
 {
 	/* enqueue */
 	mpdm_aqueue(u, mpdm_clone(t), MP_CONF_GET_I(L"undo_levels"));
 }
 
 
-int mp_insert_line(mpdm_v t)
+int mp_insert_line(mpdm_t t)
 {
 	struct mp_txt * txt=t->data;
-	mpdm_v w;
-	mpdm_v c;
+	mpdm_t w;
+	mpdm_t c;
 
 /*	mp_save_undo(cdata); */
 
@@ -301,11 +301,11 @@ int mp_insert_line(mpdm_v t)
 }
 
 
-int mp_insert(mpdm_v t, mpdm_v s)
+int mp_insert(mpdm_t t, mpdm_t s)
 {
 	struct mp_txt * txt=t->data;
-	mpdm_v c;
-	mpdm_v w;
+	mpdm_t c;
+	mpdm_t w;
 	int l, n;
 
 	/* is s a multiple value? */
@@ -361,11 +361,11 @@ int mp_insert(mpdm_v t, mpdm_v s)
 }
 
 
-int mp_delete(mpdm_v t)
+int mp_delete(mpdm_t t)
 {
 	struct mp_txt * txt=t->data;
-	mpdm_v c;
-	mpdm_v w;
+	mpdm_t c;
+	mpdm_t w;
 
 /*	mp_save_undo(cdata); */
 
@@ -396,11 +396,11 @@ int mp_delete(mpdm_v t)
 }
 
 
-void mp_load_file(mpdm_v t, char * file)
+void mp_load_file(mpdm_t t, char * file)
 {
 	struct mp_txt * txt=t->data;
-	mpdm_v v;
-	mpdm_v fv;
+	mpdm_t v;
+	mpdm_t fv;
 /*
 	if((f=fopen(file, "r")) == NULL)
 		return(NULL);

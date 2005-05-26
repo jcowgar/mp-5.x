@@ -24,29 +24,29 @@
 
 struct mp_txt
 {
-	mpdm_v lines;	/* document content */
+	mpdm_t lines;	/* document content */
 	int x;		/* x cursor position */
 	int y;		/* y cursor position */
 };
 
-extern mpdm_v _mp;
+extern mpdm_t _mp;
 
-mpdm_v mp_new(void);
-void mp_move_up(mpdm_v t);
-void mp_move_down(mpdm_v t);
-void mp_move_bol(mpdm_v t);
-void mp_move_eol(mpdm_v t);
-void mp_move_bof(mpdm_v t);
-void mp_move_eof(mpdm_v t);
-void mp_move_left(mpdm_v t);
-void mp_move_right(mpdm_v t);
-void mp_move_xy(mpdm_v t, int x, int y);
+mpdm_t mp_new(void);
+void mp_move_up(mpdm_t t);
+void mp_move_down(mpdm_t t);
+void mp_move_bol(mpdm_t t);
+void mp_move_eol(mpdm_t t);
+void mp_move_bof(mpdm_t t);
+void mp_move_eof(mpdm_t t);
+void mp_move_left(mpdm_t t);
+void mp_move_right(mpdm_t t);
+void mp_move_xy(mpdm_t t, int x, int y);
 
-int mp_insert_line(mpdm_v t);
-int mp_insert(mpdm_v t, mpdm_v str);
-int mp_delete(mpdm_v t);
+int mp_insert_line(mpdm_t t);
+int mp_insert(mpdm_t t, mpdm_t str);
+int mp_delete(mpdm_t t);
 
-void mp_load_file(mpdm_v t, char * file);
+void mp_load_file(mpdm_t t, char * file);
 
 int mp_startup(void);
 int mp_shutdown(void);
