@@ -181,6 +181,46 @@ sub mp.insert_line(txt)
 }
 
 
+/* clipboard routines */
+
+sub mp.unmark(txt)
+{
+	/* just destroy the mark */
+	txt.mark = NULL;
+}
+
+
+sub mp.mark(txt)
+{
+	if(txt.mark == NULL)
+	{
+		/* no mark; create one */
+		txt.mark = {};
+		txt.mark.bx=txt.x;
+		txt.mark.by=txt.y;
+		txt.mark.ex=txt.x;
+		txt.mark.ey=txt.y;
+	}
+	else
+	{
+		/* mark exists; extend current one */
+		if(txt.y < txt.mark.by ||
+			(txt.y == txt.mark.by && txt.x < txt.mark.bx))
+		{
+			/* move the beginning of the block */
+			txt.mark.bx=txt.x;
+			txt.mark.by=txt.y;
+		}
+		else
+		{
+			/* move the end of the block */
+			txt.mark.ex=txt.x;
+			txt.mark.ey=txt.y;
+		}
+	}
+}
+
+
 t={};
 t.x=3;
 t.y=0;
@@ -214,10 +254,15 @@ dump(t);
 mp.insert_line(t);
 dump(t);
 
+mp.mark(t);
 mp.move_up(t);
 mp.move_left(t);
 mp.move_left(t);
 mp.move_left(t);
+mp.mark(t);
+mp.move_down(t);
+mp.move_down(t);
+mp.mark(t);
 dump(t);
 
 mp.config.auto_indent=1;
