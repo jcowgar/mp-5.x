@@ -221,6 +221,34 @@ sub mp.mark(txt)
 }
 
 
+sub mp.copy(txt)
+{
+	/* no mark? done */
+	if(mp.mark == NULL) return;
+
+	/* set the clipboard to an empty array */
+	mp.clipboard = [];
+
+	if(txt.mark.by == txt.mark.ey)
+	{
+		local w;
+
+		/* block is just one line; take the inside
+		   part and push it onto the clipboard */
+
+		w=splice(txt.lines[txt.mark.by], NULL,
+			txt.mark.bx, txt.mark.ex - txt.mark.bx);
+
+		apush(mp.clipboard, w[1]);
+	}
+	else
+	{
+		/* block has more than one line */
+		print("TBD\n");
+	}
+}
+
+
 t={};
 t.x=3;
 t.y=0;
@@ -268,3 +296,18 @@ dump(t);
 mp.config.auto_indent=1;
 mp.insert_line(t);
 dump(t);
+
+mp.unmark(t);
+mp.move_bof(t);
+mp.move_right(t);
+mp.move_right(t);
+mp.mark(t);
+mp.move_right(t);
+mp.move_right(t);
+mp.move_right(t);
+mp.move_right(t);
+mp.mark(t);
+dump(t);
+
+mp.copy(t);
+dump(mp.clipboard);
