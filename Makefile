@@ -44,7 +44,7 @@ $(LIB): $(OBJS)
 
 # main binary
 $(BIN): $(MAIN) $(LIB) libmpdm.a
-	$(CC) $(CFLAGS) $< -Impdm -Lmpdm -Impsl -Lmpsl $(LIB) `cat config.libs` -lmpsl -lmpdm -o $@
+	$(CC) $(CFLAGS) $< -Impdm -Lmpdm -Impsl -Lmpsl $(LIB) `cat mpsl/config.ldflags` -lmpsl -lmpdm -o $@
 
 libmpdm.a:
 	$(MAKE) -C mpdm
