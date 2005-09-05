@@ -32,6 +32,7 @@ mp={};
 
 /* configuration */
 mp.config={};
+mp.config.eol="\n";
 
 /*******************
 	Code
@@ -284,6 +285,39 @@ sub mp.copy(txt)
 }
 
 
+/* file code */
+
+sub mp.chomp(str)
+/* chomps the end of file chars from a string */
+{
+	sregex("/" ~ mp.config.eol ~ "$/", str, NULL);
+}
+
+
+sub mp.load_file(txt, filename)
+/* loads a file from disk */
+{
+	local f, l;
+
+	/* open or fail */
+	if((f=open(filename, "r")) == NULL)
+		return(0);
+
+	/* set lines as an empty array */
+	txt.lines = [];
+
+	/* read the file into it */
+	while((l=read(f)) != NULL)
+		apush(txt.lines, mp.chomp(l));
+
+	close(f);
+
+	mp.move_bof(txt);
+
+	return(1);
+}
+
+
 t={};
 t.x=3;
 t.y=0;
@@ -352,3 +386,6 @@ mp.move_down(t);
 mp.mark(t);
 mp.copy(t);
 dump(mp.clipboard);
+
+mp.load_file(t, "TODO");
+dump(t);
