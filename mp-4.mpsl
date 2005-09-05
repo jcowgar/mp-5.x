@@ -243,8 +243,26 @@ sub mp.copy(txt)
 	}
 	else
 	{
+		local w, n;
+
 		/* block has more than one line */
-		print("TBD\n");
+
+		/* take from start to end of the first line */
+		n=txt.mark.by;
+
+		w=splice(txt.lines[n], NULL,
+			txt.mark.bx, size(txt.lines[n]));
+
+		apush(mp.clipboard, w[1]);
+		n++;
+
+		/* take the central lines */
+		while(n < txt.mark.ey)
+			apush(mp.clipboard, txt.lines[n++]);
+
+		/* take the last line */
+		w=splice(txt.lines[n], NULL, 0, txt.mark.ex);
+		apush(mp.clipboard, w[1]);
 	}
 }
 
@@ -309,5 +327,11 @@ mp.move_right(t);
 mp.mark(t);
 dump(t);
 
+mp.copy(t);
+dump(mp.clipboard);
+
+mp.move_down(t);
+mp.move_down(t);
+mp.mark(t);
 mp.copy(t);
 dump(mp.clipboard);
