@@ -181,6 +181,23 @@ sub mp.insert_line(txt)
 }
 
 
+sub mp.insert(txt, str)
+/* inserts a string into the cursor position */
+{
+	local w;
+
+	/* splice and change */
+	w=splice(txt.lines[txt.y], str, txt.x, 0);
+	txt.lines[txt.y] = w[0];
+
+	/* if wordwrapping... */
+	if(mp.config.wordwrap > 0 && size(w[0]) > mp.config.wordwrap)
+	{
+		print("TBD\n");
+	}
+}
+
+
 /* clipboard routines */
 
 sub mp.unmark(txt)
