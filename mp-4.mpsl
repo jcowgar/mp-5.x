@@ -191,6 +191,9 @@ sub mp.insert(txt, str)
 	w=splice(txt.lines[txt.y], str, txt.x, 0);
 	txt.lines[txt.y] = w[0];
 
+	/* move right */
+	txt.x += size(str);
+
 	/* if wordwrapping... */
 	if(mp.config.wordwrap > 0 && size(w[0]) > mp.config.wordwrap)
 	{
@@ -281,6 +284,45 @@ sub mp.copy(txt)
 		/* take the last line */
 		w=splice(txt.lines[n], NULL, 0, txt.mark.ex);
 		apush(mp.clipboard, w[1]);
+	}
+}
+
+
+sub mp.paste(txt)
+/* pastes from the clipboard into a text */
+{
+	local s;
+
+	/* no clipboard? return */
+	if(mp.clipboard == NULL)
+		return;
+
+	/* empty clipboard? (rare, but possible) return */
+	if((s=size(mp.clipboard)) == 0)
+		return;
+
+	/* paste first line into current position */
+	mp.insert(txt, mp.clipboard[0]);
+
+	if(s > 1)
+	{
+		/* break current line in two */
+		mp.insert_line(txt);
+
+		/* insert last line */
+		mp.insert(txt, mp.clipboard[s - 1]);
+	}
+
+	if(s > 2)
+	{
+		local n=1;
+
+		/* open room */
+		aexpand(txt.lines, txt.y, s - 2);
+
+		/* transfer clipboard into text */
+		while(n < s - 1)
+			txt.lines[txt.y++]=mp.clipboard[n++];
 	}
 }
 
@@ -389,3 +431,17 @@ dump(mp.clipboard);
 
 mp.load_file(t, "TODO");
 dump(t);
+mp.mark(t);
+mp.move_down(t);
+mp.move_down(t);
+mp.move_down(t);
+mp.mark(t);
+mp.copy(t);
+dump(t);
+mp.move_eof(t);
+mp.move_eol(t);
+print("paste...\n");
+mp.paste(t);
+print("ok\n");
+dump(t);
+dump(mp.clipboard);
