@@ -146,8 +146,8 @@ sub mp.move_eof(txt)
 }
 
 
-sub mp.insert_line(txt)
-/* inserts a newline (breaks current line in two) */
+sub mp.break_line(txt)
+/* breaks current line in two (inserts a newline) */
 {
 	local c, w;
 
@@ -308,7 +308,7 @@ sub mp.paste(txt)
 	if(s > 1)
 	{
 		/* break current line in two */
-		mp.insert_line(txt);
+		mp.break_line(txt);
 
 		/* insert last line */
 		mp.insert(txt, mp.clipboard[s - 1]);
@@ -392,7 +392,7 @@ mp.move_left(t);
 mp.move_left(t);
 dump(t);
 
-mp.insert_line(t);
+mp.break_line(t);
 dump(t);
 
 mp.mark(t);
@@ -407,7 +407,7 @@ mp.mark(t);
 dump(t);
 
 mp.config.auto_indent=1;
-mp.insert_line(t);
+mp.break_line(t);
 dump(t);
 
 mp.unmark(t);
