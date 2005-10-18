@@ -182,6 +182,20 @@ sub mp.break_line(txt)
 }
 
 
+sub mp.join_line(txt)
+/* joins the current line with the next one */
+{
+	if(txt.y < size(txt.lines))
+	{
+		/* concats current line with the next one */
+		txt.lines[txt.y] = txt.lines[txt.y] ~ txt.lines[txt.y + 1];
+
+		/* collapse */
+		acollapse(txt.lines, txt.y + 1);
+	}
+}
+
+
 sub mp.insert(txt, str)
 /* inserts a string into the cursor position */
 {
