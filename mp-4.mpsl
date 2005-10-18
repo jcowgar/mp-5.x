@@ -245,7 +245,7 @@ sub mp.mark(txt)
 sub mp.copy(txt)
 {
 	/* no mark? done */
-	if(mp.mark == NULL) return;
+	if(txt.mark == NULL) return;
 
 	/* set the clipboard to an empty array */
 	mp.clipboard = [];
