@@ -282,11 +282,9 @@ sub mp.copy(txt)
 
 		/* block has more than one line */
 
-		/* take from start to end of the first line */
+		/* take from the beginning to the end of the first line */
 		n=txt.mark.by;
-
-		w=splice(txt.lines[n], NULL,
-			txt.mark.bx, size(txt.lines[n]));
+		w=splice(txt.lines[n], NULL, txt.mark.bx, -1);
 
 		apush(mp.clipboard, w[1]);
 		n++;
