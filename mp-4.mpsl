@@ -331,7 +331,8 @@ sub mp.delete_mark(txt)
 		txt.lines[txt.mark.ey] = w[0];
 
 		/* collapse the lines in between */
-		acollapse(txt.lines, txt.mark.by, txt.mark.ey - txt.mark.by);
+		acollapse(txt.lines, txt.mark.by + 1,
+			txt.mark.ey - txt.mark.by - 2);
 	}
 
 	/* in any case, move to the start of the block and unmark */
