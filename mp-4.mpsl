@@ -155,7 +155,7 @@ sub mp.break_line(txt)
 	c=txt.lines[txt.y];
 
 	/* deletes from cursor to end of line */
-	w=splice(c, NULL, txt.x, size(c) - txt.x);
+	w=splice(c, NULL, txt.x, -1);
 
 	/* set first part as current line */
 	txt.lines[txt.y]=w[0];
