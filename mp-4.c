@@ -39,26 +39,42 @@
 	Code
 ********************/
 
-void mp_4_startup(int argc, char * argv[])
+mpdm_t nc_startup(mpdm_t v)
 {
-	int n;
-	mpdm_t ARGV;
-
-	mpdm_startup();
-/*
 	initscr();
 	start_color();
 	keypad(stdscr, TRUE);
 	nonl();
 	raw();
 	noecho();
-*/
+
+	return(NULL);
+}
+
+
+mpdm_t nc_shutdown(mpdm_t v)
+{
+	endwin();
+	return(NULL);
+}
+
+
+void mp_4_startup(int argc, char * argv[])
+{
+	int n;
+	mpdm_t ARGV;
+
+	mpdm_startup();
+
+	/* create the ARGV array */
 	ARGV=MPDM_A(0);
 
 	for(n = 0;n < argc;n++)
 		mpdm_apush(ARGV, MPDM_MBS(argv[n]));
 
 	mpdm_hset_s(mpdm_root(), L"ARGV", ARGV);
+	mpdm_hset_s(mpdm_root(), L"nc_startup", MPDM_X(nc_startup));
+	mpdm_hset_s(mpdm_root(), L"nc_shutdown", MPDM_X(nc_shutdown));
 }
 
 
@@ -73,8 +89,6 @@ void mp_4_mpsl(void)
 
 void mp_4_shutdown(void)
 {
-/*	endwin();
-*/
 	mpdm_shutdown();
 }
 

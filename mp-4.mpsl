@@ -415,5 +415,27 @@ sub mp.load_file(txt, filename)
 	return(1);
 }
 
-print("mp-4.mpsl\n");
-dump(ARGV);
+/*******************************************************/
+
+sub main_loop(filename)
+{
+	local t;
+
+	t = {};
+	t.x = 0;
+	t.y = 0;
+
+	if(mp.load_file(t, filename))
+	{
+		nc_startup();
+		nc_shutdown();
+	}
+	else
+		print("Can't open '", filename, "'\n");
+}
+
+
+if(size(ARGV) > 1)
+	main_loop(ARGV[1]);
+else
+	print("Usage: mp-4 {file}\n");
