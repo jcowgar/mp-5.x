@@ -25,6 +25,8 @@
 #include "config.h"
 
 #include <stdio.h>
+#include <wchar.h>
+#include <curses.h>
 
 #include "mpdm.h"
 #include "mpsl.h"
@@ -37,6 +39,29 @@
 	Code
 ********************/
 
+void mp_4_startup(int argc, char * argv[])
+{
+	int n;
+	mpdm_t ARGV;
+
+	mpdm_startup();
+/*
+	initscr();
+	start_color();
+	keypad(stdscr, TRUE);
+	nonl();
+	raw();
+	noecho();
+*/
+	ARGV=MPDM_A(0);
+
+	for(n = 0;n < argc;n++)
+		mpdm_apush(ARGV, MPDM_MBS(argv[n]));
+
+	mpdm_hset_s(mpdm_root(), L"ARGV", ARGV);
+}
+
+
 void mp_4_mpsl(void)
 {
 	mpdm_t v;
@@ -46,13 +71,21 @@ void mp_4_mpsl(void)
 }
 
 
-int main(void)
+void mp_4_shutdown(void)
 {
-	mpdm_startup();
+/*	endwin();
+*/
+	mpdm_shutdown();
+}
+
+
+int main(int argc, char * argv[])
+{
+	mp_4_startup(argc, argv);
 
 	mp_4_mpsl();
 
-	mpdm_shutdown();
+	mp_4_shutdown();
 
 	return(0);
 }
