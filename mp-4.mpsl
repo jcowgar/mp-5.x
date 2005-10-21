@@ -146,6 +146,17 @@ sub mp.move_eof(txt)
 }
 
 
+sub mp.adjust(txt, tx, ty)
+/* adjust the visual coordinates to the window size */
+{
+	if(txt.x < txt.vx) txt.vx = txt.x;
+	if(txt.x > (txt.vx + tx - 1)) txt.vx = txt.x - tx - 1;
+
+	if(txt.y < txt.vy) txt.vy = txt.y;
+	if(txt.y > (txt.vy + ty - 1)) txt.vy = txt.y - ty - 1;
+}
+
+
 sub mp.break_line(txt)
 /* breaks current line in two (inserts a newline) */
 {
@@ -415,15 +426,30 @@ sub mp.load_file(txt, filename)
 	return(1);
 }
 
+
+sub mp.new()
+/* creates a new text */
+{
+	local txt;
+
+	txt = {};
+	txt.x = 0;
+	txt.y = 0;
+	txt.vx = 0;
+	txt.vy = 0;
+	txt.lines = [];
+
+	return(txt);
+}
+
+
 /*******************************************************/
 
 sub main_loop(filename)
 {
 	local t;
 
-	t = {};
-	t.x = 0;
-	t.y = 0;
+	t = mp.new();
 
 	if(mp.load_file(t, filename))
 	{
