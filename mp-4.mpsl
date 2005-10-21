@@ -427,8 +427,13 @@ sub main_loop(filename)
 
 	if(mp.load_file(t, filename))
 	{
+		local k;
+
 		nc_startup();
+		k=nc_getkey();
 		nc_shutdown();
+
+		print("Key: '", k, "'\n");
 	}
 	else
 		print("Can't open '", filename, "'\n");

@@ -59,6 +59,17 @@ mpdm_t nc_shutdown(mpdm_t v)
 }
 
 
+mpdm_t nc_getkey(mpdm_t v)
+{
+	wchar_t k[2];
+
+	get_wch(k);
+	k[1] = L'\0';
+
+	return(MPDM_S(k));
+}
+
+
 void mp_4_startup(int argc, char * argv[])
 {
 	int n;
@@ -75,6 +86,7 @@ void mp_4_startup(int argc, char * argv[])
 	mpdm_hset_s(mpdm_root(), L"ARGV", ARGV);
 	mpdm_hset_s(mpdm_root(), L"nc_startup", MPDM_X(nc_startup));
 	mpdm_hset_s(mpdm_root(), L"nc_shutdown", MPDM_X(nc_shutdown));
+	mpdm_hset_s(mpdm_root(), L"nc_getkey", MPDM_X(nc_getkey));
 }
 
 
