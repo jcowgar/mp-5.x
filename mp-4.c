@@ -70,6 +70,31 @@ mpdm_t nc_getkey(mpdm_t v)
 }
 
 
+mpdm_t nc_draw(mpdm_t a)
+{
+	int n, m;
+	mpdm_t txt = mpdm_aget(a, 0);
+	mpdm_t lines = mpdm_hget_s(txt, L"lines");
+	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
+	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
+
+	for(n = 0;n < LINES;n++)
+	{
+		mpdm_t l;
+
+		if((l = mpdm_aget(lines, y + n)) == NULL)
+			break;
+
+		move(n, 0);
+		addwstr((wchar_t *) l->data);
+	}
+
+	refresh();
+
+	return(NULL);
+}
+
+
 void mp_4_startup(int argc, char * argv[])
 {
 	int n;
@@ -87,6 +112,7 @@ void mp_4_startup(int argc, char * argv[])
 	mpdm_hset_s(mpdm_root(), L"nc_startup", MPDM_X(nc_startup));
 	mpdm_hset_s(mpdm_root(), L"nc_shutdown", MPDM_X(nc_shutdown));
 	mpdm_hset_s(mpdm_root(), L"nc_getkey", MPDM_X(nc_getkey));
+	mpdm_hset_s(mpdm_root(), L"nc_draw", MPDM_X(nc_draw));
 }
 
 

@@ -456,6 +456,7 @@ sub main_loop(filename)
 		local k;
 
 		nc_startup();
+		nc_draw(t);
 		k=nc_getkey();
 		nc_shutdown();
 
