@@ -72,21 +72,67 @@ mpdm_t nc_getkey(mpdm_t v)
 
 mpdm_t nc_draw(mpdm_t a)
 {
-	int n, m;
+	int n;
+	wchar_t buf[1024];
 	mpdm_t txt = mpdm_aget(a, 0);
 	mpdm_t lines = mpdm_hget_s(txt, L"lines");
 	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
 	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
+	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
+	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
+	wchar_t * ptr;
 
 	for(n = 0;n < LINES;n++)
 	{
+		int m, w, o;
 		mpdm_t l;
 
+		/* gets the line */
 		if((l = mpdm_aget(lines, y + n)) == NULL)
 			break;
 
-		move(n, 0);
-		addwstr((wchar_t *) l->data);
+		ptr=(wchar_t *) l->data;
+
+		for(m = w = o = 0;m < vx + COLS;)
+		{
+			wchar_t c = *ptr++;
+			int i = mpdm_wcwidth(c);
+
+			if(c == L'\0') break;
+
+			if(m >= vx)
+			{
+				buf[o++] = c;
+				w += i;
+			}
+			else
+			{
+				/* will this char cross the left margin? */
+				if(m + i > vx)
+				{
+					int t;
+
+					for(t = m + i - vx;t;t--, w++)
+						buf[o++] = L'~';
+				}
+			}
+
+			m += i;
+		}
+
+		/* fill with spaces to the end of the line */
+		while(w < COLS)
+		{
+			buf[o++] = L'-';
+			w++;
+		}
+
+		/* null terminate */
+		buf[o] = L'\0';
+
+		/* and draw */
+/*		move(n, 0);*/
+		addwstr(buf);
 	}
 
 	refresh();
