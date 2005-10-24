@@ -70,6 +70,21 @@ mpdm_t nc_getkey(mpdm_t v)
 }
 
 
+#define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
+
+static int mp_wcwidth(int x, wchar_t c)
+{
+	int r;
+
+	if(c == L'\t')
+		r=MP_REAL_TAB_SIZE(x);
+	else
+		r=mpdm_wcwidth(c);
+
+	return(r);
+}
+
+
 mpdm_t nc_draw(mpdm_t a)
 {
 	int n;
@@ -82,13 +97,15 @@ mpdm_t nc_draw(mpdm_t a)
 	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
 	wchar_t * ptr;
 
+	move(0, 0);
+
 	for(n = 0;n < LINES;n++)
 	{
 		int m, w, o;
 		mpdm_t l;
 
 		/* gets the line */
-		if((l = mpdm_aget(lines, y + n)) == NULL)
+		if((l = mpdm_aget(lines, vy + n)) == NULL)
 			break;
 
 		ptr=(wchar_t *) l->data;
@@ -96,13 +113,22 @@ mpdm_t nc_draw(mpdm_t a)
 		for(m = w = o = 0;m < vx + COLS;)
 		{
 			wchar_t c = *ptr++;
-			int i = mpdm_wcwidth(c);
+			int i = mp_wcwidth(m, c);
 
 			if(c == L'\0') break;
 
 			if(m >= vx)
 			{
-				buf[o++] = c;
+				if(c == L'\t')
+				{
+					int t;
+
+					for(t = 0;t < i;t++)
+						buf[o++] = L'#';
+				}
+				else
+					buf[o++] = c;
+
 				w += i;
 			}
 			else

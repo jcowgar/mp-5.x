@@ -456,8 +456,16 @@ sub main_loop(filename)
 		local k;
 
 		nc_startup();
-		nc_draw(t);
-		k=nc_getkey();
+
+		t.vy = 100;
+
+		foreach(c, [ 1 .. 48 ])
+		{
+			nc_draw(t);
+			k=nc_getkey();
+			t.vx ++;
+		}
+
 		nc_shutdown();
 
 		print("Key: '", k, "'\n");
