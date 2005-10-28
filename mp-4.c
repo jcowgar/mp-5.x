@@ -48,6 +48,9 @@ mpdm_t nc_startup(mpdm_t v)
 	raw();
 	noecho();
 
+	mpdm_hset_s(mpdm_root(), L"COLS", MPDM_I(COLS));
+	mpdm_hset_s(mpdm_root(), L"LINES", MPDM_I(LINES));
+
 	return(NULL);
 }
 
@@ -61,12 +64,23 @@ mpdm_t nc_shutdown(mpdm_t v)
 
 mpdm_t nc_getkey(mpdm_t v)
 {
-	wchar_t k[2];
+	wchar_t c[2];
+	wchar_t * f = c;
 
-	get_wch(k);
-	k[1] = L'\0';
+	get_wch(c);
+	c[1] = L'\0';
 
-	return(MPDM_S(k));
+	switch(c[0]) {
+	case L'\e': f = L"escape"; break;
+	case KEY_LEFT: f = L"cursor-left"; break;
+	case KEY_RIGHT: f = L"cursor-right"; break;
+	case KEY_UP: f = L"cursor-up"; break;
+	case KEY_DOWN: f = L"cursor-down"; break;
+	case KEY_HOME: f = L"home"; break;
+	case KEY_END: f = L"end"; break;
+	}
+
+	return(MPDM_LS(f));
 }
 
 
@@ -101,7 +115,7 @@ mpdm_t nc_draw(mpdm_t a)
 
 	for(n = 0;n < LINES;n++)
 	{
-		int m, w, o;
+		int m, w, o, k;
 		mpdm_t l;
 
 		/* gets the line */
@@ -110,9 +124,9 @@ mpdm_t nc_draw(mpdm_t a)
 
 		ptr=(wchar_t *) l->data;
 
-		for(m = w = o = 0;m < vx + COLS;)
+		for(m = w = o = k = 0;m < vx + COLS;)
 		{
-			wchar_t c = *ptr++;
+			wchar_t c = ptr[k];
 			int i = mp_wcwidth(m, c);
 
 			if(c == L'\0') break;
@@ -127,7 +141,12 @@ mpdm_t nc_draw(mpdm_t a)
 						buf[o++] = L'#';
 				}
 				else
-					buf[o++] = c;
+				{
+					if(n + vy == y && k == x)
+						buf[o++] = L'_';
+					else
+						buf[o++] = c;
+				}
 
 				w += i;
 			}
@@ -144,6 +163,7 @@ mpdm_t nc_draw(mpdm_t a)
 			}
 
 			m += i;
+			k++;
 		}
 
 		/* fill with spaces to the end of the line */

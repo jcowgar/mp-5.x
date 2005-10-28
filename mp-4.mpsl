@@ -150,10 +150,10 @@ sub mp.adjust(txt, tx, ty)
 /* adjust the visual coordinates to the window size */
 {
 	if(txt.x < txt.vx) txt.vx = txt.x;
-	if(txt.x > (txt.vx + tx - 1)) txt.vx = txt.x - tx - 1;
+	if(txt.x > (txt.vx + tx - 1)) txt.vx = txt.x - (tx - 1);
 
 	if(txt.y < txt.vy) txt.vy = txt.y;
-	if(txt.y > (txt.vy + ty - 1)) txt.vy = txt.y - ty - 1;
+	if(txt.y > (txt.vy + ty - 2)) txt.vy = txt.y - (ty - 2);
 }
 
 
@@ -445,6 +445,31 @@ sub mp.new()
 
 /*******************************************************/
 
+mp.keycodes = {
+	'cursor-left'	=>	'move-left',
+	'cursor-right'	=>	'move-right',
+	'cursor-up'	=>	'move-up',
+	'cursor-down'	=>	'move-down',
+	'home'		=>	'move-bol',
+	'end'		=>	'move-eol',
+	'escape'	=>	'exit'
+};
+
+mp.functions = {
+
+	'move-left'	=>	sub (k) { mp.move_left(k); },
+	'move-right'	=>	sub (k) { mp.move_right(k); },
+	'move-up'	=>	sub (k) { mp.move_up(k); },
+	'move-down'	=>	sub (k) { mp.move_down(k); },
+	'move-bol'	=>	sub (k) { mp.move_bol(k); },
+	'move-eol'	=>	sub (k) { mp.move_eol(k); },
+
+	'exit'		=>	sub (k) { mp.exit_requested = 1; }
+
+};
+
+mp.exit_requested = 0;
+
 sub main_loop(filename)
 {
 	local t;
@@ -457,7 +482,7 @@ sub main_loop(filename)
 
 		nc_startup();
 
-		t.vy = 100;
+/*		t.vy = 100;
 
 		foreach(c, [ 1 .. 48 ])
 		{
@@ -465,10 +490,22 @@ sub main_loop(filename)
 			k=nc_getkey();
 			t.vx ++;
 		}
+*/
+		while (! mp.exit_requested) {
+
+			local f;
+
+			mp.adjust(t, COLS, LINES);
+			nc_draw(t);
+
+			if((f = mp.keycodes[nc_getkey()]) != NULL)
+			{
+				if((f = mp.functions[f]) != NULL)
+					f(t);
+			}
+		}
 
 		nc_shutdown();
-
-		print("Key: '", k, "'\n");
 	}
 	else
 		print("Can't open '", filename, "'\n");
