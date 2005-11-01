@@ -35,6 +35,8 @@
 	Data
 ********************/
 
+int _attrs[10];
+
 /*******************
 	Code
 ********************/
@@ -50,6 +52,14 @@ mpdm_t nc_startup(mpdm_t v)
 
 	mpdm_hset_s(mpdm_root(), L"COLS", MPDM_I(COLS));
 	mpdm_hset_s(mpdm_root(), L"LINES", MPDM_I(LINES));
+
+	init_pair(1, COLOR_BLACK, COLOR_WHITE);
+	init_pair(2, COLOR_BLACK, COLOR_WHITE);
+
+	_attrs[0] = COLOR_PAIR(1);
+	_attrs[1] = COLOR_PAIR(2) | A_REVERSE;
+
+	bkgdset(' ' | _attrs[0]);
 
 	return(NULL);
 }
