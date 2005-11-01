@@ -112,6 +112,7 @@ mpdm_t nc_draw(mpdm_t a)
 	wchar_t * ptr;
 
 	move(0, 0);
+	erase();
 
 	for(n = 0;n < LINES;n++)
 	{
@@ -167,17 +168,17 @@ mpdm_t nc_draw(mpdm_t a)
 		}
 
 		/* fill with spaces to the end of the line */
-		while(w < COLS)
+/*		while(w < COLS)
 		{
 			buf[o++] = L'-';
 			w++;
 		}
-
+*/
 		/* null terminate */
 		buf[o] = L'\0';
 
 		/* and draw */
-/*		move(n, 0);*/
+		move(n, 0);
 		addwstr(buf);
 	}
 
