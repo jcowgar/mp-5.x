@@ -31,15 +31,69 @@
 #include "mpdm.h"
 #include "mpsl.h"
 
+#include <stdlib.h>
+
 /*******************
 	Data
 ********************/
 
 int _attrs[10];
 
+int mpi_preread_lines = 60;
+
 /*******************
 	Code
 ********************/
+
+char * mpi_draw_attrs = NULL;
+
+mpdm_t mpi_draw_1(mpdm_t a)
+/* first stage of draw */
+{
+	mpdm_t txt = mpdm_aget(a, 0);
+	mpdm_t lines = mpdm_hget_s(txt, L"lines");
+	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
+	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
+	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
+	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
+	mpdm_t v, r, t;
+	int n, loff;
+	wchar_t * ptr;
+
+	/* get the maximum prereadable lines */
+	loff = vy > mpi_preread_lines ? mpi_preread_lines : vy;
+
+	LINES=24;
+	v=MPDM_A(LINES + loff);
+
+	/* transfer all lines */
+	for(n=0;n < LINES + loff;n++)
+		mpdm_aset(v, mpdm_aget(lines, n + vy - loff), n);
+
+	/* join all lines now */
+	v=mpdm_ajoin(MPDM_LS(L"\n"), v);
+
+	/* alloc space for the attributes */
+	mpi_draw_attrs = realloc(mpi_draw_attrs, mpdm_size(v));
+
+	/* and fill with the default attribute */
+	for(n=0;n < mpdm_size(v);n++)
+		mpi_draw_attrs[n] = 0;
+
+	r=MPDM_LS(L"/\\w+/");
+
+	/* loop all words */
+	for(n=0;(t = mpdm_regex(r, v, n)) != NULL;)
+	{
+		mpdm_dump(t);
+
+		t=mpdm_regex(NULL, NULL, n);
+		n=mpdm_ival(mpdm_aget(t, 0)) + mpdm_ival(mpdm_aget(t, 1));
+	}
+
+	return(NULL);
+}
+
 
 mpdm_t nc_startup(mpdm_t v)
 {
@@ -208,6 +262,8 @@ void mp_4_startup(int argc, char * argv[])
 	mpdm_hset_s(mpdm_root(), L"nc_shutdown", MPDM_X(nc_shutdown));
 	mpdm_hset_s(mpdm_root(), L"nc_getkey", MPDM_X(nc_getkey));
 	mpdm_hset_s(mpdm_root(), L"nc_draw", MPDM_X(nc_draw));
+
+	mpdm_hset_s(mpdm_root(), L"mpi_draw_1", MPDM_X(mpi_draw_1));
 }
 
 

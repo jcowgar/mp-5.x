@@ -480,6 +480,8 @@ sub main_loop(filename)
 	{
 		local k;
 
+		mpi_draw_1(t);
+
 		nc_startup();
 
 /*		t.vy = 100;
