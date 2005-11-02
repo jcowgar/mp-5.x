@@ -200,18 +200,10 @@ mpdm_t nc_draw(mpdm_t a)
 
 void mp_4_startup(int argc, char * argv[])
 {
-	int n;
-	mpdm_t ARGV;
-
 	mpdm_startup();
 
-	/* create the ARGV array */
-	ARGV=MPDM_A(0);
+	mpsl_argv(argc, argv);
 
-	for(n = 0;n < argc;n++)
-		mpdm_apush(ARGV, MPDM_MBS(argv[n]));
-
-	mpdm_hset_s(mpdm_root(), L"ARGV", ARGV);
 	mpdm_hset_s(mpdm_root(), L"nc_startup", MPDM_X(nc_startup));
 	mpdm_hset_s(mpdm_root(), L"nc_shutdown", MPDM_X(nc_shutdown));
 	mpdm_hset_s(mpdm_root(), L"nc_getkey", MPDM_X(nc_getkey));
