@@ -32,6 +32,7 @@
 #include "mpsl.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 /*******************
 	Data
@@ -57,8 +58,12 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
 	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
 	mpdm_t v, r, t;
-	int n, loff;
+	int n, o, loff;
 	wchar_t * ptr;
+	mpdm_t hl_words = NULL;
+	mpdm_t comments = NULL;
+	mpdm_t quotes = NULL;
+	mpdm_t tags = NULL;
 
 	/* get the maximum prereadable lines */
 	loff = vy > mpi_preread_lines ? mpi_preread_lines : vy;
@@ -73,23 +78,80 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	/* join all lines now */
 	v=mpdm_ajoin(MPDM_LS(L"\n"), v);
 
-	/* alloc space for the attributes */
+	/* alloc and init space for the attributes */
 	mpi_draw_attrs = realloc(mpi_draw_attrs, mpdm_size(v));
-
-	/* and fill with the default attribute */
-	for(n=0;n < mpdm_size(v);n++)
-		mpi_draw_attrs[n] = 0;
+	memset(mpi_draw_attrs, 'A', mpdm_size(v));
 
 	r=MPDM_LS(L"/\\w+/");
 
+	/* @#@ add the word 'config' to the highlighted words */
+	hl_words = MPDM_H(0);
+	mpdm_hset(hl_words, MPDM_LS(L"config"), MPDM_I(8));
+
 	/* loop all words */
-	for(n=0;(t = mpdm_regex(r, v, n)) != NULL;)
+	/* @#@ it's not necessary to start from 0, but from the
+	   offset to the first visible line */
+	for(o=0;(t = mpdm_regex(r, v, o)) != NULL;)
 	{
+		mpdm_t c;
+		int attr = -1;
+
 		mpdm_dump(t);
 
-		t=mpdm_regex(NULL, NULL, n);
-		n=mpdm_ival(mpdm_aget(t, 0)) + mpdm_ival(mpdm_aget(t, 1));
+		/* is the word among the tokens or variables? */
+		if((c = mpdm_hget(hl_words, t)) != NULL)
+			attr = mpdm_ival(c);
+		else
+		/* is the word among current tags? */
+		if((mpdm_hget(tags, t)) != NULL)
+			attr = 16;	/* tag attribute */
+		else
+		/* is the word correctly spelled? */
+		if(0)
+			attr = 32;	/* mispelling attribute */
+
+		/* if set, fill with the attribute */
+		if(attr != -1)
+			memset(mpi_draw_attrs + mpdm_regex_offset,
+				attr, mpdm_regex_size);
+
+		/* move to next */
+		o = mpdm_regex_offset + mpdm_regex_size;
 	}
+
+	/* loop now the strings */
+	for(n=0;n < mpdm_size(quotes);n++)
+	{
+		mpdm_t r = mpdm_aget(quotes, n);
+
+		/* @#@ (?) also from the first visible line */
+		for(o=0;mpdm_regex(r, v, o);o = mpdm_regex_offset + mpdm_regex_size)
+		{
+			/* fill the attribute */
+			memset(mpi_draw_attrs + mpdm_regex_offset,
+				64, mpdm_regex_size);	/* string attribute */
+		}
+	}
+
+	/* and now the comments */
+	for(n=0;n < mpdm_size(comments);n++)
+	{
+		mpdm_t r = mpdm_aget(comments, n);
+
+		/* this one must start from the very beginning */
+		for(o=0;mpdm_regex(r, v, o);o = mpdm_regex_offset + mpdm_regex_size)
+		{
+			/* fill the attribute */
+			memset(mpi_draw_attrs + mpdm_regex_offset,
+				80, mpdm_regex_size);	/* comment attribute */
+		}
+	}
+
+	/* now set the marked block (if any) */
+	/* ... */
+
+	/* and finally the cursor */
+	/* ... */
 
 	return(NULL);
 }
