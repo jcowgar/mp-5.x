@@ -46,6 +46,7 @@ int mpi_preread_lines = 60;
 	Code
 ********************/
 
+int * mpi_line_offsets = NULL;
 char * mpi_draw_attrs = NULL;
 
 mpdm_t mpi_draw_1(mpdm_t a)
@@ -58,22 +59,37 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
 	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
 	mpdm_t v, r, t;
-	int n, o, loff;
+	int n, o;
+	int n_lines, voffset;
 	wchar_t * ptr;
 	mpdm_t hl_words = NULL;
 	mpdm_t comments = NULL;
 	mpdm_t quotes = NULL;
 	mpdm_t tags = NULL;
 
-	/* get the maximum prereadable lines */
-	loff = vy > mpi_preread_lines ? mpi_preread_lines : vy;
-
+	/* @#@ */
 	LINES=24;
-	v=MPDM_A(LINES + loff);
 
-	/* transfer all lines */
-	for(n=0;n < LINES + loff;n++)
-		mpdm_aset(v, mpdm_aget(lines, n + vy - loff), n);
+	/* get the maximum prereadable lines */
+	voffset = vy > mpi_preread_lines ? mpi_preread_lines : vy;
+	n_lines = LINES + voffset;
+
+	/* create an array for joining */
+	v=MPDM_A(n_lines);
+
+	/* alloc space for line offsets */
+	mpi_line_offsets = realloc(mpi_line_offsets, n_lines * sizeof(int));
+
+	/* transfer all lines and offsets */
+	for(n=o=0;n < n_lines;n++)
+	{
+		t=mpdm_aget(lines, n + vy - voffset);
+
+		mpi_line_offsets[n] = o;
+		o += mpdm_size(t);
+
+		mpdm_aset(v, t, n);
+	}
 
 	/* join all lines now */
 	v=mpdm_ajoin(MPDM_LS(L"\n"), v);
@@ -88,10 +104,8 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	hl_words = MPDM_H(0);
 	mpdm_hset(hl_words, MPDM_LS(L"config"), MPDM_I(8));
 
-	/* loop all words */
-	/* @#@ it's not necessary to start from 0, but from the
-	   offset to the first visible line */
-	for(o=0;(t = mpdm_regex(r, v, o)) != NULL;)
+	/* loop all words, starting from the first visible line */
+	for(o=mpi_line_offsets[vy + voffset];(t = mpdm_regex(r, v, o)) != NULL;)
 	{
 		mpdm_t c;
 		int attr = -1;
