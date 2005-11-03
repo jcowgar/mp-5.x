@@ -46,10 +46,14 @@ int mpi_preread_lines = 60;
 	Code
 ********************/
 
-int * mpi_line_offsets = NULL;
-char * mpi_draw_attrs = NULL;
+static struct {
+	int n_lines;	/* number of lines */
+	int voffset;	/* offset of first visible line */
+	int * offsets;	/* offsets of lines */
+	char * attrs;	/* attributes */
+} drw = { 0, 0, NULL, NULL };
 
-mpdm_t mpi_draw_prepare(mpdm_t lines, int vy, int * n_lines, int * voffset)
+static mpdm_t drw_prepare(mpdm_t lines, int vy)
 {
 	mpdm_t v;
 	int n, o;
@@ -58,25 +62,25 @@ mpdm_t mpi_draw_prepare(mpdm_t lines, int vy, int * n_lines, int * voffset)
 	LINES=24;
 
 	/* get the maximum prereadable lines */
-	*voffset = vy > mpi_preread_lines ? mpi_preread_lines : vy;
+	drw.voffset = vy > mpi_preread_lines ? mpi_preread_lines : vy;
 
 	/* maximum lines */
-	*n_lines = LINES + *voffset;
+	drw.n_lines = LINES + drw.voffset;
 
 	/* create an array for joining */
-	v=MPDM_A(*n_lines);
+	v=MPDM_A(drw.n_lines);
 
 	/* alloc space for line offsets */
-	mpi_line_offsets = realloc(mpi_line_offsets, *n_lines * sizeof(int));
+	drw.offsets = realloc(drw.offsets, drw.n_lines * sizeof(int));
 
 	/* transfer all lines and offsets */
-	for(n=o=0;n < *n_lines;n++)
+	for(n=o=0;n < drw.n_lines;n++)
 	{
 		mpdm_t t;
 
-		t=mpdm_aget(lines, n + vy - *voffset);
+		t=mpdm_aget(lines, n + vy - drw.voffset);
 
-		mpi_line_offsets[n] = o;
+		drw.offsets[n] = o;
 		o += mpdm_size(t);
 
 		mpdm_aset(v, t, n);
@@ -86,20 +90,38 @@ mpdm_t mpi_draw_prepare(mpdm_t lines, int vy, int * n_lines, int * voffset)
 	v=mpdm_ajoin(MPDM_LS(L"\n"), v);
 
 	/* alloc and init space for the attributes */
-	mpi_draw_attrs = realloc(mpi_draw_attrs, mpdm_size(v));
-	memset(mpi_draw_attrs, 'A', mpdm_size(v));
+	drw.attrs = realloc(drw.attrs, mpdm_size(v) + 1);
+	memset(drw.attrs, 'A', mpdm_size(v) + 1);
 
 	return(v);
 }
 
-int mpi_fill_attribute(int attr)
+
+static int drw_fill_attr(int attr)
 /* fill an attribute */
 {
 	if(attr != -1)
-		memset(mpi_draw_attrs + mpdm_regex_offset,
+		memset(drw.attrs + mpdm_regex_offset,
 			attr, mpdm_regex_size);
 
 	return(mpdm_regex_offset + mpdm_regex_size);
+}
+
+
+static void drw_multiline_regex(mpdm_t a, mpdm_t v, int attr)
+/* sets the attribute to all matching (possibly multiline) regexes */
+{
+	int n;
+
+	for(n=0;n < mpdm_size(a);n++)
+	{
+		mpdm_t r = mpdm_aget(a, n);
+		int o = 0;
+
+		/* while the regex matches, fill attributes */
+		while(mpdm_regex(r, v, o))
+			o = drw_fill_attr(attr);
+	}
 }
 
 
@@ -114,13 +136,12 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
 	mpdm_t v, r, t;
 	int n, o;
-	int n_lines, voffset;
 	mpdm_t hl_words = NULL;
 	mpdm_t comments = NULL;
 	mpdm_t quotes = NULL;
 	mpdm_t tags = NULL;
 
-	v=mpi_draw_prepare(lines, vy, &n_lines, &voffset);
+	v=drw_prepare(lines, vy);
 
 	r=MPDM_LS(L"/\\w+/");
 
@@ -129,7 +150,7 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	mpdm_hset(hl_words, MPDM_LS(L"config"), MPDM_I(8));
 
 	/* loop all words, starting from the first visible line */
-	for(o=mpi_line_offsets[vy + voffset];(t = mpdm_regex(r, v, o)) != NULL;)
+	for(o=drw.offsets[vy + drw.voffset];(t = mpdm_regex(r, v, o));)
 	{
 		mpdm_t c;
 		int attr = -1;
@@ -148,34 +169,20 @@ mpdm_t mpi_draw_1(mpdm_t a)
 		if(0)
 			attr = 32;	/* mispelling attribute */
 
-		o=mpi_fill_attribute(attr);
+		o=drw_fill_attr(attr);
 	}
 
-	/* loop now the strings */
-	for(n=0;n < mpdm_size(quotes);n++)
-	{
-		mpdm_t r = mpdm_aget(quotes, n);
+	/* fill attributes for quotes (strings) */
+	drw_multiline_regex(quotes, v, 64);
 
-		/* @#@ (?) also from the first visible line */
-		for(o=0;mpdm_regex(r, v, o);)
-			o=mpi_fill_attribute(64);	/* string attribute */
-	}
-
-	/* and now the comments */
-	for(n=0;n < mpdm_size(comments);n++)
-	{
-		mpdm_t r = mpdm_aget(comments, n);
-
-		/* this one must start from the very beginning */
-		for(o=0;mpdm_regex(r, v, o);)
-			o=mpi_fill_attribute(80);	/* comment attribute */
-	}
+	/* fill attributes for comments */
+	drw_multiline_regex(comments, v, 80);
 
 	/* now set the marked block (if any) */
 	/* ... */
 
 	/* and finally the cursor */
-	mpi_draw_attrs[mpi_line_offsets[y - vy + voffset] + x] = 128;
+	drw.attrs[drw.offsets[y - vy + drw.voffset] + x] = 128;
 
 	return(NULL);
 }
