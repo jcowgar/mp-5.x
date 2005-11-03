@@ -40,6 +40,9 @@
 
 int _attrs[10];
 
+int mpi_window_tx = 80;
+int mpi_window_ty = 25;
+
 int mpi_preread_lines = 60;
 
 /*******************
@@ -51,21 +54,19 @@ static struct {
 	int voffset;	/* offset of first visible line */
 	int * offsets;	/* offsets of lines */
 	char * attrs;	/* attributes */
-} drw = { 0, 0, NULL, NULL };
+	int vy;		/* the vy of txt */
+} drw = { 0, 0, NULL, NULL, 0 };
 
 static mpdm_t drw_prepare(mpdm_t lines, int vy)
 {
 	mpdm_t v;
 	int n, o;
 
-	/* @#@ */
-	LINES=24;
-
 	/* get the maximum prereadable lines */
 	drw.voffset = vy > mpi_preread_lines ? mpi_preread_lines : vy;
 
 	/* maximum lines */
-	drw.n_lines = LINES + drw.voffset;
+	drw.n_lines = mpi_window_ty + drw.voffset;
 
 	/* create an array for joining */
 	v=MPDM_A(drw.n_lines);
@@ -93,18 +94,26 @@ static mpdm_t drw_prepare(mpdm_t lines, int vy)
 	drw.attrs = realloc(drw.attrs, mpdm_size(v) + 1);
 	memset(drw.attrs, 'A', mpdm_size(v) + 1);
 
+	drw.vy = vy;
+
 	return(v);
 }
 
 
-static int drw_fill_attr(int attr)
+static int drw_fill_attr(int attr, int offset, int size)
 /* fill an attribute */
 {
 	if(attr != -1)
-		memset(drw.attrs + mpdm_regex_offset,
-			attr, mpdm_regex_size);
+		memset(drw.attrs + offset, attr, size);
 
-	return(mpdm_regex_offset + mpdm_regex_size);
+	return(offset + size);
+}
+
+
+static int drw_fill_attr_regex(int attr)
+/* fills with an attribute the last regex match */
+{
+	return(drw_fill_attr(attr, mpdm_regex_offset, mpdm_regex_size));
 }
 
 
@@ -120,8 +129,42 @@ static void drw_multiline_regex(mpdm_t a, mpdm_t v, int attr)
 
 		/* while the regex matches, fill attributes */
 		while(mpdm_regex(r, v, o))
-			o = drw_fill_attr(attr);
+			o = drw_fill_attr_regex(attr);
 	}
+}
+
+
+static drw_line_offset(int l)
+/* returns the offset into v for line number l */
+{
+	return(drw.offsets[l - drw.vy + drw.voffset]);
+}
+
+
+static drw_selected_block(mpdm_t txt, mpdm_t v)
+/* draws the marked block, if any */
+{
+	int bx, by, ex, ey;
+	mpdm_t mark = mpdm_hget_s(txt, L"mark");
+	int so, eo;
+
+	/* no mark? return */
+	if(mark == NULL)
+		return;
+
+	bx=mpdm_ival(mpdm_hget_s(mark, L"bx"));
+	by=mpdm_ival(mpdm_hget_s(mark, L"by"));
+	ex=mpdm_ival(mpdm_hget_s(mark, L"ex"));
+	ey=mpdm_ival(mpdm_hget_s(mark, L"ey"));
+
+	/* if block is not visible, return */
+	if(ey < drw.vy || by > drw.vy + mpi_window_ty)
+		return;
+
+	so=by < drw.vy ? 0 : drw_line_offset(by) + bx;
+	eo=ey > drw.vy + mpi_window_ty ? mpdm_size(v) : drw_line_offset(ey) + ex;
+
+	drw_fill_attr(66, so, eo - so);
 }
 
 
@@ -150,7 +193,7 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	mpdm_hset(hl_words, MPDM_LS(L"config"), MPDM_I(8));
 
 	/* loop all words, starting from the first visible line */
-	for(o=drw.offsets[vy + drw.voffset];(t = mpdm_regex(r, v, o));)
+	for(o=drw_line_offset(vy);(t = mpdm_regex(r, v, o));)
 	{
 		mpdm_t c;
 		int attr = -1;
@@ -169,7 +212,7 @@ mpdm_t mpi_draw_1(mpdm_t a)
 		if(0)
 			attr = 32;	/* mispelling attribute */
 
-		o=drw_fill_attr(attr);
+		o=drw_fill_attr_regex(attr);
 	}
 
 	/* fill attributes for quotes (strings) */
@@ -179,10 +222,10 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	drw_multiline_regex(comments, v, 80);
 
 	/* now set the marked block (if any) */
-	/* ... */
+	drw_selected_block(txt, v);
 
 	/* and finally the cursor */
-	drw.attrs[drw.offsets[y - vy + drw.voffset] + x] = 128;
+	drw_fill_attr(128, drw_line_offset(y) + x, 1);
 
 	return(NULL);
 }
