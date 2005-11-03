@@ -51,7 +51,7 @@ int mpi_preread_lines = 60;
 
 static struct {
 	int n_lines;	/* number of lines */
-	int voffset;	/* offset of first visible line */
+	int p_lines;	/* number of prereaded lines */
 	int * offsets;	/* offsets of lines */
 	char * attrs;	/* attributes */
 	int vy;		/* the vy of txt */
@@ -63,10 +63,10 @@ static mpdm_t drw_prepare(mpdm_t lines, int vy)
 	int n, o;
 
 	/* get the maximum prereadable lines */
-	drw.voffset = vy > mpi_preread_lines ? mpi_preread_lines : vy;
+	drw.p_lines = vy > mpi_preread_lines ? mpi_preread_lines : vy;
 
 	/* maximum lines */
-	drw.n_lines = mpi_window_ty + drw.voffset;
+	drw.n_lines = mpi_window_ty + drw.p_lines;
 
 	/* create an array for joining */
 	v=MPDM_A(drw.n_lines);
@@ -79,7 +79,7 @@ static mpdm_t drw_prepare(mpdm_t lines, int vy)
 	{
 		mpdm_t t;
 
-		t=mpdm_aget(lines, n + vy - drw.voffset);
+		t=mpdm_aget(lines, n + vy - drw.p_lines);
 
 		drw.offsets[n] = o;
 		o += mpdm_size(t);
@@ -103,7 +103,7 @@ static mpdm_t drw_prepare(mpdm_t lines, int vy)
 static drw_line_offset(int l)
 /* returns the offset into v for line number l */
 {
-	return(drw.offsets[l - drw.vy + drw.voffset]);
+	return(drw.offsets[l - drw.vy + drw.p_lines]);
 }
 
 
@@ -216,12 +216,12 @@ static drw_matching_paren(mpdm_t v, int o)
 
 	/* find the opposite and the increment (direction) */
 	switch(ptr[o]) {
-	case L'(': c = ')'; i = 1; break;
-	case L'{': c = '}'; i = 1; break;
-	case L'[': c = ']'; i = 1; break;
-	case L')': c = '('; i = -1; break;
-	case L'}': c = '{'; i = -1; break;
-	case L']': c = '['; i = -1; break;
+	case L'(': c = L')'; i = 1; break;
+	case L'{': c = L'}'; i = 1; break;
+	case L'[': c = L']'; i = 1; break;
+	case L')': c = L'('; i = -1; break;
+	case L'}': c = L'{'; i = -1; break;
+	case L']': c = L'['; i = -1; break;
 	}
 
 	/* if a direction is set, do the searching */
