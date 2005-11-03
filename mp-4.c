@@ -49,41 +49,32 @@ int mpi_preread_lines = 60;
 int * mpi_line_offsets = NULL;
 char * mpi_draw_attrs = NULL;
 
-mpdm_t mpi_draw_1(mpdm_t a)
-/* first stage of draw */
+mpdm_t mpi_draw_prepare(mpdm_t lines, int vy, int * n_lines, int * voffset)
 {
-	mpdm_t txt = mpdm_aget(a, 0);
-	mpdm_t lines = mpdm_hget_s(txt, L"lines");
-	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
-	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
-	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
-	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
-	mpdm_t v, r, t;
+	mpdm_t v;
 	int n, o;
-	int n_lines, voffset;
-	wchar_t * ptr;
-	mpdm_t hl_words = NULL;
-	mpdm_t comments = NULL;
-	mpdm_t quotes = NULL;
-	mpdm_t tags = NULL;
 
 	/* @#@ */
 	LINES=24;
 
 	/* get the maximum prereadable lines */
-	voffset = vy > mpi_preread_lines ? mpi_preread_lines : vy;
-	n_lines = LINES + voffset;
+	*voffset = vy > mpi_preread_lines ? mpi_preread_lines : vy;
+
+	/* maximum lines */
+	*n_lines = LINES + *voffset;
 
 	/* create an array for joining */
-	v=MPDM_A(n_lines);
+	v=MPDM_A(*n_lines);
 
 	/* alloc space for line offsets */
-	mpi_line_offsets = realloc(mpi_line_offsets, n_lines * sizeof(int));
+	mpi_line_offsets = realloc(mpi_line_offsets, *n_lines * sizeof(int));
 
 	/* transfer all lines and offsets */
-	for(n=o=0;n < n_lines;n++)
+	for(n=o=0;n < *n_lines;n++)
 	{
-		t=mpdm_aget(lines, n + vy - voffset);
+		mpdm_t t;
+
+		t=mpdm_aget(lines, n + vy - *voffset);
 
 		mpi_line_offsets[n] = o;
 		o += mpdm_size(t);
@@ -97,6 +88,39 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	/* alloc and init space for the attributes */
 	mpi_draw_attrs = realloc(mpi_draw_attrs, mpdm_size(v));
 	memset(mpi_draw_attrs, 'A', mpdm_size(v));
+
+	return(v);
+}
+
+int mpi_fill_attribute(int attr)
+/* fill an attribute */
+{
+	if(attr != -1)
+		memset(mpi_draw_attrs + mpdm_regex_offset,
+			attr, mpdm_regex_size);
+
+	return(mpdm_regex_offset + mpdm_regex_size);
+}
+
+
+mpdm_t mpi_draw_1(mpdm_t a)
+/* first stage of draw */
+{
+	mpdm_t txt = mpdm_aget(a, 0);
+	mpdm_t lines = mpdm_hget_s(txt, L"lines");
+	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
+	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
+	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
+	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
+	mpdm_t v, r, t;
+	int n, o;
+	int n_lines, voffset;
+	mpdm_t hl_words = NULL;
+	mpdm_t comments = NULL;
+	mpdm_t quotes = NULL;
+	mpdm_t tags = NULL;
+
+	v=mpi_draw_prepare(lines, vy, &n_lines, &voffset);
 
 	r=MPDM_LS(L"/\\w+/");
 
@@ -124,13 +148,7 @@ mpdm_t mpi_draw_1(mpdm_t a)
 		if(0)
 			attr = 32;	/* mispelling attribute */
 
-		/* if set, fill with the attribute */
-		if(attr != -1)
-			memset(mpi_draw_attrs + mpdm_regex_offset,
-				attr, mpdm_regex_size);
-
-		/* move to next */
-		o = mpdm_regex_offset + mpdm_regex_size;
+		o=mpi_fill_attribute(attr);
 	}
 
 	/* loop now the strings */
@@ -139,12 +157,8 @@ mpdm_t mpi_draw_1(mpdm_t a)
 		mpdm_t r = mpdm_aget(quotes, n);
 
 		/* @#@ (?) also from the first visible line */
-		for(o=0;mpdm_regex(r, v, o);o = mpdm_regex_offset + mpdm_regex_size)
-		{
-			/* fill the attribute */
-			memset(mpi_draw_attrs + mpdm_regex_offset,
-				64, mpdm_regex_size);	/* string attribute */
-		}
+		for(o=0;mpdm_regex(r, v, o);)
+			o=mpi_fill_attribute(64);	/* string attribute */
 	}
 
 	/* and now the comments */
@@ -153,19 +167,15 @@ mpdm_t mpi_draw_1(mpdm_t a)
 		mpdm_t r = mpdm_aget(comments, n);
 
 		/* this one must start from the very beginning */
-		for(o=0;mpdm_regex(r, v, o);o = mpdm_regex_offset + mpdm_regex_size)
-		{
-			/* fill the attribute */
-			memset(mpi_draw_attrs + mpdm_regex_offset,
-				80, mpdm_regex_size);	/* comment attribute */
-		}
+		for(o=0;mpdm_regex(r, v, o);)
+			o=mpi_fill_attribute(80);	/* comment attribute */
 	}
 
 	/* now set the marked block (if any) */
 	/* ... */
 
 	/* and finally the cursor */
-	/* ... */
+	mpi_draw_attrs[mpi_line_offsets[y - vy + voffset] + x] = 128;
 
 	return(NULL);
 }
