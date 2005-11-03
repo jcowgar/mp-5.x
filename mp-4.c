@@ -100,6 +100,13 @@ static mpdm_t drw_prepare(mpdm_t lines, int vy)
 }
 
 
+static drw_line_offset(int l)
+/* returns the offset into v for line number l */
+{
+	return(drw.offsets[l - drw.vy + drw.voffset]);
+}
+
+
 static int drw_fill_attr(int attr, int offset, int size)
 /* fill an attribute */
 {
@@ -117,6 +124,45 @@ static int drw_fill_attr_regex(int attr)
 }
 
 
+static void drw_words(mpdm_t v)
+/* fills the attributes for individual words */
+{
+	mpdm_t r, t;
+	int o = drw_line_offset(drw.vy);
+
+	/* @#@ */
+	mpdm_t hl_words = NULL;
+	mpdm_t tags = NULL;
+
+	/* @#@ */
+	r=MPDM_LS(L"/\\w+/");
+
+	/* @#@ add the word 'config' to the highlighted words */
+	hl_words = MPDM_H(0);
+	mpdm_hset(hl_words, MPDM_LS(L"config"), MPDM_I(8));
+
+	while((t = mpdm_regex(r, v, o)) != NULL)
+	{
+		mpdm_t c;
+		int attr = -1;
+
+		/* is the word among the tokens or variables? */
+		if((c = mpdm_hget(hl_words, t)) != NULL)
+			attr = mpdm_ival(c);
+		else
+		/* is the word among current tags? */
+		if((mpdm_hget(tags, t)) != NULL)
+			attr = 16;	/* tag attribute */
+		else
+		/* is the word correctly spelled? */
+		if(0)
+			attr = 32;	/* mispelling attribute */
+
+		o=drw_fill_attr_regex(attr);
+	}
+}
+
+
 static void drw_multiline_regex(mpdm_t a, mpdm_t v, int attr)
 /* sets the attribute to all matching (possibly multiline) regexes */
 {
@@ -131,13 +177,6 @@ static void drw_multiline_regex(mpdm_t a, mpdm_t v, int attr)
 		while(mpdm_regex(r, v, o))
 			o = drw_fill_attr_regex(attr);
 	}
-}
-
-
-static drw_line_offset(int l)
-/* returns the offset into v for line number l */
-{
-	return(drw.offsets[l - drw.vy + drw.voffset]);
 }
 
 
@@ -179,41 +218,13 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
 	mpdm_t v, r, t;
 	int n, o;
-	mpdm_t hl_words = NULL;
 	mpdm_t comments = NULL;
 	mpdm_t quotes = NULL;
-	mpdm_t tags = NULL;
 
 	v=drw_prepare(lines, vy);
 
-	r=MPDM_LS(L"/\\w+/");
-
-	/* @#@ add the word 'config' to the highlighted words */
-	hl_words = MPDM_H(0);
-	mpdm_hset(hl_words, MPDM_LS(L"config"), MPDM_I(8));
-
-	/* loop all words, starting from the first visible line */
-	for(o=drw_line_offset(vy);(t = mpdm_regex(r, v, o));)
-	{
-		mpdm_t c;
-		int attr = -1;
-
-		mpdm_dump(t);
-
-		/* is the word among the tokens or variables? */
-		if((c = mpdm_hget(hl_words, t)) != NULL)
-			attr = mpdm_ival(c);
-		else
-		/* is the word among current tags? */
-		if((mpdm_hget(tags, t)) != NULL)
-			attr = 16;	/* tag attribute */
-		else
-		/* is the word correctly spelled? */
-		if(0)
-			attr = 32;	/* mispelling attribute */
-
-		o=drw_fill_attr_regex(attr);
-	}
+	/* colorize separate words */
+	drw_words(v);
 
 	/* fill attributes for quotes (strings) */
 	drw_multiline_regex(quotes, v, 64);
