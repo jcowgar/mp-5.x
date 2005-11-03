@@ -207,6 +207,50 @@ static drw_selected_block(mpdm_t txt, mpdm_t v)
 }
 
 
+static drw_matching_paren(mpdm_t v, int o)
+/* highlights the matching paren */
+{
+	int i = 0;
+	wchar_t * ptr = (wchar_t *)v->data;
+	wchar_t c;
+
+	/* find the opposite and the increment (direction) */
+	switch(ptr[o]) {
+	case L'(': c = ')'; i = 1; break;
+	case L'{': c = '}'; i = 1; break;
+	case L'[': c = ']'; i = 1; break;
+	case L')': c = '('; i = -1; break;
+	case L'}': c = '{'; i = -1; break;
+	case L']': c = '['; i = -1; break;
+	}
+
+	/* if a direction is set, do the searching */
+	if(i) {
+		wchar_t s = ptr[o];
+		int m = 0;
+		int l = i == -1 ? -1 : mpdm_size(v);
+
+		while(o != l) {
+			if (ptr[o] == s) {
+				/* found the same */
+				m++;
+			}
+			else
+			if (ptr[o] == c) {
+				/* found the opposite */
+				if(--m == 0) {
+					/* found! fill and exit */
+					drw_fill_attr(34, o, 1);
+					break;
+				}
+			}
+
+			o += i;
+		}
+	}
+}
+
+
 mpdm_t mpi_draw_1(mpdm_t a)
 /* first stage of draw */
 {
@@ -234,6 +278,9 @@ mpdm_t mpi_draw_1(mpdm_t a)
 
 	/* now set the marked block (if any) */
 	drw_selected_block(txt, v);
+
+	/* highlight the matching paren */
+	drw_matching_paren(v, drw_line_offset(y) + x);
 
 	/* and finally the cursor */
 	drw_fill_attr(128, drw_line_offset(y) + x, 1);
