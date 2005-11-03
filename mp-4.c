@@ -200,7 +200,7 @@ static drw_selected_block(mpdm_t txt, mpdm_t v)
 	if(ey < drw.vy || by > drw.vy + mpi_window_ty)
 		return;
 
-	so=by < drw.vy ? 0 : drw_line_offset(by) + bx;
+	so=by < drw.vy ? drw_line_offset(drw.vy) : drw_line_offset(by) + bx;
 	eo=ey > drw.vy + mpi_window_ty ? mpdm_size(v) : drw_line_offset(ey) + ex;
 
 	drw_fill_attr(66, so, eo - so);
@@ -228,7 +228,7 @@ static drw_matching_paren(mpdm_t v, int o)
 	if(i) {
 		wchar_t s = ptr[o];
 		int m = 0;
-		int l = i == -1 ? -1 : mpdm_size(v);
+		int l = i == -1 ? drw_line_offset(drw.vy) - 1 : mpdm_size(v);
 
 		while(o != l) {
 			if (ptr[o] == s) {
