@@ -49,16 +49,36 @@ int mpi_preread_lines = 60;
 	Code
 ********************/
 
+/* private data for drawing syntax-highlighted text */
+
 static struct {
-	int n_lines;	/* number of lines */
+	int n_lines;	/* total number of lines */
 	int p_lines;	/* number of prereaded lines */
 	int * offsets;	/* offsets of lines */
 	char * attrs;	/* attributes */
 	int vy;		/* the vy of txt */
-} drw = { 0, 0, NULL, NULL, 0 };
+	int visible;	/* offset to the first visible character */
+	int cursor;	/* offset to cursor */
+	int size;	/* size of data */
+	mpdm_t txt;	/* the document */
+	mpdm_t v;	/* the data */
+} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL };
 
-static mpdm_t drw_prepare(mpdm_t lines, int vy)
+
+static int drw_line_offset(int l)
+/* returns the offset into v for line number l */
 {
+	return(drw.offsets[l - drw.vy + drw.p_lines]);
+}
+
+
+static mpdm_t drw_prepare(mpdm_t txt)
+{
+	mpdm_t lines = mpdm_hget_s(txt, L"lines");
+	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
+	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
+	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
+	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
 	mpdm_t v;
 	int n, o;
 
@@ -68,11 +88,11 @@ static mpdm_t drw_prepare(mpdm_t lines, int vy)
 	/* maximum lines */
 	drw.n_lines = mpi_window_ty + drw.p_lines;
 
-	/* create an array for joining */
-	v=MPDM_A(drw.n_lines);
-
 	/* alloc space for line offsets */
 	drw.offsets = realloc(drw.offsets, drw.n_lines * sizeof(int));
+
+	/* create an array for joining */
+	v=MPDM_A(drw.n_lines);
 
 	/* transfer all lines and offsets */
 	for(n=o=0;n < drw.n_lines;n++)
@@ -88,22 +108,19 @@ static mpdm_t drw_prepare(mpdm_t lines, int vy)
 	}
 
 	/* join all lines now */
-	v=mpdm_ajoin(MPDM_LS(L"\n"), v);
+	drw.v = mpdm_ajoin(MPDM_LS(L"\n"), v);
+	drw.size = mpdm_size(drw.v);
 
 	/* alloc and init space for the attributes */
-	drw.attrs = realloc(drw.attrs, mpdm_size(v) + 1);
-	memset(drw.attrs, 'A', mpdm_size(v) + 1);
+	drw.attrs = realloc(drw.attrs, drw.size + 1);
+	memset(drw.attrs, 'A', drw.size + 1);
 
 	drw.vy = vy;
+	drw.txt = txt;
+	drw.visible = drw_line_offset(vy);
+	drw.cursor = drw_line_offset(y) + x;
 
 	return(v);
-}
-
-
-static drw_line_offset(int l)
-/* returns the offset into v for line number l */
-{
-	return(drw.offsets[l - drw.vy + drw.p_lines]);
 }
 
 
@@ -124,11 +141,11 @@ static int drw_fill_attr_regex(int attr)
 }
 
 
-static void drw_words(mpdm_t v)
+static void drw_words(void)
 /* fills the attributes for individual words */
 {
 	mpdm_t r, t;
-	int o = drw_line_offset(drw.vy);
+	int o = drw.visible;
 
 	/* @#@ */
 	mpdm_t hl_words = NULL;
@@ -141,7 +158,7 @@ static void drw_words(mpdm_t v)
 	hl_words = MPDM_H(0);
 	mpdm_hset(hl_words, MPDM_LS(L"config"), MPDM_I(8));
 
-	while((t = mpdm_regex(r, v, o)) != NULL)
+	while((t = mpdm_regex(r, drw.v, o)) != NULL)
 	{
 		mpdm_t c;
 		int attr = -1;
@@ -163,7 +180,7 @@ static void drw_words(mpdm_t v)
 }
 
 
-static void drw_multiline_regex(mpdm_t a, mpdm_t v, int attr)
+static void drw_multiline_regex(mpdm_t a, int attr)
 /* sets the attribute to all matching (possibly multiline) regexes */
 {
 	int n;
@@ -174,17 +191,17 @@ static void drw_multiline_regex(mpdm_t a, mpdm_t v, int attr)
 		int o = 0;
 
 		/* while the regex matches, fill attributes */
-		while(mpdm_regex(r, v, o))
+		while(mpdm_regex(r, drw.v, o))
 			o = drw_fill_attr_regex(attr);
 	}
 }
 
 
-static drw_selected_block(mpdm_t txt, mpdm_t v)
+static drw_selected_block(void)
 /* draws the marked block, if any */
 {
 	int bx, by, ex, ey;
-	mpdm_t mark = mpdm_hget_s(txt, L"mark");
+	mpdm_t mark = mpdm_hget_s(drw.txt, L"mark");
 	int so, eo;
 
 	/* no mark? return */
@@ -200,18 +217,19 @@ static drw_selected_block(mpdm_t txt, mpdm_t v)
 	if(ey < drw.vy || by > drw.vy + mpi_window_ty)
 		return;
 
-	so=by < drw.vy ? drw_line_offset(drw.vy) : drw_line_offset(by) + bx;
-	eo=ey > drw.vy + mpi_window_ty ? mpdm_size(v) : drw_line_offset(ey) + ex;
+	so=by < drw.vy ? drw.visible : drw_line_offset(by) + bx;
+	eo=ey > drw.vy + mpi_window_ty ? drw.size : drw_line_offset(ey) + ex;
 
 	drw_fill_attr(66, so, eo - so);
 }
 
 
-static drw_matching_paren(mpdm_t v, int o)
+static drw_matching_paren(void)
 /* highlights the matching paren */
 {
+	int o = drw.cursor;
 	int i = 0;
-	wchar_t * ptr = (wchar_t *)v->data;
+	wchar_t * ptr = (wchar_t *)drw.v->data;
 	wchar_t c;
 
 	/* find the opposite and the increment (direction) */
@@ -228,7 +246,7 @@ static drw_matching_paren(mpdm_t v, int o)
 	if(i) {
 		wchar_t s = ptr[o];
 		int m = 0;
-		int l = i == -1 ? drw_line_offset(drw.vy) - 1 : mpdm_size(v);
+		int l = i == -1 ? drw.visible - 1 : drw.size;
 
 		while(o != l) {
 			if (ptr[o] == s) {
@@ -254,36 +272,29 @@ static drw_matching_paren(mpdm_t v, int o)
 mpdm_t mpi_draw_1(mpdm_t a)
 /* first stage of draw */
 {
-	mpdm_t txt = mpdm_aget(a, 0);
-	mpdm_t lines = mpdm_hget_s(txt, L"lines");
-	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
-	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
-	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
-	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
-	mpdm_t v, r, t;
-	int n, o;
-	mpdm_t comments = NULL;
 	mpdm_t quotes = NULL;
+	mpdm_t comments = NULL;
+	mpdm_t txt = mpdm_aget(a, 0);
 
-	v=drw_prepare(lines, vy);
+	drw_prepare(txt);
 
 	/* colorize separate words */
-	drw_words(v);
+	drw_words();
 
 	/* fill attributes for quotes (strings) */
-	drw_multiline_regex(quotes, v, 64);
+	drw_multiline_regex(quotes, 64);
 
 	/* fill attributes for comments */
-	drw_multiline_regex(comments, v, 80);
+	drw_multiline_regex(comments, 80);
 
 	/* now set the marked block (if any) */
-	drw_selected_block(txt, v);
+	drw_selected_block();
 
 	/* highlight the matching paren */
-	drw_matching_paren(v, drw_line_offset(y) + x);
+	drw_matching_paren();
 
 	/* and finally the cursor */
-	drw_fill_attr(128, drw_line_offset(y) + x, 1);
+	drw_fill_attr(128, drw.cursor, 1);
 
 	return(NULL);
 }
