@@ -1,75 +1,24 @@
-Refactored to ties!
+Minimum Profit 5 TODO / Bug List
+================================
 
- * The undo data is non-functional now; a place must be found to store the
-   data in. A hash with the mpdm_v t as keys is tempting, but keys are
-   lost on every undo operation. There will probably be an upper structure
-   or value (probably holding also the filename and such, probably just
-   the originally thought cdata); this can be used as the key to undo.
- * There should exists many, many callback / hooks. For example, a hook
-   that could be called when a word is 'finished' (that is, when a blank
-   is inserted after some characters). This can be used to implement basic
-   'translating' functions, autocorrection (e.g. fixing two capitals
-   TOgether), word wrapping, etc.
+Release Critical Bugs
+---------------------
 
-Callbacks
+Open Bugs
 ---------
 
- * End of word
- * Enter pressed (new line)
+None!
 
-#####################################################
+Pending Enhancements
+--------------------
 
-# The new mpdm language
+ * 1100: Paren matching should be syntax-highlight-dependent, so that
+   HTML / XML / SGML match < > pairs.
+ * 1101: Paren matching should not be limited to just parentheses and
+   similar, but to full strings (very useful for HTML open / close tags.)
 
-sub move_left(cdata)
-{
-	if(cdata.txt.x > 0)
-		cdata.txt.x = cdata.txt.x - 1;
-	else
-	{
-		if(cdata.txt.y > 0)
-		{
-			move_up(cdata);
-			move_eol(cdata);
-		}
-	}
-}
-
-sub save_undo(cdata)
-{
-	my levels;
-
-	# take config number of undo's, or default
-	levels=mp.config.undo_levels;
-	if(levels == 0) levels=8;
-
-	aqueue(cdata.undo, copy(cdata.txt), levels);
-
-	cdata.modified=1;
-}
+Closed
+------
 
 
-sub insert_char(cdata)
-{
-	my line;
-	my w;
-
-	# saves undo data
-	save_undo(cdata);
-
-	# gets current line
-	line=cdata.txt.lines[cdata.txt.y];
-
-	# splice in two lines from the x cursor position
-	w=splice(line, NULL, cdata.txt.x, size(line) - cdata.txt.x);
-
-	# store first part as current line
-	cdata.txt.lines[cdata.txt.y]=w[0];
-
-	# move to next line and open room
-	cdata.txt.y=cdata.txt.y + 1;
-	aexpand(cdata.txt.lines, cdata.txt.y);
-
-	# store the second part as the new line
-	cdata.txt.lines[cdata.txt.y]=w[1];
-}
+Email bugs to angel@triptico.com
