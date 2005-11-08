@@ -38,9 +38,11 @@ mp.config.eol="\n";
 	Code
 ********************/
 
-sub mp.set_x(txt, x)
+sub mp.set_x(doc, x)
 /* sets the x position */
 {
+	local txt = doc.txt;
+
 	if(x < 0)
 	{
 		/* cursor moved left of the bol; effective cursor up + eol */
@@ -72,9 +74,11 @@ sub mp.set_x(txt, x)
 }
 
 
-sub mp.set_y(txt, y)
+sub mp.set_y(doc, y)
 /* sets the y position */
 {
+	local txt = doc.txt;
+
 	/* if line exists... */
 	if(y >= 0 && y < size(txt.lines))
 	{
@@ -88,67 +92,69 @@ sub mp.set_y(txt, y)
 }
 
 
-sub mp.move_up(txt)
+sub mp.move_up(doc)
 /* moves one line up */
 {
-	mp.set_y(txt, txt.y - 1);
+	mp.set_y(doc, doc.txt.y - 1);
 }
 
 
-sub mp.move_down(txt)
+sub mp.move_down(doc)
 /* moves one line down */
 {
-	mp.set_y(txt, txt.y + 1);
+	mp.set_y(doc, doc.txt.y + 1);
 }
 
 
-sub mp.move_left(txt)
+sub mp.move_left(doc)
 /* moves one char left */
 {
-	mp.set_x(txt, txt.x - 1);
+	mp.set_x(doc, doc.txt.x - 1);
 }
 
 
-sub mp.move_right(txt)
+sub mp.move_right(doc)
 /* moves one char right */
 {
-	mp.set_x(txt, txt.x + 1);
+	mp.set_x(doc, doc.txt.x + 1);
 }
 
 
-sub mp.move_bol(txt)
+sub mp.move_bol(doc)
 /* moves to the beginning of the line */
 {
-	txt.x=0;
+	doc.txt.x=0;
 }
 
 
-sub mp.move_eol(txt)
+sub mp.move_eol(doc)
 /* moves to the end of the line */
 {
-	txt.x=size(txt.lines[txt.y]);
+	doc.txt.x=size(doc.txt.lines[doc.txt.y]);
 }
 
 
-sub mp.move_bof(txt)
+sub mp.move_bof(doc)
 /* moves to the beginning of the file */
 {
-	txt.x=0;
-	txt.y=0;
+	doc.txt.x=0;
+	doc.txt.y=0;
 }
 
 
-sub mp.move_eof(txt)
+sub mp.move_eof(doc)
 /* moves to the end of the file */
 {
-	txt.y=size(txt.lines) - 1;
-	mp.move_eol(txt);
+	doc.txt.y=size(doc.txt.lines) - 1;
+	mp.move_eol(doc);
 }
 
 
-sub mp.adjust(txt, tx, ty)
+sub mp.adjust(doc, tx, ty)
 /* adjust the visual coordinates to the window size */
 {
+	local txt = doc.txt;
+
 	if(txt.x < txt.vx) txt.vx = txt.x;
 	if(txt.x > (txt.vx + tx - 1)) txt.vx = txt.x - (tx - 1);
 
@@ -157,9 +163,10 @@ sub mp.adjust(txt, tx, ty)
 }
 
 
-sub mp.break_line(txt)
+sub mp.break_line(doc)
 /* breaks current line in two (inserts a newline) */
 {
+	local txt = doc.txt;
 	local c, w;
 
 	/* gets line where cursor is */
@@ -193,9 +200,11 @@ sub mp.break_line(txt)
 }
 
 
-sub mp.join_line(txt)
+sub mp.join_line(doc)
 /* joins the current line with the next one */
 {
+	local txt = doc.txt;
+
 	if(txt.y < size(txt.lines))
 	{
 		/* concats current line with the next one */
@@ -207,9 +216,10 @@ sub mp.join_line(txt)
 }
 
 
-sub mp.insert(txt, str)
+sub mp.insert(doc, str)
 /* inserts a string into the cursor position */
 {
+	local txt = doc.txt;
 	local w;
 
 	/* splice and change */
@@ -229,23 +239,25 @@ sub mp.insert(txt, str)
 
 /* clipboard routines */
 
-sub mp.unmark(txt)
+sub mp.unmark(doc)
 {
 	/* just destroy the mark */
-	txt.mark = NULL;
+	doc.txt.mark = NULL;
 }
 
 
-sub mp.mark(txt)
+sub mp.mark(doc)
 {
+	local txt = doc.txt;
+
 	if(txt.mark == NULL)
 	{
 		/* no mark; create one */
 		txt.mark = {};
-		txt.mark.bx=txt.x;
-		txt.mark.by=txt.y;
-		txt.mark.ex=txt.x;
-		txt.mark.ey=txt.y;
+		txt.mark.bx = txt.x;
+		txt.mark.by = txt.y;
+		txt.mark.ex = txt.x;
+		txt.mark.ey = txt.y;
 	}
 	else
 	{
@@ -254,21 +266,23 @@ sub mp.mark(txt)
 			(txt.y == txt.mark.by && txt.x < txt.mark.bx))
 		{
 			/* move the beginning of the block */
-			txt.mark.bx=txt.x;
-			txt.mark.by=txt.y;
+			txt.mark.bx = txt.x;
+			txt.mark.by = txt.y;
 		}
 		else
 		{
 			/* move the end of the block */
-			txt.mark.ex=txt.x;
-			txt.mark.ey=txt.y;
+			txt.mark.ex = txt.x;
+			txt.mark.ey = txt.y;
 		}
 	}
 }
 
 
-sub mp.copy(txt)
+sub mp.copy(doc)
 {
+	local txt = doc.txt;
+
 	/* no mark? done */
 	if(txt.mark == NULL) return;
 
@@ -311,8 +325,10 @@ sub mp.copy(txt)
 }
 
 
-sub mp.delete_mark(txt)
+sub mp.delete_mark(doc)
 {
+	local txt = doc.txt;
+
 	/* no mark? done */
 	if(txt.mark == NULL) return;
 
@@ -349,13 +365,14 @@ sub mp.delete_mark(txt)
 	/* in any case, move to the start of the block and unmark */
 	txt.x=txt.mark.bx;
 	txt.y=txt.mark.by;
-	mp.unmark(txt);
+	mp.unmark(doc);
 }
 
 
-sub mp.paste(txt)
+sub mp.paste(doc)
 /* pastes from the clipboard into a text */
 {
+	local txt = doc.txt;
 	local s;
 
 	/* no clipboard? return */
@@ -367,16 +384,16 @@ sub mp.paste(txt)
 		return;
 
 	/* paste first line into current position */
-	mp.insert(txt, mp.clipboard[0]);
+	mp.insert(doc, mp.clipboard[0]);
 
 	/* more than just one line? */
 	if(s > 1)
 	{
 		/* break current line in two */
-		mp.break_line(txt);
+		mp.break_line(doc);
 
 		/* insert last line */
-		mp.insert(txt, mp.clipboard[s - 1]);
+		mp.insert(doc, mp.clipboard[s - 1]);
 	}
 
 	/* more than two lines? */
@@ -403,10 +420,11 @@ sub mp.chomp(str)
 }
 
 
-sub mp.load_file(txt, filename)
+sub mp.load_file(doc, filename)
 /* loads a file from disk */
 {
 	local f, l;
+	local txt = doc.txt;
 
 	/* open or fail */
 	if((f=open(filename, "r")) == NULL)
@@ -421,7 +439,7 @@ sub mp.load_file(txt, filename)
 
 	close(f);
 
-	mp.move_bof(txt);
+	mp.move_bof(doc);
 
 	return(1);
 }
@@ -430,7 +448,7 @@ sub mp.load_file(txt, filename)
 sub mp.new()
 /* creates a new text */
 {
-	local txt;
+	local doc, txt;
 
 	txt = {};
 	txt.x = 0;
@@ -439,7 +457,10 @@ sub mp.new()
 	txt.vy = 0;
 	txt.lines = [];
 
-	return(txt);
+	doc = {};
+	doc.txt = txt;
+
+	return(doc);
 }
 
 
@@ -472,15 +493,15 @@ mp.exit_requested = 0;
 
 sub main_loop(filename)
 {
-	local t;
+	local d;
 
-	t = mp.new();
+	d = mp.new();
 
-	if(mp.load_file(t, filename))
+	if(mp.load_file(d, filename))
 	{
 		local k;
 
-		mpi_draw_1(t);
+		mpi_draw_1(d.txt);
 
 		nc_startup();
 
@@ -497,13 +518,13 @@ sub main_loop(filename)
 
 			local f;
 
-			mp.adjust(t, COLS, LINES);
-			nc_draw(t);
+			mp.adjust(d, COLS, LINES);
+			nc_draw(d.txt);
 
 			if((f = mp.keycodes[nc_getkey()]) != NULL)
 			{
 				if((f = mp.functions[f]) != NULL)
-					f(t);
+					f(d);
 			}
 		}
 
