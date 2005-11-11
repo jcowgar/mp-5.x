@@ -463,6 +463,8 @@ sub mp.new()
 
 	doc.undo = [];
 
+	doc.window = {};
+
 	return(doc);
 }
 
@@ -520,9 +522,10 @@ sub main_loop(filename)
 	{
 		local k;
 
-		mpi_draw_1(d);
-
 		nc_startup();
+		d.window.tx = COLS;
+		d.window.ty = LINES;
+
 
 /*		t.vy = 100;
 
@@ -537,7 +540,7 @@ sub main_loop(filename)
 
 			local f;
 
-			mp.adjust(d, COLS, LINES);
+			mpi_draw_1(d);
 			nc_draw(d.txt);
 
 			if((f = mp.keycodes[nc_getkey()]) != NULL)

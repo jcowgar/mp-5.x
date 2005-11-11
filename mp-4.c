@@ -72,14 +72,32 @@ static int drw_line_offset(int l)
 }
 
 
+static int drw_adjust_y(int y, int * vy, int ty)
+/* adjusts the visual y position */
+{
+	int t = *vy;
+
+	/* is y above the first visible line? */
+	if(y < *vy) *vy = y;
+
+	/* is y below the last visible line? */
+	if(y > *vy + (ty - 2)) *vy = y - (ty - 2);
+
+	return(t != *vy);
+}
+
+
 static mpdm_t drw_prepare(mpdm_t doc)
 {
 	mpdm_t txt = mpdm_hget_s(doc, L"txt");
+	mpdm_t window = mpdm_hget_s(doc, L"window");
 	mpdm_t lines = mpdm_hget_s(txt, L"lines");
 	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
 	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
 	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
 	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
+	int tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
+	int ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
 	mpdm_t v;
 	int n, o;
 
@@ -115,6 +133,10 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	/* alloc and init space for the attributes */
 	drw.attrs = realloc(drw.attrs, drw.size + 1);
 	memset(drw.attrs, 'A', drw.size + 1);
+
+	/* adjust the visual coordinates */
+	if(drw_adjust_y(y, &vy, ty))
+		mpdm_hset_s(txt, L"vy", MPDM_I(vy));
 
 	drw.vy = vy;
 	drw.txt = txt;
