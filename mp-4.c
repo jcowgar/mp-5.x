@@ -72,6 +72,9 @@ static int mp_wcwidth(int x, wchar_t c)
 	if(c == L'\t')
 		r=MP_REAL_TAB_SIZE(x);
 	else
+	if(c == L'\n')
+		r=1;
+	else
 		r=mpdm_wcwidth(c);
 
 	return(r);
@@ -105,6 +108,7 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 {
 	int n, m;
 	wchar_t * ptr = (wchar_t *) drw.v->data;
+	int t = *vx;
 
 	/* move to the first character of the line */
 	ptr += drw_line_offset(y);
@@ -113,25 +117,13 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 	for(n = m = 0;n < x;n++, ptr++)
 		m += mp_wcwidth(n, *ptr);
 
-	/* if new cursor column is nearer the leftmost column, set and go */
-	if(m < *vx)
-	{
-		*vx = m;
-		return(1);
-	}
+	/* if new cursor column is nearer the leftmost column, set */
+	if(m < *vx) *vx = m;
 
-	/* now calculate the end of the visible screen */
-	for(;n < x + tx && *ptr != L'\n';n++, ptr++)
-		m += mp_wcwidth(n, *ptr);
+	/* if new cursor column is further the rightmost column, set */
+	if(m > *vx + (tx - 2)) *vx = m - (tx - 2);
 
-	/* if new cursor column is further the rightmost column, set and go */
-	if(m > *vx + (tx - 1))
-	{
-		*vx = m - (tx - 1);
-		return(1);
-	}
-
-	return(0);
+	return(t != *vx);
 }
 
 
@@ -185,6 +177,8 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	/* adjust the visual coordinates */
 	if(drw_adjust_y(y, &vy, ty))
 		mpdm_hset_s(txt, L"vy", MPDM_I(vy));
+	if(drw_adjust_x(x, y, &vx, tx))
+		mpdm_hset_s(txt, L"vx", MPDM_I(vx));
 
 	drw.vy = vy;
 	drw.ty = ty;
