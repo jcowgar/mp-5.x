@@ -151,19 +151,6 @@ sub mp.move_eof(doc)
 }
 
 
-sub mp.adjust(doc, tx, ty)
-/* adjust the visual coordinates to the window size */
-{
-	local txt = doc.txt;
-
-	if(txt.x < txt.vx) txt.vx = txt.x;
-	if(txt.x > (txt.vx + tx - 1)) txt.vx = txt.x - (tx - 1);
-
-	if(txt.y < txt.vy) txt.vy = txt.y;
-	if(txt.y > (txt.vy + ty - 2)) txt.vy = txt.y - (ty - 2);
-}
-
-
 sub mp.break_line(doc)
 /* breaks current line in two (inserts a newline) */
 {
