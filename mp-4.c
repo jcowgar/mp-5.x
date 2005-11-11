@@ -40,9 +40,6 @@
 
 int _attrs[10];
 
-int mpi_window_tx = 80;
-int mpi_window_ty = 25;
-
 int mpi_preread_lines = 60;
 
 /*******************
@@ -56,13 +53,14 @@ static struct {
 	int p_lines;	/* number of prereaded lines */
 	int * offsets;	/* offsets of lines */
 	char * attrs;	/* attributes */
-	int vy;		/* the vy of txt */
+	int vy;		/* first visible line */
+	int ty;		/* vertical window size */
 	int visible;	/* offset to the first visible character */
 	int cursor;	/* offset to cursor */
 	int size;	/* size of data */
 	mpdm_t txt;	/* the document */
 	mpdm_t v;	/* the data */
-} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL };
+} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL };
 
 
 #define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
@@ -155,7 +153,7 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	drw.p_lines = vy > mpi_preread_lines ? mpi_preread_lines : vy;
 
 	/* maximum lines */
-	drw.n_lines = mpi_window_ty + drw.p_lines;
+	drw.n_lines = ty + drw.p_lines;
 
 	/* alloc space for line offsets */
 	drw.offsets = realloc(drw.offsets, drw.n_lines * sizeof(int));
@@ -189,6 +187,7 @@ static mpdm_t drw_prepare(mpdm_t doc)
 		mpdm_hset_s(txt, L"vy", MPDM_I(vy));
 
 	drw.vy = vy;
+	drw.ty = ty;
 	drw.txt = txt;
 	drw.visible = drw_line_offset(vy);
 	drw.cursor = drw_line_offset(y) + x;
@@ -287,11 +286,11 @@ static drw_selected_block(void)
 	ey=mpdm_ival(mpdm_hget_s(mark, L"ey"));
 
 	/* if block is not visible, return */
-	if(ey < drw.vy || by > drw.vy + mpi_window_ty)
+	if(ey < drw.vy || by > drw.vy + drw.ty)
 		return;
 
 	so=by < drw.vy ? drw.visible : drw_line_offset(by) + bx;
-	eo=ey > drw.vy + mpi_window_ty ? drw.size : drw_line_offset(ey) + ex;
+	eo=ey > drw.vy + drw.ty ? drw.size : drw_line_offset(ey) + ex;
 
 	drw_fill_attr(66, so, eo - so);
 }
