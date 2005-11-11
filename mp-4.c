@@ -65,6 +65,21 @@ static struct {
 } drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL };
 
 
+#define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
+
+static int mp_wcwidth(int x, wchar_t c)
+{
+	int r;
+
+	if(c == L'\t')
+		r=MP_REAL_TAB_SIZE(x);
+	else
+		r=mpdm_wcwidth(c);
+
+	return(r);
+}
+
+
 static int drw_line_offset(int l)
 /* returns the offset into v for line number l */
 {
@@ -84,6 +99,41 @@ static int drw_adjust_y(int y, int * vy, int ty)
 	if(y > *vy + (ty - 2)) *vy = y - (ty - 2);
 
 	return(t != *vy);
+}
+
+
+static int drw_adjust_x(int x, int y, int * vx, int tx)
+/* adjust the visual x position */
+{
+	int n, m;
+	wchar_t * ptr = (wchar_t *) drw.v->data;
+
+	/* move to the first character of the line */
+	ptr += drw_line_offset(y);
+
+	/* calculate the column for the cursor position */
+	for(n = m = 0;n < x;n++, ptr++)
+		m += mp_wcwidth(n, *ptr);
+
+	/* if new cursor column is nearer the leftmost column, set and go */
+	if(m < *vx)
+	{
+		*vx = m;
+		return(1);
+	}
+
+	/* now calculate the end of the visible screen */
+	for(;n < x + tx && *ptr != L'\n';n++, ptr++)
+		m += mp_wcwidth(n, *ptr);
+
+	/* if new cursor column is further the rightmost column, set and go */
+	if(m > *vx + (tx - 1))
+	{
+		*vx = m - (tx - 1);
+		return(1);
+	}
+
+	return(0);
 }
 
 
@@ -373,21 +423,6 @@ mpdm_t nc_getkey(mpdm_t v)
 	}
 
 	return(MPDM_LS(f));
-}
-
-
-#define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
-
-static int mp_wcwidth(int x, wchar_t c)
-{
-	int r;
-
-	if(c == L'\t')
-		r=MP_REAL_TAB_SIZE(x);
-	else
-		r=mpdm_wcwidth(c);
-
-	return(r);
 }
 
 
