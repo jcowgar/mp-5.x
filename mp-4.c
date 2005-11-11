@@ -72,8 +72,9 @@ static int drw_line_offset(int l)
 }
 
 
-static mpdm_t drw_prepare(mpdm_t txt)
+static mpdm_t drw_prepare(mpdm_t doc)
 {
+	mpdm_t txt = mpdm_hget_s(doc, L"txt");
 	mpdm_t lines = mpdm_hget_s(txt, L"lines");
 	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
 	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
@@ -274,9 +275,9 @@ mpdm_t mpi_draw_1(mpdm_t a)
 {
 	mpdm_t quotes = NULL;
 	mpdm_t comments = NULL;
-	mpdm_t txt = mpdm_aget(a, 0);
+	mpdm_t doc = mpdm_aget(a, 0);
 
-	drw_prepare(txt);
+	drw_prepare(doc);
 
 	/* colorize separate words */
 	drw_words();
