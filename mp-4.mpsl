@@ -515,8 +515,13 @@ sub main_loop(filename)
 		d.window.tx = COLS;
 		d.window.ty = LINES;
 
-		/* HACK: store 'config' as synhi word */
-		d.syntax = { 'hl_words' => { 'config' => 2 } };
+		/* HACK: store 'config' as synhi word and
+		   C-like comments */
+		d.syntax = { 'hl_words' => { 'config' => 2 },
+			     'comments' =>
+				[ '|/\*[^*]*\*+([^/*][^*]*\*+)*/|', '|//.*$|m' ]
+			};
+
 
 		while (! mp.exit_requested) {
 

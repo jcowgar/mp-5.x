@@ -33,7 +33,7 @@ mp.syntax.c = {
 				"register", "short", "sizeof", "static", "far",
 				"near", "defined", "va_list", "size_t", "wchar_t",
 				"iconv_t" ],
-	'comments'	=>	[ '|/\*[^*]*\*+([^/*][^*]*\*+)*/|', '|//.*$|' ],
+	'comments'	=>	[ '|/\*[^*]*\*+([^/*][^*]*\*+)*/|', '|//.*$|m' ],
 	'quotes'	=>	[ "/'[^']*'/", '/"[^"]*"/' ],
 	'words'		=>	'/[\w#{}]+/'
 };
