@@ -59,8 +59,9 @@ static struct {
 	int cursor;	/* offset to cursor */
 	int size;	/* size of data */
 	mpdm_t txt;	/* the document */
+	mpdm_t syntax;	/* syntax highlight information */
 	mpdm_t v;	/* the data */
-} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL };
+} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL };
 
 
 #define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
@@ -180,6 +181,9 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	if(drw_adjust_x(x, y, &vx, tx))
 		mpdm_hset_s(txt, L"vx", MPDM_I(vx));
 
+	/* store the syntax highlight structure */
+	drw.syntax = mpdm_hget_s(doc, L"syntax");
+
 	drw.vy = vy;
 	drw.ty = ty;
 	drw.txt = txt;
@@ -208,38 +212,28 @@ static int drw_fill_attr_regex(int attr)
 
 
 static void drw_words(void)
-/* fills the attributes for individual words */
+/* fills the attributes for separate words */
 {
 	mpdm_t r, t;
 	int o = drw.visible;
+	mpdm_t hl_words;
 
-	/* @#@ */
-	mpdm_t hl_words = NULL;
-	mpdm_t tags = NULL;
+	/* if there is no syntax highlight info for words, exit */
+	if((hl_words = mpdm_hget_s(drw.syntax, L"hl_words")) == NULL)
+		return;
 
 	/* @#@ */
 	r=MPDM_LS(L"/\\w+/");
-
-	/* @#@ add the word 'config' to the highlighted words */
-	hl_words = MPDM_H(0);
-	mpdm_hset(hl_words, MPDM_LS(L"config"), MPDM_I(8));
 
 	while((t = mpdm_regex(r, drw.v, o)) != NULL)
 	{
 		mpdm_t c;
 		int attr = -1;
 
-		/* is the word among the tokens or variables? */
 		if((c = mpdm_hget(hl_words, t)) != NULL)
 			attr = mpdm_ival(c);
-		else
-		/* is the word among current tags? */
-		if((mpdm_hget(tags, t)) != NULL)
-			attr = 16;	/* tag attribute */
-		else
-		/* is the word correctly spelled? */
-		if(0)
-			attr = 32;	/* mispelling attribute */
+
+		/* @#@ tags and spell will be here */
 
 		o=drw_fill_attr_regex(attr);
 	}
@@ -263,15 +257,26 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 }
 
 
-static drw_selected_block(void)
-/* draws the marked block, if any */
+static void drw_blocks(void)
+/* fill attributes for multiline blocks */
+{
+	/* fill attributes for quotes (strings) */
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"quotes"), 64);
+
+	/* fill attributes for comments */
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"comments"), 80);
+}
+
+
+static drw_selection(void)
+/* draws the selected block, if any */
 {
 	int bx, by, ex, ey;
-	mpdm_t mark = mpdm_hget_s(drw.txt, L"mark");
+	mpdm_t mark;
 	int so, eo;
 
 	/* no mark? return */
-	if(mark == NULL)
+	if((mark = mpdm_hget_s(drw.txt, L"mark")) == NULL)
 		return;
 
 	bx=mpdm_ival(mpdm_hget_s(mark, L"bx"));
@@ -338,8 +343,6 @@ static drw_matching_paren(void)
 mpdm_t mpi_draw_1(mpdm_t a)
 /* first stage of draw */
 {
-	mpdm_t quotes = NULL;
-	mpdm_t comments = NULL;
 	mpdm_t doc = mpdm_aget(a, 0);
 
 	drw_prepare(doc);
@@ -347,14 +350,11 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	/* colorize separate words */
 	drw_words();
 
-	/* fill attributes for quotes (strings) */
-	drw_multiline_regex(quotes, 64);
-
-	/* fill attributes for comments */
-	drw_multiline_regex(comments, 80);
+	/* colorize multiline blocks */
+	drw_blocks();
 
 	/* now set the marked block (if any) */
-	drw_selected_block();
+	drw_selection();
 
 	/* highlight the matching paren */
 	drw_matching_paren();

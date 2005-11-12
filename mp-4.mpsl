@@ -452,6 +452,8 @@ sub mp.new()
 
 	doc.window = {};
 
+	doc.syntax = NULL;
+
 	return(doc);
 }
 
