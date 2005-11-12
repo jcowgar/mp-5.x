@@ -42,6 +42,13 @@ int _attrs[10];
 
 int mpi_preread_lines = 60;
 
+#define MP_ATTR_NORMAL		0
+#define MP_ATTR_CURSOR		1
+#define MP_ATTR_SELECTION	2
+#define MP_ATTR_COMMENTS	3
+#define MP_ATTR_QUOTES		4
+#define MP_ATTR_MATCHING	5
+
 /*******************
 	Code
 ********************/
@@ -70,13 +77,11 @@ static int mp_wcwidth(int x, wchar_t c)
 {
 	int r;
 
-	if(c == L'\t')
-		r=MP_REAL_TAB_SIZE(x);
-	else
-	if(c == L'\n')
-		r=1;
-	else
-		r=mpdm_wcwidth(c);
+	switch(c) {
+	case L'\n': r = 1; break;
+	case L'\t': r = MP_REAL_TAB_SIZE(x); break;
+	default: r = mpdm_wcwidth(c); break;
+	}
 
 	return(r);
 }
@@ -173,7 +178,7 @@ static mpdm_t drw_prepare(mpdm_t doc)
 
 	/* alloc and init space for the attributes */
 	drw.attrs = realloc(drw.attrs, drw.size + 1);
-	memset(drw.attrs, 'A', drw.size + 1);
+	memset(drw.attrs, MP_ATTR_NORMAL, drw.size + 1);
 
 	/* adjust the visual coordinates */
 	if(drw_adjust_y(y, &vy, ty))
@@ -261,10 +266,10 @@ static void drw_blocks(void)
 /* fill attributes for multiline blocks */
 {
 	/* fill attributes for quotes (strings) */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"quotes"), 64);
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"quotes"), MP_ATTR_QUOTES);
 
 	/* fill attributes for comments */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"comments"), 80);
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"comments"), MP_ATTR_COMMENTS);
 }
 
 
@@ -291,7 +296,7 @@ static drw_selection(void)
 	so=by < drw.vy ? drw.visible : drw_line_offset(by) + bx;
 	eo=ey > drw.vy + drw.ty ? drw.size : drw_line_offset(ey) + ex;
 
-	drw_fill_attr(66, so, eo - so);
+	drw_fill_attr(MP_ATTR_SELECTION, so, eo - so);
 }
 
 
@@ -329,7 +334,7 @@ static drw_matching_paren(void)
 				/* found the opposite */
 				if(--m == 0) {
 					/* found! fill and exit */
-					drw_fill_attr(34, o, 1);
+					drw_fill_attr(MP_ATTR_MATCHING, o, 1);
 					break;
 				}
 			}
@@ -360,7 +365,7 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	drw_matching_paren();
 
 	/* and finally the cursor */
-	drw_fill_attr(128, drw.cursor, 1);
+	drw_fill_attr(MP_ATTR_CURSOR, drw.cursor, 1);
 
 	return(NULL);
 }
