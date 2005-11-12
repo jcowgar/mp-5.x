@@ -60,7 +60,9 @@ static struct {
 	int p_lines;	/* number of prereaded lines */
 	int * offsets;	/* offsets of lines */
 	char * attrs;	/* attributes */
+	int vx;		/* first visible column */
 	int vy;		/* first visible line */
+	int tx;		/* horizontal window size */
 	int ty;		/* vertical window size */
 	int visible;	/* offset to the first visible character */
 	int cursor;	/* offset to cursor */
@@ -68,7 +70,7 @@ static struct {
 	mpdm_t txt;	/* the document */
 	mpdm_t syntax;	/* syntax highlight information */
 	mpdm_t v;	/* the data */
-} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL };
+} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL };
 
 
 #define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
@@ -140,18 +142,19 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	mpdm_t lines = mpdm_hget_s(txt, L"lines");
 	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
 	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
-	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
-	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
-	int tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
-	int ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
 	mpdm_t v;
 	int n, o;
 
+	drw.vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
+	drw.vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
+	drw.tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
+	drw.ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
+
 	/* get the maximum prereadable lines */
-	drw.p_lines = vy > mpi_preread_lines ? mpi_preread_lines : vy;
+	drw.p_lines = drw.vy > mpi_preread_lines ? mpi_preread_lines : drw.vy;
 
 	/* maximum lines */
-	drw.n_lines = ty + drw.p_lines;
+	drw.n_lines = drw.ty + drw.p_lines;
 
 	/* alloc space for line offsets */
 	drw.offsets = realloc(drw.offsets, drw.n_lines * sizeof(int));
@@ -164,10 +167,10 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	{
 		mpdm_t t;
 
-		t=mpdm_aget(lines, n + vy - drw.p_lines);
+		t=mpdm_aget(lines, n + drw.vy - drw.p_lines);
 
 		drw.offsets[n] = o;
-		o += mpdm_size(t);
+		o += mpdm_size(t) + 1;
 
 		mpdm_aset(v, t, n);
 	}
@@ -181,18 +184,16 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	memset(drw.attrs, MP_ATTR_NORMAL, drw.size + 1);
 
 	/* adjust the visual coordinates */
-	if(drw_adjust_y(y, &vy, ty))
-		mpdm_hset_s(txt, L"vy", MPDM_I(vy));
-	if(drw_adjust_x(x, y, &vx, tx))
-		mpdm_hset_s(txt, L"vx", MPDM_I(vx));
+	if(drw_adjust_y(y, &drw.vy, drw.ty))
+		mpdm_hset_s(txt, L"vy", MPDM_I(drw.vy));
+	if(drw_adjust_x(x, y, &drw.vx, drw.tx))
+		mpdm_hset_s(txt, L"vx", MPDM_I(drw.vx));
 
 	/* store the syntax highlight structure */
 	drw.syntax = mpdm_hget_s(doc, L"syntax");
 
-	drw.vy = vy;
-	drw.ty = ty;
 	drw.txt = txt;
-	drw.visible = drw_line_offset(vy);
+	drw.visible = drw_line_offset(drw.vy);
 	drw.cursor = drw_line_offset(y) + x;
 
 	return(v);
@@ -273,7 +274,7 @@ static void drw_blocks(void)
 }
 
 
-static drw_selection(void)
+static void drw_selection(void)
 /* draws the selected block, if any */
 {
 	int bx, by, ex, ey;
@@ -300,7 +301,7 @@ static drw_selection(void)
 }
 
 
-static drw_matching_paren(void)
+static void drw_matching_paren(void)
 /* highlights the matching paren */
 {
 	int o = drw.cursor;
@@ -345,6 +346,96 @@ static drw_matching_paren(void)
 }
 
 
+#define EOS(c) ((c) == L'\n' || (c) == L'\0')
+
+mpdm_t mpi_draw_line(int line, wchar_t * tmp)
+{
+	mpdm_t l = NULL;
+	int m, i, x, t;
+	int o = drw.offsets[line + drw.p_lines];
+	int a = drw.attrs[o];
+	wchar_t * ptr = (wchar_t *)drw.v->data;
+
+	m = i = x = 0;
+
+	/* skip first the lost-to-the-left characters */
+	while(!EOS(ptr[o]) && m < drw.vx)
+	{
+		a = drw.attrs[o];
+		m += mp_wcwidth(x++, ptr[o++]);
+	}
+
+	/* if current position is further the first column,
+	   fill with spaces */
+	for(t = m - drw.vx;t > 0;t--)
+		tmp[i++] = L' ';
+
+	/* now loop storing into l the pairs of
+	   attributes and strings */
+	while(! EOS(ptr[o]) && m < drw.vx + drw.tx)
+	{
+		while(drw.attrs[o] == a && m < drw.vx + drw.tx)
+		{
+			wchar_t c = ptr[o];
+
+			t = mp_wcwidth(x, c);
+			m += t;
+
+			switch(c) {
+			case L'\t': while(t--) tmp[i++] = ' '; break;
+			case L'\n': tmp[i++] = ' '; break;
+			default: tmp[i++] = c; break;
+			}
+
+			if(EOS(c)) break;
+
+			/* next char */
+			x++; o++;
+		}
+
+		/* finish the string */
+		tmp[i] = L'\0';
+
+		/* store the attribute and the string */
+		if(l == NULL) l = MPDM_A(0);
+		mpdm_apush(l, MPDM_I(a));
+		mpdm_apush(l, MPDM_S(tmp));
+
+		a = drw.attrs[o];
+		i = 0;
+	}
+
+	return(l);
+}
+
+
+mpdm_t mpi_draw_2(void)
+/* returns an mpdm array of ty elements, which are also arrays of
+   attribute - string pairs */
+{
+	mpdm_t r;
+	int n;
+	wchar_t * tmp;
+
+	/* alloc temporary string space */
+	tmp = malloc((drw.tx + 1) * sizeof(wchar_t));
+
+	/* the array of lines */
+	r = MPDM_A(drw.ty);
+
+	for(n = 0;n < drw.ty;n++)
+	{
+		mpdm_t l = mpi_draw_line(n, tmp);
+
+		mpdm_aset(r, l, n);
+	}
+
+	free(tmp);
+
+	return(r);
+}
+
+
 mpdm_t mpi_draw_1(mpdm_t a)
 /* first stage of draw */
 {
@@ -367,7 +458,7 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	/* and finally the cursor */
 	drw_fill_attr(MP_ATTR_CURSOR, drw.cursor, 1);
 
-	return(NULL);
+	return(mpi_draw_2());
 }
 
 

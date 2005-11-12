@@ -503,7 +503,7 @@ mp.exit_requested = 0;
 
 sub main_loop(filename)
 {
-	local d;
+	local d, v;
 
 	d = mp.new();
 
@@ -515,21 +515,14 @@ sub main_loop(filename)
 		d.window.tx = COLS;
 		d.window.ty = LINES;
 
+		/* HACK: store 'config' as synhi word */
+		d.syntax = { 'hl_words' => { 'config' => 2 } };
 
-/*		t.vy = 100;
-
-		foreach(c, [ 1 .. 48 ])
-		{
-			nc_draw(t);
-			k=nc_getkey();
-			t.vx ++;
-		}
-*/
 		while (! mp.exit_requested) {
 
 			local f;
 
-			mpi_draw_1(d);
+			v = mpi_draw_1(d);
 			nc_draw(d.txt);
 
 			if((f = mp.keycodes[nc_getkey()]) != NULL)
@@ -540,6 +533,8 @@ sub main_loop(filename)
 		}
 
 		nc_shutdown();
+
+		dump(v);
 	}
 	else
 		print("Can't open '", filename, "'\n");
