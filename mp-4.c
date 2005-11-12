@@ -85,7 +85,7 @@ static int mp_wcwidth(int x, wchar_t c)
 	default: r = mpdm_wcwidth(c); break;
 	}
 
-	return(r);
+	return(r < 0 ? 1 : r);
 }
 
 
@@ -372,7 +372,7 @@ mpdm_t mpi_draw_line(int line, wchar_t * tmp)
 
 	/* now loop storing into l the pairs of
 	   attributes and strings */
-	while(! EOS(ptr[o]) && m < drw.vx + drw.tx)
+	while(!EOS(ptr[o]) && m < drw.vx + drw.tx)
 	{
 		while(drw.attrs[o] == a && m < drw.vx + drw.tx)
 		{
