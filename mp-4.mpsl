@@ -541,8 +541,9 @@ sub main_loop(filename)
 				'/^\s*#[a-z]+/m'		/* CPP directives */
 				],
 			     'quotes'   => [
-				"/'[^']*'/",
-				'/"[^"]*"/',
+			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
+				'/"([^"\\]*(\\.[^"\\]*)*)"/',
+				"/'([^'\\]*(\\.[^'\\]*)*)'/",
 				"/\b-?[0-9]+\b/"
 				]
 
