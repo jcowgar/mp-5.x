@@ -151,6 +151,10 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	drw.tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
 	drw.ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
 
+	/* adjust the visual y coordinate */
+	if(drw_adjust_y(y, &drw.vy, drw.ty))
+		mpdm_hset_s(txt, L"vy", MPDM_I(drw.vy));
+
 	/* get the maximum prereadable lines */
 	drw.p_lines = drw.vy > mpi_preread_lines ? mpi_preread_lines : drw.vy;
 
@@ -184,14 +188,12 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	drw.attrs = realloc(drw.attrs, drw.size + 1);
 	memset(drw.attrs, MP_ATTR_NORMAL, drw.size + 1);
 
-	/* adjust the visual coordinates */
-	if(drw_adjust_y(y, &drw.vy, drw.ty))
-		mpdm_hset_s(txt, L"vy", MPDM_I(drw.vy));
-	if(drw_adjust_x(x, y, &drw.vx, drw.tx))
-		mpdm_hset_s(txt, L"vx", MPDM_I(drw.vx));
-
 	/* store the syntax highlight structure */
 	drw.syntax = mpdm_hget_s(doc, L"syntax");
+
+	/* adjust the visual x coordinate */
+	if(drw_adjust_x(x, y, &drw.vx, drw.tx))
+		mpdm_hset_s(txt, L"vx", MPDM_I(drw.vx));
 
 	drw.txt = txt;
 	drw.visible = drw_line_offset(drw.vy);
@@ -493,7 +495,7 @@ mpdm_t nc_startup(mpdm_t v)
 	_attrs[MP_ATTR_MATCHING] = COLOR_PAIR(6);
 
 	init_pair(7, COLOR_GREEN, COLOR_WHITE);
-	_attrs[MP_ATTR_WORD_1] = COLOR_PAIR(7);
+	_attrs[MP_ATTR_WORD_1] = COLOR_PAIR(7) | A_BOLD;
 
 	bkgdset(' ' | _attrs[MP_ATTR_NORMAL]);
 
@@ -561,95 +563,6 @@ mpdm_t nc_draw(mpdm_t a)
 			attrset(_attrs[attr]);
 			addwstr((wchar_t *) s->data);
 		}
-	}
-
-	refresh();
-
-	return(NULL);
-}
-
-
-mpdm_t nc_draw_old(mpdm_t a)
-{
-	int n;
-	wchar_t buf[1024];
-	mpdm_t txt = mpdm_aget(a, 0);
-	mpdm_t lines = mpdm_hget_s(txt, L"lines");
-	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
-	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
-	int vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
-	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
-	wchar_t * ptr;
-
-	move(0, 0);
-	erase();
-
-	for(n = 0;n < LINES;n++)
-	{
-		int m, w, o, k;
-		mpdm_t l;
-
-		/* gets the line */
-		if((l = mpdm_aget(lines, vy + n)) == NULL)
-			break;
-
-		ptr=(wchar_t *) l->data;
-
-		for(m = w = o = k = 0;m < vx + COLS;)
-		{
-			wchar_t c = ptr[k];
-			int i = mp_wcwidth(m, c);
-
-			if(c == L'\0') break;
-
-			if(m >= vx)
-			{
-				if(c == L'\t')
-				{
-					int t;
-
-					for(t = 0;t < i;t++)
-						buf[o++] = L'#';
-				}
-				else
-				{
-					if(n + vy == y && k == x)
-						buf[o++] = L'_';
-					else
-						buf[o++] = c;
-				}
-
-				w += i;
-			}
-			else
-			{
-				/* will this char cross the left margin? */
-				if(m + i > vx)
-				{
-					int t;
-
-					for(t = m + i - vx;t;t--, w++)
-						buf[o++] = L'~';
-				}
-			}
-
-			m += i;
-			k++;
-		}
-
-		/* fill with spaces to the end of the line */
-/*		while(w < COLS)
-		{
-			buf[o++] = L'-';
-			w++;
-		}
-*/
-		/* null terminate */
-		buf[o] = L'\0';
-
-		/* and draw */
-		move(n, 0);
-		addwstr(buf);
 	}
 
 	refresh();

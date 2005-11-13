@@ -535,7 +535,7 @@ sub main_loop(filename)
 
 		/* HACK: store 'config' as synhi word and
 		   C-like comments */
-		d.syntax = { 'hl_words' => { 'config' => 6 },
+		d.syntax = { 'hl_words' => { 'return' => 6 },
 			     'comments' =>
 				[ '|/\*[^*]*\*+([^/*][^*]*\*+)*/|', '|//.*$|m' ],
 			     'quotes'   => [ "/'[^']*'/", '/"[^"]*"/' ]
