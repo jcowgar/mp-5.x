@@ -356,8 +356,9 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 	mpdm_t l = NULL;
 	int m, i, x, t;
 	int o = drw.offsets[line + drw.p_lines];
-	int a = drw.attrs[o];
 	wchar_t * ptr = (wchar_t *)drw.v->data;
+	int a = drw.attrs[o];
+	wchar_t c = L' ';
 
 	m = i = x = 0;
 
@@ -375,17 +376,17 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 
 	/* now loop storing into l the pairs of
 	   attributes and strings */
-	while(!EOS(ptr[o]) && m < drw.vx + drw.tx)
+	while(m < drw.vx + drw.tx)
 	{
 		while(drw.attrs[o] == a && m < drw.vx + drw.tx)
 		{
-			wchar_t c = ptr[o];
-
+			c = ptr[o];
 			t = mp_wcwidth(x, c);
 			m += t;
 
 			switch(c) {
 			case L'\t': while(t--) tmp[i++] = ' '; break;
+			case L'\0':
 			case L'\n': tmp[i++] = ' '; break;
 			default: tmp[i++] = c; break;
 			}
@@ -406,6 +407,8 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 
 		a = drw.attrs[o];
 		i = 0;
+
+		if(EOS(c)) break;
 	}
 
 	return(l);
