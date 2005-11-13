@@ -348,7 +348,7 @@ static void drw_matching_paren(void)
 
 #define EOS(c) ((c) == L'\n' || (c) == L'\0')
 
-mpdm_t mpi_draw_line(int line, wchar_t * tmp)
+static mpdm_t drw_line(int line, wchar_t * tmp)
 {
 	mpdm_t l = NULL;
 	int m, i, x, t;
@@ -409,7 +409,7 @@ mpdm_t mpi_draw_line(int line, wchar_t * tmp)
 }
 
 
-mpdm_t mpi_draw_2(void)
+static mpdm_t drw_as_array(void)
 /* returns an mpdm array of ty elements, which are also arrays of
    attribute - string pairs */
 {
@@ -425,7 +425,7 @@ mpdm_t mpi_draw_2(void)
 
 	for(n = 0;n < drw.ty;n++)
 	{
-		mpdm_t l = mpi_draw_line(n, tmp);
+		mpdm_t l = drw_line(n, tmp);
 
 		mpdm_aset(r, l, n);
 	}
@@ -436,11 +436,10 @@ mpdm_t mpi_draw_2(void)
 }
 
 
-mpdm_t mpi_draw_1(mpdm_t a)
-/* first stage of draw */
+mpdm_t mpi_draw(mpdm_t doc)
+/* main drawing function: takes a document and returns an array of
+   arrays of attribute / string pairs */
 {
-	mpdm_t doc = mpdm_aget(a, 0);
-
 	drw_prepare(doc);
 
 	/* colorize separate words */
@@ -458,7 +457,7 @@ mpdm_t mpi_draw_1(mpdm_t a)
 	/* and finally the cursor */
 	drw_fill_attr(MP_ATTR_CURSOR, drw.cursor, 1);
 
-	return(mpi_draw_2());
+	return(drw_as_array());
 }
 
 
@@ -518,6 +517,40 @@ mpdm_t nc_getkey(mpdm_t v)
 
 
 mpdm_t nc_draw(mpdm_t a)
+/* driver drawing function for cursesw */
+{
+	mpdm_t doc = mpdm_aget(a, 0);
+	mpdm_t d;
+	int n, m;
+
+	erase();
+
+	d = mpi_draw(doc);
+
+	for(n = 0;n < mpdm_size(d);n++)
+	{
+		mpdm_t l = mpdm_aget(d, n);
+
+		move(n, 0);
+
+		for(m = 0;m < mpdm_size(l);m++)
+		{
+			int attr;
+			mpdm_t s;
+
+			/* get the attribute and the string */
+			attr = mpdm_ival(mpdm_aget(l, m++));
+			s = mpdm_aget(l, m);
+
+			addwstr((wchar_t *) s->data);
+		}
+	}
+
+	return(NULL);
+}
+
+
+mpdm_t nc_draw_old(mpdm_t a)
 {
 	int n;
 	wchar_t buf[1024];
@@ -616,8 +649,6 @@ void mp_4_startup(int argc, char * argv[])
 	mpdm_hset_s(mpdm_root(), L"nc_shutdown", MPDM_X(nc_shutdown));
 	mpdm_hset_s(mpdm_root(), L"nc_getkey", MPDM_X(nc_getkey));
 	mpdm_hset_s(mpdm_root(), L"nc_draw", MPDM_X(nc_draw));
-
-	mpdm_hset_s(mpdm_root(), L"mpi_draw_1", MPDM_X(mpi_draw_1));
 }
 
 

@@ -545,8 +545,7 @@ sub main_loop(filename)
 
 			local f;
 
-			v = mpi_draw_1(d);
-			nc_draw(d.txt);
+			nc_draw(d);
 
 			if((f = mp.keycodes[nc_getkey()]) != NULL)
 			{
