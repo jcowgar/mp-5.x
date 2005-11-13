@@ -381,7 +381,7 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 		while(drw.attrs[o] == a && m < drw.vx + drw.tx)
 		{
 			c = ptr[o];
-			t = mp_wcwidth(x, c);
+			t = mp_wcwidth(m, c);
 			m += t;
 
 			switch(c) {
