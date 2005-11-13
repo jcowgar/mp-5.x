@@ -507,6 +507,8 @@ mpdm_t nc_getkey(mpdm_t v)
 	case KEY_RIGHT: f = L"cursor-right"; break;
 	case KEY_UP: f = L"cursor-up"; break;
 	case KEY_DOWN: f = L"cursor-down"; break;
+	case KEY_PPAGE: f = L"page-up"; break;
+	case KEY_NPAGE: f = L"page-down"; break;
 	case KEY_HOME: f = L"home"; break;
 	case KEY_END: f = L"end"; break;
 	}

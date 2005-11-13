@@ -107,6 +107,20 @@ sub mp.move_down(doc)
 }
 
 
+sub mp.move_pgup(doc)
+/* moves one page up */
+{
+	mp.set_y(doc, doc.txt.y - doc.window.ty);
+}
+
+
+sub mp.move_pgdn(doc)
+/* moves one page down */
+{
+	mp.set_y(doc, doc.txt.y + doc.window.ty);
+}
+
+
 sub mp.move_left(doc)
 /* moves one char left */
 {
@@ -481,6 +495,8 @@ mp.keycodes = {
 	'cursor-right'	=>	'move-right',
 	'cursor-up'	=>	'move-up',
 	'cursor-down'	=>	'move-down',
+	'page-up'	=>	'move-pgup',
+	'page-down'	=>	'move-pgdn',
 	'home'		=>	'move-bol',
 	'end'		=>	'move-eol',
 	'escape'	=>	'exit'
@@ -492,6 +508,8 @@ mp.functions = {
 	'move-right'	=>	sub (k) { mp.move_right(k); },
 	'move-up'	=>	sub (k) { mp.move_up(k); },
 	'move-down'	=>	sub (k) { mp.move_down(k); },
+	'move-pgup'	=>	sub (k) { mp.move_pgup(k); },
+	'move-pgdn'	=>	sub (k) { mp.move_pgdn(k); },
 	'move-bol'	=>	sub (k) { mp.move_bol(k); },
 	'move-eol'	=>	sub (k) { mp.move_eol(k); },
 
