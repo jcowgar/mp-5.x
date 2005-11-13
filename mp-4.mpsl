@@ -533,12 +533,18 @@ sub main_loop(filename)
 		d.window.tx = COLS;
 		d.window.ty = LINES;
 
-		/* HACK: store 'config' as synhi word and
-		   C-like comments */
+		/* HACK: hardcoded synhi */
 		d.syntax = { 'hl_words' => { 'return' => 6 },
-			     'comments' =>
-				[ '|/\*[^*]*\*+([^/*][^*]*\*+)*/|', '|//.*$|m' ],
-			     'quotes'   => [ "/'[^']*'/", '/"[^"]*"/' ]
+			     'comments' => [
+				'|/\*[^*]*\*+([^/*][^*]*\*+)*/|',	/* C-like */
+				'|//.*$|m',				/* C++ */
+				'/^\s*#[a-z]+/m'		/* CPP directives */
+				],
+			     'quotes'   => [
+				"/'[^']*'/",
+				'/"[^"]*"/',
+				"/\b-?[0-9]+\b/"
+				]
 
 			};
 
