@@ -48,6 +48,7 @@ int mpi_preread_lines = 60;
 #define MP_ATTR_COMMENTS	3
 #define MP_ATTR_QUOTES		4
 #define MP_ATTR_MATCHING	5
+#define MP_ATTR_WORD_1		6
 
 /*******************
 	Code
@@ -474,12 +475,27 @@ mpdm_t nc_startup(mpdm_t v)
 	mpdm_hset_s(mpdm_root(), L"LINES", MPDM_I(LINES));
 
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
+	_attrs[MP_ATTR_NORMAL] = COLOR_PAIR(1);
+
 	init_pair(2, COLOR_BLACK, COLOR_WHITE);
+	_attrs[MP_ATTR_CURSOR] = COLOR_PAIR(2) | A_REVERSE;
 
-	_attrs[0] = COLOR_PAIR(1);
-	_attrs[1] = COLOR_PAIR(2) | A_REVERSE;
+	init_pair(3, COLOR_RED, COLOR_WHITE);
+	_attrs[MP_ATTR_SELECTION] = COLOR_PAIR(3) | A_REVERSE;
 
-	bkgdset(' ' | _attrs[0]);
+	init_pair(4, COLOR_GREEN, COLOR_WHITE);
+	_attrs[MP_ATTR_COMMENTS] = COLOR_PAIR(4);
+
+	init_pair(5, COLOR_BLUE, COLOR_WHITE);
+	_attrs[MP_ATTR_QUOTES] = COLOR_PAIR(5) | A_BOLD;
+
+	init_pair(6, COLOR_BLACK, COLOR_CYAN);
+	_attrs[MP_ATTR_MATCHING] = COLOR_PAIR(6);
+
+	init_pair(7, COLOR_GREEN, COLOR_WHITE);
+	_attrs[MP_ATTR_WORD_1] = COLOR_PAIR(7);
+
+	bkgdset(' ' | _attrs[MP_ATTR_NORMAL]);
 
 	return(NULL);
 }
@@ -542,9 +558,12 @@ mpdm_t nc_draw(mpdm_t a)
 			attr = mpdm_ival(mpdm_aget(l, m++));
 			s = mpdm_aget(l, m);
 
+			attrset(_attrs[attr]);
 			addwstr((wchar_t *) s->data);
 		}
 	}
+
+	refresh();
 
 	return(NULL);
 }
