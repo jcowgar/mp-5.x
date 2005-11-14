@@ -4,6 +4,14 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
+ * 1102: Tabs are incorrectly coloured when the cursor is over one.
+ * 1103: When the end of a coloured block (for example, a comment in
+   C code) is lost below the last line, it's not coloured (this probably
+   means there should exist 'postread lines').
+ * 1104: When moving up / down, the X position should match the visual
+   column and not the exact one. Now, when moving among lines with a
+   different number of tabs, the cursor jumps weirdly.
+
 Open Bugs
 ---------
 
