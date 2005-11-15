@@ -117,11 +117,11 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 /* adjust the visual x position */
 {
 	int n, m;
-	wchar_t * ptr = (wchar_t *) drw.v->data;
+	wchar_t * ptr;
 	int t = *vx;
 
 	/* move to the first character of the line */
-	ptr += drw_line_offset(y);
+	ptr = drw.ptr + drw_line_offset(y);
 
 	/* calculate the column for the cursor position */
 	for(n = m = 0;n < x;n++, ptr++)
@@ -315,11 +315,10 @@ static void drw_matching_paren(void)
 {
 	int o = drw.cursor;
 	int i = 0;
-	wchar_t * ptr = (wchar_t *)drw.v->data;
 	wchar_t c;
 
 	/* find the opposite and the increment (direction) */
-	switch(ptr[o]) {
+	switch(drw.ptr[o]) {
 	case L'(': c = L')'; i = 1; break;
 	case L'{': c = L'}'; i = 1; break;
 	case L'[': c = L']'; i = 1; break;
@@ -330,17 +329,17 @@ static void drw_matching_paren(void)
 
 	/* if a direction is set, do the searching */
 	if(i) {
-		wchar_t s = ptr[o];
+		wchar_t s = drw.ptr[o];
 		int m = 0;
 		int l = i == -1 ? drw.visible - 1 : drw.size;
 
 		while(o != l) {
-			if (ptr[o] == s) {
+			if (drw.ptr[o] == s) {
 				/* found the same */
 				m++;
 			}
 			else
-			if (ptr[o] == c) {
+			if (drw.ptr[o] == c) {
 				/* found the opposite */
 				if(--m == 0) {
 					/* found! fill and exit */
@@ -362,17 +361,16 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 	mpdm_t l = NULL;
 	int m, i, x, t;
 	int o = drw.offsets[line + drw.p_lines];
-	wchar_t * ptr = (wchar_t *)drw.v->data;
 	int a = drw.attrs[o];
 	wchar_t c = L' ';
 
 	m = i = x = 0;
 
 	/* skip first the lost-to-the-left characters */
-	while(!EOS(ptr[o]) && m < drw.vx)
+	while(!EOS(drw.ptr[o]) && m < drw.vx)
 	{
 		a = drw.attrs[o];
-		m += mp_wcwidth(x++, ptr[o++]);
+		m += mp_wcwidth(x++, drw.ptr[o++]);
 	}
 
 	/* if current position is further the first column,
@@ -386,7 +384,7 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 	{
 		while(drw.attrs[o] == a && m < drw.vx + drw.tx)
 		{
-			c = ptr[o];
+			c = drw.ptr[o];
 			t = mp_wcwidth(m, c);
 			m += t;
 
