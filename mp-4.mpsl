@@ -545,7 +545,8 @@ sub main_loop(filename)
 			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
 				'/"([^"\\]*(\\.[^"\\]*)*)"/',
 				"/'([^'\\]*(\\.[^'\\]*)*)'/",
-				"/\b-?[0-9]+\b/"
+				"/\b-?[0-9]+\b/",
+				"/\b[[:upper:]_]+\b/"
 				]
 
 			};
