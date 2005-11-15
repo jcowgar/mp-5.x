@@ -5,9 +5,6 @@ Release Critical Bugs
 ---------------------
 
  * 1102: Tabs are incorrectly coloured when the cursor is over one.
- * 1103: When the end of a coloured block (for example, a comment in
-   C code) is lost below the last line, it's not coloured (this probably
-   means there should exist 'postread lines').
  * 1104: When moving up / down, the X position should match the visual
    column and not the exact one. Now, when moving among lines with a
    different number of tabs, the cursor jumps weirdly.
@@ -24,6 +21,10 @@ Pending Enhancements
    HTML / XML / SGML match < > pairs.
  * 1101: Paren matching should not be limited to just parentheses and
    similar, but to full strings (very useful for HTML open / close tags.)
+ * 1103: When the end of a coloured block (for example, a comment in
+   C code) is lost below the last line, it's not coloured (this probably
+   means there should exist 'postread lines')(Fixable with special regular
+   expressions; Tue, 15 Nov 2005 13:49:45 +0100).
 
 Closed
 ------
