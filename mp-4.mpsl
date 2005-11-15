@@ -537,7 +537,7 @@ sub main_loop(filename)
 		d.syntax = { 'hl_words' => { 'return' => 6 },
 			     'comments' => [
 				'|/\*[^*]*\*+([^/*][^*]*\*+)*/|', /* C-like */
-				'|/\*[^/]*$|',			/* C-like, incomplete */
+				'|/\*[^*]*[^/]*$|',		/* C-like, incomplete */
 				'|//.*$|m',			/* C++ */
 				'/^\s*#[a-z]+/m'		/* CPP directives */
 				],
