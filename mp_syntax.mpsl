@@ -13,27 +13,36 @@ mp.syntax.c = {
 				"strcmp", "strncmp", "strtok", "stricmp", "strchr",
 				"strrchr", "strlen", "memcmp", "memcpy", "malloc",
 				"free", "strncpy", "strncat", "snprintf", "strstr",
-				"memset", "memcpy", "#include", "#define", "#ifdef",
-				"va_start", "va_end", "vsprintf", "vsnprintf", "atoi",
-				"qsort", "bsearch", "getenv", "fscanf", "popen",
-				"pclose", "realloc", "fread", "fwrite", "fseek",
-				"#ifndef", "#if", "#else", "#elif", "#endif",
-				"#pragma", "#undef", "{", "}", "putchar", "fflush",
+				"memset", "memcpy", "va_start", "va_end", "vsprintf",
+				"vsnprintf", "atoi", "qsort", "bsearch", "getenv",
+				"fscanf", "popen", "pclose", "realloc", "fread",
+				"fwrite", "fseek", "{", "}", "putchar", "fflush",
 				"wcscmp", "swprintf", "wmemcpy", "swscanf", "sscanf",
 				"wcslen", "wmemset", "wcscpy", "wcsncpy",
 				"mbstowcs", "wcstombs", "wprintf", "wcschr",
 				"wcsrchr", "wcsstr", "strdup", "wctomb", "mbtowc",
-				"mbrtowc", "wcrtomb",
-				"open", "close", "read", "write", "pipe", "fork",
-				"dup", "dup2", "wait", "execl", "execlp", "execle",
-				"execv", "execvp" ],
+				"mbrtowc", "wcrtomb", "open", "close", "read",
+				"write", "pipe", "fork", "dup", "dup2", "wait",
+				"execl", "execlp", "execle", "execv", "execvp" ],
 	'variables'	=>	[ "char", "int", "long", "struct", "union", "const",
 				"void", "unsigned", "signed", "auto", "volatile",
 				"enum", "typedef", "float", "double", "extern",
 				"register", "short", "sizeof", "static", "far",
 				"near", "defined", "va_list", "size_t", "wchar_t",
 				"iconv_t" ],
-	'comments'	=>	[ '|/\*[^*]*\*+([^/*][^*]*\*+)*/|', '|//.*$|m' ],
-	'quotes'	=>	[ "/'[^']*'/", '/"[^"]*"/' ],
-	'words'		=>	'/[\w#{}]+/'
+	'comments'	=>	[
+		/* from http://aspn.activestate.com/ASPN/Cookbook/Rx/Recipe/59811 */
+		'|/\*[^*]*\*+([^/*][^*]*\*+)*/|',	/* C-like */
+		'|/\*[^*]*[^/]*$|',			/* C-like, incomplete */
+		'|//.*$|m',				/* C++ */
+		'/^\s*#[a-z]+/m'			/* CPP directives */
+				],
+	'quotes'	=>	[
+		/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
+		'/"([^"\\]*(\\.[^"\\]*)*)"/',		/* double-quoted strings */
+		"/'([^'\\]*(\\.[^'\\]*)*)'/",		/* single-quoted strings */
+		"/\b-?[0-9]+\b/",			/* numbers */
+		"/\b[[:upper:]_]+\b/"			/* all-caps strings */
+				],
+	'words'		=>	'/[\w{}]+/'
 };
