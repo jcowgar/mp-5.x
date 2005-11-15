@@ -67,11 +67,12 @@ static struct {
 	int ty;		/* vertical window size */
 	int visible;	/* offset to the first visible character */
 	int cursor;	/* offset to cursor */
-	int size;	/* size of data */
+	wchar_t * ptr;	/* pointer to joined data */
+	int size;	/* size of joined data */
 	mpdm_t txt;	/* the document */
 	mpdm_t syntax;	/* syntax highlight information */
 	mpdm_t v;	/* the data */
-} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL };
+} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, 0, NULL, NULL, NULL };
 
 
 #define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
@@ -136,15 +137,14 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 }
 
 
-static mpdm_t drw_prepare(mpdm_t doc)
+static void drw_prepare(mpdm_t doc)
 {
 	mpdm_t txt = mpdm_hget_s(doc, L"txt");
 	mpdm_t window = mpdm_hget_s(doc, L"window");
 	mpdm_t lines = mpdm_hget_s(txt, L"lines");
 	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
 	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
-	mpdm_t v;
-	int n, o;
+	int n;
 
 	drw.vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
 	drw.vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
@@ -164,25 +164,33 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	/* alloc space for line offsets */
 	drw.offsets = realloc(drw.offsets, drw.n_lines * sizeof(int));
 
-	/* create an array for joining */
-	v=MPDM_A(drw.n_lines);
+	drw.ptr = NULL;
+	drw.size = 0;
 
-	/* transfer all lines and offsets */
-	for(n=o=0;n < drw.n_lines;n++)
+	/* add first line */
+	drw.ptr = mpdm_pokev(drw.ptr, &drw.size,
+		mpdm_aget(lines, drw.vy - drw.p_lines));
+
+	/* first line start at 0 */
+	drw.offsets[0] = 0;
+
+	/* add the following lines and store their offsets */
+	for(n = 1;n < drw.n_lines;n++)
 	{
-		mpdm_t t;
+		/* add the separator */
+		drw.ptr = mpdm_poke(drw.ptr, &drw.size,
+			L"\n", 1, sizeof(wchar_t));
 
-		t=mpdm_aget(lines, n + drw.vy - drw.p_lines);
+		/* this line starts here */
+		drw.offsets[n] = drw.size;
 
-		drw.offsets[n] = o;
-		o += mpdm_size(t) + 1;
-
-		mpdm_aset(v, t, n);
+		/* now add it */
+		drw.ptr = mpdm_pokev(drw.ptr, &drw.size,
+			mpdm_aget(lines, n + drw.vy - drw.p_lines));
 	}
 
-	/* join all lines now */
-	drw.v = mpdm_ajoin(MPDM_LS(L"\n"), v);
-	drw.size = mpdm_size(drw.v);
+	/* now create a value */
+	drw.v = mpdm_new(MPDM_STRING|MPDM_FREE, drw.ptr, drw.size);
 
 	/* alloc and init space for the attributes */
 	drw.attrs = realloc(drw.attrs, drw.size + 1);
@@ -198,8 +206,6 @@ static mpdm_t drw_prepare(mpdm_t doc)
 	drw.txt = txt;
 	drw.visible = drw_line_offset(drw.vy);
 	drw.cursor = drw_line_offset(y) + x;
-
-	return(v);
 }
 
 
