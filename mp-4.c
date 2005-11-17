@@ -304,7 +304,7 @@ static void drw_selection(void)
 		return;
 
 	so=by < drw.vy ? drw.visible : drw_line_offset(by) + bx;
-	eo=ey > drw.vy + drw.ty ? drw.size : drw_line_offset(ey) + ex;
+	eo=ey >= drw.vy + drw.ty ? drw.size : drw_line_offset(ey) + ex;
 
 	drw_fill_attr(MP_ATTR_SELECTION, so, eo - so);
 }
