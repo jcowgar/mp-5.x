@@ -526,15 +526,25 @@ mpdm_t nc_getkey(mpdm_t v)
 	c[1] = L'\0';
 
 	switch(c[0]) {
-	case L'\e': f = L"escape"; break;
-	case KEY_LEFT: f = L"cursor-left"; break;
-	case KEY_RIGHT: f = L"cursor-right"; break;
-	case KEY_UP: f = L"cursor-up"; break;
-	case KEY_DOWN: f = L"cursor-down"; break;
-	case KEY_PPAGE: f = L"page-up"; break;
-	case KEY_NPAGE: f = L"page-down"; break;
-	case KEY_HOME: f = L"home"; break;
-	case KEY_END: f = L"end"; break;
+	case L'\e':	f = L"escape"; break;
+	case KEY_LEFT:	f = L"cursor-left"; break;
+	case KEY_RIGHT:	f = L"cursor-right"; break;
+	case KEY_UP:	f = L"cursor-up"; break;
+	case KEY_DOWN:	f = L"cursor-down"; break;
+	case KEY_PPAGE:	f = L"page-up"; break;
+	case KEY_NPAGE:	f = L"page-down"; break;
+	case KEY_HOME:	f = L"home"; break;
+	case KEY_END:	f = L"end"; break;
+	case KEY_F(1):	f = L"f1"; break;
+	case KEY_F(2):	f = L"f2"; break;
+	case KEY_F(3):	f = L"f3"; break;
+	case KEY_F(4):	f = L"f4"; break;
+	case KEY_F(5):	f = L"f5"; break;
+	case KEY_F(6):	f = L"f6"; break;
+	case KEY_F(7):	f = L"f7"; break;
+	case KEY_F(8):	f = L"f8"; break;
+	case KEY_F(9):	f = L"f9"; break;
+	case KEY_F(10): f = L"f10"; break;
 	}
 
 	return(MPDM_LS(f));

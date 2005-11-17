@@ -499,6 +499,10 @@ mp.keycodes = {
 	'page-down'	=>	'move-pgdn',
 	'home'		=>	'move-bol',
 	'end'		=>	'move-eol',
+
+	'f8'		=>	'unmark',
+	'f9'		=>	'mark',
+
 	'escape'	=>	'exit'
 };
 
@@ -512,6 +516,9 @@ mp.functions = {
 	'move-pgdn'	=>	sub (k) { mp.move_pgdn(k); },
 	'move-bol'	=>	sub (k) { mp.move_bol(k); },
 	'move-eol'	=>	sub (k) { mp.move_eol(k); },
+
+	'unmark'	=>	sub (k) { mp.unmark(k); },
+	'mark'		=>	sub (k) { mp.mark(k); },
 
 	'exit'		=>	sub (k) { mp.exit_requested = 1; }
 
