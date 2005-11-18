@@ -213,7 +213,7 @@ sub mp.join_line(doc)
 		txt.lines[txt.y] = txt.lines[txt.y] ~ txt.lines[txt.y + 1];
 
 		/* collapse */
-		acollapse(txt.lines, txt.y + 1);
+		acollapse(txt.lines, txt.y + 1, 1);
 	}
 }
 
@@ -334,6 +334,10 @@ sub mp.delete_mark(doc)
 	/* no mark? done */
 	if(txt.mark == NULL) return;
 
+	/* move to the start of the block */
+	txt.x=txt.mark.bx;
+	txt.y=txt.mark.by;
+
 	if(txt.mark.by == txt.mark.ey)
 	{
 		local w;
@@ -361,12 +365,12 @@ sub mp.delete_mark(doc)
 
 		/* collapse the lines in between */
 		acollapse(txt.lines, txt.mark.by + 1,
-			txt.mark.ey - txt.mark.by - 2);
+			txt.mark.ey - txt.mark.by - 1);
+
+		/* finally join both lines */
+		mp.join_line(doc);
 	}
 
-	/* in any case, move to the start of the block and unmark */
-	txt.x=txt.mark.bx;
-	txt.y=txt.mark.by;
 	mp.unmark(doc);
 }
 
