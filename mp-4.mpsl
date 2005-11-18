@@ -514,6 +514,8 @@ mp.keycodes = {
 	'ctrl-v'	=>	'paste-mark',
 	'ctrl-t'	=>	'cut-mark',
 
+	'ctrl-z'	=>	'undo',
+
 	'ctrl-q'	=>	'exit'
 };
 
@@ -531,8 +533,10 @@ mp.functions = {
 	'unmark'	=>	sub (k) { mp.unmark(k); },
 	'mark'		=>	sub (k) { mp.mark(k); },
 	'copy-mark'	=>	sub (k) { mp.copy(k); },
-	'paste-mark'	=>	sub (k) { mp.paste(k); },
-	'cut-mark'	=>	sub (k) { mp.cut(k); },
+	'paste-mark'	=>	sub (k) { mp.store_undo(k); mp.paste(k); },
+	'cut-mark'	=>	sub (k) { mp.store_undo(k); mp.cut(k); },
+
+	'undo'		=>	sub (k) { mp.undo(k); },
 
 	'exit'		=>	sub (k) { mp.exit_requested = 1; }
 
