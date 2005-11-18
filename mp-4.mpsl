@@ -371,6 +371,14 @@ sub mp.delete_mark(doc)
 }
 
 
+sub mp.cut(doc)
+/* cut (copy + delete) selected mark */
+{
+	mp.copy(doc);
+	mp.delete_mark(doc);
+}
+
+
 sub mp.paste(doc)
 /* pastes from the clipboard into a text */
 {
@@ -502,8 +510,11 @@ mp.keycodes = {
 
 	'f8'		=>	'unmark',
 	'f9'		=>	'mark',
+	'ctrl-c'	=>	'copy-mark',
+	'ctrl-v'	=>	'paste-mark',
+	'ctrl-t'	=>	'cut-mark',
 
-	'escape'	=>	'exit'
+	'ctrl-q'	=>	'exit'
 };
 
 mp.functions = {
@@ -519,6 +530,9 @@ mp.functions = {
 
 	'unmark'	=>	sub (k) { mp.unmark(k); },
 	'mark'		=>	sub (k) { mp.mark(k); },
+	'copy-mark'	=>	sub (k) { mp.copy(k); },
+	'paste-mark'	=>	sub (k) { mp.paste(k); },
+	'cut-mark'	=>	sub (k) { mp.cut(k); },
 
 	'exit'		=>	sub (k) { mp.exit_requested = 1; }
 

@@ -517,6 +517,8 @@ mpdm_t nc_shutdown(mpdm_t v)
 }
 
 
+#define ctrl(k) ((k) & 31)
+
 mpdm_t nc_getkey(mpdm_t v)
 {
 	wchar_t c[2];
@@ -535,6 +537,11 @@ mpdm_t nc_getkey(mpdm_t v)
 	case KEY_NPAGE:	f = L"page-down"; break;
 	case KEY_HOME:	f = L"home"; break;
 	case KEY_END:	f = L"end"; break;
+	case KEY_BACKSPACE:
+	case '\b':	f = L"backspace"; break;
+	case '\r':
+	case KEY_ENTER:	f = L"enter"; break;
+	case '\t':	f = L"tab"; break;
 	case KEY_F(1):	f = L"f1"; break;
 	case KEY_F(2):	f = L"f2"; break;
 	case KEY_F(3):	f = L"f3"; break;
@@ -545,6 +552,29 @@ mpdm_t nc_getkey(mpdm_t v)
 	case KEY_F(8):	f = L"f8"; break;
 	case KEY_F(9):	f = L"f9"; break;
 	case KEY_F(10): f = L"f10"; break;
+	case ctrl(' '): f = L"ctrl-space"; break;
+	case ctrl('a'):	f = L"ctrl-a"; break;
+	case ctrl('b'):	f = L"ctrl-b"; break;
+	case ctrl('c'):	f = L"ctrl-c"; break;
+	case ctrl('d'):	f = L"ctrl-d"; break;
+	case ctrl('e'):	f = L"ctrl-e"; break;
+	case ctrl('f'):	f = L"ctrl-f"; break;
+	case ctrl('g'):	f = L"ctrl-g"; break;
+	case ctrl('j'):	f = L"ctrl-j"; break;
+	case ctrl('l'):	f = L"ctrl-l"; break;
+	case ctrl('n'):	f = L"ctrl-n"; break;
+	case ctrl('o'):	f = L"ctrl-o"; break;
+	case ctrl('p'):	f = L"ctrl-p"; break;
+	case ctrl('q'):	f = L"ctrl-q"; break;
+	case ctrl('r'):	f = L"ctrl-r"; break;
+	case ctrl('s'):	f = L"ctrl-s"; break;
+	case ctrl('t'):	f = L"ctrl-t"; break;
+	case ctrl('u'):	f = L"ctrl-u"; break;
+	case ctrl('v'):	f = L"ctrl-v"; break;
+	case ctrl('w'):	f = L"ctrl-w"; break;
+	case ctrl('x'):	f = L"ctrl-x"; break;
+	case ctrl('y'):	f = L"ctrl-y"; break;
+	case ctrl('z'):	f = L"ctrl-z"; break;
 	}
 
 	return(MPDM_LS(f));
