@@ -516,7 +516,7 @@ mp.keycodes = {
 	'f9'		=>	'mark',
 	'ctrl-c'	=>	'copy-mark',
 	'ctrl-v'	=>	'paste-mark',
-	'ctrl-t'	=>	'cut-mark',
+	'ctrl-x'	=>	'cut-mark',
 
 	'ctrl-z'	=>	'undo',
 
