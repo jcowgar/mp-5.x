@@ -517,15 +517,55 @@ mpdm_t nc_shutdown(mpdm_t v)
 }
 
 
+wchar_t * nc_getwch(void)
+{
+	static wchar_t c[2];
+
+#ifdef CONFOPT_GET_WCH
+
+	get_wch(c);
+
+#else
+	char tmp[MB_CUR_MAX + 1];
+	int cc, n=0;
+
+	/* read one byte */
+	cc = getch();
+	if(has_key(cc))
+	{
+		c[0] = cc;
+		return(c);
+	}
+
+	/* set to non-blocking */
+	nodelay(stdscr, 1);
+
+	/* read all possible following characters */
+	tmp[n++] = cc;
+	while(n < sizeof(tmp) - 1 && (cc = getch()) != ERR)
+		tmp[n++] = cc;
+
+	/* sets input as blocking */
+	nodelay(stdscr, 0);
+
+	tmp[n] = '\0';
+	mbstowcs(c, tmp, n);
+#endif
+
+	c[1] = '\0';
+	return(c);
+}
+
+
 #define ctrl(k) ((k) & 31)
 
 mpdm_t nc_getkey(mpdm_t v)
 {
-	wchar_t c[2];
-	wchar_t * f = c;
+	wchar_t * c;
+	wchar_t * f = NULL;
 
-	get_wch(c);
-	c[1] = L'\0';
+	c = nc_getwch();
+	f = c;
 
 	switch(c[0]) {
 	case L'\e':	f = L"escape"; break;
