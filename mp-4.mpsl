@@ -536,7 +536,7 @@ mp.functions = {
 
 	'unmark'	=>	sub (k) { mp.unmark(k); },
 	'mark'		=>	sub (k) { mp.mark(k); },
-	'copy-mark'	=>	sub (k) { mp.copy(k); },
+	'copy-mark'	=>	sub (k) { mp.copy(k); mp.unmark(k); },
 	'paste-mark'	=>	sub (k) { mp.store_undo(k); mp.paste(k); },
 	'cut-mark'	=>	sub (k) { mp.store_undo(k); mp.cut(k); },
 
