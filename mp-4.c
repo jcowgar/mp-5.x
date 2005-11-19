@@ -581,6 +581,21 @@ mpdm_t nc_getkey(mpdm_t v)
 }
 
 
+void nc_addwstr(wchar_t * str)
+{
+#ifndef CONFOPT_ADDWSTR
+	char * cptr;
+
+	cptr = mpdm_wcstombs(str, NULL);
+	addstr(cptr);
+	free(cptr);
+
+#else
+	addwstr(str);
+#endif /* CONFOPT_ADDWSTR */
+}
+
+
 mpdm_t nc_draw(mpdm_t a)
 /* driver drawing function for cursesw */
 {
@@ -608,7 +623,7 @@ mpdm_t nc_draw(mpdm_t a)
 			s = mpdm_aget(l, m);
 
 			attrset(_attrs[attr]);
-			addwstr((wchar_t *) s->data);
+			nc_addwstr((wchar_t *) s->data);
 		}
 	}
 
