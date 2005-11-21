@@ -512,6 +512,8 @@ mp.keycodes = {
 	'home'		=>	'move-bol',
 	'end'		=>	'move-eol',
 
+	'enter'		=>	'insert-line',
+
 	'f3'		=>	'seek-next',
 	'f8'		=>	'unmark',
 	'f9'		=>	'mark',
@@ -560,6 +562,8 @@ mp.functions = {
 	'copy-mark'	=>	sub (k) { mp.copy(k); mp.unmark(k); },
 	'paste-mark'	=>	sub (k) { mp.store_undo(k); mp.paste(k); },
 	'cut-mark'	=>	sub (k) { mp.store_undo(k); mp.cut(k); },
+
+	'insert-line'	=>	sub (k) { mp.store_undo(k); mp.break_line(k); },
 
 	'undo'		=>	sub (k) { mp.undo(k); },
 
