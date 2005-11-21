@@ -567,6 +567,7 @@ mp.functions = {
 
 	'insert-line'	=>	sub (k) { mp.store_undo(k); mp.break_line(k); },
 	'insert-space'	=>	sub (k) { mp.store_undo(k); mp.insert(k, ' '); },
+	'insert-tab'	=>	sub (k) { mp.store_undo(k); mp.insert(k, "\t"); },
 
 	'undo'		=>	sub (k) { mp.undo(k); },
 
@@ -615,16 +616,18 @@ sub main_loop(filename)
 
 			nc_draw(d);
 
-			if((f = mp.keycodes[nc_getkey()]) != NULL)
+			k = nc_getkey();
+
+			if((f = mp.keycodes[k]) != NULL)
 			{
 				if((f = mp.functions[f]) != NULL)
 					f(d);
 			}
+			else
+				mp.insert(d, k);
 		}
 
 		nc_shutdown();
-
-		dump(v);
 	}
 	else
 		print("Can't open '", filename, "'\n");
