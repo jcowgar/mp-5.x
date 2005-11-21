@@ -582,6 +582,7 @@ mpdm_t nc_getkey(mpdm_t v)
 	case '\r':
 	case KEY_ENTER:	f = L"enter"; break;
 	case '\t':	f = L"tab"; break;
+	case ' ':	f = L"space"; break;
 	case KEY_F(1):	f = L"f1"; break;
 	case KEY_F(2):	f = L"f2"; break;
 	case KEY_F(3):	f = L"f3"; break;

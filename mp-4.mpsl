@@ -513,6 +513,8 @@ mp.keycodes = {
 	'end'		=>	'move-eol',
 
 	'enter'		=>	'insert-line',
+	'tab'		=>	'insert-tab',
+	'space'		=>	'insert-space',
 
 	'f3'		=>	'seek-next',
 	'f8'		=>	'unmark',
@@ -564,6 +566,7 @@ mp.functions = {
 	'cut-mark'	=>	sub (k) { mp.store_undo(k); mp.cut(k); },
 
 	'insert-line'	=>	sub (k) { mp.store_undo(k); mp.break_line(k); },
+	'insert-space'	=>	sub (k) { mp.store_undo(k); mp.insert(k, ' '); },
 
 	'undo'		=>	sub (k) { mp.undo(k); },
 
