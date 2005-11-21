@@ -191,10 +191,12 @@ sub mp.break_line(doc)
 	{
 		/* extract leading blanks in the original line
 		   and prepend them to the line to be inserted */
-		w[1]=regex("/^[ \t]*/", c, 0) ~ w[1];
+		local i = regex("/^[ \t]*/", c, 0);
+
+		w[1] = i ~ w[1];
 
 		/* move to the end of that */
-		txt.x = size(w[1]);
+		txt.x = size(i);
 	}
 	else
 		txt.x = 0;
@@ -634,6 +636,8 @@ sub main_loop(filename)
 	else
 		print("Can't open '", filename, "'\n");
 }
+
+mp.config.auto_indent = 1;
 
 if(size(ARGV) > 1)
 	main_loop(ARGV[1]);
