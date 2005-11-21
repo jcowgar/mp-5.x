@@ -512,15 +512,36 @@ mp.keycodes = {
 	'home'		=>	'move-bol',
 	'end'		=>	'move-eol',
 
+	'f3'		=>	'seek-next',
 	'f8'		=>	'unmark',
 	'f9'		=>	'mark',
+
+	'ctrl-a'	=>	NULL,
+	'ctrl-b'	=>	NULL,
 	'ctrl-c'	=>	'copy-mark',
+	'ctrl-d'	=>	NULL,
+	'ctrl-e'	=>	NULL,
+	'ctrl-f'	=>	'seek',
+	'ctrl-g'	=>	'goto',
+	'ctrl-h'	=>	NULL,
+	'ctrl-i'	=>	'insert-tab',
+	'ctrl-j'	=>	NULL,
+	'ctrl-k'	=>	NULL,
+	'ctrl-l'	=>	NULL,
+	'ctrl-m'	=>	'insert-line',
+	'ctrl-n'	=>	'new',
+	'ctrl-o'	=>	'open',
+	'ctrl-p'	=>	NULL,
+	'ctrl-q'	=>	'exit',
+	'ctrl-r'	=>	'replace',
+	'ctrl-s'	=>	'save',
+	'ctrl-t'	=>	NULL,
+	'ctrl-u'	=>	NULL,
 	'ctrl-v'	=>	'paste-mark',
+	'ctrl-w'	=>	'close',
 	'ctrl-x'	=>	'cut-mark',
-
-	'ctrl-z'	=>	'undo',
-
-	'ctrl-q'	=>	'exit'
+	'ctrl-y'	=>	'delete-line',
+	'ctrl-z'	=>	'undo'
 };
 
 mp.functions = {
