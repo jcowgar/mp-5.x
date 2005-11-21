@@ -194,8 +194,8 @@ sub mp.break_line(doc)
 		w[1]=regex("/^[ \t]*/", c, 0) ~ w[1];
 	}
 
-	/* put second part there */
-	txt.lines[txt.y]=w[1];
+	/* put second part there (or an empty string if NULL) */
+	txt.lines[txt.y] = w[1] || '';
 
 	/* move to bol */
 	txt.x=0;
@@ -232,10 +232,10 @@ sub mp.insert(doc, str)
 	txt.x += size(str);
 
 	/* if wordwrapping... */
-	if(mp.config.wordwrap > 0 && size(w[0]) > mp.config.wordwrap)
+/*	if(mp.config.wordwrap > 0 && size(w[0]) > mp.config.wordwrap)
 	{
 		print("TBD\n");
-	}
+	}*/
 }
 
 
