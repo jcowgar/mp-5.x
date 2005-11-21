@@ -192,13 +192,15 @@ sub mp.break_line(doc)
 		/* extract leading blanks in the original line
 		   and prepend them to the line to be inserted */
 		w[1]=regex("/^[ \t]*/", c, 0) ~ w[1];
+
+		/* move to the end of that */
+		txt.x = size(w[1]);
 	}
+	else
+		txt.x = 0;
 
 	/* put second part there (or an empty string if NULL) */
 	txt.lines[txt.y] = w[1] || '';
-
-	/* move to bol */
-	txt.x=0;
 }
 
 
@@ -632,7 +634,6 @@ sub main_loop(filename)
 	else
 		print("Can't open '", filename, "'\n");
 }
-
 
 if(size(ARGV) > 1)
 	main_loop(ARGV[1]);
