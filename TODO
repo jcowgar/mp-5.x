@@ -8,11 +8,27 @@ Release Critical Bugs
  * 1104: When moving up / down, the X position should match the visual
    column and not the exact one. Now, when moving among lines with a
    different number of tabs, the cursor jumps weirdly.
+ * 1105: Use a reasonable build system with config.sh.
+ * 1106: Add tag support.
+ * 1107: Add ispell support.
+ * 1108: Add word wrapping.
+ * 1109: Add jump to matching paren.
+ * 1110: Add mp_templates support.
+ * 1111: Add search.
+ * 1112: Add replace.
+ * 1113: Add replace in all.
+ * 1114: Add delete line.
+ * 1115: Add password protection.
+ * 1116: Add grep.
+ * 1117: Add go to line.
+ * 1118: Add move word left and right.
+ * 1119: Add learn mode.
+ * 1120: Add system command execution (pipes).
 
 Open Bugs
 ---------
 
-None!
+Too much!
 
 Pending Enhancements
 --------------------
@@ -21,13 +37,13 @@ Pending Enhancements
    HTML / XML / SGML match < > pairs.
  * 1101: Paren matching should not be limited to just parentheses and
    similar, but to full strings (very useful for HTML open / close tags.)
- * 1103: When the end of a coloured block (for example, a comment in
-   C code) is lost below the last line, it's not coloured (this probably
-   means there should exist 'postread lines')(Fixable with special regular
-   expressions; Tue, 15 Nov 2005 13:49:45 +0100).
 
 Closed
 ------
 
+ * 1103: When the end of a coloured block (for example, a comment in
+   C code) is lost below the last line, it's not coloured (this probably
+   means there should exist 'postread lines')(Fixable with special regular
+   expressions; Tue, 15 Nov 2005 13:49:45 +0100).
 
 Email bugs to angel@triptico.com
