@@ -75,6 +75,17 @@ sub mp.set_x(doc, x)
 }
 
 
+sub mp.fix_x(doc)
+/* fixes the x position (probably after a change of y) */
+{
+	local txt = doc.txt;
+
+	/* if x is beyond last char, move to end of line */
+	if(txt.x > size(txt.lines[txt.y]))
+		txt.x = size(txt.lines[txt.y]);
+}
+
+
 sub mp.set_y(doc, y)
 /* sets the y position */
 {
@@ -87,9 +98,7 @@ sub mp.set_y(doc, y)
 	/* move there */
 	txt.y=y;
 
-	/* if x is beyond last char, move to end of line */
-	if(txt.x > size(txt.lines[txt.y]))
-		txt.x=size(txt.lines[txt.y]);
+	mp.fix_x(doc);
 }
 
 
@@ -219,6 +228,22 @@ sub mp.join_line(doc)
 		/* collapse */
 		acollapse(txt.lines, txt.y + 1, 1);
 	}
+}
+
+
+sub mp.delete_line(doc)
+/* deletes the current line */
+{
+	local txt = doc.txt;
+
+	/* simply destroy it */
+	acollapse(txt.lines, txt.y, 1);
+
+	/* fix if it was the last line */
+	if(txt.y >= size(txt.lines))
+		txt.y = size(txt.lines) - 1;
+
+	mp.fix_x(doc);
 }
 
 
@@ -570,6 +595,7 @@ mp.functions = {
 	'cut-mark'	=>	sub (k) { mp.store_undo(k); mp.cut(k); },
 
 	'insert-line'	=>	sub (k) { mp.store_undo(k); mp.break_line(k); },
+	'delete-line'	=>	sub (k) { mp.store_undo(k); mp.delete_line(k); },
 	'insert-space'	=>	sub (k) { mp.store_undo(k); mp.insert(k, ' '); },
 	'insert-tab'	=>	sub (k) { mp.store_undo(k); mp.insert(k, "\t"); },
 

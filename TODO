@@ -17,7 +17,6 @@ Release Critical Bugs
  * 1111: Add search.
  * 1112: Add replace.
  * 1113: Add replace in all.
- * 1114: Add delete line.
  * 1115: Add password protection.
  * 1116: Add grep.
  * 1117: Add go to line.
@@ -45,5 +44,6 @@ Closed
    C code) is lost below the last line, it's not coloured (this probably
    means there should exist 'postread lines')(Fixable with special regular
    expressions; Tue, 15 Nov 2005 13:49:45 +0100).
+ * 1114: Add delete line (Thu, 24 Nov 2005 20:12:05 +0100).
 
 Email bugs to angel@triptico.com
