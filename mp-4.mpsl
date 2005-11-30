@@ -627,7 +627,8 @@ sub main_loop(filename)
 				'|/\*[^*]*\*+([^/*][^*]*\*+)*/|', /* C-like */
 				'|/\*[^*]*[^/]*$|',		/* C-like, incomplete */
 				'|//.*$|m',			/* C++ */
-				'/^\s*#[a-z]+/m'		/* CPP directives */
+				'/^\s*#[a-z]+/m',		/* CPP directives */
+				"/__END__\n.*$/"		/* Perl's END */
 				],
 			     'quotes'   => [
 			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
