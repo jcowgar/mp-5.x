@@ -624,8 +624,7 @@ sub main_loop(filename)
 		/* HACK: hardcoded synhi */
 		d.syntax = { 'hl_words' => { 'return' => 6 },
 			     'comments' => [
-				'|/\*[^*]*\*+([^/*][^*]*\*+)*/|', /* C-like */
-				'|/\*[^*]*[^/]*$|',		/* C-like, incomplete */
+				[ '|/\*|', '|\*/|' ],		/* C */
 				'|//.*$|m',			/* C++ */
 				'/^\s*#[a-z]+/m',		/* CPP directives */
 				"/__END__\n.*$/",		/* Perl's END */
