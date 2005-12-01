@@ -265,9 +265,46 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 		mpdm_t r = mpdm_aget(a, n);
 		int o = 0;
 
-		/* while the regex matches, fill attributes */
-		while(mpdm_regex(r, drw.v, o))
-			o = drw_fill_attr_regex(attr);
+		/* if the regex is an array, it's a pair of
+		   'match from this' / 'match until this' */
+		if(r->flags & MPDM_MULTIPLE)
+		{
+			mpdm_t rs = mpdm_aget(r, 0);
+			mpdm_t re = mpdm_aget(r, 1);
+
+			while(mpdm_regex(rs, drw.v, o))
+			{
+				int s;
+
+				/* fill the matched part */
+				o = drw_fill_attr_regex(attr);
+
+				/* try to match the end */
+				if(mpdm_regex(re, drw.v, o))
+				{
+					/* found; fill the attribute
+					   to the end of the match */
+					s = mpdm_regex_size +
+						(mpdm_regex_offset - o);
+				}
+				else
+				{
+					/* not found; fill to the end
+					   of the document */
+					s = drw.size - o;
+				}
+
+				/* fill to there */
+				o = drw_fill_attr(attr, o, s);
+			}
+		}
+		else
+		{
+			/* it's a scalar: */
+			/* while the regex matches, fill attributes */
+			while(mpdm_regex(r, drw.v, o))
+				o = drw_fill_attr_regex(attr);
+		}
 	}
 }
 
