@@ -247,6 +247,24 @@ sub mp.delete_line(doc)
 }
 
 
+sub mp.delete_char(doc)
+/* deletes the current char */
+{
+	local txt = doc.txt;
+
+	/* is it over the end of line? */
+	if(txt.x == size(txt.lines[txt.y]))
+		mp.join_line(doc);
+	else
+	{
+		local w;
+
+		w = splice(txt.lines[txt.y], NULL, txt.x, 1);
+		txt.lines[txt.y] = w[0];
+	}
+}
+
+
 sub mp.insert(doc, str)
 /* inserts a string into the cursor position */
 {
@@ -544,6 +562,8 @@ mp.keycodes = {
 	'enter'		=>	'insert-line',
 	'tab'		=>	'insert-tab',
 	'space'		=>	'insert-space',
+	'delete'	=>	'delete',
+	'backspace'	=>	'delete-left',
 
 	'f3'		=>	'seek-next',
 	'f8'		=>	'unmark',
@@ -598,6 +618,10 @@ mp.functions = {
 	'delete-line'	=>	sub (k) { mp.store_undo(k); mp.delete_line(k); },
 	'insert-space'	=>	sub (k) { mp.store_undo(k); mp.insert(k, ' '); },
 	'insert-tab'	=>	sub (k) { mp.store_undo(k); mp.insert(k, "\t"); },
+
+	'delete'	=>	sub (k) { mp.store_undo(k); mp.delete_char(k); },
+	'delete-left'	=>	sub (k) { mp.store_undo(k); mp.move_left(k);
+					mp.delete_char(k); },
 
 	'undo'		=>	sub (k) { mp.undo(k); },
 
