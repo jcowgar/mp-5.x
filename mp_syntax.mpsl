@@ -1,3 +1,4 @@
+mp = {};
 mp.syntax = {};
 
 mp.syntax.c = {
@@ -31,18 +32,35 @@ mp.syntax.c = {
 				"near", "defined", "va_list", "size_t", "wchar_t",
 				"iconv_t" ],
 	'comments'	=>	[
-		/* from http://aspn.activestate.com/ASPN/Cookbook/Rx/Recipe/59811 */
-		'|/\*[^*]*\*+([^/*][^*]*\*+)*/|',	/* C-like */
-		'|/\*[^*]*[^/]*$|',			/* C-like, incomplete */
+		[ '|/\*|', '|\*/|' ],			/* C-like */
 		'|//.*$|m',				/* C++ */
 		'/^\s*#[a-z]+/m'			/* CPP directives */
-				],
+		],
 	'quotes'	=>	[
 		/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
 		'/"([^"\\]*(\\.[^"\\]*)*)"/',		/* double-quoted strings */
 		"/'([^'\\]*(\\.[^'\\]*)*)'/",		/* single-quoted strings */
 		"/\b-?[0-9]+\b/",			/* numbers */
-		"/\b[[:upper:]_]+\b/"			/* all-caps strings */
-				],
-	'words'		=>	'/[\w{}]+/'
+		"/\b[[:upper:]_]+\b/"			/* all-caps words */
+		]
+};
+
+mp.syntax.perl = {
+	'id'		=>	'perl',
+	'name'		=>	'Perl',
+	'filenames'	=>	[ '/\.pl$/', '/\.pm$/' ],
+	'tokens'	=>	[ ],
+	'variables'	=>	[ ],
+	'comments'	=>	[
+		"/#.*$/m",				/* Comments */
+		"/__END__\n.*$/",			/* __END__ */
+		[ "/^=/m", "/^=cut$/m" ]		/* POD */
+	],
+	'quotes'	=>	[
+		/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
+		'/"([^"\\]*(\\.[^"\\]*)*)"/',		/* double-quoted strings */
+		"/'([^'\\]*(\\.[^'\\]*)*)'/",		/* single-quoted strings */
+		"/\b-?[0-9]+\b/",			/* numbers */
+		[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
+	]
 };

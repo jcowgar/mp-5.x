@@ -680,31 +680,8 @@ sub main_loop(filename)
 		d.window.tx = COLS;
 		d.window.ty = LINES;
 
-		/* HACK: hardcoded synhi */
-		d.syntax = { 'hl_words' => { 'return' => 6 },
-			     'comments' => [
-				[ '|/\*|', '|\*/|' ],		/* C */
-				'|//.*$|m',			/* C++ */
-				'/^\s*#[a-z]+/m',		/* CPP directives */
-				"/__END__\n.*$/",		/* Perl's END */
-				[ "/^=/m", "/^=cut$/m" ]	/* Perl's POD */
-				],
-			     'quotes'   => [
-			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
-				'/"([^"\\]*(\\.[^"\\]*)*)"/',
-				"/'([^'\\]*(\\.[^'\\]*)*)'/",
-				"/\b-?[0-9]+\b/",
-				"/\b[[:upper:]_]+\b/",
-			/* Perl's 'document here' in two regexes */
-				[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]
-				]
-
-			};
-
-
 		while (! mp.exit_requested)
 		{
-
 			local f;
 
 			nc_draw(d);
