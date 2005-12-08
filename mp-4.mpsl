@@ -35,6 +35,8 @@ mp.config = {};
 mp.config.eol = "\n";
 mp.config.undo_levels = 20;
 
+load("mp_syntax.mpsl");
+
 /*******************
 	Code
 ********************/
@@ -506,6 +508,8 @@ sub mp.load_file(doc, filename)
 	/* move to bof and save to the undo buffer */
 	mp.move_bof(doc);
 	mp.store_undo(doc);
+
+	mp.detect_syntax(doc);
 
 	return(1);
 }

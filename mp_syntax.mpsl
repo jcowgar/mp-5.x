@@ -1,4 +1,3 @@
-mp = {};
 mp.syntax = {};
 
 mp.syntax.c = {
@@ -64,3 +63,46 @@ mp.syntax.perl = {
 		[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
 	]
 };
+
+
+sub mp.detect_syntax(doc)
+/* tries to detect the syntax of a document */
+{
+	local n;
+
+	doc.syntax = NULL;
+
+	/* loops the syntax highlight definitions */
+	foreach(n, hkeys(mp.syntax))
+	{
+		local ext;
+		local s = mp.syntax[n];
+
+		/* test the extensions */
+		foreach(ext, s.filenames)
+		{
+			if(regex(ext, doc.name))
+			{
+				doc.syntax = s;
+				break;
+			}
+		}
+	}
+
+	/* if one was found, build its hl_words hash */
+	if(doc.syntax && !doc.syntax.hl_words)
+	{
+		local h = {};
+
+		/* HACK */
+		foreach(n, doc.syntax.tokens)
+			h[n] = 6;
+
+		/* HACK */
+		foreach(n, doc.syntax.variables)
+			h[n] = 7;
+
+		/* finally store */
+		doc.syntax.hl_words = h;
+	}
+}

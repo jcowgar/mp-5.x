@@ -49,6 +49,7 @@ int mpi_preread_lines = 60;
 #define MP_ATTR_QUOTES		4
 #define MP_ATTR_MATCHING	5
 #define MP_ATTR_WORD_1		6
+#define MP_ATTR_WORD_2		7
 
 /*******************
 	Code
@@ -540,6 +541,9 @@ mpdm_t nc_startup(mpdm_t v)
 
 	init_pair(7, COLOR_GREEN, COLOR_WHITE);
 	_attrs[MP_ATTR_WORD_1] = COLOR_PAIR(7) | A_BOLD;
+
+	init_pair(8, COLOR_RED, COLOR_WHITE);
+	_attrs[MP_ATTR_WORD_2] = COLOR_PAIR(8) | A_BOLD;
 
 	bkgdset(' ' | _attrs[MP_ATTR_NORMAL]);
 
