@@ -503,7 +503,9 @@ sub mp.load_file(doc, filename)
 
 	close(f);
 
+	/* move to bof and save to the undo buffer */
 	mp.move_bof(doc);
+	mp.store_undo(doc);
 
 	return(1);
 }
