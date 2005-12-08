@@ -24,6 +24,7 @@ Release Critical Bugs
  * 1119: Add learn mode.
  * 1120: Add system command execution (pipes).
  * 1122: Fix quote regexes to not match newlines.
+ * 1123: When deleting the only line of a file, it gets mad.
 
 Open Bugs
 ---------
