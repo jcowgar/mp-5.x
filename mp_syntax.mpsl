@@ -47,9 +47,22 @@ mp.syntax.c = {
 mp.syntax.perl = {
 	'id'		=>	'perl',
 	'name'		=>	'Perl',
-	'filenames'	=>	[ '/\.pl$/', '/\.pm$/' ],
-	'tokens'	=>	[ ],
-	'variables'	=>	[ ],
+	'filenames'	=>	[ '/\.pl$/i', '/\.pm$/' ],
+	'tokens'	=>	[ "for", "if", "next", "last", "else", "elsif",
+				 "unless", "while", "shift", "unshift", "push",
+				 "pop", "delete", "new", "bless", "return",
+				 "foreach", "keys", "values", "sort", "grep",
+				 "tr", "length", "system", "exec", "fork", "map",
+				 "print", "write", "open", "close", "chop",
+				 "chomp", "exit", "sleep", "split", "join",
+				 "sub", "printf", "sprintf", "s", "tr", "glob",
+				 "{", "}" ],
+	'variables'	=>	[ "scalar", "my", "local", "undef", "defined",
+			       "use", "package", "require", "pod", "head1",
+			       "head2", "item", "cut", "over", "back",
+			       "ref", "qw", "qq", "eq", "ne", "or", "exists",
+			       "and", "not", "import", "our", "::", "=", "=~",
+			       ".=", "==", ">", "<", ">=", "<=" ],
 	'comments'	=>	[
 		"/#.*$/m",				/* Comments */
 		"/__END__\n.*$/",			/* __END__ */
@@ -60,6 +73,8 @@ mp.syntax.perl = {
 		'/"([^"\\]*(\\.[^"\\]*)*)"/',		/* double-quoted strings */
 		"/'([^'\\]*(\\.[^'\\]*)*)'/",		/* single-quoted strings */
 		"/\b-?[0-9]+\b/",			/* numbers */
+		[ "/q\(/", "/\)/" ],			/* quote */
+		[ "/qw\(/", "/\)/" ],			/* quote word */
 		[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
 	]
 };
