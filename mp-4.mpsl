@@ -53,7 +53,7 @@ sub mp.set_x(doc, x)
 			txt.y--;
 
 			/* set x to the end of the line */
-			txt.x=size(txt.lines[txt.y]);
+			txt.x = size(txt.lines[txt.y]);
 		}
 	}
 	else
@@ -65,12 +65,12 @@ sub mp.set_x(doc, x)
 			{
 				/* cursor moved right of eol;
 				   effective cursor down + bol */
-				txt.x=0;
+				txt.x = 0;
 				txt.y++;
 			}
 		}
 		else
-			txt.x=x;
+			txt.x = x;
 	}
 }
 
@@ -96,7 +96,7 @@ sub mp.set_y(doc, y)
 	if(y > size(txt.lines)) y = size(txt.lines);
 
 	/* move there */
-	txt.y=y;
+	txt.y = y;
 
 	mp.fix_x(doc);
 }
@@ -147,29 +147,29 @@ sub mp.move_right(doc)
 sub mp.move_bol(doc)
 /* moves to the beginning of the line */
 {
-	doc.txt.x=0;
+	doc.txt.x = 0;
 }
 
 
 sub mp.move_eol(doc)
 /* moves to the end of the line */
 {
-	doc.txt.x=size(doc.txt.lines[doc.txt.y]);
+	doc.txt.x = size(doc.txt.lines[doc.txt.y]);
 }
 
 
 sub mp.move_bof(doc)
 /* moves to the beginning of the file */
 {
-	doc.txt.x=0;
-	doc.txt.y=0;
+	doc.txt.x = 0;
+	doc.txt.y = 0;
 }
 
 
 sub mp.move_eof(doc)
 /* moves to the end of the file */
 {
-	doc.txt.y=size(doc.txt.lines) - 1;
+	doc.txt.y = size(doc.txt.lines) - 1;
 	mp.move_eol(doc);
 }
 
@@ -181,13 +181,13 @@ sub mp.break_line(doc)
 	local c, w;
 
 	/* gets line where cursor is */
-	c=txt.lines[txt.y];
+	c = txt.lines[txt.y];
 
 	/* deletes from cursor to end of line */
-	w=splice(c, NULL, txt.x, -1);
+	w = splice(c, NULL, txt.x, -1);
 
 	/* set first part as current line */
-	txt.lines[txt.y]=w[0];
+	txt.lines[txt.y] = w[0];
 
 	/* move to next line */
 	txt.y++;
@@ -272,7 +272,7 @@ sub mp.insert(doc, str)
 	local w;
 
 	/* splice and change */
-	w=splice(txt.lines[txt.y], str, txt.x, 0);
+	w = splice(txt.lines[txt.y], str, txt.x, 0);
 	txt.lines[txt.y] = w[0];
 
 	/* move right */
@@ -345,7 +345,7 @@ sub mp.copy(doc)
 		/* block is just one line; take the inside
 		   part and push it onto the clipboard */
 
-		w=splice(txt.lines[txt.mark.by], NULL,
+		w = splice(txt.lines[txt.mark.by], NULL,
 			txt.mark.bx, txt.mark.ex - txt.mark.bx);
 
 		apush(mp.clipboard, w[1]);
@@ -357,8 +357,8 @@ sub mp.copy(doc)
 		/* block has more than one line */
 
 		/* take from the beginning to the end of the first line */
-		n=txt.mark.by;
-		w=splice(txt.lines[n], NULL, txt.mark.bx, -1);
+		n = txt.mark.by;
+		w = splice(txt.lines[n], NULL, txt.mark.bx, -1);
 
 		apush(mp.clipboard, w[1]);
 		n++;
@@ -368,7 +368,7 @@ sub mp.copy(doc)
 			apush(mp.clipboard, txt.lines[n++]);
 
 		/* take the last line */
-		w=splice(txt.lines[n], NULL, 0, txt.mark.ex);
+		w = splice(txt.lines[n], NULL, 0, txt.mark.ex);
 		apush(mp.clipboard, w[1]);
 	}
 }
@@ -382,15 +382,15 @@ sub mp.delete_mark(doc)
 	if(txt.mark == NULL) return;
 
 	/* move to the start of the block */
-	txt.x=txt.mark.bx;
-	txt.y=txt.mark.by;
+	txt.x = txt.mark.bx;
+	txt.y = txt.mark.by;
 
 	if(txt.mark.by == txt.mark.ey)
 	{
 		local w;
 
 		/* block is just one line; delete the middle part */
-		w=splice(txt.lines[txt.mark.by], NULL,
+		w = splice(txt.lines[txt.mark.by], NULL,
 			txt.mark.bx, txt.mark.ex - txt.mark.bx);
 
 		txt.lines[txt.mark.by] = w[0];
@@ -402,12 +402,12 @@ sub mp.delete_mark(doc)
 		/* block has more than one line */
 
 		/* delete from the beginning to the end of the first line */
-		w=splice(txt.lines[txt.mark.by], NULL, txt.mark.bx, -1);
+		w = splice(txt.lines[txt.mark.by], NULL, txt.mark.bx, -1);
 		txt.lines[txt.mark.by] = w[0];
 
 		/* delete from the beginning of the last line to
 		   the end of the block */
-		w=splice(txt.lines[txt.mark.ey], NULL, 0, txt.mark.ex);
+		w = splice(txt.lines[txt.mark.ey], NULL, 0, txt.mark.ex);
 		txt.lines[txt.mark.ey] = w[0];
 
 		/* collapse the lines in between */
@@ -441,7 +441,7 @@ sub mp.paste(doc)
 		return;
 
 	/* empty clipboard (rare, but possible)? return */
-	if((s=size(mp.clipboard)) == 0)
+	if((s = size(mp.clipboard)) == 0)
 		return;
 
 	/* paste first line into current position */
@@ -460,14 +460,14 @@ sub mp.paste(doc)
 	/* more than two lines? */
 	if(s > 2)
 	{
-		local n=1;
+		local n = 1;
 
 		/* open room */
 		aexpand(txt.lines, txt.y, s - 2);
 
 		/* transfer middle lines */
 		while(n < s - 1)
-			txt.lines[txt.y++]=mp.clipboard[n++];
+			txt.lines[txt.y++] = mp.clipboard[n++];
 	}
 }
 
@@ -702,7 +702,8 @@ sub main_loop(filename)
 			};
 
 
-		while (! mp.exit_requested) {
+		while (! mp.exit_requested)
+		{
 
 			local f;
 
