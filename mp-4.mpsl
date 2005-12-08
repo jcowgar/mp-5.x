@@ -95,7 +95,7 @@ sub mp.set_y(doc, y)
 
 	/* set boundaries */
 	if(y < 0) y = 0;
-	if(y > size(txt.lines)) y = size(txt.lines);
+	if(y >= size(txt.lines)) y = size(txt.lines) - 1;
 
 	/* move there */
 	txt.y = y;
@@ -502,6 +502,10 @@ sub mp.load_file(doc, filename)
 	/* read the file into it */
 	while((l = read(f)) != NULL)
 		apush(txt.lines, mp.chomp(l));
+
+	/* if previous line was chomped, add an empty line */
+	if(sregex())
+		apush(txt.lines, '');
 
 	close(f);
 

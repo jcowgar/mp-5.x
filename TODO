@@ -23,7 +23,6 @@ Release Critical Bugs
  * 1118: Add move word left and right.
  * 1119: Add learn mode.
  * 1120: Add system command execution (pipes).
- * 1121: Treatment of EOL in last line is uncertain.
  * 1122: Fix quote regexes to not match newlines.
 
 Open Bugs
@@ -47,5 +46,7 @@ Closed
    means there should exist 'postread lines')(Fixable with special regular
    expressions; Tue, 15 Nov 2005 13:49:45 +0100).
  * 1114: Add delete line (Thu, 24 Nov 2005 20:12:05 +0100).
+ * 1121: Treatment of EOL in last line is uncertain
+   (Thu, 08 Dec 2005 20:01:09 +0100).
 
 Email bugs to angel@triptico.com
