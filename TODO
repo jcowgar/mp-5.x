@@ -24,6 +24,7 @@ Release Critical Bugs
  * 1119: Add learn mode.
  * 1120: Add system command execution (pipes).
  * 1121: Treatment of EOL in last line is uncertain.
+ * 1122: Fix quote regexes to not match newlines.
 
 Open Bugs
 ---------
