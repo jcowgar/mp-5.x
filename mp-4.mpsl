@@ -552,7 +552,7 @@ sub mp.new()
 	txt.y = 0;
 	txt.vx = 0;
 	txt.vy = 0;
-	txt.lines = [];
+	txt.lines = [ '' ];
 
 	doc = {};
 	doc.name = "<unnamed>";
@@ -672,39 +672,34 @@ mp.exit_requested = 0;
 
 sub main_loop(filename)
 {
-	local d, v;
+	local d, v, k;
 
 	d = mp.new();
 
-	if(mp.load_file(d, filename))
+	mp.load_file(d, filename);
+
+	nc_startup();
+	d.window.tx = COLS;
+	d.window.ty = LINES;
+
+	while (! mp.exit_requested)
 	{
-		local k;
+		local f;
 
-		nc_startup();
-		d.window.tx = COLS;
-		d.window.ty = LINES;
+		nc_draw(d);
 
-		while (! mp.exit_requested)
+		k = nc_getkey();
+
+		if((f = mp.keycodes[k]) != NULL)
 		{
-			local f;
-
-			nc_draw(d);
-
-			k = nc_getkey();
-
-			if((f = mp.keycodes[k]) != NULL)
-			{
-				if((f = mp.functions[f]) != NULL)
-					f(d);
-			}
-			else
-				mp.insert(d, k);
+			if((f = mp.functions[f]) != NULL)
+				f(d);
 		}
-
-		nc_shutdown();
+		else
+			mp.insert(d, k);
 	}
-	else
-		print("Can't open '", filename, "'\n");
+
+	nc_shutdown();
 }
 
 mp.config.auto_indent = 1;
