@@ -238,8 +238,14 @@ sub mp.delete_line(doc)
 {
 	local txt = doc.txt;
 
-	/* simply destroy it */
-	acollapse(txt.lines, txt.y, 1);
+	/* if it's the only line, just replace it */
+	if(size(txt.lines) == 1)
+		txt.lines[0] = '';
+	else
+	{
+		/* destroy the line */
+		acollapse(txt.lines, txt.y, 1);
+	}
 
 	/* fix if it was the last line */
 	if(txt.y >= size(txt.lines))
