@@ -289,7 +289,8 @@ sub mp.insert_space(doc)
 {
 	local txt = doc.txt;
 
-	if(mp.config.wordwrap > 0 && txt.x > mp.config.wordwrap)
+	if(mp.config.wordwrap > 0 &&
+		mp.x2vx(txt.lines[txt.y], txt.x) >= mp.config.wordwrap)
 		mp.break_line(doc);
 	else
 		mp.insert(doc, ' ');
