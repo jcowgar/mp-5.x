@@ -92,6 +92,32 @@ static int mp_wcwidth(int x, wchar_t c)
 }
 
 
+int drw_vx2x(mpdm_t str, int vx)
+/* returns the character in str that is on column vx */
+{
+	wchar_t * ptr = str->data;
+	int n, x;
+
+	for(n = x = 0;n < vx && ptr[x] != L'\0';x++)
+		n += mp_wcwidth(n, ptr[x]);
+
+	return(x);
+}
+
+
+int drw_x2vx(mpdm_t str, int x)
+/* returns the column where the character at offset x seems to be */
+{
+	wchar_t * ptr = str->data;
+	int n, vx;
+
+	for(n = vx = 0;n < x && ptr[n] != L'\0';n++)
+		vx += mp_wcwidth(vx, ptr[n]);
+
+	return(vx);
+}
+
+
 static int drw_line_offset(int l)
 /* returns the offset into v for line number l */
 {
@@ -509,6 +535,23 @@ mpdm_t mpi_draw(mpdm_t doc)
 }
 
 
+mpdm_t mp_vx2x(mpdm_t args)
+/* interfaz to drw_vx2x() */
+{
+	return(MPDM_I(drw_vx2x(mpdm_aget(args, 0),
+		mpdm_ival(mpdm_aget(args, 1)))));
+}
+
+
+mpdm_t mp_x2vx(mpdm_t args)
+/* interfaz to drw_x2vx() */
+{
+	return(MPDM_I(drw_x2vx(mpdm_aget(args, 0),
+		mpdm_ival(mpdm_aget(args, 1)))));
+}
+
+
+
 mpdm_t nc_startup(mpdm_t v)
 {
 	initscr();
@@ -727,6 +770,9 @@ void mp_4_startup(int argc, char * argv[])
 	mpdm_hset_s(mpdm_root(), L"nc_shutdown", MPDM_X(nc_shutdown));
 	mpdm_hset_s(mpdm_root(), L"nc_getkey", MPDM_X(nc_getkey));
 	mpdm_hset_s(mpdm_root(), L"nc_draw", MPDM_X(nc_draw));
+
+	mpdm_hset_s(mpdm_root(), L"mp_x2vx", MPDM_X(mp_x2vx));
+	mpdm_hset_s(mpdm_root(), L"mp_vx2x", MPDM_X(mp_vx2x));
 }
 
 

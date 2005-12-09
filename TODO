@@ -5,9 +5,6 @@ Release Critical Bugs
 ---------------------
 
  * 1102: Tabs are incorrectly coloured when the cursor is over one.
- * 1104: When moving up / down, the X position should match the visual
-   column and not the exact one. Now, when moving among lines with a
-   different number of tabs, the cursor jumps weirdly.
  * 1105: Use a reasonable build system with config.sh.
  * 1106: Add tag support.
  * 1107: Add ispell support.
@@ -50,5 +47,9 @@ Closed
    (Thu, 08 Dec 2005 20:01:09 +0100).
  * 1123: When deleting the only line of a file, it gets mad
    (Thu, 08 Dec 2005 20:09:42 +0100).
+ * 1104: When moving up / down, the X position should match the visual
+   column and not the exact one. Now, when moving among lines with a
+   different number of tabs, the cursor jumps weirdly
+   (Fri, 09 Dec 2005 10:59:01 +0100).
 
 Email bugs to angel@triptico.com
