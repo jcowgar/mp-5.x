@@ -734,6 +734,10 @@ void mp_4_mpsl(void)
 {
 	mpdm_t v;
 
+	/* HACK: Create an INC array with the current directory.
+	   This won't finally be here; only CONFOPT_PREFIX will */
+	mpdm_exec(mpsl_compile(MPDM_LS(L"INC = [ '.' ];")), NULL);
+
 	v=mpsl_compile_file(MPDM_LS(L"mp-4.mpsl"));
 	mpdm_exec(v, NULL);
 }
