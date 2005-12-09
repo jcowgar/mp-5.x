@@ -285,12 +285,18 @@ sub mp.insert(doc, str)
 
 	/* move right */
 	txt.x += size(str);
+}
 
-	/* if wordwrapping... */
-/*	if(mp.config.wordwrap > 0 && size(w[0]) > mp.config.wordwrap)
-	{
-		print("TBD\n");
-	}*/
+
+sub mp.insert_space(doc)
+/* inserts a space, taking wordwrapping into account */
+{
+	local txt = doc.txt;
+
+	if(mp.config.wordwrap > 0 && txt.x > mp.config.wordwrap)
+		mp.break_line(doc);
+	else
+		mp.insert(doc, ' ');
 }
 
 
@@ -663,7 +669,7 @@ mp.functions = {
 
 	'insert-line'	=>	sub (k) { mp.store_undo(k); mp.break_line(k); },
 	'delete-line'	=>	sub (k) { mp.store_undo(k); mp.delete_line(k); },
-	'insert-space'	=>	sub (k) { mp.store_undo(k); mp.insert(k, ' '); },
+	'insert-space'	=>	sub (k) { mp.store_undo(k); mp.insert_space(k); },
 	'insert-tab'	=>	sub (k) { mp.store_undo(k); mp.insert(k, "\t"); },
 
 	'delete'	=>	sub (k) { mp.store_undo(k); mp.delete_char(k); },
@@ -713,6 +719,7 @@ sub main_loop(filename)
 }
 
 mp.config.auto_indent = 1;
+mp.config.wordwrap = 80;
 
 if(size(ARGV) > 1)
 	main_loop(ARGV[1]);
