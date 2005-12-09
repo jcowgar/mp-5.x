@@ -27,9 +27,6 @@
 	Data
 ********************/
 
-/* main data */
-mp = {};
-
 /* configuration */
 mp.config = {};
 mp.config.eol = "\n";
@@ -84,7 +81,7 @@ sub mp.set_y(doc, y)
 	local vx;
 
 	/* get current visual x position */
-	vx = mp_x2vx(txt.lines[txt.y], txt.x);
+	vx = mp.x2vx(txt.lines[txt.y], txt.x);
 
 	/* set boundaries */
 	if(y < 0) y = 0;
@@ -94,7 +91,7 @@ sub mp.set_y(doc, y)
 	txt.y = y;
 
 	/* adjust new x to match previously one */
-	txt.x = mp_vx2x(txt.lines[txt.y], vx);
+	txt.x = mp.vx2x(txt.lines[txt.y], vx);
 }
 
 
@@ -234,7 +231,7 @@ sub mp.delete_line(doc)
 	local vx;
 
 	/* take current position */
-	vx = mp_x2vx(txt.lines[txt.y], txt.x);
+	vx = mp.x2vx(txt.lines[txt.y], txt.x);
 
 	/* if it's the only line, just replace it */
 	if(size(txt.lines) == 1)
@@ -250,7 +247,7 @@ sub mp.delete_line(doc)
 		txt.y = size(txt.lines) - 1;
 
 	/* move to previous x position */
-	txt.x = mp_vx2x(txt.lines[txt.y], vx);
+	txt.x = mp.vx2x(txt.lines[txt.y], vx);
 }
 
 
