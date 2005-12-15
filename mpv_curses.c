@@ -64,31 +64,41 @@ static mpdm_t nc_startup(mpdm_t v)
 	raw();
 	noecho();
 
-/*	mpdm_hset_s(mpdm_root(), L"COLS", MPDM_I(COLS));
-	mpdm_hset_s(mpdm_root(), L"LINES", MPDM_I(LINES));
-*/
-	init_pair(1, COLOR_BLACK, COLOR_WHITE);
+#ifdef CONFOPT_TRANSPARENCY
+	use_default_colors();
+
+#define DEFAULT_INK -1
+#define DEFAULT_PAPER -1
+
+#else /* CONFOPT_TRANSPARENCY */
+
+#define DEFAULT_INK COLOR_BLACK
+#define DEFAULT_PAPER COLOR_WHITE
+
+#endif
+
+	init_pair(1, DEFAULT_INK, DEFAULT_PAPER);
 	nc_attrs[MP_ATTR_NORMAL] = COLOR_PAIR(1);
 
-	init_pair(2, COLOR_BLACK, COLOR_WHITE);
+	init_pair(2, DEFAULT_INK, DEFAULT_PAPER);
 	nc_attrs[MP_ATTR_CURSOR] = COLOR_PAIR(2) | A_REVERSE;
 
-	init_pair(3, COLOR_RED, COLOR_WHITE);
+	init_pair(3, COLOR_RED, DEFAULT_PAPER);
 	nc_attrs[MP_ATTR_SELECTION] = COLOR_PAIR(3) | A_REVERSE;
 
-	init_pair(4, COLOR_GREEN, COLOR_WHITE);
+	init_pair(4, COLOR_GREEN, DEFAULT_PAPER);
 	nc_attrs[MP_ATTR_COMMENTS] = COLOR_PAIR(4);
 
-	init_pair(5, COLOR_BLUE, COLOR_WHITE);
+	init_pair(5, COLOR_BLUE, DEFAULT_PAPER);
 	nc_attrs[MP_ATTR_QUOTES] = COLOR_PAIR(5) | A_BOLD;
 
-	init_pair(6, COLOR_BLACK, COLOR_CYAN);
+	init_pair(6, DEFAULT_INK, COLOR_CYAN);
 	nc_attrs[MP_ATTR_MATCHING] = COLOR_PAIR(6);
 
-	init_pair(7, COLOR_GREEN, COLOR_WHITE);
+	init_pair(7, COLOR_GREEN, DEFAULT_PAPER);
 	nc_attrs[MP_ATTR_WORD_1] = COLOR_PAIR(7) | A_BOLD;
 
-	init_pair(8, COLOR_RED, COLOR_WHITE);
+	init_pair(8, COLOR_RED, DEFAULT_PAPER);
 	nc_attrs[MP_ATTR_WORD_2] = COLOR_PAIR(8) | A_BOLD;
 
 	bkgdset(' ' | nc_attrs[MP_ATTR_NORMAL]);
