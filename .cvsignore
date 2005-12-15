@@ -1,0 +1,8 @@
+.config.log
+.cvsignore
+Makefile
+config.cflags
+config.h
+config.ldflags
+makefile.opts
+mp-4
