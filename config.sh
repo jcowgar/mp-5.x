@@ -232,6 +232,9 @@ else
 		echo "$TMP_LDFLAGS " >> config.ldflags
 		echo "OK (2.0)"
 		DRIVERS="gtk $DRIVERS"
+	else
+		echo "No"
+		WITHOUT_GTK=1
 	fi
 fi
 
@@ -240,17 +243,10 @@ echo -n "Testing for win32... "
 if [ "$WITHOUT_WIN32" = "1" ] ; then
 	echo "Disabled by user"
 else
-	echo "#include <windows.h>" > .tmp.c
-	echo "#include <commctrl.h>" >> .tmp.c
-	echo "int STDCALL WinMain(HINSTANCE h, HINSTANCE p, LPSTR c, int m)" >> .tmp.c
-	echo "{ return 0; }" >> .tmp.c
-
-	TMP_LDFLAGS="-mwindows -lcomctl32"
-	$CC .tmp.c $TMP_LDFLAGS -o .tmp.o 2>> .config.log
+	grep CONFOPT_WIN32 ${MPDM}/config.h >/dev/null
 
 	if [ $? = 0 ] ; then
 		echo "#define CONFOPT_WIN32 1" >> config.h
-		echo "$TMP_LDFLAGS " >> config.ldflags
 		echo "OK"
 		DRIVERS="win32 $DRIVERS"
 		WITHOUT_UNIX_GLOB=1
