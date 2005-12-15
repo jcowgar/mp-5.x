@@ -791,8 +791,19 @@ void mp_4_mpsl(void)
 	   This won't finally be here; only CONFOPT_PREFIX will */
 	mpdm_exec(mpsl_compile(MPDM_LS(L"INC = [ '.' ];")), NULL);
 
-	v=mpsl_compile_file(MPDM_LS(L"mp-4.mpsl"));
-	mpdm_exec(v, NULL);
+	if((v = mpsl_compile_file(MPDM_LS(L"mp-4.mpsl"))) == NULL)
+	{
+		/* compilation failed; print and exit */
+		mpdm_t e = mpdm_hget_s(mpdm_root(), L"ERROR");
+
+		if(e != NULL)
+		{
+			mpdm_write_wcs(stdout, mpdm_string(e));
+			printf("\n");
+		}
+	}
+	else
+		mpdm_exec(v, NULL);
 }
 
 
