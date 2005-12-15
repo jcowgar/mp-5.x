@@ -5,7 +5,6 @@ Release Critical Bugs
 ---------------------
 
  * 1102: Tabs are incorrectly coloured when the cursor is over one.
- * 1105: Use a reasonable build system with config.sh.
  * 1106: Add tag support.
  * 1107: Add ispell support.
  * 1108: Add word wrapping.
@@ -52,5 +51,7 @@ Closed
    column and not the exact one. Now, when moving among lines with a
    different number of tabs, the cursor jumps weirdly
    (Fri, 09 Dec 2005 10:59:01 +0100).
+ * 1105: Use a reasonable build system with config.sh
+   (Thu, 15 Dec 2005 08:32:19 +0100).
 
 Email bugs to angel@triptico.com
