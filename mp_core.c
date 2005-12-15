@@ -26,30 +26,19 @@
 
 #include <stdio.h>
 #include <wchar.h>
-#include <curses.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "mpdm.h"
 #include "mpsl.h"
 
-#include <stdlib.h>
-#include <string.h>
+#include "mp.h"
 
 /*******************
 	Data
 ********************/
 
-int _attrs[10];
-
 int mpi_preread_lines = 60;
-
-#define MP_ATTR_NORMAL		0
-#define MP_ATTR_CURSOR		1
-#define MP_ATTR_SELECTION	2
-#define MP_ATTR_COMMENTS	3
-#define MP_ATTR_QUOTES		4
-#define MP_ATTR_MATCHING	5
-#define MP_ATTR_WORD_1		6
-#define MP_ATTR_WORD_2		7
 
 /*******************
 	Code
@@ -551,219 +540,13 @@ mpdm_t mp_x2vx(mpdm_t args)
 }
 
 
-
-mpdm_t nc_startup(mpdm_t v)
-{
-	initscr();
-	start_color();
-	keypad(stdscr, TRUE);
-	nonl();
-	raw();
-	noecho();
-
-	mpdm_hset_s(mpdm_root(), L"COLS", MPDM_I(COLS));
-	mpdm_hset_s(mpdm_root(), L"LINES", MPDM_I(LINES));
-
-	init_pair(1, COLOR_BLACK, COLOR_WHITE);
-	_attrs[MP_ATTR_NORMAL] = COLOR_PAIR(1);
-
-	init_pair(2, COLOR_BLACK, COLOR_WHITE);
-	_attrs[MP_ATTR_CURSOR] = COLOR_PAIR(2) | A_REVERSE;
-
-	init_pair(3, COLOR_RED, COLOR_WHITE);
-	_attrs[MP_ATTR_SELECTION] = COLOR_PAIR(3) | A_REVERSE;
-
-	init_pair(4, COLOR_GREEN, COLOR_WHITE);
-	_attrs[MP_ATTR_COMMENTS] = COLOR_PAIR(4);
-
-	init_pair(5, COLOR_BLUE, COLOR_WHITE);
-	_attrs[MP_ATTR_QUOTES] = COLOR_PAIR(5) | A_BOLD;
-
-	init_pair(6, COLOR_BLACK, COLOR_CYAN);
-	_attrs[MP_ATTR_MATCHING] = COLOR_PAIR(6);
-
-	init_pair(7, COLOR_GREEN, COLOR_WHITE);
-	_attrs[MP_ATTR_WORD_1] = COLOR_PAIR(7) | A_BOLD;
-
-	init_pair(8, COLOR_RED, COLOR_WHITE);
-	_attrs[MP_ATTR_WORD_2] = COLOR_PAIR(8) | A_BOLD;
-
-	bkgdset(' ' | _attrs[MP_ATTR_NORMAL]);
-
-	return(NULL);
-}
-
-
-mpdm_t nc_shutdown(mpdm_t v)
-{
-	endwin();
-	return(NULL);
-}
-
-
-wchar_t * nc_getwch(void)
-{
-	static wchar_t c[2];
-
-#ifdef CONFOPT_GET_WCH
-
-	get_wch(c);
-
-#else
-	char tmp[MB_CUR_MAX + 1];
-	int cc, n=0;
-
-	/* read one byte */
-	cc = getch();
-	if(has_key(cc))
-	{
-		c[0] = cc;
-		return(c);
-	}
-
-	/* set to non-blocking */
-	nodelay(stdscr, 1);
-
-	/* read all possible following characters */
-	tmp[n++] = cc;
-	while(n < sizeof(tmp) - 1 && (cc = getch()) != ERR)
-		tmp[n++] = cc;
-
-	/* sets input as blocking */
-	nodelay(stdscr, 0);
-
-	tmp[n] = '\0';
-	mbstowcs(c, tmp, n);
-#endif
-
-	c[1] = '\0';
-	return(c);
-}
-
-
-#define ctrl(k) ((k) & 31)
-
-mpdm_t nc_getkey(mpdm_t v)
-{
-	wchar_t * c;
-	wchar_t * f = NULL;
-
-	c = nc_getwch();
-	f = c;
-
-	switch(c[0]) {
-	case L'\e':	f = L"escape"; break;
-	case KEY_LEFT:	f = L"cursor-left"; break;
-	case KEY_RIGHT:	f = L"cursor-right"; break;
-	case KEY_UP:	f = L"cursor-up"; break;
-	case KEY_DOWN:	f = L"cursor-down"; break;
-	case KEY_PPAGE:	f = L"page-up"; break;
-	case KEY_NPAGE:	f = L"page-down"; break;
-	case KEY_HOME:	f = L"home"; break;
-	case KEY_END:	f = L"end"; break;
-	case KEY_IC:	f = L"insert"; break;
-	case KEY_DC:	f = L"delete"; break;
-	case KEY_BACKSPACE:
-	case '\b':	f = L"backspace"; break;
-	case '\r':
-	case KEY_ENTER:	f = L"enter"; break;
-	case '\t':	f = L"tab"; break;
-	case ' ':	f = L"space"; break;
-	case KEY_F(1):	f = L"f1"; break;
-	case KEY_F(2):	f = L"f2"; break;
-	case KEY_F(3):	f = L"f3"; break;
-	case KEY_F(4):	f = L"f4"; break;
-	case KEY_F(5):	f = L"f5"; break;
-	case KEY_F(6):	f = L"f6"; break;
-	case KEY_F(7):	f = L"f7"; break;
-	case KEY_F(8):	f = L"f8"; break;
-	case KEY_F(9):	f = L"f9"; break;
-	case KEY_F(10): f = L"f10"; break;
-	case ctrl(' '): f = L"ctrl-space"; break;
-	case ctrl('a'):	f = L"ctrl-a"; break;
-	case ctrl('b'):	f = L"ctrl-b"; break;
-	case ctrl('c'):	f = L"ctrl-c"; break;
-	case ctrl('d'):	f = L"ctrl-d"; break;
-	case ctrl('e'):	f = L"ctrl-e"; break;
-	case ctrl('f'):	f = L"ctrl-f"; break;
-	case ctrl('g'):	f = L"ctrl-g"; break;
-	case ctrl('j'):	f = L"ctrl-j"; break;
-	case ctrl('l'):	f = L"ctrl-l"; break;
-	case ctrl('n'):	f = L"ctrl-n"; break;
-	case ctrl('o'):	f = L"ctrl-o"; break;
-	case ctrl('p'):	f = L"ctrl-p"; break;
-	case ctrl('q'):	f = L"ctrl-q"; break;
-	case ctrl('r'):	f = L"ctrl-r"; break;
-	case ctrl('s'):	f = L"ctrl-s"; break;
-	case ctrl('t'):	f = L"ctrl-t"; break;
-	case ctrl('u'):	f = L"ctrl-u"; break;
-	case ctrl('v'):	f = L"ctrl-v"; break;
-	case ctrl('w'):	f = L"ctrl-w"; break;
-	case ctrl('x'):	f = L"ctrl-x"; break;
-	case ctrl('y'):	f = L"ctrl-y"; break;
-	case ctrl('z'):	f = L"ctrl-z"; break;
-	}
-
-	return(MPDM_LS(f));
-}
-
-
-void nc_addwstr(wchar_t * str)
-{
-#ifndef CONFOPT_ADDWSTR
-	char * cptr;
-
-	cptr = mpdm_wcstombs(str, NULL);
-	addstr(cptr);
-	free(cptr);
-
-#else
-	addwstr(str);
-#endif /* CONFOPT_ADDWSTR */
-}
-
-
-mpdm_t nc_draw(mpdm_t a)
-/* driver drawing function for cursesw */
-{
-	mpdm_t doc = mpdm_aget(a, 0);
-	mpdm_t d;
-	int n, m;
-
-	erase();
-
-	d = mpi_draw(doc);
-
-	for(n = 0;n < mpdm_size(d);n++)
-	{
-		mpdm_t l = mpdm_aget(d, n);
-
-		move(n, 0);
-
-		for(m = 0;m < mpdm_size(l);m++)
-		{
-			int attr;
-			mpdm_t s;
-
-			/* get the attribute and the string */
-			attr = mpdm_ival(mpdm_aget(l, m++));
-			s = mpdm_aget(l, m);
-
-			attrset(_attrs[attr]);
-			nc_addwstr((wchar_t *) s->data);
-		}
-	}
-
-	refresh();
-
-	return(NULL);
-}
-
+int curses_init(mpdm_t mp);
+int gtk_init(mpdm_t mp);
+int win32_init(mpdm_t mp);
 
 void mp_startup(int argc, char * argv[])
 {
 	mpdm_t mp;
-	mpdm_t nc_drv;
 
 	mpdm_startup();
 
@@ -777,14 +560,13 @@ void mp_startup(int argc, char * argv[])
 	mpdm_hset_s(mp, L"x2vx", MPDM_X(mp_x2vx));
 	mpdm_hset_s(mp, L"vx2x", MPDM_X(mp_vx2x));
 
-	/* the ncurses driver */
-	nc_drv = MPDM_H(0);
-	mpdm_hset_s(nc_drv, L"driver", MPDM_LS(L"curses"));
-	mpdm_hset_s(nc_drv, L"startup", MPDM_X(nc_startup));
-	mpdm_hset_s(nc_drv, L"shutdown", MPDM_X(nc_shutdown));
-	mpdm_hset_s(nc_drv, L"getkey", MPDM_X(nc_getkey));
-	mpdm_hset_s(nc_drv, L"draw", MPDM_X(nc_draw));
-	mpdm_hset_s(mp, L"drv", nc_drv);
+/*	if(!win32_init(mp))
+	if(!gtk_init(mp))*/
+	if(!curses_init(mp))
+	{
+		printf("No usable driver found; exiting.\n");
+		exit(1);
+	}
 }
 
 

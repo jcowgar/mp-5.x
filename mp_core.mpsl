@@ -692,8 +692,8 @@ sub main_loop(filename)
 	mp.load_file(d, filename);
 
 	mp.drv.startup();
-	d.window.tx = COLS;
-	d.window.ty = LINES;
+
+	d.window = mp.drv.window;
 
 	while (! mp.exit_requested)
 	{
