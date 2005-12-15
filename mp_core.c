@@ -347,17 +347,17 @@ static void drw_selection(void)
 	if((mark = mpdm_hget_s(drw.txt, L"mark")) == NULL)
 		return;
 
-	bx=mpdm_ival(mpdm_hget_s(mark, L"bx"));
-	by=mpdm_ival(mpdm_hget_s(mark, L"by"));
-	ex=mpdm_ival(mpdm_hget_s(mark, L"ex"));
-	ey=mpdm_ival(mpdm_hget_s(mark, L"ey"));
+	bx = mpdm_ival(mpdm_hget_s(mark, L"bx"));
+	by = mpdm_ival(mpdm_hget_s(mark, L"by"));
+	ex = mpdm_ival(mpdm_hget_s(mark, L"ex"));
+	ey = mpdm_ival(mpdm_hget_s(mark, L"ey"));
 
 	/* if block is not visible, return */
 	if(ey < drw.vy || by > drw.vy + drw.ty)
 		return;
 
-	so=by < drw.vy ? drw.visible : drw_line_offset(by) + bx;
-	eo=ey >= drw.vy + drw.ty ? drw.size : drw_line_offset(ey) + ex;
+	so = by < drw.vy ? drw.visible : drw_line_offset(by) + bx;
+	eo = ey >= drw.vy + drw.ty ? drw.size : drw_line_offset(ey) + ex;
 
 	drw_fill_attr(MP_ATTR_SELECTION, so, eo - so);
 }
@@ -381,20 +381,25 @@ static void drw_matching_paren(void)
 	}
 
 	/* if a direction is set, do the searching */
-	if(i) {
+	if(i)
+	{
 		wchar_t s = drw.ptr[o];
 		int m = 0;
 		int l = i == -1 ? drw.visible - 1 : drw.size;
 
-		while(o != l) {
-			if (drw.ptr[o] == s) {
+		while(o != l)
+		{
+			if (drw.ptr[o] == s)
+			{
 				/* found the same */
 				m++;
 			}
 			else
-			if (drw.ptr[o] == c) {
+			if (drw.ptr[o] == c)
+			{
 				/* found the opposite */
-				if(--m == 0) {
+				if(--m == 0)
+				{
 					/* found! fill and exit */
 					drw_fill_attr(MP_ATTR_MATCHING, o, 1);
 					break;
