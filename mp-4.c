@@ -763,15 +763,11 @@ mpdm_t nc_draw(mpdm_t a)
 void mp_4_startup(int argc, char * argv[])
 {
 	mpdm_t mp;
+	mpdm_t nc_drv;
 
 	mpdm_startup();
 
 	mpsl_argv(argc, argv);
-
-	mpdm_hset_s(mpdm_root(), L"nc_startup", MPDM_X(nc_startup));
-	mpdm_hset_s(mpdm_root(), L"nc_shutdown", MPDM_X(nc_shutdown));
-	mpdm_hset_s(mpdm_root(), L"nc_getkey", MPDM_X(nc_getkey));
-	mpdm_hset_s(mpdm_root(), L"nc_draw", MPDM_X(nc_draw));
 
 	/* create main namespace */
 	mp = MPDM_H(0);
@@ -780,6 +776,15 @@ void mp_4_startup(int argc, char * argv[])
 	/* basic functions */
 	mpdm_hset_s(mp, L"x2vx", MPDM_X(mp_x2vx));
 	mpdm_hset_s(mp, L"vx2x", MPDM_X(mp_vx2x));
+
+	/* the ncurses driver */
+	nc_drv = MPDM_H(0);
+	mpdm_hset_s(nc_drv, L"driver", MPDM_LS(L"curses"));
+	mpdm_hset_s(nc_drv, L"startup", MPDM_X(nc_startup));
+	mpdm_hset_s(nc_drv, L"shutdown", MPDM_X(nc_shutdown));
+	mpdm_hset_s(nc_drv, L"getkey", MPDM_X(nc_getkey));
+	mpdm_hset_s(nc_drv, L"draw", MPDM_X(nc_draw));
+	mpdm_hset_s(mp, L"drv", nc_drv);
 }
 
 

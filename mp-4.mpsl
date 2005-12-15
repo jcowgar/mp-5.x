@@ -691,7 +691,7 @@ sub main_loop(filename)
 
 	mp.load_file(d, filename);
 
-	nc_startup();
+	mp.drv.startup();
 	d.window.tx = COLS;
 	d.window.ty = LINES;
 
@@ -699,9 +699,9 @@ sub main_loop(filename)
 	{
 		local f;
 
-		nc_draw(d);
+		mp.drv.draw(d);
 
-		k = nc_getkey();
+		k = mp.drv.getkey();
 
 		if((f = mp.keycodes[k]) != NULL)
 		{
@@ -712,7 +712,7 @@ sub main_loop(filename)
 			mp.insert(d, k);
 	}
 
-	nc_shutdown();
+	mp.drv.shutdown();
 }
 
 mp.config.auto_indent = 1;
