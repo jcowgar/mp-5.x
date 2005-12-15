@@ -21,7 +21,7 @@ ChangeLog:
 	cvs2cl --fsf --stdout > Changelog
 
 .c.o:
-	$(CC) $(CFLAGS) `cat config.cflags` -c $<
+	$(CC) $(CFLAGS) -I. `cat config.cflags` -c $<
 
 $(MPDM)/libmpdm.a:
 	( cd $(MPDM); $(MAKE) )

@@ -202,7 +202,7 @@ if [ "$WITHOUT_CURSES" != "1" ] ; then
 	echo "#include <curses.h>" > .tmp.c
 	echo "int main(void) { initscr(); use_default_colors(); endwin(); return 0; }" >> .tmp.c
 
-	$CC  .tmp.c `cat ./config.ldflags` -o .tmp.o 2>> .config.log
+	$CC $TMP_CFLAGS .tmp.c $TMP_LDFLAGS -o .tmp.o 2>> .config.log
 	if [ $? = 0 ] ; then
 		echo "#define CONFOPT_TRANSPARENCY 1" >> config.h
 		echo "OK"
@@ -225,7 +225,7 @@ else
 	TMP_CFLAGS=`pkg-config --cflags gtk+-2.0 2>/dev/null`
 	TMP_LDFLAGS=`pkg-config --libs gtk+-2.0 2>/dev/null`
 
-	$CC $TMP_CFLAGS .tmp.c $TMP_LDFLAGS -o .tmp.o 2> .config.log
+	$CC $TMP_CFLAGS .tmp.c $TMP_LDFLAGS -o .tmp.o 2>> .config.log
 	if [ $? = 0 ] ; then
 		echo "#define CONFOPT_GTK 2" >> config.h
 		echo "$TMP_CFLAGS " >> config.cflags
