@@ -1,0 +1,110 @@
+# -*- Mode: sh
+
+all: $(TARGET)
+
+PROJ=mp
+#DOCS=AUTHORS README COPYING Changelog mprc.sample mprc-win32.sample \
+#	README.IRIX README.solaris README.mingw32 README.zaurus \
+#	RELEASE_NOTES
+
+OBJS=mp-4.o
+#OBJS=mp_core.o mp_synhi.o mp_iface.o gnu_regex.o mp_tags.o mp_wordp.o \
+#	mp_lang.o mp_conf.o mp_func.o mp_video.o $(LANG_MSG_O) \
+#	mpv_unix_common.o mpv_curses.o mpv_gtk.o mpv_win32.o
+
+##################################################################
+
+version:
+	@echo $(VERSION)
+
+ChangeLog:
+	cvs2cl --fsf --stdout > Changelog
+
+.c.o:
+	$(CC) $(CFLAGS) `cat config.cflags` -c $<
+
+$(MPDM)/libmpdm.a:
+	( cd $(MPDM); $(MAKE) )
+
+$(MPSL)/libmpsl.a:
+	( cd $(MPSL); $(MAKE) )
+
+dep:
+	gcc -MM *.c > makefile.depend
+
+mp-4: $(OBJS) $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
+	$(CC) $(CFLAGS) $(OBJS) `cat config.ldflags` -o $@
+
+mp_res.o: mp_res.rc
+	$(WINDRES) mp_res.rc mp_res.o
+
+wmp.exe: $(OBJS) mp_res.o
+	$(CC) $(CFLAGS) $(OBJS) mp_res.o `cat config.ldflags` -o $@
+
+clean:
+	rm -f $(TARGET) $(LIB) $(OBJS) *.o tags *.tar.gz wmp.exe
+	(cd $(MPDM) ; make clean)
+	(cd $(MPSL) ; make clean)
+
+distclean: clean
+	rm -f config.h config.cflags config.ldflags makefile.opts Makefile doc/*.html
+	(cd $(MPDM) ; make distclean)
+	(cd $(MPSL) ; make distclean)
+
+docs:
+	mkdir -p doc
+#	mp_doccer *.c -o doc/mp_api -f html1 \
+#		-t "The Minimum Profit API ($(VERSION))" \
+#		-a 'Angel Ortega - angel@triptico.com'
+#	grutatxt -m man -t "Minimum Profit" < mp_man.txt > mp.1
+
+dist: distclean docs ChangeLog mp_lang_m.c mp_func_i.h po/minimum-profit.pot build-mo
+	cd .. ; ln -s $(PROJ) $(PROJ)-$(VERSION); \
+	tar czvf $(PROJ)-$(VERSION)/$(PROJ)-$(VERSION).tar.gz --exclude=CVS $(PROJ)-$(VERSION)/* ; \
+	rm $(PROJ)-$(VERSION)
+
+midnight: distclean docs ChangeLog mp_lang_m.c mp_func_i.h po/minimum-profit.pot build-mo
+	cd .. ; ln -s $(PROJ) $(PROJ)-$(VERSION); \
+	tar czvf $(PROJ)-$(VERSION)/mp-midnight.tar.gz --exclude=CVS $(PROJ)-$(VERSION)/* ; \
+	rm $(PROJ)-$(VERSION)
+
+win32dist:
+	zip mp33x-win32.zip README COPYING RELEASE_NOTES Changelog mp.reg wmp.exe mprc.sample mprc-win32.sample
+
+install: $(INSTALL_MSG)
+	install $(TARGET) $(PREFIX)/bin/$(APPNAME)
+	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
+	install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
+#	./mkinstalldirs $(PREFIX)/share/man/man1
+#	install -m 644 mp.1 $(PREFIX)/share/man/man1/$(APPNAME).1
+
+po/minimum-profit.pot:
+	xgettext -o $@ --keyword=L --keyword=LL mp*.c mp_func_i.h
+
+update-po: mp_func_i.h
+	for a in po/*.po ; do \
+		xgettext --omit-header -j -o $$a --keyword=L --keyword=LL mp*.c mp_func_i.h ; \
+		mv $$a $$a.tmp ; \
+		msgconv --to-code=iso-8859-1 $$a.tmp > $$a ; \
+		rm -f $$a.tmp ; \
+	done
+
+.po.mo:
+	msgfmt -o $@ $<
+
+build-mo:
+	for a in po/*.po ; do \
+		B=`basename $$a .po` ; \
+		msgfmt -o po/$$B.mo $$a ; \
+	done
+
+install-mo:
+	for a in po/*.mo ; do \
+		B=`basename $$a .mo` ; \
+		./mkinstalldirs $(PREFIX)/share/locale/$$B/LC_MESSAGES ; \
+		install -m 644 $$a $(PREFIX)/share/locale/$$B/LC_MESSAGES/minimum-profit.mo ; \
+	done
+
+deb:
+	dpkg-buildpackage -rfakeroot -b -uc -us
+
