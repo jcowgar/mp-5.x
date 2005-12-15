@@ -169,7 +169,7 @@ else
 	echo "int main(void) { initscr(); endwin(); return 0; }" >> .tmp.c
 
 	TMP_CFLAGS="-I/usr/local/include"
-	TMP_LDFLAGS="-L/usr/local/lib -lncurses"
+	TMP_LDFLAGS="-L/usr/local/lib -lncursesw"
 
 	$CC $TMP_CFLAGS .tmp.c $TMP_LDFLAGS -o .tmp.o 2>> .config.log
 	if [ $? = 0 ] ; then
