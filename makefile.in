@@ -30,7 +30,7 @@ $(MPSL)/libmpsl.a:
 	( cd $(MPSL); $(MAKE) )
 
 dep:
-	gcc -MM *.c > makefile.depend
+	gcc -MM *.c `cat config.cflags` > makefile.depend
 
 mp-4: $(OBJS) $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 	$(CC) $(CFLAGS) $(OBJS) `cat config.ldflags` -o $@
