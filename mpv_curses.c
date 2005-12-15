@@ -33,6 +33,11 @@
 #include <curses.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
 
 #include "mpdm.h"
 #include "mpsl.h"
@@ -47,16 +52,47 @@
 int nc_attrs[10];
 
 /* the driver */
-mpdm_t ncurses_driver = NULL;
+mpdm_t nc_driver = NULL;
+mpdm_t nc_window = NULL;
 
 /*******************
 	Code
 ********************/
 
+static void nc_sigwinch(int s)
+{
+#ifdef NCURSES_VERSION
+	/* Make sure that window size changes... */
+	struct winsize ws;
+
+	int fd  = open("/dev/tty", O_RDWR);
+
+	if (fd == -1) return; /* This should never have to happen! */
+
+	if (ioctl(fd, TIOCGWINSZ, &ws) == 0)
+		resizeterm(ws.ws_row, ws.ws_col);
+
+	close(fd);
+#else
+	/* restart curses */
+	/* ... */
+#endif
+
+	/* invalidate main window */
+	clearok(stdscr, 1);
+	refresh();
+
+	/* re-set dimensions */
+	mpdm_hset_s(nc_window, L"tx", MPDM_I(COLS));
+	mpdm_hset_s(nc_window, L"ty", MPDM_I(LINES));
+
+	/* reattach */
+	signal(SIGWINCH, nc_sigwinch);
+}
+
+
 static mpdm_t nc_startup(mpdm_t v)
 {
-	mpdm_t window;
-
 	initscr();
 	start_color();
 	keypad(stdscr, TRUE);
@@ -103,10 +139,12 @@ static mpdm_t nc_startup(mpdm_t v)
 
 	bkgdset(' ' | nc_attrs[MP_ATTR_NORMAL]);
 
-	window = MPDM_H(0);
-	mpdm_hset_s(window, L"tx", MPDM_I(COLS));
-	mpdm_hset_s(window, L"ty", MPDM_I(LINES));
-	mpdm_hset_s(ncurses_driver, L"window", window);
+	nc_window = MPDM_H(0);
+	mpdm_hset_s(nc_window, L"tx", MPDM_I(COLS));
+	mpdm_hset_s(nc_window, L"ty", MPDM_I(LINES));
+	mpdm_hset_s(nc_driver, L"window", nc_window);
+
+	signal(SIGWINCH, nc_sigwinch);
 
 	return(NULL);
 }
@@ -282,15 +320,15 @@ static mpdm_t nc_draw(mpdm_t a)
 
 int curses_init(mpdm_t mp)
 {
-	ncurses_driver = mpdm_ref(MPDM_H(0));
+	nc_driver = mpdm_ref(MPDM_H(0));
 
-	mpdm_hset_s(ncurses_driver, L"driver", MPDM_LS(L"curses"));
-	mpdm_hset_s(ncurses_driver, L"startup", MPDM_X(nc_startup));
-	mpdm_hset_s(ncurses_driver, L"shutdown", MPDM_X(nc_shutdown));
-	mpdm_hset_s(ncurses_driver, L"getkey", MPDM_X(nc_getkey));
-	mpdm_hset_s(ncurses_driver, L"draw", MPDM_X(nc_draw));
+	mpdm_hset_s(nc_driver, L"driver", MPDM_LS(L"curses"));
+	mpdm_hset_s(nc_driver, L"startup", MPDM_X(nc_startup));
+	mpdm_hset_s(nc_driver, L"shutdown", MPDM_X(nc_shutdown));
+	mpdm_hset_s(nc_driver, L"getkey", MPDM_X(nc_getkey));
+	mpdm_hset_s(nc_driver, L"draw", MPDM_X(nc_draw));
 
-	mpdm_hset_s(mp, L"drv", ncurses_driver);
+	mpdm_hset_s(mp, L"drv", nc_driver);
 
 	return(1);
 }
