@@ -4,7 +4,6 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1102: Tabs are incorrectly coloured when the cursor is over one.
  * 1106: Add tag support.
  * 1107: Add ispell support.
  * 1108: Add word wrapping.
@@ -53,5 +52,7 @@ Closed
  * 1105: Use a reasonable build system with config.sh
    (Thu, 15 Dec 2005 08:32:19 +0100).
  * 1124: Add the multi-document management (Thu, 15 Dec 2005 11:12:14 +0100).
+ * 1102: Tabs are incorrectly coloured when the cursor is over one
+   (Thu, 15 Dec 2005 12:09:35 +0100).
 
 Email bugs to angel@triptico.com

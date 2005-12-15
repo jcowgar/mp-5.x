@@ -462,8 +462,26 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 		/* finish the string */
 		tmp[i] = L'\0';
 
-		/* store the attribute and the string */
+		/* create the array, if doesn't exist yet */
 		if(l == NULL) l = MPDM_A(0);
+
+		/* special magic: if the attribute is the
+		   one of the cursor and the string is more than
+		   one character, create two strings; the
+		   cursor is over a tab */
+		if(a == MP_ATTR_CURSOR && i > 1)
+		{
+			mpdm_apush(l, MPDM_I(a));
+			mpdm_apush(l, MPDM_NS(tmp, 1));
+
+			/* cursor color is normal */
+			a = MP_ATTR_NORMAL;
+
+			/* one char less */
+			tmp[i - 1] = L'\0';
+		}
+
+		/* store the attribute and the string */
 		mpdm_apush(l, MPDM_I(a));
 		mpdm_apush(l, MPDM_S(tmp));
 
