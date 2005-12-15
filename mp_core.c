@@ -760,7 +760,7 @@ mpdm_t nc_draw(mpdm_t a)
 }
 
 
-void mp_4_startup(int argc, char * argv[])
+void mp_startup(int argc, char * argv[])
 {
 	mpdm_t mp;
 	mpdm_t nc_drv;
@@ -788,7 +788,7 @@ void mp_4_startup(int argc, char * argv[])
 }
 
 
-void mp_4_mpsl(void)
+void mp_mpsl(void)
 {
 	mpdm_t v;
 
@@ -812,7 +812,7 @@ void mp_4_mpsl(void)
 }
 
 
-void mp_4_shutdown(void)
+void mp_shutdown(void)
 {
 	mpdm_shutdown();
 }
@@ -820,11 +820,11 @@ void mp_4_shutdown(void)
 
 int main(int argc, char * argv[])
 {
-	mp_4_startup(argc, argv);
+	mp_startup(argc, argv);
 
-	mp_4_mpsl();
+	mp_mpsl();
 
-	mp_4_shutdown();
+	mp_shutdown();
 
 	return(0);
 }
