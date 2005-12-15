@@ -37,8 +37,8 @@ mp.syntax.c = {
 		],
 	'quotes'	=>	[
 		/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
-		'/"([^"\\]*(\\.[^"\\]*)*)"/',		/* double-quoted strings */
-		"/'([^'\\]*(\\.[^'\\]*)*)'/",		/* single-quoted strings */
+		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
 		"/\b-?[0-9]+\b/",			/* numbers */
 		"/\b[[:upper:]_]+\b/"			/* all-caps words */
 		]
@@ -70,8 +70,8 @@ mp.syntax.perl = {
 	],
 	'quotes'	=>	[
 		/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
-		'/"([^"\\]*(\\.[^"\\]*)*)"/',		/* double-quoted strings */
-		"/'([^'\\]*(\\.[^'\\]*)*)'/",		/* single-quoted strings */
+		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
 		"/\b-?[0-9]+\b/",			/* numbers */
 		[ "/q\(/", "/\)/" ],			/* quote */
 		[ "/qw\(/", "/\)/" ],			/* quote word */

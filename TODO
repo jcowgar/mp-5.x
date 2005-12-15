@@ -18,7 +18,6 @@ Release Critical Bugs
  * 1118: Add move word left and right.
  * 1119: Add learn mode.
  * 1120: Add system command execution (pipes).
- * 1122: Fix quote regexes to not match newlines.
 
 Open Bugs
 ---------
@@ -54,5 +53,7 @@ Closed
  * 1124: Add the multi-document management (Thu, 15 Dec 2005 11:12:14 +0100).
  * 1102: Tabs are incorrectly coloured when the cursor is over one
    (Thu, 15 Dec 2005 12:09:35 +0100).
+ * 1122: Fix quote regexes to not match newlines
+   (Thu, 15 Dec 2005 12:36:51 +0100).
 
 Email bugs to angel@triptico.com
