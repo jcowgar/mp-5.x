@@ -176,7 +176,7 @@ else
 		echo "#define CONFOPT_CURSES 1" >> config.h
 		echo $TMP_CFLAGS >> config.cflags
 		echo $TMP_LDFLAGS >> config.ldflags
-		echo "OK (ncurses)"
+		echo "OK (ncursesw)"
 		DRIVERS="curses $DRIVERS"
 	else
 		# try plain curses library
