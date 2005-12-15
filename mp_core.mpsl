@@ -32,6 +32,9 @@ mp.config = {};
 mp.config.eol = "\n";
 mp.config.undo_levels = 20;
 
+mp.docs = [];
+mp.active = 0;
+
 load("mp_syntax.mpsl");
 
 /*******************
@@ -483,6 +486,22 @@ sub mp.paste(doc)
 }
 
 
+sub mp.store_undo(doc)
+/* stores the current txt in the undo queue */
+{
+	aqueue(doc.undo, clone(doc.txt), mp.config.undo_levels);
+}
+
+
+sub mp.undo(doc)
+/* undoes last operation */
+{
+	local txt;
+
+	if(txt = apop(doc.undo)) doc.txt = txt;
+}
+
+
 /* file code */
 
 sub mp.chomp(str)
@@ -556,7 +575,7 @@ sub mp.save_file(doc)
 
 
 sub mp.new()
-/* creates a new text */
+/* creates a new document */
 {
 	local doc, txt;
 
@@ -577,23 +596,43 @@ sub mp.new()
 
 	doc.syntax = NULL;
 
+	/* store in the list and set as active */
+	apush(mp.docs, doc);
+	mp.active = size(mp.docs) - 1;
+
 	return(doc);
 }
 
 
-sub mp.store_undo(doc)
-/* stores the current txt in the undo queue */
+sub mp.next()
+/* rotates through the document list */
 {
-	aqueue(doc.undo, clone(doc.txt), mp.config.undo_levels);
+	if(++mp.active == size(mp.docs))
+		mp.active = 0;
 }
 
 
-sub mp.undo(doc)
-/* undoes last operation */
+sub mp.close()
+/* closes the active document */
 {
-	local txt;
+	local k = mp.active;
 
-	if(txt = apop(doc.undo)) doc.txt = txt;
+	/* collapse the list */
+	acollapse(mp.docs, mp.active, 1);
+
+	/* rotate if it was the last one */
+	if(mp.active == size(mp.docs))
+		mp.active = 0;
+}
+
+
+sub mp.open(filename)
+/* opens a new document */
+{
+	local d;
+
+	d = mp.new();
+	mp.load_file(d, filename);
 }
 
 
@@ -632,7 +671,7 @@ mp.keycodes = {
 	'ctrl-k'	=>	NULL,
 	'ctrl-l'	=>	NULL,
 	'ctrl-m'	=>	'insert-line',
-	'ctrl-n'	=>	'new',
+	'ctrl-n'	=>	'next',
 	'ctrl-o'	=>	'open',
 	'ctrl-p'	=>	NULL,
 	'ctrl-q'	=>	'exit',
@@ -674,6 +713,8 @@ mp.functions = {
 					mp.delete_char(k); },
 
 	'save'		=>	sub (k) { mp.save_file(k); },
+	'next'		=>	sub (k) { mp.next(); },
+	'close'		=>	sub (k) { mp.close(); },
 
 	'undo'		=>	sub (k) { mp.undo(k); },
 
@@ -683,21 +724,23 @@ mp.functions = {
 
 mp.exit_requested = 0;
 
-sub main_loop(filename)
+sub main_loop()
 {
-	local d, v, k;
-
-	d = mp.new();
-
-	mp.load_file(d, filename);
-
 	mp.drv.startup();
-
-	d.window = mp.drv.window;
 
 	while (! mp.exit_requested)
 	{
-		local f;
+		local d, f;
+
+		/* empty document list? create a new, empty one */
+		if(size(mp.docs) == 0)
+			mp.new();
+
+		/* get active document */
+		d = mp.docs[mp.active];
+
+		/* HACK */
+		d.window = mp.drv.window;
 
 		mp.drv.draw(d);
 
@@ -719,6 +762,18 @@ mp.config.auto_indent = 1;
 mp.config.wordwrap = 80;
 
 if(size(ARGV) > 1)
-	main_loop(ARGV[1]);
-else
-	print("Usage: mp-4 {file}\n");
+{
+	local f;
+
+	/* skip ARGV[0] */
+	adel(ARGV, 0);
+
+	/* loop opening */
+	foreach(f, ARGV)
+		mp.open(f);
+
+	/* set the first as the active one */
+	mp.active = 0;
+}
+
+main_loop();
