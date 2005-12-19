@@ -55,5 +55,7 @@ Closed
    (Thu, 15 Dec 2005 12:09:35 +0100).
  * 1122: Fix quote regexes to not match newlines
    (Thu, 15 Dec 2005 12:36:51 +0100).
+ * 1125: Make it installable under Unix systems
+   (Mon, 19 Dec 2005 17:17:19 +0100).
 
 Email bugs to angel@triptico.com

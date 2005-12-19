@@ -73,8 +73,10 @@ win32dist:
 
 install: $(INSTALL_MSG)
 	install $(TARGET) $(PREFIX)/bin/$(APPNAME)
-	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
-	install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
+	./mkinstalldirs $(PREFIX)/share/$(APPNAME)
+	install -m 644 mp_*.mpsl $(PREFIX)/share/$(APPNAME)
+#	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
+#	install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
 #	./mkinstalldirs $(PREFIX)/share/man/man1
 #	install -m 644 mp.1 $(PREFIX)/share/man/man1/$(APPNAME).1
 

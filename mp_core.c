@@ -596,10 +596,19 @@ void mp_startup(int argc, char * argv[])
 void mp_mpsl(void)
 {
 	mpdm_t v;
+	mpdm_t INC;
 
-	/* HACK: Create an INC array with the current directory.
-	   This won't finally be here; only CONFOPT_PREFIX will */
-	mpdm_exec(mpsl_compile(MPDM_LS(L"INC = [ '.' ];")), NULL);
+	/* creates the INC (executable path) array */
+	INC = MPDM_A(0);
+
+	/* HACK: use current directory */
+	mpdm_apush(INC, MPDM_LS(L"."));
+
+	/* add CONFOPT_PREFIX */
+	mpdm_apush(INC, MPDM_MBS(CONFOPT_PREFIX "/share/" CONFOPT_APPNAME "/"));
+
+	/* set INC */
+	mpdm_hset_s(mpdm_root(), L"INC", INC);
 
 	if((v = mpsl_compile_file(MPDM_LS(L"mp_core.mpsl"))) == NULL)
 	{

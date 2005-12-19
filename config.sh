@@ -93,8 +93,9 @@ CC="$CC $CFLAGS"
 # add version
 cat VERSION >> config.h
 
-# add installation prefix
+# add installation prefix and application name
 echo "#define CONFOPT_PREFIX \"$PREFIX\"" >> config.h
+echo "#define CONFOPT_APPNAME \"$APPNAME\"" >> config.h
 
 ################################################################
 
