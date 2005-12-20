@@ -67,7 +67,7 @@ static struct {
 
 #define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
 
-static int mp_wcwidth(int x, wchar_t c)
+static int drw_wcwidth(int x, wchar_t c)
 {
 	int r;
 
@@ -88,7 +88,7 @@ int drw_vx2x(mpdm_t str, int vx)
 	int n, x;
 
 	for(n = x = 0;n < vx && ptr[x] != L'\0';x++)
-		n += mp_wcwidth(n, ptr[x]);
+		n += drw_wcwidth(n, ptr[x]);
 
 	return(x);
 }
@@ -101,7 +101,7 @@ int drw_x2vx(mpdm_t str, int x)
 	int n, vx;
 
 	for(n = vx = 0;n < x && ptr[n] != L'\0';n++)
-		vx += mp_wcwidth(vx, ptr[n]);
+		vx += drw_wcwidth(vx, ptr[n]);
 
 	return(vx);
 }
@@ -141,7 +141,7 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 
 	/* calculate the column for the cursor position */
 	for(n = m = 0;n < x;n++, ptr++)
-		m += mp_wcwidth(n, *ptr);
+		m += drw_wcwidth(n, *ptr);
 
 	/* if new cursor column is nearer the leftmost column, set */
 	if(m < *vx) *vx = m;
@@ -428,7 +428,7 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 	while(!EOS(drw.ptr[o]) && m < drw.vx)
 	{
 		a = drw.attrs[o];
-		m += mp_wcwidth(x++, drw.ptr[o++]);
+		m += drw_wcwidth(x++, drw.ptr[o++]);
 	}
 
 	/* if current position is further the first column,
@@ -443,7 +443,7 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 		while(drw.attrs[o] == a && m < drw.vx + drw.tx)
 		{
 			c = drw.ptr[o];
-			t = mp_wcwidth(m, c);
+			t = drw_wcwidth(m, c);
 			m += t;
 
 			switch(c) {
