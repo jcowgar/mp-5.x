@@ -18,6 +18,7 @@ Release Critical Bugs
  * 1118: Add move word left and right.
  * 1119: Add learn mode.
  * 1120: Add system command execution (pipes).
+ * 1126: The dynamic array length in drw_as_array() is not taken into account.
 
 Open Bugs
 ---------
