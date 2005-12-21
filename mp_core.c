@@ -518,12 +518,9 @@ static mpdm_t drw_as_array(void)
 	/* the array of lines */
 	r = MPDM_A(drw.ty);
 
+	/* push each line */
 	for(n = 0;n < drw.ty;n++)
-	{
-		mpdm_t l = drw_line(n, tmp);
-
-		mpdm_aset(r, l, n);
-	}
+		mpdm_aset(r, drw_line(n, tmp), n);
 
 	free(tmp);
 
