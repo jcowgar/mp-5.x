@@ -17,7 +17,6 @@ Release Critical Bugs
  * 1118: Add move word left and right.
  * 1119: Add learn mode.
  * 1120: Add system command execution (pipes).
- * 1126: The dynamic array length in drw_as_array() is not taken into account.
 
 Open Bugs
 ---------
@@ -58,5 +57,7 @@ Closed
  * 1125: Make it installable under Unix systems
    (Mon, 19 Dec 2005 17:17:19 +0100).
  * 1106: Add tag support (Wed, 21 Dec 2005 07:55:03 +0100).
+ * 1126: The dynamic array length in drw_as_array() is not taken
+   into account (Wed, 21 Dec 2005 18:30:22 +0100).
 
 Email bugs to angel@triptico.com

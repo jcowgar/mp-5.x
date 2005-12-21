@@ -458,14 +458,15 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 
 #define EOS(c) ((c) == L'\n' || (c) == L'\0')
 
-static mpdm_t drw_line(int line, wchar_t * tmp)
+static mpdm_t drw_line(int line)
 /* creates a list of attribute / pairs for the current line */
 {
 	mpdm_t l = NULL;
 	int m, i, t, n;
 	int o = drw.offsets[line + drw.p_lines];
 	int a = drw.attrs[o];
-	wchar_t c = L' ';
+	wchar_t tmp[128];
+	wchar_t c;
 
 	/* loop while not past the right margin */
 	for(m = i = 0;m < drw.vx + drw.tx;m += t, o++)
@@ -478,8 +479,9 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 		/* further the left margin? */
 		if(m >= drw.vx)
 		{
-			/* if the attribute is different, push and go on */
-			if(drw.attrs[o] != a)
+			/* if the attribute is different or we're out of
+			   temporary space, push and go on */
+			if(drw.attrs[o] != a || i >= sizeof(tmp) - t - 1)
 			{
 				l = drw_push_pair(l, i, a, tmp);
 				i = 0;
@@ -518,23 +520,17 @@ static mpdm_t drw_as_array(void)
 /* returns an mpdm array of ty elements, which are also arrays of
    attribute - string pairs */
 {
-	mpdm_t r;
+	mpdm_t a;
 	int n;
-	wchar_t * tmp;
-
-	/* alloc temporary string space */
-	tmp = malloc((drw.tx + 1) * sizeof(wchar_t));
 
 	/* the array of lines */
-	r = MPDM_A(drw.ty);
+	a = MPDM_A(drw.ty);
 
 	/* push each line */
 	for(n = 0;n < drw.ty;n++)
-		mpdm_aset(r, drw_line(n, tmp), n);
+		mpdm_aset(a, drw_line(n), n);
 
-	free(tmp);
-
-	return(r);
+	return(a);
 }
 
 
