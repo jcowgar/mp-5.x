@@ -454,14 +454,15 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 			t = drw_wcwidth(m, c);
 			m += t;
 
-			switch(c) {
-			case L'\t': while(t--) tmp[i++] = ' '; break;
-			case L'\0':
-			case L'\n': tmp[i++] = ' '; break;
-			default: tmp[i++] = c; break;
+			if(EOS(c))
+			{
+				tmp[i++] = L' ';
+				break;
 			}
+			else
+			if(c == '\t') c = L' ';
 
-			if(EOS(c)) break;
+			while(t--) tmp[i++] = c;
 
 			/* next char */
 			o++;
