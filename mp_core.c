@@ -420,9 +420,43 @@ static void drw_matching_paren(void)
 }
 
 
+static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
+/* pushes a pair of attribute / string into l */
+{
+	/* create the array, if doesn't exist yet */
+	if(l == NULL) l = MPDM_A(0);
+
+	/* finish the string */
+	tmp[i] = L'\0';
+
+	/* special magic: if the attribute is the
+	   one of the cursor and the string is more than
+	   one character, create two strings; the
+	   cursor is over a tab */
+	if(a == MP_ATTR_CURSOR && i > 1)
+	{
+		mpdm_apush(l, MPDM_I(a));
+		mpdm_apush(l, MPDM_NS(tmp, 1));
+
+		/* cursor color is normal */
+		a = MP_ATTR_NORMAL;
+
+		/* one char less */
+		tmp[i - 1] = L'\0';
+	}
+
+	/* store the attribute and the string */
+	mpdm_apush(l, MPDM_I(a));
+	mpdm_apush(l, MPDM_S(tmp));
+
+	return(l);
+}
+
+
 #define EOS(c) ((c) == L'\n' || (c) == L'\0')
 
 static mpdm_t drw_line(int line, wchar_t * tmp)
+/* creates a list of attribute / pairs for the current line */
 {
 	mpdm_t l = NULL;
 	int m, i, t;
@@ -468,31 +502,8 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 			o++;
 		}
 
-		/* finish the string */
-		tmp[i] = L'\0';
-
-		/* create the array, if doesn't exist yet */
-		if(l == NULL) l = MPDM_A(0);
-
-		/* special magic: if the attribute is the
-		   one of the cursor and the string is more than
-		   one character, create two strings; the
-		   cursor is over a tab */
-		if(a == MP_ATTR_CURSOR && i > 1)
-		{
-			mpdm_apush(l, MPDM_I(a));
-			mpdm_apush(l, MPDM_NS(tmp, 1));
-
-			/* cursor color is normal */
-			a = MP_ATTR_NORMAL;
-
-			/* one char less */
-			tmp[i - 1] = L'\0';
-		}
-
-		/* store the attribute and the string */
-		mpdm_apush(l, MPDM_I(a));
-		mpdm_apush(l, MPDM_S(tmp));
+		/* push the pair of attribute / string */
+		l = drw_push_pair(l, i, a, tmp);
 
 		a = drw.attrs[o];
 		i = 0;
