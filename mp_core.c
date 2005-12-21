@@ -493,6 +493,10 @@ static mpdm_t drw_line(int line)
 			/* fill EOLs and tabs with spaces */
 			if(c == L'\0' || c == L'\n' || c == L'\t')
 				c = L' ';
+
+			/* if next char will not fit, use a space */
+			if(m + t > drw.vx + drw.tx)
+				c = L' ';
 		}
 		else
 		{
