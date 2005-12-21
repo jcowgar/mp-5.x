@@ -137,6 +137,9 @@ static mpdm_t nc_startup(mpdm_t v)
 	init_pair(8, COLOR_RED, DEFAULT_PAPER);
 	nc_attrs[MP_ATTR_WORD_2] = COLOR_PAIR(8) | A_BOLD;
 
+	init_pair(9, COLOR_CYAN, DEFAULT_PAPER);
+	nc_attrs[MP_ATTR_TAG] = COLOR_PAIR(9) | A_UNDERLINE;
+
 	bkgdset(' ' | nc_attrs[MP_ATTR_NORMAL]);
 
 	nc_window = MPDM_H(0);

@@ -35,6 +35,7 @@ mp.config.undo_levels = 20;
 mp.docs = [];
 mp.active = 0;
 
+load("mp_tags.mpsl");
 load("mp_syntax.mpsl");
 
 /*******************

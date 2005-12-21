@@ -1,6 +1,9 @@
 /*
 
-    Minimum Profit - Programmer Text Editor
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Tags.
 
     Copyright (C) 1991-2005 Angel Ortega <angel@triptico.com>
 
@@ -22,13 +25,7 @@
 
 */
 
-#define MP_ATTR_NORMAL		0
-#define MP_ATTR_CURSOR		1
-#define MP_ATTR_SELECTION	2
-#define MP_ATTR_COMMENTS	3
-#define MP_ATTR_QUOTES		4
-#define MP_ATTR_MATCHING	5
-#define MP_ATTR_WORD_1		6
-#define MP_ATTR_WORD_2		7
-#define MP_ATTR_TAG		8
+mp.tags = {
+	"mpdm_hget_s"	=>	1
+	};
 

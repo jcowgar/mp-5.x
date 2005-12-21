@@ -248,10 +248,15 @@ static void drw_words(void)
 	mpdm_t r, t;
 	int o = drw.visible;
 	mpdm_t hl_words;
+	mpdm_t tags;
 
 	/* if there is no syntax highlight info for words, exit */
 	if((hl_words = mpdm_hget_s(drw.syntax, L"hl_words")) == NULL)
 		return;
+
+	/* take the tags, if any */
+	if((t = mpdm_hget_s(mpdm_root(), L"mp")) != NULL)
+		tags = mpdm_hget_s(t, L"tags");
 
 	/* @#@ */
 	r=MPDM_LS(L"/\\w+/");
@@ -263,8 +268,11 @@ static void drw_words(void)
 
 		if((c = mpdm_hget(hl_words, t)) != NULL)
 			attr = mpdm_ival(c);
+		else
+		if(mpdm_hget(tags, t) != NULL)
+			attr = MP_ATTR_TAG;
 
-		/* @#@ tags and spell will be here */
+		/* @#@ spell will be here */
 
 		o=drw_fill_attr_regex(attr);
 	}
