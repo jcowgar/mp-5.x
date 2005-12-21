@@ -425,18 +425,18 @@ static void drw_matching_paren(void)
 static mpdm_t drw_line(int line, wchar_t * tmp)
 {
 	mpdm_t l = NULL;
-	int m, i, x, t;
+	int m, i, t;
 	int o = drw.offsets[line + drw.p_lines];
 	int a = drw.attrs[o];
 	wchar_t c = L' ';
 
-	m = i = x = 0;
+	m = i = 0;
 
 	/* skip first the lost-to-the-left characters */
 	while(!EOS(drw.ptr[o]) && m < drw.vx)
 	{
 		a = drw.attrs[o];
-		m += drw_wcwidth(x++, drw.ptr[o++]);
+		m += drw_wcwidth(m, drw.ptr[o++]);
 	}
 
 	/* if current position is further the first column,
@@ -464,7 +464,7 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 			if(EOS(c)) break;
 
 			/* next char */
-			x++; o++;
+			o++;
 		}
 
 		/* finish the string */
