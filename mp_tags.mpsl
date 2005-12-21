@@ -25,7 +25,29 @@
 
 */
 
-mp.tags = {
-	"mpdm_hget_s"	=>	1
-	};
+sub mp.load_tags
+/* load a 'tags' file */
+{
+	local f, l;
 
+	if((f = open("tags", "r")) == NULL)
+		return;
+
+	/* reset current tags */
+	mp.tags = {};
+
+	while((l = read(f)))
+	{
+		local t = asplit("\t", l);
+
+		mp.tags[t[0]] = {
+			'file'	=> t[1],
+			'regex'	=> t[2]
+			};
+	}
+
+	close(f);
+}
+
+
+mp.load_tags();

@@ -4,7 +4,6 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1106: Add tag support.
  * 1107: Add ispell support.
  * 1108: Add word wrapping.
  * 1109: Add jump to matching paren.
@@ -58,5 +57,6 @@ Closed
    (Thu, 15 Dec 2005 12:36:51 +0100).
  * 1125: Make it installable under Unix systems
    (Mon, 19 Dec 2005 17:17:19 +0100).
+ * 1106: Add tag support (Wed, 21 Dec 2005 07:55:03 +0100).
 
 Email bugs to angel@triptico.com
