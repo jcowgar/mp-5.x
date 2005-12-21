@@ -462,59 +462,55 @@ static mpdm_t drw_line(int line, wchar_t * tmp)
 /* creates a list of attribute / pairs for the current line */
 {
 	mpdm_t l = NULL;
-	int m, i, t;
+	int m, i, t, n;
 	int o = drw.offsets[line + drw.p_lines];
 	int a = drw.attrs[o];
 	wchar_t c = L' ';
 
-	m = i = 0;
-
-	/* skip first the lost-to-the-left characters */
-	while(!EOS(drw.ptr[o]) && m < drw.vx)
+	/* loop while not past the right margin */
+	for(m = i = 0;m < drw.vx + drw.tx;m += t, o++)
 	{
-		a = drw.attrs[o];
-		m += drw_wcwidth(m, drw.ptr[o++]);
-	}
+		/* take char and size */
+		c = drw.ptr[o];
+		t = drw_wcwidth(m, c);
+		n = 0;
 
-	/* if current position is further the first column,
-	   fill with spaces */
-	for(t = m - drw.vx;t > 0;t--)
-		tmp[i++] = L' ';
-
-	/* now loop storing into l the pairs of
-	   attributes and strings */
-	while(m < drw.vx + drw.tx)
-	{
-		while(drw.attrs[o] == a && m < drw.vx + drw.tx)
+		/* further the left margin? */
+		if(m >= drw.vx)
 		{
-			c = drw.ptr[o];
-			t = drw_wcwidth(m, c);
-			m += t;
-
-			if(EOS(c))
+			/* if the attribute is different, push and go on */
+			if(drw.attrs[o] != a)
 			{
-				tmp[i++] = L' ';
-				break;
+				l = drw_push_pair(l, i, a, tmp);
+				i = 0;
 			}
-			else
-			if(c == '\t') c = L' ';
 
-			while(t--) tmp[i++] = c;
-
-			/* next char */
-			o++;
+			/* size is 1, unless it's a tab */
+			n = c == L'\t' ? t : 1;
+			
+			/* fill EOLs and tabs with spaces */
+			if(c == L'\0' || c == L'\n' || c == L'\t')
+				c = L' ';
+		}
+		else
+		{
+			/* left filler */
+			n = m + t - drw.vx;
+			c = L' ';
 		}
 
-		/* push the pair of attribute / string */
-		l = drw_push_pair(l, i, a, tmp);
+		/* fill the string */
+		for(;n > 0;n--)
+			tmp[i++] = c;
 
 		a = drw.attrs[o];
-		i = 0;
 
-		if(EOS(c)) break;
+		/* end of line? */
+		if(drw.ptr[o] == L'\0' || drw.ptr[o] == L'\n')
+			break;
 	}
 
-	return(l);
+	return(drw_push_pair(l, i, a, tmp));
 }
 
 
