@@ -93,7 +93,8 @@ mp.syntax.perl = {
 	'comments'	=>	[
 		"/#.*$/m",				/* Comments */
 		"/__END__\n.*$/",			/* __END__ */
-		[ "/^=/m", "/^=cut$/m" ]		/* POD */
+		[ "/^=(head[1-4]|over|item|back|pod|begin|end|for)/m",
+			"/^=cut$/m" ]			/* POD */
 	],
 	'quotes'	=>	[
 		/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
