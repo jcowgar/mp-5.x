@@ -248,7 +248,7 @@ static void drw_words(void)
 	mpdm_t r, t;
 	int o = drw.visible;
 	mpdm_t hl_words;
-	mpdm_t tags;
+	mpdm_t tags = NULL;
 
 	/* if there is no syntax highlight info for words, exit */
 	if((hl_words = mpdm_hget_s(drw.syntax, L"hl_words")) == NULL)
