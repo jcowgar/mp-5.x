@@ -17,6 +17,8 @@ Release Critical Bugs
  * 1118: Add move word left and right.
  * 1119: Add learn mode.
  * 1120: Add system command execution (pipes).
+ * 1127: If a double width char does not fit to the end of the line,
+   draw a single space instead.
 
 Open Bugs
 ---------
