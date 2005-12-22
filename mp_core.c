@@ -456,10 +456,8 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 }
 
 
-#define EOS(c) ((c) == L'\n' || (c) == L'\0')
-
 static mpdm_t drw_line(int line)
-/* creates a list of attribute / pairs for the current line */
+/* creates a list of attribute / string pairs for the current line */
 {
 	mpdm_t l = NULL;
 	int m, i, t, n;
@@ -468,13 +466,12 @@ static mpdm_t drw_line(int line)
 	wchar_t tmp[128];
 	wchar_t c;
 
-	/* loop while not past the right margin */
+	/* loop while not beyond the right margin */
 	for(m = i = 0;m < drw.vx + drw.tx;m += t, o++)
 	{
 		/* take char and size */
 		c = drw.ptr[o];
 		t = drw_wcwidth(m, c);
-		n = 0;
 
 		/* further the left margin? */
 		if(m >= drw.vx)
