@@ -222,8 +222,8 @@ sub mp.join_line(doc)
 		/* concats current line with the next one */
 		txt.lines[txt.y] = txt.lines[txt.y] ~ txt.lines[txt.y + 1];
 
-		/* collapse */
-		collapse(txt.lines, txt.y + 1, 1);
+		/* delete it */
+		adel(txt.lines, txt.y + 1);
 	}
 }
 
@@ -243,7 +243,7 @@ sub mp.delete_line(doc)
 	else
 	{
 		/* destroy the line */
-		collapse(txt.lines, txt.y, 1);
+		adel(txt.lines, txt.y);
 	}
 
 	/* fix if it was the last line */
@@ -618,8 +618,8 @@ sub mp.close()
 {
 	local k = mp.active;
 
-	/* collapse the list */
-	collapse(mp.docs, mp.active, 1);
+	/* delete from the list */
+	adel(mp.docs, mp.active);
 
 	/* rotate if it was the last one */
 	if(mp.active == size(mp.docs))
