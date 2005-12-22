@@ -190,7 +190,7 @@ sub mp.break_line(doc)
 	txt.y++;
 
 	/* insert a new line here */
-	aexpand(txt.lines, txt.y, 1);
+	expand(txt.lines, txt.y, 1);
 
 	/* if autoindenting... */
 	if(mp.config.auto_indent)
@@ -223,7 +223,7 @@ sub mp.join_line(doc)
 		txt.lines[txt.y] = txt.lines[txt.y] ~ txt.lines[txt.y + 1];
 
 		/* collapse */
-		acollapse(txt.lines, txt.y + 1, 1);
+		collapse(txt.lines, txt.y + 1, 1);
 	}
 }
 
@@ -243,7 +243,7 @@ sub mp.delete_line(doc)
 	else
 	{
 		/* destroy the line */
-		acollapse(txt.lines, txt.y, 1);
+		collapse(txt.lines, txt.y, 1);
 	}
 
 	/* fix if it was the last line */
@@ -363,7 +363,7 @@ sub mp.copy(doc)
 		w = splice(txt.lines[txt.mark.by], NULL,
 			txt.mark.bx, txt.mark.ex - txt.mark.bx);
 
-		apush(mp.clipboard, w[1]);
+		push(mp.clipboard, w[1]);
 	}
 	else
 	{
@@ -375,16 +375,16 @@ sub mp.copy(doc)
 		n = txt.mark.by;
 		w = splice(txt.lines[n], NULL, txt.mark.bx, -1);
 
-		apush(mp.clipboard, w[1]);
+		push(mp.clipboard, w[1]);
 		n++;
 
 		/* take the central lines */
 		while(n < txt.mark.ey)
-			apush(mp.clipboard, txt.lines[n++]);
+			push(mp.clipboard, txt.lines[n++]);
 
 		/* take the last line */
 		w = splice(txt.lines[n], NULL, 0, txt.mark.ex);
-		apush(mp.clipboard, w[1]);
+		push(mp.clipboard, w[1]);
 	}
 }
 
@@ -426,7 +426,7 @@ sub mp.delete_mark(doc)
 		txt.lines[txt.mark.ey] = w[0];
 
 		/* collapse the lines in between */
-		acollapse(txt.lines, txt.mark.by + 1,
+		collapse(txt.lines, txt.mark.by + 1,
 			txt.mark.ey - txt.mark.by - 1);
 
 		/* finally join both lines */
@@ -478,7 +478,7 @@ sub mp.paste(doc)
 		local n = 1;
 
 		/* open room */
-		aexpand(txt.lines, txt.y, s - 2);
+		expand(txt.lines, txt.y, s - 2);
 
 		/* transfer middle lines */
 		while(n < s - 1)
@@ -490,7 +490,7 @@ sub mp.paste(doc)
 sub mp.store_undo(doc)
 /* stores the current txt in the undo queue */
 {
-	aqueue(doc.undo, clone(doc.txt), mp.config.undo_levels);
+	queue(doc.undo, clone(doc.txt), mp.config.undo_levels);
 }
 
 
@@ -499,7 +499,7 @@ sub mp.undo(doc)
 {
 	local txt;
 
-	if(txt = apop(doc.undo)) doc.txt = txt;
+	if(txt = pop(doc.undo)) doc.txt = txt;
 }
 
 
@@ -530,11 +530,11 @@ sub mp.load_file(doc, filename)
 
 	/* read the file into it */
 	while((l = read(f)) != NULL)
-		apush(txt.lines, mp.chomp(l));
+		push(txt.lines, mp.chomp(l));
 
 	/* if previous line was chomped, add an empty line */
 	if(sregex())
-		apush(txt.lines, '');
+		push(txt.lines, '');
 
 	close(f);
 
@@ -598,7 +598,7 @@ sub mp.new()
 	doc.syntax = NULL;
 
 	/* store in the list and set as active */
-	apush(mp.docs, doc);
+	push(mp.docs, doc);
 	mp.active = size(mp.docs) - 1;
 
 	return(doc);
@@ -619,7 +619,7 @@ sub mp.close()
 	local k = mp.active;
 
 	/* collapse the list */
-	acollapse(mp.docs, mp.active, 1);
+	collapse(mp.docs, mp.active, 1);
 
 	/* rotate if it was the last one */
 	if(mp.active == size(mp.docs))

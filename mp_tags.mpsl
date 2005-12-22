@@ -38,7 +38,7 @@ sub mp.load_tags
 
 	while((l = read(f)))
 	{
-		local t = asplit("\t", l);
+		local t = split("\t", l);
 
 		mp.tags[t[0]] = {
 			'file'	=> t[1],

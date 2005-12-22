@@ -438,8 +438,8 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 	   cursor is over a tab */
 	if(a == MP_ATTR_CURSOR && i > 1)
 	{
-		mpdm_apush(l, MPDM_I(a));
-		mpdm_apush(l, MPDM_NS(tmp, 1));
+		mpdm_push(l, MPDM_I(a));
+		mpdm_push(l, MPDM_NS(tmp, 1));
 
 		/* cursor color is normal */
 		a = MP_ATTR_NORMAL;
@@ -449,8 +449,8 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 	}
 
 	/* store the attribute and the string */
-	mpdm_apush(l, MPDM_I(a));
-	mpdm_apush(l, MPDM_S(tmp));
+	mpdm_push(l, MPDM_I(a));
+	mpdm_push(l, MPDM_S(tmp));
 
 	return(l);
 }
@@ -615,10 +615,10 @@ void mp_mpsl(void)
 	INC = MPDM_A(0);
 
 	/* HACK: use current directory */
-	mpdm_apush(INC, MPDM_LS(L"."));
+	mpdm_push(INC, MPDM_LS(L"."));
 
 	/* add CONFOPT_PREFIX */
-	mpdm_apush(INC, MPDM_MBS(CONFOPT_PREFIX "/share/" CONFOPT_APPNAME "/"));
+	mpdm_push(INC, MPDM_MBS(CONFOPT_PREFIX "/share/" CONFOPT_APPNAME "/"));
 
 	/* set INC */
 	mpdm_hset_s(mpdm_root(), L"INC", INC);

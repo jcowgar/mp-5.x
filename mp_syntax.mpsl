@@ -116,7 +116,7 @@ sub mp.detect_syntax(doc)
 	doc.syntax = NULL;
 
 	/* loops the syntax highlight definitions */
-	foreach(n, hkeys(mp.syntax))
+	foreach(n, keys(mp.syntax))
 	{
 		local ext;
 		local s = mp.syntax[n];
