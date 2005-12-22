@@ -108,6 +108,27 @@ mp.syntax.perl = {
 };
 
 
+mp.syntax.mpsl = {
+	'id'		=>	'mpsl',
+	'name'		=>	'mpsl',
+	'filenames'	=>	[ '/\.mpsl$/' ],
+	'tokens'	=>	[ 'if', 'else', 'while', 'foreach', 'sub',
+				  'break', 'return',
+				  "size", "clone", "dump", "cmp",
+				  "is_array", "is_hash", "is_exec",
+				  "splice", "expand", "collapse",
+				  "ins", "adel", "push", "pop", "queue",
+				  "seek", "sort", "split", "join",
+				  "hsize", "exists", "hdel", "keys",
+				  "open", "close", "read", "write",
+				  "unlink", "glob", "encoding",
+				  "regex", "sregex",
+				  "load", "print" ],
+	'variables'	=>	[ 'NULL', 'local' ],
+	'comments'	=>	clone(mp.syntax.c.comments),
+	'quotes'	=>	clone(mp.syntax.c.quotes)
+};
+
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
