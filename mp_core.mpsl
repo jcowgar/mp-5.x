@@ -171,17 +171,20 @@ sub mp.move_eof(doc)
 }
 
 
-sub mp.break_line(doc)
+sub mp.break_line(doc, col)
 /* breaks current line in two (inserts a newline) */
 {
 	local txt = doc.txt;
 	local c, w;
 
+	/* if col is NULL, set it to be the x cursor */
+	if(col == NULL) col = txt.x;
+
 	/* gets line where cursor is */
 	c = txt.lines[txt.y];
 
-	/* deletes from cursor to end of line */
-	w = splice(c, NULL, txt.x, -1);
+	/* deletes from col to the end of line */
+	w = splice(c, NULL, col, -1);
 
 	/* set first part as current line */
 	txt.lines[txt.y] = w[0];
@@ -192,6 +195,9 @@ sub mp.break_line(doc)
 	/* insert a new line here */
 	expand(txt.lines, txt.y, 1);
 
+	/* fix the x cursor position */
+	txt.x -= col;
+
 	/* if autoindenting... */
 	if(mp.config.auto_indent)
 	{
@@ -201,11 +207,9 @@ sub mp.break_line(doc)
 
 		w[1] = i ~ w[1];
 
-		/* move to the end of that */
-		txt.x = size(i);
+		/* the x position is further the length of that */
+		txt.x += size(i);
 	}
-	else
-		txt.x = 0;
 
 	/* put second part there (or an empty string if NULL) */
 	txt.lines[txt.y] = w[1] || '';
