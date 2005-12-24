@@ -5,7 +5,6 @@ Release Critical Bugs
 ---------------------
 
  * 1107: Add ispell support.
- * 1108: Add word wrapping.
  * 1109: Add jump to matching paren.
  * 1110: Add mp_templates support.
  * 1111: Add search.
@@ -61,5 +60,6 @@ Closed
    into account (Wed, 21 Dec 2005 18:30:22 +0100).
  * 1127: If a double width char does not fit to the end of the line,
    draw a single space instead (Wed, 21 Dec 2005 18:45:08 +0100).
+ * 1108: Add word wrapping (Sat, 24 Dec 2005 19:26:45 +0100).
 
 Email bugs to angel@triptico.com

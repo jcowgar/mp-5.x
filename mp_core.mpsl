@@ -292,16 +292,34 @@ sub mp.insert(doc, str)
 }
 
 
+sub mp.wrap_words(doc)
+/* do the word wrapping */
+{
+	local txt = doc.txt;
+
+	if(mp.config.wordwrap == 0) return;
+
+	if(txt.x >= mp.config.wordwrap &&
+		regex("/^.{1," ~ mp.config.wordwrap ~ "}\s/", txt.lines[txt.y]))
+	{
+		local w;
+
+		/* take the coordinates */
+		w = regex();
+
+		/* break the line there */
+		mp.break_line(doc, w[1]);
+	}
+}
+
+
 sub mp.insert_space(doc)
 /* inserts a space, taking wordwrapping into account */
 {
 	local txt = doc.txt;
 
-	if(mp.config.wordwrap > 0 &&
-		mp.x2vx(txt.lines[txt.y], txt.x) >= mp.config.wordwrap)
-		mp.break_line(doc);
-	else
-		mp.insert(doc, ' ');
+	mp.wrap_words(doc);
+	mp.insert(doc, ' ');
 }
 
 
