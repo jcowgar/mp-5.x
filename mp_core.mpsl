@@ -782,7 +782,7 @@ sub main_loop()
 }
 
 mp.config.auto_indent = 1;
-mp.config.wordwrap = 80;
+mp.config.wordwrap = 75;
 
 if(size(ARGV) > 1)
 {
