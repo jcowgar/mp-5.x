@@ -31,6 +31,8 @@
 mp.config = {};
 mp.config.eol = "\n";
 mp.config.undo_levels = 20;
+mp.config.wordwrap = 0;
+mp.config.auto_indent = 0;
 
 mp.docs = [];
 mp.active = 0;
@@ -784,22 +786,36 @@ sub main_loop()
 	mp.drv.shutdown();
 }
 
-mp.config.auto_indent = 1;
-mp.config.wordwrap = 75;
-
-if(size(ARGV) > 1)
+sub process_cmdline
+/* process the command line arguments (ARGV) */
 {
-	local f;
+	local o;
+
+	if(size(ARGV) <= 1)
+		return;
 
 	/* skip ARGV[0] */
-	adel(ARGV, 0);
+	shift(ARGV);
 
-	/* loop opening */
-	foreach(f, ARGV)
-		mp.open(f);
+	while(o = shift(ARGV))
+	{
+		if(o eq '-e')
+		{
+			/* execute code */
+			if((o = compile(shift(ARGV))) != NULL)
+				o();
+			else
+				print(ERROR, "\n");
+		}
+		else
+			mp.open(o);
+	}
 
 	/* set the first as the active one */
 	mp.active = 0;
 }
+
+
+process_cmdline();
 
 main_loop();
