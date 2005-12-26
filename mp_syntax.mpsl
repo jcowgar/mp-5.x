@@ -30,7 +30,7 @@ mp.syntax = {};
 mp.syntax.c = {
 	'id'		=>	'c',
 	'name'		=>	'C / C++',
-	'filenames'	=>	[ '/\.c$/', '/\.h$/',
+	'filenames'	=>	[ '/\.c$/', '/\.h$/', '/\.l$/', '/\.y$/',
 				'/\.cpp$/', '/\.hpp$/', '/\.c++$/' ],
 	'tokens'	=>	[ "for", "while", "if", "switch", "case", "do",
 				"else", "break", "continue", "return",
@@ -123,7 +123,7 @@ mp.syntax.mpsl = {
 				  "hsize", "exists", "hdel", "keys",
 				  "open", "close", "read", "write",
 				  "unlink", "glob", "encoding",
-				  "regex", "sregex",
+				  "regex", "sregex", "eq", "ne",
 				  "compile", "load", "print" ],
 	'variables'	=>	[ 'NULL', 'local' ],
 	'comments'	=>	clone(mp.syntax.c.comments),
