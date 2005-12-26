@@ -16,6 +16,7 @@ Release Critical Bugs
  * 1118: Add move word left and right.
  * 1119: Add learn mode.
  * 1120: Add system command execution (pipes).
+ * 1128: Add the -e command line switch.
 
 Open Bugs
 ---------
