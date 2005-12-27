@@ -560,6 +560,21 @@ mpdm_t mpi_draw(mpdm_t doc)
 }
 
 
+mpdm_t mp_process_event(mpdm_t k)
+/* interfaz to mp.process_event() */
+{
+	static mpdm_t f = NULL;
+
+	if(f == NULL)
+	{
+		f = mpdm_hget_s(mpdm_root(), L"mp");
+		f = mpdm_hget_s(f, L"process_event");
+	}
+
+	return(mpdm_exec(f, NULL));
+}
+
+
 mpdm_t mp_vx2x(mpdm_t args)
 /* interfaz to drw_vx2x() */
 {
