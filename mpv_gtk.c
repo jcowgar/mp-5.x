@@ -63,6 +63,9 @@ GtkWidget * list = NULL;
 GtkWidget * status = NULL;
 GdkPixmap * pixmap = NULL;*/
 
+/* character read from the keyboard */
+wchar_t im_char[2];
+
 /*******************
 	Code
 ********************/
@@ -86,12 +89,8 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 /* 'key_press_event' handler */
 {
 	wchar_t * ptr = NULL;
-	int c = '\0';
 
 	gtk_im_context_filter_keypress(im, event);
-
-	if(event->keyval < 10000)
-		c = event->keyval;
 
 /*	mpi_move_selecting=event->state & GDK_SHIFT_MASK;
 */
@@ -202,35 +201,46 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		case GDK_Escape: ptr = L"escape"; break;
 		}
 	}
-	else
-	{
-		if(c < 32 || c > 255 || c==127)
-			c = '\0';
-	}
-/*
-	if(_mpv_im_char != '\0')
-	{
-		c=_mpv_im_char;
-		_mpv_im_char='\0';
-	}
-*/
-/*	if(c!='\0' || ptr!=NULL)
-	{*/
-		/* tell next expose we've call it */
-/*		_mpv_expose_by_key=1;
 
-		mpi_process(c, ptr, NULL);
+	/* if there is a pending char in im_char, use it */
+	if(im_char[0] != L'\0')
+		ptr = im_char;
 
-		_mpv_expose_by_key=0;
-	}
-*/
+	/* process it */
 	if(ptr != NULL)
 		mp_process_event(MPDM_S(ptr));
+
+	/* flush pending chars */
+	im_char[0] = L'\0';
 
 	if(mp_exit_requested)
 		gtk_main_quit();
 
 	return(0);
+}
+
+
+static void commit(GtkIMContext * i, char * str, gpointer u)
+/* 'commit' callback */
+{
+	wchar_t * wstr;
+
+	wstr = (wchar_t *) g_convert(str, -1,
+		"WCHAR_T", "UTF-8", NULL, NULL, NULL);
+
+	im_char[0] = *wstr;
+	im_char[1] = L'\0';
+
+	g_free(wstr);
+}
+
+
+static void realize(GtkWidget * widget)
+/* 'realize' handler */
+{
+	im = gtk_im_multicontext_new();
+	g_signal_connect(im, "commit", G_CALLBACK(commit), NULL);
+	gtk_im_context_set_client_window(im, widget->window);
 }
 
 
@@ -278,10 +288,10 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 
 	gtk_signal_connect(GTK_OBJECT(area),"expose_event",
 		(GtkSignalFunc) _mpv_expose_event_callback, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area), "realize",
-		(GtkSignalFunc) _mpv_realize_callback, NULL);
 */
+	gtk_signal_connect(GTK_OBJECT(area), "realize",
+		(GtkSignalFunc) realize, NULL);
+
 	gtk_signal_connect(GTK_OBJECT(window),"key_press_event",
 		(GtkSignalFunc) key_press_event, NULL);
 /*
