@@ -220,6 +220,36 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 }
 
 
+static gint button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer data)
+/* 'button_press_event' handler (mouse buttons) */
+{
+	int x, y;
+	wchar_t * ptr = NULL;
+
+	/* mouse instant positioning */
+/*	x = ((int)event->x) / _mpv_font_width;
+	y = ((int)event->y) / _mpv_font_height;
+
+	mp_move_xy(_mp_active,x,y+_mp_active->vy);
+	mp_move_bol(_mp_active);
+	mp_move_to_visual_column(_mp_active,x);
+*/
+	switch(event->button)
+	{
+	case 1: ptr = L"mouse-left-button"; break;
+	case 2: ptr = L"mouse-middle-button"; break;
+	case 3: ptr = L"mouse-right-button"; break;
+	case 4: ptr = L"mouse-wheel-up"; break;
+	case 5: ptr = L"mouse-wheel-down"; break;
+	}
+
+	if(ptr != NULL)
+		mp_process_event(MPDM_S(ptr));
+
+	return(0);
+}
+
+
 static void commit(GtkIMContext * i, char * str, gpointer u)
 /* 'commit' callback */
 {
@@ -294,10 +324,10 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 
 	gtk_signal_connect(GTK_OBJECT(window),"key_press_event",
 		(GtkSignalFunc) key_press_event, NULL);
-/*
-	gtk_signal_connect(GTK_OBJECT(area),"button_press_event",
-		(GtkSignalFunc) _mpv_mouse_callback, NULL);
 
+	gtk_signal_connect(GTK_OBJECT(area),"button_press_event",
+		(GtkSignalFunc) button_press_event, NULL);
+/*
 	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
 		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
 
