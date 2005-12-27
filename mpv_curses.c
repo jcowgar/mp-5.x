@@ -320,6 +320,8 @@ mpdm_t nc_drv_main_loop(mpdm_t a)
 		/* get key and process it */
 		mp_process_event(nc_getkey());
 	}
+
+	return(NULL);
 }
 
 
