@@ -750,43 +750,39 @@ mp.functions = {
 
 };
 
-mp.exit_requested = 0;
 
-sub main_loop()
+sub mp.get_active()
+/* returns the active document */
 {
-	mp.drv.startup();
+	/* empty document list? create a new, empty one */
+	if(size(mp.docs) == 0)
+		mp.new();
 
-	while (! mp.exit_requested)
-	{
-		local d, f;
-
-		/* empty document list? create a new, empty one */
-		if(size(mp.docs) == 0)
-			mp.new();
-
-		/* get active document */
-		d = mp.docs[mp.active];
-
-		/* HACK */
-		d.window = mp.drv.window;
-
-		mp.drv.draw(d);
-
-		k = mp.drv.getkey();
-
-		if((f = mp.keycodes[k]) != NULL)
-		{
-			if((f = mp.functions[f]) != NULL)
-				f(d);
-		}
-		else
-			mp.insert(d, k);
-	}
-
-	mp.drv.shutdown();
+	/* get active document */
+	return(mp.docs[mp.active]);
 }
 
-sub process_cmdline
+
+sub mp.process_event(k)
+/* processes a key event */
+{
+	local d, f;
+
+	d = mp.get_active();
+
+	/* get the function asociated to the keycode */
+	if((f = mp.keycodes[k]) != NULL)
+	{
+		/* take the function and execute */
+		if((f = mp.functions[f]) != NULL)
+			f(d);
+	}
+	else
+		mp.insert(d, k);
+}
+
+
+sub process_cmdline()
 /* process the command line arguments (ARGV) */
 {
 	local o;
@@ -813,6 +809,32 @@ sub process_cmdline
 
 	/* set the first as the active one */
 	mp.active = 0;
+}
+
+
+mp.exit_requested = 0;
+
+sub main_loop()
+{
+	mp.drv.startup();
+
+	while (! mp.exit_requested)
+	{
+		local d, f;
+
+		d = mp.get_active();
+
+		/* HACK */
+		d.window = mp.drv.window;
+
+		mp.drv.draw(d);
+
+		k = mp.drv.getkey();
+
+		mp.process_event(k);
+	}
+
+	mp.drv.shutdown();
 }
 
 
