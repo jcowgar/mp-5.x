@@ -29,6 +29,13 @@
 #ifdef CONFOPT_GTK
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 #include "mpdm.h"
 #include "mpsl.h"
@@ -46,34 +53,35 @@ mpdm_t gtk_driver = NULL;
 	Code
 ********************/
 
-mpdm_t gtk_startup(mpdm_t a)
+static mpdm_t gtk_drv_startup(mpdm_t a)
 {
 	return(NULL);
 }
 
 
-mpdm_t gtk_shutdown(mpdm_t a)
+static mpdm_t gtk_drv_shutdown(mpdm_t a)
 {
 	return(NULL);
 }
 
 
-mpdm_t gtk_main_loop(mpdm_t a)
+static mpdm_t gtk_drv_main_loop(mpdm_t a)
 {
 	return(NULL);
 }
 
 
-int gtk_init(mpdm_t mp)
+int gtk_drv_init(mpdm_t mp)
 {
-	return(0);
+/*	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))*/
+		return(0);
 
 	gtk_driver = mpdm_ref(MPDM_H(0));
 
 	mpdm_hset_s(gtk_driver, L"driver", MPDM_LS(L"gtk"));
-	mpdm_hset_s(gtk_driver, L"startup", MPDM_X(gtk_startup));
-	mpdm_hset_s(gtk_driver, L"main_loop", MPDM_X(gtk_main_loop));
-	mpdm_hset_s(gtk_driver, L"shutdown", MPDM_X(gtk_shutdown));
+	mpdm_hset_s(gtk_driver, L"startup", MPDM_X(gtk_drv_startup));
+	mpdm_hset_s(gtk_driver, L"main_loop", MPDM_X(gtk_drv_main_loop));
+	mpdm_hset_s(gtk_driver, L"shutdown", MPDM_X(gtk_drv_shutdown));
 
 	mpdm_hset_s(mp, L"drv", gtk_driver);
 
@@ -82,7 +90,7 @@ int gtk_init(mpdm_t mp)
 
 #else /* CONFOPT_GTK */
 
-int gtk_init(void)
+int gtk_drv_init(void)
 {
 	/* no GTK */
 	return(0);

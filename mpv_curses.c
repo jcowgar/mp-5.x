@@ -91,75 +91,6 @@ static void nc_sigwinch(int s)
 }
 
 
-static mpdm_t nc_startup(mpdm_t v)
-{
-	initscr();
-	start_color();
-	keypad(stdscr, TRUE);
-	nonl();
-	raw();
-	noecho();
-
-#ifdef CONFOPT_TRANSPARENCY
-	use_default_colors();
-
-#define DEFAULT_INK -1
-#define DEFAULT_PAPER -1
-
-#else /* CONFOPT_TRANSPARENCY */
-
-#define DEFAULT_INK COLOR_BLACK
-#define DEFAULT_PAPER COLOR_WHITE
-
-#endif
-
-	init_pair(1, DEFAULT_INK, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_NORMAL] = COLOR_PAIR(1);
-
-	init_pair(2, DEFAULT_INK, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_CURSOR] = COLOR_PAIR(2) | A_REVERSE;
-
-	init_pair(3, COLOR_RED, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_SELECTION] = COLOR_PAIR(3) | A_REVERSE;
-
-	init_pair(4, COLOR_GREEN, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_COMMENTS] = COLOR_PAIR(4);
-
-	init_pair(5, COLOR_BLUE, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_QUOTES] = COLOR_PAIR(5) | A_BOLD;
-
-	init_pair(6, DEFAULT_INK, COLOR_CYAN);
-	nc_attrs[MP_ATTR_MATCHING] = COLOR_PAIR(6);
-
-	init_pair(7, COLOR_GREEN, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_WORD_1] = COLOR_PAIR(7) | A_BOLD;
-
-	init_pair(8, COLOR_RED, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_WORD_2] = COLOR_PAIR(8) | A_BOLD;
-
-	init_pair(9, COLOR_CYAN, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_TAG] = COLOR_PAIR(9) | A_UNDERLINE;
-
-	bkgdset(' ' | nc_attrs[MP_ATTR_NORMAL]);
-
-	nc_window = MPDM_H(0);
-	mpdm_hset_s(nc_window, L"tx", MPDM_I(COLS));
-	mpdm_hset_s(nc_window, L"ty", MPDM_I(LINES));
-	mpdm_hset_s(nc_driver, L"window", nc_window);
-
-	signal(SIGWINCH, nc_sigwinch);
-
-	return(NULL);
-}
-
-
-static mpdm_t nc_shutdown(mpdm_t v)
-{
-	endwin();
-	return(NULL);
-}
-
-
 static wchar_t * nc_getwch(void)
 {
 	static wchar_t c[2];
@@ -316,7 +247,69 @@ static void nc_draw(mpdm_t doc)
 }
 
 
-mpdm_t nc_main_loop(mpdm_t a)
+static mpdm_t nc_drv_startup(mpdm_t v)
+{
+	initscr();
+	start_color();
+	keypad(stdscr, TRUE);
+	nonl();
+	raw();
+	noecho();
+
+#ifdef CONFOPT_TRANSPARENCY
+	use_default_colors();
+
+#define DEFAULT_INK -1
+#define DEFAULT_PAPER -1
+
+#else /* CONFOPT_TRANSPARENCY */
+
+#define DEFAULT_INK COLOR_BLACK
+#define DEFAULT_PAPER COLOR_WHITE
+
+#endif
+
+	init_pair(1, DEFAULT_INK, DEFAULT_PAPER);
+	nc_attrs[MP_ATTR_NORMAL] = COLOR_PAIR(1);
+
+	init_pair(2, DEFAULT_INK, DEFAULT_PAPER);
+	nc_attrs[MP_ATTR_CURSOR] = COLOR_PAIR(2) | A_REVERSE;
+
+	init_pair(3, COLOR_RED, DEFAULT_PAPER);
+	nc_attrs[MP_ATTR_SELECTION] = COLOR_PAIR(3) | A_REVERSE;
+
+	init_pair(4, COLOR_GREEN, DEFAULT_PAPER);
+	nc_attrs[MP_ATTR_COMMENTS] = COLOR_PAIR(4);
+
+	init_pair(5, COLOR_BLUE, DEFAULT_PAPER);
+	nc_attrs[MP_ATTR_QUOTES] = COLOR_PAIR(5) | A_BOLD;
+
+	init_pair(6, DEFAULT_INK, COLOR_CYAN);
+	nc_attrs[MP_ATTR_MATCHING] = COLOR_PAIR(6);
+
+	init_pair(7, COLOR_GREEN, DEFAULT_PAPER);
+	nc_attrs[MP_ATTR_WORD_1] = COLOR_PAIR(7) | A_BOLD;
+
+	init_pair(8, COLOR_RED, DEFAULT_PAPER);
+	nc_attrs[MP_ATTR_WORD_2] = COLOR_PAIR(8) | A_BOLD;
+
+	init_pair(9, COLOR_CYAN, DEFAULT_PAPER);
+	nc_attrs[MP_ATTR_TAG] = COLOR_PAIR(9) | A_UNDERLINE;
+
+	bkgdset(' ' | nc_attrs[MP_ATTR_NORMAL]);
+
+	nc_window = MPDM_H(0);
+	mpdm_hset_s(nc_window, L"tx", MPDM_I(COLS));
+	mpdm_hset_s(nc_window, L"ty", MPDM_I(LINES));
+	mpdm_hset_s(nc_driver, L"window", nc_window);
+
+	signal(SIGWINCH, nc_sigwinch);
+
+	return(NULL);
+}
+
+
+mpdm_t nc_drv_main_loop(mpdm_t a)
 /* curses driver main loop */
 {
 	while(! mp_exit_requested)
@@ -330,14 +323,21 @@ mpdm_t nc_main_loop(mpdm_t a)
 }
 
 
-int curses_init(mpdm_t mp)
+static mpdm_t nc_drv_shutdown(mpdm_t v)
+{
+	endwin();
+	return(NULL);
+}
+
+
+int curses_drv_init(mpdm_t mp)
 {
 	nc_driver = mpdm_ref(MPDM_H(0));
 
 	mpdm_hset_s(nc_driver, L"driver", MPDM_LS(L"curses"));
-	mpdm_hset_s(nc_driver, L"startup", MPDM_X(nc_startup));
-	mpdm_hset_s(nc_driver, L"main_loop", MPDM_X(nc_main_loop));
-	mpdm_hset_s(nc_driver, L"shutdown", MPDM_X(nc_shutdown));
+	mpdm_hset_s(nc_driver, L"startup", MPDM_X(nc_drv_startup));
+	mpdm_hset_s(nc_driver, L"main_loop", MPDM_X(nc_drv_main_loop));
+	mpdm_hset_s(nc_driver, L"shutdown", MPDM_X(nc_drv_shutdown));
 
 	mpdm_hset_s(mp, L"drv", nc_driver);
 
@@ -346,7 +346,7 @@ int curses_init(mpdm_t mp)
 
 #else /* CONFOPT_CURSES */
 
-int curses_init(void)
+int curses_drv_init(void)
 {
 	/* no curses */
 	return(0);

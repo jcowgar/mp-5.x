@@ -43,6 +43,10 @@ int mpi_preread_lines = 60;
 /* exit requested? */
 int mp_exit_requested = 0;
 
+/* arguments from main() */
+int mp_main_argc = 0;
+char ** mp_main_argv = NULL;
+
 /*******************
 	Code
 ********************/
@@ -618,17 +622,17 @@ mpdm_t mp_x2vx(mpdm_t args)
 }
 
 
-int curses_init(mpdm_t mp);
-int gtk_init(mpdm_t mp);
-int win32_init(mpdm_t mp);
+int curses_drv_init(mpdm_t mp);
+int gtk_drv_init(mpdm_t mp);
+int win32_drv_init(mpdm_t mp);
 
-void mp_startup(int argc, char * argv[])
+void mp_startup(void)
 {
 	mpdm_t mp;
 
 	mpdm_startup();
 
-	mpsl_argv(argc, argv);
+	mpsl_argv(mp_main_argc, mp_main_argv);
 
 	/* create main namespace */
 	mp = MPDM_H(0);
@@ -639,9 +643,9 @@ void mp_startup(int argc, char * argv[])
 	mpdm_hset_s(mp, L"vx2x", MPDM_X(mp_vx2x));
 	mpdm_hset_s(mp, L"exit", MPDM_X(mp_exit));
 
-/*	if(!win32_init(mp))*/
-	if(!gtk_init(mp))
-	if(!curses_init(mp))
+/*	if(!win32_drv_init(mp))*/
+	if(!gtk_drv_init(mp))
+	if(!curses_drv_init(mp))
 	{
 		printf("No usable driver found; exiting.\n");
 		exit(1);
@@ -690,7 +694,11 @@ void mp_shutdown(void)
 
 int main(int argc, char * argv[])
 {
-	mp_startup(argc, argv);
+	/* store for later usage */
+	mp_main_argc = argc;
+	mp_main_argv = argv;
+
+	mp_startup();
 
 	mp_mpsl();
 
