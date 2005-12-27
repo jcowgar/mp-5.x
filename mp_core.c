@@ -563,6 +563,21 @@ mpdm_t mpi_draw(mpdm_t doc)
 }
 
 
+mpdm_t mp_get_active(void)
+/* interfaz to mp.get_active() */
+{
+	static mpdm_t f = NULL;
+
+	if(f == NULL)
+	{
+		f = mpdm_hget_s(mpdm_root(), L"mp");
+		f = mpdm_hget_s(f, L"get_active");
+	}
+
+	return(mpdm_exec(f, NULL));
+}
+
+
 mpdm_t mp_process_event(mpdm_t keycode)
 /* interfaz to mp.process_event() */
 {

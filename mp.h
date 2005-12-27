@@ -32,4 +32,5 @@
 #define MP_ATTR_WORD_2		7
 #define MP_ATTR_TAG		8
 
+mpdm_t mp_get_active(void);
 mpdm_t mp_process_event(mpdm_t keycode);
