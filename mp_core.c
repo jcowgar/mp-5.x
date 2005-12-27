@@ -563,7 +563,7 @@ mpdm_t mpi_draw(mpdm_t doc)
 }
 
 
-mpdm_t mp_process_event(mpdm_t k)
+mpdm_t mp_process_event(mpdm_t keycode)
 /* interfaz to mp.process_event() */
 {
 	static mpdm_t f = NULL;
@@ -574,7 +574,7 @@ mpdm_t mp_process_event(mpdm_t k)
 		f = mpdm_hget_s(f, L"process_event");
 	}
 
-	return(mpdm_exec(f, NULL));
+	return(mpdm_exec_1(f, keycode));
 }
 
 
