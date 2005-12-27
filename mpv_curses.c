@@ -65,7 +65,7 @@ static void nc_sigwinch(int s)
 	/* Make sure that window size changes... */
 	struct winsize ws;
 
-	int fd  = open("/dev/tty", O_RDWR);
+	int fd = open("/dev/tty", O_RDWR);
 
 	if (fd == -1) return; /* This should never have to happen! */
 
@@ -202,15 +202,13 @@ static wchar_t * nc_getwch(void)
 
 #define ctrl(k) ((k) & 31)
 
-static mpdm_t nc_getkey(mpdm_t v)
+static mpdm_t nc_getkey(void)
 {
-	wchar_t * c;
 	wchar_t * f = NULL;
 
-	c = nc_getwch();
-	f = c;
+	f = nc_getwch();
 
-	switch(c[0]) {
+	switch(f[0]) {
 	case L'\e':		f = L"escape"; break;
 	case KEY_LEFT:		f = L"cursor-left"; break;
 	case KEY_RIGHT:		f = L"cursor-right"; break;
@@ -284,10 +282,9 @@ static void nc_addwstr(wchar_t * str)
 
 mpdm_t mpi_draw(mpdm_t v);
 
-static mpdm_t nc_draw(mpdm_t a)
+static void nc_draw(mpdm_t doc)
 /* driver drawing function for cursesw */
 {
-	mpdm_t doc = mpdm_aget(a, 0);
 	mpdm_t d;
 	int n, m;
 
@@ -316,8 +313,20 @@ static mpdm_t nc_draw(mpdm_t a)
 	}
 
 	refresh();
+}
 
-	return(NULL);
+
+mpdm_t nc_main_loop(mpdm_t a)
+/* curses driver main loop */
+{
+	while(! mp_exit_requested)
+	{
+		/* get current document and draw it */
+		nc_draw(mp_get_active());
+
+		/* get key and process it */
+		mp_process_event(nc_getkey());
+	}
 }
 
 
@@ -327,9 +336,8 @@ int curses_init(mpdm_t mp)
 
 	mpdm_hset_s(nc_driver, L"driver", MPDM_LS(L"curses"));
 	mpdm_hset_s(nc_driver, L"startup", MPDM_X(nc_startup));
+	mpdm_hset_s(nc_driver, L"main_loop", MPDM_X(nc_main_loop));
 	mpdm_hset_s(nc_driver, L"shutdown", MPDM_X(nc_shutdown));
-	mpdm_hset_s(nc_driver, L"getkey", MPDM_X(nc_getkey));
-	mpdm_hset_s(nc_driver, L"draw", MPDM_X(nc_draw));
 
 	mpdm_hset_s(mp, L"drv", nc_driver);
 
