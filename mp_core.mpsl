@@ -820,7 +820,7 @@ sub main_loop()
 
 	while (! mp.exit_requested)
 	{
-		local d, f;
+		local d;
 
 		d = mp.get_active();
 
@@ -829,9 +829,7 @@ sub main_loop()
 
 		mp.drv.draw(d);
 
-		k = mp.drv.getkey();
-
-		mp.process_event(k);
+		mp.process_event(mp.drv.getkey());
 	}
 
 	mp.drv.shutdown();
