@@ -816,8 +816,6 @@ mp.exit_requested = 0;
 
 sub main_loop()
 {
-	mp.drv.startup();
-
 	while (! mp.exit_requested)
 	{
 		local d;
@@ -831,11 +829,11 @@ sub main_loop()
 
 		mp.process_event(mp.drv.getkey());
 	}
-
-	mp.drv.shutdown();
 }
 
 
 process_cmdline();
 
+mp.drv.startup();
 main_loop();
+mp.drv.shutdown();
