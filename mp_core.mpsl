@@ -714,7 +714,7 @@ mp.keycodes = {
 	'ctrl-z'	=>	'undo'
 };
 
-mp.functions = {
+mp.actions = {
 
 	'move-left'	=>	sub (k) { mp.move_left(k); },
 	'move-right'	=>	sub (k) { mp.move_right(k); },
@@ -770,11 +770,11 @@ sub mp.process_event(k)
 
 	d = mp.get_active();
 
-	/* get the function asociated to the keycode */
+	/* get the action asociated to the keycode */
 	if((f = mp.keycodes[k]) != NULL)
 	{
-		/* take the function and execute */
-		if((f = mp.functions[f]) != NULL)
+		/* take the code and execute */
+		if((f = mp.actions[f]) != NULL)
 			f(d);
 	}
 	else
