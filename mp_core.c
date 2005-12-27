@@ -639,8 +639,8 @@ void mp_startup(int argc, char * argv[])
 	mpdm_hset_s(mp, L"vx2x", MPDM_X(mp_vx2x));
 	mpdm_hset_s(mp, L"exit", MPDM_X(mp_exit));
 
-/*	if(!win32_init(mp))
-	if(!gtk_init(mp))*/
+/*	if(!win32_init(mp))*/
+	if(!gtk_init(mp))
 	if(!curses_init(mp))
 	{
 		printf("No usable driver found; exiting.\n");
