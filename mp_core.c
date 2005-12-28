@@ -172,6 +172,13 @@ static void drw_prepare(mpdm_t doc)
 	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
 	int n;
 
+	if(window == NULL)
+	{
+		/* HACK: no window information? take from the driver */
+		mpdm_t t = mpdm_hget_s(mp, L"drv");
+		window = mpdm_hget_s(t, L"window");
+	}
+
 	drw.vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
 	drw.vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
 	drw.tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
@@ -548,6 +555,9 @@ mpdm_t mpi_draw(mpdm_t doc)
 /* main drawing function: takes a document and returns an array of
    arrays of attribute / string pairs */
 {
+	if(doc == NULL)
+		return(NULL);
+
 	drw_prepare(doc);
 
 	/* colorize separate words */
