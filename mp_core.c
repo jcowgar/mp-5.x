@@ -47,6 +47,9 @@ int mp_exit_requested = 0;
 int mp_main_argc = 0;
 char ** mp_main_argv = NULL;
 
+/* main namespace */
+mpdm_t mp = NULL;
+
 /*******************
 	Code
 ********************/
@@ -262,8 +265,7 @@ static void drw_words(void)
 		return;
 
 	/* take the tags, if any */
-	if((t = mpdm_hget_s(mpdm_root(), L"mp")) != NULL)
-		tags = mpdm_hget_s(t, L"tags");
+	tags = mpdm_hget_s(mp, L"tags");
 
 	/* @#@ */
 	r=MPDM_LS(L"/\\w+/");
@@ -573,10 +575,7 @@ mpdm_t mp_get_active(void)
 	static mpdm_t f = NULL;
 
 	if(f == NULL)
-	{
-		f = mpdm_hget_s(mpdm_root(), L"mp");
-		f = mpdm_hget_s(f, L"get_active");
-	}
+		f = mpdm_hget_s(mp, L"get_active");
 
 	return(mpdm_exec(f, NULL));
 }
@@ -588,10 +587,7 @@ mpdm_t mp_process_event(mpdm_t keycode)
 	static mpdm_t f = NULL;
 
 	if(f == NULL)
-	{
-		f = mpdm_hget_s(mpdm_root(), L"mp");
-		f = mpdm_hget_s(f, L"process_event");
-	}
+		f = mpdm_hget_s(mp, L"process_event");
 
 	return(mpdm_exec_1(f, keycode));
 }
@@ -622,20 +618,18 @@ mpdm_t mp_x2vx(mpdm_t args)
 }
 
 
-int curses_drv_init(mpdm_t mp);
-int gtk_drv_init(mpdm_t mp);
-int win32_drv_init(mpdm_t mp);
+int curses_drv_init(void);
+int gtk_drv_init(void);
+int win32_drv_init(void);
 
 void mp_startup(void)
 {
-	mpdm_t mp;
-
 	mpdm_startup();
 
 	mpsl_argv(mp_main_argc, mp_main_argv);
 
 	/* create main namespace */
-	mp = MPDM_H(0);
+	mp = mpdm_ref(MPDM_H(0));
 	mpdm_hset_s(mpdm_root(), L"mp", mp);
 
 	/* basic functions */
@@ -643,9 +637,9 @@ void mp_startup(void)
 	mpdm_hset_s(mp, L"vx2x", MPDM_X(mp_vx2x));
 	mpdm_hset_s(mp, L"exit", MPDM_X(mp_exit));
 
-/*	if(!win32_drv_init(mp))*/
-	if(!gtk_drv_init(mp))
-	if(!curses_drv_init(mp))
+	if(!win32_drv_init())
+	if(!gtk_drv_init())
+	if(!curses_drv_init())
 	{
 		printf("No usable driver found; exiting.\n");
 		exit(1);

@@ -332,7 +332,7 @@ static mpdm_t nc_drv_shutdown(mpdm_t v)
 }
 
 
-int curses_drv_init(mpdm_t mp)
+int curses_drv_init(void)
 {
 	nc_driver = mpdm_ref(MPDM_H(0));
 

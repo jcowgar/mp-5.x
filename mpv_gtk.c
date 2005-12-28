@@ -427,7 +427,7 @@ static mpdm_t gtk_drv_main_loop(mpdm_t a)
 }
 
 
-int gtk_drv_init(mpdm_t mp)
+int gtk_drv_init(void)
 {
 /*	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))*/
 		return(0);
