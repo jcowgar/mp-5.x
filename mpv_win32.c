@@ -45,6 +45,7 @@
 
 /* the driver */
 mpdm_t win32_driver = NULL;
+mpdm_t win32_window = NULL;
 
 /* the instance */
 HINSTANCE hinst;
@@ -53,77 +54,136 @@ HINSTANCE hinst;
 HWND hwnd;
 HWND hwtabs;
 
+/* font handlers and metrics */
+HFONT font_normal = NULL;
+int font_width = 0;
+int font_height = 0;
+
 /*******************
 	Code
 ********************/
 
-static void win32_draw(HWND hwnd)
+static void update_window_size(void)
+/* updates the viewport size in characters */
+{
+	RECT rect;
+	int tx, ty;
+
+	/* no font information? go */
+	if(font_width == 0 || font_height == 0)
+		return;
+
+	GetClientRect(hwnd, &rect);
+
+	/* calculate the size in chars */
+	tx = ((rect.right - rect.left) / font_width) + 1;
+	ty = ((rect.bottom - rect.top) / font_height) + 1;
+
+	/* store the 'window' size */
+	mpdm_hset_s(win32_window, L"tx", MPDM_I(tx));
+	mpdm_hset_s(win32_window, L"ty", MPDM_I(ty));
+}
+
+
+int font_size = 14;
+char * font_face = "Lucida Console";
+
+static void build_fonts(HDC hdc)
+/* build the fonts */
+{
+	TEXTMETRIC tm;
+	int n;
+
+	/* create fonts */
+	n = -MulDiv(font_size, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+
+	font_normal = CreateFont(n, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, font_face);
+
+	SelectObject(hdc, font_normal);
+	GetTextMetrics(hdc, &tm);
+
+	/* store sizes */
+	font_height = tm.tmHeight;
+	font_width = tm.tmAveCharWidth;
+
+	update_window_size();
+}
+
+
+mpdm_t mpi_draw(mpdm_t v);
+
+static void win32_draw(HWND hwnd, mpdm_t doc)
 {
 	HDC hdc;
 	PAINTSTRUCT ps;
 	RECT rect;
 	RECT r2;
+	mpdm_t d = NULL;
+	int n, m;
+
+	/* start painting */
+	hdc = BeginPaint(hwnd, &ps);
+
+	/* no document? end */
+	if((d = mpi_draw(doc)) == NULL)
+	{
+		EndPaint(hwnd, &ps);
+		return;
+	}
+
+	/* no font? construct it */
+	if(font_normal == NULL)
+		build_fonts(hdc);
+
+	/* select defaults to start painting */
+	SelectObject(hdc, font_normal);
+	SetTextColor(hdc, 0x00000000);
+	SetBkColor(hdc, 0x00ffffff);
+/*
+	r2.top += _tab_height;
+	r2.bottom = r2.top + _mpv_font_height;
+*/
 
 	GetClientRect(hwnd, &rect);
 	r2 = rect;
+	r2.bottom = r2.top + font_height;
 
-	hdc = BeginPaint(hwnd, &ps);
-
-#ifdef QQ
-	if(_font_normal==NULL)
-		_mpv_init_fonts(hdc);
-
-	SelectObject(hdc, _font_normal);
-
-	SetTextColor(hdc, _inks[MP_COLOR_SELECTED]);
-	SetBkColor(hdc, _papers[MP_COLOR_SELECTED]);
-
-	r2.top+=_tab_height;
-	r2.bottom=r2.top + _mpv_font_height;
-
-
-	for(n=0;n < _mpv_y_size;n++)
+	for(n = 0;n < mpdm_size(d);n++)
 	{
-		r2.left=r2.right=rect.left;
+		mpdm_t l = mpdm_aget(d, n);
 
-		fb=&_mpv_fb[(n * _mpv_x_size)];
+		r2.left = r2.right = rect.left;
 
-		for(m=0;m < _mpv_x_size;)
+		for(m = 0;m < mpdm_size(l);m++)
 		{
-			/* get first color */
-			color=*fb & 0xff00;
+			int attr;
+			mpdm_t s;
 
-			/* writes into _mpv_buffer while
-			   color is the same */
-			for(i=0;m<_mpv_x_size &&
-				color==(*fb & 0xff00);
-				i++,m++,fb++)
-			{
-				c=*fb & 0xff;
-				_mpv_buffer[i]=c;
-				r2.right+=_mpv_font_width;
-			}
+			/* get the attribute and the string */
+			attr = mpdm_ival(mpdm_aget(l, m++));
+			s = mpdm_aget(l, m);
 
-			_mpv_buffer[i]='\0';
-
-			color>>=8;
-			SetTextColor(hdc,_inks[color]);
-			SetBkColor(hdc,_papers[color]);
+/*			SetTextColor(hdc,_inks[attr]);
+			SetBkColor(hdc,_papers[attr]);
 
 			SelectObject(hdc, color==MP_COLOR_COMMENT ?
 				_font_italic :
 				color==MP_COLOR_LOCAL ? _font_underline :
 				_font_normal);
+*/
+			r2.right += mpdm_size(s) * font_width;
 
-			DrawText(hdc,_mpv_buffer,-1,&r2,DT_SINGLELINE|DT_NOPREFIX);
+			DrawTextW(hdc, (wchar_t *)s->data,
+				-1, &r2, DT_SINGLELINE|DT_NOPREFIX);
 
-			r2.left=r2.right;
+			r2.left = r2.right;
 		}
 
-		r2.top+=_mpv_font_height;
-		r2.bottom+=_mpv_font_height;
+		r2.top += font_height;
+		r2.bottom += font_height;
 	}
-#endif
+
 	EndPaint(hwnd, &ps);
 }
 
@@ -221,6 +281,9 @@ static void win32_vkey(int c)
 		mp_process_event(MPDM_S(ptr));
 /*		is_wm_keydown = 1;*/
 	}
+
+	/* force redraw */
+	InvalidateRect(hwnd, NULL, TRUE);
 }
 
 
@@ -273,6 +336,9 @@ static void win32_akey(int k)
 
 	if(ptr != NULL)
 		mp_process_event(MPDM_S(ptr));
+
+	/* force redraw */
+	InvalidateRect(hwnd, NULL, TRUE);
 }
 
 
@@ -331,12 +397,16 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		return(0);
 */
 	case WM_PAINT:
-		win32_draw(hwnd);
+		win32_draw(hwnd, mp_get_active());
 		return(0);
 
-/*	case WM_SIZE:
+	case WM_SIZE:
 
-		if (IsIconic(hwnd)) return 0;
+		update_window_size();
+		InvalidateRect(hwnd, NULL, TRUE);
+		return(0);
+
+/*		if (IsIconic(hwnd)) return 0;
 		if(_mpv_font_width && _mpv_font_height)
 		{
 			_mpv_x_size=(LOWORD(lparam)/_mpv_font_width)+1;
@@ -439,6 +509,7 @@ static mpdm_t win32_drv_startup(mpdm_t a)
 {
 /*	_mpv_create_colors();
 */
+
 	return(NULL);
 }
 
@@ -469,6 +540,18 @@ int win32_drv_init(void)
 {
 	WNDCLASS wc;
 	RECT r;
+
+	win32_driver = mpdm_ref(MPDM_H(0));
+
+	mpdm_hset_s(win32_driver, L"driver", MPDM_LS(L"win32"));
+	mpdm_hset_s(win32_driver, L"startup", MPDM_X(win32_drv_startup));
+	mpdm_hset_s(win32_driver, L"main_loop", MPDM_X(win32_drv_main_loop));
+	mpdm_hset_s(win32_driver, L"shutdown", MPDM_X(win32_drv_shutdown));
+
+	win32_window = MPDM_H(0);
+	mpdm_hset_s(win32_driver, L"window", win32_window);
+
+	mpdm_hset_s(mp, L"drv", win32_driver);
 
 	InitCommonControls();
 
@@ -517,15 +600,6 @@ int win32_drv_init(void)
 	ShowWindow(hwtabs, SW_SHOW);
 	UpdateWindow(hwtabs);
 */
-
-	win32_driver = mpdm_ref(MPDM_H(0));
-
-	mpdm_hset_s(win32_driver, L"driver", MPDM_LS(L"win32"));
-	mpdm_hset_s(win32_driver, L"startup", MPDM_X(win32_drv_startup));
-	mpdm_hset_s(win32_driver, L"main_loop", MPDM_X(win32_drv_main_loop));
-	mpdm_hset_s(win32_driver, L"shutdown", MPDM_X(win32_drv_shutdown));
-
-	mpdm_hset_s(mp, L"drv", win32_driver);
 
 	return(1);
 }
