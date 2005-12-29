@@ -59,6 +59,10 @@ HFONT font_normal = NULL;
 int font_width = 0;
 int font_height = 0;
 
+int tab_height = 28;
+
+int is_wm_keydown = 0;
+
 /*******************
 	Code
 ********************/
@@ -77,7 +81,7 @@ static void update_window_size(void)
 
 	/* calculate the size in chars */
 	tx = ((rect.right - rect.left) / font_width) + 1;
-	ty = ((rect.bottom - rect.top) / font_height) + 1;
+	ty = ((rect.bottom - rect.top - tab_height) / font_height) + 1;
 
 	/* store the 'window' size */
 	mpdm_hset_s(win32_window, L"tx", MPDM_I(tx));
@@ -147,6 +151,8 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 
 	GetClientRect(hwnd, &rect);
 	r2 = rect;
+
+	r2.top += tab_height;
 	r2.bottom = r2.top + font_height;
 
 	for(n = 0;n < mpdm_size(d);n++)
@@ -280,7 +286,7 @@ static void win32_vkey(int c)
 	if(ptr != NULL)
 	{
 		mp_process_event(MPDM_S(ptr));
-/*		is_wm_keydown = 1;*/
+		is_wm_keydown = 1;
 	}
 
 	/* force redraw */
@@ -296,7 +302,9 @@ static void win32_akey(int k)
 	wchar_t c[2];
 	wchar_t * ptr = NULL;
 
-/*	if (is_wm_keydown) return;*/
+	if (is_wm_keydown)
+		return;
+
 	switch(k)
 	{
 	case ctrl(' '):	ptr = L"ctrl-space"; break;
@@ -332,6 +340,7 @@ static void win32_akey(int k)
 		c[0] = (wchar_t) k;
 		c[1] = L'\0';
 		ptr = c;
+
 		break;
 	}
 
@@ -354,7 +363,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 	{
 	case WM_CREATE:
 
-		/*is_wm_keydown = 0;*/
+		is_wm_keydown = 0;
 		DragAcceptFiles(hwnd, TRUE);
 		return(0);
 
@@ -363,11 +372,11 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		(void) load_dropped_files ((HANDLE) wparam, hwnd);
 		return(0);
 */
-/*	case WM_KEYUP:
+	case WM_KEYUP:
 
 		is_wm_keydown = 0;
 		return(0);
-*/
+
 	case WM_KEYDOWN:
 
 		win32_vkey(wparam);
@@ -403,22 +412,16 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 
 	case WM_SIZE:
 
-		update_window_size();
-		InvalidateRect(hwnd, NULL, TRUE);
-		return(0);
-
-/*		if (IsIconic(hwnd)) return 0;
-		if(_mpv_font_width && _mpv_font_height)
+		if(!IsIconic(hwnd))
 		{
-			_mpv_x_size=(LOWORD(lparam)/_mpv_font_width)+1;
-			_mpv_y_size=((HIWORD(lparam)-_tab_height)/_mpv_font_height)+1;
+			update_window_size();
+			InvalidateRect(hwnd, NULL, TRUE);
 
+			MoveWindow(hwtabs, 0, 0, LOWORD(lparam), tab_height, TRUE);
 		}
 
-		MoveWindow(hwtabs,0,0,LOWORD(lparam),_tab_height,TRUE);
-
 		return(0);
-*/
+
 /*	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 	case WM_MBUTTONDOWN:
@@ -591,16 +594,15 @@ int win32_drv_init(void)
 
 	GetClientRect(hwnd, &r);
 
-/*	hwtabs = CreateWindow(WC_TABCONTROL, "tab",
+	hwtabs = CreateWindow(WC_TABCONTROL, "tab",
 		WS_CHILD | TCS_TABS | TCS_SINGLELINE | TCS_FOCUSNEVER,
-		0, 0, r.right - r.left, _tab_height, hwnd, NULL, hinst, NULL);
+		0, 0, r.right - r.left, tab_height, hwnd, NULL, hinst, NULL);
 
-	SendMessage(hwtabs, WM_SETFONT, 
+/*	SendMessage(hwtabs, WM_SETFONT, 
 		(WPARAM) GetStockObject(ANSI_VAR_FONT), 0);
-
+*/
 	ShowWindow(hwtabs, SW_SHOW);
 	UpdateWindow(hwtabs);
-*/
 
 	return(1);
 }
