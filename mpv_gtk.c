@@ -55,20 +55,252 @@ GtkWidget * area = NULL;
 GtkWidget * scrollbar = NULL;
 GdkGC * gc = NULL;
 GtkIMContext * im = NULL;
-/*GtkWidget * menu = NULL;
-GtkWidget * menu_bar = NULL;
-GtkWidget * file_tabs = NULL;
-GtkWidget * entry = NULL;
-GtkWidget * list = NULL;
-GtkWidget * status = NULL;
-GdkPixmap * pixmap = NULL;*/
 
 /* character read from the keyboard */
 static wchar_t im_char[2];
 
+/* font information */
+int font_width = 0;
+int font_height = 0;
+
 /*******************
 	Code
 ********************/
+
+mpdm_t mpi_draw(mpdm_t v);
+
+static void gtk_drv_paint(void)
+/* GTK document draw function */
+{
+	GdkRectangle gr;
+	mpdm_t d = NULL;
+	int n, m;
+
+        if((d = mpi_draw(doc)) == NULL)
+		return;
+
+	gr.x = 0;
+	gr.y = 0;
+	gr.width = area->allocation.width;
+	gr.height = font_height;
+
+	for(n = 0;n < mpdm_size(d);n++)
+	{
+		PangoLayout * pl;
+		PangoAttrList * pal;
+		mpdm_t l = mpdm_aget(d, n);
+
+		/* create the pango stuff */
+		pl = gtk_widget_create_pango_layout(area, NULL);
+		pango_layout_set_font_description(pl, _pango_font_desc);
+		pal = pango_attr_list_new();
+
+		for(m = 0;m < mpdm_size(l);m++)
+		{
+			PangoAttribute * pa;
+			int attr;
+			mpdm_t s;
+
+			/* get the attribute and the string */
+			attr = mpdm_ival(mpdm_aget(l, m++));
+			s = mpdm_aget(l, m);
+
+			/* create the attribute */
+			/*
+			pa = pango_attr_background_new(_papers[attr].red,
+				_papers[attr].green, _papers[attr].blue);
+
+			pa->start_index = u;
+			pa->end_index = p;
+
+			pango_attr_list_insert(pal, pa);
+			*/
+
+			/* underline? */
+			/*
+				pa=pango_attr_underline_new(TRUE);
+
+				pa->start_index = u;
+				pa->end_index = p;
+
+				pango_attr_list_insert(pal, pa);
+			*/
+
+			/* foreground color */
+			/*
+			pa=pango_attr_foreground_new(_inks[color].red,
+				_inks[color].green, _inks[color].blue);
+
+			pa->start_index = u;
+			pa->end_index = p;
+
+			pango_attr_list_insert(pal, pa);
+			*/
+		}
+
+		/* set the attributes */
+		pango_layout_set_attributes(pl, pal);
+		pango_attr_list_unref(pal);
+
+		/* set the text */
+		/*pango_layout_set_text(pl, _pango_line, p);*/
+	}
+
+#ifdef QQ
+	for(n=y=0;n < _mpv_y_size;n++, y+= _mpv_font_height)
+	{
+		i=n * _mpv_x_size;
+		fb=&_mpv_fb[i];
+
+		/* avoid drawing a line that didn't change */
+		if(memcmp((char *)fb, (char *)&_mpv_fbo[i],
+			_mpv_x_size * sizeof(int)) == 0)
+			continue;
+
+		pl=gtk_widget_create_pango_layout(area, NULL);
+		pango_layout_set_font_description(pl, _pango_font_desc);
+
+		pal=pango_attr_list_new();
+
+		for(m=p=0;m < _mpv_x_size;)
+		{
+			/* get first color */
+			color=*fb & 0xff00;
+
+			/* writes into _mpv_buffer while color is the same */
+			for(i=u=0;m < _mpv_x_size && color == (*fb & 0xff00);
+				i++,m++,fb++)
+			{
+				c=*fb & 0xff;
+				_mpv_buffer[i]=c;
+
+				/* count non-ASCII chars */
+				if(c >= 128) u++;
+			}
+
+			_mpv_buffer[i]='\0';
+
+			color >>= 8;
+
+			/* if word includes non-ASCII chars, convert to utf-8 */
+			if(u)
+			{
+				char * u8=g_locale_to_utf8(_mpv_buffer, i,
+					NULL, NULL, NULL);
+
+				/* if successful, copy onto _mpv_buffer */
+				if(u8 != NULL)
+				{
+					strncpy(_mpv_buffer, u8,
+						sizeof(_mpv_buffer));
+					free(u8);
+				}
+				else
+				{
+					/* word doesn't match locale
+					   or something weirder; just
+					   substitute non-ASCIIs with '?' */
+					for(i=0;_mpv_buffer[i] != '\0';i++)
+					{
+						c=_mpv_buffer[i];
+
+						if(c < 0 || c > 127)
+							_mpv_buffer[i]='?';
+					}
+				}
+			}
+
+			/* store start of attribute */
+			u=p;
+
+			/* move into main text */
+			for(i=0;_mpv_buffer[i] != '\0';i++)
+				_t_poke(_mpv_buffer[i]);
+
+			/* creates Pango attributes */
+
+			/* add the background attribute *only* if it's
+			   different from the NORMAL color, as background
+			   attributes seem to be painfully slow */
+			if(_papers[color].red != _papers[MP_COLOR_NORMAL].red ||
+			   _papers[color].green != _papers[MP_COLOR_NORMAL].green ||
+			   _papers[color].blue != _papers[MP_COLOR_NORMAL].blue)
+			{
+				pa=pango_attr_background_new(_papers[color].red,
+					_papers[color].green, _papers[color].blue);
+
+				pa->start_index=u;
+				pa->end_index=p;
+
+				pango_attr_list_insert(pal, pa);
+			}
+
+			/* underline? */
+			if(mpc_color_desc[color].underline)
+			{
+				pa=pango_attr_underline_new(TRUE);
+
+				pa->start_index=u;
+				pa->end_index=p;
+
+				pango_attr_list_insert(pal, pa);
+			}
+
+			/* foreground color */
+			pa=pango_attr_foreground_new(_inks[color].red,
+				_inks[color].green, _inks[color].blue);
+
+			pa->start_index=u;
+			pa->end_index=p;
+
+			pango_attr_list_insert(pal, pa);
+		}
+
+		_t_poke('\0');
+
+		pango_layout_set_attributes(pl, pal);
+		pango_attr_list_unref(pal);
+
+		pango_layout_set_text(pl, _pango_line, p);
+
+		gdk_gc_set_foreground(gc, &_papers[MP_COLOR_NORMAL]);
+
+		if(!_use_double_buffer)
+		{
+			/* draw background */
+			gdk_draw_rectangle(area->window, gc, TRUE, 0, y,
+				gr.width, gr.height);
+
+			/* draw text */
+			gr.y=y;
+			gtk_paint_layout(area->style, area->window,
+				GTK_STATE_NORMAL, TRUE,
+				&gr, area, "", 2, y, pl);
+		}
+		else
+		{
+			/* draw background */
+			gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0,
+				gr.width, gr.height);
+
+			/* draw text */
+			gtk_paint_layout(area->style, pixmap,
+				GTK_STATE_NORMAL, TRUE,
+				&gr, area, "", 2, 0, pl);
+
+			/* finally draw */
+			gdk_draw_pixmap(area->window, gc, pixmap,
+				0, 0, 0, y, gr.width, gr.height);
+		}
+
+		g_object_unref(pl);
+	}
+
+	/* copy this framebuffer into old */
+	memcpy(_mpv_fbo, _mpv_fb, _mpv_fb_size);
+#endif
+}
+
 
 static gint delete_event(GtkWidget * w, GdkEvent * e, gpointer data)
 /* 'delete_event' handler */
@@ -269,6 +501,15 @@ static void realize(GtkWidget * widget)
 }
 
 
+static gint expose_event(GtkWidget * widget, GdkEventExpose * event)
+/* 'expose_event' handler */
+{
+	gtk_drv_paint();
+
+	return(FALSE);
+}
+
+
 static mpdm_t gtk_drv_startup(mpdm_t a)
 {
 	GtkWidget * vbox;
@@ -310,10 +551,10 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 
 /*	gtk_signal_connect(GTK_OBJECT(area),"configure_event",
 		(GtkSignalFunc) _mpv_configure_event_callback, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area),"expose_event",
-		(GtkSignalFunc) _mpv_expose_event_callback, NULL);
 */
+	gtk_signal_connect(GTK_OBJECT(area),"expose_event",
+		(GtkSignalFunc) expose_event, NULL);
+
 	gtk_signal_connect(GTK_OBJECT(area), "realize",
 		(GtkSignalFunc) realize, NULL);
 
@@ -341,10 +582,10 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 		GTK_SIGNAL_FUNC(_mpv_scroll_callback), NULL);
 
 #endif
-
+*/
 	gtk_selection_add_target(area, GDK_SELECTION_PRIMARY,
 		GDK_SELECTION_TYPE_STRING, 1);
-*/
+
 	/* the scrollbar */
 	scrollbar = gtk_vscrollbar_new(NULL);
 	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
