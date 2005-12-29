@@ -119,6 +119,7 @@ static void draw_filetabs(void)
 /* draws the filetabs */
 {
 	int n, a;
+	static int last = -1;
 	mpdm_t docs;
 
 	/* gets the document list */
@@ -128,38 +129,44 @@ static void draw_filetabs(void)
 	/* gets the active document number */
 	a = mpdm_ival(mpdm_hget_s(mp, L"active"));
 
-	TabCtrl_DeleteAllItems(hwtabs);
-
-	for(n = 0;n < mpdm_size(docs);n++)
+	if(last != mpdm_size(docs))
 	{
-		TCITEM ti;
-		char * ptr;
-		wchar_t * wptr;
-		mpdm_t v = mpdm_aget(docs, n);
+		/* if size is different that the last, rebuild the tabset */
+		last = mpdm_size(docs);
 
-		/* just get the name */
-		v = mpdm_hget_s(v, L"name");
+		TabCtrl_DeleteAllItems(hwtabs);
 
-		/* move to the filename if path included */
-		if((wptr = wcsrchr(v->data, L'\\')) == NULL)
-			wptr = v->data;
-		else
-			wptr++;
+		for(n = 0;n < mpdm_size(docs);n++)
+		{
+			TCITEM ti;
+			char * ptr;
+			wchar_t * wptr;
+			mpdm_t v = mpdm_aget(docs, n);
 
-		/* convert to mbs */
-		ptr = mpdm_wcstombs(wptr, NULL);
+			/* just get the name */
+			v = mpdm_hget_s(v, L"name");
 
-		ti.mask = TCIF_TEXT;
-		ti.pszText = ptr;
+			/* move to the filename if path included */
+			if((wptr = wcsrchr(v->data, L'\\')) == NULL)
+				wptr = v->data;
+			else
+				wptr++;
 
-		/* create it */
-		TabCtrl_InsertItem(hwtabs, n, &ti);
+			/* convert to mbs */
+			ptr = mpdm_wcstombs(wptr, NULL);
 
-		free(ptr);
+			ti.mask = TCIF_TEXT;
+			ti.pszText = ptr;
 
-		/* if it's the active one, set it */
-		if(n == a) TabCtrl_SetCurSel(hwtabs, n);
+			/* create it */
+			TabCtrl_InsertItem(hwtabs, n, &ti);
+
+			free(ptr);
+		}
 	}
+
+	/* set the active one */
+	TabCtrl_SetCurSel(hwtabs, a);
 }
 
 
