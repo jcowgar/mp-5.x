@@ -64,7 +64,7 @@ GtkWidget * status = NULL;
 GdkPixmap * pixmap = NULL;*/
 
 /* character read from the keyboard */
-wchar_t im_char[2];
+static wchar_t im_char[2];
 
 /*******************
 	Code
@@ -102,62 +102,60 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	{
 		switch(event->keyval)
 		{
-		case GDK_Up:	ptr = L"ctrl-cursor-up"; break;
-		case GDK_Down:	ptr = L"ctrl-cursor-down"; break;
-		case GDK_Left:	ptr = L"ctrl-cursor-left"; break;
-		case GDK_Right: ptr = L"ctrl-cursor-right"; break;
-		case GDK_Prior: ptr = L"ctrl-page-up"; break;
-		case GDK_Next:	ptr = L"ctrl-page-down"; break;
-		case GDK_Home:	ptr = L"ctrl-home"; break;
-		case GDK_End:	ptr = L"ctrl-end"; break;
-		case GDK_space:	ptr = L"ctrl-space"; break;
-
-		case GDK_KP_Add: ptr = L"ctrl-kp-plus"; break;
-		case GDK_KP_Subtract: ptr = L"ctrl-kp-minus"; break;
-		case GDK_KP_Multiply: ptr = L"ctrl-kp-multiply"; break;
-		case GDK_KP_Divide: ptr = L"ctrl-kp-divide"; break;
-
-		case GDK_F1:	ptr = L"ctrl-f1"; break;
-		case GDK_F2:	ptr = L"ctrl-f2"; break;
-		case GDK_F3:	ptr = L"ctrl-f3"; break;
-		case GDK_F4:	ptr = L"ctrl-f4"; break;
-		case GDK_F5:	ptr = L"ctrl-f5"; break;
-		case GDK_F6:	ptr = L"ctrl-f6"; break;
-		case GDK_F7:	ptr = L"ctrl-f7"; break;
-		case GDK_F8:	ptr = L"ctrl-f8"; break;
-		case GDK_F9:	ptr = L"ctrl-f9"; break;
-		case GDK_F10:	ptr = L"ctrl-f10"; break;
-		case GDK_F11:	ptr = L"ctrl-f11"; break;
-		case GDK_F12:	ptr = L"ctrl-f12"; break;
+		case GDK_Up:		ptr = L"ctrl-cursor-up"; break;
+		case GDK_Down:		ptr = L"ctrl-cursor-down"; break;
+		case GDK_Left:		ptr = L"ctrl-cursor-left"; break;
+		case GDK_Right: 	ptr = L"ctrl-cursor-right"; break;
+		case GDK_Prior: 	ptr = L"ctrl-page-up"; break;
+		case GDK_Next:		ptr = L"ctrl-page-down"; break;
+		case GDK_Home:		ptr = L"ctrl-home"; break;
+		case GDK_End:		ptr = L"ctrl-end"; break;
+		case GDK_space:		ptr = L"ctrl-space"; break;
+		case GDK_KP_Add: 	ptr = L"ctrl-kp-plus"; break;
+		case GDK_KP_Subtract:	ptr = L"ctrl-kp-minus"; break;
+		case GDK_KP_Multiply:	ptr = L"ctrl-kp-multiply"; break;
+		case GDK_KP_Divide:	ptr = L"ctrl-kp-divide"; break;
+		case GDK_F1:		ptr = L"ctrl-f1"; break;
+		case GDK_F2:		ptr = L"ctrl-f2"; break;
+		case GDK_F3:		ptr = L"ctrl-f3"; break;
+		case GDK_F4:		ptr = L"ctrl-f4"; break;
+		case GDK_F5:		ptr = L"ctrl-f5"; break;
+		case GDK_F6:		ptr = L"ctrl-f6"; break;
+		case GDK_F7:		ptr = L"ctrl-f7"; break;
+		case GDK_F8:		ptr = L"ctrl-f8"; break;
+		case GDK_F9:		ptr = L"ctrl-f9"; break;
+		case GDK_F10:		ptr = L"ctrl-f10"; break;
+		case GDK_F11:		ptr = L"ctrl-f11"; break;
+		case GDK_F12:		ptr = L"ctrl-f12"; break;
 		case GDK_KP_Enter:
-		case GDK_Return: ptr = L"ctrl-enter"; break;
+		case GDK_Return:	ptr = L"ctrl-enter"; break;
 
-		case 'a':	ptr = L"ctrl-a"; break;
-		case 'b':	ptr = L"ctrl-b"; break;
-		case 'c':	ptr = L"ctrl-c"; break;
-		case 'd':	ptr = L"ctrl-d"; break;
-		case 'e':	ptr = L"ctrl-e"; break;
-		case 'f':	ptr = L"ctrl-f"; break;
-		case 'g':	ptr = L"ctrl-g"; break;
-		case 'h':	ptr = L"ctrl-h"; break;
-		case 'i':	ptr = L"ctrl-i"; break;
-		case 'j':	ptr = L"ctrl-j"; break;
-		case 'k':	ptr = L"ctrl-k"; break;
-		case 'l':	ptr = L"ctrl-l"; break;
-		case 'm':	ptr = L"ctrl-m"; break;
-		case 'n':	ptr = L"ctrl-n"; break;
-		case 'o':	ptr = L"ctrl-o"; break;
-		case 'p':	ptr = L"ctrl-p"; break;
-		case 'q':	ptr = L"ctrl-q"; break;
-		case 'r':	ptr = L"ctrl-r"; break;
-		case 's':	ptr = L"ctrl-s"; break;
-		case 't':	ptr = L"ctrl-t"; break;
-		case 'u':	ptr = L"ctrl-u"; break;
-		case 'v':	ptr = L"ctrl-v"; break;
-		case 'w':	ptr = L"ctrl-w"; break;
-		case 'x':	ptr = L"ctrl-x"; break;
-		case 'y':	ptr = L"ctrl-y"; break;
-		case 'z':	ptr = L"ctrl-z"; break;
+		case 'a':		ptr = L"ctrl-a"; break;
+		case 'b':		ptr = L"ctrl-b"; break;
+		case 'c':		ptr = L"ctrl-c"; break;
+		case 'd':		ptr = L"ctrl-d"; break;
+		case 'e':		ptr = L"ctrl-e"; break;
+		case 'f':		ptr = L"ctrl-f"; break;
+		case 'g':		ptr = L"ctrl-g"; break;
+		case 'h':		ptr = L"ctrl-h"; break;
+		case 'i':		ptr = L"ctrl-i"; break;
+		case 'j':		ptr = L"ctrl-j"; break;
+		case 'k':		ptr = L"ctrl-k"; break;
+		case 'l':		ptr = L"ctrl-l"; break;
+		case 'm':		ptr = L"ctrl-m"; break;
+		case 'n':		ptr = L"ctrl-n"; break;
+		case 'o':		ptr = L"ctrl-o"; break;
+		case 'p':		ptr = L"ctrl-p"; break;
+		case 'q':		ptr = L"ctrl-q"; break;
+		case 'r':		ptr = L"ctrl-r"; break;
+		case 's':		ptr = L"ctrl-s"; break;
+		case 't':		ptr = L"ctrl-t"; break;
+		case 'u':		ptr = L"ctrl-u"; break;
+		case 'v':		ptr = L"ctrl-v"; break;
+		case 'w':		ptr = L"ctrl-w"; break;
+		case 'x':		ptr = L"ctrl-x"; break;
+		case 'y':		ptr = L"ctrl-y"; break;
+		case 'z':		ptr = L"ctrl-z"; break;
 		}
 	}
 	else
@@ -165,40 +163,37 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	{
 		switch(event->keyval)
 		{
-		case GDK_Up:	ptr = L"cursor-up"; break;
-		case GDK_Down:	ptr = L"cursor-down"; break;
-		case GDK_Left:	ptr = L"cursor-left"; break;
-		case GDK_Right: ptr = L"cursor-right"; break;
-		case GDK_Prior: ptr = L"page-up"; break;
-		case GDK_Next:	ptr = L"page-down"; break;
-		case GDK_Home:	ptr = L"home"; break;
-		case GDK_End:	ptr = L"end"; break;
-
-		case GDK_KP_Add: ptr = L"kp-plus"; break;
-		case GDK_KP_Subtract: ptr = L"kp-minus"; break;
-		case GDK_KP_Multiply: ptr = L"kp-multiply"; break;
-		case GDK_KP_Divide: ptr = L"kp-divide"; break;
-
-		case GDK_F1:	ptr = L"f1"; break;
-		case GDK_F2:	ptr = L"f2"; break;
-		case GDK_F3:	ptr = L"f3"; break;
-		case GDK_F4:	ptr = L"f4"; break;
-		case GDK_F5:	ptr = L"f5"; break;
-		case GDK_F6:	ptr = L"f6"; break;
-		case GDK_F7:	ptr = L"f7"; break;
-		case GDK_F8:	ptr = L"f8"; break;
-		case GDK_F9:	ptr = L"f9"; break;
-		case GDK_F10:	ptr = L"f10"; break;
-		case GDK_F11:	ptr = L"f11"; break;
-		case GDK_F12:	ptr = L"f12"; break;
-
-		case GDK_Insert: ptr = L"insert"; break;
-		case GDK_BackSpace: ptr = L"backspace"; break;
-		case GDK_Delete: ptr = L"delete"; break;
+		case GDK_Up:		ptr = L"cursor-up"; break;
+		case GDK_Down:		ptr = L"cursor-down"; break;
+		case GDK_Left:		ptr = L"cursor-left"; break;
+		case GDK_Right:		ptr = L"cursor-right"; break;
+		case GDK_Prior:		ptr = L"page-up"; break;
+		case GDK_Next:		ptr = L"page-down"; break;
+		case GDK_Home:		ptr = L"home"; break;
+		case GDK_End:		ptr = L"end"; break;
+		case GDK_KP_Add:	ptr = L"kp-plus"; break;
+		case GDK_KP_Subtract:	ptr = L"kp-minus"; break;
+		case GDK_KP_Multiply:	ptr = L"kp-multiply"; break;
+		case GDK_KP_Divide:	ptr = L"kp-divide"; break;
+		case GDK_F1:		ptr = L"f1"; break;
+		case GDK_F2:		ptr = L"f2"; break;
+		case GDK_F3:		ptr = L"f3"; break;
+		case GDK_F4:		ptr = L"f4"; break;
+		case GDK_F5:		ptr = L"f5"; break;
+		case GDK_F6:		ptr = L"f6"; break;
+		case GDK_F7:		ptr = L"f7"; break;
+		case GDK_F8:		ptr = L"f8"; break;
+		case GDK_F9:		ptr = L"f9"; break;
+		case GDK_F10:		ptr = L"f10"; break;
+		case GDK_F11:		ptr = L"f11"; break;
+		case GDK_F12:		ptr = L"f12"; break;
+		case GDK_Insert:	ptr = L"insert"; break;
+		case GDK_BackSpace:	ptr = L"backspace"; break;
+		case GDK_Delete:	ptr = L"delete"; break;
 		case GDK_KP_Enter:
-		case GDK_Return: ptr = L"enter"; break;
-		case GDK_Tab:	 ptr = L"tab"; break;
-		case GDK_Escape: ptr = L"escape"; break;
+		case GDK_Return:	ptr = L"enter"; break;
+		case GDK_Tab:		ptr = L"tab"; break;
+		case GDK_Escape:	ptr = L"escape"; break;
 		}
 	}
 
