@@ -208,33 +208,31 @@ static void win32_vkey(int c)
 	{
 		switch(c)
 		{
-		case VK_UP:	ptr = L"ctrl-cursor-up"; break;
-		case VK_DOWN:	ptr = L"ctrl-cursor-down"; break;
-		case VK_LEFT:	ptr = L"ctrl-cursor-left"; break;
-		case VK_RIGHT:	ptr = L"ctrl-cursor-right"; break;
-		case VK_PRIOR:	ptr = L"ctrl-page-up"; break;
-		case VK_NEXT:	ptr = L"ctrl-page-down"; break;
-		case VK_HOME:	ptr = L"ctrl-home"; break;
-		case VK_END:	ptr = L"ctrl-end"; break;
-		case VK_SPACE:	ptr = L"ctrl-space"; break;
-
-		case VK_DIVIDE:   ptr = L"ctrl-kp-divide"; break;
-		case VK_MULTIPLY: ptr = L"ctrl-kp-multiply"; break;
-		case VK_SUBTRACT: ptr = L"ctrl-kp-minus"; break;
-		case VK_ADD:	  ptr = L"ctrl-kp-plus"; break;
-		case VK_RETURN:   ptr = L"ctrl-enter"; break;
-
-		case VK_F1:	ptr = L"ctrl-f1"; break;
-		case VK_F2:	ptr = L"ctrl-f2"; break;
-		case VK_F3:	ptr = L"ctrl-f3"; break;
-		case VK_F4:	ptr = L"ctrl-f4"; break;
-		case VK_F5:	ptr = L"ctrl-f5"; break;
-		case VK_F6:	ptr = L"ctrl-f6"; break;
-		case VK_F7:	ptr = L"ctrl-f7"; break;
-		case VK_F8:	ptr = L"ctrl-f8"; break;
-		case VK_F9:	ptr = L"ctrl-f9"; break;
-		case VK_F10:	ptr = L"ctrl-f10"; break;
-		case VK_F11:	ptr = L"ctrl-f11"; break;
+		case VK_UP:		ptr = L"ctrl-cursor-up"; break;
+		case VK_DOWN:		ptr = L"ctrl-cursor-down"; break;
+		case VK_LEFT:		ptr = L"ctrl-cursor-left"; break;
+		case VK_RIGHT:		ptr = L"ctrl-cursor-right"; break;
+		case VK_PRIOR:		ptr = L"ctrl-page-up"; break;
+		case VK_NEXT:		ptr = L"ctrl-page-down"; break;
+		case VK_HOME:		ptr = L"ctrl-home"; break;
+		case VK_END:		ptr = L"ctrl-end"; break;
+		case VK_SPACE:		ptr = L"ctrl-space"; break;
+		case VK_DIVIDE:		ptr = L"ctrl-kp-divide"; break;
+		case VK_MULTIPLY:	ptr = L"ctrl-kp-multiply"; break;
+		case VK_SUBTRACT:	ptr = L"ctrl-kp-minus"; break;
+		case VK_ADD:		ptr = L"ctrl-kp-plus"; break;
+		case VK_RETURN:		ptr = L"ctrl-enter"; break;
+		case VK_F1:		ptr = L"ctrl-f1"; break;
+		case VK_F2:		ptr = L"ctrl-f2"; break;
+		case VK_F3:		ptr = L"ctrl-f3"; break;
+		case VK_F4:		ptr = L"ctrl-f4"; break;
+		case VK_F5:		ptr = L"ctrl-f5"; break;
+		case VK_F6:		ptr = L"ctrl-f6"; break;
+		case VK_F7:		ptr = L"ctrl-f7"; break;
+		case VK_F8:		ptr = L"ctrl-f8"; break;
+		case VK_F9:		ptr = L"ctrl-f9"; break;
+		case VK_F10:		ptr = L"ctrl-f10"; break;
+		case VK_F11:		ptr = L"ctrl-f11"; break;
 		case VK_F12:
 			SendMessage(hwnd, WM_SYSCOMMAND,
 			maxed ? SC_RESTORE : SC_MAXIMIZE, 0);
@@ -248,38 +246,35 @@ static void win32_vkey(int c)
 	{
 		switch(c)
 		{
-		case VK_UP:	ptr = L"cursor-up"; break;
-		case VK_DOWN:	ptr = L"cursor-down"; break;
-		case VK_LEFT:	ptr = L"cursor-left"; break;
-		case VK_RIGHT:	ptr = L"cursor-right"; break;
-		case VK_PRIOR:	ptr = L"page-up"; break;
-		case VK_NEXT:	ptr = L"page-down"; break;
-		case VK_HOME:	ptr = L"home"; break;
-		case VK_END:	ptr = L"end"; break;
-
-		case VK_TAB:	ptr = L"tab"; break;
-		case VK_RETURN: ptr = L"enter"; break;
-		case VK_BACK:	ptr = L"backspace"; break;
-		case VK_DELETE: ptr = L"delete"; break;
-		case VK_INSERT: ptr = L"insert"; break;
-
-		case VK_DIVIDE:   ptr = L"kp-divide"; break;
-		case VK_MULTIPLY: ptr = L"kp-multiply"; break;
-		case VK_SUBTRACT: ptr = L"kp-minus"; break;
-		case VK_ADD:	  ptr = L"kp-plus"; break;
-
-		case VK_F1:	ptr = L"f1"; break;
-		case VK_F2:	ptr = L"f2"; break;
-		case VK_F3:	ptr = L"f3"; break;
-		case VK_F4:	ptr = L"f4"; break;
-		case VK_F5:	ptr = L"f5"; break;
-		case VK_F6:	ptr = L"f6"; break;
-		case VK_F7:	ptr = L"f7"; break;
-		case VK_F8:	ptr = L"f8"; break;
-		case VK_F9:	ptr = L"f9"; break;
-		case VK_F10:	ptr = L"f10"; break;
-		case VK_F11:	ptr = L"f11"; break;
-		case VK_F12:	ptr = L"f12"; break;
+		case VK_UP:		ptr = L"cursor-up"; break;
+		case VK_DOWN:		ptr = L"cursor-down"; break;
+		case VK_LEFT:		ptr = L"cursor-left"; break;
+		case VK_RIGHT:		ptr = L"cursor-right"; break;
+		case VK_PRIOR:		ptr = L"page-up"; break;
+		case VK_NEXT:		ptr = L"page-down"; break;
+		case VK_HOME:		ptr = L"home"; break;
+		case VK_END:		ptr = L"end"; break;
+		case VK_TAB:		ptr = L"tab"; break;
+		case VK_RETURN: 	ptr = L"enter"; break;
+		case VK_BACK:		ptr = L"backspace"; break;
+		case VK_DELETE: 	ptr = L"delete"; break;
+		case VK_INSERT: 	ptr = L"insert"; break;
+		case VK_DIVIDE:   	ptr = L"kp-divide"; break;
+		case VK_MULTIPLY: 	ptr = L"kp-multiply"; break;
+		case VK_SUBTRACT: 	ptr = L"kp-minus"; break;
+		case VK_ADD:	  	ptr = L"kp-plus"; break;
+		case VK_F1:		ptr = L"f1"; break;
+		case VK_F2:		ptr = L"f2"; break;
+		case VK_F3:		ptr = L"f3"; break;
+		case VK_F4:		ptr = L"f4"; break;
+		case VK_F5:		ptr = L"f5"; break;
+		case VK_F6:		ptr = L"f6"; break;
+		case VK_F7:		ptr = L"f7"; break;
+		case VK_F8:		ptr = L"f8"; break;
+		case VK_F9:		ptr = L"f9"; break;
+		case VK_F10:		ptr = L"f10"; break;
+		case VK_F11:		ptr = L"f11"; break;
+		case VK_F12:		ptr = L"f12"; break;
 		}
 	}
 
@@ -307,33 +302,33 @@ static void win32_akey(int k)
 
 	switch(k)
 	{
-	case ctrl(' '):	ptr = L"ctrl-space"; break;
-	case ctrl('a'): ptr = L"ctrl-a"; break;
-	case ctrl('b'): ptr = L"ctrl-b"; break;
-	case ctrl('c'): ptr = L"ctrl-c"; break;
-	case ctrl('d'): ptr = L"ctrl-d"; break;
-	case ctrl('e'): ptr = L"ctrl-e"; break;
-	case ctrl('f'): ptr = L"ctrl-f"; break;
-	case ctrl('g'): ptr = L"ctrl-g"; break;
-	case ctrl('h'): ptr = L"ctrl-h"; break;
-	case ctrl('i'): ptr = L"ctrl-i"; break;
-	case ctrl('j'): ptr = L"ctrl-j"; break;
-	case ctrl('k'): ptr = L"ctrl-k"; break;
-	case ctrl('l'): ptr = L"ctrl-l"; break;
-	case ctrl('m'): ptr = L"ctrl-m"; break;
-	case ctrl('n'): ptr = L"ctrl-n"; break;
-	case ctrl('o'): ptr = L"ctrl-o"; break;
-	case ctrl('p'): ptr = L"ctrl-p"; break;
-	case ctrl('q'): ptr = L"ctrl-q"; break;
-	case ctrl('r'): ptr = L"ctrl-r"; break;
-	case ctrl('s'): ptr = L"ctrl-s"; break;
-	case ctrl('t'): ptr = L"ctrl-t"; break;
-	case ctrl('u'): ptr = L"ctrl-u"; break;
-	case ctrl('v'): ptr = L"ctrl-v"; break;
-	case ctrl('w'): ptr = L"ctrl-w"; break;
-	case ctrl('x'): ptr = L"ctrl-x"; break;
-	case ctrl('y'): ptr = L"ctrl-y"; break;
-	case ctrl('z'): ptr = L"ctrl-z"; break;
+	case ctrl(' '):		ptr = L"ctrl-space"; break;
+	case ctrl('a'):		ptr = L"ctrl-a"; break;
+	case ctrl('b'):		ptr = L"ctrl-b"; break;
+	case ctrl('c'):		ptr = L"ctrl-c"; break;
+	case ctrl('d'):		ptr = L"ctrl-d"; break;
+	case ctrl('e'):		ptr = L"ctrl-e"; break;
+	case ctrl('f'):		ptr = L"ctrl-f"; break;
+	case ctrl('g'):		ptr = L"ctrl-g"; break;
+	case ctrl('h'):		ptr = L"ctrl-h"; break;
+	case ctrl('i'):		ptr = L"ctrl-i"; break;
+	case ctrl('j'):		ptr = L"ctrl-j"; break;
+	case ctrl('k'):		ptr = L"ctrl-k"; break;
+	case ctrl('l'):		ptr = L"ctrl-l"; break;
+	case ctrl('m'):		ptr = L"ctrl-m"; break;
+	case ctrl('n'):		ptr = L"ctrl-n"; break;
+	case ctrl('o'):		ptr = L"ctrl-o"; break;
+	case ctrl('p'):		ptr = L"ctrl-p"; break;
+	case ctrl('q'):		ptr = L"ctrl-q"; break;
+	case ctrl('r'):		ptr = L"ctrl-r"; break;
+	case ctrl('s'):		ptr = L"ctrl-s"; break;
+	case ctrl('t'):		ptr = L"ctrl-t"; break;
+	case ctrl('u'):		ptr = L"ctrl-u"; break;
+	case ctrl('v'):		ptr = L"ctrl-v"; break;
+	case ctrl('w'):		ptr = L"ctrl-w"; break;
+	case ctrl('x'):		ptr = L"ctrl-x"; break;
+	case ctrl('y'):		ptr = L"ctrl-y"; break;
+	case ctrl('z'):		ptr = L"ctrl-z"; break;
 
 	default:
 		/* this is probably very bad */
