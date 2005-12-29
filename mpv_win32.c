@@ -352,12 +352,12 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 
 	switch(msg)
 	{
-/*	case WM_CREATE:
+	case WM_CREATE:
 
-		is_wm_keydown = 0;
-		DragAcceptFiles(hwnd,TRUE);
+		/*is_wm_keydown = 0;*/
+		DragAcceptFiles(hwnd, TRUE);
 		return(0);
-*/
+
 /*	case WM_DROPFILES:
 
 		(void) load_dropped_files ((HANDLE) wparam, hwnd);
