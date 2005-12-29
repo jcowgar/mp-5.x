@@ -530,27 +530,23 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		PostQuitMessage(0);
 		return(0);
 
-/*	case WM_NOTIFY:
-		p=(LPNMHDR)lparam;
+	case WM_NOTIFY:
+		p = (LPNMHDR)lparam;
 
-		if(p->code==TCN_SELCHANGE)
+		if(p->code == TCN_SELCHANGE)
 		{
-			y=TabCtrl_GetCurSel(hwtabs);
+			/* tab selected by clicking on it */
+			int n = TabCtrl_GetCurSel(hwtabs);
 
-			for(t=_mp_txts,x=0;t!=NULL;t=t->next,x++)
-			{
-				if(x==y)
-				{
-					_mp_active=t;
-					break;
-				}
-			}
+			/* set mp.active to this */
+			mpdm_hset_s(mp, L"active", MPDM_I(n));
 
-			mpi_draw_all(_mp_active);
+			/* redraw */
+			InvalidateRect(hwnd, NULL, TRUE);
 		}
 
 		return(0);
-*/	}
+	}
 
 	if(mp_exit_requested)
 	{
