@@ -115,9 +115,58 @@ static void build_fonts(HDC hdc)
 }
 
 
+static void draw_filetabs(void)
+/* draws the filetabs */
+{
+	int n, a;
+	mpdm_t docs;
+
+	/* gets the document list */
+	if((docs = mpdm_hget_s(mp, L"docs")) == NULL)
+		return;
+
+	/* gets the active document number */
+	a = mpdm_ival(mpdm_hget_s(mp, L"active"));
+
+	TabCtrl_DeleteAllItems(hwtabs);
+
+	for(n = 0;n < mpdm_size(docs);n++)
+	{
+		TCITEM ti;
+		char * ptr;
+		wchar_t * wptr;
+		mpdm_t v = mpdm_aget(docs, n);
+
+		/* just get the name */
+		v = mpdm_hget_s(v, L"name");
+
+		/* move to the filename if path included */
+		if((wptr = wcsrchr(v->data, L'\\')) == NULL)
+			wptr = v->data;
+		else
+			wptr++;
+
+		/* convert to mbs */
+		ptr = mpdm_wcstombs(wptr, NULL);
+
+		ti.mask = TCIF_TEXT;
+		ti.pszText = ptr;
+
+		/* create it */
+		TabCtrl_InsertItem(hwtabs, n, &ti);
+
+		free(ptr);
+
+		/* if it's the active one, set it */
+		if(n == a) TabCtrl_SetCurSel(hwtabs, n);
+	}
+}
+
+
 mpdm_t mpi_draw(mpdm_t v);
 
 static void win32_draw(HWND hwnd, mpdm_t doc)
+/* win32 document draw function */
 {
 	HDC hdc;
 	PAINTSTRUCT ps;
@@ -192,6 +241,8 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 	}
 
 	EndPaint(hwnd, &ps);
+
+	draw_filetabs();
 }
 
 
