@@ -42,6 +42,8 @@
 
 #include "mp.h"
 
+#include "mp.xpm"
+
 /*******************
 	Data
 ********************/
@@ -600,9 +602,9 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 		_mpv_gtk_xpos, _mpv_gtk_ypos);
 */
 	/* set application icon */
-/*	pixmap=gdk_pixmap_create_from_xpm_d(window->window,
+	pixmap = gdk_pixmap_create_from_xpm_d(window->window,
 		&mask, NULL, mp_xpm);
-	gdk_window_set_icon(window->window, NULL, pixmap, mask);*/
+	gdk_window_set_icon(window->window, NULL, pixmap, mask);
 
 	return(NULL);
 }
