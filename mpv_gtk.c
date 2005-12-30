@@ -224,6 +224,12 @@ static void gtk_drv_paint(mpdm_t doc)
 }
 
 
+static void redraw(void)
+{
+	gtk_drv_paint(mp_get_active());
+}
+
+
 static gint delete_event(GtkWidget * w, GdkEvent * e, gpointer data)
 /* 'delete_event' handler */
 {
@@ -365,6 +371,8 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	if(mp_exit_requested)
 		gtk_main_quit();
 
+	redraw();
+
 	return(0);
 }
 
@@ -395,12 +403,14 @@ static gint button_press_event(GtkWidget * widget, GdkEventButton * event, gpoin
 	if(ptr != NULL)
 		mp_process_event(MPDM_S(ptr));
 
+	redraw();
+
 	return(0);
 }
 
 
 static void commit(GtkIMContext * i, char * str, gpointer u)
-/* 'commit' callback */
+/* 'commit' handler */
 {
 	wchar_t * wstr;
 
@@ -426,9 +436,26 @@ static void realize(GtkWidget * widget)
 static gint expose_event(GtkWidget * widget, GdkEventExpose * event)
 /* 'expose_event' handler */
 {
-	gtk_drv_paint(mp_get_active());
+	redraw();
 
 	return(FALSE);
+}
+
+
+static gint configure_event(GtkWidget * widget, GdkEventConfigure * event)
+/* 'configure_event' handler */
+{
+	static GdkEventConfigure o;
+
+	if(memcmp(&o, event, sizeof(o)) == 0)
+		return(TRUE);
+
+	memcpy(&o, event, sizeof(o));
+
+	update_window_size();
+	redraw();
+
+	return(TRUE);
 }
 
 
@@ -471,9 +498,9 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 
 	gtk_widget_set_double_buffered(area, FALSE);
 
-/*	gtk_signal_connect(GTK_OBJECT(area),"configure_event",
-		(GtkSignalFunc) _mpv_configure_event_callback, NULL);
-*/
+	gtk_signal_connect(GTK_OBJECT(area),"configure_event",
+		(GtkSignalFunc) configure_event, NULL);
+
 	gtk_signal_connect(GTK_OBJECT(area),"expose_event",
 		(GtkSignalFunc) expose_event, NULL);
 
