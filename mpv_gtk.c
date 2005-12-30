@@ -205,8 +205,7 @@ static void gtk_drv_paint(mpdm_t doc)
 		pango_layout_set_attributes(pl, pal);
 		pango_attr_list_unref(pal);
 
-		/* NULL terminate, store and free the text */
-		str = mpdm_poke(str, &p, "", 1, 1);
+		/* store and free the text */
 		pango_layout_set_text(pl, str, p);
 		free(str);
 
