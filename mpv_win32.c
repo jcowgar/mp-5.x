@@ -253,6 +253,12 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 }
 
 
+static void redraw(void)
+{
+	InvalidateRect(hwnd, NULL, TRUE);
+}
+
+
 static void win32_vkey(int c)
 /* win32 virtual key processing */
 {
@@ -342,8 +348,7 @@ static void win32_vkey(int c)
 		is_wm_keydown = 1;
 	}
 
-	/* force redraw */
-	InvalidateRect(hwnd, NULL, TRUE);
+	redraw();
 }
 
 
@@ -400,8 +405,7 @@ static void win32_akey(int k)
 	if(ptr != NULL)
 		mp_process_event(MPDM_S(ptr));
 
-	/* force redraw */
-	InvalidateRect(hwnd, NULL, TRUE);
+	redraw();
 }
 
 
@@ -468,7 +472,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		if(!IsIconic(hwnd))
 		{
 			update_window_size();
-			InvalidateRect(hwnd, NULL, TRUE);
+			redraw();
 
 			MoveWindow(hwtabs, 0, 0, LOWORD(lparam), tab_height, TRUE);
 		}
@@ -541,8 +545,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 			/* set mp.active to this */
 			mpdm_hset_s(mp, L"active", MPDM_I(n));
 
-			/* redraw */
-			InvalidateRect(hwnd, NULL, TRUE);
+			redraw();
 		}
 
 		return(0);
