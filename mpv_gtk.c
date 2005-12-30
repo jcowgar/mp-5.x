@@ -132,6 +132,8 @@ static void gtk_drv_paint(mpdm_t doc)
 		PangoLayout * pl;
 		PangoAttrList * pal;
 		mpdm_t l = mpdm_aget(d, n);
+		mpdm_t t;
+		char * ptr;
 
 		/* create the pango stuff */
 		pl = gtk_widget_create_pango_layout(area, NULL);
@@ -145,7 +147,8 @@ static void gtk_drv_paint(mpdm_t doc)
 			mpdm_t s;
 
 			/* get the attribute and the string */
-			attr = mpdm_ival(mpdm_aget(l, m++));
+			/* CAUTION: the line array is being destroyed */
+			attr = mpdm_ival(mpdm_adel(l, m));
 			s = mpdm_aget(l, m);
 
 			/* create the attribute */
@@ -186,7 +189,13 @@ static void gtk_drv_paint(mpdm_t doc)
 		pango_attr_list_unref(pal);
 
 		/* set the text */
-		/*pango_layout_set_text(pl, _pango_line, p);*/
+		t = mpdm_join(NULL, l);
+
+		/* convert to utf8 */
+		ptr = g_convert(t->data, -1,
+			"UTF-8", "WCHAR_T", NULL, NULL, NULL);
+		pango_layout_set_text(pl, ptr, strlen(ptr));
+		g_free(ptr);
 	}
 
 #ifdef QQ
