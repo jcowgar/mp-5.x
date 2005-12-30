@@ -192,10 +192,12 @@ static void gtk_drv_paint(mpdm_t doc)
 		t = mpdm_join(NULL, l);
 
 		/* convert to utf8 */
-		ptr = g_convert(t->data, -1,
+		ptr = g_convert(t->data, mpdm_size(t) * sizeof(wchar_t),
 			"UTF-8", "WCHAR_T", NULL, NULL, NULL);
 		pango_layout_set_text(pl, ptr, strlen(ptr));
 		g_free(ptr);
+
+		g_object_unref(pl);
 	}
 
 #ifdef QQ
@@ -717,7 +719,7 @@ static mpdm_t gtk_drv_main_loop(mpdm_t a)
 
 int gtk_drv_init(void)
 {
-/*	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))*/
+	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))
 		return(0);
 
 	gtk_driver = mpdm_ref(MPDM_H(0));
