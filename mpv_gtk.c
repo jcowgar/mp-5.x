@@ -141,24 +141,32 @@ static void gtk_drv_paint(mpdm_t doc)
 		PangoLayout * pl;
 		PangoAttrList * pal;
 		mpdm_t l = mpdm_aget(d, n);
-		mpdm_t t;
-		char * ptr;
+		char * str = NULL;
+		int u, p;
 
 		/* create the pango stuff */
 		pl = gtk_widget_create_pango_layout(area, NULL);
 		pango_layout_set_font_description(pl, font);
 		pal = pango_attr_list_new();
 
-		for(m = 0;m < mpdm_size(l);m++)
+		for(m = u = p = 0;m < mpdm_size(l);m++, u = p)
 		{
 			PangoAttribute * pa;
 			int attr;
 			mpdm_t s;
+			char * ptr;
 
 			/* get the attribute and the string */
-			/* CAUTION: the line array is being destroyed */
-			attr = mpdm_ival(mpdm_adel(l, m));
+			attr = mpdm_ival(mpdm_aget(l, m++));
 			s = mpdm_aget(l, m);
+
+			/* convert the string to utf8 */
+			ptr = g_convert(s->data, mpdm_size(s) * sizeof(wchar_t),
+				"UTF-8", "WCHAR_T", NULL, NULL, NULL);
+
+			/* add to the full line and free */
+			str = mpdm_poke(str, &p, ptr, strlen(ptr), 1);
+			g_free(ptr);
 
 			/* create the attribute */
 			/*
@@ -193,21 +201,14 @@ static void gtk_drv_paint(mpdm_t doc)
 			*/
 		}
 
-		/* set the attributes */
+		/* store the attributes */
 		pango_layout_set_attributes(pl, pal);
 		pango_attr_list_unref(pal);
 
-		/* set the text */
-		t = mpdm_join(NULL, l);
-
-		if(t != NULL && t->data != NULL)
-		{
-			/* convert to utf8 */
-			ptr = g_convert(t->data, mpdm_size(t) * sizeof(wchar_t),
-				"UTF-8", "WCHAR_T", NULL, NULL, NULL);
-			pango_layout_set_text(pl, ptr, strlen(ptr));
-			g_free(ptr);
-		}
+		/* NULL terminate, store and free the text */
+		str = mpdm_poke(str, &p, "", 1, 1);
+		pango_layout_set_text(pl, str, p);
+		free(str);
 
 		/* draw the background */
 		{
