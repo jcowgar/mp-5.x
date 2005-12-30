@@ -56,6 +56,7 @@ GtkWidget * area = NULL;
 GtkWidget * scrollbar = NULL;
 GdkGC * gc = NULL;
 GtkIMContext * im = NULL;
+GdkPixmap * pixmap = NULL;
 
 /* character read from the keyboard */
 static wchar_t im_char[2];
@@ -91,6 +92,12 @@ static void update_window_size(void)
 	/* store the 'window' size */
 	mpdm_hset_s(gtk_window, L"tx", MPDM_I(tx));
 	mpdm_hset_s(gtk_window, L"ty", MPDM_I(ty));
+
+	/* rebuild the pixmap for the double buffer */
+	if(pixmap != NULL) gdk_pixmap_unref(pixmap);
+
+	pixmap = gdk_pixmap_new(area->window,
+		area->allocation.width, font_height, -1);
 }
 
 
@@ -210,14 +217,17 @@ static void gtk_drv_paint(mpdm_t doc)
 		gdk_color_alloc(gdk_colormap_get_system(), &paper);
 		gdk_gc_set_foreground(gc, &paper);
 		}
-		gdk_draw_rectangle(area->window, gc, TRUE, 0, gr.y,
+		gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0,
 			gr.width, gr.height);
 
 		/* draw the text */
-		gtk_paint_layout(area->style, area->window,
+		gtk_paint_layout(area->style, pixmap,
 			GTK_STATE_NORMAL, TRUE,
-			&gr, area, "", 2, gr.y, pl);
-		gr.y += font_height;
+			&gr, area, "", 2, 0, pl);
+
+		/* dump the pixmap */
+		gdk_draw_pixmap(area->window, gc, pixmap,
+			0, 0, 0, n * font_height, gr.width, gr.height);
 
 		g_object_unref(pl);
 	}
