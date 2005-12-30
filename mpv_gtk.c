@@ -48,6 +48,7 @@
 
 /* the driver */
 mpdm_t gtk_driver = NULL;
+mpdm_t gtk_window = NULL;
 
 /* global data */
 GtkWidget * window = NULL;
@@ -62,14 +63,53 @@ static wchar_t im_char[2];
 /* font information */
 int font_width = 0;
 int font_height = 0;
+PangoFontDescription * font = NULL;
+int font_size = 14;
+char * font_face = "Mono";
+
 
 /*******************
 	Code
 ********************/
 
+static void update_window_size(void)
+/* updates the viewport size in characters */
+{
+	PangoLayout * pa;
+	int tx, ty;
+
+	/* get font metrics */
+	pa = gtk_widget_create_pango_layout(area, "m");
+	pango_layout_set_font_description(pa, font);
+	pango_layout_get_pixel_size(pa, &font_width, &font_height);
+	g_object_unref(pa);
+
+	/* calculate the size in chars */
+	tx = (area->allocation.width / font_width) + 1;
+	ty = (area->allocation.height / font_height) + 1;
+
+	/* store the 'window' size */
+	mpdm_hset_s(gtk_window, L"tx", MPDM_I(tx));
+	mpdm_hset_s(gtk_window, L"ty", MPDM_I(ty));
+}
+
+
+static void build_fonts(void)
+/* builds the fonts */
+{
+	char tmp[128];
+
+	snprintf(tmp, sizeof(tmp) - 1, "%s %d", font_face, font_size);
+	tmp[sizeof(tmp) - 1] = '\0';
+
+	font = pango_font_description_from_string(tmp);
+	update_window_size();
+}
+
+
 mpdm_t mpi_draw(mpdm_t v);
 
-static void gtk_drv_paint(void)
+static void gtk_drv_paint(mpdm_t doc)
 /* GTK document draw function */
 {
 	GdkRectangle gr;
@@ -78,6 +118,9 @@ static void gtk_drv_paint(void)
 
         if((d = mpi_draw(doc)) == NULL)
 		return;
+
+	if(font == NULL)
+		build_fonts();
 
 	gr.x = 0;
 	gr.y = 0;
@@ -92,7 +135,7 @@ static void gtk_drv_paint(void)
 
 		/* create the pango stuff */
 		pl = gtk_widget_create_pango_layout(area, NULL);
-		pango_layout_set_font_description(pl, _pango_font_desc);
+		pango_layout_set_font_description(pl, font);
 		pal = pango_attr_list_new();
 
 		for(m = 0;m < mpdm_size(l);m++)
@@ -504,7 +547,7 @@ static void realize(GtkWidget * widget)
 static gint expose_event(GtkWidget * widget, GdkEventExpose * event)
 /* 'expose_event' handler */
 {
-	gtk_drv_paint();
+	gtk_drv_paint(mp_get_active());
 
 	return(FALSE);
 }
@@ -674,6 +717,9 @@ int gtk_drv_init(void)
 	mpdm_hset_s(gtk_driver, L"startup", MPDM_X(gtk_drv_startup));
 	mpdm_hset_s(gtk_driver, L"main_loop", MPDM_X(gtk_drv_main_loop));
 	mpdm_hset_s(gtk_driver, L"shutdown", MPDM_X(gtk_drv_shutdown));
+
+	gtk_window = MPDM_H(0);
+	mpdm_hset_s(gtk_driver, L"window", gtk_window);
 
 	mpdm_hset_s(mp, L"drv", gtk_driver);
 
