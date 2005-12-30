@@ -191,11 +191,33 @@ static void gtk_drv_paint(mpdm_t doc)
 		/* set the text */
 		t = mpdm_join(NULL, l);
 
-		/* convert to utf8 */
-		ptr = g_convert(t->data, mpdm_size(t) * sizeof(wchar_t),
-			"UTF-8", "WCHAR_T", NULL, NULL, NULL);
-		pango_layout_set_text(pl, ptr, strlen(ptr));
-		g_free(ptr);
+		if(t != NULL && t->data != NULL)
+		{
+			/* convert to utf8 */
+			ptr = g_convert(t->data, mpdm_size(t) * sizeof(wchar_t),
+				"UTF-8", "WCHAR_T", NULL, NULL, NULL);
+			pango_layout_set_text(pl, ptr, strlen(ptr));
+			g_free(ptr);
+		}
+
+		/* draw the background */
+		{
+		GdkColor paper;
+		paper.pixel = 0;
+		paper.blue = 0xffff;
+		paper.green = 0xffff;
+		paper.red = 0xffff;
+		gdk_color_alloc(gdk_colormap_get_system(), &paper);
+		gdk_gc_set_foreground(gc, &paper);
+		}
+		gdk_draw_rectangle(area->window, gc, TRUE, 0, gr.y,
+			gr.width, gr.height);
+
+		/* draw the text */
+		gtk_paint_layout(area->style, area->window,
+			GTK_STATE_NORMAL, TRUE,
+			&gr, area, "", 2, gr.y, pl);
+		gr.y += font_height;
 
 		g_object_unref(pl);
 	}
