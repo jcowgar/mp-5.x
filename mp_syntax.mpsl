@@ -188,13 +188,11 @@ sub mp.detect_syntax(doc)
 	{
 		local h = {};
 
-		/* HACK */
 		foreach(n, doc.syntax.tokens)
-			h[n] = 6;
+			h[n] = mp.attr_names.word1;
 
-		/* HACK */
 		foreach(n, doc.syntax.variables)
-			h[n] = 7;
+			h[n] = mp.attr_names.word2;
 
 		/* finally store */
 		doc.syntax.hl_words = h;
