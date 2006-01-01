@@ -70,6 +70,9 @@ PangoFontDescription * font = NULL;
 int font_size = 14;
 char * font_face = "Mono";
 
+/* the attributes */
+static GdkColor inks[MP_ATTR_SIZE];
+static GdkColor papers[MP_ATTR_SIZE];
 
 /*******************
 	Code
@@ -116,6 +119,46 @@ static void build_fonts(void)
 }
 
 
+static void build_colors(void)
+/* builds the colors */
+{
+	GdkColor * c;
+
+	c = &papers[MP_ATTR_NORMAL];
+
+	c->pixel = 0;
+	c->blue = 0xffff;
+	c->green = 0xffff;
+	c->red = 0xffff;
+	gdk_color_alloc(gdk_colormap_get_system(), c);
+
+	c = &inks[MP_ATTR_NORMAL];
+
+	c->pixel = 0;
+	c->blue = 0;
+	c->green = 0;
+	c->red = 0;
+	gdk_color_alloc(gdk_colormap_get_system(), c);
+
+	c = &papers[MP_ATTR_CURSOR];
+
+	c->pixel = 0;
+	c->blue = 0;
+	c->green = 0;
+	c->red = 0;
+	gdk_color_alloc(gdk_colormap_get_system(), c);
+
+	c = &inks[MP_ATTR_CURSOR];
+
+	c->pixel = 0;
+	c->blue = 0xffff;
+	c->green = 0xffff;
+	c->red = 0xffff;
+	gdk_color_alloc(gdk_colormap_get_system(), c);
+
+}
+
+
 mpdm_t mpi_draw(mpdm_t v);
 
 static void gtk_drv_paint(mpdm_t doc)
@@ -125,11 +168,18 @@ static void gtk_drv_paint(mpdm_t doc)
 	mpdm_t d = NULL;
 	int n, m;
 
+	/* no gc? create it */
+	if(gc == NULL)
+		gc = gdk_gc_new(area->window);
+
         if((d = mpi_draw(doc)) == NULL)
 		return;
 
 	if(font == NULL)
+	{
 		build_fonts();
+		build_colors();
+	}
 
 	gr.x = 0;
 	gr.y = 0;
@@ -210,15 +260,7 @@ static void gtk_drv_paint(mpdm_t doc)
 		free(str);
 
 		/* draw the background */
-		{
-		GdkColor paper;
-		paper.pixel = 0;
-		paper.blue = 0xffff;
-		paper.green = 0xffff;
-		paper.red = 0xffff;
-		gdk_color_alloc(gdk_colormap_get_system(), &paper);
-		gdk_gc_set_foreground(gc, &paper);
-		}
+		gdk_gc_set_foreground(gc, &papers[MP_ATTR_NORMAL]);
 		gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0,
 			gr.width, gr.height);
 
@@ -563,8 +605,6 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 	gtk_label_set_justify(GTK_LABEL(status), GTK_JUSTIFY_LEFT);
 */
 	gtk_widget_show_all(window);
-
-	gc = gdk_gc_new(area->window);
 
 /*	_mpv_font_size--;
 	mpv_zoom(1);
