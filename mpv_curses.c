@@ -303,12 +303,21 @@ static void build_colors(void)
 	{
 		int attr = mpdm_ival(mpdm_hget(attr_names, c));
 		mpdm_t d = mpdm_hget(colors, c);
-		mpdm_t p = mpdm_hget_s(d, L"text");
+		mpdm_t v = mpdm_hget_s(d, L"text");
+		int cp;
 
-		init_pair(n + 1, nc_color_by_name(mpdm_aget(p, 0)),
-				nc_color_by_name(mpdm_aget(p, 1)));
+		init_pair(n + 1, nc_color_by_name(mpdm_aget(v, 0)),
+				nc_color_by_name(mpdm_aget(v, 1)));
 
-		nc_attrs[attr] = COLOR_PAIR(n + 1);
+		cp = COLOR_PAIR(n + 1);
+
+		/* flags */
+		v = mpdm_hget_s(d, L"flags");
+		if(mpdm_seek_s(v, L"reverse", 1) != -1) cp |= A_REVERSE;
+		if(mpdm_seek_s(v, L"bright", 1) != -1) cp |= A_BOLD;
+		if(mpdm_seek_s(v, L"underline", 1) != -1) cp |= A_UNDERLINE;
+
+		nc_attrs[attr] = cp;
 	}
 }
 
