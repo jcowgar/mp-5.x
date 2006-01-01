@@ -92,7 +92,7 @@ static void update_window_size(void)
 	g_object_unref(pa);
 
 	/* calculate the size in chars */
-	tx = (area->allocation.width / font_width) + 1;
+	tx = (area->allocation.width / font_width);
 	ty = (area->allocation.height / font_height) + 1;
 
 	/* store the 'window' size */
@@ -184,7 +184,7 @@ static void gtk_drv_paint(mpdm_t doc)
 	if(gc == NULL)
 		gc = gdk_gc_new(area->window);
 
-        if((d = mpi_draw(doc)) == NULL)
+	if((d = mpi_draw(doc)) == NULL)
 		return;
 
 	if(font == NULL)
