@@ -60,6 +60,7 @@ mpdm_t nc_window = NULL;
 ********************/
 
 static void nc_sigwinch(int s)
+/* SIGWINCH signal handler */
 {
 #ifdef NCURSES_VERSION
 	/* Make sure that window size changes... */
@@ -92,6 +93,7 @@ static void nc_sigwinch(int s)
 
 
 static wchar_t * nc_getwch(void)
+/* gets a key as a wchar_t */
 {
 	static wchar_t c[2];
 
@@ -134,6 +136,7 @@ static wchar_t * nc_getwch(void)
 #define ctrl(k) ((k) & 31)
 
 static mpdm_t nc_getkey(void)
+/* reads a key and converts to an action */
 {
 	wchar_t * f = NULL;
 
@@ -197,6 +200,7 @@ static mpdm_t nc_getkey(void)
 
 
 static void nc_addwstr(wchar_t * str)
+/* draws a string */
 {
 #ifndef CONFOPT_ADDWSTR
 	char * cptr;
@@ -247,14 +251,34 @@ static void nc_draw(mpdm_t doc)
 }
 
 
-static mpdm_t nc_drv_startup(mpdm_t v)
+static int nc_color_by_name(mpdm_t colorname)
 {
-	initscr();
-	start_color();
-	keypad(stdscr, TRUE);
-	nonl();
-	raw();
-	noecho();
+	static mpdm_t colornames = NULL;
+
+	if(colornames == NULL)
+	{
+		int n;
+		wchar_t * names[] = { L"default", L"black", L"red", L"green",
+			L"yellow", L"blue", L"magenta", L"cyan", L"white", NULL };
+
+		colornames = mpdm_ref(MPDM_H(0));
+
+		for(n = 0;names[n] != NULL;n++)
+			mpdm_hset(colornames, MPDM_S(names[n]), MPDM_I(n - 1));
+	}
+
+	return(mpdm_ival(mpdm_hget(colornames, colorname)));
+}
+
+
+static void build_colors(void)
+/* builds the colors */
+{
+	mpdm_t colors;
+	mpdm_t attr_names;
+	mpdm_t l;
+	mpdm_t c;
+	int n;
 
 #ifdef CONFOPT_TRANSPARENCY
 	use_default_colors();
@@ -269,32 +293,36 @@ static mpdm_t nc_drv_startup(mpdm_t v)
 
 #endif
 
-	init_pair(1, DEFAULT_INK, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_NORMAL] = COLOR_PAIR(1);
+	/* gets the color definitions and attribute names */
+	colors = mpdm_hget_s(mp, L"colors");
+	attr_names = mpdm_hget_s(mp, L"attr_names");
+	l = mpdm_keys(colors);
 
-	init_pair(2, DEFAULT_INK, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_CURSOR] = COLOR_PAIR(2) | A_REVERSE;
+	/* loop the colors */
+	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
+	{
+		int attr = mpdm_ival(mpdm_hget(attr_names, c));
+		mpdm_t d = mpdm_hget(colors, c);
+		mpdm_t p = mpdm_hget_s(d, L"text");
 
-	init_pair(3, COLOR_RED, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_SELECTION] = COLOR_PAIR(3) | A_REVERSE;
+		init_pair(n + 1, nc_color_by_name(mpdm_aget(p, 0)),
+				nc_color_by_name(mpdm_aget(p, 1)));
 
-	init_pair(4, COLOR_GREEN, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_COMMENTS] = COLOR_PAIR(4);
+		nc_attrs[attr] = COLOR_PAIR(n + 1);
+	}
+}
 
-	init_pair(5, COLOR_BLUE, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_QUOTES] = COLOR_PAIR(5) | A_BOLD;
 
-	init_pair(6, DEFAULT_INK, COLOR_CYAN);
-	nc_attrs[MP_ATTR_MATCHING] = COLOR_PAIR(6);
+static mpdm_t nc_drv_startup(mpdm_t v)
+{
+	initscr();
+	start_color();
+	keypad(stdscr, TRUE);
+	nonl();
+	raw();
+	noecho();
 
-	init_pair(7, COLOR_GREEN, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_WORD_1] = COLOR_PAIR(7) | A_BOLD;
-
-	init_pair(8, COLOR_RED, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_WORD_2] = COLOR_PAIR(8) | A_BOLD;
-
-	init_pair(9, COLOR_CYAN, DEFAULT_PAPER);
-	nc_attrs[MP_ATTR_TAG] = COLOR_PAIR(9) | A_UNDERLINE;
+	build_colors();
 
 	bkgdset(' ' | nc_attrs[MP_ATTR_NORMAL]);
 
