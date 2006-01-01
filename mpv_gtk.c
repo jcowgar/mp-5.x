@@ -120,6 +120,17 @@ static void build_fonts(void)
 }
 
 
+static void build_color(GdkColor * gdkcolor, int rgb)
+/* builds a color */
+{
+	gdkcolor->pixel = 0;
+	gdkcolor->blue  = (rgb & 0x000000ff) << 8;
+	gdkcolor->green = (rgb & 0x0000ff00);
+	gdkcolor->red   = (rgb & 0x00ff0000) >> 8;
+	gdk_color_alloc(gdk_colormap_get_system(), gdkcolor);
+}
+
+
 static void build_colors(void)
 /* builds the colors */
 {
@@ -140,34 +151,22 @@ static void build_colors(void)
 		int attr = mpdm_ival(mpdm_hget(attr_names, c));
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");
-		int m;
-		GdkColor * c;
 
-		c = &inks[attr];
-		m = mpdm_ival(mpdm_aget(v, 0));
-
-		c->pixel = 0;
-		c->blue = (m & 0x000000ff) << 8;
-		c->green = (m & 0x0000ff00);
-		c->red = (m & 0x00ff0000) >> 8;
-		gdk_color_alloc(gdk_colormap_get_system(), c);
-
-		c = &papers[attr];
-		m = mpdm_ival(mpdm_aget(v, 1));
-
-		c->pixel = 0;
-		c->blue = (m & 0x000000ff) << 8;
-		c->green = (m & 0x0000ff00);
-		c->red = (m & 0x00ff0000) >> 8;
-		gdk_color_alloc(gdk_colormap_get_system(), c);
+		build_color(&inks[attr], mpdm_ival(mpdm_aget(v, 0)));
+		build_color(&papers[attr], mpdm_ival(mpdm_aget(v, 1)));
 
 		/* flags */
 		v = mpdm_hget_s(d, L"flags");
-/*		if(mpdm_seek_s(v, L"reverse", 1) != -1) cp |= A_REVERSE;
-		if(mpdm_seek_s(v, L"bright", 1) != -1) cp |= A_BOLD;
-		if(mpdm_seek_s(v, L"underline", 1) != -1) cp |= A_UNDERLINE;
+		underlines[attr] = mpdm_seek_s(v, L"underline", 1) != -1 ? 1 : 0;
 
-		nc_attrs[attr] = cp;*/
+		if(mpdm_seek_s(v, L"reverse", 1) != -1)
+		{
+			GdkColor t;
+
+			t = inks[attr];
+			inks[attr] = papers[attr];
+			papers[attr] = t;
+		}
 	}
 }
 
@@ -231,37 +230,41 @@ static void gtk_drv_paint(mpdm_t doc)
 			str = mpdm_poke(str, &p, ptr, strlen(ptr), 1);
 			g_free(ptr);
 
-			/* create the attribute */
-			/*
-			pa = pango_attr_background_new(_papers[attr].red,
-				_papers[attr].green, _papers[attr].blue);
+			/* create the background if it's
+			   different from the default */
+			if(papers[attr].red != papers[MP_ATTR_NORMAL].red ||
+			   papers[attr].green != papers[MP_ATTR_NORMAL].green ||
+			   papers[attr].blue != papers[MP_ATTR_NORMAL].blue)
+			{
+				pa = pango_attr_background_new(
+					papers[attr].red, papers[attr].green,
+					papers[attr].blue);
 
-			pa->start_index = u;
-			pa->end_index = p;
+				pa->start_index = u;
+				pa->end_index = p;
 
-			pango_attr_list_insert(pal, pa);
-			*/
+				pango_attr_list_insert(pal, pa);
+			}
 
 			/* underline? */
-			/*
+			if(underlines[attr])
+			{
 				pa=pango_attr_underline_new(TRUE);
 
 				pa->start_index = u;
 				pa->end_index = p;
 
 				pango_attr_list_insert(pal, pa);
-			*/
+			}
 
 			/* foreground color */
-			/*
-			pa=pango_attr_foreground_new(_inks[color].red,
-				_inks[color].green, _inks[color].blue);
+			pa=pango_attr_foreground_new(inks[attr].red,
+				inks[attr].green, inks[attr].blue);
 
 			pa->start_index = u;
 			pa->end_index = p;
 
 			pango_attr_list_insert(pal, pa);
-			*/
 		}
 
 		/* store the attributes */
@@ -679,7 +682,7 @@ static mpdm_t gtk_drv_main_loop(mpdm_t a)
 
 int gtk_drv_init(void)
 {
-/*	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))*/
+	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))
 		return(0);
 
 	gtk_driver = mpdm_ref(MPDM_H(0));
