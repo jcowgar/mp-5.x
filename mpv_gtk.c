@@ -73,6 +73,7 @@ char * font_face = "Mono";
 /* the attributes */
 static GdkColor inks[MP_ATTR_SIZE];
 static GdkColor papers[MP_ATTR_SIZE];
+int underlines[MP_ATTR_SIZE];
 
 /*******************
 	Code
@@ -122,40 +123,52 @@ static void build_fonts(void)
 static void build_colors(void)
 /* builds the colors */
 {
-	GdkColor * c;
+	mpdm_t colors;
+	mpdm_t attr_names;
+	mpdm_t l;
+	mpdm_t c;
+	int n;
 
-	c = &papers[MP_ATTR_NORMAL];
+	/* gets the color definitions and attribute names */
+	colors = mpdm_hget_s(mp, L"colors");
+	attr_names = mpdm_hget_s(mp, L"attr_names");
+	l = mpdm_keys(colors);
 
-	c->pixel = 0;
-	c->blue = 0xffff;
-	c->green = 0xffff;
-	c->red = 0xffff;
-	gdk_color_alloc(gdk_colormap_get_system(), c);
+	/* loop the colors */
+	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
+	{
+		int attr = mpdm_ival(mpdm_hget(attr_names, c));
+		mpdm_t d = mpdm_hget(colors, c);
+		mpdm_t v = mpdm_hget_s(d, L"gui");
+		int m;
+		GdkColor * c;
 
-	c = &inks[MP_ATTR_NORMAL];
+		c = &inks[attr];
+		m = mpdm_ival(mpdm_aget(v, 0));
 
-	c->pixel = 0;
-	c->blue = 0;
-	c->green = 0;
-	c->red = 0;
-	gdk_color_alloc(gdk_colormap_get_system(), c);
+		c->pixel = 0;
+		c->blue = (m & 0x000000ff) << 8;
+		c->green = (m & 0x0000ff00);
+		c->red = (m & 0x00ff0000) >> 8;
+		gdk_color_alloc(gdk_colormap_get_system(), c);
 
-	c = &papers[MP_ATTR_CURSOR];
+		c = &papers[attr];
+		m = mpdm_ival(mpdm_aget(v, 1));
 
-	c->pixel = 0;
-	c->blue = 0;
-	c->green = 0;
-	c->red = 0;
-	gdk_color_alloc(gdk_colormap_get_system(), c);
+		c->pixel = 0;
+		c->blue = (m & 0x000000ff) << 8;
+		c->green = (m & 0x0000ff00);
+		c->red = (m & 0x00ff0000) >> 8;
+		gdk_color_alloc(gdk_colormap_get_system(), c);
 
-	c = &inks[MP_ATTR_CURSOR];
+		/* flags */
+		v = mpdm_hget_s(d, L"flags");
+/*		if(mpdm_seek_s(v, L"reverse", 1) != -1) cp |= A_REVERSE;
+		if(mpdm_seek_s(v, L"bright", 1) != -1) cp |= A_BOLD;
+		if(mpdm_seek_s(v, L"underline", 1) != -1) cp |= A_UNDERLINE;
 
-	c->pixel = 0;
-	c->blue = 0xffff;
-	c->green = 0xffff;
-	c->red = 0xffff;
-	gdk_color_alloc(gdk_colormap_get_system(), c);
-
+		nc_attrs[attr] = cp;*/
+	}
 }
 
 
