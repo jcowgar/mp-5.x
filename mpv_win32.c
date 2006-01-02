@@ -256,14 +256,9 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 
 	/* select defaults to start painting */
 	SelectObject(hdc, font_normal);
-	SetTextColor(hdc, inks[MP_ATTR_NORMAL]);
-	SetBkColor(hdc, papers[MP_ATTR_NORMAL]);
 
 	GetClientRect(hwnd, &rect);
 	r2 = rect;
-
-	/* fill the background */
-	FillRect(hdc, &rect, bgbrush);
 
 	r2.top += tab_height;
 	r2.bottom = r2.top + font_height;
@@ -272,7 +267,7 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 	{
 		mpdm_t l = mpdm_aget(d, n);
 
-		r2.left = r2.right = rect.left;
+		r2.left = rect.left;
 
 		for(m = 0;m < mpdm_size(l);m++)
 		{
@@ -291,14 +286,14 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 				color==MP_COLOR_LOCAL ? _font_underline :
 				_font_normal);
 */
-			r2.right += mpdm_size(s) * font_width;
-
 /*			DrawTextW(hdc, (wchar_t *)s->data,
 				-1, &r2, DT_SINGLELINE|DT_NOPREFIX);*/
 			TextOutW(hdc, r2.left, r2.top, s->data, mpdm_size(s));
-
-			r2.left = r2.right;
+			r2.left += mpdm_size(s) * font_width;
 		}
+
+		/* fills the rest of the line */
+		FillRect(hdc, &r2, bgbrush);
 
 		r2.top += font_height;
 		r2.bottom += font_height;
