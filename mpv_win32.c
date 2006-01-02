@@ -66,6 +66,7 @@ int is_wm_keydown = 0;
 /* colors */
 static COLORREF inks[MP_ATTR_SIZE];
 static COLORREF papers[MP_ATTR_SIZE];
+HBRUSH bgbrush;
 
 /*******************
 	Code
@@ -163,6 +164,9 @@ static void build_colors(void)
 			papers[attr] = t;
 		}
 	}
+
+	/* create the background brush */
+	bgbrush = CreateSolidBrush(papers[MP_ATTR_NORMAL]);
 }
 
 
@@ -257,6 +261,9 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 
 	GetClientRect(hwnd, &rect);
 	r2 = rect;
+
+	/* fill the background */
+	FillRect(hdc, &rect, bgbrush);
 
 	r2.top += tab_height;
 	r2.bottom = r2.top + font_height;
