@@ -38,7 +38,7 @@ mp-4: $(OBJS) $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 mp_res.o: mp_res.rc
 	$(WINDRES) mp_res.rc mp_res.o
 
-wmp.exe: $(OBJS) mp_res.o
+wmp.exe: $(OBJS) mp_res.o $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 	$(CC) $(CFLAGS) $(OBJS) mp_res.o `cat config.ldflags` -o $@
 
 clean:
