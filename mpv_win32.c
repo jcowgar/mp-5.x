@@ -293,9 +293,9 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 */
 			r2.right += mpdm_size(s) * font_width;
 
-			DrawTextW(hdc, (wchar_t *)s->data,
-				-1, &r2, DT_SINGLELINE|DT_NOPREFIX);
-/*			TextOutW(hdc, r2.left, r2.top, s->data, mpdm_size(s));*/
+/*			DrawTextW(hdc, (wchar_t *)s->data,
+				-1, &r2, DT_SINGLELINE|DT_NOPREFIX);*/
+			TextOutW(hdc, r2.left, r2.top, s->data, mpdm_size(s));
 
 			r2.left = r2.right;
 		}
