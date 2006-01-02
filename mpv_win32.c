@@ -51,8 +51,8 @@ mpdm_t win32_window = NULL;
 HINSTANCE hinst;
 
 /* the windows */
-HWND hwnd;
-HWND hwtabs;
+HWND hwnd = NULL;
+HWND hwtabs = NULL;
 
 /* font handlers and metrics */
 HFONT font_normal = NULL;
@@ -178,7 +178,7 @@ static void draw_filetabs(void)
 	mpdm_t docs;
 
 	/* gets the document list */
-	if((docs = mpdm_hget_s(mp, L"docs")) == NULL)
+	if(hwtabs == NULL || (docs = mpdm_hget_s(mp, L"docs")) == NULL)
 		return;
 
 	/* gets the active document number */
