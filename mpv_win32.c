@@ -63,6 +63,10 @@ int tab_height = 28;
 
 int is_wm_keydown = 0;
 
+/* colors */
+static COLORREF inks[MP_ATTR_SIZE];
+static COLORREF papers[MP_ATTR_SIZE];
+
 /*******************
 	Code
 ********************/
@@ -112,6 +116,53 @@ static void build_fonts(HDC hdc)
 	font_width = tm.tmAveCharWidth;
 
 	update_window_size();
+}
+
+
+static void build_colors(void)
+/* builds the colors */
+{
+	mpdm_t colors;
+	mpdm_t attr_names;
+	mpdm_t l;
+	mpdm_t c;
+	int n;
+
+	/* gets the color definitions and attribute names */
+	colors = mpdm_hget_s(mp, L"colors");
+	attr_names = mpdm_hget_s(mp, L"attr_names");
+	l = mpdm_keys(colors);
+
+	/* loop the colors */
+	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
+	{
+		int attr = mpdm_ival(mpdm_hget(attr_names, c));
+		mpdm_t d = mpdm_hget(colors, c);
+		mpdm_t v = mpdm_hget_s(d, L"gui");
+		int m;
+
+		m = mpdm_ival(mpdm_aget(v, 0));
+		inks[attr] = ((m & 0x000000ff) << 16)|
+			 ((m & 0x0000ff00)) |
+			 ((m & 0x00ff0000) >> 16);
+		m = mpdm_ival(mpdm_aget(v, 1));
+		papers[attr] = ((m & 0x000000ff) << 16)|
+			 ((m & 0x0000ff00)) |
+			 ((m & 0x00ff0000) >> 16);
+
+		/* flags */
+		v = mpdm_hget_s(d, L"flags");
+/*		underlines[attr] = mpdm_seek_s(v, L"underline", 1) != -1 ? 1 : 0;
+*/
+		if(mpdm_seek_s(v, L"reverse", 1) != -1)
+		{
+			COLORREF t;
+
+			t = inks[attr];
+			inks[attr] = papers[attr];
+			papers[attr] = t;
+		}
+	}
 }
 
 
@@ -194,16 +245,15 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 
 	/* no font? construct it */
 	if(font_normal == NULL)
+	{
 		build_fonts(hdc);
+		build_colors();
+	}
 
 	/* select defaults to start painting */
 	SelectObject(hdc, font_normal);
-	SetTextColor(hdc, 0x00000000);
-	SetBkColor(hdc, 0x00ffffff);
-/*
-	r2.top += _tab_height;
-	r2.bottom = r2.top + _mpv_font_height;
-*/
+	SetTextColor(hdc, inks[MP_ATTR_NORMAL]);
+	SetBkColor(hdc, papers[MP_ATTR_NORMAL]);
 
 	GetClientRect(hwnd, &rect);
 	r2 = rect;
@@ -226,9 +276,9 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 			attr = mpdm_ival(mpdm_aget(l, m++));
 			s = mpdm_aget(l, m);
 
-/*			SetTextColor(hdc,_inks[attr]);
-			SetBkColor(hdc,_papers[attr]);
-
+			SetTextColor(hdc, inks[attr]);
+			SetBkColor(hdc, papers[attr]);
+/*
 			SelectObject(hdc, color==MP_COLOR_COMMENT ?
 				_font_italic :
 				color==MP_COLOR_LOCAL ? _font_underline :
