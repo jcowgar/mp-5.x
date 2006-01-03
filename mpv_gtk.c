@@ -389,7 +389,6 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		}
 	}
 	else
-	if(event->keyval > 256)
 	{
 		switch(event->keyval)
 		{
@@ -401,6 +400,7 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		case GDK_Next:		ptr = L"page-down"; break;
 		case GDK_Home:		ptr = L"home"; break;
 		case GDK_End:		ptr = L"end"; break;
+		case GDK_space:		ptr = L"space"; break;
 		case GDK_KP_Add:	ptr = L"kp-plus"; break;
 		case GDK_KP_Subtract:	ptr = L"kp-minus"; break;
 		case GDK_KP_Multiply:	ptr = L"kp-multiply"; break;
@@ -428,14 +428,14 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	}
 
 	/* if there is a pending char in im_char, use it */
-	if(im_char[0] != L'\0')
+	if(ptr == NULL && im_char[0] != L'\0')
 		ptr = im_char;
 
-	/* process it */
+	/* finally process */
 	if(ptr != NULL)
 		mp_process_event(MPDM_S(ptr));
 
-	/* flush pending chars */
+	/* delete the pending char */
 	im_char[0] = L'\0';
 
 	if(mp_exit_requested)

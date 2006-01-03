@@ -444,6 +444,7 @@ static void win32_akey(int k)
 	case ctrl('x'):		ptr = L"ctrl-x"; break;
 	case ctrl('y'):		ptr = L"ctrl-y"; break;
 	case ctrl('z'):		ptr = L"ctrl-z"; break;
+	case ' ':		ptr = L"space"; break;
 
 	default:
 		/* this is probably very bad */
