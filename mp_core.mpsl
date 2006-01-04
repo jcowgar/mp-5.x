@@ -675,6 +675,8 @@ mp.keycodes = {
 	'page-down'	=>	'move-pgdn',
 	'home'		=>	'move-bol',
 	'end'		=>	'move-eol',
+	'ctrl-home'	=>	'move-bof',
+	'ctrl-end'	=>	'move-eof',
 
 	'enter'		=>	'insert-line',
 	'tab'		=>	'insert-tab',
@@ -724,6 +726,8 @@ mp.actions = {
 	'move-pgdn'	=>	sub (k) { mp.move_pgdn(k); },
 	'move-bol'	=>	sub (k) { mp.move_bol(k); },
 	'move-eol'	=>	sub (k) { mp.move_eol(k); },
+	'move-bof'	=>	sub (k) { mp.move_bof(k); },
+	'move-eof'	=>	sub (k) { mp.move_eof(k); },
 
 	'unmark'	=>	sub (k) { mp.unmark(k); },
 	'mark'		=>	sub (k) { mp.mark(k); },
