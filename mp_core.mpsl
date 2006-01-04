@@ -789,7 +789,7 @@ sub mp.process_event(k)
 }
 
 
-sub process_cmdline()
+sub mp.process_cmdline()
 /* process the command line arguments (ARGV) */
 {
 	local o;
@@ -819,6 +819,14 @@ sub process_cmdline()
 }
 
 
-process_cmdline();
+sub mp.ui()
+/* wrapper for mp.drv.ui */
+{
+	mp.drv.ui();
+}
 
-mp.drv.ui();
+
+/** MAIN **/
+
+mp.process_cmdline();
+mp.ui();
