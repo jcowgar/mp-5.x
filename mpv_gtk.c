@@ -680,6 +680,8 @@ static mpdm_t gtk_drv_ui(mpdm_t a)
 	gtk_drv_startup();
 	gtk_drv_main_loop();
 	gtk_drv_shutdown();
+
+	return(NULL);
 }
 
 
