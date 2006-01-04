@@ -529,7 +529,7 @@ static gint configure_event(GtkWidget * widget, GdkEventConfigure * event)
 }
 
 
-static mpdm_t gtk_drv_startup(mpdm_t a)
+static void gtk_drv_startup(void)
 {
 	GtkWidget * vbox;
 	GtkWidget * hbox;
@@ -661,22 +661,25 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 	pixmap = gdk_pixmap_create_from_xpm_d(window->window,
 		&mask, NULL, mp_xpm);
 	gdk_window_set_icon(window->window, NULL, pixmap, mask);
-
-	return(NULL);
 }
 
 
-static mpdm_t gtk_drv_shutdown(mpdm_t a)
-{
-	return(NULL);
-}
-
-
-static mpdm_t gtk_drv_main_loop(mpdm_t a)
+static void gtk_drv_main_loop(void)
 {
 	gtk_main();
+}
 
-	return(NULL);
+
+static void gtk_drv_shutdown(void)
+{
+}
+
+
+static mpdm_t gtk_drv_ui(mpdm_t a)
+{
+	gtk_drv_startup();
+	gtk_drv_main_loop();
+	gtk_drv_shutdown();
 }
 
 
@@ -687,10 +690,7 @@ int gtk_drv_init(void)
 
 	gtk_driver = mpdm_ref(MPDM_H(0));
 
-	mpdm_hset_s(gtk_driver, L"driver", MPDM_LS(L"gtk"));
-	mpdm_hset_s(gtk_driver, L"startup", MPDM_X(gtk_drv_startup));
-	mpdm_hset_s(gtk_driver, L"main_loop", MPDM_X(gtk_drv_main_loop));
-	mpdm_hset_s(gtk_driver, L"shutdown", MPDM_X(gtk_drv_shutdown));
+	mpdm_hset_s(gtk_driver, L"ui", MPDM_X(gtk_drv_ui));
 
 	gtk_window = MPDM_H(0);
 	mpdm_hset_s(gtk_driver, L"window", gtk_window);

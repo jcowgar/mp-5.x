@@ -821,6 +821,4 @@ sub process_cmdline()
 
 process_cmdline();
 
-mp.drv.startup();
-mp.drv.main_loop();
-mp.drv.shutdown();
+mp.drv.ui();

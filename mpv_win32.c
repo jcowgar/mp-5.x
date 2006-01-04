@@ -614,7 +614,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 }
 
 
-static mpdm_t win32_drv_startup(mpdm_t a)
+static void win32_drv_startup(void)
 {
 	WNDCLASS wc;
 	RECT r;
@@ -667,20 +667,10 @@ static mpdm_t win32_drv_startup(mpdm_t a)
 	UpdateWindow(hwtabs);
 
 	redraw();
-
-	return(NULL);
 }
 
 
-static mpdm_t win32_drv_shutdown(mpdm_t a)
-{
-	SendMessage(hwnd, WM_CLOSE, 0, 0);
-
-	return(NULL);
-}
-
-
-static mpdm_t win32_drv_main_loop(mpdm_t a)
+static void win32_drv_main_loop(void)
 {
 	MSG msg;
 
@@ -689,6 +679,20 @@ static mpdm_t win32_drv_main_loop(mpdm_t a)
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+}
+
+
+static void win32_drv_shutdown(void)
+{
+	SendMessage(hwnd, WM_CLOSE, 0, 0);
+}
+
+
+static mpdm_t win32_drv_ui(mpdm_t a)
+{
+	win32_drv_startup();
+	win32_drv_main_loop();
+	win32_drv_shutdown();
 
 	return(NULL);
 }
@@ -699,9 +703,7 @@ int win32_drv_init(void)
 	win32_driver = mpdm_ref(MPDM_H(0));
 
 	mpdm_hset_s(win32_driver, L"driver", MPDM_LS(L"win32"));
-	mpdm_hset_s(win32_driver, L"startup", MPDM_X(win32_drv_startup));
-	mpdm_hset_s(win32_driver, L"main_loop", MPDM_X(win32_drv_main_loop));
-	mpdm_hset_s(win32_driver, L"shutdown", MPDM_X(win32_drv_shutdown));
+	mpdm_hset_s(win32_driver, L"ui", MPDM_X(win32_drv_ui));
 
 	win32_window = MPDM_H(0);
 	mpdm_hset_s(win32_driver, L"window", win32_window);

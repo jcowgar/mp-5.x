@@ -322,7 +322,7 @@ static void build_colors(void)
 }
 
 
-static mpdm_t nc_drv_startup(mpdm_t v)
+static void nc_drv_startup(void)
 {
 	initscr();
 	start_color();
@@ -341,12 +341,10 @@ static mpdm_t nc_drv_startup(mpdm_t v)
 	mpdm_hset_s(nc_driver, L"window", nc_window);
 
 	signal(SIGWINCH, nc_sigwinch);
-
-	return(NULL);
 }
 
 
-mpdm_t nc_drv_main_loop(mpdm_t a)
+static void nc_drv_main_loop(void)
 /* curses driver main loop */
 {
 	while(! mp_exit_requested)
@@ -357,14 +355,21 @@ mpdm_t nc_drv_main_loop(mpdm_t a)
 		/* get key and process it */
 		mp_process_event(nc_getkey());
 	}
-
-	return(NULL);
 }
 
 
-static mpdm_t nc_drv_shutdown(mpdm_t v)
+static void nc_drv_shutdown(void)
 {
 	endwin();
+}
+
+
+static mpdm_t nc_drv_ui(mpdm_t v)
+{
+	nc_drv_startup();
+	nc_drv_main_loop();
+	nc_drv_shutdown();
+
 	return(NULL);
 }
 
@@ -374,9 +379,7 @@ int curses_drv_init(void)
 	nc_driver = mpdm_ref(MPDM_H(0));
 
 	mpdm_hset_s(nc_driver, L"driver", MPDM_LS(L"curses"));
-	mpdm_hset_s(nc_driver, L"startup", MPDM_X(nc_drv_startup));
-	mpdm_hset_s(nc_driver, L"main_loop", MPDM_X(nc_drv_main_loop));
-	mpdm_hset_s(nc_driver, L"shutdown", MPDM_X(nc_drv_shutdown));
+	mpdm_hset_s(nc_driver, L"ui", MPDM_X(nc_drv_ui));
 
 	mpdm_hset_s(mp, L"drv", nc_driver);
 
