@@ -209,13 +209,13 @@ static mpdm_t nc_getkey(void)
 		case KEY_END:		f = L"end"; break;
 		case KEY_IC:		f = L"insert"; break;
 		case KEY_DC:		f = L"delete"; break;
-		case 0x7b:
+		case 0x7f:
 		case KEY_BACKSPACE:
-		case '\b':		f = L"backspace"; break;
-		case '\r':
+		case L'\b':		f = L"backspace"; break;
+		case L'\r':
 		case KEY_ENTER:		f = L"enter"; break;
-		case '\t':		f = L"tab"; break;
-		case ' ':		f = L"space"; break;
+		case L'\t':		f = L"tab"; break;
+		case L' ':		f = L"space"; break;
 		case KEY_F(1):		f = L"f1"; break;
 		case KEY_F(2):		f = L"f2"; break;
 		case KEY_F(3):		f = L"f3"; break;
