@@ -694,7 +694,7 @@ static void win32_drv_startup(void)
 	wc.lpszClassName = "minimumprofit5.x";
 
 	if(!RegisterClass(&wc))
-		return(NULL);
+		return;
 
 	/* create the window */
 	hwnd = CreateWindow("minimumprofit5.x", "mp " VERSION,
@@ -705,7 +705,7 @@ static void win32_drv_startup(void)
 		NULL, NULL, hinst, NULL);
 
 	if(hwnd == NULL)
-		return(NULL);
+		return;
 
 /*	mpv_add_menu("");
 
@@ -764,8 +764,10 @@ int win32_drv_init(void)
 
 	mpdm_hset_s(win32_driver, L"driver", MPDM_LS(L"win32"));
 	mpdm_hset_s(win32_driver, L"ui", MPDM_X(win32_drv_ui));
-	mpdm_hset_s(gtk_driver, L"clip_to_sys", MPDM_X(win32_drv_clip_to_sys));
-	mpdm_hset_s(gtk_driver, L"sys_to_clip", MPDM_X(win32_drv_sys_to_clip));
+	mpdm_hset_s(win32_driver, L"clip_to_sys",
+				MPDM_X(win32_drv_clip_to_sys));
+	mpdm_hset_s(win32_driver, L"sys_to_clip",
+				MPDM_X(win32_drv_sys_to_clip));
 
 	win32_window = MPDM_H(0);
 	mpdm_hset_s(win32_driver, L"window", win32_window);
