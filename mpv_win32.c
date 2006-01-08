@@ -614,6 +614,66 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 }
 
 
+static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
+/* driver-dependent mp to system clipboard */
+{
+	HGLOBAL hclp;
+	mpdm_t d;
+	char * ptr;
+	char * clpptr;
+	int s;
+
+	/* convert the clipboard to DOS text */
+	d = mpdm_hget_s(mp, L"clipboard");
+	d = mpdm_join(MPDM_LS(L"\r\n"), d);
+	ptr = mpdm_wcstombs(d->data, &s);
+
+	/* allocates a handle and copies */
+	hclp = GlobalAlloc(GHND, s + 1);
+	clpptr = (char *)GlobalLock(hclp);
+	memcpy(clpptr, ptr, s);
+	clpptr[s] = '\0';
+	GlobalUnlock(hclp);
+
+	free(ptr);
+
+	OpenClipboard(NULL);
+	EmptyClipboard();
+	SetClipboardData(CF_TEXT, hclp);
+	CloseClipboard();
+
+	return(NULL);
+}
+
+
+static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
+/* driver-dependent system to mp clipboard */
+{
+	HGLOBAL hclp;
+	char * ptr;
+
+	OpenClipboard(NULL);
+	hclp = GetClipboardData(CF_TEXT);
+	CloseClipboard();
+
+	if(hclp && (ptr = GlobalLock(hclp)) != NULL)
+	{
+		mpdm_t d;
+
+		/* create a value and split */
+		d = MPDM_MBS(ptr);
+		d = mpdm_split(MPDM_LS(L"\r\n"), d);
+
+		/* and set as the clipboard */
+		mpdm_hset_s(mp, L"clipboard", d);
+
+		GlobalUnlock(hclp);
+	}
+
+	return(NULL);
+}
+
+
 static void win32_drv_startup(void)
 {
 	WNDCLASS wc;
@@ -704,6 +764,8 @@ int win32_drv_init(void)
 
 	mpdm_hset_s(win32_driver, L"driver", MPDM_LS(L"win32"));
 	mpdm_hset_s(win32_driver, L"ui", MPDM_X(win32_drv_ui));
+	mpdm_hset_s(gtk_driver, L"clip_to_sys", MPDM_X(win32_drv_clip_to_sys));
+	mpdm_hset_s(gtk_driver, L"sys_to_clip", MPDM_X(win32_drv_sys_to_clip));
 
 	win32_window = MPDM_H(0);
 	mpdm_hset_s(win32_driver, L"window", win32_window);

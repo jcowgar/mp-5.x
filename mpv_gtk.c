@@ -588,7 +588,7 @@ static void selection_received(GtkWidget * widget,
 }
 
 
-static mpdm_t clip_to_sys(mpdm_t a)
+static mpdm_t gtk_drv_clip_to_sys(mpdm_t a)
 /* driver-dependent mp to system clipboard */
 {
 	got_selection = gtk_selection_owner_set(area,
@@ -598,7 +598,7 @@ static mpdm_t clip_to_sys(mpdm_t a)
 }
 
 
-static mpdm_t sys_to_clip(mpdm_t a)
+static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
 /* driver-dependent system to mp clipboard */
 {
 	if(!got_selection)
@@ -788,8 +788,8 @@ int gtk_drv_init(void)
 	gtk_driver = mpdm_ref(MPDM_H(0));
 
 	mpdm_hset_s(gtk_driver, L"ui", MPDM_X(gtk_drv_ui));
-	mpdm_hset_s(gtk_driver, L"clip_to_sys", MPDM_X(clip_to_sys));
-	mpdm_hset_s(gtk_driver, L"sys_to_clip", MPDM_X(sys_to_clip));
+	mpdm_hset_s(gtk_driver, L"clip_to_sys", MPDM_X(gtk_drv_clip_to_sys));
+	mpdm_hset_s(gtk_driver, L"sys_to_clip", MPDM_X(gtk_drv_sys_to_clip));
 
 	gtk_window = MPDM_H(0);
 	mpdm_hset_s(gtk_driver, L"window", gtk_window);
