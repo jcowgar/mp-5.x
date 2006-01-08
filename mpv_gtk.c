@@ -49,31 +49,34 @@
 ********************/
 
 /* the driver */
-mpdm_t gtk_driver = NULL;
-mpdm_t gtk_window = NULL;
+static mpdm_t gtk_driver = NULL;
+static mpdm_t gtk_window = NULL;
 
 /* global data */
-GtkWidget * window = NULL;
-GtkWidget * area = NULL;
-GtkWidget * scrollbar = NULL;
-GdkGC * gc = NULL;
-GtkIMContext * im = NULL;
-GdkPixmap * pixmap = NULL;
+static GtkWidget * window = NULL;
+static GtkWidget * area = NULL;
+static GtkWidget * scrollbar = NULL;
+static GdkGC * gc = NULL;
+static GtkIMContext * im = NULL;
+static GdkPixmap * pixmap = NULL;
 
 /* character read from the keyboard */
 static wchar_t im_char[2];
 
 /* font information */
-int font_width = 0;
-int font_height = 0;
-PangoFontDescription * font = NULL;
-int font_size = 14;
-char * font_face = "Mono";
+static int font_width = 0;
+static int font_height = 0;
+static PangoFontDescription * font = NULL;
+static int font_size = 14;
+static char * font_face = "Mono";
 
 /* the attributes */
 static GdkColor inks[MP_ATTR_SIZE];
 static GdkColor papers[MP_ATTR_SIZE];
-int underlines[MP_ATTR_SIZE];
+static int underlines[MP_ATTR_SIZE];
+
+/* true if we got selection */
+static int got_selection = 0;
 
 /*******************
 	Code
@@ -529,6 +532,70 @@ static gint configure_event(GtkWidget * widget, GdkEventConfigure * event)
 }
 
 
+static gint selection_clear_event(GtkWidget * widget,
+	GdkEventSelection * event, gpointer data)
+/* 'selection_clear_event' handler */
+{
+	got_selection = 0;
+
+	return(TRUE);
+}
+
+
+static void selection_get(GtkWidget * widget,
+	GtkSelectionData * sel, guint info, guint tm, gpointer data)
+/* 'selection_get' handler */
+{
+#ifdef QQ
+        char * ptr;
+        int n,c;
+
+        if(!_mpv_selection) return;
+        if(_mp_clipboard == NULL) return;
+
+        /* counts first the number of bytes in the clipboard */
+        mp_move_bof(_mp_clipboard);
+        for(n=0;(c=mp_get_char(_mp_clipboard))!='\0';n++);
+
+        /* get buffer */
+        if((ptr=(char *)malloc(n))==NULL) return;
+
+        /* transfer */
+        mp_move_bof(_mp_clipboard);
+        for(n=0;(c=mp_get_char(_mp_clipboard))!='\0';n++)
+                ptr[n]=c;
+
+        /* pastes into primary selection */
+        gtk_selection_data_set(sel, GDK_SELECTION_TYPE_STRING, 8,
+                (unsigned char *) ptr, n);
+
+        free(ptr);
+#endif
+}
+
+
+static void selection_received(GtkWidget * widget,
+	GtkSelectionData * sel, guint tm, gpointer data)
+/* 'selection_received' handler */
+{
+#ifdef QQ
+        int n;
+
+        mp_lock_clipboard(1);
+
+        for(n=0;n < sel->length;n++)
+        {
+                mp_put_char(_mp_clipboard,sel->data[n],1);
+                mp_put_char(_mp_active,sel->data[n],1);
+        }
+
+        mp_lock_clipboard(0);
+
+        mpi_draw_all(_mp_active);
+#endif
+}
+
+
 static void gtk_drv_startup(void)
 {
 	GtkWidget * vbox;
@@ -582,18 +649,20 @@ static void gtk_drv_startup(void)
 
 	gtk_signal_connect(GTK_OBJECT(area),"button_press_event",
 		(GtkSignalFunc) button_press_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area), "selection_clear_event",
+		(GtkSignalFunc) selection_clear_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area), "selection_get",
+		(GtkSignalFunc) selection_get, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area), "selection_received",
+		(GtkSignalFunc) selection_received, NULL);
+
 /*
 	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
 		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area), "selection_clear_event",
-		GTK_SIGNAL_FUNC(_mpv_selection_clear_callback), NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area), "selection_get",
-		GTK_SIGNAL_FUNC(_mpv_selection_get_callback), NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area), "selection_received",
-		GTK_SIGNAL_FUNC(_mpv_selection_received_callback), NULL);
 
 #if GTK_MAJOR_VERSION >= 2
 
