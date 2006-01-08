@@ -731,9 +731,21 @@ mp.actions = {
 
 	'unmark'	=>	sub (k) { mp.unmark(k); },
 	'mark'		=>	sub (k) { mp.mark(k); },
-	'copy-mark'	=>	sub (k) { mp.copy(k); mp.unmark(k); },
-	'paste-mark'	=>	sub (k) { mp.store_undo(k); mp.paste(k); },
-	'cut-mark'	=>	sub (k) { mp.store_undo(k); mp.cut(k); },
+	'copy-mark'	=>	sub (k) {
+						mp.copy(k);
+						mp.unmark(k);
+						mp.drv.clip_to_sys();
+					},
+	'paste-mark'	=>	sub (k) {
+						mp.store_undo(k);
+						mp.drv.sys_to_clip();
+						mp.paste(k);
+					},
+	'cut-mark'	=>	sub (k) {
+						mp.store_undo(k);
+						mp.cut(k);
+						mp.drv.clip_to_sys();
+					},
 
 	'insert-line'	=>	sub (k) { mp.store_undo(k); mp.break_line(k); },
 	'delete-line'	=>	sub (k) { mp.store_undo(k); mp.delete_line(k); },

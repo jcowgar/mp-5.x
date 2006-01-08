@@ -75,8 +75,11 @@ static GdkColor inks[MP_ATTR_SIZE];
 static GdkColor papers[MP_ATTR_SIZE];
 static int underlines[MP_ATTR_SIZE];
 
-/* true if we got selection */
+/* true if the selection is ours */
 static int got_selection = 0;
+
+/* hack for active waiting for the selection */
+static int wait_for_selection = 0;
 
 /*******************
 	Code
@@ -557,39 +560,14 @@ static void selection_get(GtkWidget * widget,
 	d = mpdm_join(MPDM_LS(L"\n"), d);
 
 	/* converts to UTF-8 */
-	ptr = (unsigned char *) g_convert(d->data, -1,
+	ptr = (unsigned char *) g_convert(d->data,
+		mpdm_size(d) * sizeof(wchar_t),
 		"UTF-8", "WCHAR_T", NULL, &s, NULL);
 
         /* pastes into primary selection */
         gtk_selection_data_set(sel, GDK_SELECTION_TYPE_STRING, 8, ptr, s);
 
 	g_free(ptr);
-
-#ifdef QQ
-        char * ptr;
-        int n,c;
-
-        if(!_mpv_selection) return;
-        if(_mp_clipboard == NULL) return;
-
-        /* counts first the number of bytes in the clipboard */
-        mp_move_bof(_mp_clipboard);
-        for(n=0;(c=mp_get_char(_mp_clipboard))!='\0';n++);
-
-        /* get buffer */
-        if((ptr=(char *)malloc(n))==NULL) return;
-
-        /* transfer */
-        mp_move_bof(_mp_clipboard);
-        for(n=0;(c=mp_get_char(_mp_clipboard))!='\0';n++)
-                ptr[n]=c;
-
-        /* pastes into primary selection */
-        gtk_selection_data_set(sel, GDK_SELECTION_TYPE_STRING, 8,
-                (unsigned char *) ptr, n);
-
-        free(ptr);
-#endif
 }
 
 
@@ -605,7 +583,42 @@ static void selection_received(GtkWidget * widget,
 	/* split and set as the clipboard */
 	mpdm_hset_s(mp, L"clipboard", mpdm_split(MPDM_LS(L"\n"), d));
 
-	redraw();
+	/* wait no more for the selection */
+	wait_for_selection = 0;
+}
+
+
+static mpdm_t clip_to_sys(mpdm_t a)
+/* driver-dependent mp to system clipboard */
+{
+	got_selection = gtk_selection_owner_set(area,
+		GDK_SELECTION_PRIMARY, GDK_CURRENT_TIME);
+
+	return(NULL);
+}
+
+
+static mpdm_t sys_to_clip(mpdm_t a)
+/* driver-dependent system to mp clipboard */
+{
+	if(!got_selection)
+	{
+		/* triggers a selection capture */
+		if(gtk_selection_convert(area, GDK_SELECTION_PRIMARY,
+			gdk_atom_intern("STRING", FALSE),
+			GDK_CURRENT_TIME))
+		{
+
+			/* processes the pending events
+			   (i.e., the 'selection_received' handler) */
+			wait_for_selection = 1;
+
+			while(wait_for_selection)
+				gtk_main_iteration();
+		}
+	}
+
+	return(NULL);
 }
 
 
@@ -775,6 +788,8 @@ int gtk_drv_init(void)
 	gtk_driver = mpdm_ref(MPDM_H(0));
 
 	mpdm_hset_s(gtk_driver, L"ui", MPDM_X(gtk_drv_ui));
+	mpdm_hset_s(gtk_driver, L"clip_to_sys", MPDM_X(clip_to_sys));
+	mpdm_hset_s(gtk_driver, L"sys_to_clip", MPDM_X(sys_to_clip));
 
 	gtk_window = MPDM_H(0);
 	mpdm_hset_s(gtk_driver, L"window", gtk_window);
