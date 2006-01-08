@@ -546,6 +546,25 @@ static void selection_get(GtkWidget * widget,
 	GtkSelectionData * sel, guint info, guint tm, gpointer data)
 /* 'selection_get' handler */
 {
+	mpdm_t d;
+	unsigned char * ptr;
+	gsize s;
+
+	if(!got_selection) return;
+
+	/* gets the keyboard and joins */
+	d = mpdm_hget_s(mp, L"clipboard");
+	d = mpdm_join(MPDM_LS(L"\n"), d);
+
+	/* converts to UTF-8 */
+	ptr = (unsigned char *) g_convert(d->data, -1,
+		"UTF-8", "WCHAR_T", NULL, &s, NULL);
+
+        /* pastes into primary selection */
+        gtk_selection_data_set(sel, GDK_SELECTION_TYPE_STRING, 8, ptr, s);
+
+	g_free(ptr);
+
 #ifdef QQ
         char * ptr;
         int n,c;
@@ -578,21 +597,15 @@ static void selection_received(GtkWidget * widget,
 	GtkSelectionData * sel, guint tm, gpointer data)
 /* 'selection_received' handler */
 {
-#ifdef QQ
-        int n;
+	mpdm_t d;
 
-        mp_lock_clipboard(1);
+	/* get selection */
+	d = MPDM_NMBS((char *)sel->data, sel->length);
 
-        for(n=0;n < sel->length;n++)
-        {
-                mp_put_char(_mp_clipboard,sel->data[n],1);
-                mp_put_char(_mp_active,sel->data[n],1);
-        }
+	/* split and set as the clipboard */
+	mpdm_hset_s(mp, L"clipboard", mpdm_split(MPDM_LS(L"\n"), d));
 
-        mp_lock_clipboard(0);
-
-        mpi_draw_all(_mp_active);
-#endif
+	redraw();
 }
 
 
