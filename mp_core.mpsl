@@ -37,9 +37,6 @@ mp.config.auto_indent = 0;
 mp.docs = [];
 mp.active = 0;
 
-load("mp_tags.mpsl");
-load("mp_syntax.mpsl");
-
 /*******************
 	Code
 ********************/
@@ -666,6 +663,33 @@ sub mp.open(filename)
 
 /*******************************************************/
 
+mp.colors = {
+	'normal' => {		'text'	=> [ 'default', 'default' ],
+				'gui'	=> [ 0x000000, 0xffffff ] },
+	'cursor' => {		'text'	=> [ 'default', 'default' ],
+				'gui'	=> [ 0x000000, 0xffffff ],
+				'flags' => [ 'reverse' ] },
+	'selection' => {	'text'	=> [ 'red', 'default' ],
+				'gui'	=> [ 0xff0000, 0xffffff ],
+				'flags'	=> [ 'reverse'] },
+	'comments' => {		'text'	=> [ 'green', 'default' ],
+				'gui'	=> [ 0x00cc77, 0xffffff ] },
+	'quotes' => {		'text'	=> [ 'blue', 'default' ],
+				'gui'	=> [ 0x0000ff, 0xffffff ],
+				'flags'	=> [ 'bright' ] },
+	'matching' => {		'text'	=> [ 'black', 'cyan' ],
+				'gui'	=> [ 0x000000, 0xffff00 ] },
+	'word1' => {		'text'	=> [ 'green', 'default' ],
+				'gui'	=> [ 0x00aa00, 0xffffff ],
+				'flags'	=> [ 'bright' ] },
+	'word2' => {		'text'	=> [ 'red', 'default' ],
+				'gui'	=> [ 0xff6666, 0xffffff ],
+				'flags' => [ 'bright' ] },
+	'tag' => {		'text'	=> [ 'cyan', 'default' ],
+				'gui'	=> [ 0x8888ff, 0xffffff ],
+				'flags'	=> [ 'bright', 'underline' ] }
+};
+
 mp.keycodes = {
 	'cursor-left'	=>	'move-left',
 	'cursor-right'	=>	'move-right',
@@ -841,6 +865,9 @@ sub mp.ui()
 	mp.drv.ui();
 }
 
+
+load("mp_tags.mpsl");
+load("mp_syntax.mpsl");
 
 /** MAIN **/
 
