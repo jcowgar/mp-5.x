@@ -80,6 +80,10 @@ install: $(INSTALL_MSG)
 #	./mkinstalldirs $(PREFIX)/share/man/man1
 #	install -m 644 mp.1 $(PREFIX)/share/man/man1/$(APPNAME).1
 
+uninstall:
+	rm -f $(PREFIX)/bin/$(APPNAME)
+	rm -rf $(PREFIX)/share/$(APPNAME)
+
 po/minimum-profit.pot:
 	xgettext -o $@ --keyword=L --keyword=LL mp*.c mp_func_i.h
 
