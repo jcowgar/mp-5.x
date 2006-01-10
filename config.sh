@@ -3,7 +3,6 @@
 # Minimum Profit autoconfiguration script
 
 DRIVERS=""
-TARGET="mp-4"
 APPNAME="mp-4"
 
 # gets program version
@@ -251,7 +250,7 @@ else
 		echo "OK"
 		DRIVERS="win32 $DRIVERS"
 		WITHOUT_UNIX_GLOB=1
-		TARGET=wmp.exe
+		APPNAME=wmp.exe
 	else
 		echo "No"
 	fi
@@ -262,7 +261,6 @@ echo "#if defined(CONFOPT_CURSES) || defined(CONFOPT_GTK)" >> config.h
 echo "#define CONFOPT_UNIX_LIKE 1" >> config.h
 echo "#endif" >> config.h
 
-echo "TARGET=$TARGET" >> makefile.opts
 echo "VERSION=$VERSION" >> makefile.opts
 echo "WINDRES=$WINDRES" >> makefile.opts
 echo "PREFIX=\$(DESTDIR)$PREFIX" >> makefile.opts

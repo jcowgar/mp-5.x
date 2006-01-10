@@ -1,6 +1,6 @@
 # -*- Mode: sh
 
-all: $(TARGET)
+all: $(APPNAME)
 
 PROJ=mp
 #DOCS=AUTHORS README COPYING Changelog mprc.sample mprc-win32.sample \
@@ -32,7 +32,7 @@ $(MPSL)/libmpsl.a:
 dep:
 	gcc -MM *.c `cat config.cflags` > makefile.depend
 
-mp-4: $(OBJS) $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
+$(APPNAME): $(OBJS) $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 	$(CC) $(CFLAGS) $(OBJS) `cat config.ldflags` -o $@
 
 mp_res.o: mp_res.rc
@@ -42,7 +42,7 @@ wmp.exe: $(OBJS) mp_res.o $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 	$(CC) $(CFLAGS) $(OBJS) mp_res.o `cat config.ldflags` -o $@
 
 clean:
-	rm -f $(TARGET) $(LIB) $(OBJS) *.o tags *.tar.gz wmp.exe
+	rm -f $(APPNAME) $(LIB) $(OBJS) *.o tags *.tar.gz wmp.exe
 	(cd $(MPDM) ; make clean)
 	(cd $(MPSL) ; make clean)
 
@@ -72,7 +72,7 @@ win32dist:
 	zip mp33x-win32.zip README COPYING RELEASE_NOTES Changelog mp.reg wmp.exe mprc.sample mprc-win32.sample
 
 install: $(INSTALL_MSG)
-	install $(TARGET) $(PREFIX)/bin/$(APPNAME)
+	install $(APPNAME) $(PREFIX)/bin/$(APPNAME)
 	./mkinstalldirs $(PREFIX)/share/$(APPNAME)
 	install -m 644 mp_*.mpsl $(PREFIX)/share/$(APPNAME)
 #	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
