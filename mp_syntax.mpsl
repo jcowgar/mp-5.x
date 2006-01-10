@@ -58,7 +58,7 @@ mp.syntax.c = {
 	'id'		=>	'c',
 	'name'		=>	'C / C++',
 	'filenames'	=>	[ '/\.c$/', '/\.h$/', '/\.l$/', '/\.y$/',
-				'/\.cpp$/', '/\.hpp$/', '/\.c++$/' ],
+				'/\.cpp$/', '/\.hpp$/', '/\.c++$/', '/\.xpm$/' ],
 	'tokens'	=>	[ "for", "while", "if", "switch", "case", "do",
 				"else", "break", "continue", "return",
 				"default", "goto", "main", "fopen", "fclose",
