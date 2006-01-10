@@ -3,7 +3,7 @@
 # Minimum Profit autoconfiguration script
 
 DRIVERS=""
-APPNAME="mp-4"
+APPNAME="mp-5"
 
 # gets program version
 VERSION=`cut -f2 -d\" VERSION`
