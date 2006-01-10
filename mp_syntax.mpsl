@@ -99,6 +99,16 @@ mp.syntax.c = {
 		]
 };
 
+mp.syntax.rc = {
+	'id'		=>	'rc',
+	'name'		=>	'Resource file',
+	'filenames'	=>	[ '/\.rc$/' ],
+	'tokens'	=>	[ ],
+	'variables'	=>	[ ],
+	'comments'	=>	clone(mp.syntax.c.comments),
+	'quotes'	=>	clone(mp.syntax.c.quotes)
+};
+
 mp.syntax.perl = {
 	'id'		=>	'perl',
 	'name'		=>	'Perl',
@@ -158,6 +168,35 @@ mp.syntax.mpsl = {
 	'comments'	=>	clone(mp.syntax.c.comments),
 	'quotes'	=>	clone(mp.syntax.c.quotes)
 };
+
+mp.syntax.sh = {
+	'id'		=>	'sh',
+	'name'		=>	'Shell script',
+	'filenames'	=>	[ '/\.sh$/' ],
+	'tokens'	=>	[ "if", "then", "else", "elif",
+				"fi", "case", "do", "done", "esac",
+				"for", "until", "while", "break",
+				"in", "source", "alias", "cd",
+				"continue", "echo", "eval", "exec",
+				"exit", "export", "kill", "logout",
+				"printf", "pwd", "read", "return",
+				"shift", "test", "trap", "ulimit",
+				"umask", "unset", "wait", "cp", "rm" ],
+	'variables'	=>	[ "local", "let", "set" ],
+	'comments'	=>	clone(mp.syntax.perl.comments),
+	'quotes'	=>	[
+		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+		"/\b-?[0-9]+\b/",			/* numbers */
+		"/\b0x[0-9a-f]+\b/",			/* hex numbers */
+		[ "/\(/", "/\)/" ],			/* parens */
+		[ "/\[/", "/\]/" ],			/* square brackets */
+		[ "/\{/", "/\}/" ],			/* curly brackets */
+		[ "/`/", "/`/" ],			/* backticks */
+		[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
+	]
+};
+
 
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
