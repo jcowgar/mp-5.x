@@ -178,6 +178,68 @@ static void build_colors(void)
 }
 
 
+static void draw_filetabs(void)
+/* draws the filetabs */
+{
+	int a;
+	mpdm_t docs;
+
+	/* gets the document list */
+	if((docs = mpdm_hget_s(mp, L"docs")) == NULL)
+		return;
+
+	/* gets the active document number */
+	a = mpdm_ival(mpdm_hget_s(mp, L"active"));
+
+#ifdef QQ
+	int n;
+	mp_txt * t;
+	GtkWidget * l;
+	char * ptr;
+
+	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
+		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
+
+	if(rebuild)
+	{
+		/* delete possible previous tabs */
+		for(n=0;n < 100;n++)
+			gtk_notebook_remove_page(GTK_NOTEBOOK(file_tabs),0);
+	}
+
+	for(t=_mp_txts,n=0;t!=NULL && n < 100;t=t->next,n++)
+	{
+		if(rebuild)
+		{
+			GtkWidget * f;
+
+			if((ptr=strrchr(t->name,'/'))==NULL)
+				ptr=t->name;
+			else
+				ptr++;
+
+			l=gtk_label_new(_(ptr));
+			gtk_widget_show(l);
+
+			f=gtk_frame_new(NULL);
+			gtk_widget_show(f);
+
+			gtk_notebook_append_page(GTK_NOTEBOOK(file_tabs),
+				f,l);
+		}
+
+		if(_mp_active == t)
+			gtk_notebook_set_page(GTK_NOTEBOOK(file_tabs), n);
+	}
+
+	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
+		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
+
+	gtk_widget_grab_focus(area);
+#endif
+}
+
+
 mpdm_t mpi_draw(mpdm_t v);
 
 static void gtk_drv_paint(mpdm_t doc)
@@ -298,6 +360,8 @@ static void gtk_drv_paint(mpdm_t doc)
 
 		g_object_unref(pl);
 	}
+
+	draw_filetabs();
 }
 
 
