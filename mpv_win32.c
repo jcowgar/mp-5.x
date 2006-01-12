@@ -173,9 +173,9 @@ static void build_colors(void)
 static void draw_filetabs(void)
 /* draws the filetabs */
 {
-	int n, a;
-	static int last = -1;
+	int a;
 	mpdm_t docs;
+	static int last = -1;
 
 	/* gets the document list */
 	if(hwtabs == NULL || (docs = mpdm_hget_s(mp, L"docs")) == NULL)
@@ -186,6 +186,8 @@ static void draw_filetabs(void)
 
 	if(last != mpdm_size(docs))
 	{
+		int n;
+
 		/* if size is different that the last, rebuild the tabset */
 		last = mpdm_size(docs);
 

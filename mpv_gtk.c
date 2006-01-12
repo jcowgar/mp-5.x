@@ -29,6 +29,7 @@
 #ifdef CONFOPT_GTK
 
 #include <stdio.h>
+#include <wchar.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -181,7 +182,7 @@ static void build_colors(void)
 static void draw_filetabs(void)
 /* draws the filetabs */
 {
-	int n, a;
+	int a;
 	mpdm_t docs;
 	static int last = -1;
 
@@ -197,11 +198,44 @@ static void draw_filetabs(void)
 		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
 */
 	/* rebuild? */
-	if(mpdm_size(docs) != last)
+	if(last != mpdm_size(docs))
 	{
 		int n;
 
-		/* rebuild the list */
+		/* delete the current tabs */
+		for(n = 0;n < last;n++)
+			gtk_notebook_remove_page(
+				GTK_NOTEBOOK(file_tabs), 0);
+
+		/* create the new ones */
+		for(n = 0;n < mpdm_size(docs);n++)
+		{
+			GtkWidget * l;
+			GtkWidget * f;
+			char * ptr;
+			wchar_t * wptr;
+			mpdm_t v = mpdm_aget(docs, n);
+
+			/* just get the name */
+			v = mpdm_hget_s(v, L"name");
+
+			/* move to the filename if path included */
+			if((wptr = wcsrchr(v->data, L'/')) == NULL)
+				wptr = v->data;
+			else
+				wptr++;
+
+/*			l=gtk_label_new(_(ptr));*/
+			/* FIXME: leak */
+			l = gtk_label_new(mpdm_wcstombs(wptr, NULL));
+			gtk_widget_show(l);
+
+			f = gtk_frame_new(NULL);
+			gtk_widget_show(f);
+
+			gtk_notebook_append_page(
+				GTK_NOTEBOOK(file_tabs), f, l);
+		}
 
 		last = mpdm_size(docs);
 	}
@@ -214,51 +248,6 @@ static void draw_filetabs(void)
 		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
 */
 	gtk_widget_grab_focus(area);
-
-#ifdef QQ
-	int n;
-	mp_txt * t;
-	GtkWidget * l;
-	char * ptr;
-
-
-	if(rebuild)
-	{
-		/* delete possible previous tabs */
-		for(n=0;n < 100;n++)
-			gtk_notebook_remove_page(GTK_NOTEBOOK(file_tabs),0);
-	}
-
-	for(t=_mp_txts,n=0;t!=NULL && n < 100;t=t->next,n++)
-	{
-		if(rebuild)
-		{
-			GtkWidget * f;
-
-			if((ptr=strrchr(t->name,'/'))==NULL)
-				ptr=t->name;
-			else
-				ptr++;
-
-			l=gtk_label_new(_(ptr));
-			gtk_widget_show(l);
-
-			f=gtk_frame_new(NULL);
-			gtk_widget_show(f);
-
-			gtk_notebook_append_page(GTK_NOTEBOOK(file_tabs),
-				f,l);
-		}
-
-		if(_mp_active == t)
-			gtk_notebook_set_page(GTK_NOTEBOOK(file_tabs), n);
-	}
-
-	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
-		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
-
-	gtk_widget_grab_focus(area);
-#endif
 }
 
 
