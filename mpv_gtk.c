@@ -54,6 +54,7 @@ static mpdm_t gtk_window = NULL;
 
 /* global data */
 static GtkWidget * window = NULL;
+static GtkWidget * file_tabs = NULL;
 static GtkWidget * area = NULL;
 static GtkWidget * scrollbar = NULL;
 static GdkGC * gc = NULL;
@@ -638,17 +639,17 @@ static void gtk_drv_startup(void)
 		GTK_SIGNAL_FUNC(destroy), NULL);
 
 	/* file tabs */
-/*	file_tabs=gtk_notebook_new();
+	file_tabs = gtk_notebook_new();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(file_tabs), GTK_POS_TOP);
 	GTK_WIDGET_UNSET_FLAGS(file_tabs,GTK_CAN_FOCUS);
-	gtk_notebook_set_scrollable(GTK_NOTEBOOK(file_tabs),1);
-*/
+	gtk_notebook_set_scrollable(GTK_NOTEBOOK(file_tabs), 1);
+
 	vbox = gtk_vbox_new(FALSE, 2);
 	gtk_container_add(GTK_CONTAINER(window), vbox);
 /*
 	gtk_box_pack_start(GTK_BOX(vbox), menu_bar, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), file_tabs, FALSE, FALSE, 0);
-*/
+*/	gtk_box_pack_start(GTK_BOX(vbox), file_tabs, FALSE, FALSE, 0);
+
 	/* horizontal box holding the text and the scrollbar */
 	hbox = gtk_hbox_new(FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
