@@ -181,8 +181,9 @@ static void build_colors(void)
 static void draw_filetabs(void)
 /* draws the filetabs */
 {
-	int a;
+	int n, a;
 	mpdm_t docs;
+	static int last = -1;
 
 	/* gets the document list */
 	if((docs = mpdm_hget_s(mp, L"docs")) == NULL)
@@ -191,14 +192,35 @@ static void draw_filetabs(void)
 	/* gets the active document number */
 	a = mpdm_ival(mpdm_hget_s(mp, L"active"));
 
+	/* disconnect redraw signal to avoid infinite loops */
+/*	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
+		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
+*/
+	/* rebuild? */
+	if(mpdm_size(docs) != last)
+	{
+		int n;
+
+		/* rebuild the list */
+
+		last = mpdm_size(docs);
+	}
+
+	/* set the active one */
+	gtk_notebook_set_page(GTK_NOTEBOOK(file_tabs), a);
+
+	/* reconnect signal */
+/*	gtk_signal_connect(GTK_OBJECT(file_tabs), "switch_page",
+		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
+*/
+	gtk_widget_grab_focus(area);
+
 #ifdef QQ
 	int n;
 	mp_txt * t;
 	GtkWidget * l;
 	char * ptr;
 
-	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
-		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
 
 	if(rebuild)
 	{
