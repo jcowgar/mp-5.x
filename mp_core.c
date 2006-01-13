@@ -603,6 +603,18 @@ mpdm_t mp_process_event(mpdm_t keycode)
 }
 
 
+mpdm_t mp_set_y(mpdm_t doc, int y)
+/* interfaz to mp.set_y() */
+{
+	static mpdm_t f = NULL;
+
+	if(f == NULL)
+		f = mpdm_hget_s(mp, L"set_y");
+
+	return(mpdm_exec_2(f, doc, MPDM_I(y)));
+}
+
+
 mpdm_t mp_exit(mpdm_t args)
 /* exit the editor (set mp_exit_requested) */
 {
