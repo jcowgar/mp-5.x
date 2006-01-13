@@ -183,7 +183,7 @@ static void redraw(void);
 
 static void switch_page(GtkNotebook * notebook, GtkNotebookPage * page,
 	gint pg_num, gpointer data)
-/* 'switch_page' callback (filetabs) */
+/* 'switch_page' handler (filetabs) */
 {
 	/* sets the active one */
 	mpdm_hset_s(mp, L"active", MPDM_I(pg_num));
@@ -262,6 +262,99 @@ static void draw_filetabs(void)
 		(GtkSignalFunc) switch_page, NULL);
 
 	gtk_widget_grab_focus(area);
+}
+
+
+static gint scroll_event(GtkWidget * widget, GdkEventScroll * event)
+/* 'scroll_event' handler (mouse wheel) */
+{
+	wchar_t * ptr = NULL;
+
+	switch(event->direction)
+	{
+	case GDK_SCROLL_UP: ptr = L"mouse-wheel-up"; break;
+	case GDK_SCROLL_DOWN: ptr = L"mouse-wheel-down"; break;
+	case GDK_SCROLL_LEFT: ptr = L"mouse-wheel-left"; break;
+	case GDK_SCROLL_RIGHT: ptr = L"mouse-wheel-right"; break;
+	}
+
+	if(ptr != NULL)
+		mp_process_event(MPDM_S(ptr));
+
+	redraw();
+
+	return(0);
+}
+
+
+static void value_changed(GtkAdjustment * adj, gpointer * data)
+/* 'value_changed' handler (scrollbar) */
+{
+	int i = (int) adj->value;
+	mpdm_t doc;
+	mpdm_t txt;
+	int y;
+
+	/* get current y position */
+	doc = mp_get_active();
+	txt = mpdm_hget_s(doc, L"txt");
+	y = mpdm_ival(mpdm_hget_s(txt, L"y"));
+
+	/* if it's different, set and redraw */
+	if(y != i)
+	{
+		mp_set_y(doc, i);
+		redraw();
+	}
+}
+
+
+static void draw_scrollbar(void)
+/* updates the scrollbar */
+{
+	GtkAdjustment * adjustment;
+	mpdm_t d;
+	mpdm_t v;
+	int pos, size, max;
+
+	/* gets the active document */
+	if((d = mp_get_active()) == NULL)
+		return;
+
+	/* get the coordinates */
+	v = mpdm_hget_s(d, L"txt");
+	pos = mpdm_ival(mpdm_hget_s(v, L"y"));
+	max = mpdm_size(mpdm_hget_s(v, L"lines"));
+	v = mpdm_hget_s(d, L"window");
+	size = mpdm_ival(mpdm_hget_s(v, L"ty"));
+
+	adjustment = gtk_range_get_adjustment(GTK_RANGE(scrollbar));
+
+/*	if((int)adjustment->upper==max &&
+	   (int)adjustment->page_size==size &&
+	   (int)adjustment->page_increment==size &&
+	   (int)adjustment->value==pos)
+		return;
+*/
+	/* disconnect to avoid infinite loops */
+	gtk_signal_disconnect_by_func(GTK_OBJECT(adjustment),
+		(GtkSignalFunc) value_changed, NULL);
+
+	adjustment->step_increment = (gfloat)1;
+	adjustment->upper = (gfloat)(max + size);
+	adjustment->page_size = (gfloat)size;
+	adjustment->page_increment = (gfloat)size;
+	adjustment->value = (gfloat)pos;
+
+	gtk_range_set_adjustment(GTK_RANGE(scrollbar), adjustment);
+
+	gtk_adjustment_changed(adjustment);
+	gtk_adjustment_value_changed(adjustment);
+
+	/* reattach again */
+	gtk_signal_connect(
+		GTK_OBJECT(gtk_range_get_adjustment(GTK_RANGE(scrollbar))),
+		"value_changed", (GtkSignalFunc) value_changed, NULL);
 }
 
 
@@ -387,6 +480,7 @@ static void gtk_drv_paint(mpdm_t doc)
 	}
 
 	draw_filetabs();
+	draw_scrollbar();
 }
 
 
@@ -775,29 +869,23 @@ static void gtk_drv_startup(void)
 	gtk_signal_connect(GTK_OBJECT(area), "selection_received",
 		(GtkSignalFunc) selection_received, NULL);
 
-	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
-		(GtkSignalFunc) switch_page, NULL);
-/*
-
-#if GTK_MAJOR_VERSION >= 2
-
 	gtk_signal_connect(GTK_OBJECT(area), "scroll_event",
-		GTK_SIGNAL_FUNC(_mpv_scroll_callback), NULL);
+		(GtkSignalFunc) scroll_event, NULL);
 
-#endif
-*/
 	gtk_selection_add_target(area, GDK_SELECTION_PRIMARY,
 		GDK_SELECTION_TYPE_STRING, 1);
+
+	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
+		(GtkSignalFunc) switch_page, NULL);
 
 	/* the scrollbar */
 	scrollbar = gtk_vscrollbar_new(NULL);
 	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
 
-/*	gtk_signal_connect(
+	gtk_signal_connect(
 		GTK_OBJECT(gtk_range_get_adjustment(GTK_RANGE(scrollbar))),
-		"value_changed",
-		(GtkSignalFunc) _mpv_value_changed_callback, NULL);
-*/
+		"value_changed", (GtkSignalFunc) value_changed, NULL);
+
 	/* the status bar */
 /*	status = gtk_label_new("mp " VERSION);
 	gtk_box_pack_start(GTK_BOX(vbox), status, FALSE, FALSE, 0);
