@@ -227,6 +227,36 @@ static void draw_filetabs(void)
 }
 
 
+static void draw_scrollbar(void)
+/* updates the scrollbar */
+{
+	mpdm_t d;
+	mpdm_t v;
+	int pos, size, max;
+	SCROLLINFO si;
+
+	/* gets the active document */
+	if((d = mp_get_active()) == NULL)
+		return;
+
+	/* get the coordinates */
+	v = mpdm_hget_s(d, L"txt");
+	pos = mpdm_ival(mpdm_hget_s(v, L"y"));
+	max = mpdm_size(mpdm_hget_s(v, L"lines"));
+	v = mpdm_hget_s(d, L"window");
+	size = mpdm_ival(mpdm_hget_s(v, L"ty"));
+
+	si.cbSize=sizeof(si);
+	si.fMask=SIF_ALL;
+	si.nMin=1;
+	si.nMax=max;
+	si.nPage=size;
+	si.nPos=pos;
+
+	SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
+}
+
+
 mpdm_t mpi_draw(mpdm_t v);
 
 static void win32_draw(HWND hwnd, mpdm_t doc)
@@ -304,6 +334,7 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 	EndPaint(hwnd, &ps);
 
 	draw_filetabs();
+	draw_scrollbar();
 }
 
 
@@ -400,9 +431,8 @@ static void win32_vkey(int c)
 	{
 		mp_process_event(MPDM_S(ptr));
 		is_wm_keydown = 1;
+		redraw();
 	}
-
-	redraw();
 }
 
 
@@ -458,9 +488,34 @@ static void win32_akey(int k)
 	}
 
 	if(ptr != NULL)
+	{
 		mp_process_event(MPDM_S(ptr));
+		redraw();
+	}
+}
 
-	redraw();
+
+static void win32_vscroll(UINT wparam)
+/* scrollbar messages handler */
+{
+	wchar_t * ptr;
+
+	switch(LOWORD(wparam))
+	{
+	case SB_PAGEUP:		ptr = L"page-up"; break;
+	case SB_PAGEDOWN:	ptr = L"page-down"; break;
+	case SB_LINEUP:		ptr = L"cursor-up"; break;
+	case SB_LINEDOWN:	ptr = L"cursor-down"; break;
+/*	case SB_THUMBPOSITION:
+	case SB_THUMBTRACK:
+		sb_thumbscroll(LOWORD(wparam),HIWORD(wparam));*/
+	}
+
+	if(ptr != NULL)
+	{
+		mp_process_event(MPDM_S(ptr));
+		redraw();
+	}
 }
 
 
@@ -499,25 +554,11 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		win32_akey(wparam);
 		return(0);
 
-/*	case WM_VSCROLL:
+	case WM_VSCROLL:
 
-		switch(LOWORD(wparam))
-		{
-		case SB_PAGEUP: ptr="move-page-up"; break;
-		case SB_PAGEDOWN: ptr="move-page-down"; break;
-		case SB_LINEUP: ptr="move-up"; break;
-		case SB_LINEDOWN: ptr="move-down"; break;
- 		case SB_THUMBPOSITION:
- 		case SB_THUMBTRACK:
- 		  sb_thumbscroll(LOWORD(wparam),HIWORD(wparam));
- 		  return(0);
-		}
-
-		if(ptr != NULL)
-			mpi_process('\0', NULL, ptr);
-
+		win32_vscroll(wparam);
 		return(0);
-*/
+
 	case WM_PAINT:
 		win32_draw(hwnd, mp_get_active());
 		return(0);
