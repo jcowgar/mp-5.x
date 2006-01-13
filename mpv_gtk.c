@@ -69,7 +69,7 @@ static wchar_t im_char[2];
 static int font_width = 0;
 static int font_height = 0;
 static PangoFontDescription * font = NULL;
-static int font_size = 14;
+static int font_size = 12;
 static char * font_face = "Mono";
 
 /* the attributes */
