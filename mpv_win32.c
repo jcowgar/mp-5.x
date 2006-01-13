@@ -498,7 +498,7 @@ static void win32_akey(int k)
 static void win32_vscroll(UINT wparam)
 /* scrollbar messages handler */
 {
-	wchar_t * ptr;
+	wchar_t * ptr = NULL;
 
 	switch(LOWORD(wparam))
 	{
@@ -506,9 +506,11 @@ static void win32_vscroll(UINT wparam)
 	case SB_PAGEDOWN:	ptr = L"page-down"; break;
 	case SB_LINEUP:		ptr = L"cursor-up"; break;
 	case SB_LINEDOWN:	ptr = L"cursor-down"; break;
-/*	case SB_THUMBPOSITION:
+	case SB_THUMBPOSITION:
 	case SB_THUMBTRACK:
-		sb_thumbscroll(LOWORD(wparam),HIWORD(wparam));*/
+		mp_set_y(mp_get_active(), HIWORD(wparam));
+		redraw();
+		break;
 	}
 
 	if(ptr != NULL)
