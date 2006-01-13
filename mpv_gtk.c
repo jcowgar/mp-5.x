@@ -179,6 +179,20 @@ static void build_colors(void)
 }
 
 
+static void redraw(void);
+
+static void switch_page(GtkNotebook * notebook, GtkNotebookPage * page,
+	gint pg_num, gpointer data)
+/* 'switch_page' callback (filetabs) */
+{
+	/* sets the active one */
+	mpdm_hset_s(mp, L"active", MPDM_I(pg_num));
+
+	gtk_widget_grab_focus(area);
+	redraw();
+}
+
+
 static void draw_filetabs(void)
 /* draws the filetabs */
 {
@@ -194,9 +208,9 @@ static void draw_filetabs(void)
 	a = mpdm_ival(mpdm_hget_s(mp, L"active"));
 
 	/* disconnect redraw signal to avoid infinite loops */
-/*	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
-		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
-*/
+	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
+		(GtkSignalFunc) switch_page, NULL);
+
 	/* rebuild? */
 	if(last != mpdm_size(docs))
 	{
@@ -244,9 +258,9 @@ static void draw_filetabs(void)
 	gtk_notebook_set_page(GTK_NOTEBOOK(file_tabs), a);
 
 	/* reconnect signal */
-/*	gtk_signal_connect(GTK_OBJECT(file_tabs), "switch_page",
-		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
-*/
+	gtk_signal_connect(GTK_OBJECT(file_tabs), "switch_page",
+		(GtkSignalFunc) switch_page, NULL);
+
 	gtk_widget_grab_focus(area);
 }
 
@@ -761,10 +775,9 @@ static void gtk_drv_startup(void)
 	gtk_signal_connect(GTK_OBJECT(area), "selection_received",
 		(GtkSignalFunc) selection_received, NULL);
 
-/*
 	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
-		(GtkSignalFunc) _mpv_filetabs_callback, NULL);
-
+		(GtkSignalFunc) switch_page, NULL);
+/*
 
 #if GTK_MAJOR_VERSION >= 2
 
