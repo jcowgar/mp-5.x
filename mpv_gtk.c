@@ -87,6 +87,22 @@ static int wait_for_selection = 0;
 	Code
 ********************/
 
+static char * wcs_to_utf8(wchar_t * wptr, int i, gsize * o)
+/* converts a wcs to utf-8 */
+{
+	static char * prev = NULL;
+
+	/* free the previously allocated string */
+	if(prev != NULL) g_free(prev);
+
+	/* do the conversion */
+	prev = g_convert((gchar *) wptr, i * sizeof(wchar_t),
+		"UTF-8", "WCHAR_T", NULL, o, NULL);
+
+	return(prev);
+}
+
+
 static void update_window_size(void)
 /* updates the viewport size in characters */
 {
@@ -239,9 +255,8 @@ static void draw_filetabs(void)
 			else
 				wptr++;
 
-/*			l=gtk_label_new(_(ptr));*/
-			/* FIXME: leak */
-			l = gtk_label_new(mpdm_wcstombs(wptr, NULL));
+			ptr = wcs_to_utf8(wptr, wcslen(wptr), NULL);
+			l = gtk_label_new(ptr);
 			gtk_widget_show(l);
 
 			f = gtk_frame_new(NULL);
@@ -410,12 +425,10 @@ static void gtk_drv_paint(mpdm_t doc)
 			s = mpdm_aget(l, m);
 
 			/* convert the string to utf8 */
-			ptr = g_convert(s->data, mpdm_size(s) * sizeof(wchar_t),
-				"UTF-8", "WCHAR_T", NULL, NULL, NULL);
+			ptr = wcs_to_utf8(s->data, mpdm_size(s), NULL);
 
-			/* add to the full line and free */
+			/* add to the full line */
 			str = mpdm_poke(str, &p, ptr, strlen(ptr), 1);
-			g_free(ptr);
 
 			/* create the background if it's
 			   different from the default */
@@ -744,14 +757,10 @@ static void selection_get(GtkWidget * widget,
 	d = mpdm_join(MPDM_LS(L"\n"), d);
 
 	/* converts to UTF-8 */
-	ptr = (unsigned char *) g_convert(d->data,
-		mpdm_size(d) * sizeof(wchar_t),
-		"UTF-8", "WCHAR_T", NULL, &s, NULL);
+	ptr = (unsigned char *) wcs_to_utf8(d->data, mpdm_size(d), &s);
 
         /* pastes into primary selection */
         gtk_selection_data_set(sel, GDK_SELECTION_TYPE_STRING, 8, ptr, s);
-
-	g_free(ptr);
 }
 
 
