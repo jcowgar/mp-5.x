@@ -748,7 +748,7 @@ static void selection_get(GtkWidget * widget,
 {
 	mpdm_t d;
 	unsigned char * ptr;
-	gsize s;
+	int s;
 
 	if(!got_selection) return;
 
@@ -756,11 +756,13 @@ static void selection_get(GtkWidget * widget,
 	d = mpdm_hget_s(mp, L"clipboard");
 	d = mpdm_join(MPDM_LS(L"\n"), d);
 
-	/* converts to UTF-8 */
-	ptr = (unsigned char *) wcs_to_utf8(d->data, mpdm_size(d), &s);
+	/* convert to current locale */
+	ptr = (unsigned char *) mpdm_wcstombs(d->data, &s);
 
         /* pastes into primary selection */
-        gtk_selection_data_set(sel, GDK_SELECTION_TYPE_STRING, 8, ptr, s);
+        gtk_selection_data_set(sel, GDK_SELECTION_TYPE_STRING, 8, ptr, (gsize) s);
+
+	free(ptr);
 }
 
 
