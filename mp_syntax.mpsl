@@ -67,7 +67,7 @@ mp.syntax.c = {
 		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
 		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
 		"/\b-?[0-9]+\b/",			/* numbers */
-		"/\b0x[0-9a-f]+\b/",			/* hex numbers */
+		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 		"/\b[[:upper:]_]+\b/"			/* all-caps words */
 		]
 };
@@ -112,7 +112,7 @@ mp.syntax.perl = {
 		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
 		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
 		"/\b-?[0-9]+\b/",			/* numbers */
-		"/\b0x[0-9a-f]+\b/",			/* hex numbers */
+		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 		[ "/q\(/", "/\)/" ],			/* quote */
 		[ "/qw\(/", "/\)/" ],			/* quote word */
 		[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
@@ -161,7 +161,7 @@ mp.syntax.sh = {
 		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
 		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
 		"/\b-?[0-9]+\b/",			/* numbers */
-		"/\b0x[0-9a-f]+\b/",			/* hex numbers */
+		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 		[ "/\(/", "/\)/" ],			/* parens */
 		[ "/\[/", "/\]/" ],			/* square brackets */
 		[ "/\{/", "/\}/" ],			/* curly brackets */
