@@ -253,7 +253,7 @@ static mpdm_t nc_getkey(void)
 		}
 	}
 
-	return(f != NULL ? MPDM_LS(f) : NULL);
+	return(f != NULL ? MPDM_S(f) : NULL);
 }
 
 
