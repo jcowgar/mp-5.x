@@ -582,36 +582,21 @@ mpdm_t mpi_draw(mpdm_t doc)
 mpdm_t mp_get_active(void)
 /* interfaz to mp.get_active() */
 {
-	static mpdm_t f = NULL;
-
-	if(f == NULL)
-		f = mpdm_hget_s(mp, L"get_active");
-
-	return(mpdm_exec(f, NULL));
+	return(mpdm_exec(mpdm_hget_s(mp, L"get_active"), NULL));
 }
 
 
 mpdm_t mp_process_event(mpdm_t keycode)
 /* interfaz to mp.process_event() */
 {
-	static mpdm_t f = NULL;
-
-	if(f == NULL)
-		f = mpdm_hget_s(mp, L"process_event");
-
-	return(mpdm_exec_1(f, keycode));
+	return(mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode));
 }
 
 
 mpdm_t mp_set_y(mpdm_t doc, int y)
 /* interfaz to mp.set_y() */
 {
-	static mpdm_t f = NULL;
-
-	if(f == NULL)
-		f = mpdm_hget_s(mp, L"set_y");
-
-	return(mpdm_exec_2(f, doc, MPDM_I(y)));
+	return(mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y)));
 }
 
 
