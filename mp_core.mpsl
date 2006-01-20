@@ -34,6 +34,7 @@ mp.config.undo_levels = 20;
 mp.config.wordwrap = 0;
 mp.config.auto_indent = 0;
 
+/* document list */
 mp.docs = [];
 mp.active = 0;
 
@@ -710,7 +711,10 @@ mp.keycodes = {
 
 	'f3'		=>	'seek-next',
 	'f8'		=>	'unmark',
+	'f7'		=>	'play-macro',
 	'f9'		=>	'mark',
+	'f10'		=>	'record-macro',
+	'ctrl-f10'	=>	'record-macro',
 
 	'ctrl-a'	=>	NULL,
 	'ctrl-b'	=>	NULL,
@@ -786,6 +790,9 @@ mp.actions = {
 
 	'undo'		=>	sub (k) { mp.undo(k); },
 
+	'record-macro'	=>	sub (k) { mp.record_macro(); },
+	'play-macro'	=>	sub (k) { mp.play_macro(); },
+
 	'exit'		=>	sub (k) { mp.exit(); }
 
 };
@@ -826,6 +833,8 @@ sub mp.process_event(k)
 	}
 	else
 		mp.insert(d, k);
+
+	mp.store_in_macro(k);
 }
 
 
@@ -868,6 +877,7 @@ sub mp.ui()
 
 load("mp_tags.mpsl");
 load("mp_syntax.mpsl");
+load("mp_macro.mpsl");
 
 /** MAIN **/
 

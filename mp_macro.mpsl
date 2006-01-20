@@ -1,0 +1,68 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Macro recording (learning mode).
+
+    Copyright (C) 1991-2005 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+/* learning/recording data */
+mp.macro = {};
+mp.macro.recording = 0;
+mp.macro.keycodes = NULL;
+
+sub mp.store_in_macro(k)
+/* store keypress in macro */
+{
+	if(mp.macro.recording)
+	{
+		/* create a new keycode list; this is a way
+		   to avoid recording also the key that
+		   called mp.record_macro() */
+		if(mp.macro.keycodes == NULL)
+			mp.macro.keycodes = [];
+		else
+			push(mp.macro.keycodes, k);
+	}
+}
+
+sub mp.record_macro
+/* start recording a macro */
+{
+	/* if not still recording, reset the list */
+	if(!mp.macro.recording)
+		mp.macro.keycodes = NULL;
+
+	mp.macro.recording = !mp.macro.recording;
+}
+
+
+sub mp.play_macro
+/* play a macro */
+{
+	local k;
+
+	mp.macro.recording = 0;
+
+	foreach(k, mp.macro.keycodes)
+		mp.process_event(k);
+}
