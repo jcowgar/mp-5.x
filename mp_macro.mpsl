@@ -5,7 +5,7 @@
 
     Macro recording (learning mode).
 
-    Copyright (C) 1991-2005 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2006 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -25,34 +25,58 @@
 
 */
 
+/* editor actions */
+
+mp.actions['record-macro']	= sub (k) { mp.record_macro(); };
+mp.actions['play-macro']	= sub (k) { mp.play_macro(); };
+
+/* default key bindings */
+
+mp.keycodes['f10']	= "record-macro";
+mp.keycodes['ctrl-f10']	= "record-macro";
+mp.keycodes['f7']	= "play-macro";
+
 /* learning/recording data */
+
 mp.macro = {};
-mp.macro.recording = 0;
+mp.macro.process_event = NULL;
 mp.macro.keycodes = NULL;
 
-sub mp.store_in_macro(k)
-/* store keypress in macro */
+/* code */
+
+sub mp.process_event_and_record(k)
+/* patched version of mp.process_event() */
 {
-	if(mp.macro.recording)
-	{
-		/* create a new keycode list; this is a way
-		   to avoid recording also the key that
-		   called mp.record_macro() */
-		if(mp.macro.keycodes == NULL)
-			mp.macro.keycodes = [];
-		else
-			push(mp.macro.keycodes, k);
-	}
+	/* records */
+	push(mp.macro.keycodes, k);
+
+	/* calls the real mp.process_event() function */
+	mp.macro.process_event(k);
 }
+
 
 sub mp.record_macro
 /* start recording a macro */
 {
-	/* if not still recording, reset the list */
-	if(!mp.macro.recording)
-		mp.macro.keycodes = NULL;
+	if(mp.macro.process_event == NULL)
+	{
+		/* if still not recording, store the real mp.process_event()
+		   function and replace it by ours */
+		mp.macro.process_event = mp.process_event;
+		mp.process_event = mp.process_event_and_record;
 
-	mp.macro.recording = !mp.macro.recording;
+		/* reset keycode list */
+		mp.macro.keycodes = [];
+	}
+	else
+	{
+		/* unpatch mp.process_event() */
+		mp.process_event = mp.macro.process_event;
+		mp.macro.process_event = NULL;
+
+		/* drop the last keycode (that triggered mp.record_macro()) */
+		pop(mp.macro.keycodes);
+	}
 }
 
 
@@ -61,8 +85,11 @@ sub mp.play_macro
 {
 	local k;
 
-	mp.macro.recording = 0;
+	/* if it's recording, stop now */
+	if(mp.macro.process_event != NULL)
+		mp.record_macro();
 
+	/* process all stored keycodes */
 	foreach(k, mp.macro.keycodes)
 		mp.process_event(k);
 }

@@ -711,10 +711,7 @@ mp.keycodes = {
 
 	'f3'		=>	'seek-next',
 	'f8'		=>	'unmark',
-	'f7'		=>	'play-macro',
 	'f9'		=>	'mark',
-	'f10'		=>	'record-macro',
-	'ctrl-f10'	=>	'record-macro',
 
 	'ctrl-a'	=>	NULL,
 	'ctrl-b'	=>	NULL,
@@ -790,9 +787,6 @@ mp.actions = {
 
 	'undo'		=>	sub (k) { mp.undo(k); },
 
-	'record-macro'	=>	sub (k) { mp.record_macro(); },
-	'play-macro'	=>	sub (k) { mp.play_macro(); },
-
 	'exit'		=>	sub (k) { mp.exit(); }
 
 };
@@ -833,8 +827,6 @@ sub mp.process_event(k)
 	}
 	else
 		mp.insert(d, k);
-
-	mp.store_in_macro(k);
 }
 
 
