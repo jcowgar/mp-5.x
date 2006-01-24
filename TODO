@@ -15,6 +15,7 @@ Release Critical Bugs
  * 1117: Add go to line.
  * 1118: Add move word left and right.
  * 1120: Add system command execution (pipes).
+ * 1129: Add '+line' command line argument.
 
 Open Bugs
 ---------
