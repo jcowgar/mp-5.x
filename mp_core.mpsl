@@ -833,7 +833,7 @@ sub mp.process_event(k)
 sub mp.process_cmdline()
 /* process the command line arguments (ARGV) */
 {
-	local o;
+	local o, line;
 
 	if(size(ARGV) <= 1)
 		return;
@@ -852,11 +852,21 @@ sub mp.process_cmdline()
 				print(ERROR, "\n");
 		}
 		else
+		if(regex('/^\+/', o))
+		{
+			/* move to line */
+			line = o - 1;
+		}
+		else
 			mp.open(o);
 	}
 
 	/* set the first as the active one */
 	mp.active = 0;
+
+	/* if there is a line defined, move there */
+	if(line != NULL)
+		mp.set_y(mp.get_active(), line);
 }
 
 

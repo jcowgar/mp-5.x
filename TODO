@@ -15,7 +15,6 @@ Release Critical Bugs
  * 1117: Add go to line.
  * 1118: Add move word left and right.
  * 1120: Add system command execution (pipes).
- * 1129: Add '+line' command line argument.
 
 Open Bugs
 ---------
@@ -64,5 +63,6 @@ Closed
  * 1128: Add the -e command line switch
    (Mon, 26 Dec 2005 19:45:20 +0100).
  * 1119: Add learn mode (Fri, 20 Jan 2006 18:55:41 +0100).
+ * 1129: Add '+line' command line argument (Tue, 24 Jan 2006 06:22:49 +0100).
 
 Email bugs to angel@triptico.com
