@@ -432,14 +432,28 @@ static mpdm_t nc_drv_ui(mpdm_t v)
 }
 
 
+static mpdm_t nc_drv_clip_to_sys(mpdm_t a)
+{
+	/* dummy */
+	return(NULL);
+}
+
+
+static mpdm_t nc_drv_sys_to_clip(mpdm_t a)
+{
+	/* dummy */
+	return(NULL);
+}
+
+
 int curses_drv_init(void)
 {
 	nc_driver = mpdm_ref(MPDM_H(0));
 
 	mpdm_hset_s(nc_driver, L"driver", MPDM_LS(L"curses"));
 	mpdm_hset_s(nc_driver, L"ui", MPDM_X(nc_drv_ui));
-	mpdm_hset_s(nc_driver, L"clip_to_sys", NULL);
-	mpdm_hset_s(nc_driver, L"sys_to_clip", NULL);
+	mpdm_hset_s(nc_driver, L"clip_to_sys", MPDM_X(nc_drv_clip_to_sys));
+	mpdm_hset_s(nc_driver, L"sys_to_clip", MPDM_X(nc_drv_sys_to_clip));
 
 	mpdm_hset_s(mp, L"drv", nc_driver);
 
