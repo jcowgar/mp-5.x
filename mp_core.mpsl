@@ -530,13 +530,16 @@ sub mp.undo(doc)
 
 sub mp.search(doc, str)
 {
-	local txt, x, y;
+	local txt, x, y, r;
 
 	if(str == NULL)
 		str = mp.last_search;
 
+	if(str == NULL)
+		return(NULL);
+
 	txt = doc.txt;
-	x = txt.x;
+	x = txt.x + 1;
 	y = txt.y;
 
 	/* while not found, loop the lines */
@@ -545,10 +548,19 @@ sub mp.search(doc, str)
 		x = 0; y++;
 	}
 
-	/* store last search */
-	mp.last_search = str;
+	/* get last coords */
+	r = regex();
 
-	return(regex());
+	if(r)
+	{
+		mp.set_y(doc, y);
+		mp.set_x(doc, r[0]);
+
+		/* store last search */
+		mp.last_search = str;
+	}
+
+	return(r);
 }
 
 
