@@ -528,6 +528,30 @@ sub mp.undo(doc)
 }
 
 
+sub mp.search(doc, str)
+{
+	local txt, x, y;
+
+	if(str == NULL)
+		str = mp.last_search;
+
+	txt = doc.txt;
+	x = txt.x;
+	y = txt.y;
+
+	/* while not found, loop the lines */
+	while(! regex("/" ~ str ~ "/", txt.lines[y], x) && y < size(txt.lines))
+	{
+		x = 0; y++;
+	}
+
+	/* store last search */
+	mp.last_search = str;
+
+	return(regex());
+}
+
+
 /* file code */
 
 sub mp.chomp(str)
@@ -753,6 +777,9 @@ mp.actions = {
 	'move-eol'	=>	sub (k) { mp.move_eol(k); },
 	'move-bof'	=>	sub (k) { mp.move_bof(k); },
 	'move-eof'	=>	sub (k) { mp.move_eof(k); },
+
+	'seek'		=>	sub (k) { mp.search(k, "mpsl"); },
+	'seek-next'	=>	sub (k) { mp.search(k, NULL); },
 
 	'unmark'	=>	sub (k) { mp.unmark(k); },
 	'mark'		=>	sub (k) { mp.mark(k); },
