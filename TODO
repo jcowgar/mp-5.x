@@ -15,6 +15,9 @@ Release Critical Bugs
  * 1117: Add go to line.
  * 1118: Add move word left and right.
  * 1120: Add system command execution (pipes).
+ * 1130: When the last open file is closed (so a new, empty file is created
+   automatically), the tab files are not rebuilt (as the size of the tab set
+   is the same).
 
 Open Bugs
 ---------
