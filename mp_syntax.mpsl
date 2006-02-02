@@ -115,7 +115,7 @@ mp.syntax.perl = {
 		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 		[ "/q\(/", "/\)/" ],			/* quote */
 		[ "/qw\(/", "/\)/" ],			/* quote word */
-		[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
+		[ "/<<[\"']?EOF.*$/m", "/^EOF$/m" ]	/* 'document here' */
 	]
 };
 
