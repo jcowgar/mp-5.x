@@ -273,6 +273,25 @@ static void nc_addwstr(wchar_t * str)
 }
 
 
+static void draw_status(void)
+/* draws the status bar */
+{
+	mpdm_t t;
+	int n;
+
+	t = mp_status_line();
+
+	/* move to the last line and draw there */
+	move(LINES - 1, 0);
+	attrset(nc_attrs[0]);
+	nc_addwstr(t->data);
+
+	/* fill the line to the end */
+	for(n = mpdm_size(t);n < COLS;n++)
+		addch(' ');
+}
+
+
 mpdm_t mpi_draw(mpdm_t v);
 
 static void nc_draw(mpdm_t doc)
@@ -304,6 +323,8 @@ static void nc_draw(mpdm_t doc)
 			nc_addwstr((wchar_t *) s->data);
 		}
 	}
+
+	draw_status();
 
 	refresh();
 }
