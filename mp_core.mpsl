@@ -33,10 +33,14 @@ mp.config.eol = "\n";
 mp.config.undo_levels = 20;
 mp.config.wordwrap = 0;
 mp.config.auto_indent = 0;
+mp.config.status_format = "%m %x,%y [%l] %R%O %s %t";
 
 /* document list */
 mp.docs = [];
 mp.active = 0;
+
+/* status line directives */
+mp.status_f = {};
 
 /*******************
 	Code
@@ -866,6 +870,27 @@ sub mp.process_event(k)
 	}
 	else
 		mp.insert(d, k);
+}
+
+
+sub mp.status_line()
+/* returns the string to be drawn in the status line */
+{
+	local d = mp.get_active();
+
+	mp.status_f = {
+		"%V"	=>	mp.VERSION,		/* version */
+		"%m"	=>	"",			/* modify flag */
+		"%x"	=>	d.txt.x + 1,		/* x coord */
+		"%y"	=>	d.txt.y + 1,		/* y coord */
+		"%l"	=>	size(d.txt.lines),	/* # of lines */
+		"%R"	=>	"",			/* recording flag */
+		"%O"	=>	"",			/* overwrite mode */
+		"%s"	=>	d.syntax.name,		/* synhi mode */
+		"%t"	=>	""			/* tag target */
+	};
+
+	return(sregex("/%\w/g", mp.config.status_format, sub (k) { mp.status_f[k]; }));
 }
 
 

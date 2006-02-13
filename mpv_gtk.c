@@ -58,6 +58,7 @@ static GtkWidget * window = NULL;
 static GtkWidget * file_tabs = NULL;
 static GtkWidget * area = NULL;
 static GtkWidget * scrollbar = NULL;
+static GtkWidget * status = NULL;
 static GdkGC * gc = NULL;
 static GtkIMContext * im = NULL;
 static GdkPixmap * pixmap = NULL;
@@ -280,6 +281,20 @@ static void draw_filetabs(void)
 }
 
 
+static void draw_status(void)
+/* draws the status line */
+{
+	mpdm_t t;
+	char * ptr;
+
+	/* call mp.status_line() */
+	t = mp_status_line();
+
+	if(t != NULL && (ptr = wcs_to_utf8(t->data, mpdm_size(t), NULL)) != NULL)
+		gtk_label_set_text(GTK_LABEL(status), ptr);
+}
+
+
 static gint scroll_event(GtkWidget * widget, GdkEventScroll * event)
 /* 'scroll_event' handler (mouse wheel) */
 {
@@ -494,6 +509,7 @@ static void gtk_drv_paint(mpdm_t doc)
 
 	draw_filetabs();
 	draw_scrollbar();
+	draw_status();
 }
 
 
@@ -898,11 +914,11 @@ static void gtk_drv_startup(void)
 		"value_changed", (GtkSignalFunc) value_changed, NULL);
 
 	/* the status bar */
-/*	status = gtk_label_new("mp " VERSION);
+	status = gtk_label_new("mp " VERSION);
 	gtk_box_pack_start(GTK_BOX(vbox), status, FALSE, FALSE, 0);
 	gtk_misc_set_alignment(GTK_MISC(status), 0, 0.5);
 	gtk_label_set_justify(GTK_LABEL(status), GTK_JUSTIFY_LEFT);
-*/
+
 	gtk_widget_show_all(window);
 
 /*	_mpv_font_size--;

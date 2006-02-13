@@ -600,6 +600,13 @@ mpdm_t mp_set_y(mpdm_t doc, int y)
 }
 
 
+mpdm_t mp_status_line(void)
+/* interfaz to mp.status_line() */
+{
+	return(mpdm_exec(mpdm_hget_s(mp, L"status_line"), NULL));
+}
+
+
 mpdm_t mp_exit(mpdm_t args)
 /* exit the editor (set mp_exit_requested) */
 {
@@ -655,6 +662,9 @@ void mp_startup(void)
 	for(n = 0;attr_names[n] != NULL;n++)
 		mpdm_hset(t, MPDM_S(attr_names[n]), MPDM_I(n));
 	mpdm_hset_s(mp, L"attr_names", t);
+
+	/* version */
+	mpdm_hset_s(mp, L"VERSION", MPDM_S(L"mp " VERSION));
 
 	if(!win32_drv_init())
 	if(!gtk_drv_init())
