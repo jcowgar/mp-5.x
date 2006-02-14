@@ -873,7 +873,7 @@ sub mp.process_event(k)
 }
 
 
-sub mp.status_line()
+sub mp.build_status_line()
 /* returns the string to be drawn in the status line */
 {
 	local d = mp.get_active();

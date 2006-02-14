@@ -643,10 +643,10 @@ mpdm_t mp_set_y(mpdm_t doc, int y)
 }
 
 
-mpdm_t mp_status_line(void)
-/* interfaz to mp.status_line() */
+mpdm_t mp_build_status_line(void)
+/* interfaz to mp.build_status_line() */
 {
-	return(mpdm_exec(mpdm_hget_s(mp, L"status_line"), NULL));
+	return(mpdm_exec(mpdm_hget_s(mp, L"build_status_line"), NULL));
 }
 
 

@@ -278,7 +278,7 @@ static void draw_status(void)
 	char * ptr;
 
 	/* call mp.status_line() */
-	t = mp_status_line();
+	t = mp_build_status_line();
 
 	if(t != NULL && (ptr = wcs_to_utf8(t->data, mpdm_size(t), NULL)) != NULL)
 		gtk_label_set_text(GTK_LABEL(status), ptr);

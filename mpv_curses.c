@@ -279,7 +279,7 @@ static void draw_status(void)
 	mpdm_t t;
 	int n;
 
-	t = mp_status_line();
+	t = mp_build_status_line();
 
 	/* move to the last line and draw there */
 	move(LINES - 1, 0);

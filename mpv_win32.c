@@ -260,7 +260,7 @@ void draw_status(void)
 {
 	mpdm_t t;
 
-	if(hwstatus != NULL && (t = mp_status_line()) != NULL)
+	if(hwstatus != NULL && (t = mp_build_status_line()) != NULL)
 	{
 		t = MPDM_2MBS(t->data);
 
