@@ -15,9 +15,6 @@ Release Critical Bugs
  * 1117: Add go to line.
  * 1118: Add move word left and right.
  * 1120: Add system command execution (pipes).
- * 1130: When the last open file is closed (so a new, empty file is created
-   automatically), the tab files are not rebuilt (as the size of the tab set
-   is the same).
 
 Open Bugs
 ---------
@@ -67,5 +64,8 @@ Closed
    (Mon, 26 Dec 2005 19:45:20 +0100).
  * 1119: Add learn mode (Fri, 20 Jan 2006 18:55:41 +0100).
  * 1129: Add '+line' command line argument (Tue, 24 Jan 2006 06:22:49 +0100).
+ * 1130: When the last open file is closed (so a new, empty file is created
+   automatically), the tab files are not rebuilt (as the size of the tab set
+   is the same) (Tue, 14 Feb 2006 08:08:55 +0100).
 
 Email bugs to angel@triptico.com

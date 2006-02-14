@@ -216,6 +216,8 @@ static void draw_filetabs(void)
 	int a;
 	mpdm_t docs;
 	static int last = -1;
+	static mpdm_t last_seen = NULL;
+	int rebuild = 0;
 
 	/* gets the document list */
 	if((docs = mpdm_hget_s(mp, L"docs")) == NULL)
@@ -228,8 +230,27 @@ static void draw_filetabs(void)
 	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
 		(GtkSignalFunc) switch_page, NULL);
 
-	/* rebuild? */
 	if(last != mpdm_size(docs))
+		rebuild = 1;
+	else
+	{
+		/* same number of documents; if it's 1,
+		   test if it's the same as the last seen */
+		if(last == 1)
+		{
+			mpdm_t t = mpdm_aget(docs, 0);
+
+			/* not the same? */
+			if(t != last_seen)
+			{
+				last_seen = t;
+				rebuild = 1;
+			}
+		}
+	}
+
+	/* rebuild? */
+	if(rebuild)
 	{
 		int n;
 
