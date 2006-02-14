@@ -185,7 +185,7 @@ static void draw_filetabs(void)
 	if(hwtabs == NULL)
 		return;
 
-	if((docs = drw_get_filetabs(&active, &last)) != NULL)
+	if((docs = mp_get_filetabs(&active, &last)) != NULL)
 	{
 		int n;
 

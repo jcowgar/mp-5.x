@@ -579,9 +579,9 @@ mpdm_t mpi_draw(mpdm_t doc)
 }
 
 
-mpdm_t drw_get_filetabs(int * active, int * last)
+mpdm_t mp_get_filetabs(int * active, int * last)
 /* returns an array containing the names of the documents
-   to fill the filetabs, or NULL if no redraw is needed */
+   to fill the filetabs, or NULL if no rebuild is needed */
 {
 	mpdm_t docs;
 	static int last_size = -1;

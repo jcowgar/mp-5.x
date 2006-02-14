@@ -221,7 +221,7 @@ static void draw_filetabs(void)
 		(GtkSignalFunc) switch_page, NULL);
 
 	/* gets the document list */
-	if((docs = drw_get_filetabs(&active, &last)) != NULL)
+	if((docs = mp_get_filetabs(&active, &last)) != NULL)
 	{
 		int n;
 
