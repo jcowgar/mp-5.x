@@ -292,8 +292,6 @@ static void draw_status(void)
 }
 
 
-mpdm_t mpi_draw(mpdm_t v);
-
 static void nc_draw(mpdm_t doc)
 /* driver drawing function for cursesw */
 {
@@ -302,7 +300,7 @@ static void nc_draw(mpdm_t doc)
 
 	erase();
 
-	d = mpi_draw(doc);
+	d = mp_draw(doc);
 
 	for(n = 0;n < mpdm_size(d);n++)
 	{

@@ -378,8 +378,6 @@ static void draw_scrollbar(void)
 }
 
 
-mpdm_t mpi_draw(mpdm_t v);
-
 static void gtk_drv_paint(mpdm_t doc)
 /* GTK document draw function */
 {
@@ -391,7 +389,7 @@ static void gtk_drv_paint(mpdm_t doc)
 	if(gc == NULL)
 		gc = gdk_gc_new(area->window);
 
-	if((d = mpi_draw(doc)) == NULL)
+	if((d = mp_draw(doc)) == NULL)
 		return;
 
 	if(font == NULL)

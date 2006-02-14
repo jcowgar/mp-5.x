@@ -78,6 +78,8 @@ static struct {
 #define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
 
 static int drw_wcwidth(int x, wchar_t c)
+/* returns the wcwidth of c, or the tab spaces for
+   the x column if it's a tab */
 {
 	int r;
 
@@ -164,6 +166,7 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 
 
 static void drw_prepare(mpdm_t doc)
+/* prepares the document for screen drawing */
 {
 	mpdm_t txt = mpdm_hget_s(doc, L"txt");
 	mpdm_t window = mpdm_hget_s(doc, L"window");
@@ -551,7 +554,7 @@ static mpdm_t drw_as_array(void)
 }
 
 
-mpdm_t mpi_draw(mpdm_t doc)
+mpdm_t mp_draw(mpdm_t doc)
 /* main drawing function: takes a document and returns an array of
    arrays of attribute / string pairs */
 {

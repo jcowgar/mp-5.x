@@ -73,6 +73,9 @@ static COLORREF inks[MP_ATTR_SIZE];
 static COLORREF papers[MP_ATTR_SIZE];
 HBRUSH bgbrush;
 
+int font_size = 14;
+char * font_face = "Lucida Console";
+
 /*******************
 	Code
 ********************/
@@ -98,9 +101,6 @@ static void update_window_size(void)
 	mpdm_hset_s(win32_window, L"ty", MPDM_I(ty));
 }
 
-
-int font_size = 14;
-char * font_face = "Lucida Console";
 
 static void build_fonts(HDC hdc)
 /* build the fonts */
@@ -270,8 +270,6 @@ void draw_status(void)
 }
 
 
-mpdm_t mpi_draw(mpdm_t v);
-
 static void win32_draw(HWND hwnd, mpdm_t doc)
 /* win32 document draw function */
 {
@@ -286,7 +284,7 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 	hdc = BeginPaint(hwnd, &ps);
 
 	/* no document? end */
-	if((d = mpi_draw(doc)) == NULL)
+	if((d = mp_draw(doc)) == NULL)
 	{
 		EndPaint(hwnd, &ps);
 		return;
