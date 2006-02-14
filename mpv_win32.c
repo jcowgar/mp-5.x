@@ -178,44 +178,16 @@ static void build_colors(void)
 static void draw_filetabs(void)
 /* draws the filetabs */
 {
-	int a;
+	int active, last;
 	mpdm_t docs;
-	static int last = -1;
-	static mpdm_t last_seen = NULL;
-	int rebuild = 0;
 
 	/* gets the document list */
-	if(hwtabs == NULL || (docs = mpdm_hget_s(mp, L"docs")) == NULL)
+	if(hwtabs == NULL)
 		return;
 
-	/* gets the active document number */
-	a = mpdm_ival(mpdm_hget_s(mp, L"active"));
-
-	if(last != mpdm_size(docs))
-		rebuild = 1;
-	{
-		/* same number of documents; if it's 1,
-		   test if it's the same as the last seen */
-		if(last == 1)
-		{
-			mpdm_t t = mpdm_aget(docs, 0);
-
-			/* not the same? */
-			if(t != last_seen)
-			{
-				last_seen = t;
-				rebuild = 1;
-			}
-		}
-	}
-
-	/* rebuild? */
-	if(rebuild)
+	if((docs = drw_get_filetabs(&active, &last)) != NULL)
 	{
 		int n;
-
-		/* if size is different that the last, rebuild the tabset */
-		last = mpdm_size(docs);
 
 		TabCtrl_DeleteAllItems(hwtabs);
 
@@ -249,7 +221,7 @@ static void draw_filetabs(void)
 	}
 
 	/* set the active one */
-	TabCtrl_SetCurSel(hwtabs, a);
+	TabCtrl_SetCurSel(hwtabs, active);
 }
 
 

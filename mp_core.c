@@ -579,6 +579,49 @@ mpdm_t mpi_draw(mpdm_t doc)
 }
 
 
+mpdm_t drw_get_filetabs(int * active, int * last)
+/* returns an array containing the names of the documents
+   to fill the filetabs, or NULL if no redraw is needed */
+{
+	mpdm_t docs;
+	static int last_size = -1;
+	static mpdm_t last_seen = NULL;
+	mpdm_t r = NULL;
+
+	/* gets the document list */
+	if((docs = mpdm_hget_s(mp, L"docs")) == NULL)
+		return(r);
+
+	/* gets the active document number and the last size */
+	*active = mpdm_ival(mpdm_hget_s(mp, L"active"));
+	*last = last_size;
+
+	if(last_size != mpdm_size(docs))
+	{
+		last_size = mpdm_size(docs);
+		r = docs;
+	}
+	else
+	{
+		/* same number of documents; if it's 1,
+		   test if it's the same as the last seen one */
+		if(last_size == 1)
+		{
+			mpdm_t t = mpdm_aget(docs, 0);
+
+			/* not the same? */
+			if(t != last_seen)
+			{
+				last_seen = t;
+				r = docs;
+			}
+		}
+	}
+
+	return(r);
+}
+
+
 mpdm_t mp_get_active(void)
 /* interfaz to mp.get_active() */
 {

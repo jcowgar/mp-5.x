@@ -213,44 +213,15 @@ static void switch_page(GtkNotebook * notebook, GtkNotebookPage * page,
 static void draw_filetabs(void)
 /* draws the filetabs */
 {
-	int a;
+	int active, last;
 	mpdm_t docs;
-	static int last = -1;
-	static mpdm_t last_seen = NULL;
-	int rebuild = 0;
-
-	/* gets the document list */
-	if((docs = mpdm_hget_s(mp, L"docs")) == NULL)
-		return;
-
-	/* gets the active document number */
-	a = mpdm_ival(mpdm_hget_s(mp, L"active"));
 
 	/* disconnect redraw signal to avoid infinite loops */
 	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
 		(GtkSignalFunc) switch_page, NULL);
 
-	if(last != mpdm_size(docs))
-		rebuild = 1;
-	else
-	{
-		/* same number of documents; if it's 1,
-		   test if it's the same as the last seen */
-		if(last == 1)
-		{
-			mpdm_t t = mpdm_aget(docs, 0);
-
-			/* not the same? */
-			if(t != last_seen)
-			{
-				last_seen = t;
-				rebuild = 1;
-			}
-		}
-	}
-
-	/* rebuild? */
-	if(rebuild)
+	/* gets the document list */
+	if((docs = drw_get_filetabs(&active, &last)) != NULL)
 	{
 		int n;
 
@@ -287,12 +258,10 @@ static void draw_filetabs(void)
 			gtk_notebook_append_page(
 				GTK_NOTEBOOK(file_tabs), f, l);
 		}
-
-		last = mpdm_size(docs);
 	}
 
 	/* set the active one */
-	gtk_notebook_set_page(GTK_NOTEBOOK(file_tabs), a);
+	gtk_notebook_set_page(GTK_NOTEBOOK(file_tabs), active);
 
 	/* reconnect signal */
 	gtk_signal_connect(GTK_OBJECT(file_tabs), "switch_page",

@@ -42,3 +42,5 @@ mpdm_t mp_get_active(void);
 mpdm_t mp_process_event(mpdm_t keycode);
 mpdm_t mp_set_y(mpdm_t doc, int y);
 mpdm_t mp_status_line(void);
+
+mpdm_t drw_get_filetabs(int * active, int * last);
