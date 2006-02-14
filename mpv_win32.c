@@ -269,13 +269,10 @@ void draw_status(void)
 
 	if(hwstatus != NULL && (t = mp_status_line()) != NULL)
 	{
-		char * ptr;
+		t = MPDM_2MBS(t->data);
 
-		if((ptr = mpdm_wcstombs((wchar_t *)t->data, NULL)) != NULL)
-		{
-			SetWindowText(hwstatus, ptr);
-			free(ptr);
-		}
+		if(t->data != NULL)
+			SetWindowText(hwstatus, t->data);
 	}
 }
 
