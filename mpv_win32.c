@@ -53,13 +53,18 @@ HINSTANCE hinst;
 /* the windows */
 HWND hwnd = NULL;
 HWND hwtabs = NULL;
+HWND hwstatus = NULL;
 
 /* font handlers and metrics */
 HFONT font_normal = NULL;
 int font_width = 0;
 int font_height = 0;
 
+/* height of the tab set */
 int tab_height = 28;
+
+/* height of the status bar */
+int status_height = 16;
 
 int is_wm_keydown = 0;
 
@@ -257,6 +262,24 @@ static void draw_scrollbar(void)
 }
 
 
+void draw_status(void)
+/* draws the status line */
+{
+	mpdm_t t;
+
+	if(hwstatus != NULL && (t = mp_status_line()) != NULL)
+	{
+		char * ptr;
+
+		if((ptr = mpdm_wcstombs((wchar_t *)t->data, NULL)) != NULL)
+		{
+			SetWindowText(hwstatus, ptr);
+			free(ptr);
+		}
+	}
+}
+
+
 mpdm_t mpi_draw(mpdm_t v);
 
 static void win32_draw(HWND hwnd, mpdm_t doc)
@@ -335,6 +358,7 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 
 	draw_filetabs();
 	draw_scrollbar();
+	draw_status();
 }
 
 
@@ -570,9 +594,13 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		if(!IsIconic(hwnd))
 		{
 			update_window_size();
-			redraw();
 
-			MoveWindow(hwtabs, 0, 0, LOWORD(lparam), tab_height, TRUE);
+			MoveWindow(hwtabs, 0, 0, LOWORD(lparam), tab_height, FALSE);
+
+			MoveWindow(hwstatus, 0, HIWORD(lparam) - status_height,
+				LOWORD(lparam), status_height, FALSE);
+
+			redraw();
 		}
 
 		return(0);
@@ -770,6 +798,14 @@ static void win32_drv_startup(void)
 */
 	ShowWindow(hwtabs, SW_SHOW);
 	UpdateWindow(hwtabs);
+
+	hwstatus = CreateWindow(WC_STATIC, "status",
+		WS_CHILD,
+		0, r.bottom - r.top - status_height,
+		r.right - r.left, status_height, hwnd, NULL, hinst, NULL);
+
+	ShowWindow(hwstatus, SW_SHOW);
+	UpdateWindow(hwstatus);
 
 	redraw();
 }
