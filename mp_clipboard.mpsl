@@ -1,0 +1,223 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Clipboard routines.
+
+    Copyright (C) 1991-2006 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+/*******************
+	Data
+********************/
+
+/*******************
+	Code
+********************/
+
+sub mp.unmark(doc)
+/* unmarks the block */
+{
+	/* just destroy the mark */
+	doc.txt.mark = NULL;
+}
+
+
+sub mp.mark(doc)
+/* marks the start or end of the block */
+{
+	local txt = doc.txt;
+
+	if(txt.mark == NULL)
+	{
+		/* no mark; create one */
+		txt.mark = {};
+		txt.mark.bx = txt.x;
+		txt.mark.by = txt.y;
+		txt.mark.ex = txt.x;
+		txt.mark.ey = txt.y;
+	}
+	else
+	{
+		/* mark exists; extend current one */
+		if(txt.y < txt.mark.by ||
+			(txt.y == txt.mark.by && txt.x < txt.mark.bx))
+		{
+			/* move the beginning of the block */
+			txt.mark.bx = txt.x;
+			txt.mark.by = txt.y;
+		}
+		else
+		{
+			/* move the end of the block */
+			txt.mark.ex = txt.x;
+			txt.mark.ey = txt.y;
+		}
+	}
+}
+
+
+sub mp.copy(doc)
+/* copies the mark to the clipboard */
+{
+	local txt = doc.txt;
+
+	/* no mark? done */
+	if(txt.mark == NULL) return;
+
+	/* set the clipboard to an empty array */
+	mp.clipboard = [];
+
+	if(txt.mark.by == txt.mark.ey)
+	{
+		local w;
+
+		/* block is just one line; take the inside
+		   part and push it onto the clipboard */
+
+		w = splice(txt.lines[txt.mark.by], NULL,
+			txt.mark.bx, txt.mark.ex - txt.mark.bx);
+
+		push(mp.clipboard, w[1]);
+	}
+	else
+	{
+		local w, n;
+
+		/* block has more than one line */
+
+		/* take from the beginning to the end of the first line */
+		n = txt.mark.by;
+		w = splice(txt.lines[n], NULL, txt.mark.bx, -1);
+
+		push(mp.clipboard, w[1]);
+		n++;
+
+		/* take the central lines */
+		while(n < txt.mark.ey)
+			push(mp.clipboard, txt.lines[n++]);
+
+		/* take the last line */
+		w = splice(txt.lines[n], NULL, 0, txt.mark.ex);
+		push(mp.clipboard, w[1]);
+	}
+}
+
+
+sub mp.delete_mark(doc)
+/* deletes current selection */
+{
+	local txt = doc.txt;
+
+	/* no mark? done */
+	if(txt.mark == NULL) return;
+
+	/* move to the start of the block */
+	txt.x = txt.mark.bx;
+	txt.y = txt.mark.by;
+
+	if(txt.mark.by == txt.mark.ey)
+	{
+		local w;
+
+		/* block is just one line; delete the middle part */
+		w = splice(txt.lines[txt.mark.by], NULL,
+			txt.mark.bx, txt.mark.ex - txt.mark.bx);
+
+		txt.lines[txt.mark.by] = w[0];
+	}
+	else
+	{
+		local w;
+
+		/* block has more than one line */
+
+		/* delete from the beginning to the end of the first line */
+		w = splice(txt.lines[txt.mark.by], NULL, txt.mark.bx, -1);
+		txt.lines[txt.mark.by] = w[0];
+
+		/* delete from the beginning of the last line to
+		   the end of the block */
+		w = splice(txt.lines[txt.mark.ey], NULL, 0, txt.mark.ex);
+		txt.lines[txt.mark.ey] = w[0];
+
+		/* collapse the lines in between */
+		collapse(txt.lines, txt.mark.by + 1,
+			txt.mark.ey - txt.mark.by - 1);
+
+		/* finally join both lines */
+		mp.join_line(doc);
+	}
+
+	mp.unmark(doc);
+}
+
+
+sub mp.cut(doc)
+/* cut (copy + delete) selected mark */
+{
+	mp.copy(doc);
+	mp.delete_mark(doc);
+}
+
+
+sub mp.paste(doc)
+/* pastes from the clipboard into a text */
+{
+	local txt = doc.txt;
+	local s;
+
+	/* no clipboard? return */
+	if(mp.clipboard == NULL)
+		return;
+
+	/* empty clipboard (rare, but possible)? return */
+	if((s = size(mp.clipboard)) == 0)
+		return;
+
+	/* paste first line into current position */
+	mp.insert(doc, mp.clipboard[0]);
+
+	/* more than just one line? */
+	if(s > 1)
+	{
+		/* break current line in two */
+		mp.break_line(doc);
+
+		/* insert last line */
+		mp.insert(doc, mp.clipboard[s - 1]);
+	}
+
+	/* more than two lines? */
+	if(s > 2)
+	{
+		local n = 1;
+
+		/* open room */
+		expand(txt.lines, txt.y, s - 2);
+
+		/* transfer middle lines */
+		while(n < s - 1)
+			txt.lines[txt.y++] = mp.clipboard[n++];
+	}
+}
+
+
