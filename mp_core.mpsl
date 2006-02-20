@@ -121,78 +121,6 @@ sub mp.get_word(doc)
 }
 
 
-/* file code */
-
-sub mp.chomp(str)
-/* chomps the end of file chars from a string */
-{
-	sregex("/" ~ mp.config.eol ~ "$/", str, NULL);
-}
-
-
-sub mp.load_file(doc, filename)
-/* loads a file from disk */
-{
-	local f, l;
-	local txt = doc.txt;
-
-	/* store the filename */
-	doc.name = filename;
-
-	/* open or fail */
-	if((f = open(filename, "r")) == NULL)
-		return(0);
-
-	/* set lines as an empty array */
-	txt.lines = [];
-
-	/* read the file into it */
-	while((l = read(f)) != NULL)
-		push(txt.lines, mp.chomp(l));
-
-	/* if previous line was chomped, add an empty line */
-	if(sregex())
-		push(txt.lines, '');
-
-	close(f);
-
-	/* move to bof and save to the undo buffer */
-	mp.move_bof(doc);
-	mp.store_undo(doc);
-
-	mp.detect_syntax(doc);
-
-	return(1);
-}
-
-
-sub mp.save_file(doc)
-/* saves a file */
-{
-	local f, ls, l;
-
-	if((f = open(doc.name, "w")) == NULL)
-		return(0);
-
-	/* get all lines */
-	ls = clone(doc.txt.lines);
-
-	/* write the first one */
-	write(f, adel(ls, 0));
-
-	/* write the rest, with end of lines */
-	foreach(l, ls)
-	{
-		write(f, mp.config.eol);
-		write(f, l);
-	}
-
-	close(f);
-
-	return(1);
-}
-
-
 sub mp.new()
 /* creates a new document */
 {
@@ -496,6 +424,7 @@ sub mp.ui()
 
 load("mp_move.mpsl");
 load("mp_edit.mpsl");
+load("mp_file.mpsl");
 load("mp_clipboard.mpsl");
 load("mp_tags.mpsl");
 load("mp_syntax.mpsl");
