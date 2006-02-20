@@ -1,0 +1,162 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Movement.
+
+    Copyright (C) 1991-2006 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+/*******************
+	Data
+********************/
+
+/*******************
+	Code
+********************/
+
+sub mp.set_x(doc, x)
+/* sets the x position */
+{
+	local txt = doc.txt;
+
+	if(x < 0)
+	{
+		/* cursor moved left of the bol; effective cursor up + eol */
+		if(txt.y > 0)
+		{
+			/* one line up */
+			txt.y--;
+
+			/* set x to the end of the line */
+			txt.x = size(txt.lines[txt.y]);
+		}
+	}
+	else
+	{
+		/* test if moved beyond end of line */
+		if(x > size(txt.lines[txt.y]))
+		{
+			if(txt.y < size(txt.lines) - 1)
+			{
+				/* cursor moved right of eol;
+				   effective cursor down + bol */
+				txt.x = 0;
+				txt.y++;
+			}
+		}
+		else
+			txt.x = x;
+	}
+}
+
+
+sub mp.set_y(doc, y)
+/* sets the y position */
+{
+	local txt = doc.txt;
+	local vx;
+
+	/* get current visual x position */
+	vx = mp.x2vx(txt.lines[txt.y], txt.x);
+
+	/* set boundaries */
+	if(y < 0) y = 0;
+	if(y >= size(txt.lines)) y = size(txt.lines) - 1;
+
+	/* move there */
+	txt.y = y;
+
+	/* adjust new x to match previously one */
+	txt.x = mp.vx2x(txt.lines[txt.y], vx);
+}
+
+
+sub mp.move_up(doc)
+/* moves one line up */
+{
+	mp.set_y(doc, doc.txt.y - 1);
+}
+
+
+sub mp.move_down(doc)
+/* moves one line down */
+{
+	mp.set_y(doc, doc.txt.y + 1);
+}
+
+
+sub mp.move_pgup(doc)
+/* moves one page up */
+{
+	mp.set_y(doc, doc.txt.y - doc.window.ty);
+}
+
+
+sub mp.move_pgdn(doc)
+/* moves one page down */
+{
+	mp.set_y(doc, doc.txt.y + doc.window.ty);
+}
+
+
+sub mp.move_left(doc)
+/* moves one char left */
+{
+	mp.set_x(doc, doc.txt.x - 1);
+}
+
+
+sub mp.move_right(doc)
+/* moves one char right */
+{
+	mp.set_x(doc, doc.txt.x + 1);
+}
+
+
+sub mp.move_bol(doc)
+/* moves to the beginning of the line */
+{
+	doc.txt.x = 0;
+}
+
+
+sub mp.move_eol(doc)
+/* moves to the end of the line */
+{
+	doc.txt.x = size(doc.txt.lines[doc.txt.y]);
+}
+
+
+sub mp.move_bof(doc)
+/* moves to the beginning of the file */
+{
+	doc.txt.x = 0;
+	doc.txt.y = 0;
+}
+
+
+sub mp.move_eof(doc)
+/* moves to the end of the file */
+{
+	doc.txt.y = size(doc.txt.lines) - 1;
+	mp.move_eol(doc);
+}
