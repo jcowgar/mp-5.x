@@ -16,7 +16,6 @@ Release Critical Bugs
  * 1118: Add move word left.
  * 1120: Add system command execution (pipes).
  * 1131: Add move to next / previous ocurrence of character.
- * 1132: Add move word right.
 
 Open Bugs
 ---------
@@ -69,5 +68,6 @@ Closed
  * 1130: When the last open file is closed (so a new, empty file is created
    automatically), the tab files are not rebuilt (as the size of the tab set
    is the same) (Tue, 14 Feb 2006 08:08:55 +0100).
+ * 1132: Add move word right (Mon, 20 Feb 2006 17:23:57 +0100).
 
 Email bugs to angel@triptico.com

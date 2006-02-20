@@ -224,6 +224,9 @@ mp.keycodes = {
 	'ctrl-home'	=>	'move-bof',
 	'ctrl-end'	=>	'move-eof',
 
+	'ctrl-cursor-left'	=>	NULL,
+	'ctrl-cursor-right'	=>	'move-word-right',
+
 	'enter'		=>	'insert-line',
 	'tab'		=>	'insert-tab',
 	'space'		=>	'insert-space',
@@ -274,6 +277,8 @@ mp.actions = {
 	'move-eol'	=>	sub (d) { mp.move_eol(d); },
 	'move-bof'	=>	sub (d) { mp.move_bof(d); },
 	'move-eof'	=>	sub (d) { mp.move_eof(d); },
+
+	'move-word-right'	=>	sub(d) { mp.move_word_right(d); },
 
 	'seek'		=>	sub (d) { mp.search(d, mp.get_word(d)); },
 	'seek-next'	=>	sub (d) { mp.search(d, NULL); },

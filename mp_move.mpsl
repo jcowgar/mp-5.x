@@ -160,3 +160,25 @@ sub mp.move_eof(doc)
 	doc.txt.y = size(doc.txt.lines) - 1;
 	mp.move_eol(doc);
 }
+
+
+sub mp.move_word_right(doc)
+/* moves a word to the right */
+{
+	local txt;
+
+	txt = doc.txt;
+
+	while(txt.y < size(txt.lines) - 1)
+	{
+		if(regex("/\w*\W+/", txt.lines[txt.y], txt.x))
+		{
+			local c = regex();
+			txt.x = c[0] + c[1];
+			break;
+		}
+
+		txt.y++;
+		txt.x = 0;
+	}
+}
