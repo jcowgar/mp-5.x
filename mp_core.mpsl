@@ -1,3 +1,4 @@
+get_word
 /*
 
     Minimum Profit 5.x
@@ -568,6 +569,29 @@ sub mp.search(doc, str)
 }
 
 
+sub mp.get_word(doc)
+/* returns the word under the cursor */
+{
+	local txt, r, c, l;
+
+	txt = doc.txt;
+	l = txt.lines[txt.y];
+
+	/* loop all words in current line */
+	while(r = regex("/\w+/", l, c[0] + c[1]))
+	{
+		/* get coordinates */
+		c = regex();
+
+		/* if matching coords are between the cursor, got it */
+		if(c[0] <= txt.x && c[0] + c[1] >= txt.x)
+			break;
+	}
+
+	return(r);
+}
+
+
 /* file code */
 
 sub mp.chomp(str)
@@ -794,7 +818,7 @@ mp.actions = {
 	'move-bof'	=>	sub (k) { mp.move_bof(k); },
 	'move-eof'	=>	sub (k) { mp.move_eof(k); },
 
-	'seek'		=>	sub (k) { mp.search(k, "mpsl"); },
+	'seek'		=>	sub (k) { mp.search(k, mp.get_word(k)); },
 	'seek-next'	=>	sub (k) { mp.search(k, NULL); },
 
 	'unmark'	=>	sub (k) { mp.unmark(k); },
