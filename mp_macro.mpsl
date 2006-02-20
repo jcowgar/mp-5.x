@@ -27,8 +27,8 @@
 
 /* editor actions */
 
-mp.actions['record-macro']	= sub (k) { mp.record_macro(); };
-mp.actions['play-macro']	= sub (k) { mp.play_macro(); };
+mp.actions['record-macro']	= sub (d) { mp.record_macro(); };
+mp.actions['play-macro']	= sub (d) { mp.play_macro(); };
 
 /* default key bindings */
 

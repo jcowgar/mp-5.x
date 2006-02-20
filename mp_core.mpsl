@@ -806,54 +806,54 @@ mp.keycodes = {
 
 mp.actions = {
 
-	'move-left'	=>	sub (k) { mp.move_left(k); },
-	'move-right'	=>	sub (k) { mp.move_right(k); },
-	'move-up'	=>	sub (k) { mp.move_up(k); },
-	'move-down'	=>	sub (k) { mp.move_down(k); },
-	'move-pgup'	=>	sub (k) { mp.move_pgup(k); },
-	'move-pgdn'	=>	sub (k) { mp.move_pgdn(k); },
-	'move-bol'	=>	sub (k) { mp.move_bol(k); },
-	'move-eol'	=>	sub (k) { mp.move_eol(k); },
-	'move-bof'	=>	sub (k) { mp.move_bof(k); },
-	'move-eof'	=>	sub (k) { mp.move_eof(k); },
+	'move-left'	=>	sub (d) { mp.move_left(d); },
+	'move-right'	=>	sub (d) { mp.move_right(d); },
+	'move-up'	=>	sub (d) { mp.move_up(d); },
+	'move-down'	=>	sub (d) { mp.move_down(d); },
+	'move-pgup'	=>	sub (d) { mp.move_pgup(d); },
+	'move-pgdn'	=>	sub (d) { mp.move_pgdn(d); },
+	'move-bol'	=>	sub (d) { mp.move_bol(d); },
+	'move-eol'	=>	sub (d) { mp.move_eol(d); },
+	'move-bof'	=>	sub (d) { mp.move_bof(d); },
+	'move-eof'	=>	sub (d) { mp.move_eof(d); },
 
-	'seek'		=>	sub (k) { mp.search(k, mp.get_word(k)); },
-	'seek-next'	=>	sub (k) { mp.search(k, NULL); },
+	'seek'		=>	sub (d) { mp.search(d, mp.get_word(d)); },
+	'seek-next'	=>	sub (d) { mp.search(d, NULL); },
 
-	'unmark'	=>	sub (k) { mp.unmark(k); },
-	'mark'		=>	sub (k) { mp.mark(k); },
-	'copy-mark'	=>	sub (k) {
-						mp.copy(k);
-						mp.unmark(k);
+	'unmark'	=>	sub (d) { mp.unmark(d); },
+	'mark'		=>	sub (d) { mp.mark(d); },
+	'copy-mark'	=>	sub (d) {
+						mp.copy(d);
+						mp.unmark(d);
 						mp.drv.clip_to_sys();
 					},
-	'paste-mark'	=>	sub (k) {
-						mp.store_undo(k);
+	'paste-mark'	=>	sub (d) {
+						mp.store_undo(d);
 						mp.drv.sys_to_clip();
-						mp.paste(k);
+						mp.paste(d);
 					},
-	'cut-mark'	=>	sub (k) {
-						mp.store_undo(k);
-						mp.cut(k);
+	'cut-mark'	=>	sub (d) {
+						mp.store_undo(d);
+						mp.cut(d);
 						mp.drv.clip_to_sys();
 					},
 
-	'insert-line'	=>	sub (k) { mp.store_undo(k); mp.break_line(k); },
-	'delete-line'	=>	sub (k) { mp.store_undo(k); mp.delete_line(k); },
-	'insert-space'	=>	sub (k) { mp.store_undo(k); mp.insert_space(k); },
-	'insert-tab'	=>	sub (k) { mp.store_undo(k); mp.insert(k, "\t"); },
+	'insert-line'	=>	sub (d) { mp.store_undo(d); mp.break_line(d); },
+	'delete-line'	=>	sub (d) { mp.store_undo(d); mp.delete_line(d); },
+	'insert-space'	=>	sub (d) { mp.store_undo(d); mp.insert_space(d); },
+	'insert-tab'	=>	sub (d) { mp.store_undo(d); mp.insert(d, "\t"); },
 
-	'delete'	=>	sub (k) { mp.store_undo(k); mp.delete_char(k); },
-	'delete-left'	=>	sub (k) { mp.store_undo(k); mp.move_left(k);
-					mp.delete_char(k); },
+	'delete'	=>	sub (d) { mp.store_undo(d); mp.delete_char(d); },
+	'delete-left'	=>	sub (d) { mp.store_undo(d); mp.move_left(d);
+					mp.delete_char(d); },
 
-	'save'		=>	sub (k) { mp.save_file(k); },
-	'next'		=>	sub (k) { mp.next(); },
-	'close'		=>	sub (k) { mp.close(); },
+	'save'		=>	sub (d) { mp.save_file(d); },
+	'next'		=>	sub (d) { mp.next(); },
+	'close'		=>	sub (d) { mp.close(); },
 
-	'undo'		=>	sub (k) { mp.undo(k); },
+	'undo'		=>	sub (d) { mp.undo(d); },
 
-	'exit'		=>	sub (k) { mp.exit(); }
+	'exit'		=>	sub (d) { mp.exit(); }
 
 };
 
