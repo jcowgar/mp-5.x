@@ -177,28 +177,11 @@ mp.colors = {
 };
 
 mp.keycodes = {
-	'cursor-left'	=>	'move-left',
-	'cursor-right'	=>	'move-right',
-	'cursor-up'	=>	'move-up',
-	'cursor-down'	=>	'move-down',
-	'page-up'	=>	'move-pgup',
-	'page-down'	=>	'move-pgdn',
-	'home'		=>	'move-bol',
-	'end'		=>	'move-eol',
-	'ctrl-home'	=>	'move-bof',
-	'ctrl-end'	=>	'move-eof',
-
-	'ctrl-cursor-left'	=>	NULL,
-	'ctrl-cursor-right'	=>	'move-word-right',
-
 	'enter'		=>	'insert-line',
 	'tab'		=>	'insert-tab',
 	'space'		=>	'insert-space',
 	'delete'	=>	'delete',
 	'backspace'	=>	'delete-left',
-
-	'f8'		=>	'unmark',
-	'f9'		=>	'mark',
 
 	'ctrl-a'	=>	NULL,
 	'ctrl-b'	=>	NULL,
