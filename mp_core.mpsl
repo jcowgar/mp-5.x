@@ -62,42 +62,6 @@ sub mp.undo(doc)
 }
 
 
-sub mp.search(doc, str)
-{
-	local txt, x, y, r;
-
-	if(str == NULL)
-		str = mp.last_search;
-
-	if(str == NULL)
-		return(NULL);
-
-	txt = doc.txt;
-	x = txt.x + 1;
-	y = txt.y;
-
-	/* while not found, loop the lines */
-	while(! regex("/" ~ str ~ "/", txt.lines[y], x) && y < size(txt.lines))
-	{
-		x = 0; y++;
-	}
-
-	/* get last coords */
-	r = regex();
-
-	if(r)
-	{
-		mp.set_y(doc, y);
-		mp.set_x(doc, r[0]);
-
-		/* store last search */
-		mp.last_search = str;
-	}
-
-	return(r);
-}
-
-
 sub mp.get_word(doc)
 /* returns the word under the cursor */
 {
@@ -431,6 +395,7 @@ load("mp_move.mpsl");
 load("mp_edit.mpsl");
 load("mp_file.mpsl");
 load("mp_clipboard.mpsl");
+load("mp_search.mpsl");
 load("mp_tags.mpsl");
 load("mp_syntax.mpsl");
 load("mp_macro.mpsl");

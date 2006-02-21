@@ -1,0 +1,72 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Search and replace.
+
+    Copyright (C) 1991-2006 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+/*******************
+	Data
+********************/
+
+/*******************
+	Code
+********************/
+
+sub mp.search(doc, str)
+/* search str and put the current position there */
+{
+	local txt, x, y, r;
+
+	if(str == NULL)
+		str = mp.last_search;
+
+	if(str == NULL)
+		return(NULL);
+
+	txt = doc.txt;
+	x = txt.x + 1;
+	y = txt.y;
+
+	/* while not found, loop the lines */
+	while(! regex("/" ~ str ~ "/", txt.lines[y], x) && y < size(txt.lines))
+	{
+		x = 0; y++;
+	}
+
+	/* get last coords */
+	r = regex();
+
+	if(r)
+	{
+		mp.set_y(doc, y);
+		mp.set_x(doc, r[0]);
+
+		/* store last search */
+		mp.last_search = str;
+	}
+
+	return(r);
+}
+
+
