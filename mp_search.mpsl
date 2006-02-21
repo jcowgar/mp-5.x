@@ -31,6 +31,7 @@ mp.actions['seek'] 	= sub (d) { mp.search(d, mp.get_word(d)); };
 mp.actions['seek-next']	= sub (d) { mp.search(d, NULL); };
 mp.actions['replace']	= sub (d) { mp.replace(d, mp.get_word(d), 'TEST'); };
 mp.actions['replace-all'] = sub (d) { mp.replace_all(d, mp.get_word(d), 'TESTALL'); };
+mp.actions['replace-in-all'] = sub (d) { mp.replace_in_all(mp.get_word(d), 'TESTINALL'); };
 
 /* default key bindings */
 
@@ -109,4 +110,14 @@ sub mp.replace_all(doc, from, to)
 /* replaces all ocurrences of 'from' with 'to */
 {
 	while(mp.replace(doc, from, to));
+}
+
+
+sub mp.replace_in_all(from, to)
+/* replaces in all open documents all ocurrences of 'from' with 'to' */
+{
+	local d;
+
+	foreach(d, mp.docs)
+		mp.replace_all(d, from, to);
 }

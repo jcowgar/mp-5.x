@@ -13,7 +13,6 @@ Release Critical Bugs
  * 1118: Add move word left.
  * 1120: Add system command execution (pipes).
  * 1131: Add move to next / previous ocurrence of character.
- * 1133: Add replace in all documents.
 
 Open Bugs
 ---------
@@ -70,5 +69,6 @@ Closed
  * 1111: Add search (Tue, 21 Feb 2006 07:28:36 +0100).
  * 1112: Add replace (Tue, 21 Feb 2006 07:48:36 +0100).
  * 1113: Add replace all (Tue, 21 Feb 2006 08:33:02 +0100).
+ * 1133: Add replace in all documents (Tue, 21 Feb 2006 08:37:11 +0100).
 
 Email bugs to angel@triptico.com
