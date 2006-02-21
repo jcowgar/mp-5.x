@@ -225,18 +225,6 @@ mp.keycodes = {
 
 mp.actions = {
 
-	'move-left'	=>	sub (d) { mp.move_left(d); },
-	'move-right'	=>	sub (d) { mp.move_right(d); },
-	'move-up'	=>	sub (d) { mp.move_up(d); },
-	'move-down'	=>	sub (d) { mp.move_down(d); },
-	'move-pgup'	=>	sub (d) { mp.move_pgup(d); },
-	'move-pgdn'	=>	sub (d) { mp.move_pgdn(d); },
-	'move-bol'	=>	sub (d) { mp.move_bol(d); },
-	'move-eol'	=>	sub (d) { mp.move_eol(d); },
-	'move-bof'	=>	sub (d) { mp.move_bof(d); },
-	'move-eof'	=>	sub (d) { mp.move_eof(d); },
-
-	'move-word-right'	=>	sub(d) { mp.move_word_right(d); },
 
 	'insert-line'	=>	sub (d) { mp.store_undo(d); mp.break_line(d); },
 	'delete-line'	=>	sub (d) { mp.store_undo(d); mp.delete_line(d); },

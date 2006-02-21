@@ -27,7 +27,32 @@
 
 /* editor actions */
 
+mp.actions['move-left']	 	= sub (d) { mp.move_left(d); };
+mp.actions['move-right'] 	= sub (d) { mp.move_right(d); };
+mp.actions['move-up']		= sub (d) { mp.move_up(d); };
+mp.actions['move-down']		= sub (d) { mp.move_down(d); };
+mp.actions['move-pgup']		= sub (d) { mp.move_pgup(d); };
+mp.actions['move-pgdn']		= sub (d) { mp.move_pgdn(d); };
+mp.actions['move-bol']		= sub (d) { mp.move_bol(d); };
+mp.actions['move-eol']		= sub (d) { mp.move_eol(d); };
+mp.actions['move-bof']		= sub (d) { mp.move_bof(d); };
+mp.actions['move-eof']		= sub (d) { mp.move_eof(d); };
+mp.actions['move-word-right']	= sub (d) { mp.move_word_right(d); };
+
 /* default key bindings */
+
+mp.keycodes['cursor-left']	= 'move-left';
+mp.keycodes['cursor-right']	= 'move-right';
+mp.keycodes['cursor-up']	= 'move-up';
+mp.keycodes['cursor-down']	= 'move-down';
+mp.keycodes['page-up']		= 'move-pgup';
+mp.keycodes['page-down']	= 'move-pgdn';
+mp.keycodes['home']		= 'move-bol';
+mp.keycodes['end']		= 'move-eol';
+mp.keycodes['ctrl-home']	= 'move-bof';
+mp.keycodes['ctrl-end']		= 'move-eof';
+mp.keycodes['ctrl-cursor-left']	= NULL;
+mp.keycodes['ctrl-cursor-right']= 'move-word-right';
 
 /* code */
 
