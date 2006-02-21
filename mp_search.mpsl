@@ -95,6 +95,9 @@ sub mp.replace(doc, from, to)
 		/* substitute */
 		l = splice(l, to, c[0], c[1]);
 		txt.lines[txt.y] = l[0];
+
+		/* correct the x position */
+		mp.set_x(doc, c[0] + size(to));
 	}
 
 	return(r);
