@@ -51,7 +51,7 @@ sub mp.search(doc, str)
 		return(NULL);
 
 	txt = doc.txt;
-	x = txt.x + 1;
+	x = txt.x;
 	y = txt.y;
 
 	/* while not found, loop the lines */
@@ -66,7 +66,7 @@ sub mp.search(doc, str)
 	if(r)
 	{
 		mp.set_y(doc, y);
-		mp.set_x(doc, r[0]);
+		mp.set_x(doc, r[0] + r[1]);
 
 		/* store last search */
 		mp.last_search = str;
