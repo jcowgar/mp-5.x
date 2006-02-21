@@ -30,12 +30,13 @@
 mp.actions['seek'] 	= sub (d) { mp.search(d, mp.get_word(d)); };
 mp.actions['seek-next']	= sub (d) { mp.search(d, NULL); };
 mp.actions['replace']	= sub (d) { mp.replace(d, mp.get_word(d), 'TEST'); };
+mp.actions['replace-all'] = sub (d) { mp.replace_all(d, mp.get_word(d), 'TESTALL'); };
 
 /* default key bindings */
 
 mp.keycodes['f3']	= 'seek-next';
 mp.keycodes['ctrl-f']	= 'seek';
-mp.keycodes['replace']	= 'replace';
+mp.keycodes['ctrl-r']	= 'replace';
 
 /* code */
 
@@ -77,7 +78,7 @@ sub mp.search(doc, str)
 
 
 sub mp.replace(doc, from, to)
-/* replaces 'from' with 'to' */
+/* searches 'from' and replaces it with 'to' */
 {
 	local r;
 
@@ -101,4 +102,11 @@ sub mp.replace(doc, from, to)
 	}
 
 	return(r);
+}
+
+
+sub mp.replace_all(doc, from, to)
+/* replaces all ocurrences of 'from' with 'to */
+{
+	while(mp.replace(doc, from, to));
 }

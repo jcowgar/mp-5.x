@@ -216,7 +216,6 @@ mp.keycodes = {
 	'ctrl-o'	=>	'open',
 	'ctrl-p'	=>	NULL,
 	'ctrl-q'	=>	'exit',
-	'ctrl-r'	=>	'replace',
 	'ctrl-s'	=>	'save',
 	'ctrl-t'	=>	NULL,
 	'ctrl-u'	=>	NULL,
