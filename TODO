@@ -7,7 +7,6 @@ Release Critical Bugs
  * 1107: Add ispell support.
  * 1109: Add jump to matching paren.
  * 1110: Add mp_templates support.
- * 1111: Add search.
  * 1112: Add replace.
  * 1113: Add replace in all.
  * 1115: Add password protection.
@@ -69,5 +68,6 @@ Closed
    automatically), the tab files are not rebuilt (as the size of the tab set
    is the same) (Tue, 14 Feb 2006 08:08:55 +0100).
  * 1132: Add move word right (Mon, 20 Feb 2006 17:23:57 +0100).
+ * 1111: Add search (Tue, 21 Feb 2006 07:28:36 +0100).
 
 Email bugs to angel@triptico.com
