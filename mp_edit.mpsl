@@ -25,13 +25,12 @@
 
 */
 
-/*******************
-	Data
-********************/
 
-/*******************
-	Code
-********************/
+/* editor actions */
+
+/* default key bindings */
+
+/* code */
 
 sub mp.break_line(doc, col)
 /* breaks current line in two (inserts a newline) */

@@ -25,13 +25,35 @@
 
 */
 
-/*******************
-	Data
-********************/
+/* editor actions */
 
-/*******************
-	Code
-********************/
+mp.actions['unmark']	= sub (d) { mp.unmark(d); };
+mp.actions['mark']	= sub (d) { mp.mark(d); };
+mp.actions['copy-mark']	= sub (d) {
+					mp.copy(d);
+					mp.unmark(d);
+					mp.drv.clip_to_sys();
+				};
+
+mp.actions['paste-mark'] = sub (d) {
+					mp.store_undo(d);
+					mp.drv.sys_to_clip();
+					mp.paste(d);
+				};
+
+mp.actions['cut-mark']	= sub (d) {
+					mp.store_undo(d);
+					mp.cut(d);
+					mp.drv.clip_to_sys();
+				};
+
+/* default key bindings */
+
+mp.keycodes['ctrl-c']	= 'copy-mark';
+mp.keycodes['ctrl-v']	= 'paste-mark';
+mp.keycodes['ctrl-x']	= 'cut-mark';
+
+/* code */
 
 sub mp.unmark(doc)
 /* unmarks the block */

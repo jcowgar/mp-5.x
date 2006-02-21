@@ -25,13 +25,11 @@
 
 */
 
-/*******************
-	Data
-********************/
+/* editor actions */
 
-/*******************
-	Code
-********************/
+/* default key bindings */
+
+/* code */
 
 sub mp.chomp(str)
 /* chomps the end of file chars from a string */

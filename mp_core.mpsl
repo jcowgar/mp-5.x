@@ -202,7 +202,6 @@ mp.keycodes = {
 
 	'ctrl-a'	=>	NULL,
 	'ctrl-b'	=>	NULL,
-	'ctrl-c'	=>	'copy-mark',
 	'ctrl-d'	=>	NULL,
 	'ctrl-e'	=>	NULL,
 	'ctrl-g'	=>	'goto',
@@ -219,9 +218,7 @@ mp.keycodes = {
 	'ctrl-s'	=>	'save',
 	'ctrl-t'	=>	NULL,
 	'ctrl-u'	=>	NULL,
-	'ctrl-v'	=>	'paste-mark',
 	'ctrl-w'	=>	'close',
-	'ctrl-x'	=>	'cut-mark',
 	'ctrl-y'	=>	'delete-line',
 	'ctrl-z'	=>	'undo'
 };
@@ -240,24 +237,6 @@ mp.actions = {
 	'move-eof'	=>	sub (d) { mp.move_eof(d); },
 
 	'move-word-right'	=>	sub(d) { mp.move_word_right(d); },
-
-	'unmark'	=>	sub (d) { mp.unmark(d); },
-	'mark'		=>	sub (d) { mp.mark(d); },
-	'copy-mark'	=>	sub (d) {
-						mp.copy(d);
-						mp.unmark(d);
-						mp.drv.clip_to_sys();
-					},
-	'paste-mark'	=>	sub (d) {
-						mp.store_undo(d);
-						mp.drv.sys_to_clip();
-						mp.paste(d);
-					},
-	'cut-mark'	=>	sub (d) {
-						mp.store_undo(d);
-						mp.cut(d);
-						mp.drv.clip_to_sys();
-					},
 
 	'insert-line'	=>	sub (d) { mp.store_undo(d); mp.break_line(d); },
 	'delete-line'	=>	sub (d) { mp.store_undo(d); mp.delete_line(d); },

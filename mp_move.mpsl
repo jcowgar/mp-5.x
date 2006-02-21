@@ -25,13 +25,11 @@
 
 */
 
-/*******************
-	Data
-********************/
+/* editor actions */
 
-/*******************
-	Code
-********************/
+/* default key bindings */
+
+/* code */
 
 sub mp.set_x(doc, x)
 /* sets the x position */
