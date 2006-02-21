@@ -177,23 +177,15 @@ mp.colors = {
 };
 
 mp.keycodes = {
-	'enter'		=>	'insert-line',
-	'tab'		=>	'insert-tab',
-	'space'		=>	'insert-space',
-	'delete'	=>	'delete',
-	'backspace'	=>	'delete-left',
-
 	'ctrl-a'	=>	NULL,
 	'ctrl-b'	=>	NULL,
 	'ctrl-d'	=>	NULL,
 	'ctrl-e'	=>	NULL,
 	'ctrl-g'	=>	'goto',
 	'ctrl-h'	=>	NULL,
-	'ctrl-i'	=>	'insert-tab',
 	'ctrl-j'	=>	NULL,
 	'ctrl-k'	=>	NULL,
 	'ctrl-l'	=>	NULL,
-	'ctrl-m'	=>	'insert-line',
 	'ctrl-n'	=>	'next',
 	'ctrl-o'	=>	'open',
 	'ctrl-p'	=>	NULL,
@@ -202,21 +194,10 @@ mp.keycodes = {
 	'ctrl-t'	=>	NULL,
 	'ctrl-u'	=>	NULL,
 	'ctrl-w'	=>	'close',
-	'ctrl-y'	=>	'delete-line',
 	'ctrl-z'	=>	'undo'
 };
 
 mp.actions = {
-
-
-	'insert-line'	=>	sub (d) { mp.store_undo(d); mp.break_line(d); },
-	'delete-line'	=>	sub (d) { mp.store_undo(d); mp.delete_line(d); },
-	'insert-space'	=>	sub (d) { mp.store_undo(d); mp.insert_space(d); },
-	'insert-tab'	=>	sub (d) { mp.store_undo(d); mp.insert(d, "\t"); },
-
-	'delete'	=>	sub (d) { mp.store_undo(d); mp.delete_char(d); },
-	'delete-left'	=>	sub (d) { mp.store_undo(d); mp.move_left(d);
-					mp.delete_char(d); },
 
 	'save'		=>	sub (d) { mp.save_file(d); },
 	'next'		=>	sub (d) { mp.next(); },

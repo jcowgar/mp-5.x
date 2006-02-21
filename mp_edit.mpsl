@@ -28,7 +28,24 @@
 
 /* editor actions */
 
+mp.actions['insert-line']	= sub (d) { mp.store_undo(d); mp.break_line(d); };
+mp.actions['delete-line']	= sub (d) { mp.store_undo(d); mp.delete_line(d); };
+mp.actions['insert-space']	= sub (d) { mp.store_undo(d); mp.insert_space(d); };
+mp.actions['insert-tab']	= sub (d) { mp.store_undo(d); mp.insert(d, "\t"); };
+mp.actions['delete']		= sub (d) { mp.store_undo(d); mp.delete_char(d); };
+mp.actions['delete-left']	= sub (d) { mp.store_undo(d); mp.move_left(d);
+					mp.delete_char(d); };
+
 /* default key bindings */
+
+mp.keycodes['enter']	= 'insert-line';
+mp.keycodes['tab']	= 'insert-tab';
+mp.keycodes['space']	= 'insert-space';
+mp.keycodes['delete']	= 'delete';
+mp.keycodes['backspace']= 'delete-left';
+mp.keycodes['ctrl-i']	= 'insert-tab';
+mp.keycodes['ctrl-m']	= 'insert-line';
+mp.keycodes['ctrl-y']	= 'delete-line';
 
 /* code */
 
