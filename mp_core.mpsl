@@ -197,7 +197,6 @@ mp.keycodes = {
 	'delete'	=>	'delete',
 	'backspace'	=>	'delete-left',
 
-	'f3'		=>	'seek-next',
 	'f8'		=>	'unmark',
 	'f9'		=>	'mark',
 
@@ -206,7 +205,6 @@ mp.keycodes = {
 	'ctrl-c'	=>	'copy-mark',
 	'ctrl-d'	=>	NULL,
 	'ctrl-e'	=>	NULL,
-	'ctrl-f'	=>	'seek',
 	'ctrl-g'	=>	'goto',
 	'ctrl-h'	=>	NULL,
 	'ctrl-i'	=>	'insert-tab',
@@ -243,9 +241,6 @@ mp.actions = {
 	'move-eof'	=>	sub (d) { mp.move_eof(d); },
 
 	'move-word-right'	=>	sub(d) { mp.move_word_right(d); },
-
-	'seek'		=>	sub (d) { mp.search(d, mp.get_word(d)); },
-	'seek-next'	=>	sub (d) { mp.search(d, NULL); },
 
 	'unmark'	=>	sub (d) { mp.unmark(d); },
 	'mark'		=>	sub (d) { mp.mark(d); },

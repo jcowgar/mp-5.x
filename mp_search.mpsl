@@ -25,13 +25,19 @@
 
 */
 
-/*******************
-	Data
-********************/
+/* editor actions */
 
-/*******************
-	Code
-********************/
+mp.actions['seek'] 	= sub (d) { mp.search(d, mp.get_word(d)); };
+mp.actions['seek-next']	= sub (d) { mp.search(d, NULL); };
+mp.actions['replace']	= sub (d) { mp.replace(d, mp.get_word(d), 'TEST'); };
+
+/* default key bindings */
+
+mp.keycodes['f3']	= 'seek-next';
+mp.keycodes['ctrl-f']	= 'seek';
+mp.keycodes['replace']	= 'replace';
+
+/* code */
 
 sub mp.search(doc, str)
 /* search str and put the current position there */
@@ -70,3 +76,26 @@ sub mp.search(doc, str)
 }
 
 
+sub mp.replace(doc, from, to)
+/* replaces 'from' with 'to' */
+{
+	local r;
+
+	if((r = mp.search(doc, from)) != NULL)
+	{
+		local txt, l, c;
+
+		/* get current line */
+		txt = doc.txt;
+		l = txt.lines[txt.y];
+
+		/* get last match */
+		c = regex();
+
+		/* substitute */
+		l = splice(l, to, c[0], c[1]);
+		txt.lines[txt.y] = l[0];
+	}
+
+	return(r);
+}
