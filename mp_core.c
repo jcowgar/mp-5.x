@@ -278,7 +278,7 @@ static void drw_words(void)
 	tags = mpdm_hget_s(mp, L"tags");
 
 	/* @#@ */
-	r=MPDM_LS(L"/\\w+/");
+	r=MPDM_LS(L"/[A-Za-z_]+/");
 
 	while((t = mpdm_regex(r, drw.v, o)) != NULL)
 	{
