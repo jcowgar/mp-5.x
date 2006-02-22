@@ -262,10 +262,12 @@ sub mp.build_status_line()
 		"%R"	=>	"",			/* recording flag */
 		"%O"	=>	"",			/* overwrite mode */
 		"%s"	=>	d.syntax.name,		/* synhi mode */
-		"%t"	=>	""			/* tag target */
+		"%t"	=>	"",			/* tag target */
+		"%%"	=>	"%"			/* escaped % */
 	};
 
-	return(sregex("/%\w/g", mp.config.status_format, sub (k) { mp.status_f[k]; }));
+	return(sregex("/%./g", mp.config.status_format,
+		sub (k) { mp.status_f[k]; }));
 }
 
 
