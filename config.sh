@@ -222,8 +222,8 @@ else
 	echo "int main(void) { gtk_main(); return 0; } " >> .tmp.c
 
 	# Try first GTK 2.0
-	TMP_CFLAGS=`pkg-config --cflags gtk+-2.0 2>/dev/null`
-	TMP_LDFLAGS=`pkg-config --libs gtk+-2.0 2>/dev/null`
+	TMP_CFLAGS=`sh -c 'pkg-config --cflags gtk+-2.0' 2>/dev/null`
+	TMP_LDFLAGS=`sh -c 'pkg-config --libs gtk+-2.0' 2>/dev/null`
 
 	$CC $TMP_CFLAGS .tmp.c $TMP_LDFLAGS -o .tmp.o 2>> .config.log
 	if [ $? = 0 ] ; then
