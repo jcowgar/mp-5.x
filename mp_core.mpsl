@@ -71,7 +71,7 @@ sub mp.get_word(doc)
 	l = txt.lines[txt.y];
 
 	/* loop all words in current line */
-	while(r = regex("/\w+/", l, c[0] + c[1]))
+	while(r = regex("/[A-Za-z_]+/", l, c[0] + c[1]))
 	{
 		/* get coordinates */
 		c = regex();
