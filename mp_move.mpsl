@@ -194,7 +194,7 @@ sub mp.move_word_right(doc)
 
 	while(txt.y < size(txt.lines) - 1)
 	{
-		if(regex("/\w*\W+/", txt.lines[txt.y], txt.x))
+		if(regex("/[A-Za-z_]*[^A-Za-z_]+/", txt.lines[txt.y], txt.x))
 		{
 			local c = regex();
 			txt.x = c[0] + c[1];
