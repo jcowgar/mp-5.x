@@ -735,6 +735,36 @@ static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
 }
 
 
+static void win32_get_registry_keys(void)
+/* gets some registry keys and stores them */
+{
+	HKEY hkey;
+
+	if(RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\Minimum Profit",
+		0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
+	{
+		char tmp[2048];
+		int n;
+
+		n = sizeof(tmp);
+		if(RegQueryValueEx(hkey, "Home",
+			NULL, NULL, tmp, &n) == ERROR_SUCCESS)
+		{
+			/* store it */
+			mpdm_hset_s(mp, L"HOME", MPDM_MBS(tmp));
+		}
+
+		n = sizeof(tmp);
+		if(RegQueryValueEx(hkey, "Lib",
+			NULL, NULL, tmp, &n) == ERROR_SUCCESS)
+		{
+			/* store it */
+			mpdm_hset_s(mp, L"LIB", MPDM_MBS(tmp));
+		}
+	}
+}
+
+
 static void win32_drv_startup(void)
 {
 	WNDCLASS wc;
@@ -842,6 +872,8 @@ int win32_drv_init(void)
 	mpdm_hset_s(win32_driver, L"window", win32_window);
 
 	mpdm_hset_s(mp, L"drv", win32_driver);
+
+	win32_get_registry_keys();
 
 	return(1);
 }
