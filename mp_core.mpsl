@@ -326,6 +326,7 @@ load("mp_search.mpsl");
 load("mp_tags.mpsl");
 load("mp_syntax.mpsl");
 load("mp_macro.mpsl");
+load("mp_templates.mpsl");
 
 /** MAIN **/
 
