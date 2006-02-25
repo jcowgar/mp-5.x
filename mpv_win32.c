@@ -31,8 +31,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #include <windows.h>
 #include <commctrl.h>
+#include <shlobj.h>
 
 #include "mpdm.h"
 #include "mpsl.h"
@@ -735,20 +737,55 @@ static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
 }
 
 
-static void win32_get_registry_keys(void)
-/* gets some registry keys and stores them */
+static void win32_get_directories(void)
+/* get the LIB and HOME directories from usual places under Windows */
 {
 	HKEY hkey;
+	char tmp[MAX_PATH];
+	LPITEMIDLIST pidl;
+	int n;
 
+	/* get the 'My Documents' folder */
+	SHGetSpecialFolderLocation(NULL, CSIDL_PERSONAL, &pidl);
+	SHGetPathFromIDList(pidl, tmp);
+
+	/* and store it as the 'HOME' path */
+	strcat(tmp, "\\");
+	mpdm_hset_s(mp, L"HOME", MPDM_MBS(tmp));
+
+	/* get the 'Program Files' folder (can fail) */
+	tmp[0] = '\0';
+	if(SHGetSpecialFolderLocation(NULL, CSIDL_PROGRAM_FILES, &pidl) == S_OK)
+		SHGetPathFromIDList(pidl, tmp);
+
+	/* if it's still empty, get from the registry */
+	if(RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+		"SOFTWARE\\Microsoft\\Windows\\CurrentVersion",
+		0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
+	{
+		n = sizeof(tmp);
+
+		if(RegQueryValueEx(hkey, "ProgramFilesDir",
+			NULL, NULL, tmp, (LPDWORD) &n) != ERROR_SUCCESS)
+			tmp[0] = '\0';
+	}
+
+	if(tmp[0] != '\0')
+	{
+		/* strcat the appname */
+		strcat(tmp, "\\" CONFOPT_APPNAME "\\");
+
+		/* and store it as the 'LIB' path */
+		mpdm_hset_s(mp, L"LIB",	MPDM_MBS(tmp));
+	}
+
+	/* the Software\Minimum Profit register keys can override the defaults */
 	if(RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\Minimum Profit",
 		0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
 	{
-		char tmp[2048];
-		int n;
-
 		n = sizeof(tmp);
 		if(RegQueryValueEx(hkey, "Home",
-			NULL, NULL, tmp, &n) == ERROR_SUCCESS)
+			NULL, NULL, tmp, (LPDWORD) &n) == ERROR_SUCCESS)
 		{
 			/* store it */
 			mpdm_hset_s(mp, L"HOME", MPDM_MBS(tmp));
@@ -756,7 +793,7 @@ static void win32_get_registry_keys(void)
 
 		n = sizeof(tmp);
 		if(RegQueryValueEx(hkey, "Lib",
-			NULL, NULL, tmp, &n) == ERROR_SUCCESS)
+			NULL, NULL, tmp, (LPDWORD) &n) == ERROR_SUCCESS)
 		{
 			/* store it */
 			mpdm_hset_s(mp, L"LIB", MPDM_MBS(tmp));
@@ -873,7 +910,7 @@ int win32_drv_init(void)
 
 	mpdm_hset_s(mp, L"drv", win32_driver);
 
-	win32_get_registry_keys();
+	win32_get_directories();
 
 	return(1);
 }
