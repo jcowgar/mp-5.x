@@ -32,3 +32,51 @@ msgstr "Reemplazar todo..."
 #: mp_search.mpsl:47
 msgid "Replace in all..."
 msgstr "Reemplazar en todos..."
+
+#: mp_move.mpsl:59
+msgid "Character left"
+msgstr "Carácter a la izquierda"
+
+#: mp_move.mpsl:60
+msgid "Character right"
+msgstr "Carácter a la derecha"
+
+#: mp_move.mpsl:61
+msgid "Line up"
+msgstr "Línea arriba"
+
+#: mp_move.mpsl:62
+msgid "Line down"
+msgstr "Línea abajo"
+
+#: mp_move.mpsl:63
+msgid "Page up"
+msgstr "Página arriba"
+
+#: mp_move.mpsl:64
+msgid "Page down"
+msgstr "Página abajo"
+
+#: mp_move.mpsl:65
+msgid "Beginning of line"
+msgstr "Principio de la línea"
+
+#: mp_move.mpsl:66
+msgid "End of line"
+msgstr "Fin de la línea"
+
+#: mp_move.mpsl:67
+msgid "Beginning of file"
+msgstr "Principio del documento"
+
+#: mp_move.mpsl:68
+msgid "End of file"
+msgstr "Fin del documento"
+
+#: mp_move.mpsl:69
+msgid "Word left"
+msgstr "Palabra a la izquierda"
+
+#: mp_move.mpsl:70
+msgid "Word right"
+msgstr "Palabra a la derecha"
