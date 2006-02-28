@@ -36,6 +36,11 @@ mp.keycodes['f10']	= "record-macro";
 mp.keycodes['ctrl-f10']	= "record-macro";
 mp.keycodes['f7']	= "play-macro";
 
+/* action descriptions */
+
+mp.actdesc['record-macro']	= "Record macro";
+mp.actdesc['play-macro']	= "Play macro";
+
 /* learning/recording data */
 
 mp.macro = {};
