@@ -56,18 +56,18 @@ mp.keycodes['ctrl-cursor-right']= "move-word-right";
 
 /* action descriptions */
 
-mp.actdesc['move-left']	 	= LL("Move left");
-mp.actdesc['move-right'] 	= LL("Move right");
-mp.actdesc['move-up']		= LL("Move up");
-mp.actdesc['move-down']		= LL("Move down");
-mp.actdesc['move-pgup']		= LL("Move page up");
-mp.actdesc['move-pgdn']		= LL("Move page down");
-mp.actdesc['move-bol']		= LL("Move to beginning of line");
-mp.actdesc['move-eol']		= LL("Move to end of line");
-mp.actdesc['move-bof']		= LL("Move to beginning of line");
-mp.actdesc['move-eof']		= LL("Move to end of line");
-mp.actdesc['move-word-left']	= LL("Move to next word to the left");
-mp.actdesc['move-word-right']	= LL("Move to next word to the right");
+mp.actdesc['move-left']	 	= LL("Character left");
+mp.actdesc['move-right'] 	= LL("Character right");
+mp.actdesc['move-up']		= LL("Line up");
+mp.actdesc['move-down']		= LL("Line down");
+mp.actdesc['move-pgup']		= LL("Page up");
+mp.actdesc['move-pgdn']		= LL("Page down");
+mp.actdesc['move-bol']		= LL("Beginning of line");
+mp.actdesc['move-eol']		= LL("End of line");
+mp.actdesc['move-bof']		= LL("Beginning of file");
+mp.actdesc['move-eof']		= LL("End of file");
+mp.actdesc['move-word-left']	= LL("Word left");
+mp.actdesc['move-word-right']	= LL("Word right");
 
 /* code */
 
