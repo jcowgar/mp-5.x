@@ -70,5 +70,6 @@ Closed
  * 1112: Add replace (Tue, 21 Feb 2006 07:48:36 +0100).
  * 1113: Add replace all (Tue, 21 Feb 2006 08:33:02 +0100).
  * 1133: Add replace in all documents (Tue, 21 Feb 2006 08:37:11 +0100).
+ * 1134: Add ~/.mp.mpsl (user profile) support (Tue, 28 Feb 2006 17:44:56 +0100).
 
 Email bugs to angel@triptico.com
