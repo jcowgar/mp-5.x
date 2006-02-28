@@ -54,6 +54,21 @@ mp.keycodes['ctrl-end']		= "move-eof";
 mp.keycodes['ctrl-cursor-left']	= NULL;
 mp.keycodes['ctrl-cursor-right']= "move-word-right";
 
+/* action descriptions */
+
+mp.actdesc['move-left']	 	= LL("Move left");
+mp.actdesc['move-right'] 	= LL("Move right");
+mp.actdesc['move-up']		= LL("Move up");
+mp.actdesc['move-down']		= LL("Move down");
+mp.actdesc['move-pgup']		= LL("Move page up");
+mp.actdesc['move-pgdn']		= LL("Move page down");
+mp.actdesc['move-bol']		= LL("Move to beginning of line");
+mp.actdesc['move-eol']		= LL("Move to end of line");
+mp.actdesc['move-bof']		= LL("Move to beginning of line");
+mp.actdesc['move-eof']		= LL("Move to end of line");
+mp.actdesc['move-word-left']	= LL("Move to next word to the left");
+mp.actdesc['move-word-right']	= LL("Move to next word to the right");
+
 /* code */
 
 sub mp.set_x(doc, x)
