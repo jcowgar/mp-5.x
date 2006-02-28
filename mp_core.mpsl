@@ -218,6 +218,7 @@ mp.actions = {
 
 };
 
+mp.actdesc = {};
 
 sub mp.get_active()
 /* returns the active document */

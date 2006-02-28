@@ -39,6 +39,13 @@ mp.keycodes['f3']	= "seek-next";
 mp.keycodes['ctrl-f']	= "seek";
 mp.keycodes['ctrl-r']	= "replace";
 
+/* action descriptions */
+mp.actdesc['seek']		= LL("Search text...");
+mp.actdesc['seek-next'] 	= LL("Search next");
+mp.actdesc['replace']		= LL("Replace...");
+mp.actdesc['replace-all']	= LL("Replace all...");
+mp.actdesc['replace-in-all']	= LL("Replace in all...");
+
 /* code */
 
 sub mp.search(doc, str)
