@@ -330,14 +330,16 @@ sub mp.process_cmdline()
 sub mp.load_profile()
 /* loads ~/.mp.mpsl */
 {
-	/* put ~ the first in INC */
-	ins(INC, mp.HOME, 0);
+	local t = INC;
+
+	/* overwrites INC, putting just ~ */
+	INC = [ mp.HOME ];
 
 	/* execute */
 	load(".mp.mpsl");
 
-	/* delete ~ */
-	adel(INC, 0);
+	/* gets INC back */
+	INC = t;
 }
 
 
