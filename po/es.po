@@ -80,3 +80,27 @@ msgstr "Palabra a la izquierda"
 #: mp_move.mpsl:70
 msgid "Word right"
 msgstr "Palabra a la derecha"
+
+#: mp_edit.mpsl:52
+msgid "Insert line"
+msgstr "Insertar línea"
+
+#: mp_edit.mpsl:53
+msgid "Delete line"
+msgstr "Borrar línea"
+
+#: mp_edit.mpsl:54
+msgid "Insert space"
+msgstr "Insertar espacio"
+
+#: mp_edit.mpsl:55
+msgid "Insert tab"
+msgstr "Insertar tabulador"
+
+#: mp_edit.mpsl:56
+msgid "Delete character"
+msgstr "Borrar carácter"
+
+#: mp_edit.mpsl:57
+msgid "Delete character to the left"
+msgstr "Borrar carácter a la izquierda"
