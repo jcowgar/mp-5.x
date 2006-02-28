@@ -47,7 +47,8 @@ clean:
 	(cd $(MPSL) ; make clean)
 
 distclean: clean
-	rm -f config.h config.cflags config.ldflags makefile.opts Makefile doc/*.html
+	rm -f config.h config.cflags config.ldflags \
+		makefile.opts Makefile doc/*.html po/minimum-profit.pot
 	(cd $(MPDM) ; make distclean)
 	(cd $(MPSL) ; make distclean)
 
@@ -85,11 +86,12 @@ uninstall:
 	rm -rf $(PREFIX)/share/$(APPNAME)
 
 po/minimum-profit.pot:
-	xgettext -o $@ --keyword=L --keyword=LL mp*.c *.mpsl
+	xgettext -o $@ --language=C --keyword=L --keyword=LL mp*.c *.mpsl
 
 update-po:
 	for a in po/*.po ; do \
-		xgettext --omit-header -j -o $$a --keyword=L --keyword=LL mp*.c *.mpsl ; \
+		xgettext --omit-header -j -o $$a --language=C \
+			--keyword=L --keyword=LL mp*.c *.mpsl ; \
 		mv $$a $$a.tmp ; \
 		msgconv --to-code=iso-8859-1 $$a.tmp > $$a ; \
 		rm -f $$a.tmp ; \

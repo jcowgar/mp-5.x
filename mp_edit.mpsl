@@ -38,14 +38,14 @@ mp.actions['delete-left']	= sub (d) { mp.store_undo(d); mp.move_left(d);
 
 /* default key bindings */
 
-mp.keycodes['enter']	= 'insert-line';
-mp.keycodes['tab']	= 'insert-tab';
-mp.keycodes['space']	= 'insert-space';
-mp.keycodes['delete']	= 'delete';
-mp.keycodes['backspace']= 'delete-left';
-mp.keycodes['ctrl-i']	= 'insert-tab';
-mp.keycodes['ctrl-m']	= 'insert-line';
-mp.keycodes['ctrl-y']	= 'delete-line';
+mp.keycodes['enter']	= LL("insert-line");
+mp.keycodes['tab']	= LL("insert-tab");
+mp.keycodes['space']	= LL("insert-space");
+mp.keycodes['delete']	= LL("delete");
+mp.keycodes['backspace']= LL("delete-left");
+mp.keycodes['ctrl-i']	= LL("insert-tab");
+mp.keycodes['ctrl-m']	= LL("insert-line");
+mp.keycodes['ctrl-y']	= LL("delete-line");
 
 /* code */
 

@@ -41,18 +41,18 @@ mp.actions['move-word-right']	= sub (d) { mp.move_word_right(d); };
 
 /* default key bindings */
 
-mp.keycodes['cursor-left']	= 'move-left';
-mp.keycodes['cursor-right']	= 'move-right';
-mp.keycodes['cursor-up']	= 'move-up';
-mp.keycodes['cursor-down']	= 'move-down';
-mp.keycodes['page-up']		= 'move-pgup';
-mp.keycodes['page-down']	= 'move-pgdn';
-mp.keycodes['home']		= 'move-bol';
-mp.keycodes['end']		= 'move-eol';
-mp.keycodes['ctrl-home']	= 'move-bof';
-mp.keycodes['ctrl-end']		= 'move-eof';
+mp.keycodes['cursor-left']	= LL("move-left");
+mp.keycodes['cursor-right']	= LL("move-right");
+mp.keycodes['cursor-up']	= LL("move-up");
+mp.keycodes['cursor-down']	= LL("move-down");
+mp.keycodes['page-up']		= LL("move-pgup");
+mp.keycodes['page-down']	= LL("move-pgdn");
+mp.keycodes['home']		= LL("move-bol");
+mp.keycodes['end']		= LL("move-eol");
+mp.keycodes['ctrl-home']	= LL("move-bof");
+mp.keycodes['ctrl-end']		= LL("move-eof");
 mp.keycodes['ctrl-cursor-left']	= NULL;
-mp.keycodes['ctrl-cursor-right']= 'move-word-right';
+mp.keycodes['ctrl-cursor-right']= LL("move-word-right");
 
 /* code */
 

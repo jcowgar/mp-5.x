@@ -35,9 +35,9 @@ mp.actions['replace-in-all'] = sub (d) { mp.replace_in_all(mp.get_word(d), 'TEST
 
 /* default key bindings */
 
-mp.keycodes['f3']	= 'seek-next';
-mp.keycodes['ctrl-f']	= 'seek';
-mp.keycodes['ctrl-r']	= 'replace';
+mp.keycodes['f3']	= LL("seek-next");
+mp.keycodes['ctrl-f']	= LL("seek");
+mp.keycodes['ctrl-r']	= LL("replace");
 
 /* code */
 
