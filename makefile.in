@@ -58,12 +58,12 @@ docs:
 #		-a 'Angel Ortega - angel@triptico.com'
 #	grutatxt -m man -t "Minimum Profit" < mp_man.txt > mp.1
 
-dist: distclean docs ChangeLog mp_lang_m.c mp_func_i.h po/minimum-profit.pot build-mo
+dist: distclean docs ChangeLog po/minimum-profit.pot build-mo
 	cd .. ; ln -s $(PROJ) $(PROJ)-$(VERSION); \
 	tar czvf $(PROJ)-$(VERSION)/$(PROJ)-$(VERSION).tar.gz --exclude=CVS $(PROJ)-$(VERSION)/* ; \
 	rm $(PROJ)-$(VERSION)
 
-midnight: distclean docs ChangeLog mp_lang_m.c mp_func_i.h po/minimum-profit.pot build-mo
+midnight: distclean docs ChangeLog po/minimum-profit.pot build-mo
 	cd .. ; ln -s $(PROJ) $(PROJ)-$(VERSION); \
 	tar czvf $(PROJ)-$(VERSION)/mp-midnight.tar.gz --exclude=CVS $(PROJ)-$(VERSION)/* ; \
 	rm $(PROJ)-$(VERSION)
@@ -85,11 +85,11 @@ uninstall:
 	rm -rf $(PREFIX)/share/$(APPNAME)
 
 po/minimum-profit.pot:
-	xgettext -o $@ --keyword=L --keyword=LL mp*.c mp_func_i.h
+	xgettext -o $@ --keyword=L --keyword=LL mp*.c *.mpsl
 
-update-po: mp_func_i.h
+update-po:
 	for a in po/*.po ; do \
-		xgettext --omit-header -j -o $$a --keyword=L --keyword=LL mp*.c mp_func_i.h ; \
+		xgettext --omit-header -j -o $$a --keyword=L --keyword=LL mp*.c *.mpsl ; \
 		mv $$a $$a.tmp ; \
 		msgconv --to-code=iso-8859-1 $$a.tmp > $$a ; \
 		rm -f $$a.tmp ; \
