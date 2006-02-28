@@ -46,6 +46,15 @@ mp.status_f = {};
 	Code
 ********************/
 
+/* L(x) is the same as gettext(x) */
+L = gettext;
+
+/* LL(x) is the same as x */
+sub LL(x) { x; }
+
+
+/* undo */
+
 sub mp.store_undo(doc)
 /* stores the current txt in the undo queue */
 {
