@@ -47,6 +47,15 @@ mp.keycodes['ctrl-i']	= "insert-tab";
 mp.keycodes['ctrl-m']	= "insert-line";
 mp.keycodes['ctrl-y']	= "delete-line";
 
+/* action descriptions */
+
+mp.actdesc['insert-line']	= LL("Insert line");
+mp.actdesc['delete-line']	= LL("Delete line");
+mp.actdesc['insert-space']	= LL("Insert space");
+mp.actdesc['insert-tab']	= LL("Insert tab");
+mp.actdesc['delete']		= LL("Delete character");
+mp.actdesc['delete-left']	= LL("Delete character to the left");
+
 /* code */
 
 sub mp.break_line(doc, col)
