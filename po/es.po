@@ -104,3 +104,23 @@ msgstr "Borrar carácter"
 #: mp_edit.mpsl:57
 msgid "Delete character to the left"
 msgstr "Borrar carácter a la izquierda"
+
+#: mp_clipboard.mpsl:59
+msgid "Unmark block"
+msgstr "Desmarcar bloque"
+
+#: mp_clipboard.mpsl:60
+msgid "Mark begining/end of block"
+msgstr "Marcar principio/fin de bloque"
+
+#: mp_clipboard.mpsl:61
+msgid "Copy block"
+msgstr "Copiar bloque"
+
+#: mp_clipboard.mpsl:62
+msgid "Paste block"
+msgstr "Pegar bloque"
+
+#: mp_clipboard.mpsl:63
+msgid "Cut block"
+msgstr "Cortar bloque"
