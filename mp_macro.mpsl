@@ -38,8 +38,8 @@ mp.keycodes['f7']	= "play-macro";
 
 /* action descriptions */
 
-mp.actdesc['record-macro']	= "Record macro";
-mp.actdesc['play-macro']	= "Play macro";
+mp.actdesc['record-macro']	= LL("Record macro");
+mp.actdesc['play-macro']	= LL("Play macro");
 
 /* learning/recording data */
 

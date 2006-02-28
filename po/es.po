@@ -124,3 +124,11 @@ msgstr "Pegar bloque"
 #: mp_clipboard.mpsl:63
 msgid "Cut block"
 msgstr "Cortar bloque"
+
+#: mp_macro.mpsl:41
+msgid "Record macro"
+msgstr "Grabar macro"
+
+#: mp_macro.mpsl:42
+msgid "Play macro"
+msgstr "Ejecutar macro"
