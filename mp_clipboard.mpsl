@@ -49,11 +49,11 @@ mp.actions['cut-mark']	= sub (d) {
 
 /* default key bindings */
 
-mp.keycodes['f8']	= LL("unmark");
-mp.keycodes['f9']	= LL("mark");
-mp.keycodes['ctrl-c']	= LL("copy-mark");
-mp.keycodes['ctrl-v']	= LL("paste-mark");
-mp.keycodes['ctrl-x']	= LL("cut-mark");
+mp.keycodes['f8']	= "unmark";
+mp.keycodes['f9']	= "mark";
+mp.keycodes['ctrl-c']	= "copy-mark";
+mp.keycodes['ctrl-v']	= "paste-mark";
+mp.keycodes['ctrl-x']	= "cut-mark";
 
 /* code */
 

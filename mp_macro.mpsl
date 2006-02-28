@@ -32,9 +32,9 @@ mp.actions['play-macro']	= sub (d) { mp.play_macro(); };
 
 /* default key bindings */
 
-mp.keycodes['f10']	= LL("record-macro");
-mp.keycodes['ctrl-f10']	= LL("record-macro");
-mp.keycodes['f7']	= LL("play-macro");
+mp.keycodes['f10']	= "record-macro";
+mp.keycodes['ctrl-f10']	= "record-macro";
+mp.keycodes['f7']	= "play-macro";
 
 /* learning/recording data */
 
