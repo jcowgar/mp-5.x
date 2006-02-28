@@ -327,6 +327,20 @@ sub mp.process_cmdline()
 }
 
 
+sub mp.load_profile()
+/* loads ~/.mp.mpsl */
+{
+	/* put ~ the first in INC */
+	ins(INC, mp.HOME, 0);
+
+	/* execute */
+	load(".mp.mpsl");
+
+	/* delete ~ */
+	adel(INC, 0);
+}
+
+
 sub mp.ui()
 /* wrapper for mp.drv.ui */
 {
@@ -347,4 +361,5 @@ load("mp_templates.mpsl");
 /** MAIN **/
 
 mp.process_cmdline();
+mp.load_profile();
 mp.ui();
