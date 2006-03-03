@@ -100,4 +100,4 @@ Or, as mpsl code,
  ];
 
 ----
-Angel Ortega - http://www.triptico.com
+Angel Ortega <angel@triptico.com> - $Date$
