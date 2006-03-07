@@ -28,7 +28,7 @@ memory as a simple MPDM array of scalars, one for each line.
                          ! Rest of doc.  |
                          -----------------
 
-Or, as mpsl code,
+Or, as MPSL code,
 
  doc.txt.lines = [
      "First line",
@@ -90,7 +90,7 @@ iterate the main array and draw each pair of attribute / string sequentially.
  last line on screen --> !5! !Nth! !0! ! line\n!
                          --- ----- --- ---------
 
-Or, as mpsl code,
+Or, as MPSL code,
 
  info = [
         [ 1, "Second", 0, " line\n" ],

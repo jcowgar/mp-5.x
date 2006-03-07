@@ -98,8 +98,8 @@ echo "#define CONFOPT_APPNAME \"$APPNAME\"" >> config.h
 
 ################################################################
 
-# mpdm
-echo -n "Looking for mpdm... "
+# MPDM
+echo -n "Looking for MPDM... "
 
 for MPDM in ./mpdm ../mpdm NOTFOUND ; do
 	if [ -d $MPDM ] && [ -f $MPDM/mpdm.h ] ; then
@@ -116,7 +116,7 @@ else
 	exit 1
 fi
 
-# If mpdm is not configured, do it
+# If MPDM is not configured, do it
 if [ ! -f $MPDM/Makefile ] ; then
 	CONF_ARGS="--prefix=$PREFIX"
 	[ "$WITHOUT_WIN32" = 1 ] && CONF_ARGS="$CONF_ARGS --without-win32"
@@ -132,8 +132,8 @@ fi
 cat $MPDM/config.ldflags >> config.ldflags
 echo "MPDM=$MPDM" >> makefile.opts
 
-# mpsl
-echo -n "Looking for mpsl... "
+# MPSL
+echo -n "Looking for MPSL... "
 
 for MPSL in ./mpsl ../mpsl NOTFOUND ; do
 	if [ -d $MPSL ] && [ -f $MPSL/mpsl.h ] ; then
@@ -150,7 +150,7 @@ else
 	exit 1
 fi
 
-# If mpsl is not configured, do it
+# If MPSL is not configured, do it
 if [ ! -f $MPSL/Makefile ] ; then
 	CONF_ARGS="--prefix=$PREFIX"
 	( echo ; cd $MPSL ; ./config.sh $CONF_ARGS ; echo )
