@@ -122,7 +122,7 @@ mp.syntax.perl = {
 
 mp.syntax.mpsl = {
 	'id'		=>	'mpsl',
-	'name'		=>	'mpsl',
+	'name'		=>	'MPSL',
 	'filenames'	=>	[ '/\.mpsl$/' ],
 	'tokens'	=>	[ 'if', 'else', 'while', 'foreach', 'sub',
 				  'break', 'return',
