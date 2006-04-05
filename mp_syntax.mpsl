@@ -136,7 +136,7 @@ mp.syntax.mpsl = {
 				  "open", "close", "read", "write",
 				  "unlink", "glob", "encoding",
 				  "regex", "sregex", "eq", "ne",
-				  "compile", "load", "print" ],
+				  "load", "eval", "print" ],
 	'variables'	=>	[ 'NULL', 'local' ],
 	'comments'	=>	clone(mp.syntax.c.comments),
 	'quotes'	=>	clone(mp.syntax.c.quotes)

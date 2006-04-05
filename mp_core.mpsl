@@ -303,9 +303,9 @@ sub mp.process_cmdline()
 		if(o eq '-e')
 		{
 			/* execute code */
-			if((o = compile(shift(ARGV))) != NULL)
-				o();
-			else
+			eval(shift(ARGV));
+
+			if(ERROR != NULL)
 				print(ERROR, "\n");
 		}
 		else
