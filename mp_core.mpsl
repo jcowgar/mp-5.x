@@ -330,16 +330,21 @@ sub mp.process_cmdline()
 sub mp.load_profile()
 /* loads ~/.mp.mpsl */
 {
-	local t = INC;
+/*	local t = INC;*/
 
 	/* overwrites INC, putting just ~ */
-	INC = [ mp.HOME ];
+/*	INC = [ mp.HOME ];*/
 
 	/* execute */
-	eval(sub { load(".mp.mpsl"); });
+/*	eval(sub { load(".mp.mpsl"); });*/
 
 	/* gets INC back */
-	INC = t;
+/*	INC = t;*/
+
+	eval( sub {
+		local INC = [ mp.HOME ];
+		load(".mp.mpsl");
+	});
 }
 
 
