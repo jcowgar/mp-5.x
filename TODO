@@ -13,6 +13,7 @@ Release Critical Bugs
  * 1118: Add move word left.
  * 1120: Add system command execution (pipes).
  * 1131: Add move to next / previous ocurrence of character.
+ * 1135: If ~/.mp.mpsl does not exist, aborts.
 
 Open Bugs
 ---------
