@@ -13,7 +13,6 @@ Release Critical Bugs
  * 1118: Add move word left.
  * 1120: Add system command execution (pipes).
  * 1131: Add move to next / previous ocurrence of character.
- * 1135: If ~/.mp.mpsl does not exist, aborts.
 
 Open Bugs
 ---------
@@ -72,5 +71,7 @@ Closed
  * 1113: Add replace all (Tue, 21 Feb 2006 08:33:02 +0100).
  * 1133: Add replace in all documents (Tue, 21 Feb 2006 08:37:11 +0100).
  * 1134: Add ~/.mp.mpsl (user profile) support (Tue, 28 Feb 2006 17:44:56 +0100).
+ * 1135: If ~/.mp.mpsl does not exist, aborts
+  (Tue, 11 Apr 2006 17:05:27 +0200).
 
 Email bugs to angel@triptico.com

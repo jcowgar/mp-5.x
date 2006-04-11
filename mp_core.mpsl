@@ -336,7 +336,7 @@ sub mp.load_profile()
 	INC = [ mp.HOME ];
 
 	/* execute */
-	load(".mp.mpsl");
+	eval(sub { load(".mp.mpsl"); });
 
 	/* gets INC back */
 	INC = t;
