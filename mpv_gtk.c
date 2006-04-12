@@ -1047,7 +1047,6 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 	gtk_widget_show(dlg);
 
 	wait_for_modal_status_change();
-	free(ptr);
 
 	return(NULL);
 }
