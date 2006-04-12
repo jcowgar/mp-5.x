@@ -894,6 +894,22 @@ static mpdm_t win32_drv_ui(mpdm_t a)
 }
 
 
+static mpdm_t win32_drv_alert(mpdm_t a)
+{
+	char * ptr;
+
+	a = mpdm_aget(a, 0);
+
+	if((ptr = mpdm_wcstombs(a->data, NULL)) != NULL)
+	{
+		MessageBox(hwnd, ptr, "mp " VERSION, MB_ICONWARNING|MB_OK);
+		free(ptr);
+	}
+
+	return(NULL);
+}
+
+
 int win32_drv_init(void)
 {
 	win32_driver = mpdm_ref(MPDM_H(0));
@@ -904,6 +920,8 @@ int win32_drv_init(void)
 				MPDM_X(win32_drv_clip_to_sys));
 	mpdm_hset_s(win32_driver, L"sys_to_clip",
 				MPDM_X(win32_drv_sys_to_clip));
+
+	mpdm_hset_s(win32_driver, L"alert", MPDM_X(win32_drv_alert));
 
 	win32_window = MPDM_H(0);
 	mpdm_hset_s(win32_driver, L"window", win32_window);
