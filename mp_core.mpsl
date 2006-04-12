@@ -275,6 +275,7 @@ sub mp.build_status_line()
 		"%O"	=>	"",			/* overwrite mode */
 		"%s"	=>	d.syntax.name,		/* synhi mode */
 		"%t"	=>	"",			/* tag target */
+		"%n"	=>	d.name,			/* document name */
 		"%%"	=>	"%"			/* escaped % */
 	};
 
