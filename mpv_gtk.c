@@ -962,6 +962,46 @@ static void gtk_drv_shutdown(void)
 }
 
 
+static mpdm_t gtk_drv_alert(mpdm_t a)
+{
+	char * ptr;
+	GtkWidget * dlg;
+	GtkWidget * label;
+	GtkWidget * button;
+
+	a = mpdm_aget(a, 0);
+
+	if((ptr = wcs_to_utf8(a->data, mpdm_size(a), NULL)) == NULL)
+		return(NULL);
+
+	dlg = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
+	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
+
+	label = gtk_label_new(ptr);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
+	gtk_widget_show(label);
+
+	button = gtk_button_new_with_label("OK");
+/*	gtk_signal_connect_object(GTK_OBJECT(button), "clicked",
+		GTK_SIGNAL_FUNC(_mpv_confirm_yes_callback), GTK_OBJECT(dlg));*/
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), button, TRUE, TRUE, 0);
+	gtk_widget_show(button);
+
+/*	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
+		(GtkSignalFunc) _mpv_confirm_key_callback, NULL);
+*/
+	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
+	gtk_window_set_modal(GTK_WINDOW(dlg),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(dlg),GTK_WINDOW(window));
+
+	gtk_widget_show(dlg);
+/*	_gtk_really_modal();
+*/
+	return(NULL);
+}
+
+
 static mpdm_t gtk_drv_ui(mpdm_t a)
 {
 	gtk_drv_startup();
@@ -982,6 +1022,8 @@ int gtk_drv_init(void)
 	mpdm_hset_s(gtk_driver, L"ui", MPDM_X(gtk_drv_ui));
 	mpdm_hset_s(gtk_driver, L"clip_to_sys", MPDM_X(gtk_drv_clip_to_sys));
 	mpdm_hset_s(gtk_driver, L"sys_to_clip", MPDM_X(gtk_drv_sys_to_clip));
+
+	mpdm_hset_s(gtk_driver, L"alert", MPDM_X(gtk_drv_alert));
 
 	gtk_window = MPDM_H(0);
 	mpdm_hset_s(gtk_driver, L"window", gtk_window);
