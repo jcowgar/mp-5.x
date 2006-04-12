@@ -67,15 +67,16 @@ static struct {
 	int ty;		/* vertical window size */
 	int visible;	/* offset to the first visible character */
 	int cursor;	/* offset to cursor */
+	int tab_size;	/* tabulator size */
 	wchar_t * ptr;	/* pointer to joined data */
 	int size;	/* size of joined data */
 	mpdm_t txt;	/* the document */
 	mpdm_t syntax;	/* syntax highlight information */
 	mpdm_t v;	/* the data */
-} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, 0, NULL, NULL, NULL };
+} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL, NULL, NULL };
 
 
-#define MP_REAL_TAB_SIZE(x) (8 - ((x) % 8))
+#define MP_REAL_TAB_SIZE(x) (drw.tab_size - ((x) % drw.tab_size))
 
 static int drw_wcwidth(int x, wchar_t c)
 /* returns the wcwidth of c, or the tab spaces for
@@ -169,6 +170,7 @@ static void drw_prepare(mpdm_t doc)
 /* prepares the document for screen drawing */
 {
 	mpdm_t window = mpdm_hget_s(mp, L"window");
+	mpdm_t config = mpdm_hget_s(mp, L"config");
 	mpdm_t txt = mpdm_hget_s(doc, L"txt");
 	mpdm_t lines = mpdm_hget_s(txt, L"lines");
 	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
@@ -179,6 +181,7 @@ static void drw_prepare(mpdm_t doc)
 	drw.vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
 	drw.tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
 	drw.ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
+	drw.tab_size = mpdm_ival(mpdm_hget_s(config, L"tab_size"));
 
 	/* adjust the visual y coordinate */
 	if(drw_adjust_y(y, &drw.vy, drw.ty))

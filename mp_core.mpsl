@@ -34,6 +34,7 @@ mp.config.undo_levels = 20;
 mp.config.word_wrap = 0;
 mp.config.auto_indent = 0;
 mp.config.status_format = "%m %x,%y [%l] %R%O %s %t";
+mp.config.tab_size = 8;
 
 /* document list */
 mp.docs = [];
