@@ -80,6 +80,9 @@ static int got_selection = 0;
 /* hack for active waiting for the selection */
 static int wait_for_selection = 0;
 
+/* global modal status */
+static int modal_status = -1;
+
 
 /*******************
 	Code
@@ -822,6 +825,7 @@ static mpdm_t gtkdrv_sys_to_clip(mpdm_t a)
 
 
 static void gtkdrv_startup(void)
+/* driver initialization */
 {
 	GtkWidget * vbox;
 	GtkWidget * hbox;
@@ -952,17 +956,62 @@ static void gtkdrv_startup(void)
 
 
 static void gtkdrv_main_loop(void)
+/* main loop */
 {
 	gtk_main();
 }
 
 
 static void gtkdrv_shutdown(void)
+/* shutdown */
 {
 }
 
 
+static void wait_for_modal_status_change(void)
+/* wait until modal status changes */
+{
+	modal_status = -1;
+
+	while(modal_status == -1)
+		gtk_main_iteration();
+}
+
+
+static void clicked_ok(GtkWidget * widget, gpointer data)
+{
+	modal_status = 1;
+	gtk_widget_destroy(GTK_WIDGET(widget));
+}
+
+
+static void clicked_cancel(GtkWidget * widget, gpointer data)
+{
+	modal_status = 0;
+	gtk_widget_destroy(GTK_WIDGET(widget));
+}
+
+
+static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
+{
+	if(event->string[0] == '\r')
+	{
+		clicked_ok(widget, NULL);
+		return(1);
+	}
+	else
+	if(event->string[0] == '\e')
+	{
+		clicked_cancel(widget, NULL);
+		return(1);
+	}
+
+	return(0);
+}
+
+
 static mpdm_t gtkdrv_alert(mpdm_t a)
+/* alert driver function */
 {
 	char * ptr;
 	GtkWidget * dlg;
@@ -983,21 +1032,23 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 	gtk_widget_show(label);
 
 	button = gtk_button_new_with_label("OK");
-/*	gtk_signal_connect_object(GTK_OBJECT(button), "clicked",
-		GTK_SIGNAL_FUNC(_mpv_confirm_yes_callback), GTK_OBJECT(dlg));*/
+	gtk_signal_connect_object(GTK_OBJECT(button), "clicked",
+		GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), button, TRUE, TRUE, 0);
 	gtk_widget_show(button);
 
-/*	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
-		(GtkSignalFunc) _mpv_confirm_key_callback, NULL);
-*/
+	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
+		(GtkSignalFunc) confirm_key_press_event, NULL);
+
 	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal(GTK_WINDOW(dlg),TRUE);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg),GTK_WINDOW(window));
 
 	gtk_widget_show(dlg);
-/*	_gtk_really_modal();
-*/
+
+	wait_for_modal_status_change();
+	free(ptr);
+
 	return(NULL);
 }
 
