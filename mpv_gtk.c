@@ -80,8 +80,6 @@ static int got_selection = 0;
 /* hack for active waiting for the selection */
 static int wait_for_selection = 0;
 
-/* the mp window */
-static mpdm_t gtk_window = NULL;
 
 /*******************
 	Code
@@ -108,6 +106,7 @@ static void update_window_size(void)
 {
 	PangoLayout * pa;
 	int tx, ty;
+	mpdm_t v;
 
 	/* get font metrics */
 	pa = gtk_widget_create_pango_layout(area, "m");
@@ -120,8 +119,9 @@ static void update_window_size(void)
 	ty = (area->allocation.height / font_height) + 1;
 
 	/* store the 'window' size */
-	mpdm_hset_s(gtk_window, L"tx", MPDM_I(tx));
-	mpdm_hset_s(gtk_window, L"ty", MPDM_I(ty));
+	v = mpdm_hget_s(mp, L"window");
+	mpdm_hset_s(v, L"tx", MPDM_I(tx));
+	mpdm_hset_s(v, L"ty", MPDM_I(ty));
 
 	/* rebuild the pixmap for the double buffer */
 	if(pixmap != NULL) gdk_pixmap_unref(pixmap);
@@ -344,7 +344,8 @@ static void draw_scrollbar(void)
 	v = mpdm_hget_s(d, L"txt");
 	pos = mpdm_ival(mpdm_hget_s(v, L"y"));
 	max = mpdm_size(mpdm_hget_s(v, L"lines"));
-	v = mpdm_hget_s(d, L"window");
+
+	v = mpdm_hget_s(mp, L"window");
 	size = mpdm_ival(mpdm_hget_s(v, L"ty"));
 
 	adjustment = gtk_range_get_adjustment(GTK_RANGE(scrollbar));
@@ -1026,9 +1027,6 @@ int gtkdrv_init(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtkdrv_sys_to_clip));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
-
-	gtk_window = MPDM_H(0);
-	mpdm_hset_s(drv, L"window", gtk_window);
 
 	return(1);
 }

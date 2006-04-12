@@ -112,8 +112,6 @@ sub mp.new()
 
 	doc.undo = [];
 
-	doc.window = {};
-
 	doc.syntax = NULL;
 
 	/* store in the list and set as active */
@@ -233,9 +231,6 @@ sub mp.get_active()
 
 	/* get active document */
 	d = mp.docs[mp.active];
-
-	/* HACK */
-	d.window = mp.drv.window;
 
 	return(d);
 }

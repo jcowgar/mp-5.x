@@ -74,9 +74,6 @@ HBRUSH bgbrush;
 int font_size = 14;
 char * font_face = "Lucida Console";
 
-/* mp window size */
-mpdm_t win32_window = NULL;
-
 /*******************
 	Code
 ********************/
@@ -86,6 +83,7 @@ static void update_window_size(void)
 {
 	RECT rect;
 	int tx, ty;
+	mpdm_t v;
 
 	/* no font information? go */
 	if(font_width == 0 || font_height == 0)
@@ -98,8 +96,9 @@ static void update_window_size(void)
 	ty = ((rect.bottom - rect.top - tab_height) / font_height) + 1;
 
 	/* store the 'window' size */
-	mpdm_hset_s(win32_window, L"tx", MPDM_I(tx));
-	mpdm_hset_s(win32_window, L"ty", MPDM_I(ty));
+	v = mpdm_hget_s(mp, L"window");
+	mpdm_hset_s(v, L"tx", MPDM_I(tx));
+	mpdm_hset_s(v, L"ty", MPDM_I(ty));
 }
 
 
@@ -242,7 +241,8 @@ static void draw_scrollbar(void)
 	v = mpdm_hget_s(d, L"txt");
 	pos = mpdm_ival(mpdm_hget_s(v, L"y"));
 	max = mpdm_size(mpdm_hget_s(v, L"lines"));
-	v = mpdm_hget_s(d, L"window");
+
+	v = mpdm_hget_s(mp, L"window");
 	size = mpdm_ival(mpdm_hget_s(v, L"ty"));
 
 	si.cbSize=sizeof(si);
@@ -922,9 +922,6 @@ int w32drv_init(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32drv_sys_to_clip));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
-
-	win32_window = MPDM_H(0);
-	mpdm_hset_s(drv, L"window", win32_window);
 
 	w32drv_get_directories();
 

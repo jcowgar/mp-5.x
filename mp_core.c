@@ -168,19 +168,12 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 static void drw_prepare(mpdm_t doc)
 /* prepares the document for screen drawing */
 {
+	mpdm_t window = mpdm_hget_s(mp, L"window");
 	mpdm_t txt = mpdm_hget_s(doc, L"txt");
-	mpdm_t window = mpdm_hget_s(doc, L"window");
 	mpdm_t lines = mpdm_hget_s(txt, L"lines");
 	int x = mpdm_ival(mpdm_hget_s(txt, L"x"));
 	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
 	int n;
-
-	if(window == NULL)
-	{
-		/* HACK: no window information? take from the driver */
-		mpdm_t t = mpdm_hget_s(mp, L"drv");
-		window = mpdm_hget_s(t, L"window");
-	}
 
 	drw.vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
 	drw.vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
@@ -696,13 +689,14 @@ void mp_startup(void)
 	mpsl_argv(mp_main_argc, mp_main_argv);
 
 	/* create main namespace */
-	mp = mpdm_ref(MPDM_H(0));
+	mp = MPDM_H(0);
 	mpdm_hset_s(mpdm_root(), L"mp", mp);
 
-	/* basic functions */
+	/* basic functions and data */
 	mpdm_hset_s(mp, L"x2vx", MPDM_X(mp_x2vx));
 	mpdm_hset_s(mp, L"vx2x", MPDM_X(mp_vx2x));
 	mpdm_hset_s(mp, L"exit", MPDM_X(mp_exit));
+	mpdm_hset_s(mp, L"window", MPDM_H(0));
 
 	/* the attribute names */
 	t = MPDM_H(0);

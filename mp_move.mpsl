@@ -145,14 +145,14 @@ sub mp.move_down(doc)
 sub mp.move_pgup(doc)
 /* moves one page up */
 {
-	mp.set_y(doc, doc.txt.y - doc.window.ty);
+	mp.set_y(doc, doc.txt.y - mp.window.ty);
 }
 
 
 sub mp.move_pgdn(doc)
 /* moves one page down */
 {
-	mp.set_y(doc, doc.txt.y + doc.window.ty);
+	mp.set_y(doc, doc.txt.y + mp.window.ty);
 }
 
 

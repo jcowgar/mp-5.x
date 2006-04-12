@@ -51,9 +51,6 @@
 /* the curses attributes */
 int nc_attrs[MP_ATTR_SIZE];
 
-/* the mp window */
-mpdm_t nc_window = NULL;
-
 /*******************
 	Code
 ********************/
@@ -61,6 +58,8 @@ mpdm_t nc_window = NULL;
 static void nc_sigwinch(int s)
 /* SIGWINCH signal handler */
 {
+	mpdm_t v;
+
 #ifdef NCURSES_VERSION
 	/* Make sure that window size changes... */
 	struct winsize ws;
@@ -83,8 +82,9 @@ static void nc_sigwinch(int s)
 	refresh();
 
 	/* re-set dimensions */
-	mpdm_hset_s(nc_window, L"tx", MPDM_I(COLS));
-	mpdm_hset_s(nc_window, L"ty", MPDM_I(LINES));
+	v = mpdm_hget_s(mp, L"window");
+	mpdm_hset_s(v, L"tx", MPDM_I(COLS));
+	mpdm_hset_s(v, L"ty", MPDM_I(LINES));
 
 	/* reattach */
 	signal(SIGWINCH, nc_sigwinch);
@@ -400,6 +400,8 @@ static void build_colors(void)
 
 static void ncdrv_startup(void)
 {
+	mpdm_t v;
+
 	initscr();
 	start_color();
 	keypad(stdscr, TRUE);
@@ -411,8 +413,9 @@ static void ncdrv_startup(void)
 
 	bkgdset(' ' | nc_attrs[MP_ATTR_NORMAL]);
 
-	mpdm_hset_s(nc_window, L"tx", MPDM_I(COLS));
-	mpdm_hset_s(nc_window, L"ty", MPDM_I(LINES));
+	v = mpdm_hget_s(mp, L"window");
+	mpdm_hset_s(v, L"tx", MPDM_I(COLS));
+	mpdm_hset_s(v, L"ty", MPDM_I(LINES));
 
 	signal(SIGWINCH, nc_sigwinch);
 }
@@ -474,9 +477,6 @@ int ncdrv_init(void)
 	mpdm_hset_s(drv, L"ui", MPDM_X(ncdrv_ui));
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(ncdrv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
-
-	nc_window = MPDM_H(0);
-	mpdm_hset_s(drv, L"window", nc_window);
 
 	return(1);
 }
