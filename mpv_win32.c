@@ -45,10 +45,6 @@
 	Data
 ********************/
 
-/* the driver */
-mpdm_t win32_driver = NULL;
-mpdm_t win32_window = NULL;
-
 /* the instance */
 HINSTANCE hinst;
 
@@ -77,6 +73,9 @@ HBRUSH bgbrush;
 
 int font_size = 14;
 char * font_face = "Lucida Console";
+
+/* mp window size */
+mpdm_t win32_window = NULL;
 
 /*******************
 	Code
@@ -677,7 +676,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 }
 
 
-static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
+static mpdm_t w32drv_clip_to_sys(mpdm_t a)
 /* driver-dependent mp to system clipboard */
 {
 	HGLOBAL hclp;
@@ -709,7 +708,7 @@ static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
 }
 
 
-static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
+static mpdm_t w32drv_sys_to_clip(mpdm_t a)
 /* driver-dependent system to mp clipboard */
 {
 	HGLOBAL hclp;
@@ -737,7 +736,7 @@ static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
 }
 
 
-static void win32_get_directories(void)
+static void w32drv_get_directories(void)
 /* get the LIB and HOME directories from usual places under Windows */
 {
 	HKEY hkey;
@@ -802,7 +801,7 @@ static void win32_get_directories(void)
 }
 
 
-static void win32_drv_startup(void)
+static void w32drv_startup(void)
 {
 	WNDCLASS wc;
 	RECT r;
@@ -866,7 +865,7 @@ static void win32_drv_startup(void)
 }
 
 
-static void win32_drv_main_loop(void)
+static void w32drv_main_loop(void)
 {
 	MSG msg;
 
@@ -878,23 +877,23 @@ static void win32_drv_main_loop(void)
 }
 
 
-static void win32_drv_shutdown(void)
+static void w32drv_shutdown(void)
 {
 	SendMessage(hwnd, WM_CLOSE, 0, 0);
 }
 
 
-static mpdm_t win32_drv_ui(mpdm_t a)
+static mpdm_t w32drv_ui(mpdm_t a)
 {
-	win32_drv_startup();
-	win32_drv_main_loop();
-	win32_drv_shutdown();
+	w32drv_startup();
+	w32drv_main_loop();
+	w32drv_shutdown();
 
 	return(NULL);
 }
 
 
-static mpdm_t win32_drv_alert(mpdm_t a)
+static mpdm_t w32drv_alert(mpdm_t a)
 {
 	char * ptr;
 
@@ -910,32 +909,31 @@ static mpdm_t win32_drv_alert(mpdm_t a)
 }
 
 
-int win32_drv_init(void)
+int w32drv_init(void)
 {
-	win32_driver = mpdm_ref(MPDM_H(0));
+	mpdm_t drv;
 
-	mpdm_hset_s(win32_driver, L"driver", MPDM_LS(L"win32"));
-	mpdm_hset_s(win32_driver, L"ui", MPDM_X(win32_drv_ui));
-	mpdm_hset_s(win32_driver, L"clip_to_sys",
-				MPDM_X(win32_drv_clip_to_sys));
-	mpdm_hset_s(win32_driver, L"sys_to_clip",
-				MPDM_X(win32_drv_sys_to_clip));
+	drv = MPDM_H(0);
+	mpdm_hset_s(mp, L"drv", drv);
 
-	mpdm_hset_s(win32_driver, L"alert", MPDM_X(win32_drv_alert));
+	mpdm_hset_s(drv, L"driver", MPDM_LS(L"win32"));
+	mpdm_hset_s(drv, L"ui", MPDM_X(w32drv_ui));
+	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(w32drv_clip_to_sys));
+	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32drv_sys_to_clip));
+
+	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
 
 	win32_window = MPDM_H(0);
-	mpdm_hset_s(win32_driver, L"window", win32_window);
+	mpdm_hset_s(drv, L"window", win32_window);
 
-	mpdm_hset_s(mp, L"drv", win32_driver);
-
-	win32_get_directories();
+	w32drv_get_directories();
 
 	return(1);
 }
 
 #else /* CONFOPT_WIN32 */
 
-int win32_drv_init(void)
+int w32drv_init(void)
 {
 	/* no Win32 */
 	return(0);

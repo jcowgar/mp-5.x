@@ -678,9 +678,9 @@ mpdm_t mp_x2vx(mpdm_t args)
 }
 
 
-int curses_drv_init(void);
-int gtk_drv_init(void);
-int win32_drv_init(void);
+int ncdrv_init(void);
+int gtkdrv_init(void);
+int w32drv_init(void);
 
 void mp_startup(void)
 {
@@ -723,9 +723,9 @@ void mp_startup(void)
 	mpdm_hset_s(mp, L"LIB",
 		MPDM_MBS(CONFOPT_PREFIX "/share/" CONFOPT_APPNAME "/"));
 
-	if(!win32_drv_init())
-	if(!gtk_drv_init())
-	if(!curses_drv_init())
+	if(!w32drv_init())
+	if(!gtkdrv_init())
+	if(!ncdrv_init())
 	{
 		printf("No usable driver found; exiting.\n");
 		exit(1);

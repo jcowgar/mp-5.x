@@ -49,10 +49,6 @@
 	Data
 ********************/
 
-/* the driver */
-static mpdm_t gtk_driver = NULL;
-static mpdm_t gtk_window = NULL;
-
 /* global data */
 static GtkWidget * window = NULL;
 static GtkWidget * file_tabs = NULL;
@@ -83,6 +79,9 @@ static int got_selection = 0;
 
 /* hack for active waiting for the selection */
 static int wait_for_selection = 0;
+
+/* the mp window */
+static mpdm_t gtk_window = NULL;
 
 /*******************
 	Code
@@ -378,7 +377,7 @@ static void draw_scrollbar(void)
 }
 
 
-static void gtk_drv_paint(mpdm_t doc)
+static void gtkdrv_paint(mpdm_t doc)
 /* GTK document draw function */
 {
 	GdkRectangle gr;
@@ -503,7 +502,7 @@ static void gtk_drv_paint(mpdm_t doc)
 
 static void redraw(void)
 {
-	gtk_drv_paint(mp_get_active());
+	gtkdrv_paint(mp_get_active());
 }
 
 
@@ -787,7 +786,7 @@ static void selection_received(GtkWidget * widget,
 }
 
 
-static mpdm_t gtk_drv_clip_to_sys(mpdm_t a)
+static mpdm_t gtkdrv_clip_to_sys(mpdm_t a)
 /* driver-dependent mp to system clipboard */
 {
 	got_selection = gtk_selection_owner_set(area,
@@ -797,7 +796,7 @@ static mpdm_t gtk_drv_clip_to_sys(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
+static mpdm_t gtkdrv_sys_to_clip(mpdm_t a)
 /* driver-dependent system to mp clipboard */
 {
 	if(!got_selection)
@@ -821,7 +820,7 @@ static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
 }
 
 
-static void gtk_drv_startup(void)
+static void gtkdrv_startup(void)
 {
 	GtkWidget * vbox;
 	GtkWidget * hbox;
@@ -951,18 +950,18 @@ static void gtk_drv_startup(void)
 }
 
 
-static void gtk_drv_main_loop(void)
+static void gtkdrv_main_loop(void)
 {
 	gtk_main();
 }
 
 
-static void gtk_drv_shutdown(void)
+static void gtkdrv_shutdown(void)
 {
 }
 
 
-static mpdm_t gtk_drv_alert(mpdm_t a)
+static mpdm_t gtkdrv_alert(mpdm_t a)
 {
 	char * ptr;
 	GtkWidget * dlg;
@@ -1002,40 +1001,41 @@ static mpdm_t gtk_drv_alert(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_ui(mpdm_t a)
+static mpdm_t gtkdrv_ui(mpdm_t a)
 {
-	gtk_drv_startup();
-	gtk_drv_main_loop();
-	gtk_drv_shutdown();
+	gtkdrv_startup();
+	gtkdrv_main_loop();
+	gtkdrv_shutdown();
 
 	return(NULL);
 }
 
 
-int gtk_drv_init(void)
+int gtkdrv_init(void)
 {
+	mpdm_t drv;
+
 	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))
 		return(0);
 
-	gtk_driver = mpdm_ref(MPDM_H(0));
+	drv = MPDM_H(0);
+	mpdm_hset_s(mp, L"drv", drv);
 
-	mpdm_hset_s(gtk_driver, L"ui", MPDM_X(gtk_drv_ui));
-	mpdm_hset_s(gtk_driver, L"clip_to_sys", MPDM_X(gtk_drv_clip_to_sys));
-	mpdm_hset_s(gtk_driver, L"sys_to_clip", MPDM_X(gtk_drv_sys_to_clip));
+	mpdm_hset_s(drv, L"ui", MPDM_X(gtkdrv_ui));
+	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(gtkdrv_clip_to_sys));
+	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtkdrv_sys_to_clip));
 
-	mpdm_hset_s(gtk_driver, L"alert", MPDM_X(gtk_drv_alert));
+	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
 
 	gtk_window = MPDM_H(0);
-	mpdm_hset_s(gtk_driver, L"window", gtk_window);
-
-	mpdm_hset_s(mp, L"drv", gtk_driver);
+	mpdm_hset_s(drv, L"window", gtk_window);
 
 	return(1);
 }
 
 #else /* CONFOPT_GTK */
 
-int gtk_drv_init(void)
+int gtkdrv_init(void)
 {
 	/* no GTK */
 	return(0);

@@ -51,8 +51,7 @@
 /* the curses attributes */
 int nc_attrs[MP_ATTR_SIZE];
 
-/* the driver */
-mpdm_t nc_driver = NULL;
+/* the mp window */
 mpdm_t nc_window = NULL;
 
 /*******************
@@ -399,7 +398,7 @@ static void build_colors(void)
 }
 
 
-static void nc_drv_startup(void)
+static void ncdrv_startup(void)
 {
 	initscr();
 	start_color();
@@ -412,16 +411,14 @@ static void nc_drv_startup(void)
 
 	bkgdset(' ' | nc_attrs[MP_ATTR_NORMAL]);
 
-	nc_window = MPDM_H(0);
 	mpdm_hset_s(nc_window, L"tx", MPDM_I(COLS));
 	mpdm_hset_s(nc_window, L"ty", MPDM_I(LINES));
-	mpdm_hset_s(nc_driver, L"window", nc_window);
 
 	signal(SIGWINCH, nc_sigwinch);
 }
 
 
-static void nc_drv_main_loop(void)
+static void ncdrv_main_loop(void)
 /* curses driver main loop */
 {
 	while(! mp_exit_requested)
@@ -435,53 +432,58 @@ static void nc_drv_main_loop(void)
 }
 
 
-static void nc_drv_shutdown(void)
+static void ncdrv_shutdown(void)
 {
 	endwin();
 }
 
 
-static mpdm_t nc_drv_ui(mpdm_t v)
+static mpdm_t ncdrv_ui(mpdm_t v)
 {
-	nc_drv_startup();
-	nc_drv_main_loop();
-	nc_drv_shutdown();
+	ncdrv_startup();
+	ncdrv_main_loop();
+	ncdrv_shutdown();
 
 	return(NULL);
 }
 
 
-static mpdm_t nc_drv_clip_to_sys(mpdm_t a)
+static mpdm_t ncdrv_clip_to_sys(mpdm_t a)
 {
 	/* dummy */
 	return(NULL);
 }
 
 
-static mpdm_t nc_drv_sys_to_clip(mpdm_t a)
+static mpdm_t ncdrv_sys_to_clip(mpdm_t a)
 {
 	/* dummy */
 	return(NULL);
 }
 
 
-int curses_drv_init(void)
+int ncdrv_init(void)
 {
-	nc_driver = mpdm_ref(MPDM_H(0));
+	mpdm_t drv;
 
-	mpdm_hset_s(nc_driver, L"driver", MPDM_LS(L"curses"));
-	mpdm_hset_s(nc_driver, L"ui", MPDM_X(nc_drv_ui));
-	mpdm_hset_s(nc_driver, L"clip_to_sys", MPDM_X(nc_drv_clip_to_sys));
-	mpdm_hset_s(nc_driver, L"sys_to_clip", MPDM_X(nc_drv_sys_to_clip));
+	drv = mpdm_ref(MPDM_H(0));
+	mpdm_hset_s(mp, L"drv", drv);
 
-	mpdm_hset_s(mp, L"drv", nc_driver);
+	mpdm_hset_s(drv, L"driver", MPDM_LS(L"curses"));
+
+	mpdm_hset_s(drv, L"ui", MPDM_X(ncdrv_ui));
+	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(ncdrv_clip_to_sys));
+	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
+
+	nc_window = MPDM_H(0);
+	mpdm_hset_s(drv, L"window", nc_window);
 
 	return(1);
 }
 
 #else /* CONFOPT_CURSES */
 
-int curses_drv_init(void)
+int ncdrv_init(void)
 {
 	/* no curses */
 	return(0);
