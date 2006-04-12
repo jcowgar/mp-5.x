@@ -184,10 +184,10 @@ sub mp.wrap_words(doc)
 {
 	local txt = doc.txt;
 
-	if(mp.config.wordwrap == 0) return;
+	if(mp.config.word_wrap == 0) return;
 
-	if(txt.x >= mp.config.wordwrap &&
-		regex("/^.{1," ~ mp.config.wordwrap ~ "}\s/", txt.lines[txt.y]))
+	if(txt.x >= mp.config.word_wrap &&
+		regex("/^.{1," ~ mp.config.word_wrap ~ "}\s/", txt.lines[txt.y]))
 	{
 		local w;
 
