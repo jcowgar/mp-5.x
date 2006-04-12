@@ -895,11 +895,13 @@ static mpdm_t w32drv_ui(mpdm_t a)
 
 static mpdm_t w32drv_alert(mpdm_t a)
 {
+	wchar_t * wptr;
 	char * ptr;
 
-	a = mpdm_aget(a, 0);
+	/* gets a printable representation of the first argument */
+	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = mpdm_wcstombs(a->data, NULL)) != NULL)
+	if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
 	{
 		MessageBox(hwnd, ptr, "mp " VERSION, MB_ICONWARNING|MB_OK);
 		free(ptr);

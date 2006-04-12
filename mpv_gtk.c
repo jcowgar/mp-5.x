@@ -1013,14 +1013,16 @@ static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
 static mpdm_t gtkdrv_alert(mpdm_t a)
 /* alert driver function */
 {
+	wchar_t * wptr;
 	char * ptr;
 	GtkWidget * dlg;
 	GtkWidget * label;
 	GtkWidget * button;
 
-	a = mpdm_aget(a, 0);
+	/* gets a printable representation of the first argument */
+	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = wcs_to_utf8(a->data, mpdm_size(a), NULL)) == NULL)
+	if((ptr = wcs_to_utf8(wptr, wcslen(wptr), NULL)) == NULL)
 		return(NULL);
 
 	dlg = gtk_dialog_new();
