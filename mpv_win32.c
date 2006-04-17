@@ -1015,8 +1015,17 @@ static mpdm_t w32drv_readline(mpdm_t a)
 
 	if((dialog_prompt = mpdm_wcstombs(wptr, NULL)) != NULL)
 	{
+		mpdm_t h;
+
+		h = mp_get_history(mpdm_aget(a, 1));
+
 		if(DialogBox(hinst, "READLINE", hwnd, readlineDlgProc))
+		{
+			if(h != NULL)
+				mpdm_push(h, readline_text);
+
 			return(readline_text);
+		}
 	}
 
 	return(NULL);

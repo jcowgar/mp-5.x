@@ -28,7 +28,7 @@
 /* editor actions */
 
 mp.actions['seek'] 	= sub (d) {
-	local t = mp.drv.readline(L("Text to seek:"));
+	local t = mp.drv.readline(L("Text to seek:"), "seek");
 
 	if(t != NULL)
 		mp.search(d, t) || mp.drv.alert(L("Text not found."));

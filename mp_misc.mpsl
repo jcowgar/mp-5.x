@@ -28,7 +28,7 @@
 /* editor actions */
 
 mp.actions['eval']	= sub (d) { 
-	local t = mp.drv.readline(L("Code to execute:"));
+	local t = mp.drv.readline(L("Code to execute:"), "eval");
 
 	if(t != NULL)
 	{

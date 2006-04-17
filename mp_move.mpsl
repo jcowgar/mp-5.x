@@ -40,7 +40,7 @@ mp.actions['move-eof']		= sub (d) { mp.move_eof(d); };
 mp.actions['move-word-right']	= sub (d) { mp.move_word_right(d); };
 
 mp.actions['goto']		= sub (d) {
-	local y = mp.drv.readline(L("Line to go to:"));
+	local y = mp.drv.readline(L("Line to go to:"), "goto");
 
 	if(y >= 1)
 	{

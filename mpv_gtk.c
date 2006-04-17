@@ -1081,12 +1081,16 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	GtkWidget * ybutton;
 	GtkWidget * nbutton;
 	GtkWidget * combo;
+	mpdm_t h;
 
 	/* gets a printable representation of the first argument */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
 	if((ptr = wcs_to_utf8(wptr, wcslen(wptr), NULL)) == NULL)
 		return(NULL);
+
+	/* get the history */
+	h = mp_get_history(mpdm_aget(a, 1));
 
 	dlg = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
@@ -1129,7 +1133,15 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 
 	wait_for_modal_status_change();
 
-	return(modal_status == 1 ? readline_text : NULL);
+	if(modal_status == 1)
+	{
+		if(h != NULL)
+			mpdm_push(h, readline_text);
+
+		return(readline_text);
+	}
+
+	return(NULL);
 }
 
 
