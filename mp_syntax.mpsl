@@ -27,12 +27,16 @@
 
 mp.syntax = {};
 
+sub mp.syn_token_list(l) { "/[^a-zA-Z_](" ~ join("|", l) ~ ")[^a-zA-Z_]/"; }
+
 mp.syntax.c = {
 	'id'		=>	'c',
 	'name'		=>	'C / C++',
 	'filenames'	=>	[ '/\.c$/', '/\.h$/', '/\.l$/', '/\.y$/',
 				'/\.cpp$/', '/\.hpp$/', '/\.c++$/', '/\.xpm$/' ],
-	'tokens'	=>	[ "for", "while", "if", "switch", "case", "do",
+	'tokens'	=>	[
+				mp.syn_token_list( [
+				"for", "while", "if", "switch", "case", "do",
 				"else", "break", "continue", "return",
 				"default", "goto", "main", "fopen", "fclose",
 				"fgets", "fgetc", "fputs", "fputc", "fprintf",
@@ -43,20 +47,26 @@ mp.syntax.c = {
 				"memset", "memcpy", "va_start", "va_end", "vsprintf",
 				"vsnprintf", "atoi", "qsort", "bsearch", "getenv",
 				"fscanf", "popen", "pclose", "realloc", "fread",
-				"fwrite", "fseek", "{", "}", "putchar", "fflush",
+				"fwrite", "fseek", '\{', '\}', "putchar", "fflush",
 				"wcscmp", "swprintf", "wmemcpy", "swscanf", "sscanf",
 				"wcslen", "wmemset", "wcscpy", "wcsncpy",
 				"mbstowcs", "wcstombs", "wprintf", "wcschr",
 				"wcsrchr", "wcsstr", "strdup", "wctomb", "mbtowc",
 				"mbrtowc", "wcrtomb", "open", "close", "read",
 				"write", "pipe", "fork", "dup", "dup2", "wait",
-				"execl", "execlp", "execle", "execv", "execvp" ],
-	'variables'	=>	[ "char", "int", "long", "struct", "union", "const",
+				"execl", "execlp", "execle", "execv", "execvp"
+				])
+	],
+	'variables'	=>	[
+				mp.syn_token_list( [
+				"char", "int", "long", "struct", "union", "const",
 				"void", "unsigned", "signed", "auto", "volatile",
 				"enum", "typedef", "float", "double", "extern",
 				"register", "short", "sizeof", "static", "far",
 				"near", "defined", "va_list", "size_t", "wchar_t",
-				"iconv_t" ],
+				"iconv_t" ]),
+				'/[-=<>:\?\+\*\/\!\%&\|]+/'
+	],
 	'comments'	=>	[
 		[ '|/\*|', '|\*/|' ],			/* C-like */
 		'|//.*$|m',				/* C++ */
@@ -86,21 +96,27 @@ mp.syntax.perl = {
 	'id'		=>	'perl',
 	'name'		=>	'Perl',
 	'filenames'	=>	[ '/\.pl$/i', '/\.pm$/' ],
-	'tokens'	=>	[ "for", "if", "next", "last", "else", "elsif",
-				 "unless", "while", "shift", "unshift", "push",
-				 "pop", "delete", "new", "bless", "return",
-				 "foreach", "keys", "values", "sort", "grep",
-				 "tr", "length", "system", "exec", "fork", "map",
-				 "print", "write", "open", "close", "chop",
-				 "chomp", "exit", "sleep", "split", "join",
-				 "sub", "printf", "sprintf", "s", "tr", "glob",
-				 "{", "}" ],
-	'variables'	=>	[ "scalar", "my", "local", "undef", "defined",
-			       "use", "package", "require", "pod", "head1",
-			       "head2", "item", "cut", "over", "back",
-			       "ref", "qw", "qq", "eq", "ne", "or", "exists",
-			       "and", "not", "import", "our", "::", "=", "=~",
-			       ".=", "==", ">", "<", ">=", "<=" ],
+	'tokens'	=>	[
+				mp.syn_token_list( [
+				"for", "if", "next", "last", "else", "elsif",
+				"unless", "while", "shift", "unshift", "push",
+				"pop", "delete", "new", "bless", "return",
+				"foreach", "keys", "values", "sort", "grep",
+				"tr", "length", "system", "exec", "fork", "map",
+				"print", "write", "open", "close", "chop",
+				"chomp", "exit", "sleep", "split", "join",
+				"sub", "printf", "sprintf", "s", "tr", "glob" ]),
+				'/[\{\}]+/'
+	],
+	'variables'	=>	[
+				mp.syn_token_list( [
+				"scalar", "my", "local", "undef", "defined",
+			       	"use", "package", "require", "pod", "head1",
+			       	"head2", "item", "cut", "over", "back",
+			       	"ref", "qw", "qq", "eq", "ne", "or", "exists",
+			       	"and", "not", "import", "our" ]),
+				'/[-=<>:\?\+\*\/\!\$@\%&\|~\.]+/'
+	],
 	'comments'	=>	[
 		"/#.*$/m",				/* Comments */
 		"/__END__\n.*$/",			/* __END__ */
@@ -124,20 +140,26 @@ mp.syntax.mpsl = {
 	'id'		=>	'mpsl',
 	'name'		=>	'MPSL',
 	'filenames'	=>	[ '/\.mpsl$/' ],
-	'tokens'	=>	[ 'if', 'else', 'while', 'foreach', 'sub',
-				  'break', 'return',
-				  "size", "clone", "dump", "cmp",
-				  "is_array", "is_hash", "is_exec",
-				  "splice", "expand", "collapse",
-				  "ins", "adel", "shift",
-				  "push", "pop", "queue",
-				  "seek", "sort", "split", "join",
-				  "hsize", "exists", "hdel", "keys",
-				  "open", "close", "read", "write",
-				  "unlink", "glob", "encoding",
-				  "regex", "sregex", "eq", "ne",
-				  "load", "error", "eval", "print" ],
-	'variables'	=>	[ 'NULL', 'local' ],
+	'tokens'	=>	[
+				mp.syn_token_list( [
+				'if', 'else', 'while', 'foreach', 'sub',
+				'break', 'return',
+				"size", "clone", "dump", "cmp",
+				"is_array", "is_hash", "is_exec",
+				"splice", "expand", "collapse",
+				"ins", "adel", "shift",
+				"push", "pop", "queue",
+				"seek", "sort", "split", "join",
+				"hsize", "exists", "hdel", "keys",
+				"open", "close", "read", "write",
+				"unlink", "glob", "encoding",
+				"regex", "sregex", "eq", "ne", '\{', '\}',
+				"load", "error", "eval", "print" ])
+	],
+	'variables'	=>	[
+				"/(NULL|local)/",
+				'/[-=<>:\?\+\*\/\!\%&\|]+/'
+	],
 	'comments'	=>	clone(mp.syntax.c.comments),
 	'quotes'	=>	clone(mp.syntax.c.quotes)
 };
@@ -146,7 +168,9 @@ mp.syntax.sh = {
 	'id'		=>	'sh',
 	'name'		=>	'Shell script',
 	'filenames'	=>	[ '/\.sh$/' ],
-	'tokens'	=>	[ "if", "then", "else", "elif",
+	'tokens'	=>	[
+				mp.syn_token_list( [
+				"if", "then", "else", "elif",
 				"fi", "case", "do", "done", "esac",
 				"for", "until", "while", "break",
 				"in", "source", "alias", "cd",
@@ -154,8 +178,9 @@ mp.syntax.sh = {
 				"exit", "export", "kill", "logout",
 				"printf", "pwd", "read", "return",
 				"shift", "test", "trap", "ulimit",
-				"umask", "unset", "wait", "cp", "rm" ],
-	'variables'	=>	[ "local", "let", "set" ],
+				"umask", "unset", "wait", "cp", "rm" ])
+	],
+	'variables'	=>	[ "/(local|let|set)/" ],
 	'comments'	=>	clone(mp.syntax.perl.comments),
 	'quotes'	=>	[
 		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
@@ -175,9 +200,7 @@ mp.syntax.html = {
 	'id'		=>	'html',
 	'name'		=>	'HTML',
 	'filenames'	=>	[ '/\.html$/', '/\.htm$/' ],
-	'tokens'	=>	NULL,
-	'variables'	=>	NULL,
-	'quotes'	=>	[
+	'tokens'	=>	[
 				"/<[\/]?[ \t]*(" ~
 					join("|", [
 				"a", "abbr", "acronym", "address",
@@ -196,17 +219,23 @@ mp.syntax.html = {
 				"strong", "style", "sub", "sup", "table",
 				"tbody", "td", "textarea", "tfoot", "th",
 				"thead", "title", "tr", "tt", "ul",
-				"var", "!DOCTYPE", "class", "type",
+				"var" ] ) ~
+				")[^<>]*>/i"
+	],
+	'variables'	=>	[
+				mp.syn_token_list( [
+				 "!DOCTYPE", "class", "type",
 				"cellspacing", "cellpadding",
 				"href", "align", "valign", "name", "lang",
 				"value", "action", "width", "height",
 				"content", "http-equiv", "src", "alt",
 				"bgcolor", "text", "link", "vlink", "alink",
-				"media", "type"
-					] ) ~
-				")[^<>]*>/i"
+				"media" ])
 	],
 	'comments'	=>	[
+				[ '/<!--/', '/-->/' ]
+	],
+	'quotes'	=>	[
 		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
 		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/"	/* single-quoted strings */
 	]
@@ -235,20 +264,5 @@ sub mp.detect_syntax(doc)
 				break;
 			}
 		}
-	}
-
-	/* if one was found, build its hl_words hash */
-	if(doc.syntax && !doc.syntax.hl_words)
-	{
-		local h = {};
-
-		foreach(n, doc.syntax.tokens)
-			h[n] = mp.attr_names.word1;
-
-		foreach(n, doc.syntax.variables)
-			h[n] = mp.attr_names.word2;
-
-		/* finally store */
-		doc.syntax.hl_words = h;
 	}
 }

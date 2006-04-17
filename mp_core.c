@@ -263,33 +263,26 @@ static void drw_words(void)
 {
 	mpdm_t r, t;
 	int o = drw.visible;
-	mpdm_t hl_words;
 	mpdm_t tags = NULL;
 
-	/* if there is no syntax highlight info for words, exit */
-	if((hl_words = mpdm_hget_s(drw.syntax, L"hl_words")) == NULL)
+	/* take the tags, if any */
+	if((tags = mpdm_hget_s(mp, L"tags")) == NULL)
 		return;
 
-	/* take the tags, if any */
-	tags = mpdm_hget_s(mp, L"tags");
-
 	/* @#@ */
-	r=MPDM_LS(L"/[A-Za-z_]+/");
+	r = MPDM_LS(L"/[A-Za-z_]+/");
 
 	while((t = mpdm_regex(r, drw.v, o)) != NULL)
 	{
 		mpdm_t c;
 		int attr = -1;
 
-		if((c = mpdm_hget(hl_words, t)) != NULL)
-			attr = mpdm_ival(c);
-		else
 		if(mpdm_hget(tags, t) != NULL)
 			attr = MP_ATTR_TAG;
 
 		/* @#@ spell will be here */
 
-		o=drw_fill_attr_regex(attr);
+		o = drw_fill_attr_regex(attr);
 	}
 }
 
@@ -299,7 +292,7 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 {
 	int n;
 
-	for(n=0;n < mpdm_size(a);n++)
+	for(n = 0;n < mpdm_size(a);n++)
 	{
 		mpdm_t r = mpdm_aget(a, n);
 		int o = 0;
@@ -351,6 +344,12 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 static void drw_blocks(void)
 /* fill attributes for multiline blocks */
 {
+	/* fill attributes for tokens */
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"tokens"), MP_ATTR_WORD_1);
+
+	/* fill attributes for variables */
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"variables"), MP_ATTR_WORD_2);
+
 	/* fill attributes for quotes (strings) */
 	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"quotes"), MP_ATTR_QUOTES);
 
