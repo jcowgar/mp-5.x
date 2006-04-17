@@ -85,7 +85,7 @@ static int wait_for_selection = 0;
 static int modal_status = -1;
 
 /* global text from entry widget */
-mpdm_t entry_text = NULL;
+static mpdm_t readline_text = NULL;
 
 /*******************
 	Code
@@ -988,10 +988,10 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 		/* if there is an entry widget, get its text */
 		char * ptr;
 
-		mpdm_unref(entry_text);
+		mpdm_unref(readline_text);
 		ptr = gtk_editable_get_chars(GTK_EDITABLE(entry), 0, -1);
 
-		entry_text = mpdm_ref(MPDM_MBS(ptr));
+		readline_text = mpdm_ref(MPDM_MBS(ptr));
 		g_free(ptr);
 
 		entry = NULL;
@@ -1129,7 +1129,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 
 	wait_for_modal_status_change();
 
-	return(modal_status == 1 ? entry_text : NULL);
+	return(modal_status == 1 ? readline_text : NULL);
 }
 
 
