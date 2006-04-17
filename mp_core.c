@@ -2,7 +2,7 @@
 
     Minimum Profit - Programmer Text Editor
 
-    Copyright (C) 1991-2005 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2006 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -274,7 +274,6 @@ static void drw_words(void)
 
 	while((t = mpdm_regex(r, drw.v, o)) != NULL)
 	{
-		mpdm_t c;
 		int attr = -1;
 
 		if(mpdm_hget(tags, t) != NULL)
