@@ -647,6 +647,13 @@ mpdm_t mp_build_status_line(void)
 }
 
 
+mpdm_t mp_get_history(mpdm_t key)
+/* interfaz to mp.get_history() */
+{
+	return(mpdm_exec_1(mpdm_hget_s(mp, L"get_history"), key));
+}
+
+
 mpdm_t mp_exit(mpdm_t args)
 /* exit the editor (set mp_exit_requested) */
 {

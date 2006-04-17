@@ -284,6 +284,16 @@ sub mp.build_status_line()
 }
 
 
+sub mp.get_history(key)
+/* returns a history for the specified key */
+{
+	if(mp.history == NULL) mp.history = {};
+	if(mp.history[key] == NULL) mp.history[key] = [];
+
+	return(mp.history[key]);
+}
+
+
 sub mp.process_cmdline()
 /* process the command line arguments (ARGV) */
 {
