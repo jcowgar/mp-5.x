@@ -192,7 +192,6 @@ mp.keycodes = {
 	'ctrl-b'	=>	NULL,
 	'ctrl-d'	=>	NULL,
 	'ctrl-e'	=>	NULL,
-	'ctrl-g'	=>	'goto',
 	'ctrl-h'	=>	NULL,
 	'ctrl-j'	=>	NULL,
 	'ctrl-k'	=>	NULL,

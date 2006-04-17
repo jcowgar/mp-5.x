@@ -39,6 +39,16 @@ mp.actions['move-bof']		= sub (d) { mp.move_bof(d); };
 mp.actions['move-eof']		= sub (d) { mp.move_eof(d); };
 mp.actions['move-word-right']	= sub (d) { mp.move_word_right(d); };
 
+mp.actions['goto']		= sub (d) {
+	local y = mp.drv.readline(L("Line to go to:"));
+
+	if(y >= 1)
+	{
+		d.txt.x = 0;
+		mp.set_y(d, y - 1);
+	}
+};
+
 /* default key bindings */
 
 mp.keycodes['cursor-left']	= "move-left";
@@ -53,6 +63,7 @@ mp.keycodes['ctrl-home']	= "move-bof";
 mp.keycodes['ctrl-end']		= "move-eof";
 mp.keycodes['ctrl-cursor-left']	= NULL;
 mp.keycodes['ctrl-cursor-right']= "move-word-right";
+mp.keycodes['ctrl-g']		= "goto";
 
 /* action descriptions */
 
@@ -68,6 +79,7 @@ mp.actdesc['move-bof']		= LL("Beginning of file");
 mp.actdesc['move-eof']		= LL("End of file");
 mp.actdesc['move-word-left']	= LL("Word left");
 mp.actdesc['move-word-right']	= LL("Word right");
+mp.actdesc['goto']		= LL("Go to line...");
 
 /* code */
 
