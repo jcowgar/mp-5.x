@@ -64,6 +64,8 @@ sub mp.search(doc, str)
 
 	if(str == NULL)
 		str = mp.last_search;
+	else
+		mp.last_search = str;
 
 	if(str == NULL)
 		return(NULL);
@@ -85,9 +87,6 @@ sub mp.search(doc, str)
 	{
 		mp.set_y(doc, y);
 		mp.set_x(doc, r[0] + r[1]);
-
-		/* store last search */
-		mp.last_search = str;
 	}
 
 	return(r);
