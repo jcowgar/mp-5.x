@@ -27,7 +27,20 @@
 
 /* editor actions */
 
-mp.actions['eval']	= sub (d) { mp.eval(d); };
+mp.actions['eval']	= sub (d) { 
+	local t = mp.drv.readline(L("Code to execute:"));
+
+	if(t != NULL)
+	{
+		t = eval(t);
+
+		if(ERROR != NULL)
+			mp.drv.alert(L("Error: ") ~ ERROR);
+		else
+		if(t != NULL)
+			mp.drv.alert(L("Exit value:\n") ~ t);
+	}
+};
 
 /* default key bindings */
 
@@ -38,19 +51,3 @@ mp.keycodes['ctrl-f1']	= 'eval';
 mp.actdesc['eval']	= LL('Execute MPSL code...');
 
 /* code */
-
-sub mp.eval(doc)
-{
-	local t;
-
-	if((t = mp.drv.readline(L("Line of code to execute:"))) != NULL)
-	{
-		t = eval(t);
-
-		if(ERROR != NULL)
-			mp.drv.alert(L("Error:\n") ~ ERROR);
-		else
-		if(t != NULL)
-			mp.drv.alert(L("Exit value:\n") ~ t);
-	}
-}
