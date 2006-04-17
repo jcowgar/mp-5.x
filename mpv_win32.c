@@ -41,6 +41,8 @@
 
 #include "mp.h"
 
+#include "mp_res.h"
+
 /*******************
 	Data
 ********************/
@@ -73,6 +75,12 @@ HBRUSH bgbrush;
 
 int font_size = 14;
 char * font_face = "Lucida Console";
+
+/* readline text */
+static mpdm_t readline_text = NULL;
+
+/* prompt for dialogs */
+static char * dialog_prompt = NULL;
 
 /*******************
 	Code
@@ -894,6 +902,7 @@ static mpdm_t w32drv_ui(mpdm_t a)
 
 
 static mpdm_t w32drv_alert(mpdm_t a)
+/* alert driver function */
 {
 	wchar_t * wptr;
 	char * ptr;
@@ -905,6 +914,109 @@ static mpdm_t w32drv_alert(mpdm_t a)
 	{
 		MessageBox(hwnd, ptr, "mp " VERSION, MB_ICONWARNING|MB_OK);
 		free(ptr);
+	}
+
+	return(NULL);
+}
+
+
+BOOL CALLBACK readlineDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+/* readline dialog proc */
+{
+	int ret, n;
+
+	switch(msg)
+	{
+	case WM_INITDIALOG:
+
+		SetWindowText(hwnd, "mp " VERSION);
+
+		if(dialog_prompt != NULL)
+		{
+			SetDlgItemText(hwnd, WMP_1STR_LABEL, dialog_prompt);
+			free(dialog_prompt);
+			dialog_prompt = NULL;
+		}
+
+#ifdef QQ
+
+		/* store the history into combo_items */
+		SendDlgItemMessage(hwnd,WMP_1STR_EDIT,CB_RESETCONTENT,0,0);
+		
+		if (_mpv_readline_type == MPR_PASSWORD) {
+			SendDlgItemMessage(hwnd, WMP_1STR_EDIT,
+				EM_SETPASSWORDCHAR, (WPARAM)'*', (LPARAM)0);
+		} else {
+			for(n=0;n < 100;n++)
+			{
+				char tmp[512];
+
+				if(! mpi_history_get(_mpv_readline_type,
+					mpi_history_size(_mpv_readline_type) - n,
+					tmp, sizeof(tmp)))
+					break;
+
+				if(tmp[0]!='\0')
+				 	SendDlgItemMessage(hwnd,WMP_1STR_EDIT,
+				 			CB_ADDSTRING,
+				 			0,(LPARAM)tmp);
+			}
+			if(_mpv_dlg_default!=NULL)
+			{
+				SetDlgItemText(hwnd,WMP_1STR_EDIT,
+					_mpv_dlg_default);
+				SendDlgItemMessage(hwnd,WMP_1STR_EDIT,
+					EM_SETSEL, 0, 1000);
+			}
+		}
+#endif
+		return(TRUE);
+
+	case WM_COMMAND:
+
+		switch(LOWORD(wparam))
+		{
+		case WMP_OK:
+		case WMP_CANCEL:
+
+			if(LOWORD(wparam) == WMP_OK)
+			{
+				char tmp[1024];
+
+				mpdm_unref(readline_text);
+
+				GetDlgItemText(hwnd, WMP_1STR_EDIT,
+					tmp, sizeof(tmp));
+
+				readline_text = mpdm_ref(MPDM_MBS(tmp));
+
+				ret = 1;
+			}
+			else
+				ret = 0;
+
+			EndDialog(hwnd, ret);
+
+			return(TRUE);
+		}
+	}
+
+	return(FALSE);
+}
+
+
+static mpdm_t w32drv_readline(mpdm_t a)
+/* readline driver function */
+{
+	wchar_t * wptr;
+
+	/* gets a printable representation of the first argument */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+
+	if((dialog_prompt = mpdm_wcstombs(wptr, NULL)) != NULL)
+	{
+		if(DialogBox(hinst, "READLINE", hwnd, readlineDlgProc))
+			return(readline_text);
 	}
 
 	return(NULL);
@@ -924,6 +1036,7 @@ int w32drv_init(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32drv_sys_to_clip));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
+	mpdm_hset_s(drv, L"readline", MPDM_X(w32drv_readline));
 
 	w32drv_get_directories();
 
