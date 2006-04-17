@@ -31,10 +31,13 @@ mp.actions['seek'] 	= sub (d) {
 	local t = mp.drv.readline(L("Text to seek:"));
 
 	if(t != NULL)
-		mp.search(d, t);
+		mp.search(d, t) || mp.drv.alert(L("Text not found."));
 	};
 
-mp.actions['seek-next']	= sub (d) { mp.search(d, NULL); };
+mp.actions['seek-next']	= sub (d) { mp.search(d, NULL) ||
+		mp.drv.alert(L("Text not found."));
+	};
+
 mp.actions['replace']	= sub (d) { mp.replace(d, mp.get_word(d), 'TEST'); };
 mp.actions['replace-all'] = sub (d) { mp.replace_all(d, mp.get_word(d), 'TESTALL'); };
 mp.actions['replace-in-all'] = sub (d) { mp.replace_in_all(mp.get_word(d), 'TESTINALL'); };
