@@ -287,6 +287,7 @@ sub mp.build_status_line()
 sub mp.get_history(key)
 /* returns a history for the specified key */
 {
+	if(key == NULL) return(NULL);
 	if(mp.history == NULL) mp.history = {};
 	if(mp.history[key] == NULL) mp.history[key] = [];
 
