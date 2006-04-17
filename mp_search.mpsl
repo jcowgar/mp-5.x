@@ -27,7 +27,13 @@
 
 /* editor actions */
 
-mp.actions['seek'] 	= sub (d) { mp.search(d, mp.get_word(d)); };
+mp.actions['seek'] 	= sub (d) {
+	local t = mp.drv.readline("Text to seek:");
+
+	if(t != NULL)
+		mp.search(d, t);
+	};
+
 mp.actions['seek-next']	= sub (d) { mp.search(d, NULL); };
 mp.actions['replace']	= sub (d) { mp.replace(d, mp.get_word(d), 'TEST'); };
 mp.actions['replace-all'] = sub (d) { mp.replace_all(d, mp.get_word(d), 'TESTALL'); };
