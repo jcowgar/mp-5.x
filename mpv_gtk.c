@@ -55,6 +55,7 @@ static GtkWidget * file_tabs = NULL;
 static GtkWidget * area = NULL;
 static GtkWidget * scrollbar = NULL;
 static GtkWidget * status = NULL;
+static GtkWidget * entry = NULL;
 static GdkGC * gc = NULL;
 static GtkIMContext * im = NULL;
 static GdkPixmap * pixmap = NULL;
@@ -83,6 +84,8 @@ static int wait_for_selection = 0;
 /* global modal status */
 static int modal_status = -1;
 
+/* global text from entry widget */
+mpdm_t entry_text = NULL;
 
 /*******************
 	Code
@@ -980,6 +983,20 @@ static void wait_for_modal_status_change(void)
 
 static void clicked_ok(GtkWidget * widget, gpointer data)
 {
+	if(entry != NULL)
+	{
+		/* if there is an entry widget, get its text */
+		char * ptr;
+
+		mpdm_unref(entry_text);
+		ptr = gtk_editable_get_chars(GTK_EDITABLE(entry), 0, -1);
+
+		entry_text = mpdm_ref(MPDM_MBS(ptr));
+		g_free(ptr);
+
+		entry = NULL;
+	}
+
 	modal_status = 1;
 	gtk_widget_destroy(GTK_WIDGET(widget));
 }
@@ -1054,6 +1071,68 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 }
 
 
+static mpdm_t gtkdrv_readline(mpdm_t a)
+/* readline driver function */
+{
+	wchar_t * wptr;
+	char * ptr;
+	GtkWidget * dlg;
+	GtkWidget * label;
+	GtkWidget * ybutton;
+	GtkWidget * nbutton;
+	GtkWidget * combo;
+
+	/* gets a printable representation of the first argument */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+
+	if((ptr = wcs_to_utf8(wptr, wcslen(wptr), NULL)) == NULL)
+		return(NULL);
+
+	dlg = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
+	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
+
+	label = gtk_label_new(ptr);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
+	gtk_widget_show(label);
+
+	combo = gtk_combo_new();
+	entry = GTK_COMBO(combo)->entry;
+	gtk_widget_set_usize(combo, 300, -1);
+	gtk_combo_set_use_arrows_always(GTK_COMBO(combo), TRUE);
+	gtk_combo_set_case_sensitive(GTK_COMBO(combo), TRUE);
+
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), combo, TRUE, TRUE, 0);
+	gtk_widget_show(combo);
+
+	ybutton = gtk_button_new_with_label("OK");
+	gtk_signal_connect_object(GTK_OBJECT(ybutton),"clicked",
+		GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
+	gtk_widget_show(ybutton);
+
+	nbutton = gtk_button_new_with_label("Cancel");
+	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
+			GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
+	gtk_widget_show(nbutton);
+
+	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
+		(GtkSignalFunc) confirm_key_press_event, NULL);
+
+	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
+	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
+
+	gtk_widget_show(dlg);
+	gtk_widget_grab_focus(entry);
+
+	wait_for_modal_status_change();
+
+	return(modal_status == 1 ? entry_text : NULL);
+}
+
+
 static mpdm_t gtkdrv_ui(mpdm_t a)
 {
 	gtkdrv_startup();
@@ -1079,6 +1158,7 @@ int gtkdrv_init(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtkdrv_sys_to_clip));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
+	mpdm_hset_s(drv, L"readline", MPDM_X(gtkdrv_readline));
 
 	return(1);
 }
