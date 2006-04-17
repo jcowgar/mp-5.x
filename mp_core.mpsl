@@ -48,7 +48,8 @@ mp.status_f = {};
 ********************/
 
 /* L(x) is the same as gettext(x) */
-L = gettext;
+/*L = gettext;*/
+sub L(x) { x; }
 
 /* LL(x) is the same as x */
 sub LL(x) { x; }
