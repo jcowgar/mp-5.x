@@ -1009,6 +1009,13 @@ static void clicked_cancel(GtkWidget * widget, gpointer data)
 }
 
 
+static void clicked_no(GtkWidget * widget, gpointer data)
+{
+	modal_status = 2;
+	gtk_widget_destroy(GTK_WIDGET(widget));
+}
+
+
 static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
 {
 	if(event->string[0] == '\r')
@@ -1068,6 +1075,64 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 	wait_for_modal_status_change();
 
 	return(NULL);
+}
+
+
+static mpdm_t gtkdrv_confirm(mpdm_t a)
+/* confirm driver function */
+{
+	wchar_t * wptr;
+	char * ptr;
+	GtkWidget * dlg;
+	GtkWidget * label;
+	GtkWidget * ybutton;
+	GtkWidget * nbutton;
+	GtkWidget * cbutton;
+
+	/* gets a printable representation of the first argument */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+
+	if((ptr = wcs_to_utf8(wptr, wcslen(wptr), NULL)) == NULL)
+		return(NULL);
+
+	dlg = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
+	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
+
+	label = gtk_label_new(ptr);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
+	gtk_widget_show(label);
+
+	ybutton = gtk_button_new_with_label("Yes");
+	gtk_signal_connect_object(GTK_OBJECT(ybutton), "clicked",
+		GTK_SIGNAL_FUNC(clicked_ok),GTK_OBJECT(dlg));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
+	gtk_widget_show(ybutton);
+
+	nbutton = gtk_button_new_with_label("No");
+	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
+		GTK_SIGNAL_FUNC(clicked_no), GTK_OBJECT(dlg));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
+	gtk_widget_show(nbutton);
+
+	cbutton = gtk_button_new_with_label("Cancel");
+	gtk_signal_connect_object(GTK_OBJECT(cbutton), "clicked",
+		GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), cbutton, TRUE, TRUE, 0);
+	gtk_widget_show(cbutton);
+
+	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
+		(GtkSignalFunc) confirm_key_press_event, NULL);
+
+	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
+	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
+
+	gtk_widget_show(dlg);
+
+	wait_for_modal_status_change();
+
+	return(MPDM_I(modal_status));
 }
 
 
@@ -1170,6 +1235,7 @@ int gtkdrv_init(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtkdrv_sys_to_clip));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
+	mpdm_hset_s(drv, L"confirm", MPDM_X(gtkdrv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(gtkdrv_readline));
 
 	return(1);
