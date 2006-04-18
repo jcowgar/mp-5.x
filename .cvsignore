@@ -6,3 +6,4 @@ config.h
 config.ldflags
 makefile.opts
 mp-5
+Changelog
