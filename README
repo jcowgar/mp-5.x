@@ -16,5 +16,8 @@ Compiling & Installing
 	 $ make
 	 # make install
 
+Apart from the usual building packages, you also need flex and
+yacc (or bison).
+
 ---
 Angel Ortega <angel@triptico.com>
