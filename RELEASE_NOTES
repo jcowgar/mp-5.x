@@ -1,0 +1,55 @@
+Minimum Profit 5.x Release Notes
+================================
+
+4.99.6
+------
+
+This is an EXPERIMENTAL version for evaluation purposes only. There are
+many things that aren't implemented, others fail miserably and many more
+do it incorrectly. Basically, what is known to work is:
+
+ * Basic text editing fully works. I've been using it for six months or so
+   to maintain itself, and there has not been a crash in three months,
+   more or less.
+ * Scripting works fine (90% of Minimum Profit 5.x itself is implemented
+   in MPSL, its internal scripting language).
+ * Undo works fine. It's bound to ctrl-z.
+ * Works cleanly in an UTF-8 environment.
+
+I do development on the GTK version, so it's where it works best. The
+curses version lacks many of the interface (alerts, confirmations,
+asking for text, etc.), so it's barely usable. The win32 version seem
+to work, but it needs to be manually installed and probably need some
+tweaking.
+
+What it doesn't work:
+
+ * The dialogs to open or save a file by its name aren't implemented.
+   There are workarounds for this: files can be opened from the command
+   line and save works correctly if the edited file has a name. Also,
+   files can be opened by hitting ctrl-f1 (execute script code) and
+   typing:
+
+	mp.open("file-to-be-opened");
+
+ * There is no menu.
+ * No ispell support.
+ * No password protected files.
+ * No grep.
+ * No external commands (so no support for help, tags, etc.).
+ * Some movement commands as moving a word left, moving to matching
+   brackets, etc. are still not implemented.
+ * Only a few syntax highlight definitions are implemented.
+ * Many other things I cannot remember.
+
+Documentation is still scarce: the more interesting bits are inside the
+mpsl/doc directory. This is where the scripting language is documented,
+with some basic overviews and implementation notes (there is even an
+embryo of a PostScript quick reference guide).
+
+Customizing can be done by writing MPSL commands in the ~/.mp.mpsl file,
+which is read on startup.
+
+I have not tried to optimize the internal engine, so it's probably some
+magnitudes slower than the 3.x version.
+
