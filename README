@@ -1,0 +1,20 @@
+Minimum Profit README
+=====================
+
+ Minimum Profit - Programmer Text Editor
+ Copyright (C) 1991-2006 Angel Ortega <angel@triptico.com>
+ Home Page: http://www.triptico.com/software/mp.html
+ Mailing List: mp-subscribe@lists.triptico.com
+
+This is an EXPERIMENTAL version for evaluation purposes only. See
+the RELEASE_NOTES file for more information.
+
+Compiling & Installing
+----------------------
+
+	 $ ./config.sh
+	 $ make
+	 # make install
+
+---
+Angel Ortega <angel@triptico.com>
