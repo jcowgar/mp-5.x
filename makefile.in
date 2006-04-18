@@ -60,12 +60,12 @@ docs:
 #	grutatxt -m man -t "Minimum Profit" < mp_man.txt > mp.1
 
 dist: distclean docs ChangeLog po/minimum-profit.pot build-mo
-	cd .. ; ln -s $(PROJ) $(PROJ)-$(VERSION); \
+	DIR=`pwd` ; cd .. ; ln -s $$DIR $(PROJ)-$(VERSION); \
 	tar czvf $(PROJ)-$(VERSION)/$(PROJ)-$(VERSION).tar.gz --exclude=CVS $(PROJ)-$(VERSION)/* ; \
 	rm $(PROJ)-$(VERSION)
 
 midnight: distclean docs ChangeLog po/minimum-profit.pot build-mo
-	cd .. ; ln -s $(PROJ) $(PROJ)-$(VERSION); \
+	DIR=`pwd` ; cd .. ; ln -s $$DIR $(PROJ)-$(VERSION); \
 	tar czvf $(PROJ)-$(VERSION)/mp-midnight.tar.gz --exclude=CVS $(PROJ)-$(VERSION)/* ; \
 	rm $(PROJ)-$(VERSION)
 
