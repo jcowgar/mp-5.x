@@ -920,6 +920,32 @@ static mpdm_t w32drv_alert(mpdm_t a)
 }
 
 
+static mpdm_t w32drv_confirm(mpdm_t a)
+/* confirm driver function */
+{
+	wchar_t * wptr;
+	char * ptr;
+	int ret = 0;
+
+	/* gets a printable representation of the first argument */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+
+	if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
+	{
+		ret = MessageBox(hwnd, ptr, "mp " VERSION, MB_ICONQUESTION|MB_YESNOCANCEL);
+		free(ptr);
+
+		if(ret == IDYES) ret = 1;
+		else
+		if(ret == IDNO) ret = 2;
+		else
+		ret = 0;
+	}
+
+	return(MPDM_I(ret));
+}
+
+
 BOOL CALLBACK readlineDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 /* readline dialog proc */
 {
@@ -1045,6 +1071,7 @@ int w32drv_init(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32drv_sys_to_clip));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
+	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(w32drv_readline));
 
 	w32drv_get_directories();
