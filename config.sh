@@ -11,6 +11,9 @@ VERSION=`cut -f2 -d\" VERSION`
 # default installation prefix
 PREFIX=/usr/local
 
+# hardcoded options (will probably change)
+WITH_INCLUDED_REGEX=1
+
 # parse arguments
 while [ $# -gt 0 ] ; do
 
