@@ -29,7 +29,21 @@
 
 mp.actions['save']	= sub (d) { mp.save_file(d); };
 mp.actions['next']	= sub (d) { mp.next(); };
-mp.actions['close']	= sub (d) { mp.close(); };
+
+mp.actions['close']	= sub (d) {
+		if(d.txt.mod)
+		{
+			local r;
+			r = mp.drv.confirm(L("File has changed. Save changes?"));
+
+			/* cancel? don't close */
+			if(r == 0) return;
+			if(r == 1) mp.save_file(d);
+		}
+
+		mp.close();
+	};
+
 mp.actions['exit']	= sub (d) { mp.exit(); };
 
 /* default key bindings */
