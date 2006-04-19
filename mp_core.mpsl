@@ -55,24 +55,6 @@ sub L(x) { x; }
 sub LL(x) { x; }
 
 
-/* undo */
-
-sub mp.store_undo(doc)
-/* stores the current txt in the undo queue */
-{
-	queue(doc.undo, clone(doc.txt), mp.config.undo_levels);
-}
-
-
-sub mp.undo(doc)
-/* undoes last operation */
-{
-	local txt;
-
-	if(txt = pop(doc.undo)) doc.txt = txt;
-}
-
-
 sub mp.get_word(doc)
 /* returns the word under the cursor */
 {
@@ -204,8 +186,7 @@ mp.keycodes = {
 	'ctrl-s'	=>	'save',
 	'ctrl-t'	=>	NULL,
 	'ctrl-u'	=>	NULL,
-	'ctrl-w'	=>	'close',
-	'ctrl-z'	=>	'undo'
+	'ctrl-w'	=>	'close'
 };
 
 mp.actions = {
@@ -213,8 +194,6 @@ mp.actions = {
 	'save'		=>	sub (d) { mp.save_file(d); },
 	'next'		=>	sub (d) { mp.next(); },
 	'close'		=>	sub (d) { mp.close(); },
-
-	'undo'		=>	sub (d) { mp.undo(d); },
 
 	'exit'		=>	sub (d) { mp.exit(); }
 

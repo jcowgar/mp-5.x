@@ -35,6 +35,8 @@ mp.actions['insert-tab']	= sub (d) { mp.store_undo(d); mp.insert(d, "\t"); };
 mp.actions['delete']		= sub (d) { mp.store_undo(d); mp.delete_char(d); };
 mp.actions['delete-left']	= sub (d) { mp.store_undo(d); mp.move_left(d);
 					mp.delete_char(d); };
+mp.actions['undo']		= sub (d) { mp.undo(d); };
+
 
 /* default key bindings */
 
@@ -46,6 +48,7 @@ mp.keycodes['backspace']= "delete-left";
 mp.keycodes['ctrl-i']	= "insert-tab";
 mp.keycodes['ctrl-m']	= "insert-line";
 mp.keycodes['ctrl-y']	= "delete-line";
+mp.keycodes['ctrl-z']	= "undo";
 
 /* action descriptions */
 
@@ -55,6 +58,7 @@ mp.actdesc['insert-space']	= LL("Insert space");
 mp.actdesc['insert-tab']	= LL("Insert tab");
 mp.actdesc['delete']		= LL("Delete character");
 mp.actdesc['delete-left']	= LL("Delete character to the left");
+mp.actdesc['undo']		= LL("Undo last operation");
 
 /* code */
 
@@ -220,4 +224,22 @@ sub mp.insert_space(doc)
 
 	mp.wrap_words(doc);
 	mp.insert(doc, ' ');
+}
+
+
+/* undo */
+
+sub mp.store_undo(doc)
+/* stores the current txt in the undo queue */
+{
+	queue(doc.undo, clone(doc.txt), mp.config.undo_levels);
+}
+
+
+sub mp.undo(doc)
+/* undoes last operation */
+{
+	local txt;
+
+	if(txt = pop(doc.undo)) doc.txt = txt;
 }
