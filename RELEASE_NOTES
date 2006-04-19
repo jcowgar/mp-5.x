@@ -1,6 +1,14 @@
 Minimum Profit 5.x Release Notes
 ================================
 
+4.99.7
+------
+
+ * The 'modified' flag of documents is maintained, so now closing files
+   with pending modifications ask for confirmation. Also, the %m status
+   line directive works (marking modified files with an asterisk).
+ * Flex and bison are no longer needed to build.
+
 4.99.6
 ------
 
