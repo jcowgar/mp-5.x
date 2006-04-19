@@ -27,7 +27,22 @@
 
 /* editor actions */
 
+mp.actions['save']	= sub (d) { mp.save_file(d); };
+mp.actions['next']	= sub (d) { mp.next(); };
+mp.actions['close']	= sub (d) { mp.close(); };
+mp.actions['exit']	= sub (d) { mp.exit(); };
+
 /* default key bindings */
+
+mp.keycodes['ctrl-n']	= 'next';
+mp.keycodes['ctrl-o']	= 'open';
+mp.keycodes['ctrl-q']	= 'exit';
+mp.keycodes['ctrl-s']	= 'save';
+mp.keycodes['ctrl-w']	= 'close';
+
+/* action descriptions */
+
+mp.actdesc['save']	= LL("Save...");
 
 /* code */
 
@@ -102,4 +117,65 @@ sub mp.save_file(doc)
 	doc.txt.mod = 0;
 
 	return(1);
+}
+
+
+sub mp.new()
+/* creates a new document */
+{
+	local doc, txt;
+
+	txt = {};
+	txt.x = 0;
+	txt.y = 0;
+	txt.vx = 0;
+	txt.vy = 0;
+	txt.lines = [ '' ];
+	txt.mod = 0;
+
+	doc = {};
+	doc.name = "<unnamed>";
+	doc.txt = txt;
+
+	doc.undo = [];
+
+	doc.syntax = NULL;
+
+	/* store in the list and set as active */
+	push(mp.docs, doc);
+	mp.active = size(mp.docs) - 1;
+
+	return(doc);
+}
+
+
+sub mp.next()
+/* rotates through the document list */
+{
+	if(++mp.active == size(mp.docs))
+		mp.active = 0;
+}
+
+
+sub mp.close()
+/* closes the active document */
+{
+	local k = mp.active;
+
+	/* delete from the list */
+	adel(mp.docs, mp.active);
+
+	/* rotate if it was the last one */
+	if(mp.active == size(mp.docs))
+		mp.active = 0;
+}
+
+
+sub mp.open(filename)
+/* opens a new document */
+{
+	local d;
+
+	d = mp.new();
+	mp.load_file(d, filename);
 }

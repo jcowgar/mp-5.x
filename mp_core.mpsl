@@ -78,67 +78,6 @@ sub mp.get_word(doc)
 }
 
 
-sub mp.new()
-/* creates a new document */
-{
-	local doc, txt;
-
-	txt = {};
-	txt.x = 0;
-	txt.y = 0;
-	txt.vx = 0;
-	txt.vy = 0;
-	txt.lines = [ '' ];
-	txt.mod = 0;
-
-	doc = {};
-	doc.name = "<unnamed>";
-	doc.txt = txt;
-
-	doc.undo = [];
-
-	doc.syntax = NULL;
-
-	/* store in the list and set as active */
-	push(mp.docs, doc);
-	mp.active = size(mp.docs) - 1;
-
-	return(doc);
-}
-
-
-sub mp.next()
-/* rotates through the document list */
-{
-	if(++mp.active == size(mp.docs))
-		mp.active = 0;
-}
-
-
-sub mp.close()
-/* closes the active document */
-{
-	local k = mp.active;
-
-	/* delete from the list */
-	adel(mp.docs, mp.active);
-
-	/* rotate if it was the last one */
-	if(mp.active == size(mp.docs))
-		mp.active = 0;
-}
-
-
-sub mp.open(filename)
-/* opens a new document */
-{
-	local d;
-
-	d = mp.new();
-	mp.load_file(d, filename);
-}
-
-
 /*******************************************************/
 
 mp.colors = {
@@ -179,25 +118,12 @@ mp.keycodes = {
 	'ctrl-j'	=>	NULL,
 	'ctrl-k'	=>	NULL,
 	'ctrl-l'	=>	NULL,
-	'ctrl-n'	=>	'next',
-	'ctrl-o'	=>	'open',
 	'ctrl-p'	=>	NULL,
-	'ctrl-q'	=>	'exit',
-	'ctrl-s'	=>	'save',
 	'ctrl-t'	=>	NULL,
-	'ctrl-u'	=>	NULL,
-	'ctrl-w'	=>	'close'
+	'ctrl-u'	=>	NULL
 };
 
-mp.actions = {
-
-	'save'		=>	sub (d) { mp.save_file(d); },
-	'next'		=>	sub (d) { mp.next(); },
-	'close'		=>	sub (d) { mp.close(); },
-
-	'exit'		=>	sub (d) { mp.exit(); }
-
-};
+mp.actions = {};
 
 mp.actdesc = {};
 
