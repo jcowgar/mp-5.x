@@ -107,6 +107,7 @@ sub mp.new()
 	txt.vx = 0;
 	txt.vy = 0;
 	txt.lines = [ '' ];
+	txt.mod = 0;
 
 	doc = {};
 	doc.name = "<unnamed>";
@@ -267,7 +268,7 @@ sub mp.build_status_line()
 
 	mp.status_f = {
 		"%V"	=>	mp.VERSION,		/* version */
-		"%m"	=>	"",			/* modify flag */
+		"%m"	=>	d.txt.mod && "*" || "",	/* modify flag */
 		"%x"	=>	d.txt.x + 1,		/* x coord */
 		"%y"	=>	d.txt.y + 1,		/* y coord */
 		"%l"	=>	size(d.txt.lines),	/* # of lines */

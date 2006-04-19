@@ -100,6 +100,8 @@ sub mp.break_line(doc, col)
 
 	/* put second part there (or an empty string if NULL) */
 	txt.lines[txt.y] = w[1] || '';
+
+	txt.mod++;
 }
 
 
@@ -115,6 +117,8 @@ sub mp.join_line(doc)
 
 		/* delete it */
 		adel(txt.lines, txt.y + 1);
+
+		txt.mod++;
 	}
 }
 
@@ -143,6 +147,8 @@ sub mp.delete_line(doc)
 
 	/* move to previous x position */
 	txt.x = mp.vx2x(txt.lines[txt.y], vx);
+
+	txt.mod++;
 }
 
 
@@ -161,6 +167,8 @@ sub mp.delete_char(doc)
 		w = splice(txt.lines[txt.y], NULL, txt.x, 1);
 		txt.lines[txt.y] = w[0];
 	}
+
+	txt.mod++;
 }
 
 
@@ -176,6 +184,8 @@ sub mp.insert(doc, str)
 
 	/* move right */
 	txt.x += size(str);
+
+	txt.mod++;
 }
 
 

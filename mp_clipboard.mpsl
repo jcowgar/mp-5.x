@@ -198,6 +198,8 @@ sub mp.delete_mark(doc)
 		mp.join_line(doc);
 	}
 
+	txt.mod++;
+
 	mp.unmark(doc);
 }
 
@@ -249,6 +251,6 @@ sub mp.paste(doc)
 		while(n < s - 1)
 			txt.lines[txt.y++] = mp.clipboard[n++];
 	}
+
+	txt.mod++;
 }
-
-

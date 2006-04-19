@@ -73,5 +73,7 @@ Closed
  * 1135: If ~/.mp.mpsl does not exist, aborts
   (Tue, 11 Apr 2006 17:05:27 +0200).
  * 1117: Add go to line (Mon, 17 Apr 2006 13:36:34 +0200).
+ * 1136: Add the 'modified' flag to documents
+   (Wed, 19 Apr 2006 08:16:37 +0200).
 
 Email bugs to angel@triptico.com

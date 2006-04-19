@@ -115,6 +115,8 @@ sub mp.replace(doc, from, to)
 
 		/* correct the x position */
 		mp.set_x(doc, c[0] + size(to));
+
+		txt.mod++;
 	}
 
 	return(r);

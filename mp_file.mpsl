@@ -70,6 +70,8 @@ sub mp.load_file(doc, filename)
 
 	mp.detect_syntax(doc);
 
+	doc.txt.mod = 0;
+
 	return(1);
 }
 
@@ -97,7 +99,7 @@ sub mp.save_file(doc)
 
 	close(f);
 
+	doc.txt.mod = 0;
+
 	return(1);
 }
-
-
