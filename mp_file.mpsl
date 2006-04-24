@@ -44,7 +44,21 @@ mp.actions['close']	= sub (d) {
 		mp.close();
 	};
 
-mp.actions['exit']	= sub (d) { mp.exit(); };
+mp.actions['exit']	= sub (d) {
+		local s;
+
+		while(s = size(mp.docs))
+		{
+			/* close current document */
+			mp.actions.close(mp.docs[mp.active]);
+
+			/* if the size of the list hasn't changed,
+			   action was cancelled, so don't exit */
+			if(s == size(mp.docs)) return;
+		}
+
+		mp.exit();
+	};
 
 /* default key bindings */
 
