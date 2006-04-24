@@ -648,9 +648,15 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 
 		return(0);
 */
+
 	case WM_CLOSE:
 
-		DestroyWindow(hwnd);
+		if(!mp_exit_requested)
+			mp_process_event(MPDM_LS(L"close-window"));
+
+		if(mp_exit_requested)
+			DestroyWindow(hwnd);
+
 		return(0);
 
 	case WM_DESTROY:

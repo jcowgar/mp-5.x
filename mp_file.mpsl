@@ -48,11 +48,13 @@ mp.actions['exit']	= sub (d) { mp.exit(); };
 
 /* default key bindings */
 
-mp.keycodes['ctrl-n']	= 'next';
-mp.keycodes['ctrl-o']	= 'open';
-mp.keycodes['ctrl-q']	= 'exit';
-mp.keycodes['ctrl-s']	= 'save';
-mp.keycodes['ctrl-w']	= 'close';
+mp.keycodes['ctrl-n']		= 'next';
+mp.keycodes['ctrl-o']		= 'open';
+mp.keycodes['ctrl-q']		= 'exit';
+mp.keycodes['ctrl-s']		= 'save';
+mp.keycodes['ctrl-w']		= 'close';
+
+mp.keycodes['close-window'] 	= 'exit';
 
 /* action descriptions */
 

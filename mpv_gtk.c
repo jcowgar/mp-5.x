@@ -516,8 +516,9 @@ static void redraw(void)
 static gint delete_event(GtkWidget * w, GdkEvent * e, gpointer data)
 /* 'delete_event' handler */
 {
-	mp_exit_requested = 1;
-	return(FALSE);
+	mp_process_event(MPDM_LS(L"close-window"));
+
+	return(mp_exit_requested ? FALSE : TRUE);
 }
 
 
@@ -762,7 +763,7 @@ static void selection_get(GtkWidget * widget,
 
 	if(!got_selection) return;
 
-	/* gets the keyboard and joins */
+	/* gets the clipboard and joins */
 	d = mpdm_hget_s(mp, L"clipboard");
 	d = mpdm_join(MPDM_LS(L"\n"), d);
 
