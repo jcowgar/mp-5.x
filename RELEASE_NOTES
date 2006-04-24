@@ -8,6 +8,10 @@ Minimum Profit 5.x Release Notes
    with pending modifications ask for confirmation. Also, the %m status
    line directive works (marking modified files with an asterisk).
  * Flex and bison are no longer needed to build.
+ * The 'close window' button in GUIs (win32 and GTK) now generate the
+   special keycode 'close-window'.
+ * The 'exit' action now closes all open documents, asking for saving
+   confirmation on those modified.
 
 4.99.6
 ------
