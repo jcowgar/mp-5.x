@@ -60,6 +60,13 @@ mp.actions['exit']	= sub (d) {
 		mp.exit();
 	};
 
+mp.actions['open']	= sub (d) {
+		local n;
+
+		if((n = mp.drv.readline(L("File to open:"))) != NULL)
+			mp.open(n);
+	};
+
 /* default key bindings */
 
 mp.keycodes['ctrl-n']		= 'next';
