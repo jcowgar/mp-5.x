@@ -38,7 +38,7 @@ mp.actions['close']	= sub (d) {
 
 			/* cancel? don't close */
 			if(r == 0) return;
-			if(r == 1) mp.save_file(d);
+			if(r == 1) mp.actions.save(d);
 		}
 
 		mp.close();
