@@ -605,6 +605,7 @@ mpdm_t mp_get_filetabs(int * active, int * last)
 		if(last_size == 1)
 		{
 			mpdm_t t = mpdm_aget(docs, 0);
+			t = mpdm_hget_s(t, L"name");
 
 			/* not the same? */
 			if(t != last_seen)
