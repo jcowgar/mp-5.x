@@ -601,16 +601,19 @@ mpdm_t mp_get_filetabs(int * active, int * last)
 	}
 	else
 	{
-		/* same number of documents; test if the active
-		   one's name is the same as the last seen one */
-		mpdm_t t = mpdm_aget(docs, *active);
-		t = mpdm_hget_s(t, L"name");
-
-		/* not the same? */
-		if(t != last_seen)
+		if(last_size == 1)
 		{
-			last_seen = t;
-			r = docs;
+			/* same number of documents; test if the active
+			   one's name is the same as the last seen one */
+			mpdm_t t = mpdm_aget(docs, *active);
+			t = mpdm_hget_s(t, L"name");
+
+			/* not the same? */
+			if(t != last_seen)
+			{
+				last_seen = t;
+				r = docs;
+			}
 		}
 	}
 
