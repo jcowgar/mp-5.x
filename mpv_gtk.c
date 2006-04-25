@@ -208,7 +208,7 @@ static void switch_page(GtkNotebook * notebook, GtkNotebookPage * page,
 /* 'switch_page' handler (filetabs) */
 {
 	/* sets the active one */
-	mpdm_hset_s(mp, L"active", MPDM_I(pg_num));
+	mpdm_hset_s(mp, L"active_i", MPDM_I(pg_num));
 
 	gtk_widget_grab_focus(area);
 	redraw();

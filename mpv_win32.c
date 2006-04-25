@@ -671,8 +671,8 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 			/* tab selected by clicking on it */
 			int n = TabCtrl_GetCurSel(hwtabs);
 
-			/* set mp.active to this */
-			mpdm_hset_s(mp, L"active", MPDM_I(n));
+			/* set mp.active_i to this */
+			mpdm_hset_s(mp, L"active_i", MPDM_I(n));
 
 			redraw();
 		}
