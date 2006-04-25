@@ -12,8 +12,9 @@ Minimum Profit 5.x Release Notes
    special keycode 'close-window'.
  * The 'exit' action now closes all open documents, asking for saving
    confirmation on those modified.
- * A temporary version of the 'open' action (using mp.drv.readline()
-   instead of an ad-hoc open file dialog) has been implemented.
+ * Temporary versions of the 'open' ans 'save' actions (using
+   mp.drv.readline() instead of an ad-hoc open file dialog) have
+   been implemented.
 
 4.99.6
 ------

@@ -27,8 +27,24 @@
 
 /* editor actions */
 
-mp.actions['save']	= sub (d) { mp.save_file(d); };
 mp.actions['next']	= sub (d) { mp.next(); };
+
+mp.actions['save']	= sub (d) {
+
+	if(regex("/^<.+>$/", d.name))
+	{
+		local t;
+
+		/* name is <unnamed> or something similar; ask for one */
+		if((t = mp.drv.readline(L("Enter file name:"))) == NULL)
+			return;
+
+		/* store new name */
+		d.name = t;
+	}
+
+	mp.save_file(d);
+};
 
 mp.actions['close']	= sub (d) {
 		if(d.txt.mod)
