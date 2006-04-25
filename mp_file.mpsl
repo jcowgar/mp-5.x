@@ -47,41 +47,44 @@ mp.actions['save']	= sub (d) {
 };
 
 mp.actions['close']	= sub (d) {
-		if(d.txt.mod)
-		{
-			local r;
-			r = mp.drv.confirm(L("File has changed. Save changes?"));
 
-			/* cancel? don't close */
-			if(r == 0) return;
-			if(r == 1) mp.actions.save(d);
-		}
+	if(d.txt.mod)
+	{
+		local r;
+		r = mp.drv.confirm(L("File has changed. Save changes?"));
 
-		mp.close();
-	};
+		/* cancel? don't close */
+		if(r == 0) return;
+		if(r == 1) mp.actions.save(d);
+	}
+
+	mp.close();
+};
 
 mp.actions['exit']	= sub (d) {
-		local s;
 
-		while(s = size(mp.docs))
-		{
-			/* close current document */
-			mp.actions.close(mp.docs[mp.active]);
+	local s;
 
-			/* if the size of the list hasn't changed,
-			   action was cancelled, so don't exit */
-			if(s == size(mp.docs)) return;
-		}
+	while(s = size(mp.docs))
+	{
+		/* close current document */
+		mp.actions.close(mp.docs[mp.active]);
 
-		mp.exit();
-	};
+		/* if the size of the list hasn't changed,
+		   action was cancelled, so don't exit */
+		if(s == size(mp.docs)) return;
+	}
+
+	mp.exit();
+};
 
 mp.actions['open']	= sub (d) {
-		local n;
 
-		if((n = mp.drv.readline(L("File to open:"))) != NULL)
-			mp.open(n);
-	};
+	local n;
+
+	if((n = mp.drv.readline(L("File to open:"))) != NULL)
+		mp.open(n);
+};
 
 /* default key bindings */
 
