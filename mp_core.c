@@ -621,10 +621,10 @@ mpdm_t mp_get_filetabs(int * active, int * last)
 }
 
 
-mpdm_t mp_get_active(void)
-/* interfaz to mp.get_active() */
+mpdm_t mp_active(void)
+/* interfaz to mp.active() */
 {
-	return(mpdm_exec(mpdm_hget_s(mp, L"get_active"), NULL));
+	return(mpdm_exec(mpdm_hget_s(mp, L"active"), NULL));
 }
 
 

@@ -321,7 +321,7 @@ static void value_changed(GtkAdjustment * adj, gpointer * data)
 	int y;
 
 	/* get current y position */
-	doc = mp_get_active();
+	doc = mp_active();
 	txt = mpdm_hget_s(doc, L"txt");
 	y = mpdm_ival(mpdm_hget_s(txt, L"y"));
 
@@ -343,7 +343,7 @@ static void draw_scrollbar(void)
 	int pos, size, max;
 
 	/* gets the active document */
-	if((d = mp_get_active()) == NULL)
+	if((d = mp_active()) == NULL)
 		return;
 
 	/* get the coordinates */
@@ -509,7 +509,7 @@ static void gtkdrv_paint(mpdm_t doc)
 
 static void redraw(void)
 {
-	gtkdrv_paint(mp_get_active());
+	gtkdrv_paint(mp_active());
 }
 
 

@@ -427,7 +427,7 @@ static void ncdrv_main_loop(void)
 	while(! mp_exit_requested)
 	{
 		/* get current document and draw it */
-		nc_draw(mp_get_active());
+		nc_draw(mp_active());
 
 		/* get key and process it */
 		mp_process_event(nc_getkey());

@@ -242,7 +242,7 @@ static void draw_scrollbar(void)
 	SCROLLINFO si;
 
 	/* gets the active document */
-	if((d = mp_get_active()) == NULL)
+	if((d = mp_active()) == NULL)
 		return;
 
 	/* get the coordinates */
@@ -529,7 +529,7 @@ static void win32_vscroll(UINT wparam)
 	case SB_LINEDOWN:	ptr = L"cursor-down"; break;
 	case SB_THUMBPOSITION:
 	case SB_THUMBTRACK:
-		mp_set_y(mp_get_active(), HIWORD(wparam));
+		mp_set_y(mp_active(), HIWORD(wparam));
 		redraw();
 		break;
 	}
@@ -583,7 +583,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		return(0);
 
 	case WM_PAINT:
-		win32_draw(hwnd, mp_get_active());
+		win32_draw(hwnd, mp_active());
 		return(0);
 
 	case WM_SIZE:

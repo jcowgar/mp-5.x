@@ -127,7 +127,7 @@ mp.actions = {};
 
 mp.actdesc = {};
 
-sub mp.get_active()
+sub mp.active()
 /* returns the active document */
 {
 	local d;
@@ -148,7 +148,7 @@ sub mp.process_event(k)
 {
 	local d, f;
 
-	d = mp.get_active();
+	d = mp.active();
 
 	/* get the action asociated to the keycode */
 	if((f = mp.keycodes[k]) != NULL)
@@ -169,7 +169,7 @@ sub mp.process_event(k)
 sub mp.build_status_line()
 /* returns the string to be drawn in the status line */
 {
-	local d = mp.get_active();
+	local d = mp.active();
 
 	mp.status_f = {
 		"%V"	=>	mp.VERSION,		/* version */
@@ -237,7 +237,7 @@ sub mp.process_cmdline()
 
 	/* if there is a line defined, move there */
 	if(line != NULL)
-		mp.set_y(mp.get_active(), line);
+		mp.set_y(mp.active(), line);
 }
 
 
