@@ -590,7 +590,7 @@ mpdm_t mp_get_filetabs(int * active, int * last)
 		return(r);
 
 	/* gets the active document number and the last size */
-	*active = mpdm_ival(mpdm_hget_s(mp, L"active"));
+	*active = mpdm_ival(mpdm_hget_s(mp, L"active_i"));
 	*last = last_size;
 
 	if(last_size != mpdm_size(docs))

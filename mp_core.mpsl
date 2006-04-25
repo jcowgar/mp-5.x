@@ -38,7 +38,7 @@ mp.config.tab_size = 8;
 
 /* document list */
 mp.docs = [];
-mp.active = 0;
+mp.active_i = 0;
 
 /* status line directives */
 mp.status_f = {};
@@ -137,7 +137,7 @@ sub mp.get_active()
 		mp.new();
 
 	/* get active document */
-	d = mp.docs[mp.active];
+	d = mp.docs[mp.active_i];
 
 	return(d);
 }
@@ -233,7 +233,7 @@ sub mp.process_cmdline()
 	}
 
 	/* set the first as the active one */
-	mp.active = 0;
+	mp.active_i = 0;
 
 	/* if there is a line defined, move there */
 	if(line != NULL)

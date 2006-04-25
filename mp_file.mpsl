@@ -68,7 +68,7 @@ mp.actions['exit']	= sub (d) {
 	while(s = size(mp.docs))
 	{
 		/* close current document */
-		mp.actions.close(mp.docs[mp.active]);
+		mp.actions.close(mp.docs[mp.active_i]);
 
 		/* if the size of the list hasn't changed,
 		   action was cancelled, so don't exit */
@@ -199,7 +199,7 @@ sub mp.new()
 
 	/* store in the list and set as active */
 	push(mp.docs, doc);
-	mp.active = size(mp.docs) - 1;
+	mp.active_i = size(mp.docs) - 1;
 
 	return(doc);
 }
@@ -208,22 +208,22 @@ sub mp.new()
 sub mp.next()
 /* rotates through the document list */
 {
-	if(++mp.active == size(mp.docs))
-		mp.active = 0;
+	if(++mp.active_i == size(mp.docs))
+		mp.active_i = 0;
 }
 
 
 sub mp.close()
 /* closes the active document */
 {
-	local k = mp.active;
+	local k = mp.active_i;
 
 	/* delete from the list */
-	adel(mp.docs, mp.active);
+	adel(mp.docs, mp.active_i);
 
 	/* rotate if it was the last one */
-	if(mp.active == size(mp.docs))
-		mp.active = 0;
+	if(mp.active_i == size(mp.docs))
+		mp.active_i = 0;
 }
 
 
