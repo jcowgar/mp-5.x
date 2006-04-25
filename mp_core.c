@@ -596,6 +596,7 @@ mpdm_t mp_get_filetabs(int * active, int * last)
 	if(last_size != mpdm_size(docs))
 	{
 		last_size = mpdm_size(docs);
+		last_seen = NULL;
 		r = docs;
 	}
 	else
