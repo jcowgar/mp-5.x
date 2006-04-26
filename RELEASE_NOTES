@@ -15,6 +15,8 @@ Minimum Profit 5.x Release Notes
  * Temporary versions of the 'open' ans 'save' actions (using
    mp.drv.readline() instead of an ad-hoc open file dialog) have
    been implemented.
+ * The GUI interfaces now can have their font preferences configured
+   by using mp.config.font_face and mp.config.font_size.
 
 4.99.6
 ------
