@@ -82,7 +82,7 @@ mp.actions['open']	= sub (d) {
 
 	local n;
 
-	if((n = mp.drv.readline(L("File to open:"))) != NULL)
+	if((n = mp.drv.readline(L("File to open:"))) != NULL && n ne "")
 		mp.open(n);
 };
 
