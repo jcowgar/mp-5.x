@@ -222,7 +222,8 @@ static void drw_prepare(mpdm_t doc)
 	}
 
 	/* now create a value */
-	drw.v = mpdm_new(MPDM_STRING|MPDM_FREE, drw.ptr, drw.size);
+	mpdm_unref(drw.v);
+	drw.v = mpdm_ref(MPDM_ENS(drw.ptr, drw.size));
 
 	/* alloc and init space for the attributes */
 	drw.attrs = realloc(drw.attrs, drw.size + 1);
@@ -235,7 +236,8 @@ static void drw_prepare(mpdm_t doc)
 	if(drw_adjust_x(x, y, &drw.vx, drw.tx))
 		mpdm_hset_s(txt, L"vx", MPDM_I(drw.vx));
 
-	drw.txt = txt;
+	mpdm_unref(drw.txt);
+	drw.txt = mpdm_ref(txt);
 	drw.visible = drw_line_offset(drw.vy);
 	drw.cursor = drw_line_offset(y) + x;
 }
