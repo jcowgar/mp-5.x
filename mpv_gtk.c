@@ -67,8 +67,6 @@ static wchar_t im_char[2];
 static int font_width = 0;
 static int font_height = 0;
 static PangoFontDescription * font = NULL;
-static int font_size = 12;
-static char * font_face = "Mono";
 
 /* the attributes */
 static GdkColor inks[MP_ATTR_SIZE];
@@ -141,9 +139,27 @@ static void build_fonts(void)
 /* builds the fonts */
 {
 	char tmp[128];
+	int font_size = 12;
+	char * font_face = "Mono";
+	mpdm_t c;
 
 	if(font != NULL)
 		pango_font_description_free(font);
+
+	/* get current configuration */
+	if((c = mpdm_hget_s(mp, L"config")) != NULL)
+	{
+		mpdm_t v;
+
+		if((v = mpdm_hget_s(c, L"font_size")) != NULL)
+			font_size = mpdm_ival(v);
+
+		if((v = mpdm_hget_s(c, L"font_face")) != NULL)
+		{
+			v = MPDM_2MBS(v->data);
+			font_face = v->data;
+		}
+	}
 
 	snprintf(tmp, sizeof(tmp) - 1, "%s %d", font_face, font_size);
 	tmp[sizeof(tmp) - 1] = '\0';

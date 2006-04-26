@@ -73,9 +73,6 @@ static COLORREF inks[MP_ATTR_SIZE];
 static COLORREF papers[MP_ATTR_SIZE];
 HBRUSH bgbrush;
 
-int font_size = 14;
-char * font_face = "Lucida Console";
-
 /* readline text */
 static mpdm_t readline_text = NULL;
 
@@ -115,6 +112,9 @@ static void build_fonts(HDC hdc)
 {
 	TEXTMETRIC tm;
 	int n;
+	int font_size = 14;
+	char * font_face = "Lucida Console";
+	mpdm_t c;
 
 	if(font_normal != NULL)
 	{
@@ -125,6 +125,21 @@ static void build_fonts(HDC hdc)
 		{
 			SelectObject(hdc, GetStockObject(SYSTEM_FONT));
 			DeleteObject(font_normal);
+		}
+	}
+
+	/* get current configuration */
+	if((c = mpdm_hget_s(mp, L"config")) != NULL)
+	{
+		mpdm_t v;
+
+		if((v = mpdm_hget_s(c, L"font_size")) != NULL)
+			font_size = mpdm_ival(v);
+
+		if((v = mpdm_hget_s(c, L"font_face")) != NULL)
+		{
+			v = MPDM_2MBS(v->data);
+			font_face = v->data;
 		}
 	}
 
