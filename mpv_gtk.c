@@ -142,6 +142,9 @@ static void build_fonts(void)
 {
 	char tmp[128];
 
+	if(font != NULL)
+		pango_font_description_free(font);
+
 	snprintf(tmp, sizeof(tmp) - 1, "%s %d", font_face, font_size);
 	tmp[sizeof(tmp) - 1] = '\0';
 

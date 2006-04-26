@@ -116,6 +116,18 @@ static void build_fonts(HDC hdc)
 	TEXTMETRIC tm;
 	int n;
 
+	if(font_normal != NULL)
+	{
+		HDC hdc;
+
+		/* destroy current font */
+		if((hdc = GetDC(hwnd)) != NULL)
+		{
+			SelectObject(hdc, GetStockObject(SYSTEM_FONT));
+			DeleteObject(font_normal);
+		}
+	}
+
 	/* create fonts */
 	n = -MulDiv(font_size, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
