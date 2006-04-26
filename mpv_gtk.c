@@ -1250,6 +1250,8 @@ int gtkdrv_init(void)
 	drv = MPDM_H(0);
 	mpdm_hset_s(mp, L"drv", drv);
 
+	mpdm_hset_s(drv, L"id", MPDM_LS(L"gtk"));
+
 	mpdm_hset_s(drv, L"ui", MPDM_X(gtkdrv_ui));
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(gtkdrv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtkdrv_sys_to_clip));

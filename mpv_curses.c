@@ -472,7 +472,7 @@ int ncdrv_init(void)
 	drv = mpdm_ref(MPDM_H(0));
 	mpdm_hset_s(mp, L"drv", drv);
 
-	mpdm_hset_s(drv, L"driver", MPDM_LS(L"curses"));
+	mpdm_hset_s(drv, L"id", MPDM_LS(L"curses"));
 
 	mpdm_hset_s(drv, L"ui", MPDM_X(ncdrv_ui));
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(ncdrv_clip_to_sys));
