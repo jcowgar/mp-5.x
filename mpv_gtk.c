@@ -153,12 +153,16 @@ static void build_fonts(void)
 
 		if((v = mpdm_hget_s(c, L"font_size")) != NULL)
 			font_size = mpdm_ival(v);
+		else
+			mpdm_hset_s(c, L"font_size", MPDM_I(font_size));
 
 		if((v = mpdm_hget_s(c, L"font_face")) != NULL)
 		{
 			v = MPDM_2MBS(v->data);
 			font_face = v->data;
 		}
+		else
+			mpdm_hset_s(c, L"font_face", MPDM_MBS(font_face));
 	}
 
 	snprintf(tmp, sizeof(tmp) - 1, "%s %d", font_face, font_size);

@@ -42,9 +42,28 @@ mp.actions['eval']	= sub (d) {
 	}
 };
 
+mp.actions['zoom-in'] 	= sub (d) {
+
+	mp.config.font_size++;
+	mp.drv.update_ui();
+};
+
+mp.actions['zoom-out'] 	= sub (d) {
+
+	if(mp.config.font_size > 4)
+	{
+		mp.config.font_size--;
+		mp.drv.update_ui();
+	}
+};
+
 /* default key bindings */
 
-mp.keycodes['ctrl-f1']	= 'eval';
+mp.keycodes['ctrl-f1']		= 'eval';
+mp.keycodes['f12']		= 'zoom-in';
+mp.keycodes['ctrl-kp-plus' ]	= 'zoom-in';
+mp.keycodes['f11']		= 'zoom-out';
+mp.keycodes['ctrl-kp-minus' ]	= 'zoom-out';
 
 /* action descriptions */
 

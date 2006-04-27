@@ -17,6 +17,8 @@ Minimum Profit 5.x Release Notes
    been implemented.
  * The GUI interfaces now can have their font preferences configured
    by using mp.config.font_face and mp.config.font_size.
+ * The actions 'zoom-in' and 'zoom-out' (font size rescaling, bound to
+   F11/F12 and ctrl-kp-minus/ctrl-kp-plus) have been implemented.
 
 4.99.6
 ------
