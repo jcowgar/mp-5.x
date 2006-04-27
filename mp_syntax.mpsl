@@ -180,7 +180,10 @@ mp.syntax.sh = {
 				"shift", "test", "trap", "ulimit",
 				"umask", "unset", "wait", "cp", "rm" ])
 	],
-	'variables'	=>	[ "/(local|let|set)/" ],
+	'variables'	=>	[
+				"/(local|let|set)/",
+				'/[-=<>:\?\+\*\!\%&\|]+/'
+	],
 	'comments'	=>	clone(mp.syntax.perl.comments),
 	'quotes'	=>	[
 		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
@@ -188,7 +191,6 @@ mp.syntax.sh = {
 		"/\b-?[0-9]+\b/",			/* numbers */
 		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 		[ "/\(/", "/\)/" ],			/* parens */
-		[ "/\[/", "/\]/" ],			/* square brackets */
 		[ "/\{/", "/\}/" ],			/* curly brackets */
 		[ "/`/", "/`/" ],			/* backticks */
 		[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
