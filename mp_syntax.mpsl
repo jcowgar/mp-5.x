@@ -105,17 +105,17 @@ mp.syntax.perl = {
 				"tr", "length", "system", "exec", "fork", "map",
 				"print", "write", "open", "close", "chop",
 				"chomp", "exit", "sleep", "split", "join",
-				"sub", "printf", "sprintf", "s", "tr", "glob" ]),
-				'/[\{\}]+/'
+				"sub", "printf", "sprintf", "s", "glob",
+				"scalar", "my", "local", "undef", "defined",
+				"use", "package", "require", "ref", "can", "isa",
+				"qw", "qq", "eq", "ne", "or", "exists",
+				"and", "not", "import", "our", "caller" ]),
+				'/[\{\}]/',
+				'/->/'
 	],
 	'variables'	=>	[
-				mp.syn_token_list( [
-				"scalar", "my", "local", "undef", "defined",
-			       	"use", "package", "require", "pod", "head1",
-			       	"head2", "item", "cut", "over", "back",
-			       	"ref", "qw", "qq", "eq", "ne", "or", "exists",
-			       	"and", "not", "import", "our" ]),
-				'/[-=<>:\?\+\*\/\!\$@\%&\|~\.]+/'
+				'/[:\?\+\*\/\!\$@\%&\|~\.]+/',
+				'/[\$@%]\w+/'
 	],
 	'comments'	=>	[
 		"/#.*$/m",				/* Comments */
@@ -131,6 +131,7 @@ mp.syntax.perl = {
 		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 		[ "/q\(/", "/\)/" ],			/* quote */
 		[ "/qw\(/", "/\)/" ],			/* quote word */
+		'/\w+\s*=>/',
 		[ "/<<[\"']?EOF.*$/m", "/^EOF$/m" ]	/* 'document here' */
 	]
 };
@@ -182,7 +183,8 @@ mp.syntax.sh = {
 	],
 	'variables'	=>	[
 				"/(local|let|set)/",
-				'/[-=<>:\?\+\*\!\%&\|]+/'
+				'/[-=<>:\?\+\*\!\%&\|]+/',
+				'/\$\w+/'
 	],
 	'comments'	=>	clone(mp.syntax.perl.comments),
 	'quotes'	=>	[
