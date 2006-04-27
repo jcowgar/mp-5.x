@@ -649,7 +649,10 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		}
 
 		if(ptr != NULL)
+		{
 			mp_process_event(MPDM_S(ptr));
+			redraw();
+		}
 
 		return(0);
 
@@ -661,7 +664,10 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 			ptr = L"mouse-wheel-down";
 
 		if(ptr != NULL)
+		{
 			mp_process_event(MPDM_S(ptr));
+			redraw();
+		}
 
 		return(0);
 
