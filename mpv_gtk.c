@@ -691,13 +691,12 @@ static gint button_press_event(GtkWidget * widget, GdkEventButton * event, gpoin
 	wchar_t * ptr = NULL;
 
 	/* mouse instant positioning */
-/*	x = ((int)event->x) / _mpv_font_width;
-	y = ((int)event->y) / _mpv_font_height;
+	x = ((int)event->x) / font_width;
+	y = ((int)event->y) / font_height;
 
-	mp_move_xy(_mp_active,x,y+_mp_active->vy);
-	mp_move_bol(_mp_active);
-	mp_move_to_visual_column(_mp_active,x);
-*/
+	mpdm_hset_s(mp, L"mouse_x", MPDM_I(x));
+	mpdm_hset_s(mp, L"mouse_y", MPDM_I(y));
+
 	switch(event->button)
 	{
 	case 1: ptr = L"mouse-left-button"; break;

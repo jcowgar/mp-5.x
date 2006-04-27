@@ -567,12 +567,16 @@ static void win32_vscroll(UINT wparam)
 }
 
 
+#ifndef WM_MOUSEWHEEL
+#define WM_MOUSEWHEEL			0x020A
+#endif
+
 long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 /* main window Proc */
 {
 	int x, y;
 	LPNMHDR p;
-	char * ptr = NULL;
+	wchar_t * ptr = NULL;
 
 	switch(msg)
 	{
@@ -627,46 +631,40 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 
 		return(0);
 
-/*	case WM_LBUTTONDOWN:
+	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 
-		x=LOWORD(lparam);
-		y=HIWORD(lparam) - _tab_height;
+		x = (LOWORD(lparam)) / font_width;
+		y = (HIWORD(lparam) - tab_height) / font_height;
 
-		x/=_mpv_font_width;
-		y/=_mpv_font_height;
-
-		mp_move_xy(_mp_active,x,y+_mp_active->vy);
-		mp_move_bol(_mp_active);
-		mp_move_to_visual_column(_mp_active,x);
-
-		mpi_draw_all(_mp_active);
+		mpdm_hset_s(mp, L"mouse_x", MPDM_I(x));
+		mpdm_hset_s(mp, L"mouse_y", MPDM_I(y));
 
 		switch(msg)
 		{
-		case WM_LBUTTONDOWN: ptr="mouse-left-button"; break;
-		case WM_RBUTTONDOWN: ptr="mouse-right-button"; break;
-		case WM_MBUTTONDOWN: ptr="mouse-middle-button"; break;
+		case WM_LBUTTONDOWN: ptr = L"mouse-left-button"; break;
+		case WM_RBUTTONDOWN: ptr = L"mouse-right-button"; break;
+		case WM_MBUTTONDOWN: ptr = L"mouse-middle-button"; break;
 		}
 
 		if(ptr != NULL)
-			mpi_process('\0', ptr, NULL);
+			mp_process_event(MPDM_S(ptr));
 
 		return(0);
-*/
-/*	case WM_MOUSEWHEEL:
 
-		if((int)wparam > 0)
-			ptr="mouse-wheel-up";
+	case WM_MOUSEWHEEL:
+
+		if((int) wparam > 0)
+			ptr = L"mouse-wheel-up";
 		else
-			ptr="mouse-wheel-down";
+			ptr = L"mouse-wheel-down";
 
 		if(ptr != NULL)
-			mpi_process('\0', ptr, NULL);
+			mp_process_event(MPDM_S(ptr));
 
 		return(0);
-*/
+
 /*	case WM_COMMAND:
 
 		_mpv_amenu(LOWORD(wparam));

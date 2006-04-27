@@ -49,21 +49,46 @@ mp.actions['goto']		= sub (d) {
 	}
 };
 
+mp.actions['move-to-mouse-position']	= sub (d) {
+	/* move to where the mouse clicked */
+	d.txt.x = d.txt.vx + mp.mouse_x;
+	mp.set_y(d, d.txt.vy + mp.mouse_y);
+};
+
+mp.actions['move-mouse-wheel-up']	= sub (d) {
+	mp.move_up(d);
+	mp.move_up(d);
+	mp.move_up(d);
+	mp.move_up(d);
+};
+
+mp.actions['move-mouse-wheel-down']	= sub (d) {
+	mp.move_down(d);
+	mp.move_down(d);
+	mp.move_down(d);
+	mp.move_down(d);
+};
+
 /* default key bindings */
 
-mp.keycodes['cursor-left']	= "move-left";
-mp.keycodes['cursor-right']	= "move-right";
-mp.keycodes['cursor-up']	= "move-up";
-mp.keycodes['cursor-down']	= "move-down";
-mp.keycodes['page-up']		= "move-pgup";
-mp.keycodes['page-down']	= "move-pgdn";
-mp.keycodes['home']		= "move-bol";
-mp.keycodes['end']		= "move-eol";
-mp.keycodes['ctrl-home']	= "move-bof";
-mp.keycodes['ctrl-end']		= "move-eof";
-mp.keycodes['ctrl-cursor-left']	= NULL;
-mp.keycodes['ctrl-cursor-right']= "move-word-right";
-mp.keycodes['ctrl-g']		= "goto";
+mp.keycodes['cursor-left']		= "move-left";
+mp.keycodes['cursor-right']		= "move-right";
+mp.keycodes['cursor-up']		= "move-up";
+mp.keycodes['cursor-down']		= "move-down";
+mp.keycodes['page-up']			= "move-pgup";
+mp.keycodes['page-down']		= "move-pgdn";
+mp.keycodes['home']			= "move-bol";
+mp.keycodes['end']			= "move-eol";
+mp.keycodes['ctrl-home']		= "move-bof";
+mp.keycodes['ctrl-end']			= "move-eof";
+mp.keycodes['ctrl-cursor-left']		= NULL;
+mp.keycodes['ctrl-cursor-right']	= "move-word-right";
+mp.keycodes['ctrl-g']			= "goto";
+mp.keycodes['mouse-left-button'] 	= "move-to-mouse-position";
+mp.keycodes['mouse-right-button'] 	= "move-to-mouse-position";
+mp.keycodes['mouse-center-button'] 	= "move-to-mouse-position";
+mp.keycodes['mouse-wheel-up']		= "move-mouse-wheel-up";
+mp.keycodes['mouse-wheel-down']		= "move-mouse-wheel-down";
 
 /* action descriptions */
 
@@ -80,6 +105,7 @@ mp.actdesc['move-eof']		= LL("End of file");
 mp.actdesc['move-word-left']	= LL("Word left");
 mp.actdesc['move-word-right']	= LL("Word right");
 mp.actdesc['goto']		= LL("Go to line...");
+mp.actdesc['mouse-position']	= LL("Move cursor to mouse click");
 
 /* code */
 
