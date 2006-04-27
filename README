@@ -9,12 +9,19 @@ Minimum Profit README
 This is an EXPERIMENTAL version for evaluation purposes only. See
 the RELEASE_NOTES file for more information.
 
-Compiling & Installing
-----------------------
+Compiling & Installing under Linux/Unix
+---------------------------------------
 
 	 $ ./config.sh
 	 $ make
 	 # make install
+
+Installing the Win32 version
+----------------------------
+
+Create a directory called C:\Program Files\mp-5 (or however your
+localized Program Files directory is called in your Windows version)
+and copy all *.mpsl files and the wmp.exe executable there.
 
 ---
 Angel Ortega <angel@triptico.com>
