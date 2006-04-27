@@ -486,6 +486,13 @@ static mpdm_t ncdrv_readline(mpdm_t a)
 }
 
 
+static mpdm_t ncdrv_update_ui(mpdm_t a)
+{
+	/* dummy */
+	return(NULL);
+}
+
+
 int ncdrv_init(void)
 {
 	mpdm_t drv;
@@ -498,6 +505,7 @@ int ncdrv_init(void)
 	mpdm_hset_s(drv, L"ui", MPDM_X(ncdrv_ui));
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(ncdrv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
+	mpdm_hset_s(drv, L"update_ui", MPDM_X(ncdrv_update_ui));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(ncdrv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(ncdrv_confirm));

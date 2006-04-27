@@ -118,14 +118,8 @@ static void build_fonts(HDC hdc)
 
 	if(font_normal != NULL)
 	{
-		HDC hdc;
-
-		/* destroy current font */
-		if((hdc = GetDC(hwnd)) != NULL)
-		{
-			SelectObject(hdc, GetStockObject(SYSTEM_FONT));
-			DeleteObject(font_normal);
-		}
+		SelectObject(hdc, GetStockObject(SYSTEM_FONT));
+		DeleteObject(font_normal);
 	}
 
 	/* get current configuration */
@@ -1091,6 +1085,15 @@ static mpdm_t w32drv_readline(mpdm_t a)
 }
 
 
+static mpdm_t w32drv_update_ui(mpdm_t a)
+{
+	build_fonts(GetDC(hwnd));
+	build_colors();
+
+	return(NULL);
+}
+
+
 int w32drv_init(void)
 {
 	mpdm_t drv;
@@ -1103,6 +1106,7 @@ int w32drv_init(void)
 	mpdm_hset_s(drv, L"ui", MPDM_X(w32drv_ui));
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(w32drv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32drv_sys_to_clip));
+	mpdm_hset_s(drv, L"update_ui", MPDM_X(w32drv_update_ui));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
