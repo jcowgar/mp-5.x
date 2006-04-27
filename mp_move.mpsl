@@ -92,7 +92,7 @@ mp.keycodes['ctrl-cursor-right']	= "move-word-right";
 mp.keycodes['ctrl-g']			= "goto";
 mp.keycodes['mouse-left-button'] 	= "move-to-mouse-position";
 mp.keycodes['mouse-right-button'] 	= "move-to-mouse-position";
-mp.keycodes['mouse-center-button'] 	= "move-to-mouse-position";
+mp.keycodes['mouse-middle-button'] 	= "move-to-mouse-position";
 mp.keycodes['mouse-wheel-up']		= "move-mouse-wheel-up";
 mp.keycodes['mouse-wheel-down']		= "move-mouse-wheel-down";
 
