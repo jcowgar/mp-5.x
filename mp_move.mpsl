@@ -50,9 +50,15 @@ mp.actions['goto']		= sub (d) {
 };
 
 mp.actions['move-to-mouse-position']	= sub (d) {
-	/* move to where the mouse clicked */
-	d.txt.x = d.txt.vx + mp.mouse_x;
+	/* move to that line */
 	mp.set_y(d, d.txt.vy + mp.mouse_y);
+
+	/* calculate the real position in that line
+	   where the mouse click seem to be */
+	local x = mp.vx2x(d.txt.lines[d.txt.y], d.txt.vx + mp.mouse_x);
+
+	/* move there */
+	mp.set_x(d, x);
 };
 
 mp.actions['move-mouse-wheel-up']	= sub (d) {
