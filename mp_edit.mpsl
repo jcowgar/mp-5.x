@@ -31,7 +31,7 @@
 mp.actions['insert-line']	= sub (d) { mp.store_undo(d); mp.break_line(d); };
 mp.actions['delete-line']	= sub (d) { mp.store_undo(d); mp.delete_line(d); };
 mp.actions['insert-space']	= sub (d) { mp.store_undo(d); mp.insert_space(d); };
-mp.actions['insert-tab']	= sub (d) { mp.store_undo(d); mp.insert(d, "\t"); };
+mp.actions['insert-tab']	= sub (d) { mp.store_undo(d); mp.insert_tab(d); };
 mp.actions['delete']		= sub (d) { mp.store_undo(d); mp.delete_char(d); };
 mp.actions['delete-left']	= sub (d) { mp.store_undo(d); mp.move_left(d);
 					mp.delete_char(d); };
@@ -224,6 +224,22 @@ sub mp.insert_space(doc)
 
 	mp.wrap_words(doc);
 	mp.insert(doc, ' ');
+}
+
+
+sub mp.insert_tab(doc)
+/* inserts a tab */
+{
+	if(mp.config.tabs_as_spaces)
+	{
+		/* number of spaces to insert */
+		local n = mp.config.tab_size -
+			((doc.txt.x) % mp.config.tab_size);
+
+		while(n--) mp.insert(doc, ' ');
+	}
+	else
+		mp.insert(doc, "\t");
 }
 
 

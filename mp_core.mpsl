@@ -35,6 +35,7 @@ mp.config.word_wrap = 0;
 mp.config.auto_indent = 0;
 mp.config.status_format = "%m%n %x,%y [%l] %R%O %s %t";
 mp.config.tab_size = 8;
+mp.config.tabs_as_spaces = 0;
 
 /* document list */
 mp.docs = [];

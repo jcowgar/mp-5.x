@@ -1,6 +1,12 @@
 Minimum Profit 5.x Release Notes
 ================================
 
+4.99.8
+------
+
+ * New configuration option mp.config.tabs_as_spaces, to store tabs
+   as spaces.
+
 4.99.7
 ------
 
