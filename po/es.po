@@ -13,95 +13,95 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_search.mpsl:43
+#: mp_search.mpsl:43 mp_search.mpsl:52
 msgid "Search text..."
 msgstr "Buscar texto..."
 
-#: mp_search.mpsl:44
+#: mp_search.mpsl:44 mp_search.mpsl:53
 msgid "Search next"
 msgstr "Buscar siguiente"
 
-#: mp_search.mpsl:45
+#: mp_search.mpsl:45 mp_search.mpsl:54
 msgid "Replace..."
 msgstr "Reemplazar..."
 
-#: mp_search.mpsl:46
+#: mp_search.mpsl:46 mp_search.mpsl:55
 msgid "Replace all..."
 msgstr "Reemplazar todo..."
 
-#: mp_search.mpsl:47
+#: mp_search.mpsl:47 mp_search.mpsl:56
 msgid "Replace in all..."
 msgstr "Reemplazar en todos..."
 
-#: mp_move.mpsl:59
+#: mp_move.mpsl:59 mp_move.mpsl:101
 msgid "Character left"
 msgstr "Carácter a la izquierda"
 
-#: mp_move.mpsl:60
+#: mp_move.mpsl:60 mp_move.mpsl:102
 msgid "Character right"
 msgstr "Carácter a la derecha"
 
-#: mp_move.mpsl:61
+#: mp_move.mpsl:61 mp_move.mpsl:103
 msgid "Line up"
 msgstr "Línea arriba"
 
-#: mp_move.mpsl:62
+#: mp_move.mpsl:62 mp_move.mpsl:104
 msgid "Line down"
 msgstr "Línea abajo"
 
-#: mp_move.mpsl:63
+#: mp_move.mpsl:63 mp_move.mpsl:105
 msgid "Page up"
 msgstr "Página arriba"
 
-#: mp_move.mpsl:64
+#: mp_move.mpsl:64 mp_move.mpsl:106
 msgid "Page down"
 msgstr "Página abajo"
 
-#: mp_move.mpsl:65
+#: mp_move.mpsl:65 mp_move.mpsl:107
 msgid "Beginning of line"
 msgstr "Principio de la línea"
 
-#: mp_move.mpsl:66
+#: mp_move.mpsl:66 mp_move.mpsl:108
 msgid "End of line"
 msgstr "Fin de la línea"
 
-#: mp_move.mpsl:67
+#: mp_move.mpsl:67 mp_move.mpsl:109
 msgid "Beginning of file"
 msgstr "Principio del documento"
 
-#: mp_move.mpsl:68
+#: mp_move.mpsl:68 mp_move.mpsl:110
 msgid "End of file"
 msgstr "Fin del documento"
 
-#: mp_move.mpsl:69
+#: mp_move.mpsl:69 mp_move.mpsl:111
 msgid "Word left"
 msgstr "Palabra a la izquierda"
 
-#: mp_move.mpsl:70
+#: mp_move.mpsl:70 mp_move.mpsl:112
 msgid "Word right"
 msgstr "Palabra a la derecha"
 
-#: mp_edit.mpsl:52
+#: mp_edit.mpsl:52 mp_edit.mpsl:55
 msgid "Insert line"
 msgstr "Insertar línea"
 
-#: mp_edit.mpsl:53
+#: mp_edit.mpsl:53 mp_edit.mpsl:56
 msgid "Delete line"
 msgstr "Borrar línea"
 
-#: mp_edit.mpsl:54
+#: mp_edit.mpsl:54 mp_edit.mpsl:57
 msgid "Insert space"
 msgstr "Insertar espacio"
 
-#: mp_edit.mpsl:55
+#: mp_edit.mpsl:55 mp_edit.mpsl:58
 msgid "Insert tab"
 msgstr "Insertar tabulador"
 
-#: mp_edit.mpsl:56
+#: mp_edit.mpsl:56 mp_edit.mpsl:59
 msgid "Delete character"
 msgstr "Borrar carácter"
 
-#: mp_edit.mpsl:57
+#: mp_edit.mpsl:57 mp_edit.mpsl:60
 msgid "Delete character to the left"
 msgstr "Borrar carácter a la izquierda"
 
@@ -132,3 +132,55 @@ msgstr "Grabar macro"
 #: mp_macro.mpsl:42
 msgid "Play macro"
 msgstr "Ejecutar macro"
+
+#: mp_edit.mpsl:61
+msgid "Undo last operation"
+msgstr ""
+
+#: mp_file.mpsl:39
+msgid "Enter file name:"
+msgstr ""
+
+#: mp_file.mpsl:54
+msgid "File has changed. Save changes?"
+msgstr ""
+
+#: mp_file.mpsl:85
+msgid "File to open:"
+msgstr ""
+
+#: mp_file.mpsl:101
+msgid "Save..."
+msgstr ""
+
+#: mp_misc.mpsl:31
+msgid "Code to execute:"
+msgstr ""
+
+#: mp_misc.mpsl:38
+msgid "Error: "
+msgstr ""
+
+#: mp_misc.mpsl:41
+msgid "Exit value:\n"
+msgstr ""
+
+#: mp_move.mpsl:43
+msgid "Line to go to:"
+msgstr ""
+
+#: mp_move.mpsl:113
+msgid "Go to line..."
+msgstr ""
+
+#: mp_move.mpsl:114
+msgid "Move cursor to mouse click"
+msgstr ""
+
+#: mp_search.mpsl:31
+msgid "Text to seek:"
+msgstr ""
+
+#: mp_search.mpsl:34 mp_search.mpsl:38
+msgid "Text not found."
+msgstr ""
