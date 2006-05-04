@@ -133,7 +133,14 @@ mp.syntax.perl = {
 		[ "/qw\(/", "/\)/" ],			/* quote word */
 		'/\w+\s*=>/',
 		[ "/<<[\"']?EOF.*$/m", "/^EOF$/m" ]	/* 'document here' */
-	]
+	],
+	'detect'	=>	sub (d) {
+		/* take the first line */
+		local f = d.txt.lines[0];
+
+		/* is it a 'she-bang' for Perl? */
+		return(regex('/^#!/usr/bin/(perl|env perl)/', f));
+	}
 };
 
 
@@ -179,7 +186,9 @@ mp.syntax.sh = {
 				"exit", "export", "kill", "logout",
 				"printf", "pwd", "read", "return",
 				"shift", "test", "trap", "ulimit",
-				"umask", "unset", "wait", "cp", "rm" ])
+				"umask", "unset", "wait", "cp", "rm" ]),
+				'/[\{\}]/'
+
 	],
 	'variables'	=>	[
 				"/(local|let|set)/",
@@ -193,10 +202,17 @@ mp.syntax.sh = {
 		"/\b-?[0-9]+\b/",			/* numbers */
 		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 		[ "/\(/", "/\)/" ],			/* parens */
-		[ "/\{/", "/\}/" ],			/* curly brackets */
 		[ "/`/", "/`/" ],			/* backticks */
 		[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
-	]
+	],
+	'detect'	=>	sub (d) {
+		/* take the first line */
+		local f = d.txt.lines[0];
+
+		/* is it a 'she-bang' for usual shells? */
+		return(regex('/^#!/bin/(sh|bash|csh|dash|ksh)/', f));
+	}
+
 };
 
 
@@ -265,8 +281,20 @@ sub mp.detect_syntax(doc)
 			if(regex(ext, doc.name))
 			{
 				doc.syntax = s;
-				break;
+				return;
 			}
+		}
+	}
+
+	/* not by extension? try the 'detect' subroutine */
+	foreach(n, keys(mp.syntax))
+	{
+		local s = mp.syntax[n];
+
+		if(is_exec(s.detect) && s.detect(doc))
+		{
+			doc.syntax = s;
+			return;
 		}
 	}
 }
