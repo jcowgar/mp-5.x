@@ -139,7 +139,7 @@ mp.syntax.perl = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang' for Perl? */
-		return(regex('/^#!/usr/bin/(perl|env perl)/', f));
+		return(regex('/^#!/usr/bin/(env )?perl/', f));
 	}
 };
 
