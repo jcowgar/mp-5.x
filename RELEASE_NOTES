@@ -6,6 +6,9 @@ Minimum Profit 5.x Release Notes
 
  * New configuration option mp.config.tabs_as_spaces, to store tabs
    as spaces.
+ * Each syntax highlight definition can contain an optional function
+   called detect() that receives the document as argument and can be used
+   to tailor special detection rules.
 
 4.99.7
 ------
