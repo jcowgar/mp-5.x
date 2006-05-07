@@ -696,7 +696,7 @@ void mp_startup(void)
 	int n;
 	char * ptr;
 
-	mpdm_startup();
+	mpsl_startup();
 
 	mpsl_argv(mp_main_argc, mp_main_argv);
 
@@ -774,7 +774,7 @@ void mp_mpsl(void)
 
 void mp_shutdown(void)
 {
-	mpdm_shutdown();
+	mpsl_shutdown();
 }
 
 
