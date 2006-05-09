@@ -196,7 +196,16 @@ sub mp.insert_string(doc, str)
 sub mp.insert(doc, text)
 /* inserts a text into the cursor position */
 {
-	mp.insert_string(doc, text);
+	local l = split("\n", text);
+
+	/* insert the first string */
+	mp.insert_string(doc, adel(l, 0));
+
+	while(size(l) > 0)
+	{
+		mp.break_line(doc);
+		mp.insert_string(doc, adel(l, 0));
+	}
 }
 
 
