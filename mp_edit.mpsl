@@ -176,7 +176,7 @@ sub mp.delete_char(doc)
 }
 
 
-sub mp.insert(doc, str)
+sub mp.insert_string(doc, str)
 /* inserts a string into the cursor position */
 {
 	local txt = doc.txt;
@@ -190,6 +190,13 @@ sub mp.insert(doc, str)
 	txt.x += size(str);
 
 	txt.mod++;
+}
+
+
+sub mp.insert(doc, text)
+/* inserts a text into the cursor position */
+{
+	mp.insert_string(doc, text);
 }
 
 
