@@ -9,6 +9,8 @@ Minimum Profit 5.x Release Notes
  * Each syntax highlight definition can contain an optional function
    called detect() that receives the document as argument and can be used
    to tailor special detection rules.
+ * A big part of the internal storage of colors and attributes have
+   been rewritten to make it more dynamic.
 
 4.99.7
 ------
