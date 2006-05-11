@@ -711,8 +711,6 @@ int w32drv_init(void);
 
 void mp_startup(void)
 {
-	mpdm_t t;
-	int n;
 	char * ptr;
 
 	mpsl_startup();
