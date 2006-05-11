@@ -80,6 +80,15 @@ sub mp.get_word(doc)
 
 /*******************************************************/
 
+/* attribute names (must match those on mp.h, order matters) */
+mp.attributes = [ "normal", "cursor", "selection", "comments", "quotes",
+	"matching", "word1", "word2", "tag", "spell" ];
+
+/* allowed color names (order match the Unix curses one) */
+mp.color_names = [ "default", "black", "red", "green",
+	"yellow", "blue", "magenta", "cyan", "white" ];
+
+/* color definitions */
 mp.colors = {
 	'normal' => {		'text'	=> [ 'default', 'default' ],
 				'gui'	=> [ 0x000000, 0xffffff ] },

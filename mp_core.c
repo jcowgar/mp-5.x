@@ -689,9 +689,6 @@ int w32drv_init(void);
 
 void mp_startup(void)
 {
-	wchar_t * attr_names[] = {
-		L"normal", L"cursor", L"selection", L"comments", L"quotes",
-		L"matching", L"word1", L"word2", L"tag", L"spell", NULL };
 	mpdm_t t;
 	int n;
 	char * ptr;
@@ -709,12 +706,6 @@ void mp_startup(void)
 	mpdm_hset_s(mp, L"vx2x", MPDM_X(mp_vx2x));
 	mpdm_hset_s(mp, L"exit", MPDM_X(mp_exit));
 	mpdm_hset_s(mp, L"window", MPDM_H(0));
-
-	/* the attribute names */
-	t = MPDM_H(0);
-	for(n = 0;attr_names[n] != NULL;n++)
-		mpdm_hset(t, MPDM_S(attr_names[n]), MPDM_I(n));
-	mpdm_hset_s(mp, L"attr_names", t);
 
 	/* version */
 	mpdm_hset_s(mp, L"VERSION", MPDM_S(L"mp " VERSION));

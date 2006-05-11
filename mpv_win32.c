@@ -162,23 +162,27 @@ static void build_colors(void)
 /* builds the colors */
 {
 	mpdm_t colors;
-	mpdm_t attr_names;
+	mpdm_t attributes;
 	mpdm_t l;
 	mpdm_t c;
 	int n;
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
-	attr_names = mpdm_hget_s(mp, L"attr_names");
+	attributes = mpdm_hget_s(mp, L"attributes");
 	l = mpdm_keys(colors);
 
 	/* loop the colors */
 	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
 	{
-		int attr = mpdm_ival(mpdm_hget(attr_names, c));
+		int attr;
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");
 		int m;
+
+		/* find color (should warn if not found) */
+		if((attr = mpdm_seek(attributes, c, 1)) == -1)
+			continue;
 
 		m = mpdm_ival(mpdm_aget(v, 0));
 		inks[attr] = ((m & 0x000000ff) << 16)|

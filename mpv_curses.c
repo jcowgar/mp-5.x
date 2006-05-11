@@ -327,31 +327,12 @@ static void nc_draw(mpdm_t doc)
 }
 
 
-static int nc_color_by_name(mpdm_t colorname)
-{
-	static mpdm_t colornames = NULL;
-
-	if(colornames == NULL)
-	{
-		int n;
-		wchar_t * names[] = { L"default", L"black", L"red", L"green",
-			L"yellow", L"blue", L"magenta", L"cyan", L"white", NULL };
-
-		colornames = mpdm_ref(MPDM_H(0));
-
-		for(n = 0;names[n] != NULL;n++)
-			mpdm_hset(colornames, MPDM_S(names[n]), MPDM_I(n - 1));
-	}
-
-	return(mpdm_ival(mpdm_hget(colornames, colorname)));
-}
-
-
 static void build_colors(void)
 /* builds the colors */
 {
 	mpdm_t colors;
-	mpdm_t attr_names;
+	mpdm_t attributes;
+	mpdm_t color_names;
 	mpdm_t l;
 	mpdm_t c;
 	int n;
@@ -371,20 +352,28 @@ static void build_colors(void)
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
-	attr_names = mpdm_hget_s(mp, L"attr_names");
+	attributes = mpdm_hget_s(mp, L"attributes");
+	color_names = mpdm_hget_s(mp, L"color_names");
 	l = mpdm_keys(colors);
 
 	/* loop the colors */
 	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
 	{
-		int attr = mpdm_ival(mpdm_hget(attr_names, c));
+		int attr;
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"text");
-		int cp;
+		int cp, c0, c1;
 
-		init_pair(n + 1, nc_color_by_name(mpdm_aget(v, 0)),
-				nc_color_by_name(mpdm_aget(v, 1)));
+		/* find color (should warn if not found) */
+		if((attr = mpdm_seek(attributes, c, 1)) == -1)
+			continue;
 
+		/* get color indexes */
+		if((c0 = mpdm_seek(color_names, mpdm_aget(v, 0), 1)) == -1 ||
+		   (c1 = mpdm_seek(color_names, mpdm_aget(v, 1), 1)) == -1)
+			continue;
+
+		init_pair(n + 1, c0 - 1, c1 - 1);
 		cp = COLOR_PAIR(n + 1);
 
 		/* flags */
