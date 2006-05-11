@@ -85,6 +85,9 @@ static int modal_status = -1;
 /* global text from entry widget */
 static mpdm_t readline_text = NULL;
 
+/* code for the 'normal' attribute */
+static int normal_attr = 0;
+
 /*******************
 	Code
 ********************/
@@ -204,6 +207,9 @@ static void build_colors(void)
 		int attr;
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");
+
+		/* store the attr */
+		mpdm_hset_s(d, L"attr", MPDM_I(n));
 
 		/* find color (should warn if not found) */
 		if((attr = mpdm_seek(attributes, c, 1)) == -1)
@@ -468,9 +474,9 @@ static void gtkdrv_paint(mpdm_t doc)
 
 			/* create the background if it's
 			   different from the default */
-			if(papers[attr].red != papers[MP_ATTR_NORMAL].red ||
-			   papers[attr].green != papers[MP_ATTR_NORMAL].green ||
-			   papers[attr].blue != papers[MP_ATTR_NORMAL].blue)
+			if(papers[attr].red != papers[normal_attr].red ||
+			   papers[attr].green != papers[normal_attr].green ||
+			   papers[attr].blue != papers[normal_attr].blue)
 			{
 				pa = pango_attr_background_new(
 					papers[attr].red, papers[attr].green,
@@ -512,7 +518,7 @@ static void gtkdrv_paint(mpdm_t doc)
 		free(str);
 
 		/* draw the background */
-		gdk_gc_set_foreground(gc, &papers[MP_ATTR_NORMAL]);
+		gdk_gc_set_foreground(gc, &papers[normal_attr]);
 		gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0,
 			gr.width, gr.height);
 

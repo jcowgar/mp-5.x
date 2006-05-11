@@ -79,6 +79,9 @@ static mpdm_t readline_text = NULL;
 /* prompt for dialogs */
 static char * dialog_prompt = NULL;
 
+/* code for the 'normal' attribute */
+static int normal_attr = 0;
+
 /*******************
 	Code
 ********************/
@@ -180,6 +183,9 @@ static void build_colors(void)
 		mpdm_t v = mpdm_hget_s(d, L"gui");
 		int m;
 
+		/* store the attr */
+		mpdm_hset_s(d, L"attr", MPDM_I(n));
+
 		/* find color (should warn if not found) */
 		if((attr = mpdm_seek(attributes, c, 1)) == -1)
 			continue;
@@ -208,7 +214,7 @@ static void build_colors(void)
 	}
 
 	/* create the background brush */
-	bgbrush = CreateSolidBrush(papers[MP_ATTR_NORMAL]);
+	bgbrush = CreateSolidBrush(papers[normal_attr]);
 }
 
 

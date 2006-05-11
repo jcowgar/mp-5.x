@@ -51,6 +51,9 @@
 /* the curses attributes */
 int nc_attrs[MP_ATTR_SIZE];
 
+/* code for the 'normal' attribute */
+static int normal_attr = 0;
+
 /*******************
 	Code
 ********************/
@@ -364,6 +367,9 @@ static void build_colors(void)
 		mpdm_t v = mpdm_hget_s(d, L"text");
 		int cp, c0, c1;
 
+		/* store the attr */
+		mpdm_hset_s(d, L"attr", MPDM_I(n));
+
 		/* find color (should warn if not found) */
 		if((attr = mpdm_seek(attributes, c, 1)) == -1)
 			continue;
@@ -384,6 +390,9 @@ static void build_colors(void)
 
 		nc_attrs[attr] = cp;
 	}
+
+	/* set the background filler */
+	bkgdset(' ' | nc_attrs[normal_attr]);
 }
 
 
@@ -399,8 +408,6 @@ static void ncdrv_startup(void)
 	noecho();
 
 	build_colors();
-
-	bkgdset(' ' | nc_attrs[MP_ATTR_NORMAL]);
 
 	v = mpdm_hget_s(mp, L"window");
 	mpdm_hset_s(v, L"tx", MPDM_I(COLS));
