@@ -57,23 +57,26 @@ mpdm_t mp = NULL;
 /* private data for drawing syntax-highlighted text */
 
 static struct {
-	int n_lines;	/* total number of lines */
-	int p_lines;	/* number of prereaded lines */
-	int * offsets;	/* offsets of lines */
-	char * attrs;	/* attributes */
-	int vx;		/* first visible column */
-	int vy;		/* first visible line */
-	int tx;		/* horizontal window size */
-	int ty;		/* vertical window size */
-	int visible;	/* offset to the first visible character */
-	int cursor;	/* offset to cursor */
-	int tab_size;	/* tabulator size */
-	wchar_t * ptr;	/* pointer to joined data */
-	int size;	/* size of joined data */
-	mpdm_t txt;	/* the document */
-	mpdm_t syntax;	/* syntax highlight information */
-	mpdm_t v;	/* the data */
-} drw = { 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL, NULL, NULL };
+	int n_lines;		/* total number of lines */
+	int p_lines;		/* number of prereaded lines */
+	int * offsets;		/* offsets of lines */
+	char * attrs;		/* attributes */
+	int vx;			/* first visible column */
+	int vy;			/* first visible line */
+	int tx;			/* horizontal window size */
+	int ty;			/* vertical window size */
+	int visible;		/* offset to the first visible character */
+	int cursor;		/* offset to cursor */
+	int tab_size;		/* tabulator size */
+	wchar_t * ptr;		/* pointer to joined data */
+	int size;		/* size of joined data */
+	mpdm_t txt;		/* the document */
+	mpdm_t syntax;		/* syntax highlight information */
+	mpdm_t colors;		/* color definitions (for attributes) */
+	int normal_attr;	/* normal attr */
+	int cursor_attr;	/* cursor attr */
+	mpdm_t v;		/* the data */
+} drw;
 
 
 #define MP_REAL_TAB_SIZE(x) (drw.tab_size - ((x) % drw.tab_size))
@@ -166,6 +169,19 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 }
 
 
+static int drw_get_attr(wchar_t * color_name)
+/* returns the attribute number for a color */
+{
+	mpdm_t v;
+	int attr = 0;
+
+	if((v = mpdm_hget_s(drw.colors, color_name)) != NULL)
+		attr = mpdm_ival(mpdm_hget_s(v, L"attr"));
+
+	return(attr);
+}
+
+
 static void drw_prepare(mpdm_t doc)
 /* prepares the document for screen drawing */
 {
@@ -225,9 +241,14 @@ static void drw_prepare(mpdm_t doc)
 	mpdm_unref(drw.v);
 	drw.v = mpdm_ref(MPDM_ENS(drw.ptr, drw.size));
 
+	/* get the mp.colors structure and the most used attributes */
+	drw.colors = mpdm_hget_s(mp, L"colors");
+	drw.normal_attr = drw_get_attr(L"normal");
+	drw.cursor_attr = drw_get_attr(L"cursor");
+
 	/* alloc and init space for the attributes */
 	drw.attrs = realloc(drw.attrs, drw.size + 1);
-	memset(drw.attrs, MP_ATTR_NORMAL, drw.size + 1);
+	memset(drw.attrs, drw.normal_attr, drw.size + 1);
 
 	/* store the syntax highlight structure */
 	drw.syntax = mpdm_hget_s(doc, L"syntax");
@@ -347,16 +368,16 @@ static void drw_blocks(void)
 /* fill attributes for multiline blocks */
 {
 	/* fill attributes for tokens */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"tokens"), MP_ATTR_WORD_1);
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"tokens"), drw_get_attr(L"word1"));
 
 	/* fill attributes for variables */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"variables"), MP_ATTR_WORD_2);
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"variables"), drw_get_attr(L"word2"));
 
 	/* fill attributes for quotes (strings) */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"quotes"), MP_ATTR_QUOTES);
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"quotes"), drw_get_attr(L"quotes"));
 
 	/* fill attributes for comments */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"comments"), MP_ATTR_COMMENTS);
+	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"comments"), drw_get_attr(L"comments"));
 }
 
 
@@ -383,7 +404,7 @@ static void drw_selection(void)
 	so = by < drw.vy ? drw.visible : drw_line_offset(by) + bx;
 	eo = ey >= drw.vy + drw.ty ? drw.size : drw_line_offset(ey) + ex;
 
-	drw_fill_attr(MP_ATTR_SELECTION, so, eo - so);
+	drw_fill_attr(drw_get_attr(L"selection"), so, eo - so);
 }
 
 
@@ -425,7 +446,7 @@ static void drw_matching_paren(void)
 				if(--m == 0)
 				{
 					/* found! fill and exit */
-					drw_fill_attr(MP_ATTR_MATCHING, o, 1);
+					drw_fill_attr(drw_get_attr(L"matching"), o, 1);
 					break;
 				}
 			}
@@ -452,13 +473,13 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 	   one of the cursor and the string is more than
 	   one character, create two strings; the
 	   cursor is over a tab */
-	if(a == MP_ATTR_CURSOR && i > 1)
+	if(a == drw.cursor_attr && i > 1)
 	{
 		mpdm_push(l, MPDM_I(a));
 		mpdm_push(l, MPDM_NS(tmp, 1));
 
 		/* cursor color is normal */
-		a = MP_ATTR_NORMAL;
+		a = drw.normal_attr;
 
 		/* one char less */
 		tmp[i - 1] = L'\0';
@@ -573,7 +594,7 @@ mpdm_t mp_draw(mpdm_t doc)
 	drw_matching_paren();
 
 	/* and finally the cursor */
-	drw_fill_attr(MP_ATTR_CURSOR, drw.cursor, 1);
+	drw_fill_attr(drw.cursor_attr, drw.cursor, 1);
 
 	return(drw_as_array());
 }

@@ -22,17 +22,7 @@
 
 */
 
-#define MP_ATTR_NORMAL		0
-#define MP_ATTR_CURSOR		1
-#define MP_ATTR_SELECTION	2
-#define MP_ATTR_COMMENTS	3
-#define MP_ATTR_QUOTES		4
-#define MP_ATTR_MATCHING	5
-#define MP_ATTR_WORD_1		6
-#define MP_ATTR_WORD_2		7
-#define MP_ATTR_TAG		8
-#define MP_ATTR_SPELL		9
-#define MP_ATTR_SIZE		MP_ATTR_SPELL + 1
+#define MP_MAX_ATTRS		32
 
 extern int mp_exit_requested;
 extern int mp_main_argc;

@@ -69,8 +69,8 @@ int status_height = 16;
 int is_wm_keydown = 0;
 
 /* colors */
-static COLORREF inks[MP_ATTR_SIZE];
-static COLORREF papers[MP_ATTR_SIZE];
+static COLORREF inks[MP_MAX_ATTRS];
+static COLORREF papers[MP_MAX_ATTRS];
 HBRUSH bgbrush;
 
 /* readline text */
@@ -165,37 +165,34 @@ static void build_colors(void)
 /* builds the colors */
 {
 	mpdm_t colors;
-	mpdm_t attributes;
 	mpdm_t l;
 	mpdm_t c;
 	int n;
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
-	attributes = mpdm_hget_s(mp, L"attributes");
 	l = mpdm_keys(colors);
 
 	/* loop the colors */
 	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
 	{
-		int attr;
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");
 		int m;
 
+		/* store the 'normal' attribute */
+		if(wcscmp(mpdm_string(c), L"normal") == 0)
+			normal_attr = n;
+
 		/* store the attr */
 		mpdm_hset_s(d, L"attr", MPDM_I(n));
 
-		/* find color (should warn if not found) */
-		if((attr = mpdm_seek(attributes, c, 1)) == -1)
-			continue;
-
 		m = mpdm_ival(mpdm_aget(v, 0));
-		inks[attr] = ((m & 0x000000ff) << 16)|
+		inks[n] = ((m & 0x000000ff) << 16)|
 			 ((m & 0x0000ff00)) |
 			 ((m & 0x00ff0000) >> 16);
 		m = mpdm_ival(mpdm_aget(v, 1));
-		papers[attr] = ((m & 0x000000ff) << 16)|
+		papers[n] = ((m & 0x000000ff) << 16)|
 			 ((m & 0x0000ff00)) |
 			 ((m & 0x00ff0000) >> 16);
 
@@ -207,9 +204,9 @@ static void build_colors(void)
 		{
 			COLORREF t;
 
-			t = inks[attr];
-			inks[attr] = papers[attr];
-			papers[attr] = t;
+			t = inks[n];
+			inks[n] = papers[n];
+			papers[n] = t;
 		}
 	}
 

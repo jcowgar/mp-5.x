@@ -49,7 +49,7 @@
 ********************/
 
 /* the curses attributes */
-int nc_attrs[MP_ATTR_SIZE];
+int nc_attrs[MP_MAX_ATTRS];
 
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
@@ -334,7 +334,6 @@ static void build_colors(void)
 /* builds the colors */
 {
 	mpdm_t colors;
-	mpdm_t attributes;
 	mpdm_t color_names;
 	mpdm_t l;
 	mpdm_t c;
@@ -355,24 +354,22 @@ static void build_colors(void)
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
-	attributes = mpdm_hget_s(mp, L"attributes");
 	color_names = mpdm_hget_s(mp, L"color_names");
 	l = mpdm_keys(colors);
 
 	/* loop the colors */
 	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
 	{
-		int attr;
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"text");
 		int cp, c0, c1;
 
+		/* store the 'normal' attribute */
+		if(wcscmp(mpdm_string(c), L"normal") == 0)
+			normal_attr = n;
+
 		/* store the attr */
 		mpdm_hset_s(d, L"attr", MPDM_I(n));
-
-		/* find color (should warn if not found) */
-		if((attr = mpdm_seek(attributes, c, 1)) == -1)
-			continue;
 
 		/* get color indexes */
 		if((c0 = mpdm_seek(color_names, mpdm_aget(v, 0), 1)) == -1 ||
@@ -388,7 +385,7 @@ static void build_colors(void)
 		if(mpdm_seek_s(v, L"bright", 1) != -1) cp |= A_BOLD;
 		if(mpdm_seek_s(v, L"underline", 1) != -1) cp |= A_UNDERLINE;
 
-		nc_attrs[attr] = cp;
+		nc_attrs[n] = cp;
 	}
 
 	/* set the background filler */

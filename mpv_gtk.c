@@ -69,9 +69,9 @@ static int font_height = 0;
 static PangoFontDescription * font = NULL;
 
 /* the attributes */
-static GdkColor inks[MP_ATTR_SIZE];
-static GdkColor papers[MP_ATTR_SIZE];
-static int underlines[MP_ATTR_SIZE];
+static GdkColor inks[MP_MAX_ATTRS];
+static GdkColor papers[MP_MAX_ATTRS];
+static int underlines[MP_MAX_ATTRS];
 
 /* true if the selection is ours */
 static int got_selection = 0;
@@ -191,44 +191,41 @@ static void build_colors(void)
 /* builds the colors */
 {
 	mpdm_t colors;
-	mpdm_t attributes;
 	mpdm_t l;
 	mpdm_t c;
 	int n;
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
-	attributes = mpdm_hget_s(mp, L"attributes");
 	l = mpdm_keys(colors);
 
 	/* loop the colors */
 	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
 	{
-		int attr;
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");
+
+		/* store the 'normal' attribute */
+		if(wcscmp(mpdm_string(c), L"normal") == 0)
+			normal_attr = n;
 
 		/* store the attr */
 		mpdm_hset_s(d, L"attr", MPDM_I(n));
 
-		/* find color (should warn if not found) */
-		if((attr = mpdm_seek(attributes, c, 1)) == -1)
-			continue;
-
-		build_color(&inks[attr], mpdm_ival(mpdm_aget(v, 0)));
-		build_color(&papers[attr], mpdm_ival(mpdm_aget(v, 1)));
+		build_color(&inks[n], mpdm_ival(mpdm_aget(v, 0)));
+		build_color(&papers[n], mpdm_ival(mpdm_aget(v, 1)));
 
 		/* flags */
 		v = mpdm_hget_s(d, L"flags");
-		underlines[attr] = mpdm_seek_s(v, L"underline", 1) != -1 ? 1 : 0;
+		underlines[n] = mpdm_seek_s(v, L"underline", 1) != -1 ? 1 : 0;
 
 		if(mpdm_seek_s(v, L"reverse", 1) != -1)
 		{
 			GdkColor t;
 
-			t = inks[attr];
-			inks[attr] = papers[attr];
-			papers[attr] = t;
+			t = inks[n];
+			inks[n] = papers[n];
+			papers[n] = t;
 		}
 	}
 }
