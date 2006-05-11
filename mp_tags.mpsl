@@ -41,7 +41,7 @@ sub mp.load_tags
 	mp.tags = {};
 
 	/* get the attribute for tags */
-	a = seek(mp.attributes, "tag", 1);
+	a = mp.colors.tag.attr;
 
 	while((l = read(f)))
 	{
