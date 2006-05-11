@@ -31,7 +31,8 @@
 #define MP_ATTR_WORD_1		6
 #define MP_ATTR_WORD_2		7
 #define MP_ATTR_TAG		8
-#define MP_ATTR_SIZE		MP_ATTR_TAG + 1
+#define MP_ATTR_SPELL		9
+#define MP_ATTR_SIZE		MP_ATTR_SPELL + 1
 
 extern int mp_exit_requested;
 extern int mp_main_argc;

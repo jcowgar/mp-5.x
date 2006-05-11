@@ -691,7 +691,7 @@ void mp_startup(void)
 {
 	wchar_t * attr_names[] = {
 		L"normal", L"cursor", L"selection", L"comments", L"quotes",
-		L"matching", L"word1", L"word2", L"tag", NULL };
+		L"matching", L"word1", L"word2", L"tag", L"spell", NULL };
 	mpdm_t t;
 	int n;
 	char * ptr;
