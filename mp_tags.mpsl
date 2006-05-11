@@ -28,7 +28,7 @@
 sub mp.load_tags
 /* load a 'tags' file */
 {
-	local f, l;
+	local f, l, a;
 
 	if((f = open("tags", "r")) == NULL)
 		return;
@@ -36,14 +36,21 @@ sub mp.load_tags
 	/* reset current tags */
 	mp.tags = {};
 
+	/* get the attribute for tags */
+	a = seek(mp.attributes, "tags");
+
 	while((l = read(f)))
 	{
 		local t = split("\t", l);
 
+		/* store the tag information */
 		mp.tags[t[0]] = {
 			'file'	=> t[1],
 			'regex'	=> t[2]
 			};
+
+		/* store the word as specially-colored */
+		mp.word_color[t[0]] = a;
 	}
 
 	close(f);

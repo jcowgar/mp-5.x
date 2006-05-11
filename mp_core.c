@@ -265,10 +265,10 @@ static void drw_words(void)
 {
 	mpdm_t r, t;
 	int o = drw.visible;
-	mpdm_t tags = NULL;
+	mpdm_t word_color = NULL;
 
-	/* take the tags, if any */
-	if((tags = mpdm_hget_s(mp, L"tags")) == NULL)
+	/* take the hash of word colors, if any */
+	if((word_color = mpdm_hget_s(mp, L"word_color")) == NULL)
 		return;
 
 	/* @#@ */
@@ -277,9 +277,10 @@ static void drw_words(void)
 	while((t = mpdm_regex(r, drw.v, o)) != NULL)
 	{
 		int attr = -1;
+		mpdm_t v;
 
-		if(mpdm_hget(tags, t) != NULL)
-			attr = MP_ATTR_TAG;
+		if((v = mpdm_hget(word_color, t)) != NULL)
+			attr = mpdm_ival(v);
 
 		/* @#@ spell will be here */
 
