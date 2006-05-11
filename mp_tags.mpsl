@@ -37,7 +37,7 @@ sub mp.load_tags
 	mp.tags = {};
 
 	/* get the attribute for tags */
-	a = seek(mp.attributes, "tags");
+	a = seek(mp.attributes, "tags", 1);
 
 	while((l = read(f)))
 	{
