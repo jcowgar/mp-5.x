@@ -69,9 +69,9 @@ static int font_height = 0;
 static PangoFontDescription * font = NULL;
 
 /* the attributes */
-static GdkColor inks[MP_MAX_ATTRS];
-static GdkColor papers[MP_MAX_ATTRS];
-static int underlines[MP_MAX_ATTRS];
+static GdkColor * inks = NULL;
+static GdkColor * papers = NULL;
+static int * underlines = NULL;
 
 /* true if the selection is ours */
 static int got_selection = 0;
@@ -193,14 +193,20 @@ static void build_colors(void)
 	mpdm_t colors;
 	mpdm_t l;
 	mpdm_t c;
-	int n;
+	int n, s;
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
 	l = mpdm_keys(colors);
+	s = mpdm_size(l);
+
+	/* redim the structures */
+	inks = realloc(inks, sizeof(GdkColor) * s);
+	papers = realloc(papers, sizeof(GdkColor) * s);
+	underlines = realloc(underlines, sizeof(int) * s);
 
 	/* loop the colors */
-	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
+	for(n = 0;n < s && (c = mpdm_aget(l, n)) != NULL;n++)
 	{
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");

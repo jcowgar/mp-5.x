@@ -22,8 +22,6 @@
 
 */
 
-#define MP_MAX_ATTRS		32
-
 extern int mp_exit_requested;
 extern int mp_main_argc;
 extern char ** mp_main_argv;

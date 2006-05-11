@@ -69,8 +69,8 @@ int status_height = 16;
 int is_wm_keydown = 0;
 
 /* colors */
-static COLORREF inks[MP_MAX_ATTRS];
-static COLORREF papers[MP_MAX_ATTRS];
+static COLORREF * inks = NULL;
+static COLORREF * papers = NULL;
 HBRUSH bgbrush;
 
 /* readline text */
@@ -167,14 +167,19 @@ static void build_colors(void)
 	mpdm_t colors;
 	mpdm_t l;
 	mpdm_t c;
-	int n;
+	int n, s;
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
 	l = mpdm_keys(colors);
+	s = mpdm_size(l);
+
+	/* redim the structures */
+	inks = realloc(inks, sizeof(COLORREF) * s);
+	papers = realloc(papers, sizeof(COLORREF) * s);
 
 	/* loop the colors */
-	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
+	for(n = 0;n < s && (c = mpdm_aget(l, n)) != NULL;n++)
 	{
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");

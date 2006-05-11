@@ -49,7 +49,7 @@
 ********************/
 
 /* the curses attributes */
-int nc_attrs[MP_MAX_ATTRS];
+int * nc_attrs = NULL;
 
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
@@ -285,7 +285,7 @@ static void draw_status(void)
 
 	/* move to the last line and draw there */
 	move(LINES - 1, 0);
-	attrset(nc_attrs[0]);
+	attrset(nc_attrs[normal_attr]);
 	nc_addwstr(t->data);
 
 	/* fill the line to the end */
@@ -337,7 +337,7 @@ static void build_colors(void)
 	mpdm_t color_names;
 	mpdm_t l;
 	mpdm_t c;
-	int n;
+	int n, s;
 
 #ifdef CONFOPT_TRANSPARENCY
 	use_default_colors();
@@ -356,9 +356,13 @@ static void build_colors(void)
 	colors = mpdm_hget_s(mp, L"colors");
 	color_names = mpdm_hget_s(mp, L"color_names");
 	l = mpdm_keys(colors);
+	s = mpdm_size(l);
+
+	/* redim the structures */
+	nc_attrs = realloc(nc_attrs, sizeof(int) * s);
 
 	/* loop the colors */
-	for(n = 0;(c = mpdm_aget(l, n)) != NULL;n++)
+	for(n = 0;n < s && (c = mpdm_aget(l, n)) != NULL;n++)
 	{
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"text");
