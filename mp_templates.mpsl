@@ -41,7 +41,7 @@ sub mp.read_templates_file()
 	local f, l, k, v, n;
 
 	/* doesn't exist? just return */
-	if((f = open(mp.HOME ~ "/.mp_templates", "r")) == NULL)
+	if((f = open(HOMEDIR ~ "/.mp_templates", "r")) == NULL)
 		return(NULL);
 
 	k = NULL;

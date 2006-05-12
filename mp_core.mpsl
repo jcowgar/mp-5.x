@@ -267,7 +267,7 @@ sub mp.load_profile()
 /*	INC = t;*/
 
 	eval( sub {
-		local INC = [ mp.HOME ];
+		local INC = [ HOMEDIR ];
 		load(".mp.mpsl");
 	});
 }

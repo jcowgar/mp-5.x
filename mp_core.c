@@ -730,16 +730,6 @@ void mp_startup(void)
 	/* version */
 	mpdm_hset_s(mp, L"VERSION", MPDM_S(L"mp " VERSION));
 
-	/* home directory */
-	if((ptr = getenv("HOME")) == NULL)
-		ptr = ".";
-
-	mpdm_hset_s(mp, L"HOME", MPDM_MBS(ptr));
-
-	/* lib directory */
-	mpdm_hset_s(mp, L"LIB",
-		MPDM_MBS(CONFOPT_PREFIX "/share/" CONFOPT_APPNAME "/"));
-
 	if(!w32drv_init())
 	if(!gtkdrv_init())
 	if(!ncdrv_init())
@@ -762,7 +752,11 @@ void mp_mpsl(void)
 	mpdm_push(INC, MPDM_LS(L"."));
 
 	/* add installed library path */
-	mpdm_push(INC, mpdm_hget_s(mp, L"LIB"));
+/*	mpdm_push(INC, mpdm_hget_s(mp, L"LIB"));*/
+	mpdm_push(INC, mpdm_strcat(
+		mpdm_hget_s(mpdm_root(), L"APPDIR"),
+		MPDM_MBS(CONFOPT_APPNAME))
+	);
 
 	/* set INC */
 	mpdm_hset_s(mpdm_root(), L"INC", INC);
