@@ -24,7 +24,6 @@ Release Critical Bugs
  * 1142: Add symbol completion with tags (needs #1140).
  * 1143: Add interactive help.
  * 1144: Add the menu.
- * 1145: Add tag target to the status line.
  * 1146: Add 'recording macro' flag to the status line.
 
 Open Bugs
@@ -89,5 +88,6 @@ Closed
  * 1117: Add go to line (Mon, 17 Apr 2006 13:36:34 +0200).
  * 1136: Add the 'modified' flag to documents
    (Wed, 19 Apr 2006 08:16:37 +0200).
+ * 1145: Add tag target to the status line (Sat, 13 May 2006 09:56:37 +0200).
 
 Email bugs to angel@triptico.com

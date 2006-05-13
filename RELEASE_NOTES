@@ -11,6 +11,7 @@ Minimum Profit 5.x Release Notes
    to tailor special detection rules.
  * A big part of the internal storage of colors and attributes have
    been rewritten to make it more dynamic.
+ * Tag target for the word over the cursor is shown in the status line.
 
 4.99.7
 ------

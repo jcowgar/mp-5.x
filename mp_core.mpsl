@@ -155,6 +155,19 @@ sub mp.build_status_line()
 /* returns the string to be drawn in the status line */
 {
 	local d = mp.active();
+	local w = mp.get_word(d);
+	local t;
+
+	/* find current word as a tag */
+	if(t = mp.tags[w])
+	{
+		t = t.regex;
+		/* clean the 'regex' markup */
+		t = sregex('/^\/\^/', t, '');
+		t = sregex('/\$\/;"$/', t, '');
+	}
+	else
+		t = "";
 
 	mp.status_f = {
 		"%V"	=>	mp.VERSION,		/* version */
@@ -165,7 +178,7 @@ sub mp.build_status_line()
 		"%R"	=>	"",			/* recording flag */
 		"%O"	=>	"",			/* overwrite mode */
 		"%s"	=>	d.syntax.name,		/* synhi mode */
-		"%t"	=>	"",			/* tag target */
+		"%t"	=>	t,			/* tag target */
 		"%n"	=>	d.name,			/* document name */
 		"%%"	=>	"%"			/* escaped % */
 	};
