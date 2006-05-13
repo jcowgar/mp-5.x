@@ -59,7 +59,7 @@ mp.actions['zoom-out'] 	= sub (d) {
 
 /* default key bindings */
 
-mp.keycodes['ctrl-f1']		= 'eval';
+mp.keycodes['escape']		= 'eval';
 mp.keycodes['f12']		= 'zoom-in';
 mp.keycodes['ctrl-kp-plus' ]	= 'zoom-in';
 mp.keycodes['f11']		= 'zoom-out';
