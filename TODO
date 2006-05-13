@@ -24,6 +24,8 @@ Release Critical Bugs
  * 1142: Add symbol completion with tags (needs #1140).
  * 1143: Add interactive help.
  * 1144: Add the menu.
+ * 1145: Add tag target to the status line.
+ * 1146: Add 'recording macro' flag to the status line.
 
 Open Bugs
 ---------
