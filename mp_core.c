@@ -292,8 +292,9 @@ static void drw_words(void)
 	if((word_color = mpdm_hget_s(mp, L"word_color")) == NULL)
 		return;
 
-	/* @#@ */
-	r = MPDM_LS(L"/[A-Z_][A-Z0-9_]+/i");
+	/* get the regex for words */
+	if((r = mpdm_hget_s(mp, L"word_regex")) == NULL)
+		return;
 
 	while((t = mpdm_regex(r, drw.v, o)) != NULL)
 	{
@@ -711,8 +712,6 @@ int w32drv_init(void);
 
 void mp_startup(void)
 {
-	char * ptr;
-
 	mpsl_startup();
 
 	mpsl_argv(mp_main_argc, mp_main_argv);
