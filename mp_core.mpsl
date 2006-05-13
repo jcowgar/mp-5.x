@@ -44,43 +44,7 @@ mp.active_i = 0;
 /* status line directives */
 mp.status_f = {};
 
-/*******************
-	Code
-********************/
-
-/* L(x) is the same as gettext(x) */
-L = gettext;
-
-/* LL(x) is the same as x */
-sub LL(x) { x; }
-
-
-sub mp.get_word(doc)
-/* returns the word under the cursor */
-{
-	local txt, r, c, l;
-
-	txt = doc.txt;
-	l = txt.lines[txt.y];
-
-	/* loop all words in current line */
-	while(r = regex("/[A-Za-z_]+/", l, c[0] + c[1]))
-	{
-		/* get coordinates */
-		c = regex();
-
-		/* if matching coords are between the cursor, got it */
-		if(c[0] <= txt.x && c[0] + c[1] >= txt.x)
-			break;
-	}
-
-	return(r);
-}
-
-
-/*******************************************************/
-
-/* allowed color names (order match the Unix curses one) */
+/* allowed color names (order matters, match the Unix curses one) */
 mp.color_names = [ "default", "black", "red", "green",
 	"yellow", "blue", "magenta", "cyan", "white" ];
 
@@ -137,6 +101,16 @@ mp.keycodes = {
 mp.actions = {};
 
 mp.actdesc = {};
+
+/*******************
+	Code
+********************/
+
+/* L(x) is the same as gettext(x) */
+L = gettext;
+
+/* LL(x) is the same as x */
+sub LL(x) { x; }
 
 sub mp.active()
 /* returns the active document */

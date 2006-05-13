@@ -293,7 +293,7 @@ static void drw_words(void)
 		return;
 
 	/* @#@ */
-	r = MPDM_LS(L"/[A-Za-z_]+/");
+	r = MPDM_LS(L"/[A-Z_][A-Z0-9_]+/i");
 
 	while((t = mpdm_regex(r, drw.v, o)) != NULL)
 	{
