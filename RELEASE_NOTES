@@ -13,6 +13,8 @@ Minimum Profit 5.x Release Notes
    been rewritten to make it more dynamic.
  * Tag target for the word over the cursor is shown in the status line.
  * Move word left works.
+ * Opening an already open file makes it the active one instead of
+   re-opening it.
 
 4.99.7
 ------
