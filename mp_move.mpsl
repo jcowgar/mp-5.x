@@ -257,7 +257,7 @@ sub mp.split_line_by_words(doc)
 	oc = [];
 	p = -1;
 
-	while(r = regex(mp.word_regex, l, c[0] + c[1]))
+	while((r = regex(mp.word_regex, l, c[0] + c[1])) != NULL)
 	{
 		/* store the word */
 		push(ol, r);
