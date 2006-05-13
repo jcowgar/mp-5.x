@@ -71,24 +71,3 @@ mp.actdesc['eval']	= LL('Execute MPSL code...');
 
 /* code */
 
-sub mp.get_word(doc)
-/* returns the word under the cursor */
-{
-	local txt, r, c, l;
-
-	txt = doc.txt;
-	l = txt.lines[txt.y];
-
-	/* loop all words in current line */
-	while(r = regex(mp.word_regex, l, c[0] + c[1]))
-	{
-		/* get coordinates */
-		c = regex();
-
-		/* if matching coords are between the cursor, got it */
-		if(c[0] <= txt.x && c[0] + c[1] >= txt.x)
-			break;
-	}
-
-	return(r);
-}

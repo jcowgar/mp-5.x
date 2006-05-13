@@ -12,6 +12,7 @@ Minimum Profit 5.x Release Notes
  * A big part of the internal storage of colors and attributes have
    been rewritten to make it more dynamic.
  * Tag target for the word over the cursor is shown in the status line.
+ * Move word left works.
 
 4.99.7
 ------

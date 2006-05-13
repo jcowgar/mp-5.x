@@ -37,6 +37,7 @@ mp.actions['move-bol']		= sub (d) { mp.move_bol(d); };
 mp.actions['move-eol']		= sub (d) { mp.move_eol(d); };
 mp.actions['move-bof']		= sub (d) { mp.move_bof(d); };
 mp.actions['move-eof']		= sub (d) { mp.move_eof(d); };
+mp.actions['move-word-left']	= sub (d) { mp.move_word_left(d); };
 mp.actions['move-word-right']	= sub (d) { mp.move_word_right(d); };
 
 mp.actions['goto']		= sub (d) {
@@ -87,7 +88,7 @@ mp.keycodes['home']			= "move-bol";
 mp.keycodes['end']			= "move-eol";
 mp.keycodes['ctrl-home']		= "move-bof";
 mp.keycodes['ctrl-end']			= "move-eof";
-mp.keycodes['ctrl-cursor-left']		= NULL;
+mp.keycodes['ctrl-cursor-left']		= "move-word-left";
 mp.keycodes['ctrl-cursor-right']	= "move-word-right";
 mp.keycodes['ctrl-g']			= "goto";
 mp.keycodes['mouse-left-button'] 	= "move-to-mouse-position";
@@ -244,22 +245,106 @@ sub mp.move_eof(doc)
 }
 
 
-sub mp.move_word_right(doc)
-/* moves a word to the right */
+sub mp.split_line_by_words(doc)
+/* splits current line by words and returns a three element array containing
+   the list of words, the list of offsets and the current position */
 {
-	local txt;
+	local txt, l, r, c, ol, oc, p;
 
 	txt = doc.txt;
+	l = txt.lines[txt.y];
+	ol = [];
+	oc = [];
+	p = -1;
 
-	while(txt.y < size(txt.lines) - 1)
+	while(r = regex(mp.word_regex, l, c[0] + c[1]))
 	{
-		if(regex("/[A-Za-z_]*[^A-Za-z_]+/", txt.lines[txt.y], txt.x))
+		/* store the word */
+		push(ol, r);
+
+		/* get coordinates */
+		c = regex();
+
+		/* push the starting column */
+		push(oc, c[0]);
+
+		/* if matching coords are between the cursor, store it */
+		if(c[0] <= txt.x && c[0] + c[1] >= txt.x)
+			p = size(ol) - 1;
+	}
+
+	/* it txt.x is still further than the last match, it means
+	   that the 'current' position is beyond the last word */
+	if(txt.x > c[0] + c[1]) p = size(ol);
+
+	/* return the list of words, the list of
+	   coordinates and the current one */
+	return( [ ol, oc, p ]);
+}
+
+
+sub mp.get_word(doc)
+/* returns the word under the cursor */
+{
+	local l = mp.split_line_by_words(doc);
+
+	/* no word over cursor? */
+	if(l[2] == -1) return(NULL);
+
+	return(l[0][l[2]]);
+}
+
+
+sub mp.move_word_left(doc)
+/* moves a word to the left */
+{
+	local txt = doc.txt;
+
+	while(1)
+	{
+		/* split by words */
+		local l = mp.split_line_by_words(doc);
+
+		/* get previous position */
+		local x = l[2] - 1;
+
+		/* if that position exists, move there */
+		if(x > 0)
 		{
-			local c = regex();
-			txt.x = c[0] + c[1];
+			txt.x = l[1][x];
 			break;
 		}
 
+		/* no lines up? exit */
+		if(txt.y == 0) break;
+
+		txt.y--;
+		txt.x = size(txt.lines[txt.y]);
+	}
+}
+
+
+sub mp.move_word_right(doc)
+/* moves a word to the right */
+{
+	local txt = doc.txt;
+
+	while(txt.y < size(txt.lines) - 1)
+	{
+		/* split by words */
+		local l = mp.split_line_by_words(doc);
+
+		/* get next position */
+		local x = l[2] + 1;
+
+		/* if that position exists, move there */
+		if(x < size(l[1]))
+		{
+			txt.x = l[1][x];
+			break;
+		}
+
+		/* try next line */
 		txt.y++;
 		txt.x = 0;
 	}
