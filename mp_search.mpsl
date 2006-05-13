@@ -75,7 +75,7 @@ sub mp.search(doc, str)
 	y = txt.y;
 
 	/* while not found, loop the lines */
-	while(! regex("/" ~ str ~ "/", txt.lines[y], x) && y < size(txt.lines))
+	while(regex("/" ~ str ~ "/", txt.lines[y], x) == NULL && y < size(txt.lines))
 	{
 		x = 0; y++;
 	}
