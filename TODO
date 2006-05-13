@@ -17,6 +17,13 @@ Release Critical Bugs
  * 1138: The call to mp.load_tags() in mp_tags.mpsl startup does not
    work because at that time the colors are not built (so there is no
    mp.colors.tag.attr).
+ * 1139: Add the 'default' value to mp.drv.readline().
+ * 1140: Add mp.drv.list().
+ * 1141: Add complete tag support, with 'ctags' execution, asking for
+   a tag (needs #1139) and selecting from a list (needs #1140).
+ * 1142: Add symbol completion with tags (needs #1140).
+ * 1143: Add interactive help.
+ * 1144: Add the menu.
 
 Open Bugs
 ---------
