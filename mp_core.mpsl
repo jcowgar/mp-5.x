@@ -159,18 +159,7 @@ sub mp.build_status_line()
 {
 	local d = mp.active();
 	local w = mp.get_word(d);
-	local t;
-
-	/* find current word as a tag */
-	if(t = mp.tags[w])
-	{
-		t = t.regex;
-		/* clean the 'regex' markup */
-		t = sregex('/^\/\^/', t, '');
-		t = sregex('/\$\/;"$/', t, '');
-	}
-	else
-		t = "";
+	local t = mp.tags[w].label;
 
 	mp.status_f = {
 		"%V"	=>	mp.VERSION,		/* version */

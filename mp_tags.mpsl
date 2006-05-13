@@ -46,11 +46,17 @@ sub mp.load_tags
 	while((l = read(f)))
 	{
 		local t = split("\t", l);
+		local l;
+
+		/* clean the regex 'markup' for the label */
+		l = sregex('/^\/\^/', t[2], '');
+		l = sregex('/\$\/;"$/', l, '') ~ ' [' ~ t[1] ~ ']';
 
 		/* store the tag information */
 		mp.tags[t[0]] = {
 			'file'	=> t[1],
-			'regex'	=> t[2]
+			'regex'	=> t[2],
+			'label' => l
 			};
 
 		/* store the word as specially-colored */
