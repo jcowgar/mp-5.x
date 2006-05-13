@@ -25,6 +25,8 @@ Release Critical Bugs
  * 1143: Add interactive help.
  * 1144: Add the menu.
  * 1146: Add 'recording macro' flag to the status line.
+ * 1147: Add history to GTK's readline.
+ * 1148: Add history to win32's readline.
 
 Open Bugs
 ---------
