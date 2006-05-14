@@ -287,6 +287,7 @@ static void drw_words(void)
 	mpdm_t r, t;
 	int o = drw.visible;
 	mpdm_t word_color = NULL;
+	mpdm_t word_color_func = NULL;
 
 	/* take the hash of word colors, if any */
 	if((word_color = mpdm_hget_s(mp, L"word_color")) == NULL)
@@ -296,6 +297,9 @@ static void drw_words(void)
 	if((r = mpdm_hget_s(mp, L"word_regex")) == NULL)
 		return;
 
+	/* get the word color function */
+	word_color_func = mpdm_hget_s(mp, L"word_color_func");
+
 	while((t = mpdm_regex(r, drw.v, o)) != NULL)
 	{
 		int attr = -1;
@@ -303,8 +307,9 @@ static void drw_words(void)
 
 		if((v = mpdm_hget(word_color, t)) != NULL)
 			attr = mpdm_ival(v);
-
-		/* @#@ spell will be here */
+		else
+		if(word_color_func != NULL)
+			attr = mpdm_ival(mpdm_exec_1(word_color_func, t));
 
 		o = drw_fill_attr_regex(attr);
 	}
