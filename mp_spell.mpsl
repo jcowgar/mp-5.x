@@ -94,7 +94,7 @@ sub mp.ispell_word_color_func(w)
 		read(mp.ispell_pipe);
 
 		/* take first char of the response */
-		l = regex('/^\./', l);
+		l = regex('/^./', l);
 
 		/* if it's not a '*' nor a '+', it's misspelled */
 		if(l ne '*' && l ne '+')
