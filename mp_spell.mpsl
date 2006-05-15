@@ -39,6 +39,7 @@ mp.config.ispell_cmd = "ispell -a";
 /* code */
 
 sub mp.open_ispell_pipe
+/* opens the pipe to ispell */
 {
 	local p, l;
 
@@ -65,10 +66,23 @@ sub mp.open_ispell_pipe
 
 
 sub mp.close_ispell_pipe
+/* closes the pipe to ispell */
 {
+	local w;
+
+	if(mp.ispell_pipe == NULL)
+		return;
+
 	/* close and delete */
 	pclose(mp.ispell_pipe);
 	mp.ispell_pipe = NULL;
+
+	/* delete all words marked as misspelled from the word cache */
+	foreach(w, keys(mp.word_color))
+	{
+		if(mp.word_color[w] == mp.colors.spell.attr)
+			hdel(mp.word_color, w);
+	}
 
 	/* delete the word color function */
 	mp.word_color_func = NULL;
@@ -113,6 +127,7 @@ sub mp.ispell_word_color_func(w)
 
 
 sub mp.ispell(b)
+/* sets or unsets spell checking */
 {
 	b && mp.open_ispell_pipe() || mp.close_ispell_pipe();
 }

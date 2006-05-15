@@ -15,6 +15,11 @@ Minimum Profit 5.x Release Notes
  * Move word left works.
  * Opening an already open file makes it the active one instead of
    re-opening it.
+ * The 'execute code' action has been remapped from ctrl-f1 to escape.
+ * Spellchecking via ispell works (but it's SLOW!). Activate it by
+   hitting escape and typing:
+
+	mp.ispell(1);
 
 4.99.7
 ------
