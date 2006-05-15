@@ -38,7 +38,7 @@ mp.config.tab_size = 8;
 mp.config.tabs_as_spaces = 0;
 
 /* a regex for selection words */
-mp.word_regex = '/[A-Z0-9_]+/i';
+mp.word_regex = '/[A-Z_][A-Z0-9_]+/i';
 
 /* document list */
 mp.docs = [];

@@ -82,6 +82,10 @@ sub mp.ispell_word_color_func(w)
 
 	a = -1;
 
+	/* FIXME: attributes must exist before entering here */
+	if(mp.color.spell.attr == NULL)
+		return(-1);
+
 	/* write the word */
 	write(mp.ispell_pipe, w ~ "\n");
 
