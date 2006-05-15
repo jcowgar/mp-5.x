@@ -1,0 +1,114 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Spellchecking code.
+
+    Copyright (C) 1991-2006 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+/* editor actions */
+
+/* default key bindings */
+
+/* action descriptions */
+
+/* data */
+
+/* spellchecking command */
+mp.config.ispell_cmd = "ispell -a";
+
+/* code */
+
+sub mp.open_ispell_pipe
+{
+	local p, l;
+
+	/* open the pipe */
+	if((p = popen(mp.config.ispell_cmd, "r+")) == NULL)
+		return(NULL);
+
+	/* read the first line */
+	l = read(p);
+
+	/* check for the signature */
+	if(! regex('/^@\(#\) International Ispell/', l))
+	{
+		pclose(p);
+		return(NULL);
+	}
+
+	/* it works; set the word color function */
+	mp.word_color_func = mp.ispell_word_color_func;
+
+	/* store the pipe */
+	mp.ispell_pipe = p;
+}
+
+
+sub mp.close_ispell_pipe
+{
+	/* close and delete */
+	pclose(mp.ispell_pipe);
+	mp.ispell_pipe = NULL;
+
+	/* delete the word color function */
+	mp.word_color_func = NULL;
+}
+
+
+sub mp.ispell_word_color_func(w)
+/* mp.word_color_func() for ispell */
+{
+	local l, a;
+
+	a = -1;
+
+	/* write the word */
+	write(mp.ispell_pipe, w ~ "\n");
+
+	/* wait for the response */
+	if((l = read(mp.ispell_pipe)) == NULL)
+		mp.close_ispell_pipe();
+	else
+	{
+		/* drop the next line */
+		read(mp.ispell_pipe);
+
+		/* take first char of the response */
+		l = regex('/^\./', l);
+
+		/* if it's not a '*' nor a '+', it's misspelled */
+		if(l ne '*' && l ne '+')
+			a = mp.colors.spell.attr;
+	}
+
+	/* store the attribute in the cache */
+	mp.word_color[w] = a;
+
+	return(a);
+}
+
+
+sub mp.ispell(b)
+{
+	b && mp.open_ispell_pipe() || mp.close_ispell_pipe();
+}
