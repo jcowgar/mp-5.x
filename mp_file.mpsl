@@ -151,6 +151,11 @@ sub mp.save_file(doc)
 /* saves a file */
 {
 	local f, ls, l;
+	local s = NULL;
+
+	/* if unlink before write is desired, do it */
+	if(mp.config.unlink && (s = stat(doc.name)) != NULL)
+		unlink(doc.name);
 
 	if((f = open(doc.name, "w")) == NULL)
 		return(0);
@@ -171,6 +176,13 @@ sub mp.save_file(doc)
 	close(f);
 
 	doc.txt.mod = 0;
+
+	/* set back the permissions and ownership, if available */
+	if(s != NULL)
+	{
+		chmod(doc.name, s[2]);
+		chown(doc.name, s[4], s[5]);
+	}
 
 	return(1);
 }

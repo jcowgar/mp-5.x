@@ -21,6 +21,10 @@ Minimum Profit 5.x Release Notes
 
 	mp.ispell(1);
 
+ * By default, files are now unlinked before (re)written. File permissions
+   and ownership is restored if available. This behaviour can be disabled
+   by setting mp.config.unlink to 0.
+
 4.99.7
 ------
 
