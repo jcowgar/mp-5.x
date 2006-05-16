@@ -25,6 +25,7 @@ Release Critical Bugs
  * 1146: Add 'recording macro' flag to the status line.
  * 1147: Add history to GTK's readline.
  * 1148: Add history to win32's readline.
+ * 1149: Unify mp.insert() and mp.paste(), as they do the same thing.
 
 Open Bugs
 ---------
