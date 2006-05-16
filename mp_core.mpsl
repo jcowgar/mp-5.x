@@ -176,8 +176,7 @@ sub mp.build_status_line()
 		"%%"	=>	"%"			/* escaped % */
 	};
 
-	return(sregex("/%./g", mp.config.status_format,
-		sub (k) { mp.status_f[k]; }));
+	return(sregex("/%./g", mp.config.status_format, mp.status_f));
 }
 
 
