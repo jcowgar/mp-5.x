@@ -1263,6 +1263,8 @@ static mpdm_t gtkdrv_update_ui(mpdm_t a)
 	build_fonts();
 	build_colors();
 
+	redraw();
+
 	return(NULL);
 }
 
