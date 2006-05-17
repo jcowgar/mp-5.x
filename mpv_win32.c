@@ -330,7 +330,7 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 	hdc = BeginPaint(hwnd, &ps);
 
 	/* no document? end */
-	if((d = mp_draw(doc)) == NULL)
+	if((d = mp_draw(doc, 0)) == NULL)
 	{
 		EndPaint(hwnd, &ps);
 		return;

@@ -27,7 +27,7 @@ extern int mp_main_argc;
 extern char ** mp_main_argv;
 extern mpdm_t mp;
 
-mpdm_t mp_draw(mpdm_t doc);
+mpdm_t mp_draw(mpdm_t doc, int optimize);
 
 mpdm_t mp_active(void);
 mpdm_t mp_process_event(mpdm_t keycode);

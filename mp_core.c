@@ -621,14 +621,16 @@ static mpdm_t drw_as_array(void)
 	for(n = 0;n < drw.ty;n++)
 		mpdm_aset(a, drw_line(n), n);
 
-	return(drw_optimize_array(a));
+	return(a);
 }
 
 
-mpdm_t mp_draw(mpdm_t doc)
+mpdm_t mp_draw(mpdm_t doc, int optimize)
 /* main drawing function: takes a document and returns an array of
    arrays of attribute / string pairs */
 {
+	mpdm_t r = NULL;
+
 	if(doc == NULL)
 		return(NULL);
 
@@ -649,7 +651,11 @@ mpdm_t mp_draw(mpdm_t doc)
 	/* and finally the cursor */
 	drw_fill_attr(drw.cursor_attr, drw.cursor, 1);
 
-	return(drw_as_array());
+	r = drw_as_array();
+
+	if(optimize) r = drw_optimize_array(r);
+
+	return(r);
 }
 
 

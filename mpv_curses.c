@@ -302,7 +302,7 @@ static void nc_draw(mpdm_t doc)
 
 	erase();
 
-	d = mp_draw(doc);
+	d = mp_draw(doc, 0);
 
 	for(n = 0;n < mpdm_size(d);n++)
 	{

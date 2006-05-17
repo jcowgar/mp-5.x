@@ -431,7 +431,7 @@ static void gtkdrv_paint(mpdm_t doc)
 	if(gc == NULL)
 		gc = gdk_gc_new(area->window);
 
-	if((d = mp_draw(doc)) == NULL)
+	if((d = mp_draw(doc, 1)) == NULL)
 		return;
 
 	if(font == NULL)
