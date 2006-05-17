@@ -467,9 +467,6 @@ static void drw_matching_paren(void)
 static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 /* pushes a pair of attribute / string into l */
 {
-	/* nothing to add? just return */
-	if(i == 0) return(l);
-
 	/* create the array, if doesn't exist yet */
 	if(l == NULL) l = MPDM_A(0);
 
