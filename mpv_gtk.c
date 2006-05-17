@@ -420,7 +420,7 @@ static void draw_scrollbar(void)
 }
 
 
-static void gtkdrv_paint(mpdm_t doc)
+static void gtkdrv_paint(mpdm_t doc, int optimize)
 /* GTK document draw function */
 {
 	GdkRectangle gr;
@@ -431,7 +431,7 @@ static void gtkdrv_paint(mpdm_t doc)
 	if(gc == NULL)
 		gc = gdk_gc_new(area->window);
 
-	if((d = mp_draw(doc, 1)) == NULL)
+	if((d = mp_draw(doc, optimize)) == NULL)
 		return;
 
 	if(font == NULL)
@@ -547,7 +547,7 @@ static void gtkdrv_paint(mpdm_t doc)
 
 static void redraw(void)
 {
-	gtkdrv_paint(mp_active());
+	gtkdrv_paint(mp_active(), 0);
 }
 
 
@@ -693,7 +693,7 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	if(mp_exit_requested)
 		gtk_main_quit();
 
-	redraw();
+	gtkdrv_paint(mp_active(), 1);
 
 	return(0);
 }
