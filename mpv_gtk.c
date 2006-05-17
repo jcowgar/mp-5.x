@@ -453,6 +453,8 @@ static void gtkdrv_paint(mpdm_t doc)
 		char * str = NULL;
 		int u, p;
 
+		if(l == NULL) continue;
+
 		/* create the pango stuff */
 		pl = gtk_widget_create_pango_layout(area, NULL);
 		pango_layout_set_font_description(pl, font);
