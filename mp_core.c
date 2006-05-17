@@ -558,52 +558,6 @@ static mpdm_t drw_line(int line)
 }
 
 
-static mpdm_t drw_optimize_array(mpdm_t a)
-/* optimizes the array, NULLifying all lines that are the same as the last time */
-{
-	mpdm_t o = drw.old;
-	mpdm_t r = a;
-
-	if(o != NULL)
-	{
-		int n = 0;
-
-		/* creates a copy */
-		r = mpdm_clone(a);
-
-		while(n < mpdm_size(o) && n < mpdm_size(r))
-		{
-			mpdm_t l1 = mpdm_aget(o, n);
-			mpdm_t l2 = mpdm_aget(r, n);
-
-			/* if they have the same number of arguments... */
-			if(mpdm_size(l1) == mpdm_size(l2))
-			{
-				int m;
-
-				for(m = 0;m < mpdm_size(l1);m++)
-				{
-					/* compare both elements */
-					if(mpdm_cmp(mpdm_aget(l1, m),
-						mpdm_aget(l2, m)) != 0)
-						break;
-				}
-
-				/* if they are equal, NULLify */
-				if(m == mpdm_size(l1))
-					mpdm_aset(r, NULL, n);
-			}
-
-			n++;
-		}
-	}
-
-	mpdm_unref(drw.old); drw.old = mpdm_ref(a);
-
-	return(r);
-}
-
-
 static mpdm_t drw_as_array(void)
 /* returns an mpdm array of ty elements, which are also arrays of
    attribute - string pairs */
@@ -619,6 +573,36 @@ static mpdm_t drw_as_array(void)
 		mpdm_aset(a, drw_line(n), n);
 
 	return(a);
+}
+
+
+static mpdm_t drw_optimize_array(mpdm_t a, int optimize)
+/* optimizes the array, NULLifying all lines that are the same as the last time */
+{
+	mpdm_t o = drw.old;
+	mpdm_t r = a;
+
+	if(optimize && o != NULL)
+	{
+		int n = 0;
+
+		/* creates a copy */
+		r = mpdm_clone(a);
+
+		/* compare each array */
+		while(n < mpdm_size(o) && n < mpdm_size(r))
+		{
+			/* if both lines are equal, optimize out */
+			if(mpdm_cmp(mpdm_aget(o, n), mpdm_aget(r, n)) == 0)
+				mpdm_aset(r, NULL, n);
+
+			n++;
+		}
+	}
+
+	mpdm_unref(drw.old); drw.old = mpdm_ref(a);
+
+	return(r);
 }
 
 
@@ -650,7 +634,7 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 
 	r = drw_as_array();
 
-	if(optimize) r = drw_optimize_array(r);
+	r = drw_optimize_array(r, optimize);
 
 	return(r);
 }
