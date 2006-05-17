@@ -640,51 +640,6 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 }
 
 
-mpdm_t mp_get_filetabs(int * active, int * last)
-/* returns an array containing the names of the documents
-   to fill the filetabs, or NULL if no rebuild is needed */
-{
-	mpdm_t docs;
-	static int last_size = -1;
-	static mpdm_t last_seen = NULL;
-	mpdm_t r = NULL;
-
-	/* gets the document list */
-	if((docs = mpdm_hget_s(mp, L"docs")) == NULL)
-		return(r);
-
-	/* gets the active document number and the last size */
-	*active = mpdm_ival(mpdm_hget_s(mp, L"active_i"));
-	*last = last_size;
-
-	if(last_size != mpdm_size(docs))
-	{
-		last_size = mpdm_size(docs);
-		last_seen = NULL;
-		r = docs;
-	}
-	else
-	{
-		if(last_size == 1)
-		{
-			/* same number of documents; test if the active
-			   one's name is the same as the last seen one */
-			mpdm_t t = mpdm_aget(docs, *active);
-			t = mpdm_hget_s(t, L"name");
-
-			/* not the same? */
-			if(t != last_seen)
-			{
-				last_seen = t;
-				r = docs;
-			}
-		}
-	}
-
-	return(r);
-}
-
-
 mpdm_t mp_active(void)
 /* interfaz to mp.active() */
 {

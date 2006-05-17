@@ -254,34 +254,37 @@ static void switch_page(GtkNotebook * notebook, GtkNotebookPage * page,
 static void draw_filetabs(void)
 /* draws the filetabs */
 {
-	int active, last;
-	mpdm_t docs;
+	static mpdm_t last = NULL;
+	mpdm_t docs, names;
+	int n;
+
+	docs = mpdm_hget_s(mp, L"docs");
+	names = MPDM_A(mpdm_size(docs));
+
+	/* gets a list with the names of the documents */
+	for(n = 0;n < mpdm_size(docs);n++)
+		mpdm_aset(names, mpdm_hget_s(mpdm_aget(docs, n), L"name"), n);
 
 	/* disconnect redraw signal to avoid infinite loops */
 	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
 		(GtkSignalFunc) switch_page, NULL);
 
-	/* gets the document list */
-	if((docs = mp_get_filetabs(&active, &last)) != NULL)
+	/* is the list different from the previous one? */
+	if(mpdm_cmp(names, last) != 0)
 	{
-		int n;
-
 		/* delete the current tabs */
-		for(n = 0;n < last;n++)
+		for(n = 0;n < mpdm_size(last);n++)
 			gtk_notebook_remove_page(
 				GTK_NOTEBOOK(file_tabs), 0);
 
 		/* create the new ones */
-		for(n = 0;n < mpdm_size(docs);n++)
+		for(n = 0;n < mpdm_size(names);n++)
 		{
-			GtkWidget * l;
+			GtkWidget * p;
 			GtkWidget * f;
 			char * ptr;
 			wchar_t * wptr;
-			mpdm_t v = mpdm_aget(docs, n);
-
-			/* just get the name */
-			v = mpdm_hget_s(v, L"name");
+			mpdm_t v = mpdm_aget(names, n);
 
 			/* move to the filename if path included */
 			if((wptr = wcsrchr(v->data, L'/')) == NULL)
@@ -290,19 +293,23 @@ static void draw_filetabs(void)
 				wptr++;
 
 			ptr = wcs_to_utf8(wptr, wcslen(wptr), NULL);
-			l = gtk_label_new(ptr);
-			gtk_widget_show(l);
+			p = gtk_label_new(ptr);
+			gtk_widget_show(p);
 
 			f = gtk_frame_new(NULL);
 			gtk_widget_show(f);
 
 			gtk_notebook_append_page(
-				GTK_NOTEBOOK(file_tabs), f, l);
+				GTK_NOTEBOOK(file_tabs), f, p);
 		}
+
+		/* store for the next time */
+		mpdm_unref(last); last = mpdm_ref(names);
 	}
 
 	/* set the active one */
-	gtk_notebook_set_page(GTK_NOTEBOOK(file_tabs), active);
+	gtk_notebook_set_page(GTK_NOTEBOOK(file_tabs),
+		mpdm_ival(mpdm_hget_s(mp, L"active_i")));
 
 	/* reconnect signal */
 	gtk_signal_connect(GTK_OBJECT(file_tabs), "switch_page",

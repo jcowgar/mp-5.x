@@ -223,28 +223,31 @@ static void build_colors(void)
 static void draw_filetabs(void)
 /* draws the filetabs */
 {
-	int active, last;
-	mpdm_t docs;
+	static mpdm_t last = NULL;
+	mpdm_t docs, names;
+	int n;
 
-	/* gets the document list */
 	if(hwtabs == NULL)
 		return;
 
-	if((docs = mp_get_filetabs(&active, &last)) != NULL)
-	{
-		int n;
+	docs = mpdm_hget_s(mp, L"docs");
+	names = MPDM_A(mpdm_size(docs));
 
+	/* gets a list with the names of the documents */
+	for(n = 0;n < mpdm_size(docs);n++)
+		mpdm_aset(names, mpdm_hget_s(mpdm_aget(docs, n), L"name"), n);
+
+	/* is the list different from the previous one? */
+	if(mpdm_cmp(names, last) != 0)
+	{
 		TabCtrl_DeleteAllItems(hwtabs);
 
-		for(n = 0;n < mpdm_size(docs);n++)
+		for(n = 0;n < mpdm_size(names);n++)
 		{
 			TCITEM ti;
 			char * ptr;
 			wchar_t * wptr;
-			mpdm_t v = mpdm_aget(docs, n);
-
-			/* just get the name */
-			v = mpdm_hget_s(v, L"name");
+			mpdm_t v = mpdm_aget(names, n);
 
 			/* move to the filename if path included */
 			if((wptr = wcsrchr(v->data, L'\\')) == NULL)
@@ -263,10 +266,13 @@ static void draw_filetabs(void)
 
 			free(ptr);
 		}
+
+		/* store for the next time */
+		mpdm_unref(last); last = mpdm_ref(names);
 	}
 
 	/* set the active one */
-	TabCtrl_SetCurSel(hwtabs, active);
+	TabCtrl_SetCurSel(hwtabs, mpdm_ival(mpdm_hget_s(mp, L"active_i")));
 }
 
 
