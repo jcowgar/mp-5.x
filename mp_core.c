@@ -76,6 +76,7 @@ static struct {
 	int normal_attr;	/* normal attr */
 	int cursor_attr;	/* cursor attr */
 	mpdm_t v;		/* the data */
+	mpdm_t old;		/* the previously generated array */
 } drw;
 
 
@@ -563,7 +564,7 @@ static mpdm_t drw_line(int line)
 static mpdm_t drw_optimize_array(mpdm_t a)
 /* optimizes the array, NULLifying all lines that are the same as the last time */
 {
-	static mpdm_t o = NULL;
+	mpdm_t o = drw.old;
 	mpdm_t r = a;
 
 	if(o != NULL)
@@ -600,7 +601,7 @@ static mpdm_t drw_optimize_array(mpdm_t a)
 		}
 	}
 
-	mpdm_unref(o); o = mpdm_ref(a);
+	mpdm_unref(drw.old); drw.old = mpdm_ref(a);
 
 	return(r);
 }
