@@ -24,6 +24,8 @@ Minimum Profit 5.x Release Notes
  * By default, files are now unlinked before (re)written. File permissions
    and ownership are restored if available. This behaviour can be disabled
    by setting mp.config.unlink to 0.
+ * The GTK driver drawing code has been optimized, so it's much more
+   responsive now.
 
 4.99.7
 ------
