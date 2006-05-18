@@ -305,14 +305,28 @@ sub mp.move_word_left(doc)
 		/* split by words */
 		local l = mp.split_line_by_words(doc);
 
-		/* get previous position */
-		local x = l[2] - 1;
+		/* get current word */
+		local i = l[2];
 
-		/* if that position exists, move there */
-		if(x >= 0)
+		if(i >= 0)
 		{
-			txt.x = l[1][x];
-			break;
+			/* if it's not at the beginning of a word,
+			   move there and go */
+			if(i < size(l[1]) && txt.x != l[1][i])
+			{
+				txt.x = l[1][i];
+				break;
+			}
+
+			/* go to previous word */
+			i = l[2] - 1;
+
+			/* if that position exists, move there */
+			if(i >= 0)
+			{
+				txt.x = l[1][i];
+				break;
+			}
 		}
 
 		/* no lines up? exit */
@@ -335,12 +349,12 @@ sub mp.move_word_right(doc)
 		local l = mp.split_line_by_words(doc);
 
 		/* get next position */
-		local x = l[2] + 1;
+		local i = l[2] + 1;
 
 		/* if that position exists, move there */
-		if(x < size(l[1]))
+		if(i < size(l[1]))
 		{
-			txt.x = l[1][x];
+			txt.x = l[1][i];
 			break;
 		}
 
