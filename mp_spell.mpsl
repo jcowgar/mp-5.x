@@ -108,8 +108,8 @@ sub mp.ispell_word_color_func(w)
 		mp.close_ispell_pipe();
 	else
 	{
-		/* drop the next line */
-		read(mp.ispell_pipe);
+		/* drop all lines until an empty one */
+		while(read(mp.ispell_pipe) ne "\n");
 
 		/* take first char of the response */
 		l = regex('/^./', l);
