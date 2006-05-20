@@ -541,6 +541,7 @@ static void win32_akey(int k)
 	case ctrl('y'):		ptr = L"ctrl-y"; break;
 	case ctrl('z'):		ptr = L"ctrl-z"; break;
 	case ' ':		ptr = L"space"; break;
+	case 27:		ptr = L"escape"; break;
 
 	default:
 		/* this is probably very bad */
