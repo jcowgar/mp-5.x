@@ -105,7 +105,7 @@ static char * wcs_to_utf8(wchar_t * wptr, int i, gsize * o)
 	if(i == -1) i = wcslen(wptr);
 
 	/* do the conversion */
-	prev = g_convert((gchar *) wptr, i * sizeof(wchar_t),
+	prev = g_convert((gchar *) wptr, (i + 1) * sizeof(wchar_t),
 		"UTF-8", "WCHAR_T", NULL, o, NULL);
 
 	return(prev);
@@ -124,7 +124,7 @@ static wchar_t * utf8_to_wcs(char * ptr, int i, gsize * o)
 	if(i == -1) i = strlen(ptr);
 
 	/* do the conversion */
-	prev = g_convert((gchar *) ptr, i,
+	prev = g_convert((gchar *) ptr, i + 1,
 		"WCHAR_T", "UTF-8", NULL, o, NULL);
 
 	return((wchar_t *) prev);
