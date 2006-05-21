@@ -438,14 +438,14 @@ static void gtkdrv_paint(mpdm_t doc, int optimize)
 	if(gc == NULL)
 		gc = gdk_gc_new(area->window);
 
-	if((d = mp_draw(doc, optimize)) == NULL)
-		return;
-
 	if(font == NULL)
 	{
 		build_fonts();
 		build_colors();
 	}
+
+	if((d = mp_draw(doc, optimize)) == NULL)
+		return;
 
 	gr.x = 0;
 	gr.y = 0;

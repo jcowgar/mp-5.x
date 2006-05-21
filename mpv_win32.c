@@ -335,18 +335,18 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 	/* start painting */
 	hdc = BeginPaint(hwnd, &ps);
 
-	/* no document? end */
-	if((d = mp_draw(doc, 0)) == NULL)
-	{
-		EndPaint(hwnd, &ps);
-		return;
-	}
-
 	/* no font? construct it */
 	if(font_normal == NULL)
 	{
 		build_fonts(hdc);
 		build_colors();
+	}
+
+	/* no document? end */
+	if((d = mp_draw(doc, 0)) == NULL)
+	{
+		EndPaint(hwnd, &ps);
+		return;
 	}
 
 	/* select defaults to start painting */
