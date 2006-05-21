@@ -36,7 +36,7 @@ mp.actions['save']	= sub (d) {
 		local t;
 
 		/* name is <unnamed> or something similar; ask for one */
-		if((t = mp.drv.savefile(L("Enter file name:"))) == NULL)
+		if((t = mp.drv.savefile(L("Save file as:"))) == NULL)
 			return;
 
 		/* store new name */
