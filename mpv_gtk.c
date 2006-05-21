@@ -56,6 +56,7 @@ static GtkWidget * area = NULL;
 static GtkWidget * scrollbar = NULL;
 static GtkWidget * status = NULL;
 static GtkWidget * entry = NULL;
+static GtkWidget * opensave = NULL;
 static GdkGC * gc = NULL;
 static GtkIMContext * im = NULL;
 static GdkPixmap * pixmap = NULL;
@@ -1042,6 +1043,19 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 		entry = NULL;
 	}
 
+	if(opensave != NULL)
+	{
+		/* if it's an open/save dialog, take from it */
+		const char * ptr;
+
+		mpdm_unref(readline_text);
+		ptr = gtk_file_selection_get_filename(GTK_FILE_SELECTION(widget));
+
+		readline_text = mpdm_ref(MPDM_MBS((char *) ptr));
+
+		opensave = NULL;
+	}
+
 	modal_status = 1;
 	gtk_widget_destroy(GTK_WIDGET(widget));
 }
@@ -1192,6 +1206,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	GtkWidget * nbutton;
 	GtkWidget * combo;
 	mpdm_t h;
+	mpdm_t ret = NULL;
 
 	/* gets a printable representation of the first argument */
 	wptr = mpdm_string(mpdm_aget(a, 0));
@@ -1248,24 +1263,60 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 		if(h != NULL)
 			mpdm_push(h, readline_text);
 
-		return(readline_text);
+		ret = readline_text;
 	}
 
-	return(NULL);
+	entry = NULL;
+	return(ret);
 }
 
 
 static mpdm_t gtkdrv_openfile(mpdm_t a)
 /* openfile driver function */
 {
-	return(gtkdrv_readline(a));
+	GtkWidget * dlg;
+	wchar_t * wptr;
+	char * ptr;
+	mpdm_t ret = NULL;
+
+	/* gets a printable representation of the first argument */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+
+	if((ptr = wcs_to_utf8(wptr, wcslen(wptr), NULL)) == NULL)
+		return(NULL);
+
+	dlg = gtk_file_selection_new(ptr);
+
+	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(dlg)->ok_button),
+		"clicked", GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
+
+	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(dlg)->cancel_button),
+		"clicked", GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
+
+	gtk_signal_connect(GTK_OBJECT(dlg), "key_press_event",
+		(GtkSignalFunc) confirm_key_press_event, NULL);
+
+	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
+	gtk_window_set_modal(GTK_WINDOW(dlg),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
+
+	opensave = dlg;
+	gtk_widget_show(dlg);
+
+	wait_for_modal_status_change();
+
+	if(modal_status == 1)
+		ret = readline_text;
+
+	opensave = NULL;
+	return(ret);
 }
 
 
 static mpdm_t gtkdrv_savefile(mpdm_t a)
 /* savefile driver function */
 {
-	return(gtkdrv_readline(a));
+	return(gtkdrv_openfile(a));
 }
 
 
