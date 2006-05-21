@@ -4,7 +4,7 @@ Minimum Profit 5.x Release Notes
 4.99.9
 ------
 
- * The GTK driver now includes a native open/save file dialog.
+ * The GTK and win32 drivers now include a native open/save file dialog.
 
 4.99.8
 ------

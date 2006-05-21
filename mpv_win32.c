@@ -1047,17 +1047,64 @@ static mpdm_t w32drv_readline(mpdm_t a)
 }
 
 
+static mpdm_t open_or_save(int o, mpdm_t a)
+/* manages an open or save file dialog */
+{
+	OPENFILENAME ofn;
+	wchar_t * wptr;
+	char * ptr;
+	char buf[1024] = "";
+	int r;
+
+	/* gets a printable representation of the first argument */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+	ptr = mpdm_wcstombs(wptr, NULL);
+
+	memset(&ofn, '\0', sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = hwnd;
+	ofn.lpstrFilter = "*.*\0*.*\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFile = buf;
+	ofn.nMaxFile = sizeof(buf);
+	ofn.lpstrTitle = ptr;
+	ofn.lpstrDefExt = "";
+/*	ofn.lpstrDefExt=(def==NULL ? "" : def);*/
+
+	if(o)
+	{
+		ofn.Flags = OFN_PATHMUSTEXIST|OFN_HIDEREADONLY|
+			OFN_NOCHANGEDIR|OFN_FILEMUSTEXIST;
+
+		r = GetOpenFileName(&ofn);
+	}
+	else
+	{
+		ofn.Flags = OFN_HIDEREADONLY;
+
+		r = GetSaveFileName(&ofn);
+	}
+
+	free(ptr);
+
+	if(r)
+		return(MPDM_MBS(buf));
+
+	return(NULL);
+}
+
+
 static mpdm_t w32drv_openfile(mpdm_t a)
 /* openfile driver function */
 {
-	return(w32drv_readline(a));
+	return(open_or_save(1, a));
 }
 
 
 static mpdm_t w32drv_savefile(mpdm_t a)
 /* savefile driver function */
 {
-	return(w32drv_readline(a));
+	return(open_or_save(0, a));
 }
 
 
