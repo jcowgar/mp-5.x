@@ -73,14 +73,21 @@ static COLORREF * inks = NULL;
 static COLORREF * papers = NULL;
 HBRUSH bgbrush;
 
-/* readline text */
-static mpdm_t readline_text = NULL;
-
 /* prompt for dialogs */
 static char * dialog_prompt = NULL;
 
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
+
+/* readline text */
+static mpdm_t readline_text = NULL;
+
+/* history for readline */
+mpdm_t readline_history = NULL;
+
+/* default value for readline */
+mpdm_t readline_default = NULL;
+
 
 /*******************
 	Code
@@ -953,38 +960,43 @@ BOOL CALLBACK readlineDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			dialog_prompt = NULL;
 		}
 
-#ifdef QQ
-
 		/* store the history into combo_items */
-		SendDlgItemMessage(hwnd,WMP_1STR_EDIT,CB_RESETCONTENT,0,0);
+		SendDlgItemMessage(hwnd, WMP_1STR_EDIT, CB_RESETCONTENT, 0, 0);
 		
-		if (_mpv_readline_type == MPR_PASSWORD) {
-			SendDlgItemMessage(hwnd, WMP_1STR_EDIT,
-				EM_SETPASSWORDCHAR, (WPARAM)'*', (LPARAM)0);
-		} else {
-			for(n=0;n < 100;n++)
-			{
-				char tmp[512];
+		for(n = 0;n < mpdm_size(readline_history);n++)
+		{
+			char * ptr;
 
-				if(! mpi_history_get(_mpv_readline_type,
-					mpi_history_size(_mpv_readline_type) - n,
-					tmp, sizeof(tmp)))
-					break;
+			mpdm_t v = mpdm_aget(readline_history, n);
 
-				if(tmp[0]!='\0')
-				 	SendDlgItemMessage(hwnd,WMP_1STR_EDIT,
-				 			CB_ADDSTRING,
-				 			0,(LPARAM)tmp);
-			}
-			if(_mpv_dlg_default!=NULL)
+			if((ptr = mpdm_wcstombs(v->data, NULL)) != NULL)
 			{
-				SetDlgItemText(hwnd,WMP_1STR_EDIT,
-					_mpv_dlg_default);
-				SendDlgItemMessage(hwnd,WMP_1STR_EDIT,
-					EM_SETSEL, 0, 1000);
+			 	SendDlgItemMessage(hwnd, WMP_1STR_EDIT,
+		 			CB_INSERTSTRING, 0, (LPARAM)ptr);
+				free(ptr);
 			}
 		}
-#endif
+
+		/* set the default value */
+		if(readline_default != NULL)
+		{
+			char * ptr;
+
+			if((ptr = mpdm_wcstombs(readline_default->data, NULL)) != NULL)
+			{
+				SetDlgItemText(hwnd, WMP_1STR_EDIT, ptr);
+				SendDlgItemMessage(hwnd, WMP_1STR_EDIT,
+					EM_SETSEL, 0, 1000);
+
+				free(ptr);
+			}
+		}
+
+/*		if (_mpv_readline_type == MPR_PASSWORD) {
+			SendDlgItemMessage(hwnd, WMP_1STR_EDIT,
+				EM_SETPASSWORDCHAR, (WPARAM)'*', (LPARAM)0);
+		} else {*/
+
 		return(TRUE);
 
 	case WM_COMMAND:
@@ -1030,14 +1042,13 @@ static mpdm_t w32drv_readline(mpdm_t a)
 
 	if((dialog_prompt = mpdm_wcstombs(wptr, NULL)) != NULL)
 	{
-		mpdm_t h;
-
-		h = mp_get_history(mpdm_aget(a, 1));
+		readline_history = mp_get_history(mpdm_aget(a, 1));
+		readline_default = mpdm_aget(a, 2);
 
 		if(DialogBox(hinst, "READLINE", hwnd, readlineDlgProc))
 		{
-			if(h != NULL)
-				mpdm_push(h, readline_text);
+			if(readline_history != NULL)
+				mpdm_push(readline_history, readline_text);
 
 			return(readline_text);
 		}
