@@ -1047,6 +1047,20 @@ static mpdm_t w32drv_readline(mpdm_t a)
 }
 
 
+static mpdm_t w32drv_openfile(mpdm_t a)
+/* openfile driver function */
+{
+	return(w32drv_readline(a));
+}
+
+
+static mpdm_t w32drv_savefile(mpdm_t a)
+/* savefile driver function */
+{
+	return(w32drv_readline(a));
+}
+
+
 static mpdm_t w32drv_update_ui(mpdm_t a)
 {
 	build_fonts(GetDC(hwnd));
@@ -1073,6 +1087,8 @@ int w32drv_init(void)
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(w32drv_readline));
+	mpdm_hset_s(drv, L"openfile", MPDM_X(w32drv_openfile));
+	mpdm_hset_s(drv, L"savefile", MPDM_X(w32drv_savefile));
 
 	return(1);
 }

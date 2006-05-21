@@ -1255,6 +1255,20 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 }
 
 
+static mpdm_t gtkdrv_openfile(mpdm_t a)
+/* openfile driver function */
+{
+	return(gtkdrv_readline(a));
+}
+
+
+static mpdm_t gtkdrv_savefile(mpdm_t a)
+/* savefile driver function */
+{
+	return(gtkdrv_readline(a));
+}
+
+
 static mpdm_t gtkdrv_ui(mpdm_t a)
 {
 	gtkdrv_startup();
@@ -1296,6 +1310,8 @@ int gtkdrv_init(void)
 	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(gtkdrv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(gtkdrv_readline));
+	mpdm_hset_s(drv, L"openfile", MPDM_X(gtkdrv_openfile));
+	mpdm_hset_s(drv, L"savefile", MPDM_X(gtkdrv_savefile));
 
 	return(1);
 }

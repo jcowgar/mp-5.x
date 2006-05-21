@@ -483,6 +483,20 @@ static mpdm_t ncdrv_readline(mpdm_t a)
 }
 
 
+static mpdm_t ncdrv_openfile(mpdm_t a)
+/* openfile driver function */
+{
+	return(ncdrv_readline(a));
+}
+
+
+static mpdm_t ncdrv_savefile(mpdm_t a)
+/* savefile driver function */
+{
+	return(ncdrv_readline(a));
+}
+
+
 static mpdm_t ncdrv_update_ui(mpdm_t a)
 {
 	/* dummy */
@@ -507,6 +521,8 @@ int ncdrv_init(void)
 	mpdm_hset_s(drv, L"alert", MPDM_X(ncdrv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(ncdrv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(ncdrv_readline));
+	mpdm_hset_s(drv, L"openfile", MPDM_X(ncdrv_openfile));
+	mpdm_hset_s(drv, L"savefile", MPDM_X(ncdrv_savefile));
 
 	return(1);
 }

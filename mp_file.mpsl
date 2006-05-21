@@ -36,7 +36,7 @@ mp.actions['save']	= sub (d) {
 		local t;
 
 		/* name is <unnamed> or something similar; ask for one */
-		if((t = mp.drv.readline(L("Enter file name:"))) == NULL)
+		if((t = mp.drv.savefile(L("Enter file name:"))) == NULL)
 			return;
 
 		/* store new name */
@@ -82,7 +82,7 @@ mp.actions['open']	= sub (d) {
 
 	local n;
 
-	if((n = mp.drv.readline(L("File to open:"))) != NULL && n ne "")
+	if((n = mp.drv.openfile(L("File to open:"))) != NULL && n ne "")
 		mp.open(n);
 };
 
