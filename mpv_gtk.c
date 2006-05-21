@@ -1227,8 +1227,10 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	GtkWidget * ybutton;
 	GtkWidget * nbutton;
 	GtkWidget * combo;
-	mpdm_t h;
+	mpdm_t h, v;
 	mpdm_t ret = NULL;
+	GList * combo_items = NULL;
+	int n;
 
 	/* gets a printable representation of the first argument */
 	wptr = mpdm_string(mpdm_aget(a, 0));
@@ -1252,6 +1254,29 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	gtk_widget_set_usize(combo, 300, -1);
 	gtk_combo_set_use_arrows_always(GTK_COMBO(combo), TRUE);
 	gtk_combo_set_case_sensitive(GTK_COMBO(combo), TRUE);
+
+	/* fill the history */
+	for(n = 0;n < mpdm_size(h);n++)
+	{
+		/* convert to a suitable value */
+		v = mpdm_aget(h, n);
+		wptr = mpdm_string(v);
+		ptr = strdup(wcs_to_utf8(wptr, -1, NULL));
+
+		combo_items = g_list_prepend(combo_items, ptr);
+	}
+
+	/* get the default value (third argument) */
+	if((v = mpdm_aget(a, 2)) != NULL)
+	{
+		wptr = mpdm_string(v);
+		ptr = strdup(wcs_to_utf8(wptr, -1, NULL));
+
+		combo_items = g_list_prepend(combo_items, ptr);
+	}
+
+	gtk_combo_set_popdown_strings(GTK_COMBO(combo), combo_items);
+	g_list_free(combo_items);
 
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), combo, TRUE, TRUE, 0);
 	gtk_widget_show(combo);
