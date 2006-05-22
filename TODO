@@ -15,7 +15,6 @@ Release Critical Bugs
  * 1138: The call to mp.load_tags() in mp_tags.mpsl startup does not
    work because at that time the colors are not built (so there is no
    mp.colors.tag.attr).
- * 1139: Add the 'default' value to mp.drv.readline().
  * 1140: Add mp.drv.list().
  * 1141: Add complete tag support, with 'ctags' execution, asking for
    a tag (needs #1139) and selecting from a list (needs #1140).
@@ -92,5 +91,7 @@ Closed
  * 1107: Add ispell support (Mon, 15 May 2006 11:50:29 +0200).
  * 1147: Add history to GTK's readline (Sun, 21 May 2006 17:33:42 +0200).
  * 1148: Add history to win32's readline (Sun, 21 May 2006 17:48:35 +0200).
+ * 1139: Add the 'default' value to mp.drv.readline()
+   (Mon, 22 May 2006 06:10:17 +0200).
 
 Email bugs to angel@triptico.com
