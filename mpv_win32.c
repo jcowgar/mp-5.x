@@ -903,7 +903,7 @@ static mpdm_t w32drv_alert(mpdm_t a)
 	wchar_t * wptr;
 	char * ptr;
 
-	/* gets a printable representation of the first argument */
+	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
 	if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
@@ -923,7 +923,7 @@ static mpdm_t w32drv_confirm(mpdm_t a)
 	char * ptr;
 	int ret = 0;
 
-	/* gets a printable representation of the first argument */
+	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
 	if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
@@ -1037,12 +1037,15 @@ static mpdm_t w32drv_readline(mpdm_t a)
 {
 	wchar_t * wptr;
 
-	/* gets a printable representation of the first argument */
+	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
 	if((dialog_prompt = mpdm_wcstombs(wptr, NULL)) != NULL)
 	{
+		/* 2# arg: history key */
 		readline_history = mp_get_history(mpdm_aget(a, 1));
+
+		/* 3# arg: default value */
 		readline_default = mpdm_aget(a, 2);
 
 		if(DialogBox(hinst, "READLINE", hwnd, readlineDlgProc))
@@ -1067,7 +1070,7 @@ static mpdm_t open_or_save(int o, mpdm_t a)
 	char buf[1024] = "";
 	int r;
 
-	/* gets a printable representation of the first argument */
+	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 	ptr = mpdm_wcstombs(wptr, NULL);
 

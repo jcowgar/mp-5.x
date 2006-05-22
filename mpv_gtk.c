@@ -1133,7 +1133,7 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 	GtkWidget * label;
 	GtkWidget * button;
 
-	/* gets a printable representation of the first argument */
+	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
 	if((ptr = wcs_to_utf8(wptr, -1, NULL)) == NULL)
@@ -1180,7 +1180,7 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 	GtkWidget * nbutton;
 	GtkWidget * cbutton;
 
-	/* gets a printable representation of the first argument */
+	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
 	if((ptr = wcs_to_utf8(wptr, -1, NULL)) == NULL)
@@ -1243,13 +1243,13 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	GList * combo_items = NULL;
 	int n;
 
-	/* gets a printable representation of the first argument */
+	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
 	if((ptr = wcs_to_utf8(wptr, -1, NULL)) == NULL)
 		return(NULL);
 
-	/* get the history */
+	/* 2# arg: history key */
 	h = mp_get_history(mpdm_aget(a, 1));
 
 	dlg = gtk_dialog_new();
@@ -1279,7 +1279,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 /*		g_free(ptr);*/
 	}
 
-	/* get the default value (third argument) */
+	/* 3# arg: default value */
 	if((v = mpdm_aget(a, 2)) != NULL)
 	{
 		wptr = mpdm_string(v);
@@ -1340,7 +1340,7 @@ static mpdm_t gtkdrv_openfile(mpdm_t a)
 	char * ptr;
 	mpdm_t ret = NULL;
 
-	/* gets a printable representation of the first argument */
+	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
 	if((ptr = wcs_to_utf8(wptr, -1, NULL)) == NULL)
