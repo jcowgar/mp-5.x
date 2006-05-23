@@ -5,6 +5,8 @@ Minimum Profit 5.x Release Notes
 ------
 
  * The GTK and win32 drivers now include a native open/save file dialog.
+ * Interactive help (help for the word under the cursor, triggered by
+   pressing 'f1') works.
 
 4.99.8
 ------

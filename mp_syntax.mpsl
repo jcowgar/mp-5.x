@@ -25,7 +25,39 @@
 
 */
 
+/* editor actions */
+
+mp.actions['help']	=	sub (d) {
+	local w, h;
+
+	/* if there is a word at the cursor position,
+	   try searching for help */
+	if((w = mp.get_word(d)) != NULL)
+		h = mp.help(d, w);
+
+	if(h == NULL)
+		mp.drv.alert(sprintf(L("No help for '%s'."), w));
+	else
+	{
+		mp.new();
+
+		d = mp.active();
+		d.txt.lines = h;
+		d.name = sprintf(L("<help on '%s'>"), w);
+	}
+};
+
+/* default key bindings */
+
+mp.keycodes['f1']	=	"help";
+
+/* action descriptions */
+
+/* data */
+
 mp.syntax = {};
+
+/* code */
 
 sub mp.syn_token_list(l) { '/\b(' ~ join("|", l) ~ ')\b/'; }
 
@@ -34,6 +66,7 @@ mp.syntax.c = {
 	'name'		=>	'C / C++',
 	'filenames'	=>	[ '/\.c$/', '/\.h$/', '/\.l$/', '/\.y$/',
 				'/\.cpp$/', '/\.hpp$/', '/\.c++$/', '/\.xpm$/' ],
+	'help'		=>	[ "man 2 %s", "man 3 %s" ],
 	'tokens'	=>	[
 				mp.syn_token_list( [
 				"for", "while", "if", "switch", "case", "do",
@@ -96,6 +129,7 @@ mp.syntax.perl = {
 	'id'		=>	'perl',
 	'name'		=>	'Perl',
 	'filenames'	=>	[ '/\.pl$/i', '/\.pm$/' ],
+	'help'		=>	[ 'perldoc -f %s' ],
 	'tokens'	=>	[
 				mp.syn_token_list( [
 				"for", "if", "next", "last", "else", "elsif",
@@ -297,4 +331,38 @@ sub mp.detect_syntax(doc)
 			return;
 		}
 	}
+}
+
+
+sub mp.help(doc, word)
+{
+	local c, h;
+
+	foreach(c, doc.syntax.help)
+	{
+		local f;
+
+		/* format the command */
+		c = sprintf(c, word);
+
+		/* pipe from it */
+		if((f = popen(c, "r")) != NULL)
+		{
+			local l;
+			h = [];
+
+			while((l = read(f)) != NULL)
+				push(h, mp.chomp(l));
+
+			/* fails? */
+			if(pclose(f) != 0)
+				h = NULL;
+		}
+
+		/* is there already help? don't look for more */
+		if(h != NULL)
+			break;
+	}
+
+	return(h);
 }
