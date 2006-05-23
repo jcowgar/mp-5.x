@@ -33,51 +33,51 @@ msgstr "Reemplazar todo..."
 msgid "Replace in all..."
 msgstr "Reemplazar en todos..."
 
-#: mp_move.mpsl:59 mp_move.mpsl:101
+#: mp_move.mpsl:59 mp_move.mpsl:101 mp_move.mpsl:102
 msgid "Character left"
 msgstr "Carácter a la izquierda"
 
-#: mp_move.mpsl:60 mp_move.mpsl:102
+#: mp_move.mpsl:60 mp_move.mpsl:102 mp_move.mpsl:103
 msgid "Character right"
 msgstr "Carácter a la derecha"
 
-#: mp_move.mpsl:61 mp_move.mpsl:103
+#: mp_move.mpsl:61 mp_move.mpsl:103 mp_move.mpsl:104
 msgid "Line up"
 msgstr "Línea arriba"
 
-#: mp_move.mpsl:62 mp_move.mpsl:104
+#: mp_move.mpsl:62 mp_move.mpsl:104 mp_move.mpsl:105
 msgid "Line down"
 msgstr "Línea abajo"
 
-#: mp_move.mpsl:63 mp_move.mpsl:105
+#: mp_move.mpsl:63 mp_move.mpsl:105 mp_move.mpsl:106
 msgid "Page up"
 msgstr "Página arriba"
 
-#: mp_move.mpsl:64 mp_move.mpsl:106
+#: mp_move.mpsl:64 mp_move.mpsl:106 mp_move.mpsl:107
 msgid "Page down"
 msgstr "Página abajo"
 
-#: mp_move.mpsl:65 mp_move.mpsl:107
+#: mp_move.mpsl:65 mp_move.mpsl:107 mp_move.mpsl:108
 msgid "Beginning of line"
 msgstr "Principio de la línea"
 
-#: mp_move.mpsl:66 mp_move.mpsl:108
+#: mp_move.mpsl:66 mp_move.mpsl:108 mp_move.mpsl:109
 msgid "End of line"
 msgstr "Fin de la línea"
 
-#: mp_move.mpsl:67 mp_move.mpsl:109
+#: mp_move.mpsl:67 mp_move.mpsl:109 mp_move.mpsl:110
 msgid "Beginning of file"
 msgstr "Principio del documento"
 
-#: mp_move.mpsl:68 mp_move.mpsl:110
+#: mp_move.mpsl:68 mp_move.mpsl:110 mp_move.mpsl:111
 msgid "End of file"
 msgstr "Fin del documento"
 
-#: mp_move.mpsl:69 mp_move.mpsl:111
+#: mp_move.mpsl:69 mp_move.mpsl:111 mp_move.mpsl:112
 msgid "Word left"
 msgstr "Palabra a la izquierda"
 
-#: mp_move.mpsl:70 mp_move.mpsl:112
+#: mp_move.mpsl:70 mp_move.mpsl:112 mp_move.mpsl:113
 msgid "Word right"
 msgstr "Palabra a la derecha"
 
@@ -135,52 +135,62 @@ msgstr "Ejecutar macro"
 
 #: mp_edit.mpsl:61
 msgid "Undo last operation"
-msgstr ""
-
-#: mp_file.mpsl:39
-msgid "Enter file name:"
-msgstr ""
+msgstr "Deshacer última operación"
 
 #: mp_file.mpsl:54
 msgid "File has changed. Save changes?"
-msgstr ""
+msgstr "El fichero ha cambiado. ¿Guardar cambios?"
 
 #: mp_file.mpsl:85
 msgid "File to open:"
-msgstr ""
+msgstr "Fichero a abrir:"
 
 #: mp_file.mpsl:101
 msgid "Save..."
-msgstr ""
+msgstr "Guardar..."
 
 #: mp_misc.mpsl:31
 msgid "Code to execute:"
-msgstr ""
+msgstr "Código a ejecutar:"
 
 #: mp_misc.mpsl:38
 msgid "Error: "
-msgstr ""
+msgstr "Error: "
 
 #: mp_misc.mpsl:41
 msgid "Exit value:\n"
-msgstr ""
+msgstr "Valor de salida:\n"
 
-#: mp_move.mpsl:43
+#: mp_move.mpsl:43 mp_move.mpsl:44
 msgid "Line to go to:"
-msgstr ""
+msgstr "Número de línea:"
 
-#: mp_move.mpsl:113
+#: mp_move.mpsl:113 mp_move.mpsl:114
 msgid "Go to line..."
-msgstr ""
+msgstr "Ir a la línea..."
 
-#: mp_move.mpsl:114
+#: mp_move.mpsl:114 mp_move.mpsl:115
 msgid "Move cursor to mouse click"
-msgstr ""
+msgstr "Mover cursor a la posición del ratón"
 
 #: mp_search.mpsl:31
 msgid "Text to seek:"
-msgstr ""
+msgstr "Texto a buscar:"
 
 #: mp_search.mpsl:34 mp_search.mpsl:38
 msgid "Text not found."
-msgstr ""
+msgstr "Texto no encontrado."
+
+#: mp_file.mpsl:39
+msgid "Save file as:"
+msgstr "Guardar fichero como:"
+
+#: mp_syntax.mpsl:39
+#, c-format
+msgid "No help for '%s'."
+msgstr "No hay ayuda para '%s'."
+
+#: mp_syntax.mpsl:46
+#, c-format
+msgid "<help on '%s'>"
+msgstr "<ayuda para '%s'>"
