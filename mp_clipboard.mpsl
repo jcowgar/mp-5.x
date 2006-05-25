@@ -163,6 +163,44 @@ sub mp.copy(doc)
 }
 
 
+sub mp.delete_range(doc, bx, by, ex, ey)
+/* deletes a range of characters from a document */
+{
+	local txt = doc.txt;
+
+	if(by == ey)
+	{
+		local w;
+
+		/* block is just one line; delete the middle part */
+		w = splice(txt.lines[by], NULL, bx, ex - bx);
+
+		txt.lines[by] = w[0];
+	}
+	else
+	{
+		local w;
+
+		/* block has more than one line */
+
+		/* delete from the beginning to the end of the first line */
+		w = splice(txt.lines[by], NULL, bx, -1);
+		txt.lines[by] = w[0];
+
+		/* delete from the beginning of the last line to
+		   the end of the block */
+		w = splice(txt.lines[ey], NULL, 0, ex);
+		txt.lines[ey] = w[0];
+
+		/* collapse the lines in between */
+		collapse(txt.lines, by + 1, ey - by - 1);
+
+		/* finally join both lines */
+		mp.join_line(doc);
+	}
+}
+
+
 sub mp.delete_mark(doc)
 /* deletes current selection */
 {
@@ -175,38 +213,9 @@ sub mp.delete_mark(doc)
 	txt.x = txt.mark.bx;
 	txt.y = txt.mark.by;
 
-	if(txt.mark.by == txt.mark.ey)
-	{
-		local w;
-
-		/* block is just one line; delete the middle part */
-		w = splice(txt.lines[txt.mark.by], NULL,
-			txt.mark.bx, txt.mark.ex - txt.mark.bx);
-
-		txt.lines[txt.mark.by] = w[0];
-	}
-	else
-	{
-		local w;
-
-		/* block has more than one line */
-
-		/* delete from the beginning to the end of the first line */
-		w = splice(txt.lines[txt.mark.by], NULL, txt.mark.bx, -1);
-		txt.lines[txt.mark.by] = w[0];
-
-		/* delete from the beginning of the last line to
-		   the end of the block */
-		w = splice(txt.lines[txt.mark.ey], NULL, 0, txt.mark.ex);
-		txt.lines[txt.mark.ey] = w[0];
-
-		/* collapse the lines in between */
-		collapse(txt.lines, txt.mark.by + 1,
-			txt.mark.ey - txt.mark.by - 1);
-
-		/* finally join both lines */
-		mp.join_line(doc);
-	}
+	/* deletes the range */
+	mp.delete_range(doc,
+		txt.mark.bx, txt.mark.by, txt.mark.ex, txt.mark.ey);
 
 	txt.mod++;
 
