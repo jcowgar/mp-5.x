@@ -21,7 +21,6 @@ Release Critical Bugs
  * 1142: Add symbol completion with tags (needs #1140).
  * 1144: Add the menu.
  * 1146: Add 'recording macro' flag to the status line.
- * 1149: Unify mp.insert() and mp.paste(), as they do the same thing.
 
 Open Bugs
 ---------
@@ -93,5 +92,7 @@ Closed
  * 1139: Add the 'default' value to mp.drv.readline()
    (Mon, 22 May 2006 06:10:17 +0200).
  * 1143: Add interactive help (Tue, 23 May 2006 18:39:29 +0200).
+ * 1149: Unify mp.insert() and mp.paste(), as they do the same thing
+   (Thu, 25 May 2006 13:40:26 +0200).
 
 Email bugs to angel@triptico.com

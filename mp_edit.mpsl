@@ -193,19 +193,47 @@ sub mp.insert_string(doc, str)
 }
 
 
+sub mp.insert_array(doc, a)
+/* inserts an array of text into a document */
+{
+	local txt = doc.txt;
+	local s;
+
+	/* empty array? return */
+	if((s = size(a)) == 0) return;
+
+	/* paste first line into current position */
+	mp.insert_string(doc, a[0]);
+
+	/* more than just one line? */
+	if(s > 1)
+	{
+		/* break current line in two */
+		mp.break_line(doc);
+
+		/* insert last line */
+		mp.insert_string(doc, a[s - 1]);
+	}
+
+	/* more than two lines? */
+	if(s > 2)
+	{
+		local n = 1;
+
+		/* open room */
+		expand(txt.lines, txt.y, s - 2);
+
+		/* transfer middle lines */
+		while(n < s - 1)
+			txt.lines[txt.y++] = a[n++];
+	}
+}
+
+
 sub mp.insert(doc, text)
 /* inserts a text into the cursor position */
 {
-	local l = split("\n", text);
-
-	/* insert the first string */
-	mp.insert_string(doc, adel(l, 0));
-
-	while(size(l) > 0)
-	{
-		mp.break_line(doc);
-		mp.insert_string(doc, adel(l, 0));
-	}
+	mp.insert_array(doc, split("\n", text));
 }
 
 
