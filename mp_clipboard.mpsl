@@ -231,22 +231,17 @@ sub mp.cut(doc)
 }
 
 
-sub mp.paste(doc)
-/* pastes from the clipboard into a text */
+sub mp.insert_array(doc, a)
+/* insert an array of text into a document */
 {
 	local txt = doc.txt;
 	local s;
 
-	/* no clipboard? return */
-	if(mp.clipboard == NULL)
-		return;
-
-	/* empty clipboard (rare, but possible)? return */
-	if((s = size(mp.clipboard)) == 0)
-		return;
+	/* empty array? return */
+	if((s = size(a)) == 0) return;
 
 	/* paste first line into current position */
-	mp.insert(doc, mp.clipboard[0]);
+	mp.insert_string(doc, a[0]);
 
 	/* more than just one line? */
 	if(s > 1)
@@ -255,7 +250,7 @@ sub mp.paste(doc)
 		mp.break_line(doc);
 
 		/* insert last line */
-		mp.insert(doc, mp.clipboard[s - 1]);
+		mp.insert_string(doc, a[s - 1]);
 	}
 
 	/* more than two lines? */
@@ -268,8 +263,13 @@ sub mp.paste(doc)
 
 		/* transfer middle lines */
 		while(n < s - 1)
-			txt.lines[txt.y++] = mp.clipboard[n++];
+			txt.lines[txt.y++] = a[n++];
 	}
+}
 
-	txt.mod++;
+
+sub mp.paste(doc)
+/* pastes from the clipboard into a text */
+{
+	mp.insert_array(doc, mp.clipboard);
 }
