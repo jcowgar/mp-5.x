@@ -106,28 +106,23 @@ sub mp.mark(doc)
 }
 
 
-sub mp.copy(doc)
-/* copies the mark to the clipboard */
+sub mp.get_range(doc, bx, by, ex, ey)
+/* gets a range or characters from a document */
 {
 	local txt = doc.txt;
 
-	/* no mark? done */
-	if(txt.mark == NULL) return;
+	local r = [];
 
-	/* set the clipboard to an empty array */
-	mp.clipboard = [];
-
-	if(txt.mark.by == txt.mark.ey)
+	if(by == ey)
 	{
 		local w;
 
 		/* block is just one line; take the inside
 		   part and push it onto the clipboard */
 
-		w = splice(txt.lines[txt.mark.by], NULL,
-			txt.mark.bx, txt.mark.ex - txt.mark.bx);
+		w = splice(txt.lines[by], NULL, bx, ex - bx);
 
-		push(mp.clipboard, w[1]);
+		push(r, w[1]);
 	}
 	else
 	{
@@ -136,20 +131,35 @@ sub mp.copy(doc)
 		/* block has more than one line */
 
 		/* take from the beginning to the end of the first line */
-		n = txt.mark.by;
-		w = splice(txt.lines[n], NULL, txt.mark.bx, -1);
+		n = by;
+		w = splice(txt.lines[n], NULL, bx, -1);
 
-		push(mp.clipboard, w[1]);
+		push(r, w[1]);
 		n++;
 
 		/* take the central lines */
-		while(n < txt.mark.ey)
-			push(mp.clipboard, txt.lines[n++]);
+		while(n < ey)
+			push(r, txt.lines[n++]);
 
 		/* take the last line */
-		w = splice(txt.lines[n], NULL, 0, txt.mark.ex);
-		push(mp.clipboard, w[1]);
+		w = splice(txt.lines[n], NULL, 0, ex);
+		push(r, w[1]);
 	}
+
+	return(r);
+}
+
+
+sub mp.copy(doc)
+/* copies the mark to the clipboard */
+{
+	local txt = doc.txt;
+
+	/* no mark? done */
+	if(txt.mark == NULL) return;
+
+	mp.clipboard = mp.get_range(doc,
+		txt.mark.bx, txt.mark.by, txt.mark.ex, txt.mark.ey);
 }
 
 
