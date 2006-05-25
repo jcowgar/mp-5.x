@@ -176,6 +176,50 @@ sub mp.delete_char(doc)
 }
 
 
+sub mp.delete_range(doc, bx, by, ex, ey)
+/* deletes a range of characters from a document */
+{
+	local txt = doc.txt;
+
+	/* move to the start of the range */
+	txt.x = bx;
+	txt.y = by;
+
+	if(by == ey)
+	{
+		local w;
+
+		/* block is just one line; delete the middle part */
+		w = splice(txt.lines[by], NULL, bx, ex - bx);
+
+		txt.lines[by] = w[0];
+	}
+	else
+	{
+		local w;
+
+		/* block has more than one line */
+
+		/* delete from the beginning to the end of the first line */
+		w = splice(txt.lines[by], NULL, bx, -1);
+		txt.lines[by] = w[0];
+
+		/* delete from the beginning of the last line to
+		   the end of the block */
+		w = splice(txt.lines[ey], NULL, 0, ex);
+		txt.lines[ey] = w[0];
+
+		/* collapse the lines in between */
+		collapse(txt.lines, by + 1, ey - by - 1);
+
+		/* finally join both lines */
+		mp.join_line(doc);
+	}
+
+	txt.mod++;
+}
+
+
 sub mp.insert_string(doc, str)
 /* inserts a string into the cursor position */
 {
