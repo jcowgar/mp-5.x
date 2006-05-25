@@ -116,6 +116,103 @@ mp.actdesc['mouse-position']	= LL("Move cursor to mouse click");
 
 /* code */
 
+sub mp.split_line_by_words(doc, r)
+/* splits current line by words and returns a three element array containing
+   the list of words, the list of offsets and the current position */
+{
+	local txt, l, w, c, ol, oc, p;
+
+	txt = doc.txt;
+	l = txt.lines[txt.y];
+	ol = [];
+	oc = [];
+	p = -1;
+
+	/* if no special-purpose regex set, take global one */
+	if(r == NULL) r = mp.word_regex;
+
+	while((w = regex(r, l, c[0] + c[1])) != NULL)
+	{
+		/* store the word */
+		push(ol, w);
+
+		/* get coordinates */
+		c = regex();
+
+		/* push the starting column */
+		push(oc, c[0]);
+
+		/* if matching coords are between the cursor, store it */
+		if(c[0] <= txt.x && c[0] + c[1] >= txt.x)
+			p = size(ol) - 1;
+	}
+
+	/* it txt.x is still further than the last match, it means
+	   that the 'current' position is beyond the last word */
+	if(txt.x > c[0] + c[1]) p = size(ol);
+
+	/* return the list of words, the list of
+	   coordinates and the current one */
+	return( [ ol, oc, p ]);
+}
+
+
+sub mp.get_word(doc)
+/* returns the word under the cursor */
+{
+	local l = mp.split_line_by_words(doc);
+
+	/* no word over cursor? */
+	if(l[2] == -1) return(NULL);
+
+	return(l[0][l[2]]);
+}
+
+
+sub mp.get_range(doc, bx, by, ex, ey)
+/* gets a range or characters from a document */
+{
+	local txt = doc.txt;
+
+	local r = [];
+
+	if(by == ey)
+	{
+		local w;
+
+		/* block is just one line; take the inside
+		   part and push it onto the clipboard */
+
+		w = splice(txt.lines[by], NULL, bx, ex - bx);
+
+		push(r, w[1]);
+	}
+	else
+	{
+		local w, n;
+
+		/* block has more than one line */
+
+		/* take from the beginning to the end of the first line */
+		n = by;
+		w = splice(txt.lines[n], NULL, bx, -1);
+
+		push(r, w[1]);
+		n++;
+
+		/* take the central lines */
+		while(n < ey)
+			push(r, txt.lines[n++]);
+
+		/* take the last line */
+		w = splice(txt.lines[n], NULL, 0, ex);
+		push(r, w[1]);
+	}
+
+	return(r);
+}
+
+
 sub mp.set_x(doc, x)
 /* sets the x position */
 {
@@ -242,59 +339,6 @@ sub mp.move_eof(doc)
 {
 	doc.txt.y = size(doc.txt.lines) - 1;
 	mp.move_eol(doc);
-}
-
-
-sub mp.split_line_by_words(doc, r)
-/* splits current line by words and returns a three element array containing
-   the list of words, the list of offsets and the current position */
-{
-	local txt, l, w, c, ol, oc, p;
-
-	txt = doc.txt;
-	l = txt.lines[txt.y];
-	ol = [];
-	oc = [];
-	p = -1;
-
-	/* if no special-purpose regex set, take global one */
-	if(r == NULL) r = mp.word_regex;
-
-	while((w = regex(r, l, c[0] + c[1])) != NULL)
-	{
-		/* store the word */
-		push(ol, w);
-
-		/* get coordinates */
-		c = regex();
-
-		/* push the starting column */
-		push(oc, c[0]);
-
-		/* if matching coords are between the cursor, store it */
-		if(c[0] <= txt.x && c[0] + c[1] >= txt.x)
-			p = size(ol) - 1;
-	}
-
-	/* it txt.x is still further than the last match, it means
-	   that the 'current' position is beyond the last word */
-	if(txt.x > c[0] + c[1]) p = size(ol);
-
-	/* return the list of words, the list of
-	   coordinates and the current one */
-	return( [ ol, oc, p ]);
-}
-
-
-sub mp.get_word(doc)
-/* returns the word under the cursor */
-{
-	local l = mp.split_line_by_words(doc);
-
-	/* no word over cursor? */
-	if(l[2] == -1) return(NULL);
-
-	return(l[0][l[2]]);
 }
 
 

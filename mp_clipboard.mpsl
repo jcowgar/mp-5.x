@@ -106,50 +106,6 @@ sub mp.mark(doc)
 }
 
 
-sub mp.get_range(doc, bx, by, ex, ey)
-/* gets a range or characters from a document */
-{
-	local txt = doc.txt;
-
-	local r = [];
-
-	if(by == ey)
-	{
-		local w;
-
-		/* block is just one line; take the inside
-		   part and push it onto the clipboard */
-
-		w = splice(txt.lines[by], NULL, bx, ex - bx);
-
-		push(r, w[1]);
-	}
-	else
-	{
-		local w, n;
-
-		/* block has more than one line */
-
-		/* take from the beginning to the end of the first line */
-		n = by;
-		w = splice(txt.lines[n], NULL, bx, -1);
-
-		push(r, w[1]);
-		n++;
-
-		/* take the central lines */
-		while(n < ey)
-			push(r, txt.lines[n++]);
-
-		/* take the last line */
-		w = splice(txt.lines[n], NULL, 0, ex);
-		push(r, w[1]);
-	}
-
-	return(r);
-}
-
-
 sub mp.copy(doc)
 /* copies the mark to the clipboard */
 {
