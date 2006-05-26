@@ -28,11 +28,14 @@
 /* editor actions */
 
 mp.actions['help']	=	sub (d) {
-	local w, h;
+	local w, h, r;
+
+	/* get the special word regex separator for help (if any) */
+	r = d.syntax.help_word_regex;
 
 	/* if there is a word at the cursor position,
 	   try searching for help */
-	if((w = mp.get_word(d)) != NULL)
+	if((w = mp.get_word(d, r)) != NULL)
 		h = mp.help(d, w);
 
 	if(h == NULL)
@@ -129,7 +132,8 @@ mp.syntax.perl = {
 	'id'		=>	'perl',
 	'name'		=>	'Perl',
 	'filenames'	=>	[ '/\.pl$/i', '/\.pm$/' ],
-	'help'		=>	[ 'perldoc -f %s' ],
+	'help'		=>	[ 'perldoc -f %s', 'perldoc %s' ],
+	'help_word_regex' =>	'/[A-Z_][A-Z0-9_:]*/i',
 	'tokens'	=>	[
 				mp.syn_token_list( [
 				"for", "if", "next", "last", "else", "elsif",

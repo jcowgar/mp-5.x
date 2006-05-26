@@ -157,10 +157,10 @@ sub mp.split_line_by_words(doc, r)
 }
 
 
-sub mp.get_word(doc)
+sub mp.get_word(doc, r)
 /* returns the word under the cursor */
 {
-	local l = mp.split_line_by_words(doc);
+	local l = mp.split_line_by_words(doc, r);
 
 	/* no word over cursor? */
 	if(l[2] == -1) return(NULL);
