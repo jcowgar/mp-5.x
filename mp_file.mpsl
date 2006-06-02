@@ -43,7 +43,11 @@ mp.actions['save']	= sub (d) {
 		d.name = t;
 	}
 
-	mp.save_file(d);
+	if(mp.save_file(d) == -1)
+	{
+		mp.drv.alert(sprintf(L("Error saving file: %s"), ERROR));
+		d.name = L("<unnamed>");
+	}
 };
 
 mp.actions['close']	= sub (d) {
