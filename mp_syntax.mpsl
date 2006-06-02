@@ -39,7 +39,7 @@ mp.actions['help']	=	sub (d) {
 		h = mp.help(d, w);
 
 	if(h == NULL)
-		mp.drv.alert(sprintf(L("No help for '%s'."), w));
+		mp.alert(sprintf(L("No help for '%s'."), w));
 	else
 	{
 		mp.new();

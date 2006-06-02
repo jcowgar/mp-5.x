@@ -28,24 +28,24 @@
 /* editor actions */
 
 mp.actions['eval']	= sub (d) { 
-	local t = mp.drv.readline(L("Code to execute:"), "eval");
+	local t = mp.readline(L("Code to execute:"), "eval");
 
 	if(t != NULL)
 	{
 		t = eval(t);
 
 		if(ERROR != NULL)
-			mp.drv.alert(L("Error: ") ~ ERROR);
+			mp.alert(L("Error: ") ~ ERROR);
 		else
 		if(t != NULL)
-			mp.drv.alert(L("Exit value:\n") ~ t);
+			mp.alert(L("Exit value:\n") ~ t);
 	}
 };
 
 mp.actions['zoom-in'] 	= sub (d) {
 
 	mp.config.font_size++;
-	mp.drv.update_ui();
+	mp.update_ui();
 };
 
 mp.actions['zoom-out'] 	= sub (d) {
@@ -53,7 +53,7 @@ mp.actions['zoom-out'] 	= sub (d) {
 	if(mp.config.font_size > 4)
 	{
 		mp.config.font_size--;
-		mp.drv.update_ui();
+		mp.update_ui();
 	}
 };
 

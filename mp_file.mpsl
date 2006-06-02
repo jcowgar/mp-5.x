@@ -36,7 +36,7 @@ mp.actions['save']	= sub (d) {
 		local t;
 
 		/* name is <unnamed> or something similar; ask for one */
-		if((t = mp.drv.savefile(L("Save file as:"))) == NULL)
+		if((t = mp.savefile(L("Save file as:"))) == NULL)
 			return;
 
 		/* store new name */
@@ -45,7 +45,7 @@ mp.actions['save']	= sub (d) {
 
 	if(mp.save_file(d) == -1)
 	{
-		mp.drv.alert(sprintf(L("Error saving file: %s"), ERROR));
+		mp.alert(sprintf(L("Error saving file: %s"), ERROR));
 		d.name = L("<unnamed>");
 	}
 };
@@ -55,7 +55,7 @@ mp.actions['close']	= sub (d) {
 	if(d.txt.mod)
 	{
 		local r;
-		r = mp.drv.confirm(L("File has changed. Save changes?"));
+		r = mp.confirm(L("File has changed. Save changes?"));
 
 		/* cancel? don't close */
 		if(r == 0) return;
@@ -86,7 +86,7 @@ mp.actions['open']	= sub (d) {
 
 	local n;
 
-	if((n = mp.drv.openfile(L("File to open:"))) != NULL && n ne "")
+	if((n = mp.openfile(L("File to open:"))) != NULL && n ne "")
 		mp.open(n);
 };
 

@@ -106,6 +106,8 @@ mp.actions = {};
 
 mp.actdesc = {};
 
+mp.alert_log = [];
+
 /*******************
 	Code
 ********************/
@@ -252,12 +254,15 @@ sub mp.load_profile()
 }
 
 
-sub mp.ui()
-/* wrapper for mp.drv.ui */
-{
-	mp.drv.ui();
-}
+/* driver wrappers */
 
+sub mp.update_ui()	{ mp.drv.update_ui(); }
+sub mp.alert(a)		{ push(mp.alert_log, a); mp.drv.alert(a); }
+sub mp.confirm(a)	{ mp.drv.confirm(a); }
+sub mp.readline(a,b,c)	{ mp.drv.readline(a,b,c); }
+sub mp.openfile(a)	{ mp.drv.openfile(a); }
+sub mp.savefile(a)	{ mp.drv.savefile(a); }
+sub mp.ui()		{ mp.drv.ui(); }
 
 load("mp_move.mpsl");
 load("mp_edit.mpsl");

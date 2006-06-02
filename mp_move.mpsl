@@ -41,7 +41,7 @@ mp.actions['move-word-left']	= sub (d) { mp.move_word_left(d); };
 mp.actions['move-word-right']	= sub (d) { mp.move_word_right(d); };
 
 mp.actions['goto']		= sub (d) {
-	local y = mp.drv.readline(L("Line to go to:"), "goto");
+	local y = mp.readline(L("Line to go to:"), "goto");
 
 	if(y >= 1)
 	{
