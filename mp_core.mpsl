@@ -45,9 +45,6 @@ mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';
 mp.docs = [];
 mp.active_i = 0;
 
-/* status line directives */
-mp.status_f = {};
-
 /* allowed color names (order matters, match the Unix curses one) */
 mp.color_names = [ "default", "black", "red", "green",
 	"yellow", "blue", "magenta", "cyan", "white" ];
@@ -163,8 +160,7 @@ sub mp.build_status_line()
 	local d = mp.active();
 	local w = mp.get_word(d);
 	local t = mp.tags[w].label;
-
-	mp.status_f = {
+	local f = {
 		"%V"	=>	mp.VERSION,		/* version */
 		"%m"	=>	d.txt.mod && "*" || "",	/* modify flag */
 		"%x"	=>	d.txt.x + 1,		/* x coord */
@@ -178,7 +174,7 @@ sub mp.build_status_line()
 		"%%"	=>	"%"			/* escaped % */
 	};
 
-	return(sregex("/%./g", mp.config.status_format, mp.status_f));
+	return(sregex("/%./g", mp.config.status_format, f));
 }
 
 
