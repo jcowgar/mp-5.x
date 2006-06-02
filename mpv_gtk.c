@@ -93,27 +93,37 @@ static int normal_attr = 0;
 	Code
 ********************/
 
-static char * wcs_to_utf8(wchar_t * wptr, int i, gsize * o)
+static char * wcs_to_utf8(wchar_t * wptr)
 /* converts a wcs to utf-8 */
 {
-	/* calculate size, if requested */
-	if(i == -1) i = wcslen(wptr);
+	char * ptr;
+	gsize i, o;
+
+	i = wcslen(wptr);
 
 	/* do the conversion */
-	return(g_convert((gchar *) wptr, (i + 1) * sizeof(wchar_t),
-		"UTF-8", "WCHAR_T", NULL, o, NULL));
+	ptr = g_convert((gchar *) wptr, (i + 1) * sizeof(wchar_t),
+		"UTF-8", "WCHAR_T", NULL, &o, NULL);
+	ptr[o] = '\0';
+
+	return(ptr);
 }
 
 
-static wchar_t * utf8_to_wcs(char * ptr, int i, gsize * o)
+static wchar_t * utf8_to_wcs(char * ptr)
 /* converts utf-8 to wcs */
 {
-	/* calculate size, if requested */
-	if(i == -1) i = strlen(ptr);
+	wchar_t * wptr;
+	gsize i, o;
+
+	i = strlen(ptr);
 
 	/* do the conversion */
-	return((wchar_t *) g_convert((gchar *) ptr, i + 1,
-		"WCHAR_T", "UTF-8", NULL, o, NULL));
+	wptr = (wchar_t *) g_convert((gchar *) ptr, i + 1,
+		"WCHAR_T", "UTF-8", NULL, &o, NULL);
+	wptr[o] = L'\0';
+
+	return(wptr);
 }
 
 
@@ -301,7 +311,7 @@ static void draw_filetabs(void)
 			else
 				wptr++;
 
-			if((ptr = wcs_to_utf8(wptr, -1, NULL)) != NULL)
+			if((ptr = wcs_to_utf8(wptr)) != NULL)
 			{
 				p = gtk_label_new(ptr);
 				gtk_widget_show(p);
@@ -341,7 +351,7 @@ static void draw_status(void)
 	/* call mp.status_line() */
 	t = mp_build_status_line();
 
-	if(t != NULL && (ptr = wcs_to_utf8(t->data, mpdm_size(t), NULL)) != NULL)
+	if(t != NULL && (ptr = wcs_to_utf8(t->data)) != NULL)
 	{
 		gtk_label_set_text(GTK_LABEL(status), ptr);
 		g_free(ptr);
@@ -495,7 +505,7 @@ static void gtkdrv_paint(mpdm_t doc, int optimize)
 			s = mpdm_aget(l, m);
 
 			/* convert the string to utf8 */
-			ptr = wcs_to_utf8(s->data, mpdm_size(s), NULL);
+			ptr = wcs_to_utf8(s->data);
 
 			/* add to the full line */
 			str = mpdm_poke(str, &p, ptr, strlen(ptr), 1);
@@ -1075,7 +1085,7 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 	{
 		wchar_t * wptr;
 
-		if((wptr = utf8_to_wcs(ptr, -1, NULL)) != NULL)
+		if((wptr = utf8_to_wcs(ptr)) != NULL)
 		{
 			mpdm_unref(readline_text);
 			readline_text = mpdm_ref(MPDM_S(wptr));
@@ -1136,7 +1146,7 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = wcs_to_utf8(wptr, -1, NULL)) == NULL)
+	if((ptr = wcs_to_utf8(wptr)) == NULL)
 		return(NULL);
 
 	dlg = gtk_dialog_new();
@@ -1183,7 +1193,7 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = wcs_to_utf8(wptr, -1, NULL)) == NULL)
+	if((ptr = wcs_to_utf8(wptr)) == NULL)
 		return(NULL);
 
 	dlg = gtk_dialog_new();
@@ -1246,7 +1256,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = wcs_to_utf8(wptr, -1, NULL)) == NULL)
+	if((ptr = wcs_to_utf8(wptr)) == NULL)
 		return(NULL);
 
 	/* 2# arg: history key */
@@ -1273,7 +1283,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 		/* convert to a suitable value */
 		v = mpdm_aget(h, n);
 		wptr = mpdm_string(v);
-		ptr = wcs_to_utf8(wptr, -1, NULL);
+		ptr = wcs_to_utf8(wptr);
 
 		combo_items = g_list_prepend(combo_items, ptr);
 /*		g_free(ptr);*/
@@ -1283,7 +1293,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	if((v = mpdm_aget(a, 2)) != NULL)
 	{
 		wptr = mpdm_string(v);
-		ptr = wcs_to_utf8(wptr, -1, NULL);
+		ptr = wcs_to_utf8(wptr);
 
 		combo_items = g_list_prepend(combo_items, ptr);
 /*		g_free(ptr);*/
@@ -1343,7 +1353,7 @@ static mpdm_t gtkdrv_openfile(mpdm_t a)
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = wcs_to_utf8(wptr, -1, NULL)) == NULL)
+	if((ptr = wcs_to_utf8(wptr)) == NULL)
 		return(NULL);
 
 	dlg = gtk_file_selection_new(ptr);
