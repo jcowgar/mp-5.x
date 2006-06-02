@@ -497,6 +497,8 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 }
 
 
+#define BUF_LINE 8
+
 static mpdm_t drw_line(int line)
 /* creates a list of attribute / string pairs for the current line */
 {
@@ -504,7 +506,7 @@ static mpdm_t drw_line(int line)
 	int m, i, t, n;
 	int o = drw.offsets[line + drw.p_lines];
 	int a = drw.attrs[o];
-	wchar_t tmp[128];
+	wchar_t tmp[BUF_LINE];
 	wchar_t c;
 
 	/* loop while not beyond the right margin */
@@ -519,7 +521,7 @@ static mpdm_t drw_line(int line)
 		{
 			/* if the attribute is different or we're out of
 			   temporary space, push and go on */
-			if(drw.attrs[o] != a || i >= sizeof(tmp) - t - 1)
+			if(drw.attrs[o] != a || i >= BUF_LINE - t - 1)
 			{
 				l = drw_push_pair(l, i, a, tmp);
 				i = 0;
