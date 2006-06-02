@@ -150,27 +150,24 @@ sub mp.load_file(doc, filename)
 sub mp.save_file(doc)
 /* saves a file */
 {
-	local f, ls, l;
+	local f, l;
 	local s = NULL;
+	local nl = 0;
 
 	/* if unlink before write is desired, do it */
 	if(mp.config.unlink && (s = stat(doc.name)) != NULL)
 		unlink(doc.name);
 
 	if((f = open(doc.name, "w")) == NULL)
-		return(0);
+		return(-1);
 
-	/* get all lines */
-	ls = clone(doc.txt.lines);
-
-	/* write the first one */
-	write(f, adel(ls, 0));
-
-	/* write the rest, with end of lines */
-	foreach(l, ls)
+	foreach(l, doc.txt.lines)
 	{
-		write(f, mp.config.eol);
+		/* write a line separator if it's not the first line */
+		if(nl) write(f, mp.config.eol);
+
 		write(f, l);
+		nl++;
 	}
 
 	close(f);
@@ -184,7 +181,7 @@ sub mp.save_file(doc)
 		chown(doc.name, s[4], s[5]);
 	}
 
-	return(1);
+	return(nl);
 }
 
 
