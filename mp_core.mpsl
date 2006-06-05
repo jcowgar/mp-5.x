@@ -270,6 +270,7 @@ sub mp.savefile(a)	{ mp.drv.savefile(a); }
 sub mp.ui()
 {
 	mp.drv.startup();
+	mp.post_ui_startup();
 	mp.drv.main_loop();
 	mp.drv.shutdown();
 }
