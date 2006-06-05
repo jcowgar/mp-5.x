@@ -104,7 +104,7 @@ static char * wcs_to_utf8(wchar_t * wptr)
 	/* do the conversion */
 	ptr = g_convert((gchar *) wptr, (i + 1) * sizeof(wchar_t),
 		"UTF-8", "WCHAR_T", NULL, &o, NULL);
-	ptr[o] = '\0';
+	ptr[o - 1] = '\0';
 
 	return(ptr);
 }
@@ -121,7 +121,7 @@ static wchar_t * utf8_to_wcs(char * ptr)
 	/* do the conversion */
 	wptr = (wchar_t *) g_convert((gchar *) ptr, i + 1,
 		"WCHAR_T", "UTF-8", NULL, &o, NULL);
-	wptr[o] = L'\0';
+	wptr[o - 1] = L'\0';
 
 	return(wptr);
 }
