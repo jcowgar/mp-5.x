@@ -104,7 +104,6 @@ static char * wcs_to_utf8(wchar_t * wptr)
 	/* do the conversion */
 	ptr = g_convert((gchar *) wptr, (i + 1) * sizeof(wchar_t),
 		"UTF-8", "WCHAR_T", NULL, &o, NULL);
-	ptr[o - 1] = '\0';
 
 	return(ptr);
 }
@@ -121,7 +120,6 @@ static wchar_t * utf8_to_wcs(char * ptr)
 	/* do the conversion */
 	wptr = (wchar_t *) g_convert((gchar *) ptr, i + 1,
 		"WCHAR_T", "UTF-8", NULL, &o, NULL);
-	wptr[o - 1] = L'\0';
 
 	return(wptr);
 }
@@ -1063,9 +1061,11 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 		char * tptr;
 
 		/* if there is an entry widget, get its text */
-		tptr = gtk_editable_get_chars(GTK_EDITABLE(entry), 0, -1);
-		ptr = strdup(tptr);
-		g_free(tptr);
+		if((tptr = gtk_editable_get_chars(GTK_EDITABLE(entry), 0, -1)) != NULL)
+		{
+			ptr = strdup(tptr);
+			g_free(tptr);
+		}
 
 		entry = NULL;
 	}
@@ -1075,8 +1075,8 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 		/* if it's an open/save dialog, take from it */
 		const char * cptr;
 
-		cptr = gtk_file_selection_get_filename(GTK_FILE_SELECTION(widget));
-		ptr = strdup(cptr);
+		if((cptr = gtk_file_selection_get_filename(GTK_FILE_SELECTION(widget))) != NULL)
+			ptr = strdup(cptr);
 
 		opensave = NULL;
 	}

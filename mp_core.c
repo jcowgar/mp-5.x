@@ -497,7 +497,7 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 }
 
 
-#define BUF_LINE 8
+#define BUF_LINE 128
 
 static mpdm_t drw_line(int line)
 /* creates a list of attribute / string pairs for the current line */
