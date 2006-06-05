@@ -999,7 +999,7 @@ static mpdm_t gtkdrv_sys_to_clip(mpdm_t a)
 }
 
 
-static void gtkdrv_startup(void)
+static mpdm_t gtkdrv_startup(mpdm_t a)
 /* driver initialization */
 {
 	GtkWidget * vbox;
@@ -1129,19 +1129,24 @@ static void gtkdrv_startup(void)
 	pixmap = gdk_pixmap_create_from_xpm_d(window->window,
 		&mask, NULL, mp_xpm);
 	gdk_window_set_icon(window->window, NULL, pixmap, mask);
+
+	return(NULL);
 }
 
 
-static void gtkdrv_main_loop(void)
+static mpdm_t gtkdrv_main_loop(mpdm_t a)
 /* main loop */
 {
 	gtk_main();
+
+	return(NULL);
 }
 
 
-static void gtkdrv_shutdown(void)
+static mpdm_t gtkdrv_shutdown(mpdm_t a)
 /* shutdown */
 {
+	return(NULL);
 }
 
 
@@ -1495,16 +1500,6 @@ static mpdm_t gtkdrv_savefile(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_ui(mpdm_t a)
-{
-	gtkdrv_startup();
-	gtkdrv_main_loop();
-	gtkdrv_shutdown();
-
-	return(NULL);
-}
-
-
 static mpdm_t gtkdrv_update_ui(mpdm_t a)
 {
 	build_fonts();
@@ -1529,7 +1524,10 @@ int gtkdrv_init(void)
 
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"gtk"));
 
-	mpdm_hset_s(drv, L"ui", MPDM_X(gtkdrv_ui));
+	mpdm_hset_s(drv, L"startup", MPDM_X(gtkdrv_startup));
+	mpdm_hset_s(drv, L"main_loop", MPDM_X(gtkdrv_main_loop));
+	mpdm_hset_s(drv, L"shutdown", MPDM_X(gtkdrv_shutdown));
+
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(gtkdrv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtkdrv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(gtkdrv_update_ui));

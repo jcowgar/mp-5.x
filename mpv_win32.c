@@ -805,7 +805,7 @@ static mpdm_t w32drv_sys_to_clip(mpdm_t a)
 }
 
 
-static void w32drv_startup(void)
+static mpdm_t w32drv_startup(mpdm_t a)
 {
 	WNDCLASS wc;
 	RECT r;
@@ -824,8 +824,7 @@ static void w32drv_startup(void)
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = "minimumprofit5.x";
 
-	if(!RegisterClass(&wc))
-		return;
+	RegisterClass(&wc);
 
 	/* create the window */
 	hwnd = CreateWindow("minimumprofit5.x", "mp " VERSION,
@@ -834,9 +833,6 @@ static void w32drv_startup(void)
 		CW_USEDEFAULT, CW_USEDEFAULT,
 /*		NULL, _mmenu, hinst, NULL);*/
 		NULL, NULL, hinst, NULL);
-
-	if(hwnd == NULL)
-		return;
 
 /*	mpv_add_menu("");
 
@@ -866,10 +862,12 @@ static void w32drv_startup(void)
 	UpdateWindow(hwstatus);
 
 	redraw();
+
+	return(NULL);
 }
 
 
-static void w32drv_main_loop(void)
+static mpdm_t w32drv_main_loop(mpdm_t a)
 {
 	MSG msg;
 
@@ -878,21 +876,14 @@ static void w32drv_main_loop(void)
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+
+	return(NULL);
 }
 
 
-static void w32drv_shutdown(void)
+static mpdm_t w32drv_shutdown(mpdm_t a)
 {
 	SendMessage(hwnd, WM_CLOSE, 0, 0);
-}
-
-
-static mpdm_t w32drv_ui(mpdm_t a)
-{
-	w32drv_startup();
-	w32drv_main_loop();
-	w32drv_shutdown();
-
 	return(NULL);
 }
 
@@ -1140,7 +1131,10 @@ int w32drv_init(void)
 
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"win32"));
 
-	mpdm_hset_s(drv, L"ui", MPDM_X(w32drv_ui));
+	mpdm_hset_s(drv, L"startup", MPDM_X(w32drv_startup));
+	mpdm_hset_s(drv, L"main_loop", MPDM_X(w32drv_main_loop));
+	mpdm_hset_s(drv, L"shutdown", MPDM_X(w32drv_shutdown));
+
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(w32drv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32drv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(w32drv_update_ui));

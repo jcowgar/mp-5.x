@@ -65,6 +65,3 @@ sub mp.load_tags
 
 	close(f);
 }
-
-
-mp.load_tags();

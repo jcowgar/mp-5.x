@@ -251,6 +251,13 @@ sub mp.load_profile()
 }
 
 
+sub mp.post_ui_startup()
+/* code to execute after driver startup */
+{
+	mp.load_tags();
+}
+
+
 /* driver wrappers */
 
 sub mp.update_ui()	{ mp.drv.update_ui(); }
@@ -259,7 +266,13 @@ sub mp.confirm(a)	{ mp.drv.confirm(a); }
 sub mp.readline(a,b,c)	{ mp.drv.readline(a,b,c); }
 sub mp.openfile(a)	{ mp.drv.openfile(a); }
 sub mp.savefile(a)	{ mp.drv.savefile(a); }
-sub mp.ui()		{ mp.drv.ui(); }
+
+sub mp.ui()
+{
+	mp.drv.startup();
+	mp.drv.main_loop();
+	mp.drv.shutdown();
+}
 
 load("mp_move.mpsl");
 load("mp_edit.mpsl");
