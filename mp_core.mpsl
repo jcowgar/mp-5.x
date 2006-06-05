@@ -27,7 +27,14 @@
 	Data
 ********************/
 
+/* L(x) is the same as gettext(x) */
+L = gettext;
+
+/* LL(x) is the same as x */
+sub LL(x) { x; }
+
 /* configuration */
+
 mp.config = {};
 mp.config.eol = "\n";
 mp.config.undo_levels = 20;
@@ -105,15 +112,20 @@ mp.actdesc = {};
 
 mp.alert_log = [];
 
+/* the menu */
+mp.menu = [
+	LL("&File"),	[ 'new', 'open', 'save', 'save-as', 'close', '-', 'exit' ],
+	LL("&Edit"),	[ 'cut', 'copy', 'paste', 'delete-line', '-', 'mark',
+			'unmark', '-', 'eval' ],
+	LL("&Search"),	[ 'seek', 'seek-next', 'replace' ],
+	LL("&Go to"),	[ 'next', 'move-bof', 'move-eof', 'move-bol', 'move-eol',
+			'goto', 'move-word-right', 'move-word-left' ],
+	LL("&Options"),	[ 'record-macro', 'play-macro' ]
+	];
+
 /*******************
 	Code
 ********************/
-
-/* L(x) is the same as gettext(x) */
-L = gettext;
-
-/* LL(x) is the same as x */
-sub LL(x) { x; }
 
 sub mp.active()
 /* returns the active document */

@@ -55,6 +55,7 @@ static GtkWidget * file_tabs = NULL;
 static GtkWidget * area = NULL;
 static GtkWidget * scrollbar = NULL;
 static GtkWidget * status = NULL;
+static GtkWidget * menu_bar = NULL;
 static GtkWidget * entry = NULL;
 static GtkWidget * opensave = NULL;
 static GdkGC * gc = NULL;
@@ -250,6 +251,106 @@ static void build_colors(void)
 			inks[n] = papers[n];
 			papers[n] = t;
 		}
+	}
+}
+
+
+static void menu_item_callback(mpdm_t action)
+/* menu click callback */
+{
+	mpdm_dump(action);
+}
+
+
+static void build_submenu(GtkWidget * menu, mpdm_t labels)
+/* build a submenu */
+{
+	int n;
+	mpdm_t desc;
+	GtkWidget * menu_item;
+
+	/* get the action descriptions */
+	desc = mpdm_hget_s(mp, L"actdesc");
+
+	for(n = 0;n < mpdm_size(labels);n++)
+	{
+		/* get the action */
+		mpdm_t v = mpdm_aget(labels, n);
+
+		/* if the action is a separator... */
+		if(*((wchar_t *)v->data) == L'-')
+			menu_item = gtk_menu_item_new();
+		else
+		{
+			char * ptr;
+			mpdm_t d;
+
+			/* get the description */
+			if((d = mpdm_hget(desc, v)) != NULL)
+				d = mpdm_gettext(d);
+			else
+				d = v;
+
+			ptr = wcs_to_utf8(mpdm_string(d));
+			menu_item = gtk_menu_item_new_with_label(ptr);
+			g_free(ptr);
+		}
+
+		gtk_menu_append(GTK_MENU(menu), menu_item);
+		gtk_signal_connect_object(GTK_OBJECT(menu_item), "activate",
+			GTK_SIGNAL_FUNC(menu_item_callback), v);
+		gtk_widget_show(menu_item);
+	}
+}
+
+
+static void build_menu(void)
+/* builds the menu */
+{
+	static mpdm_t prev_menu = NULL;
+	int n;
+	mpdm_t m;
+
+	/* gets the current menu */
+	if((m = mpdm_hget_s(mp, L"menu")) == NULL)
+		return;
+
+	/* if it's the same, do nothing */
+	if(mpdm_cmp(m, prev_menu) == 0)
+		return;
+
+	/* create a new menu */
+	menu_bar = gtk_menu_bar_new();
+
+	for(n = 0;n < mpdm_size(m);n += 2)
+	{
+		char * ptr;
+		mpdm_t v;
+		GtkWidget * menu;
+		GtkWidget * menu_item;
+		int i;
+
+		/* get the label and the items */
+		v = mpdm_aget(m, n);
+
+		if((ptr = wcs_to_utf8(mpdm_string(v))) == NULL)
+			continue;
+
+		/* change the & by _ for the mnemonic */
+		for(i = 0;ptr[i];i++)
+			if(ptr[i] == '&') ptr[i] = '_';
+
+		/* add the menu and the label */
+		menu = gtk_menu_new();
+		menu_item = gtk_menu_item_new_with_mnemonic(ptr);
+		g_free(ptr);
+
+		gtk_widget_show(menu_item);
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), menu);
+		gtk_menu_bar_append(GTK_MENU_BAR(menu_bar), menu_item);
+
+		/* now loop the items */
+		build_submenu(menu, mpdm_aget(m, n + 1));
 	}
 }
 
@@ -922,9 +1023,11 @@ static void gtkdrv_startup(void)
 
 	vbox = gtk_vbox_new(FALSE, 2);
 	gtk_container_add(GTK_CONTAINER(window), vbox);
-/*
+
+	build_menu();
 	gtk_box_pack_start(GTK_BOX(vbox), menu_bar, FALSE, FALSE, 0);
-*/	gtk_box_pack_start(GTK_BOX(vbox), file_tabs, FALSE, FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(vbox), file_tabs, FALSE, FALSE, 0);
 
 	/* horizontal box holding the text and the scrollbar */
 	hbox = gtk_hbox_new(FALSE, 2);
@@ -1406,6 +1509,7 @@ static mpdm_t gtkdrv_update_ui(mpdm_t a)
 {
 	build_fonts();
 	build_colors();
+	build_menu();
 
 	redraw();
 
