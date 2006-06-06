@@ -68,6 +68,8 @@ mp.keycodes['ctrl-kp-minus' ]	= 'zoom-out';
 /* action descriptions */
 
 mp.actdesc['eval']	= LL('Execute MPSL code...');
+mp.actdesc['zoom-in']	= LL('Bigger font');
+mp.actdesc['zoom-out']	= LL('Smaller font');
 
 /* code */
 

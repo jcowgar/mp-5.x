@@ -120,7 +120,8 @@ mp.menu = [
 	LL("&Search"),	[ 'seek', 'seek-next', 'replace' ],
 	LL("&Go to"),	[ 'next', 'move-bof', 'move-eof', 'move-bol', 'move-eol',
 			'goto', 'move-word-right', 'move-word-left' ],
-	LL("&Options"),	[ 'record-macro', 'play-macro' ]
+	LL("&Options"),	[ 'record-macro', 'play-macro', '-',
+			'zoom-in', 'zoom-out' ]
 	];
 
 /*******************
