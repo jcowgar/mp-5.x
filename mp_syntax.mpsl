@@ -188,19 +188,10 @@ mp.syntax.mpsl = {
 	'filenames'	=>	[ '/\.mpsl$/' ],
 	'tokens'	=>	[
 				mp.syn_token_list( [
-				'if', 'else', 'while', 'foreach', 'sub',
-				'break', 'return',
-				"size", "clone", "dump", "cmp",
-				"is_array", "is_hash", "is_exec",
-				"splice", "expand", "collapse",
-				"ins", "adel", "shift",
-				"push", "pop", "queue",
-				"seek", "sort", "split", "join",
-				"hsize", "exists", "hdel", "keys",
-				"open", "close", "read", "write",
-				"unlink", "glob", "encoding",
-				"regex", "sregex", "eq", "ne", '\{', '\}',
-				"load", "error", "eval", "print" ])
+					'if', 'else', 'while', 'foreach',
+					'sub', 'break', 'return' ]),
+				mp.syn_token_list( keys(MPSL.CORE) ),
+				'/[\{\}]/'
 	],
 	'variables'	=>	[
 				"/(NULL|local)/",
