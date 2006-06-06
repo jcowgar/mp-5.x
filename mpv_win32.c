@@ -232,7 +232,6 @@ static void build_colors(void)
 static void build_menu(void)
 /* builds the menu */
 {
-	static mpdm_t prev_menu = NULL;
 	int n;
 	mpdm_t desc, m;
 	int w32_menu_id = 1000;
@@ -241,15 +240,13 @@ static void build_menu(void)
 	if((m = mpdm_hget_s(mp, L"menu")) == NULL)
 		return;
 
-	/* if it's the same, do nothing */
-	if(mpdm_cmp(m, prev_menu) == 0)
-		return;
-
 	/* get the action descriptions */
 	desc = mpdm_hget_s(mp, L"actdesc");
 
-	if(menu == NULL)
-		menu = CreateMenu();
+	if(menu != NULL)
+		DestroyMenu(menu);
+
+	menu = CreateMenu();
 
 	for(n = 0;n < mpdm_size(m);n += 2)
 	{
@@ -305,9 +302,7 @@ static void build_menu(void)
 		free(ptr);
 	}
 
-	/* store for the next time */
-	mpdm_unref(prev_menu);
-	prev_menu = mpdm_ref(m);
+	SetMenu(hwnd, menu);
 }
 
 
@@ -926,14 +921,12 @@ static mpdm_t w32drv_startup(mpdm_t a)
 
 	RegisterClass(&wc);
 
-	build_menu();
-
 	/* create the window */
 	hwnd = CreateWindow("minimumprofit5.x", "mp " VERSION,
 		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_VSCROLL,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		NULL, menu, hinst, NULL);
+		NULL, NULL, hinst, NULL);
 
 /*	mpv_add_menu("");
 
@@ -958,6 +951,8 @@ static mpdm_t w32drv_startup(mpdm_t a)
 		WS_CHILD,
 		0, r.bottom - r.top - status_height,
 		r.right - r.left, status_height, hwnd, NULL, hinst, NULL);
+
+	build_menu();
 
 	ShowWindow(hwstatus, SW_SHOW);
 	UpdateWindow(hwstatus);
@@ -1218,6 +1213,7 @@ static mpdm_t w32drv_update_ui(mpdm_t a)
 {
 	build_fonts(GetDC(hwnd));
 	build_colors();
+	build_menu();
 
 	return(NULL);
 }
