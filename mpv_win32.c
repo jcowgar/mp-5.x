@@ -796,6 +796,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 	case WM_COMMAND:
 
 		action_by_menu(LOWORD(wparam));
+		redraw();
 
 		return(0);
 
