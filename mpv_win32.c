@@ -88,6 +88,8 @@ mpdm_t readline_history = NULL;
 /* default value for readline */
 mpdm_t readline_default = NULL;
 
+/* the menu */
+static HMENU menu = NULL;
 
 /*******************
 	Code
@@ -224,6 +226,88 @@ static void build_colors(void)
 
 	/* create the background brush */
 	bgbrush = CreateSolidBrush(papers[normal_attr]);
+}
+
+
+static void build_menu(void)
+/* builds the menu */
+{
+	static mpdm_t prev_menu = NULL;
+	int n;
+	mpdm_t desc, m;
+	int w32_menu_id = 1000;
+
+	/* gets the current menu */
+	if((m = mpdm_hget_s(mp, L"menu")) == NULL)
+		return;
+
+	/* if it's the same, do nothing */
+	if(mpdm_cmp(m, prev_menu) == 0)
+		return;
+
+	/* get the action descriptions */
+	desc = mpdm_hget_s(mp, L"actdesc");
+
+	if(menu == NULL)
+		menu = CreateMenu();
+
+	for(n = 0;n < mpdm_size(m);n += 2)
+	{
+		char * ptr;
+		mpdm_t v, l;
+		int i;
+		HMENU submenu = CreatePopupMenu();
+
+		/* get the label and the items */
+		v = mpdm_aget(m, n);
+		l = mpdm_aget(m, n + 1);
+
+		/* create the submenus */
+		for(i = 0;i < mpdm_size(l);i++)
+		{
+			/* get the action */
+			mpdm_t v = mpdm_aget(l, i);
+
+			/* if the action is a separator... */
+			if(*((wchar_t *)v->data) == L'-')
+				AppendMenu(submenu, MF_SEPARATOR, 0, NULL);
+			else
+			{
+				mpdm_t d;
+				MENUITEMINFO mi;
+
+				/* get the description */
+				if((d = mpdm_hget(desc, v)) != NULL)
+					d = mpdm_gettext(d);
+				else
+					d = v;
+
+				/* set the string */
+				ptr = mpdm_wcstombs(mpdm_string(d), NULL);
+				AppendMenu(submenu, MF_STRING, w32_menu_id, ptr);
+				free(ptr);
+
+				/* store the action inside the menu */
+				memset(&mi, '\0', sizeof(mi));
+				mi.cbSize = sizeof(mi);
+				mi.fMask = MIIM_DATA;
+				mi.dwItemData = (unsigned long)v;
+
+				SetMenuItemInfo(submenu, w32_menu_id, FALSE, &mi);
+
+				w32_menu_id++;
+			}
+		}
+
+		/* now store the popup inside the menu */
+		ptr = mpdm_wcstombs(mpdm_string(v), NULL);
+		AppendMenu(menu, MF_STRING|MF_POPUP, (UINT)submenu, ptr);
+		free(ptr);
+	}
+
+	/* store for the next time */
+	mpdm_unref(prev_menu);
+	prev_menu = mpdm_ref(m);
 }
 
 
@@ -593,6 +677,23 @@ static void win32_vscroll(UINT wparam)
 }
 
 
+static void action_by_menu(int item)
+/* execute an action triggered by the menu */
+{
+	MENUITEMINFO mi;
+
+	memset(&mi, '\0', sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.fMask = MIIM_DATA;
+
+	if(GetMenuItemInfo(menu, item, FALSE, &mi))
+	{
+		if(mi.dwItemData != 0)
+			mp_process_action((mpdm_t)mi.dwItemData);
+        }
+}
+
+
 #ifndef WM_MOUSEWHEEL
 #define WM_MOUSEWHEEL			0x020A
 #endif
@@ -697,12 +798,11 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 
 		return(0);
 
-/*	case WM_COMMAND:
+	case WM_COMMAND:
 
-		_mpv_amenu(LOWORD(wparam));
+		action_by_menu(LOWORD(wparam));
 
 		return(0);
-*/
 
 	case WM_CLOSE:
 
@@ -826,13 +926,14 @@ static mpdm_t w32drv_startup(mpdm_t a)
 
 	RegisterClass(&wc);
 
+	build_menu();
+
 	/* create the window */
 	hwnd = CreateWindow("minimumprofit5.x", "mp " VERSION,
 		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_VSCROLL,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-/*		NULL, _mmenu, hinst, NULL);*/
-		NULL, NULL, hinst, NULL);
+		NULL, menu, hinst, NULL);
 
 /*	mpv_add_menu("");
 
