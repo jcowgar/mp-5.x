@@ -16,7 +16,6 @@ Release Critical Bugs
  * 1141: Add complete tag support, with 'ctags' execution, asking for
    a tag (needs #1139) and selecting from a list (needs #1140).
  * 1142: Add symbol completion with tags (needs #1140).
- * 1144: Add the menu.
  * 1146: Add 'recording macro' flag to the status line.
 
 Open Bugs
@@ -94,5 +93,6 @@ Closed
  * 1138: The call to mp.load_tags() in mp_tags.mpsl startup does not
    work because at that time the colors are not built (so there is no
    mp.colors.tag.attr) (Mon, 05 Jun 2006 19:25:32 +0200).
+ * 1144: Add the menu (Tue, 06 Jun 2006 19:09:38 +0200).
 
 Email bugs to angel@triptico.com
