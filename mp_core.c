@@ -238,6 +238,9 @@ static void drw_prepare(mpdm_t doc)
 			mpdm_aget(lines, n + drw.vy - drw.p_lines));
 	}
 
+	drw.ptr = mpdm_poke(drw.ptr, &drw.size, L"", 1, sizeof(wchar_t));
+	drw.size--;
+
 	/* now create a value */
 	mpdm_unref(drw.v);
 	drw.v = mpdm_ref(MPDM_ENS(drw.ptr, drw.size));
@@ -646,6 +649,13 @@ mpdm_t mp_active(void)
 /* interfaz to mp.active() */
 {
 	return(mpdm_exec(mpdm_hget_s(mp, L"active"), NULL));
+}
+
+
+mpdm_t mp_process_action(mpdm_t action)
+/* interfaz to mp.process_action() */
+{
+	return(mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action));
 }
 
 

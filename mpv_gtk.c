@@ -258,7 +258,7 @@ static void build_colors(void)
 static void menu_item_callback(mpdm_t action)
 /* menu click callback */
 {
-	mpdm_dump(action);
+	mp_process_action(action);
 }
 
 

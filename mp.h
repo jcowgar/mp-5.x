@@ -30,6 +30,7 @@ extern mpdm_t mp;
 mpdm_t mp_draw(mpdm_t doc, int optimize);
 
 mpdm_t mp_active(void);
+mpdm_t mp_process_action(mpdm_t action);
 mpdm_t mp_process_event(mpdm_t keycode);
 mpdm_t mp_set_y(mpdm_t doc, int y);
 mpdm_t mp_build_status_line(void);

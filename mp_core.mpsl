@@ -143,23 +143,36 @@ sub mp.active()
 }
 
 
+sub mp.process_action(a)
+/* processes an action */
+{
+	local f, d;
+
+	d = mp.active();
+
+	if((f = mp.actions[a]) != NULL)
+		f(d);
+	else
+		mp.insert(d, a);
+}
+
+
 sub mp.process_event(k)
 /* processes a key event */
 {
-	local d, f;
+	local d, a;
 
 	d = mp.active();
 
 	/* get the action asociated to the keycode */
-	if((f = mp.keycodes[k]) != NULL)
+	if((a = mp.keycodes[k]) != NULL)
 	{
-		/* if it's not code, resolve to an action */
-		if(!is_exec(f))
-			f = mp.actions[f];
-
-		/* execute, if possible */
-		if(is_exec(f))
-			f(d);
+		/* if it's code, just run it;
+		   otherwise delegate to mp.process_action() */
+		if(is_exec(a))
+			a(d);
+		else
+			mp.process_action(a);
 	}
 	else
 		mp.insert(d, k);
