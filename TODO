@@ -17,6 +17,7 @@ Release Critical Bugs
    a tag (needs #1139) and selecting from a list (needs #1140).
  * 1142: Add symbol completion with tags (needs #1140).
  * 1146: Add 'recording macro' flag to the status line.
+ * 1150: The GTK menu is not rebuilt when calling mp.update_ui().
 
 Open Bugs
 ---------
