@@ -204,7 +204,7 @@ mp.syntax.mpsl = {
 mp.syntax.sh = {
 	'id'		=>	'sh',
 	'name'		=>	'Shell script',
-	'filenames'	=>	[ '/\.sh$/' ],
+	'filenames'	=>	[ '/\.sh$/', '/makefile/i' ],
 	'tokens'	=>	[
 				mp.syn_token_list( [
 				"if", "then", "else", "elif",
@@ -239,7 +239,8 @@ mp.syntax.sh = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang' for usual shells? */
-		return(regex('/^#!/bin/(sh|bash|csh|dash|ksh)/', f));
+		return(regex('/^#!/bin/(sh|bash|csh|dash|ksh)/', f) ||
+		       regex('/^#!/usr/bin/make -f/', f));
 	}
 
 };
