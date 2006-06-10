@@ -9,6 +9,9 @@ Minimum Profit 5.x Release Notes
    pressing 'f1') works.
  * The menu in GTK and win32 works.
  * New icon!
+ * Some bugs that caused random crashes has been fixed.
+ * New action 'exec-doc', that executes the active open document as
+   MPSL code.
 
 4.99.8
 ------
