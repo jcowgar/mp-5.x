@@ -42,6 +42,18 @@ mp.actions['eval']	= sub (d) {
 	}
 };
 
+mp.actions['eval-doc']	= sub (d) {
+	local t = join("\n", d.txt.lines);
+
+	if(t != NULL)
+	{
+		t = eval(t);
+
+		if(ERROR != NULL)
+			mp.alert(L("Error: ") ~ ERROR);
+	}
+};
+
 mp.actions['zoom-in'] 	= sub (d) {
 
 	mp.config.font_size++;
@@ -68,6 +80,7 @@ mp.keycodes['ctrl-kp-minus' ]	= 'zoom-out';
 /* action descriptions */
 
 mp.actdesc['eval']	= LL('Execute MPSL code...');
+mp.actdesc['eval-doc']	= LL('Execute document as MPSL');
 mp.actdesc['zoom-in']	= LL('Bigger font');
 mp.actdesc['zoom-out']	= LL('Smaller font');
 

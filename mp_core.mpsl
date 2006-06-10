@@ -116,7 +116,7 @@ mp.alert_log = [];
 mp.menu = [
 	LL("&File"),	[ 'new', 'open', 'save', 'save-as', 'close', '-', 'exit' ],
 	LL("&Edit"),	[ 'cut', 'copy', 'paste', 'delete-line', '-', 'mark',
-			'unmark', '-', 'eval' ],
+			'unmark', '-', 'eval', 'eval-doc' ],
 	LL("&Search"),	[ 'seek', 'seek-next', 'replace' ],
 	LL("&Go to"),	[ 'next', 'move-bof', 'move-eof', 'move-bol', 'move-eol',
 			'goto', 'move-word-right', 'move-word-left' ],
