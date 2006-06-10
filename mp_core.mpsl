@@ -188,11 +188,11 @@ sub mp.build_status_line()
 	local t = mp.tags[w].label;
 	local f = {
 		"%V"	=>	mp.VERSION,		/* version */
-		"%m"	=>	d.txt.mod && "*" || "",	/* modify flag */
+		"%m"	=>	d.txt.mod && '*' || '',	/* modify flag */
 		"%x"	=>	d.txt.x + 1,		/* x coord */
 		"%y"	=>	d.txt.y + 1,		/* y coord */
 		"%l"	=>	size(d.txt.lines),	/* # of lines */
-		"%R"	=>	"",			/* recording flag */
+		"%R"	=>	mp.macro.process_event && 'R' || '', /* recording flag */
 		"%O"	=>	"",			/* overwrite mode */
 		"%s"	=>	d.syntax.name,		/* synhi mode */
 		"%t"	=>	t,			/* tag target */
