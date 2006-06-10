@@ -17,6 +17,8 @@ Release Critical Bugs
    a tag (needs #1139) and selecting from a list (needs #1140).
  * 1142: Add symbol completion with tags (needs #1140).
  * 1150: The GTK menu is not rebuilt when calling mp.update_ui().
+ * 1151: The menu should show a ? if the action doesn't exist.
+ * 1152: The menu should show the bound key, if any.
 
 Open Bugs
 ---------
