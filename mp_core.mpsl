@@ -237,6 +237,15 @@ sub mp.process_cmdline()
 				print(ERROR, "\n");
 		}
 		else
+		if(o eq '-f')
+		{
+			/* execute script */
+			eval(sprintf("load('%s');", shift(ARGV)));
+
+			if(ERROR != NULL)
+				print(ERROR, "\n");
+		}
+		else
 		if(regex('/^\+/', o))
 		{
 			/* move to line */
