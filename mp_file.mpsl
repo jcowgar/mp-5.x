@@ -103,6 +103,10 @@ mp.keycodes['close-window'] 	= 'exit';
 /* action descriptions */
 
 mp.actdesc['save']	= LL("Save...");
+mp.actdesc['next'] 	= LL("Next");
+mp.actdesc['open'] 	= LL("Open...");
+mp.actdesc['exit'] 	= LL("Exit");
+mp.actdesc['close'] 	= LL("Close");
 
 /* code */
 

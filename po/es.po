@@ -137,15 +137,15 @@ msgstr "Ejecutar macro"
 msgid "Undo last operation"
 msgstr "Deshacer última operación"
 
-#: mp_file.mpsl:54
+#: mp_file.mpsl:54 mp_file.mpsl:58
 msgid "File has changed. Save changes?"
 msgstr "El fichero ha cambiado. ¿Guardar cambios?"
 
-#: mp_file.mpsl:85
+#: mp_file.mpsl:85 mp_file.mpsl:89
 msgid "File to open:"
 msgstr "Fichero a abrir:"
 
-#: mp_file.mpsl:101
+#: mp_file.mpsl:101 mp_file.mpsl:105
 msgid "Save..."
 msgstr "Guardar..."
 
@@ -153,7 +153,7 @@ msgstr "Guardar..."
 msgid "Code to execute:"
 msgstr "Código a ejecutar:"
 
-#: mp_misc.mpsl:38
+#: mp_misc.mpsl:38 mp_misc.mpsl:53
 msgid "Error: "
 msgstr "Error: "
 
@@ -185,12 +185,85 @@ msgstr "Texto no encontrado."
 msgid "Save file as:"
 msgstr "Guardar fichero como:"
 
-#: mp_syntax.mpsl:39
+#: mp_syntax.mpsl:39 mp_syntax.mpsl:42
 #, c-format
 msgid "No help for '%s'."
 msgstr "No hay ayuda para '%s'."
 
-#: mp_syntax.mpsl:46
+#: mp_syntax.mpsl:46 mp_syntax.mpsl:49
 #, c-format
 msgid "<help on '%s'>"
 msgstr "<ayuda para '%s'>"
+
+#: mp_core.mpsl:117
+msgid "&File"
+msgstr "&Archivo"
+
+#: mp_core.mpsl:118
+msgid "&Edit"
+msgstr "&Editar"
+
+#: mp_core.mpsl:120
+msgid "&Search"
+msgstr "&Buscar"
+
+#: mp_core.mpsl:121
+msgid "&Go to"
+msgstr "&Ir A"
+
+#: mp_core.mpsl:123
+msgid "&Options"
+msgstr "&Opciones"
+
+#: mp_file.mpsl:48
+#, c-format
+msgid "Error saving file: %s"
+msgstr "Error salvando fichero: %s"
+
+#: mp_file.mpsl:49
+msgid "<unnamed>"
+msgstr "<sin nombre>"
+
+#: mp_file.mpsl:106
+msgid "Next"
+msgstr "Siguiente"
+
+#: mp_file.mpsl:107
+msgid "Open..."
+msgstr "Abrir..."
+
+#: mp_file.mpsl:108
+msgid "Exit"
+msgstr "Salir"
+
+#: mp_file.mpsl:109
+msgid "Close"
+msgstr "Cerrar"
+
+#: mp_misc.mpsl:82
+msgid "Execute MPSL code..."
+msgstr "Ejecutar código MPSL..."
+
+#: mp_misc.mpsl:83
+msgid "Execute document as MPSL"
+msgstr "Ejecutar documento como MPSL"
+
+#: mp_misc.mpsl:84
+msgid "Bigger font"
+msgstr "Tamaño de letra mayor"
+
+#: mp_misc.mpsl:85
+msgid "Smaller font"
+msgstr "Tamaño de letra menor"
+
+#: mp_move.mpsl:116
+msgid "Mouse wheel up"
+msgstr "Rueda de ratón arriba"
+
+#: mp_move.mpsl:117
+msgid "Mouse wheel down"
+msgstr "Rueda de ratón abajo"
+
+#: mp_syntax.mpsl:59
+msgid "Help on word over cursor"
+msgstr "Ayuda sobre la palabra sobre el cursor"

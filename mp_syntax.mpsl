@@ -56,6 +56,8 @@ mp.keycodes['f1']	=	"help";
 
 /* action descriptions */
 
+mp.actdesc['help'] = LL("Help on word over cursor");
+
 /* data */
 
 mp.syntax = {};

@@ -99,20 +99,22 @@ mp.keycodes['mouse-wheel-down']		= "move-mouse-wheel-down";
 
 /* action descriptions */
 
-mp.actdesc['move-left']	 	= LL("Character left");
-mp.actdesc['move-right'] 	= LL("Character right");
-mp.actdesc['move-up']		= LL("Line up");
-mp.actdesc['move-down']		= LL("Line down");
-mp.actdesc['move-pgup']		= LL("Page up");
-mp.actdesc['move-pgdn']		= LL("Page down");
-mp.actdesc['move-bol']		= LL("Beginning of line");
-mp.actdesc['move-eol']		= LL("End of line");
-mp.actdesc['move-bof']		= LL("Beginning of file");
-mp.actdesc['move-eof']		= LL("End of file");
-mp.actdesc['move-word-left']	= LL("Word left");
-mp.actdesc['move-word-right']	= LL("Word right");
-mp.actdesc['goto']		= LL("Go to line...");
-mp.actdesc['mouse-position']	= LL("Move cursor to mouse click");
+mp.actdesc['move-left']	 		= LL("Character left");
+mp.actdesc['move-right'] 		= LL("Character right");
+mp.actdesc['move-up']			= LL("Line up");
+mp.actdesc['move-down']			= LL("Line down");
+mp.actdesc['move-pgup']			= LL("Page up");
+mp.actdesc['move-pgdn']			= LL("Page down");
+mp.actdesc['move-bol']			= LL("Beginning of line");
+mp.actdesc['move-eol']			= LL("End of line");
+mp.actdesc['move-bof']			= LL("Beginning of file");
+mp.actdesc['move-eof']			= LL("End of file");
+mp.actdesc['move-word-left']		= LL("Word left");
+mp.actdesc['move-word-right']		= LL("Word right");
+mp.actdesc['goto']			= LL("Go to line...");
+mp.actdesc['move-to-mouse-position']	= LL("Move cursor to mouse click");
+mp.actdesc['move-mouse-wheel-down']	= LL("Mouse wheel up");
+mp.actdesc['move-mouse-wheel-up']	= LL("Mouse wheel down");
 
 /* code */
 
