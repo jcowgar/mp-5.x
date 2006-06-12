@@ -687,6 +687,13 @@ mpdm_t mp_get_history(mpdm_t key)
 }
 
 
+mpdm_t mp_menu_label(mpdm_t action)
+/* interfaz to mp.menu_label() */
+{
+	return(mpdm_exec_1(mpdm_hget_s(mp, L"menu_label"), action));
+}
+
+
 mpdm_t mp_exit(mpdm_t args)
 /* exit the editor (set mp_exit_requested) */
 {

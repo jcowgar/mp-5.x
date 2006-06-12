@@ -215,6 +215,36 @@ sub mp.get_history(key)
 }
 
 
+sub mp.menu_label(action)
+/* returns a label for the menu for an action */
+{
+	local l, i;
+
+	/* no recognized action? return */
+	if(!exists(mp.actions, action))
+		return(action ~ "?");
+
+	/* get the translated description */
+	l = L(mp.actdesc[action]);
+
+	/* is there a keycode that generates this action? */
+	foreach(i, sort(keys(mp.keycodes)))
+	{
+		if(mp.keycodes[i] eq action)
+		{
+			/* avoid mouse and window pseudo-keycodes */
+			if(!regex("/window/", i) && !regex("/mouse/", i))
+			{
+				l = l ~ ' [' ~ i ~ ']';
+				break;
+			}
+		}
+	}
+
+	return(l);
+}
+
+
 sub mp.process_cmdline()
 /* process the command line arguments (ARGV) */
 {

@@ -283,13 +283,7 @@ static void build_submenu(GtkWidget * menu, mpdm_t labels)
 		else
 		{
 			char * ptr;
-			mpdm_t d;
-
-			/* get the description */
-			if((d = mpdm_hget(desc, v)) != NULL)
-				d = mpdm_gettext(d);
-			else
-				d = v;
+			mpdm_t d = mp_menu_label(v);
 
 			ptr = wcs_to_utf8(mpdm_string(d));
 			menu_item = gtk_menu_item_new_with_label(ptr);

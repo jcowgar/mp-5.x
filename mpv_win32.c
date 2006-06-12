@@ -270,14 +270,8 @@ static void build_menu(void)
 				AppendMenu(submenu, MF_SEPARATOR, 0, NULL);
 			else
 			{
-				mpdm_t d;
 				MENUITEMINFO mi;
-
-				/* get the description */
-				if((d = mpdm_hget(desc, v)) != NULL)
-					d = mpdm_gettext(d);
-				else
-					d = v;
+				mpdm_t d = mp_menu_label(v);
 
 				/* set the string */
 				ptr = mpdm_wcstombs(mpdm_string(d), NULL);
