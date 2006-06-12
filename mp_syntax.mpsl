@@ -222,7 +222,7 @@ mp.syntax.sh = {
 
 	],
 	'variables'	=>	[
-				"/(local|let|set)/",
+				'/\b(local|let|set)\b/',
 				'/[-=<>:\?\+\*\!\%&\|]+/',
 				'/\$\w+/'
 	],
