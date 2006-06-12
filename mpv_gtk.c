@@ -259,6 +259,9 @@ static void menu_item_callback(mpdm_t action)
 /* menu click callback */
 {
 	mp_process_action(action);
+
+	if(mp_exit_requested)
+		gtk_main_quit();
 }
 
 
