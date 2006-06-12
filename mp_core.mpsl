@@ -283,12 +283,13 @@ sub mp.post_ui_startup()
 
 /* driver wrappers */
 
-sub mp.update_ui()	{ mp.drv.update_ui(); }
-sub mp.alert(a)		{ push(mp.alert_log, a); mp.drv.alert(a); }
-sub mp.confirm(a)	{ mp.drv.confirm(a); }
-sub mp.readline(a,b,c)	{ mp.drv.readline(a,b,c); }
-sub mp.openfile(a)	{ mp.drv.openfile(a); }
-sub mp.savefile(a)	{ mp.drv.savefile(a); }
+sub mp.update_ui()		{ mp.drv.update_ui(); }
+sub mp.alert(a)			{ push(mp.alert_log, a); mp.drv.alert(a); }
+sub mp.confirm(a)		{ mp.drv.confirm(a); }
+sub mp.readline(a,b,c)		{ mp.drv.readline(a,b,c); }
+sub mp.openfile(a)		{ mp.drv.openfile(a); }
+sub mp.savefile(a)		{ mp.drv.savefile(a); }
+sub mp.readline_search(a,b)	{ '/' ~ mp.drv.readline(a,'search',b) ~ '/'; }
 
 sub mp.ui()
 {
