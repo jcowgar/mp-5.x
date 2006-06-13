@@ -8,5 +8,5 @@ foreach(l, keys(mp.keycodes))
 	   and is not defined in the action table... */
 	if(mp.keycodes[l] && !is_exec(mp.keycodes[l]) &&
 		!exists(mp.actions, mp.keycodes[l]))
-		print(l, "\n");
+		print(l, ": ", mp.keycodes[l], "?\n");
 }
