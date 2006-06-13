@@ -29,19 +29,19 @@
 
 mp.actions['unmark']	= sub (d) { mp.unmark(d); };
 mp.actions['mark']	= sub (d) { mp.mark(d); };
-mp.actions['copy-mark']	= sub (d) {
+mp.actions['copy_mark']	= sub (d) {
 					mp.copy(d);
 					mp.unmark(d);
 					mp.drv.clip_to_sys();
 				};
 
-mp.actions['paste-mark'] = sub (d) {
+mp.actions['paste_mark'] = sub (d) {
 					mp.store_undo(d);
 					mp.drv.sys_to_clip();
 					mp.paste(d);
 				};
 
-mp.actions['cut-mark']	= sub (d) {
+mp.actions['cut_mark']	= sub (d) {
 					mp.store_undo(d);
 					mp.cut(d);
 					mp.drv.clip_to_sys();
@@ -51,16 +51,16 @@ mp.actions['cut-mark']	= sub (d) {
 
 mp.keycodes['f8']	= "unmark";
 mp.keycodes['f9']	= "mark";
-mp.keycodes['ctrl-c']	= "copy-mark";
-mp.keycodes['ctrl-v']	= "paste-mark";
-mp.keycodes['ctrl-x']	= "cut-mark";
+mp.keycodes['ctrl-c']	= "copy_mark";
+mp.keycodes['ctrl-v']	= "paste_mark";
+mp.keycodes['ctrl-x']	= "cut_mark";
 
 /* action descriptions */
 mp.actdesc['unmark']	= LL("Unmark block");
 mp.actdesc['mark']	= LL("Mark begining/end of block");
-mp.actdesc['copy-mark']	= LL("Copy block");
-mp.actdesc['paste-mark']= LL("Paste block");
-mp.actdesc['cut-mark']	= LL("Cut block");
+mp.actdesc['copy_mark']	= LL("Copy block");
+mp.actdesc['paste_mark']= LL("Paste block");
+mp.actdesc['cut_mark']	= LL("Cut block");
 
 /* code */
 

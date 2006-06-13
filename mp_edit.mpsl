@@ -28,36 +28,36 @@
 
 /* editor actions */
 
-mp.actions['insert-line']	= sub (d) { mp.store_undo(d); mp.insert_newline(d); };
-mp.actions['delete-line']	= sub (d) { mp.store_undo(d); mp.delete_line(d); };
-mp.actions['insert-space']	= sub (d) { mp.store_undo(d); mp.insert_space(d); };
-mp.actions['insert-tab']	= sub (d) { mp.store_undo(d); mp.insert_tab(d); };
+mp.actions['insert_line']	= sub (d) { mp.store_undo(d); mp.insert_newline(d); };
+mp.actions['delete_line']	= sub (d) { mp.store_undo(d); mp.delete_line(d); };
+mp.actions['insert_space']	= sub (d) { mp.store_undo(d); mp.insert_space(d); };
+mp.actions['insert_tab']	= sub (d) { mp.store_undo(d); mp.insert_tab(d); };
 mp.actions['delete']		= sub (d) { mp.store_undo(d); mp.delete_char(d); };
-mp.actions['delete-left']	= sub (d) { mp.store_undo(d); mp.move_left(d);
+mp.actions['delete_left']	= sub (d) { mp.store_undo(d); mp.move_left(d);
 					mp.delete_char(d); };
 mp.actions['undo']		= sub (d) { mp.undo(d); };
 
 
 /* default key bindings */
 
-mp.keycodes['enter']	= "insert-line";
-mp.keycodes['tab']	= "insert-tab";
-mp.keycodes['space']	= "insert-space";
+mp.keycodes['enter']	= "insert_line";
+mp.keycodes['tab']	= "insert_tab";
+mp.keycodes['space']	= "insert_space";
 mp.keycodes['delete']	= "delete";
-mp.keycodes['backspace']= "delete-left";
-mp.keycodes['ctrl-i']	= "insert-tab";
-mp.keycodes['ctrl-m']	= "insert-line";
-mp.keycodes['ctrl-y']	= "delete-line";
+mp.keycodes['backspace']= "delete_left";
+mp.keycodes['ctrl-i']	= "insert_tab";
+mp.keycodes['ctrl-m']	= "insert_line";
+mp.keycodes['ctrl-y']	= "delete_line";
 mp.keycodes['ctrl-z']	= "undo";
 
 /* action descriptions */
 
-mp.actdesc['insert-line']	= LL("Insert line");
-mp.actdesc['delete-line']	= LL("Delete line");
-mp.actdesc['insert-space']	= LL("Insert space");
-mp.actdesc['insert-tab']	= LL("Insert tab");
+mp.actdesc['insert_line']	= LL("Insert line");
+mp.actdesc['delete_line']	= LL("Delete line");
+mp.actdesc['insert_space']	= LL("Insert space");
+mp.actdesc['insert_tab']	= LL("Insert tab");
 mp.actdesc['delete']		= LL("Delete character");
-mp.actdesc['delete-left']	= LL("Delete character to the left");
+mp.actdesc['delete_left']	= LL("Delete character to the left");
 mp.actdesc['undo']		= LL("Undo last operation");
 
 /* code */

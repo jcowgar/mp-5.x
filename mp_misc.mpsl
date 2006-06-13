@@ -42,7 +42,7 @@ mp.actions['eval']	= sub (d) {
 	}
 };
 
-mp.actions['eval-doc']	= sub (d) {
+mp.actions['eval_doc']	= sub (d) {
 	local t = join("\n", d.txt.lines);
 
 	if(t != NULL)
@@ -54,13 +54,13 @@ mp.actions['eval-doc']	= sub (d) {
 	}
 };
 
-mp.actions['zoom-in'] 	= sub (d) {
+mp.actions['zoom_in'] 	= sub (d) {
 
 	mp.config.font_size++;
 	mp.update_ui();
 };
 
-mp.actions['zoom-out'] 	= sub (d) {
+mp.actions['zoom_out'] 	= sub (d) {
 
 	if(mp.config.font_size > 4)
 	{
@@ -72,17 +72,17 @@ mp.actions['zoom-out'] 	= sub (d) {
 /* default key bindings */
 
 mp.keycodes['escape']		= 'eval';
-mp.keycodes['f12']		= 'zoom-in';
-mp.keycodes['ctrl-kp-plus' ]	= 'zoom-in';
-mp.keycodes['f11']		= 'zoom-out';
-mp.keycodes['ctrl-kp-minus' ]	= 'zoom-out';
+mp.keycodes['f12']		= 'zoom_in';
+mp.keycodes['ctrl-kp-plus' ]	= 'zoom_in';
+mp.keycodes['f11']		= 'zoom_out';
+mp.keycodes['ctrl-kp-minus' ]	= 'zoom_out';
 
 /* action descriptions */
 
 mp.actdesc['eval']	= LL("Execute MPSL code...");
-mp.actdesc['eval-doc']	= LL("Execute document as MPSL");
-mp.actdesc['zoom-in']	= LL("Bigger font");
-mp.actdesc['zoom-out']	= LL("Smaller font");
+mp.actdesc['eval_doc']	= LL("Execute document as MPSL");
+mp.actdesc['zoom_in']	= LL("Bigger font");
+mp.actdesc['zoom_out']	= LL("Smaller font");
 
 /* code */
 

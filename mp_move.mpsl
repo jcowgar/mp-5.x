@@ -27,18 +27,18 @@
 
 /* editor actions */
 
-mp.actions['move-left']	 	= sub (d) { mp.move_left(d); };
-mp.actions['move-right'] 	= sub (d) { mp.move_right(d); };
-mp.actions['move-up']		= sub (d) { mp.move_up(d); };
-mp.actions['move-down']		= sub (d) { mp.move_down(d); };
-mp.actions['move-pgup']		= sub (d) { mp.move_pgup(d); };
-mp.actions['move-pgdn']		= sub (d) { mp.move_pgdn(d); };
-mp.actions['move-bol']		= sub (d) { mp.move_bol(d); };
-mp.actions['move-eol']		= sub (d) { mp.move_eol(d); };
-mp.actions['move-bof']		= sub (d) { mp.move_bof(d); };
-mp.actions['move-eof']		= sub (d) { mp.move_eof(d); };
-mp.actions['move-word-left']	= sub (d) { mp.move_word_left(d); };
-mp.actions['move-word-right']	= sub (d) { mp.move_word_right(d); };
+mp.actions['move_left']	 	= sub (d) { mp.move_left(d); };
+mp.actions['move_right'] 	= sub (d) { mp.move_right(d); };
+mp.actions['move_up']		= sub (d) { mp.move_up(d); };
+mp.actions['move_down']		= sub (d) { mp.move_down(d); };
+mp.actions['move_pgup']		= sub (d) { mp.move_pgup(d); };
+mp.actions['move_pgdn']		= sub (d) { mp.move_pgdn(d); };
+mp.actions['move_bol']		= sub (d) { mp.move_bol(d); };
+mp.actions['move_eol']		= sub (d) { mp.move_eol(d); };
+mp.actions['move_bof']		= sub (d) { mp.move_bof(d); };
+mp.actions['move_eof']		= sub (d) { mp.move_eof(d); };
+mp.actions['move_word_left']	= sub (d) { mp.move_word_left(d); };
+mp.actions['move_word_right']	= sub (d) { mp.move_word_right(d); };
 
 mp.actions['goto']		= sub (d) {
 	local y = mp.readline(L("Line to go to:"), "goto");
@@ -50,7 +50,7 @@ mp.actions['goto']		= sub (d) {
 	}
 };
 
-mp.actions['move-to-mouse-position']	= sub (d) {
+mp.actions['move_to_mouse_position']	= sub (d) {
 	/* move to that line */
 	mp.set_y(d, d.txt.vy + mp.mouse_y);
 
@@ -62,14 +62,14 @@ mp.actions['move-to-mouse-position']	= sub (d) {
 	mp.set_x(d, x);
 };
 
-mp.actions['move-mouse-wheel-up']	= sub (d) {
+mp.actions['move_mouse_wheel_up']	= sub (d) {
 	mp.move_up(d);
 	mp.move_up(d);
 	mp.move_up(d);
 	mp.move_up(d);
 };
 
-mp.actions['move-mouse-wheel-down']	= sub (d) {
+mp.actions['move_mouse_wheel_down']	= sub (d) {
 	mp.move_down(d);
 	mp.move_down(d);
 	mp.move_down(d);
@@ -78,43 +78,43 @@ mp.actions['move-mouse-wheel-down']	= sub (d) {
 
 /* default key bindings */
 
-mp.keycodes['cursor-left']		= "move-left";
-mp.keycodes['cursor-right']		= "move-right";
-mp.keycodes['cursor-up']		= "move-up";
-mp.keycodes['cursor-down']		= "move-down";
-mp.keycodes['page-up']			= "move-pgup";
-mp.keycodes['page-down']		= "move-pgdn";
-mp.keycodes['home']			= "move-bol";
-mp.keycodes['end']			= "move-eol";
-mp.keycodes['ctrl-home']		= "move-bof";
-mp.keycodes['ctrl-end']			= "move-eof";
-mp.keycodes['ctrl-cursor-left']		= "move-word-left";
-mp.keycodes['ctrl-cursor-right']	= "move-word-right";
+mp.keycodes['cursor-left']		= "move_left";
+mp.keycodes['cursor-right']		= "move_right";
+mp.keycodes['cursor-up']		= "move_up";
+mp.keycodes['cursor-down']		= "move_down";
+mp.keycodes['page-up']			= "move_pgup";
+mp.keycodes['page-down']		= "move_pgdn";
+mp.keycodes['home']			= "move_bol";
+mp.keycodes['end']			= "move_eol";
+mp.keycodes['ctrl-home']		= "move_bof";
+mp.keycodes['ctrl-end']			= "move_eof";
+mp.keycodes['ctrl-cursor-left']		= "move_word_left";
+mp.keycodes['ctrl-cursor-right']	= "move_word_right";
 mp.keycodes['ctrl-g']			= "goto";
-mp.keycodes['mouse-left-button'] 	= "move-to-mouse-position";
-mp.keycodes['mouse-right-button'] 	= "move-to-mouse-position";
-mp.keycodes['mouse-middle-button'] 	= "move-to-mouse-position";
-mp.keycodes['mouse-wheel-up']		= "move-mouse-wheel-up";
-mp.keycodes['mouse-wheel-down']		= "move-mouse-wheel-down";
+mp.keycodes['mouse-left-button'] 	= "move_to_mouse_position";
+mp.keycodes['mouse-right-button'] 	= "move_to_mouse_position";
+mp.keycodes['mouse-middle-button'] 	= "move_to_mouse_position";
+mp.keycodes['mouse-wheel-up']		= "move_mouse_wheel_up";
+mp.keycodes['mouse-wheel-down']		= "move_mouse_wheel_down";
 
 /* action descriptions */
 
-mp.actdesc['move-left']	 		= LL("Character left");
-mp.actdesc['move-right'] 		= LL("Character right");
-mp.actdesc['move-up']			= LL("Line up");
-mp.actdesc['move-down']			= LL("Line down");
-mp.actdesc['move-pgup']			= LL("Page up");
-mp.actdesc['move-pgdn']			= LL("Page down");
-mp.actdesc['move-bol']			= LL("Beginning of line");
-mp.actdesc['move-eol']			= LL("End of line");
-mp.actdesc['move-bof']			= LL("Beginning of file");
-mp.actdesc['move-eof']			= LL("End of file");
-mp.actdesc['move-word-left']		= LL("Word left");
-mp.actdesc['move-word-right']		= LL("Word right");
+mp.actdesc['move_left']	 		= LL("Character left");
+mp.actdesc['move_right'] 		= LL("Character right");
+mp.actdesc['move_up']			= LL("Line up");
+mp.actdesc['move_down']			= LL("Line down");
+mp.actdesc['move_pgup']			= LL("Page up");
+mp.actdesc['move_pgdn']			= LL("Page down");
+mp.actdesc['move_bol']			= LL("Beginning of line");
+mp.actdesc['move_eol']			= LL("End of line");
+mp.actdesc['move_bof']			= LL("Beginning of file");
+mp.actdesc['move_eof']			= LL("End of file");
+mp.actdesc['move_word_left']		= LL("Word left");
+mp.actdesc['move_word_right']		= LL("Word right");
 mp.actdesc['goto']			= LL("Go to line...");
-mp.actdesc['move-to-mouse-position']	= LL("Move cursor to mouse click");
-mp.actdesc['move-mouse-wheel-down']	= LL("Mouse wheel up");
-mp.actdesc['move-mouse-wheel-up']	= LL("Mouse wheel down");
+mp.actdesc['move_to_mouse_position']	= LL("Move cursor to mouse click");
+mp.actdesc['move_mouse_wheel_down']	= LL("Mouse wheel up");
+mp.actdesc['move_mouse_wheel_up']	= LL("Mouse wheel down");
 
 /* code */
 

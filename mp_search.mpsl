@@ -34,26 +34,26 @@ mp.actions['seek'] 	= sub (d) {
 		mp.search(d, t) || mp.alert(L("Text not found."));
 	};
 
-mp.actions['seek-next']	= sub (d) { mp.search(d, NULL) ||
+mp.actions['seek_next']	= sub (d) { mp.search(d, NULL) ||
 		mp.alert(L("Text not found."));
 	};
 
 mp.actions['replace']	= sub (d) { mp.replace(d, mp.get_word(d), 'TEST'); };
-mp.actions['replace-all'] = sub (d) { mp.replace_all(d, mp.get_word(d), 'TESTALL'); };
-mp.actions['replace-in-all'] = sub (d) { mp.replace_in_all(mp.get_word(d), 'TESTINALL'); };
+mp.actions['replace_all'] = sub (d) { mp.replace_all(d, mp.get_word(d), 'TESTALL'); };
+mp.actions['replace_in_all'] = sub (d) { mp.replace_in_all(mp.get_word(d), 'TESTINALL'); };
 
 /* default key bindings */
 
-mp.keycodes['f3']	= "seek-next";
+mp.keycodes['f3']	= "seek_next";
 mp.keycodes['ctrl-f']	= "seek";
 mp.keycodes['ctrl-r']	= "replace";
 
 /* action descriptions */
 mp.actdesc['seek']		= LL("Search text...");
-mp.actdesc['seek-next'] 	= LL("Search next");
+mp.actdesc['seek_next'] 	= LL("Search next");
 mp.actdesc['replace']		= LL("Replace...");
-mp.actdesc['replace-all']	= LL("Replace all...");
-mp.actdesc['replace-in-all']	= LL("Replace in all...");
+mp.actdesc['replace_all']	= LL("Replace all...");
+mp.actdesc['replace_in_all']	= LL("Replace in all...");
 
 /* code */
 
