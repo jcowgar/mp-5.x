@@ -17,8 +17,6 @@ Release Critical Bugs
    a tag (needs #1139) and selecting from a list (needs #1140).
  * 1142: Add symbol completion with tags (needs #1140).
  * 1150: The GTK menu is not rebuilt when calling mp.update_ui().
- * 1151: The menu should show a ? if the action doesn't exist.
- * 1152: The menu should show the bound key, if any.
 
 Open Bugs
 ---------
@@ -98,5 +96,9 @@ Closed
  * 1144: Add the menu (Tue, 06 Jun 2006 19:09:38 +0200).
  * 1146: Add 'recording macro' flag to the status line
    (Sat, 10 Jun 2006 11:51:28 +0200).
+ * 1151: The menu should show a ? if the action doesn't exist
+   (Tue, 13 Jun 2006 16:19:05 +0200).
+ * 1152: The menu should show the bound key, if any
+   (Tue, 13 Jun 2006 16:19:11 +0200).
 
 Email bugs to angel@triptico.com
