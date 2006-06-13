@@ -27,6 +27,7 @@
 
 /* editor actions */
 
+mp.actions['new']	= sub (d) { mp.new(); };
 mp.actions['next']	= sub (d) { mp.next(); };
 
 mp.actions['save']	= sub (d) {
@@ -102,6 +103,7 @@ mp.keycodes['close-window'] 	= 'exit';
 
 /* action descriptions */
 
+mp.actdesc['new']	= LL("New");
 mp.actdesc['save']	= LL("Save...");
 mp.actdesc['next'] 	= LL("Next");
 mp.actdesc['open'] 	= LL("Open...");
