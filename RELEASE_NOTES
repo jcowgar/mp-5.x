@@ -7,6 +7,12 @@ Minimum Profit 5.x Release Notes
  * Improved menus: if an invalid action is added to a menu, it's shown
    followed by a ?; if a key is bound to that action, it's shown between
    square brackets.
+ * For systems lacking iconv support (MS Windows), a crappy, ad-hoc utf-8
+   converter has been added. This means that hitting 'escape' and typing
+
+	encoding('utf-8');
+
+   works everywhere (for reading and writing utf-8 encoded files).
 
 4.99.9
 ------
