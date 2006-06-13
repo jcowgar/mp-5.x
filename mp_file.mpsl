@@ -30,25 +30,28 @@
 mp.actions['new']	= sub (d) { mp.new(); };
 mp.actions['next']	= sub (d) { mp.next(); };
 
+mp.actions['save_as']	= sub (d) {
+
+	local t;
+
+	/* name is <unnamed> or something similar; ask for one */
+	if((t = mp.savefile(L("Save file as:"))) == NULL)
+		return;
+
+	/* store new name */
+	d.name = t;
+
+	if(mp.save_file(d) == -1)
+		mp.alert(sprintf(L("Error saving file: %s"), ERROR));
+};
+
 mp.actions['save']	= sub (d) {
 
 	if(regex("/^<.+>$/", d.name))
-	{
-		local t;
-
-		/* name is <unnamed> or something similar; ask for one */
-		if((t = mp.savefile(L("Save file as:"))) == NULL)
-			return;
-
-		/* store new name */
-		d.name = t;
-	}
-
+		mp.actions.save_as(d);
+	else
 	if(mp.save_file(d) == -1)
-	{
 		mp.alert(sprintf(L("Error saving file: %s"), ERROR));
-		d.name = L("<unnamed>");
-	}
 };
 
 mp.actions['close']	= sub (d) {
@@ -105,6 +108,7 @@ mp.keycodes['close-window'] 	= 'exit';
 
 mp.actdesc['new']	= LL("New");
 mp.actdesc['save']	= LL("Save...");
+mp.actdesc['save_as']	= LL("Save as...");
 mp.actdesc['next'] 	= LL("Next");
 mp.actdesc['open'] 	= LL("Open...");
 mp.actdesc['exit'] 	= LL("Exit");
@@ -169,7 +173,11 @@ sub mp.save_file(doc)
 		unlink(doc.name);
 
 	if((f = open(doc.name, "w")) == NULL)
+	{
+		/* can't write? delete name */
+		doc.name = L("<unnamed>");
 		return(-1);
+	}
 
 	foreach(l, doc.txt.lines)
 	{
