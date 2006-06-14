@@ -27,7 +27,10 @@
 
 sub mp.drv.alert(msg)
 {
-	1;
+	mp.drv.tui_move(0, mp.window.ty - 1);
+	mp.drv.tui_addstr(msg ~ L(" [ENTER]"));
+
+	while(mp.drv.tui_getkey() ne 'enter');
 }
 
 
