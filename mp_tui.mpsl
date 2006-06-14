@@ -27,29 +27,35 @@
 
 sub mp.drv.alert(msg)
 {
+	1;
 }
 
 
 sub mp.drv.confirm(msg)
 {
+	1;
 }
 
 
 sub mp.drv.readline(prompt, history, default)
 {
+	1;
 }
 
 
 sub mp.drv.readline_search(prompt)
 {
+	1;
 }
 
 
 sub mp.drv.openfile(prompt)
 {
+	1;
 }
 
 
 sub mp.drv.savefile(prompt)
 {
+	1;
 }

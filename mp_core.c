@@ -725,6 +725,8 @@ int w32drv_init(void);
 
 void mp_startup(void)
 {
+	mpdm_t INC;
+
 	mpsl_startup();
 
 	mpsl_argv(mp_main_argc, mp_main_argv);
@@ -742,6 +744,21 @@ void mp_startup(void)
 	/* version */
 	mpdm_hset_s(mp, L"VERSION", MPDM_S(L"mp " VERSION));
 
+	/* creates the INC (executable path) array */
+	INC = MPDM_A(0);
+
+	/* HACK: use current directory */
+	mpdm_push(INC, MPDM_LS(L"."));
+
+	/* add installed library path */
+	mpdm_push(INC, mpdm_strcat(
+		mpdm_hget_s(mpdm_root(), L"APPDIR"),
+		MPDM_MBS(CONFOPT_APPNAME))
+	);
+
+	/* set INC */
+	mpdm_hset_s(mpdm_root(), L"INC", INC);
+
 	if(!w32drv_init())
 	if(!gtkdrv_init())
 	if(!ncdrv_init())
@@ -755,23 +772,6 @@ void mp_startup(void)
 void mp_mpsl(void)
 {
 	mpdm_t v;
-	mpdm_t INC;
-
-	/* creates the INC (executable path) array */
-	INC = MPDM_A(0);
-
-	/* HACK: use current directory */
-	mpdm_push(INC, MPDM_LS(L"."));
-
-	/* add installed library path */
-/*	mpdm_push(INC, mpdm_hget_s(mp, L"LIB"));*/
-	mpdm_push(INC, mpdm_strcat(
-		mpdm_hget_s(mpdm_root(), L"APPDIR"),
-		MPDM_MBS(CONFOPT_APPNAME))
-	);
-
-	/* set INC */
-	mpdm_hset_s(mpdm_root(), L"INC", INC);
 
 	if((v = mpsl_compile_file(MPDM_LS(L"mp_core.mpsl"))) == NULL)
 	{
