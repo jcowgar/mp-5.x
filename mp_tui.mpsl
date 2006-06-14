@@ -73,7 +73,10 @@ sub mp.drv.confirm(msg)
 
 sub mp.drv.readline(prompt, history, default)
 {
+	local c;
+
 	mp.drv.alert(prompt);
+	c = mp.tui.getxy();
 
 	return(NULL);
 }

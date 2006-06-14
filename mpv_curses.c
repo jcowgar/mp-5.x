@@ -503,6 +503,21 @@ static mpdm_t tui_refresh(mpdm_t a)
 }
 
 
+static mpdm_t tui_getxy(mpdm_t a)
+/* TUI: returns the x and y cursor position */
+{
+	mpdm_t v;
+	int x, y;
+
+	getyx(stdscr, y, x);
+
+	v = MPDM_A(2);
+	mpdm_aset(v, MPDM_I(x), 0);
+	mpdm_aset(v, MPDM_I(y), 1);
+	return(v);
+}
+
+
 int ncdrv_init(void)
 {
 	mpdm_t drv;
@@ -543,6 +558,7 @@ int ncdrv_init(void)
 	mpdm_hset_s(tui, L"move", MPDM_X(tui_move));
 	mpdm_hset_s(tui, L"attr", MPDM_X(tui_attr));
 	mpdm_hset_s(tui, L"refresh", MPDM_X(tui_refresh));
+	mpdm_hset_s(tui, L"getxy", MPDM_X(tui_getxy));
 
 	return(1);
 }
