@@ -47,8 +47,8 @@ sub mp.drv.confirm(msg)
 	{
 		k = mp.drv.tui_getkey();
 
-		if(k eq 'y') return(1);
-		if(k eq 'n') return(2);
+		if(regex('/^y$/i', k)) return(1);
+		if(regex('/^n$/i', k)) return(2);
 		if(k eq 'escape') return(0);
 	}
 }
