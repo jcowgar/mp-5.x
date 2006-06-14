@@ -137,15 +137,15 @@ msgstr "Ejecutar macro"
 msgid "Undo last operation"
 msgstr "Deshacer última operación"
 
-#: mp_file.mpsl:54 mp_file.mpsl:58
+#: mp_file.mpsl:54 mp_file.mpsl:58 mp_file.mpsl:62
 msgid "File has changed. Save changes?"
 msgstr "El fichero ha cambiado. ¿Guardar cambios?"
 
-#: mp_file.mpsl:85 mp_file.mpsl:89
+#: mp_file.mpsl:85 mp_file.mpsl:89 mp_file.mpsl:93
 msgid "File to open:"
 msgstr "Fichero a abrir:"
 
-#: mp_file.mpsl:101 mp_file.mpsl:105
+#: mp_file.mpsl:101 mp_file.mpsl:105 mp_file.mpsl:110
 msgid "Save..."
 msgstr "Guardar..."
 
@@ -181,7 +181,7 @@ msgstr "Texto a buscar:"
 msgid "Text not found."
 msgstr "Texto no encontrado."
 
-#: mp_file.mpsl:39
+#: mp_file.mpsl:39 mp_file.mpsl:38
 msgid "Save file as:"
 msgstr "Guardar fichero como:"
 
@@ -215,28 +215,28 @@ msgstr "&Ir A"
 msgid "&Options"
 msgstr "&Opciones"
 
-#: mp_file.mpsl:48
+#: mp_file.mpsl:48 mp_file.mpsl:45 mp_file.mpsl:54
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Error salvando fichero: %s"
 
-#: mp_file.mpsl:49
+#: mp_file.mpsl:49 mp_file.mpsl:178
 msgid "<unnamed>"
 msgstr "<sin nombre>"
 
-#: mp_file.mpsl:106
+#: mp_file.mpsl:106 mp_file.mpsl:112
 msgid "Next"
 msgstr "Siguiente"
 
-#: mp_file.mpsl:107
+#: mp_file.mpsl:107 mp_file.mpsl:113
 msgid "Open..."
 msgstr "Abrir..."
 
-#: mp_file.mpsl:108
+#: mp_file.mpsl:108 mp_file.mpsl:114
 msgid "Exit"
 msgstr "Salir"
 
-#: mp_file.mpsl:109
+#: mp_file.mpsl:109 mp_file.mpsl:115
 msgid "Close"
 msgstr "Cerrar"
 
@@ -267,3 +267,31 @@ msgstr "Rueda de ratón abajo"
 #: mp_syntax.mpsl:59
 msgid "Help on word over cursor"
 msgstr "Ayuda sobre la palabra sobre el cursor"
+
+#: mpv_gtk.c:1324 mp_tui.mpsl:43
+msgid "Yes"
+msgstr "Sí"
+
+#: mpv_gtk.c:1332 mp_tui.mpsl:44
+msgid "No"
+msgstr "No"
+
+#: mpv_gtk.c:1340 mpv_gtk.c:1438
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: mpv_gtk.c:1430
+msgid "OK"
+msgstr "Aceptar"
+
+#: mp_file.mpsl:109
+msgid "New"
+msgstr "Nuevo"
+
+#: mp_file.mpsl:111
+msgid "Save as..."
+msgstr "Salvar cómo..."
+
+#: mp_tui.mpsl:31
+msgid " [ENTER]"
+msgstr " [ENTER]"
