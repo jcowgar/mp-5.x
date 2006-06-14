@@ -526,6 +526,10 @@ int ncdrv_init(void)
 	mpdm_hset_s(drv, L"openfile", MPDM_X(ncdrv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(ncdrv_savefile));
 
+	/* the text user interface */
+	mpdm_hset_s(drv, L"tui_addstr", MPDM_X(nc_addwstr));
+	mpdm_hset_s(drv, L"tui_getkey", MPDM_X(nc_getkey));
+
 	return(1);
 }
 
