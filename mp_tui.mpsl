@@ -29,6 +29,7 @@ sub mp.drv.alert(msg)
 {
 	mp.drv.tui_move(0, mp.window.ty - 1);
 	mp.drv.tui_addstr(msg ~ L(" [ENTER]"));
+	mp.drv.tui_refresh();
 
 	while(mp.drv.tui_getkey() ne 'enter');
 }
@@ -36,7 +37,20 @@ sub mp.drv.alert(msg)
 
 sub mp.drv.confirm(msg)
 {
-	1;
+	local k;
+
+	mp.drv.tui_move(0, mp.window.ty - 1);
+	mp.drv.tui_addstr(msg ~ L(" [Y/N]"));
+	mp.drv.tui_refresh();
+
+	while(1)
+	{
+		k = mp.drv.tui_getkey();
+
+		if(k eq 'y') return(1);
+		if(k eq 'n') return(2);
+		if(k eq 'escape') return(0);
+	}
 }
 
 
