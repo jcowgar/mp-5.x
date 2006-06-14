@@ -536,6 +536,7 @@ static mpdm_t tui_refresh(mpdm_t a)
 int ncdrv_init(void)
 {
 	mpdm_t drv;
+	mpdm_t v;
 
 	drv = mpdm_ref(MPDM_H(0));
 	mpdm_hset_s(mp, L"drv", drv);
@@ -550,11 +551,11 @@ int ncdrv_init(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(ncdrv_update_ui));
 
-	mpdm_hset_s(drv, L"alert", MPDM_X(ncdrv_alert));
+/*	mpdm_hset_s(drv, L"alert", MPDM_X(ncdrv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(ncdrv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(ncdrv_readline));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(ncdrv_openfile));
-	mpdm_hset_s(drv, L"savefile", MPDM_X(ncdrv_savefile));
+	mpdm_hset_s(drv, L"savefile", MPDM_X(ncdrv_savefile));*/
 
 	/* the text user interface */
 	mpdm_hset_s(drv, L"tui_getkey", MPDM_X(nc_getkey));
@@ -562,6 +563,20 @@ int ncdrv_init(void)
 	mpdm_hset_s(drv, L"tui_move", MPDM_X(tui_move));
 	mpdm_hset_s(drv, L"tui_attr", MPDM_X(tui_attr));
 	mpdm_hset_s(drv, L"tui_refresh", MPDM_X(tui_refresh));
+
+	if((v = mpsl_compile_file(MPDM_LS(L"mp_tui.mpsl"))) == NULL)
+	{
+		/* compilation failed; print and exit */
+		mpdm_t e = mpdm_hget_s(mpdm_root(), L"ERROR");
+
+		if(e != NULL)
+		{
+			mpdm_write_wcs(stdout, mpdm_string(e));
+			printf("\n");
+		}
+	}
+	else
+		mpdm_exec(v, NULL);
 
 	return(1);
 }
