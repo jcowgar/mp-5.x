@@ -137,7 +137,7 @@ static wchar_t * nc_getwch(void)
 
 #define ctrl(k) ((k) & 31)
 
-static mpdm_t nc_getkey(void)
+static mpdm_t nc_getkey(mpdm_t args)
 /* reads a key and converts to an action */
 {
 	static int shift = 0;
@@ -433,7 +433,7 @@ static mpdm_t ncdrv_main_loop(mpdm_t a)
 		nc_draw(mp_active());
 
 		/* get key and process it */
-		mp_process_event(nc_getkey());
+		mp_process_event(nc_getkey(NULL));
 	}
 
 	return(NULL);
