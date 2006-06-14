@@ -73,12 +73,36 @@ sub mp.drv.confirm(msg)
 
 sub mp.drv.readline(prompt, history, default)
 {
-	local c;
+	local c, r;
 
-	mp.drv.alert(prompt);
+	mp.tui.prompt(prompt ~ ' ');
 	c = mp.tui.getxy();
+	r = default || '';
 
-	return(NULL);
+	while(1)
+	{
+		local k;
+
+		/* draws the string */
+		mp.tui.move(c[0], c[1], 1);
+		mp.tui.addstr(r);
+
+		k = mp.tui.getkey();
+
+		if(k eq 'enter') break;
+		else
+		if(k eq 'escape') { r = NULL; break; }
+		else
+		if(k eq 'backspace') r = sregex('/.$/', r);
+		else
+		if(k eq 'ctrl-u') r = '';
+		else
+		if(k eq 'space') r = r ~ ' ';
+		else
+			r = r ~ k;
+	}
+
+	return(r);
 }
 
 
