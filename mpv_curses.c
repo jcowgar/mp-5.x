@@ -499,6 +499,33 @@ static mpdm_t ncdrv_update_ui(mpdm_t a)
 }
 
 
+/* TUI */
+
+static mpdm_t tui_move(mpdm_t a)
+/* TUI: move to a screen position */
+{
+	/* curses' move() use y, x */
+	move(mpdm_ival(mpdm_aget(a, 1)), mpdm_ival(mpdm_aget(a, 0)));
+	return(NULL);
+}
+
+
+static mpdm_t tui_attr(mpdm_t a)
+/* TUI: set attribute for next string */
+{
+	attrset(nc_attrs[mpdm_ival(mpdm_aget(a, 0))]);
+	return(NULL);
+}
+
+
+static mpdm_t tui_refresh(mpdm_t a)
+/* TUI: refresh the screen */
+{
+	refresh();
+	return(NULL);
+}
+
+
 int ncdrv_init(void)
 {
 	mpdm_t drv;
@@ -525,6 +552,9 @@ int ncdrv_init(void)
 	/* the text user interface */
 	mpdm_hset_s(drv, L"tui_addstr", MPDM_X(nc_addwstr));
 	mpdm_hset_s(drv, L"tui_getkey", MPDM_X(nc_getkey));
+	mpdm_hset_s(drv, L"tui_move", MPDM_X(tui_move));
+	mpdm_hset_s(drv, L"tui_attr", MPDM_X(tui_attr));
+	mpdm_hset_s(drv, L"tui_refresh", MPDM_X(tui_refresh));
 
 	return(1);
 }
