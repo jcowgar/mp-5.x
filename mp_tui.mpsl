@@ -62,17 +62,17 @@ sub mp.drv.readline(prompt, history, default)
 
 sub mp.drv.readline_search(prompt)
 {
-	1;
+	mp.drv.readline(prompt, 'search');
 }
 
 
 sub mp.drv.openfile(prompt)
 {
-	1;
+	mp.drv.readline(prompt, 'openfile');
 }
 
 
 sub mp.drv.savefile(prompt)
 {
-	1;
+	mp.drv.readline(prompt, 'savefile');
 }
