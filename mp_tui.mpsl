@@ -27,7 +27,7 @@
 
 sub mp.drv.alert(msg)
 {
-	mp.drv.tui_move(0, mp.window.ty - 1);
+	mp.drv.tui_move(0, mp.window.ty - 1, 1);
 	mp.drv.tui_addstr(msg ~ L(" [ENTER]"));
 	mp.drv.tui_refresh();
 
@@ -44,7 +44,7 @@ sub mp.drv.confirm(msg)
 	y = regex('/^./', L("Yes"));
 	n = regex('/^./', L("No"));
 
-	mp.drv.tui_move(0, mp.window.ty - 1);
+	mp.drv.tui_move(0, mp.window.ty - 1, 1);
 	mp.drv.tui_addstr(msg ~ ' [' ~ y ~ '/' ~ n ~ ']');
 	mp.drv.tui_refresh();
 

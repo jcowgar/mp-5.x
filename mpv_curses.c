@@ -513,6 +513,11 @@ static mpdm_t tui_move(mpdm_t a)
 {
 	/* curses' move() use y, x */
 	move(mpdm_ival(mpdm_aget(a, 1)), mpdm_ival(mpdm_aget(a, 0)));
+
+	/* if third argument is not NULL, clear line */
+	if(mpdm_aget(a, 2) != NULL)
+		clrtoeol();
+
 	return(NULL);
 }
 
