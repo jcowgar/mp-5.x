@@ -95,3 +95,7 @@ sub mp.drv.savefile(prompt)
 {
 	mp.drv.readline(prompt, 'savefile');
 }
+
+
+/* returns the main namespace */
+mp.tui;

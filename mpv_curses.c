@@ -537,10 +537,7 @@ int ncdrv_init(void)
 	}
 
 	/* execute tui */
-	mpdm_exec(v, NULL);
-
-	/* the text user interface */
-	tui = mpdm_hget_s(mp, L"tui");
+	tui = mpdm_exec(v, NULL);
 	mpdm_hset_s(tui, L"getkey", MPDM_X(nc_getkey));
 	mpdm_hset_s(tui, L"addstr", MPDM_X(tui_addstr));
 	mpdm_hset_s(tui, L"move", MPDM_X(tui_move));
