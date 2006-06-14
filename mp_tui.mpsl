@@ -37,7 +37,8 @@ sub mp.drv.alert(msg)
 
 sub mp.drv.confirm(msg)
 {
-	local k, y, n;
+	local y, n;
+	local ret = NULL;
 
 	/* get the initials for localized 'Yes' and 'No' */
 	y = regex('/^./', L("Yes"));
@@ -47,14 +48,16 @@ sub mp.drv.confirm(msg)
 	mp.drv.tui_addstr(msg ~ ' [' ~ y ~ '/' ~ n ~ ']');
 	mp.drv.tui_refresh();
 
-	while(1)
+	while(ret == NULL)
 	{
-		k = mp.drv.tui_getkey();
+		local k = mp.drv.tui_getkey();
 
-		if(regex('/^' ~ y ~ '$/i', k)) return(1);
-		if(regex('/^' ~ n ~ '$/i', k)) return(2);
-		if(k eq 'escape') return(0);
+		if(regex('/^' ~ y ~ '$/i', k)) ret = 1;
+		if(regex('/^' ~ n ~ '$/i', k)) ret = 2;
+		if(k eq 'escape') ret = 0;
 	}
+
+	return(ret);
 }
 
 
