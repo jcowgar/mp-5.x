@@ -283,18 +283,14 @@ static void draw_status(void)
 /* draws the status bar */
 {
 	mpdm_t t;
-	int n;
 
 	t = mp_build_status_line();
 
-	/* move to the last line and draw there */
+	/* move to the last line, clear it and draw there */
 	move(LINES - 1, 0);
 	attrset(nc_attrs[normal_attr]);
+	clrtoeol();
 	nc_addwstr(t);
-
-	/* fill the line to the end */
-	for(n = mpdm_size(t);n < COLS;n++)
-		addch(' ');
 }
 
 
