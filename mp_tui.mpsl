@@ -25,21 +25,25 @@
 
 */
 
+/* main TUI namspace */
+mp.tui = {};
 
-sub mp.drv.tui_prompt(prompt)
+/* code */
+
+sub mp.tui.prompt(prompt)
 /* draw a prompt on screen */
 {
-	mp.drv.tui_move(0, mp.window.ty - 1, 1);
-	mp.drv.tui_addstr(prompt);
-	mp.drv.tui_refresh();
+	mp.tui.move(0, mp.window.ty - 1, 1);
+	mp.tui.addstr(prompt);
+	mp.tui.refresh();
 }
 
 
 sub mp.drv.alert(msg)
 {
-	mp.drv.tui_prompt(msg ~ L(" [ENTER]"));
+	mp.tui.prompt(msg ~ L(" [ENTER]"));
 
-	while(mp.drv.tui_getkey() ne 'enter');
+	while(mp.tui.getkey() ne 'enter');
 }
 
 
@@ -52,11 +56,11 @@ sub mp.drv.confirm(msg)
 	y = regex('/^./', L("Yes"));
 	n = regex('/^./', L("No"));
 
-	mp.drv.tui_prompt(msg ~ ' [' ~ y ~ '/' ~ n ~ ']');
+	mp.tui.prompt(msg ~ ' [' ~ y ~ '/' ~ n ~ ']');
 
 	while(ret == NULL)
 	{
-		local k = mp.drv.tui_getkey();
+		local k = mp.tui.getkey();
 
 		if(regex('/^' ~ y ~ '$/i', k)) ret = 1;
 		if(regex('/^' ~ n ~ '$/i', k)) ret = 2;

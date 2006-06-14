@@ -457,41 +457,6 @@ static mpdm_t ncdrv_sys_to_clip(mpdm_t a)
 }
 
 
-static mpdm_t ncdrv_alert(mpdm_t a)
-{
-	/* dummy */
-	return(NULL);
-}
-
-
-static mpdm_t ncdrv_confirm(mpdm_t a)
-{
-	/* dummy */
-	return(NULL);
-}
-
-
-static mpdm_t ncdrv_readline(mpdm_t a)
-{
-	/* dummy */
-	return(NULL);
-}
-
-
-static mpdm_t ncdrv_openfile(mpdm_t a)
-/* openfile driver function */
-{
-	return(ncdrv_readline(a));
-}
-
-
-static mpdm_t ncdrv_savefile(mpdm_t a)
-/* savefile driver function */
-{
-	return(ncdrv_readline(a));
-}
-
-
 static mpdm_t ncdrv_update_ui(mpdm_t a)
 {
 	/* dummy */
@@ -541,6 +506,7 @@ static mpdm_t tui_refresh(mpdm_t a)
 int ncdrv_init(void)
 {
 	mpdm_t drv;
+	mpdm_t tui;
 	mpdm_t v;
 
 	drv = mpdm_ref(MPDM_H(0));
@@ -556,19 +522,6 @@ int ncdrv_init(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(ncdrv_update_ui));
 
-/*	mpdm_hset_s(drv, L"alert", MPDM_X(ncdrv_alert));
-	mpdm_hset_s(drv, L"confirm", MPDM_X(ncdrv_confirm));
-	mpdm_hset_s(drv, L"readline", MPDM_X(ncdrv_readline));
-	mpdm_hset_s(drv, L"openfile", MPDM_X(ncdrv_openfile));
-	mpdm_hset_s(drv, L"savefile", MPDM_X(ncdrv_savefile));*/
-
-	/* the text user interface */
-	mpdm_hset_s(drv, L"tui_getkey", MPDM_X(nc_getkey));
-	mpdm_hset_s(drv, L"tui_addstr", MPDM_X(tui_addstr));
-	mpdm_hset_s(drv, L"tui_move", MPDM_X(tui_move));
-	mpdm_hset_s(drv, L"tui_attr", MPDM_X(tui_attr));
-	mpdm_hset_s(drv, L"tui_refresh", MPDM_X(tui_refresh));
-
 	if((v = mpsl_compile_file(MPDM_LS(L"mp_tui.mpsl"))) == NULL)
 	{
 		/* compilation failed; print and exit */
@@ -579,9 +532,20 @@ int ncdrv_init(void)
 			mpdm_write_wcs(stdout, mpdm_string(e));
 			printf("\n");
 		}
+
+		return(0);
 	}
-	else
-		mpdm_exec(v, NULL);
+
+	/* execute tui */
+	mpdm_exec(v, NULL);
+
+	/* the text user interface */
+	tui = mpdm_hget_s(mp, L"tui");
+	mpdm_hset_s(tui, L"getkey", MPDM_X(nc_getkey));
+	mpdm_hset_s(tui, L"addstr", MPDM_X(tui_addstr));
+	mpdm_hset_s(tui, L"move", MPDM_X(tui_move));
+	mpdm_hset_s(tui, L"attr", MPDM_X(tui_attr));
+	mpdm_hset_s(tui, L"refresh", MPDM_X(tui_refresh));
 
 	return(1);
 }
