@@ -259,19 +259,23 @@ static mpdm_t nc_getkey(void)
 }
 
 
-static void nc_addwstr(wchar_t * str)
+static mpdm_t nc_addwstr(mpdm_t str)
 /* draws a string */
 {
+	wchar_t * wptr = mpdm_string(str);
+
 #ifndef CONFOPT_ADDWSTR
 	char * cptr;
 
-	cptr = mpdm_wcstombs(str, NULL);
+	cptr = mpdm_wcstombs(wptr, NULL);
 	addstr(cptr);
 	free(cptr);
 
 #else
-	addwstr(str);
+	addwstr(wptr);
 #endif /* CONFOPT_ADDWSTR */
+
+	return(NULL);
 }
 
 
@@ -286,7 +290,7 @@ static void draw_status(void)
 	/* move to the last line and draw there */
 	move(LINES - 1, 0);
 	attrset(nc_attrs[normal_attr]);
-	nc_addwstr(t->data);
+	nc_addwstr(t);
 
 	/* fill the line to the end */
 	for(n = mpdm_size(t);n < COLS;n++)
@@ -320,7 +324,7 @@ static void nc_draw(mpdm_t doc)
 			s = mpdm_aget(l, m);
 
 			attrset(nc_attrs[attr]);
-			nc_addwstr((wchar_t *) s->data);
+			nc_addwstr(s);
 		}
 	}
 
