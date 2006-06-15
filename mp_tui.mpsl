@@ -107,9 +107,9 @@ sub mp.drv.readline(prompt, history, default)
 		else
 		if(k eq 'space') r = r ~ ' ';
 		else
-		if(k eq 'cursor-up') { i--; r = h[i % size(h)]; }
+		if(k eq 'cursor-up' && size(h)) { i--; r = h[i % size(h)]; }
 		else
-		if(k eq 'cursor-down') { i++; r = h[i % size(h)]; }
+		if(k eq 'cursor-down' && size(h)) { i++; r = h[i % size(h)]; }
 		else
 		if(size(k) == 1)
 			r = r ~ k;
