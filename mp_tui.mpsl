@@ -73,7 +73,7 @@ sub mp.drv.confirm(msg)
 
 sub mp.drv.readline(prompt, history, default)
 {
-	local c, r, h, i;
+	local c, r, h, i, v;
 
 	mp.tui.prompt(prompt ~ ' ');
 	c = mp.tui.getxy();
@@ -81,6 +81,9 @@ sub mp.drv.readline(prompt, history, default)
 
 	/* get the history stack */
 	h = mp.get_history(history);
+
+	/* create the clipping regular expression */
+	v = '/.{1,' ~ (mp.window.tx - c[0] - 1) ~ '}$/';
 
 	i = 0;
 
@@ -90,7 +93,7 @@ sub mp.drv.readline(prompt, history, default)
 
 		/* draws the string */
 		mp.tui.move(c[0], c[1], 1);
-		mp.tui.addstr(r);
+		mp.tui.addstr(regex(v, r) || '');
 
 		k = mp.tui.getkey();
 
