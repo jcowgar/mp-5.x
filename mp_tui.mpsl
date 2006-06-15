@@ -116,7 +116,7 @@ sub mp.drv.readline(prompt, history, default)
 	}
 
 	/* if a string was accepted, store in the history */
-	if(r != NULL && h[-1] ne r)
+	if(r != NULL && size(r) && h[-1] ne r)
 		push(h, r);
 
 	return(r);

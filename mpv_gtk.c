@@ -1458,7 +1458,8 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	if(modal_status == 1)
 	{
 		/* store in the history */
-		if(h != NULL && mpdm_cmp(readline_text, mpdm_aget(h, -1)) != 0)
+		if(h != NULL && mpdm_size(readline_text) > 0 &&
+			mpdm_cmp(readline_text, mpdm_aget(h, -1)) != 0)
 			mpdm_push(h, readline_text);
 
 		ret = readline_text;

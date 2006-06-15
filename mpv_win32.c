@@ -1133,6 +1133,7 @@ static mpdm_t w32drv_readline(mpdm_t a)
 		if(DialogBox(hinst, "READLINE", hwnd, readlineDlgProc))
 		{
 			if(readline_history != NULL &&
+				mpdm_size(readline_text) > 0 &&
 				mpdm_cmp(readline_text,
 					mpdm_aget(readline_history, -1)) != 0)
 				mpdm_push(readline_history, readline_text);
