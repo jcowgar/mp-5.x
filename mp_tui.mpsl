@@ -73,11 +73,16 @@ sub mp.drv.confirm(msg)
 
 sub mp.drv.readline(prompt, history, default)
 {
-	local c, r;
+	local c, r, h, i;
 
 	mp.tui.prompt(prompt ~ ' ');
 	c = mp.tui.getxy();
 	r = default || '';
+
+	/* get the history stack */
+	h = mp.get_history(history);
+
+	i = 0;
 
 	while(1)
 	{
@@ -99,8 +104,17 @@ sub mp.drv.readline(prompt, history, default)
 		else
 		if(k eq 'space') r = r ~ ' ';
 		else
+		if(k eq 'cursor-up') { i--; r = h[i % size(h)]; }
+		else
+		if(k eq 'cursor-down') { i++; r = h[i % size(h)]; }
+		else
+		if(size(k) == 1)
 			r = r ~ k;
 	}
+
+	/* if a string was accepted, store in the history */
+	if(r != NULL && h[-1] ne r)
+		push(h, r);
 
 	return(r);
 }
