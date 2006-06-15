@@ -294,6 +294,22 @@ mp.syntax.html = {
 };
 
 
+mp.syntax.conf = {
+	'id'		=>	'conf',
+	'name'		=>	'Config file',
+	'filenames'	=>	[ '/\.conf$/', '/\.cfg$/' ],
+	'tokens'	=>	[ '/^\[.+\]$/m' ],
+	'variables'	=>	[ "/^[^:=\n]+[:=]/m" ],
+	'comments'	=>	[ "/#.*$/m" ],
+	'quotes'	=>	[
+		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+		"/\b-?[0-9]+\b/",			/* numbers */
+		"/\b0x[0-9a-f]+\b/i"			/* hex numbers */
+	]
+};
+
+
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
