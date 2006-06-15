@@ -191,7 +191,7 @@ mp.syntax.mpsl = {
 	'tokens'	=>	[
 				mp.syn_token_list( [
 					'if', 'else', 'while', 'foreach',
-					'sub', 'break', 'return' ]),
+					'sub', 'break', 'return', 'eq', 'ne' ]),
 				mp.syn_token_list( keys(MPSL.CORE) ),
 				'/[\{\}]/'
 	],
