@@ -41,7 +41,7 @@ mp.actions['save_as']	= sub (d) {
 	/* store new name */
 	d.name = t;
 
-	if(mp.save_file(d) == -1)
+	if(mp.save(d) == -1)
 		mp.alert(sprintf(L("Error saving file: %s"), ERROR));
 };
 
@@ -50,7 +50,7 @@ mp.actions['save']	= sub (d) {
 	if(regex("/^<.+>$/", d.name))
 		mp.actions.save_as(d);
 	else
-	if(mp.save_file(d) == -1)
+	if(mp.save(d) == -1)
 		mp.alert(sprintf(L("Error saving file: %s"), ERROR));
 };
 
@@ -161,7 +161,7 @@ sub mp.load_file(doc, filename)
 }
 
 
-sub mp.save_file(doc)
+sub mp.save(doc)
 /* saves a file */
 {
 	local f, l;
