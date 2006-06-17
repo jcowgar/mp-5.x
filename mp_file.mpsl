@@ -289,7 +289,15 @@ sub mp.open(filename)
 	if(d != -1)
 		mp.active_i = d;
 	else
-		d = mp.load(filename);
+	{
+		/* try to open */
+		if((d = mp.load(filename)) == NULL)
+		{
+			/* can't open; create an empty one */
+			d = mp.new();
+			d.name = filename;
+		}
+	}
 
 	return(d);
 }
