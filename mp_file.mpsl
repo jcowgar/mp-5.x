@@ -123,18 +123,23 @@ sub mp.chomp(str)
 }
 
 
-sub mp.load_file(doc, filename)
+sub mp.load(filename)
 /* loads a file from disk */
 {
 	local f, l;
-	local txt = doc.txt;
+	local doc;
+	local txt;
+
+	/* open or fail */
+	if((f = open(filename, "r")) == NULL)
+		return(NULL);
+
+	doc = mp.new();
 
 	/* store the filename */
 	doc.name = filename;
 
-	/* open or fail */
-	if((f = open(filename, "r")) == NULL)
-		return(0);
+	txt = doc.txt;
 
 	/* set lines as an empty array */
 	txt.lines = [];
@@ -157,7 +162,7 @@ sub mp.load_file(doc, filename)
 
 	doc.txt.mod = 0;
 
-	return(1);
+	return(doc);
 }
 
 
@@ -284,8 +289,7 @@ sub mp.open(filename)
 	if(d != -1)
 		mp.active_i = d;
 	else
-	{
-		d = mp.new();
-		mp.load_file(d, filename);
-	}
+		d = mp.load(filename);
+
+	return(d);
 }
