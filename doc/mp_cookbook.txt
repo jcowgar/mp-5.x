@@ -1,0 +1,74 @@
+Minimum Profit cookbook
+=======================
+
+ Angel Ortega <angel@triptico.com>
+
+This document includes some recipes for the Minimum Profit text editor.
+These recipes are focused mainly on executing snippets of the Minimum
+Profit Scripting Language (MPSL), which is covered in more detail in the
+following manuals:
+
+ * ./mpsl_overview.html (Overview). Introduction to the MPSL language.
+ * Quick reference as ./mpsl_quickref.txt (text) or ./mpsl_quickref.ps (PostScript).
+
+Other MPSL documentation of interest:
+
+ * ./mpsl_internals.html (Internals). Notes about this particular
+   MPSL implementation.
+ * ./mpsl_api.html (C API). Reference for using MPSL from inside C programs.
+
+Executing MPSL code
+-------------------
+
+There are three ways of executing MPSL inside the editor.
+
+From the command line
+~~~~~~~~~~~~~~~~~~~~~
+
+The first one is from the command line using the -e switch:
+
+ mp-5 -e 'mp.config.word_wrap = 75;'
+
+This command opens the editor and immediately executes an assignation to
+the mp.config.word_wrap variable, giving it a value of 75 (this operation
+have activated word wrapping on column 75). Take note that the leading
+semicolon is mandatory. Several sentences can be given:
+
+ mp-5 -e 'mp.config.word_wrap = 75; mp.ispell(1); mp.alert("Hello!");'
+
+Word wrapping is set, ispell is activated (if supported) and a greeting
+message is given. As seen, any valid MPSL program can be given here.
+
+Using the 'eval' action
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The 'eval' action is on the menu as the "Edit/Execute MPSL code..." entry.
+This action asks for a string of MPSL code to be executed. The return
+value will be returned as an alert message.
+
+Using the 'eval_doc' action
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The 'eval_doc' in on the menu as the "Edit/Execute document as MPSL". This
+action will take the contents of the currently active document and pass it
+directly to the MPSL engine.
+
+Using different encodings
+-------------------------
+
+By default, MP reads and writes files using the current locale for
+character set conversions. This way, if you run it in an UTF-8
+environment, you don't have to do anything special, just open and save
+your files. But, if you need to read or write files using different
+encodings (for example, if your locale encoding is ISO-8859-1 and you need
+to read UTF-8 files), you can use the encoding() function. This function
+receives an encoding string as argument; after calling it, all I/O
+operations will use that encoding. To get back to 'normal' (i.e., default
+local encoding), just call it without arguments, or with a NULL one.
+
+This snippet will convert a file named 'text' to UTF-8:
+
+ local d = mp.open('text'); encoding('utf-8'); mp.save(d); mp.close();
+
+----
+Angel Ortega <angel@triptico.com> - $Date$

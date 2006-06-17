@@ -58,6 +58,8 @@ docs:
 #		-t "The Minimum Profit API ($(VERSION))" \
 #		-a 'Angel Ortega - angel@triptico.com'
 #	grutatxt -m man -t "Minimum Profit" < mp_man.txt > mp.1
+	-grutatxt -i doc/mp_cookbook.txt -o doc/mp_cookbook.html
+	-grutatxt -i doc/mp_internals.txt -o doc/mp_internals.html
 
 dist: distclean docs ChangeLog po/minimum-profit.pot build-mo
 	DIR=`pwd` ; cd .. ; ln -s $$DIR $(PROJ)-$(VERSION); \
