@@ -4,6 +4,9 @@ Minimum Profit 5.x Release Notes
 4.99.10
 -------
 
+ * A big advance in the Curses interface: Alerts, confirmations, and open
+   file, save file, search and generic prompts are working. Still lacking
+   the selection lists (as the rest of interfaces) and the menu.
  * Improved menus: if an invalid action is added to a menu, it's shown
    followed by a ?; if a key is bound to that action, it's shown between
    square brackets.
@@ -12,7 +15,7 @@ Minimum Profit 5.x Release Notes
 
 	encoding('utf-8');
 
-   works everywhere (for reading and writing utf-8 encoded files).
+   makes reading and writing utf-8 encoded files possible.
 
 4.99.9
 ------
