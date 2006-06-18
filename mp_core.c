@@ -771,21 +771,15 @@ void mp_startup(void)
 
 void mp_mpsl(void)
 {
-	mpdm_t v;
+	mpdm_t e;
 
-	if((v = mpsl_compile_file(MPDM_LS(L"mp_core.mpsl"))) == NULL)
+	mpsl_eval(MPDM_LS(L"load('mp_core.mpsl');"), NULL);
+
+	if((e = mpdm_hget_s(mpdm_root(), L"ERROR")) != NULL)
 	{
-		/* compilation failed; print and exit */
-		mpdm_t e = mpdm_hget_s(mpdm_root(), L"ERROR");
-
-		if(e != NULL)
-		{
-			mpdm_write_wcs(stdout, mpdm_string(e));
-			printf("\n");
-		}
+		mpdm_write_wcs(stdout, mpdm_string(e));
+		printf("\n");
 	}
-	else
-		mpdm_exec(v, NULL);
 }
 
 
