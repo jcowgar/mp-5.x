@@ -42,7 +42,7 @@ mp.actions['save_as']	= sub (d) {
 	d.name = t;
 
 	if(mp.save(d) == -1)
-		mp.alert(sprintf(L("Error saving file: %s"), ERROR));
+		mp.alert(sprintf(L("Error saving file: %s"), ERRNO));
 };
 
 mp.actions['save']	= sub (d) {
@@ -51,7 +51,7 @@ mp.actions['save']	= sub (d) {
 		mp.actions.save_as(d);
 	else
 	if(mp.save(d) == -1)
-		mp.alert(sprintf(L("Error saving file: %s"), ERROR));
+		mp.alert(sprintf(L("Error saving file: %s"), ERRNO));
 };
 
 mp.actions['close']	= sub (d) {
