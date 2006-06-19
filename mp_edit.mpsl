@@ -60,6 +60,8 @@ mp.keycodes['ctrl-i']	= "insert_tab";
 mp.keycodes['ctrl-m']	= "insert_line";
 mp.keycodes['ctrl-y']	= "delete_line";
 mp.keycodes['ctrl-z']	= "undo";
+mp.keycodes['f2']	= "join_paragraph";
+mp.keycodes['f4']	= "word_wrap_paragraph";
 
 /* action descriptions */
 
