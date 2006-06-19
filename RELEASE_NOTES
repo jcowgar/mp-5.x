@@ -16,6 +16,10 @@ Minimum Profit 5.x Release Notes
 	encoding('utf-8');
 
    makes reading and writing utf-8 encoded files possible.
+ * New action 'join_paragraph', to join current paragraph all in one line.
+ * New action 'word_wrap_paragraph', that re-word-wraps current paragraph.
+   Word wrapping must be set ('mp.config.word_wrap = number') for this to
+   work.
 
 4.99.9
 ------
