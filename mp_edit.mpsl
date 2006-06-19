@@ -36,7 +36,18 @@ mp.actions['delete']		= sub (d) { mp.store_undo(d); mp.delete_char(d); };
 mp.actions['delete_left']	= sub (d) { mp.store_undo(d); mp.move_left(d);
 					mp.delete_char(d); };
 mp.actions['undo']		= sub (d) { mp.undo(d); };
+mp.actions['join_paragraph']	= sub (d) { mp.store_undo(d); mp.join_paragraph(d); };
 
+mp.actions['word_wrap_paragraph'] = sub (d) {
+
+	if(mp.config.word_wrap == 0)
+		mp.alert(L("Word wrapping must be set"));
+	else
+	{
+		mp.store_undo(d);
+		mp.word_wrap_paragraph(d);
+	}
+};
 
 /* default key bindings */
 
@@ -59,6 +70,8 @@ mp.actdesc['insert_tab']	= LL("Insert tab");
 mp.actdesc['delete']		= LL("Delete character");
 mp.actdesc['delete_left']	= LL("Delete character to the left");
 mp.actdesc['undo']		= LL("Undo last operation");
+mp.actdesc['join_paragraph']	= LL("Joins a paragraph in one line");
+mp.actdesc['word_wrap_paragraph'] = LL("Word-wraps a paragraph");
 
 /* code */
 
