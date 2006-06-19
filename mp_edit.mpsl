@@ -106,9 +106,13 @@ sub mp.break_line(doc, col)
 	if(mp.config.auto_indent)
 	{
 		/* extract leading blanks in the original line
-		   and prepend them to the line to be inserted */
+		   to prepend them to the line to be inserted */
 		local i = regex("/^[ \t]*/", c, 0);
 
+		/* delete any blank in the new line */
+		w[1] = sregex("/^[ \t]*/", w[1]);
+
+		/* concatenate */
 		w[1] = i ~ w[1];
 
 		/* the x position is further the length of that */
