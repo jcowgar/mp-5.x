@@ -384,8 +384,14 @@ sub mp.join_paragraph(doc)
 
 	while((l = txt.lines[txt.y + 1]) && size(l))
 	{
+		/* delete all leading blanks in the next line */
+		txt.lines[txt.y + 1] = sregex("/^[ \t]+/", txt.lines[txt.y + 1]);
+
+		/* move to end of line and add a space separator */
 		mp.move_eol(doc);
 		mp.insert(doc, ' ');
+
+		/* really join */
 		mp.join_line(doc);
 	}
 }
