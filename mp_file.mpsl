@@ -287,7 +287,10 @@ sub mp.open(filename)
 
 	/* looks first if the file is already open */
 	if(d != -1)
+	{
 		mp.active_i = d;
+		d = mp.active();
+	}
 	else
 	{
 		/* try to open */
