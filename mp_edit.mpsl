@@ -355,3 +355,41 @@ sub mp.undo(doc)
 
 	if(txt = pop(doc.undo)) doc.txt = txt;
 }
+
+
+/* paragraphs */
+
+sub mp.join_paragraph(doc)
+/* joins current paragraph in just one line */
+{
+	local txt = doc.txt;
+	local l;
+
+	while((l = txt.lines[txt.y + 1]) && size(l))
+	{
+		mp.move_eol(doc);
+		mp.insert(doc, ' ');
+		mp.join_line(doc);
+	}
+}
+
+
+sub mp.word_wrap_paragraph(doc)
+/* word wraps current paragraph */
+{
+	local txt = doc.txt;
+
+	if(mp.config.word_wrap == 0)
+		return;
+
+	mp.join_paragraph(doc);
+
+	mp.move_eol(doc);
+
+	while(size(txt.lines[txt.y]) > mp.config.word_wrap)
+	{
+		mp.insert_space(doc);
+		mp.move_left(doc);
+		mp.delete_char(doc);
+	}
+}
