@@ -60,8 +60,8 @@ mp.keycodes['ctrl-i']	= "insert_tab";
 mp.keycodes['ctrl-m']	= "insert_line";
 mp.keycodes['ctrl-y']	= "delete_line";
 mp.keycodes['ctrl-z']	= "undo";
-mp.keycodes['f2']	= "join_paragraph";
 mp.keycodes['f4']	= "word_wrap_paragraph";
+mp.keycodes['f6']	= "join_paragraph";
 
 /* action descriptions */
 
@@ -72,8 +72,8 @@ mp.actdesc['insert_tab']	= LL("Insert tab");
 mp.actdesc['delete']		= LL("Delete character");
 mp.actdesc['delete_left']	= LL("Delete character to the left");
 mp.actdesc['undo']		= LL("Undo last operation");
-mp.actdesc['join_paragraph']	= LL("Joins a paragraph in one line");
-mp.actdesc['word_wrap_paragraph'] = LL("Word-wraps a paragraph");
+mp.actdesc['join_paragraph']	= LL("Join a paragraph in one line");
+mp.actdesc['word_wrap_paragraph'] = LL("Word-wrap a paragraph");
 
 /* code */
 
