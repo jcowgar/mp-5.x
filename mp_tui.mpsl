@@ -33,6 +33,9 @@ mp.tui = {};
 sub mp.tui.prompt(prompt)
 /* draw a prompt on screen */
 {
+	/* delete all possible newlines */
+	prompt = sregex("/\n/g", prompt, ' ');
+
 	mp.tui.move(0, mp.window.ty - 1, 1);
 	mp.tui.addstr(prompt);
 	mp.tui.refresh();
