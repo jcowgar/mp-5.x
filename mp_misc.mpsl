@@ -35,7 +35,10 @@ mp.actions['eval']	= sub (d) {
 		t = eval(t);
 
 		if(ERROR != NULL)
+		{
 			mp.alert(L("Error: ") ~ ERROR);
+			ERROR = NULL;
+		}
 		else
 		if(t != NULL)
 			mp.alert(L("Exit value:\n") ~ t);
@@ -50,7 +53,21 @@ mp.actions['eval_doc']	= sub (d) {
 		t = eval(t);
 
 		if(ERROR != NULL)
+		{
 			mp.alert(L("Error: ") ~ ERROR);
+
+			/* try to move the cursor to the line
+			   where the error was */
+			local l;
+
+			if((l = regex( [ '/, line /', '/[0-9]+/' ], ERROR)) != NULL)
+			{
+				dump(l);
+				mp.set_y(d, l[1]);
+			}
+
+			ERROR = NULL;
+		}
 	}
 };
 
