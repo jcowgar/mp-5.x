@@ -1,0 +1,27 @@
+Minimum Profit Documentation Center
+===================================
+
+General Documentation
+---------------------
+
+ * ./mp_cookbook.html (Minimum Profit Cookbook).
+ * ./mp_internals.html (Internals). Implementation details.
+
+Minimum Profit Scripting Language
+---------------------------------
+
+ * ./mpsl_overview.html (Overview). Introduction to MPSL.
+ * ./mpsl_internals.html (Internals). Notes about this particular
+   MPSL implementation.
+ * Reference. Reference of MPSL functions and variables (under construction).
+ * Quick reference as ./mpsl_quickref.txt (text) or ./mpsl_quickref.ps (PostScript).
+ * ./mpsl_api.html (C API). Reference for using MPSL from inside C programs.
+
+Minimum Profit Data Manager
+---------------------------
+
+ * ./mpdm_overview.html (Overview). Introduction to MPDM.
+ * ./mpdm_api.html (C API). Reference for using MPDM from inside C programs.
+
+---
+Angel Ortega <angel@triptico.com> - $Date$

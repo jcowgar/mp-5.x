@@ -7,6 +7,9 @@ PROJ=mp
 #	README.IRIX README.solaris README.mingw32 README.zaurus \
 #	RELEASE_NOTES
 
+DOCS=doc/index.html doc/mp_cookbook.html doc/mp_internals.html \
+	README README.mingw32 RELEASE_NOTES
+
 OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
 #OBJS=mp_core.o mp_synhi.o mp_iface.o gnu_regex.o mp_tags.o mp_wordp.o \
 #	mp_lang.o mp_conf.o mp_func.o mp_video.o $(LANG_MSG_O) \
@@ -52,14 +55,16 @@ distclean: clean
 	(cd $(MPDM) ; make distclean)
 	(cd $(MPSL) ; make distclean)
 
-docs:
-	mkdir -p doc
-#	mp_doccer *.c -o doc/mp_api -f html1 \
-#		-t "The Minimum Profit API ($(VERSION))" \
-#		-a 'Angel Ortega - angel@triptico.com'
-#	grutatxt -m man -t "Minimum Profit" < mp_man.txt > mp.1
-	-grutatxt -i doc/mp_cookbook.txt -o doc/mp_cookbook.html
-	-grutatxt -i doc/mp_internals.txt -o doc/mp_internals.html
+doc/index.html: doc/index.txt
+	-grutatxt -i $< -o $@
+
+doc/mp_cookbook.html: doc/mp_cookbook.txt
+	-grutatxt -i $< -o $@
+
+doc/mp_internals.html: doc/mp_internals.txt
+	-grutatxt -i $< -o $@
+
+docs: $(DOCS)
 
 dist: distclean docs ChangeLog po/minimum-profit.pot build-mo
 	DIR=`pwd` ; cd .. ; ln -s $$DIR $(PROJ)-$(VERSION); \
@@ -78,8 +83,10 @@ install: $(INSTALL_MSG)
 	install $(APPNAME) $(PREFIX)/bin/$(APPNAME)
 	./mkinstalldirs $(PREFIX)/share/$(APPNAME)
 	install -m 644 mp_*.mpsl $(PREFIX)/share/$(APPNAME)
-#	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
-#	install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
+	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
+	install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
+	install -m 644 mpsl/doc/* $(PREFIX)/share/doc/$(APPNAME)
+	install -m 644 mpdm/doc/* $(PREFIX)/share/doc/$(APPNAME)
 #	./mkinstalldirs $(PREFIX)/share/man/man1
 #	install -m 644 mp.1 $(PREFIX)/share/man/man1/$(APPNAME).1
 
