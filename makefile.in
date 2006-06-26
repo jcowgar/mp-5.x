@@ -79,16 +79,20 @@ midnight: distclean docs ChangeLog po/minimum-profit.pot build-mo
 win32dist:
 	zip mp33x-win32.zip README COPYING RELEASE_NOTES Changelog mp.reg wmp.exe mprc.sample mprc-win32.sample
 
-install: $(INSTALL_MSG)
+install: $(INSTALL_MSG) installdoc
 	install $(APPNAME) $(PREFIX)/bin/$(APPNAME)
 	./mkinstalldirs $(PREFIX)/share/$(APPNAME)
 	install -m 644 mp_*.mpsl $(PREFIX)/share/$(APPNAME)
-	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
-	install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
 #	install -m 644 mpsl/doc/* $(PREFIX)/share/doc/$(APPNAME)
 #	install -m 644 mpdm/doc/* $(PREFIX)/share/doc/$(APPNAME)
 #	./mkinstalldirs $(PREFIX)/share/man/man1
 #	install -m 644 mp.1 $(PREFIX)/share/man/man1/$(APPNAME).1
+
+installdoc:
+	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
+	( cd $(MPDM); $(MAKE) installdoc )
+	( cd $(MPSL); $(MAKE) installdoc )
+	install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
 
 uninstall:
 	rm -f $(PREFIX)/bin/$(APPNAME)
