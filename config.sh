@@ -116,7 +116,7 @@ fi
 
 # If MPDM is not configured, do it
 if [ ! -f $MPDM/Makefile ] ; then
-	( echo ; cd $MPDM ; ./config.sh $CONF_ARGS ; echo )
+	( echo ; cd $MPDM ; ./config.sh --docdir=$PREFIX/share/doc/$APPNAME $CONF_ARGS ; echo )
 fi
 
 cat $MPDM/config.ldflags >> config.ldflags
@@ -142,7 +142,7 @@ fi
 
 # If MPSL is not configured, do it
 if [ ! -f $MPSL/Makefile ] ; then
-	( echo ; cd $MPSL ; ./config.sh $CONF_ARGS ; echo )
+	( echo ; cd $MPSL ; ./config.sh --docdir=$PREFIX/share/doc/$APPNAME $CONF_ARGS ; echo )
 fi
 
 cat $MPSL/config.ldflags >> config.ldflags
