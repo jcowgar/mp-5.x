@@ -1,6 +1,6 @@
 # -*- Mode: sh
 
-all: $(APPNAME)
+all: $(APPNAME) docs
 
 PROJ=mp
 #DOCS=AUTHORS README COPYING Changelog mprc.sample mprc-win32.sample \
