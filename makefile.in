@@ -51,7 +51,7 @@ clean:
 
 distclean: clean
 	rm -f config.h config.cflags config.ldflags \
-		makefile.opts Makefile doc/*.html po/minimum-profit.pot
+		makefile.opts Makefile po/minimum-profit.pot
 	(cd $(MPDM) ; make distclean)
 	(cd $(MPSL) ; make distclean)
 

@@ -16,8 +16,6 @@ Release Critical Bugs
  * 1141: Add complete tag support, with 'ctags' execution, asking for
    a tag (needs #1139) and selecting from a list (needs #1140).
  * 1142: Add symbol completion with tags (needs #1140).
- * 1154: Change syntax highlight definitions to be an array, so that
-   preference works.
 
 Open Bugs
 ---------
@@ -103,5 +101,7 @@ Closed
    (Tue, 13 Jun 2006 16:19:05 +0200).
  * 1152: The menu should show the bound key, if any
    (Tue, 13 Jun 2006 16:19:11 +0200).
+ * 1154: Change syntax highlight definitions to be an array, so that
+   preference works (Tue, 27 Jun 2006 16:35:18 +0200).
 
 Email bugs to angel@triptico.com

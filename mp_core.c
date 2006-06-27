@@ -377,17 +377,28 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 static void drw_blocks(void)
 /* fill attributes for multiline blocks */
 {
-	/* fill attributes for tokens */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"tokens"), drw_get_attr(L"word1"));
+	mpdm_t defs;
+	int n;
 
-	/* fill attributes for variables */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"variables"), drw_get_attr(L"word2"));
+	/* no definitions? return */
+	if(drw.syntax == NULL || (defs = mpdm_hget_s(drw.syntax, L"defs")) == NULL)
+		return;
 
-	/* fill attributes for quotes (strings) */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"quotes"), drw_get_attr(L"quotes"));
+	for(n = 0;n < mpdm_size(defs);n += 2)
+	{
+		mpdm_t attr;
+		mpdm_t list;
 
-	/* fill attributes for comments */
-	drw_multiline_regex(mpdm_hget_s(drw.syntax, L"comments"), drw_get_attr(L"comments"));
+		/* get the attribute */
+		attr = mpdm_aget(defs, n);
+		attr = mpdm_hget(drw.colors, attr);
+		attr = mpdm_hget_s(attr, L"attr");
+
+		/* get the list for this word color */
+		list = mpdm_aget(defs, n + 1);
+
+		drw_multiline_regex(list, mpdm_ival(attr));
+	}
 }
 
 

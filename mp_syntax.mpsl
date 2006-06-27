@@ -72,7 +72,8 @@ mp.syntax.c = {
 	'filenames'	=>	[ '/\.c$/', '/\.h$/', '/\.l$/', '/\.y$/',
 				'/\.cpp$/', '/\.hpp$/', '/\.c++$/', '/\.xpm$/' ],
 	'help'		=>	[ "man 2 %s", "man 3 %s" ],
-	'tokens'	=>	[
+	'defs'		=>	[
+		'word1',	[
 				mp.syn_token_list( [
 				"for", "while", "if", "switch", "case", "do",
 				"else", "break", "continue", "return",
@@ -94,8 +95,8 @@ mp.syntax.c = {
 				"write", "pipe", "fork", "dup", "dup2", "wait",
 				"execl", "execlp", "execle", "execv", "execvp"
 				])
-	],
-	'variables'	=>	[
+		],
+		'word2',	[
 				mp.syn_token_list( [
 				"char", "int", "long", "struct", "union", "const",
 				"void", "unsigned", "signed", "auto", "volatile",
@@ -104,30 +105,44 @@ mp.syntax.c = {
 				"near", "defined", "va_list", "size_t", "wchar_t",
 				"iconv_t" ]),
 				'/[-=<>:\?\+\*\/\!\%&\|]+/'
-	],
-	'comments'	=>	[
-		[ '|/\*|', '|\*/|' ],			/* C-like */
-		'|//.*$|m',				/* C++ */
-		'/^\s*#[a-z]+/m'			/* CPP directives */
 		],
-	'quotes'	=>	[
-		/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
-		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
-		"/\b-?[0-9]+\b/",			/* numbers */
-		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
-		"/\b[[:upper:]_]+\b/"			/* all-caps words */
+		'quotes',	[
+			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
+			"/\b[[:upper:]_]+\b/"			/* all-caps words */
+		],
+		'comments',	[
+			[ '|/\*|', '|\*/|' ],			/* C-like */
+			'|//.*$|m',				/* C++ */
+			'/^\s*#[a-z]+/m'			/* CPP directives */
 		]
+	]
 };
 
 mp.syntax.rc = {
 	'id'		=>	'rc',
 	'name'		=>	'Resource file',
 	'filenames'	=>	[ '/\.rc$/' ],
-	'tokens'	=>	[ ],
-	'variables'	=>	[ ],
-	'comments'	=>	clone(mp.syntax.c.comments),
-	'quotes'	=>	clone(mp.syntax.c.quotes)
+	'defs'		=>	[
+		'word1',	[ ],
+		'word2',	[ ],
+		'quotes',	[
+			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
+			"/\b[[:upper:]_]+\b/"			/* all-caps words */
+		],
+		'comments',	[
+			[ '|/\*|', '|\*/|' ],			/* C-like */
+			'|//.*$|m',				/* C++ */
+			'/^\s*#[a-z]+/m'			/* CPP directives */
+		]
+	]
 };
 
 mp.syntax.perl = {
@@ -136,7 +151,8 @@ mp.syntax.perl = {
 	'filenames'	=>	[ '/\.pl$/i', '/\.pm$/' ],
 	'help'		=>	[ 'perldoc -f %s', 'perldoc %s' ],
 	'help_word_regex' =>	'/[A-Z_][A-Z0-9_:]*/i',
-	'tokens'	=>	[
+	'defs'	=>	[
+		'word1',	[
 				mp.syn_token_list( [
 				"for", "if", "next", "last", "else", "elsif",
 				"unless", "while", "shift", "unshift", "push",
@@ -152,27 +168,30 @@ mp.syntax.perl = {
 				"and", "not", "import", "our", "caller" ]),
 				'/[\{\}]/',
 				'/->/'
-	],
-	'variables'	=>	[
+		],
+		'word2',	[
 				'/[:\?\+\*\/\!\$@\%&\|~\.]+/',
 				'/[\$@%]\w+/'
-	],
-	'comments'	=>	[
-		"/#.*$/m",				/* Comments */
-		"/__END__\n.*$/",			/* __END__ */
-		[ "/^=(head[1-4]|over|item|back|pod|begin|end|for)/m",
-			"/^=cut$/m" ]			/* POD */
-	],
-	'quotes'	=>	[
-		/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
-		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
-		"/\b-?[0-9]+\b/",			/* numbers */
-		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
-		[ "/q\(/", "/\)/" ],			/* quote */
-		[ "/qw\(/", "/\)/" ],			/* quote word */
-		'/\w+\s*=>/',
-		[ "/<<[\"']?EOF.*$/m", "/^EOF$/m" ]	/* 'document here' */
+		],
+		'quotes',	[
+			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
+			[ "/q\(/", "/\)/" ],			/* quote */
+			[ "/qw\(/", "/\)/" ],			/* quote word */
+			'/\w+\s*=>/',				/* barewords as hash keys */
+			[ "/<<[\"']?EOF.*$/m", "/^EOF$/m" ]	/* 'document here' */
+		],
+		'comments',	[
+			"/#.*$/m",				/* Comments */
+			"/__END__\n.*$/",			/* __END__ */
+			[ "/^=(head[1-4]|over|item|back|pod|begin|end|for)/m",
+				"/^=cut$/m" ]			/* POD */
+		],
+		/* finally, color all => as word2 */
+		'word2',	[ '/=>/' ]
 	],
 	'detect'	=>	sub (d) {
 		/* take the first line */
@@ -188,26 +207,40 @@ mp.syntax.mpsl = {
 	'id'		=>	'mpsl',
 	'name'		=>	'MPSL',
 	'filenames'	=>	[ '/\.mpsl$/' ],
-	'tokens'	=>	[
+	'defs'		=>	[
+		'word1',	[
 				mp.syn_token_list( [
 					'if', 'else', 'while', 'foreach',
 					'sub', 'break', 'return', 'eq', 'ne' ]),
 				mp.syn_token_list( keys(MPSL.CORE) ),
 				'/[\{\}]/'
-	],
-	'variables'	=>	[
+		],
+		'word2',	[
 				"/(NULL|local)/",
 				'/[-=<>:\?\+\*\/\!\%&\|]+/'
-	],
-	'comments'	=>	clone(mp.syntax.c.comments),
-	'quotes'	=>	clone(mp.syntax.c.quotes)
+		],
+		'quotes',	[
+			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
+			"/\b[[:upper:]_]+\b/"			/* all-caps words */
+		],
+		'comments',	[
+			[ '|/\*|', '|\*/|' ],			/* C-like */
+			'|//.*$|m',				/* C++ */
+			'/^\s*#[a-z]+/m'			/* CPP directives */
+		]
+	]
 };
 
 mp.syntax.sh = {
 	'id'		=>	'sh',
 	'name'		=>	'Shell script',
 	'filenames'	=>	[ '/\.sh$/', '/makefile/i' ],
-	'tokens'	=>	[
+	'defs'		=>	[
+		'word1',	[
 				mp.syn_token_list( [
 				"if", "then", "else", "elif",
 				"fi", "case", "do", "done", "esac",
@@ -220,21 +253,22 @@ mp.syntax.sh = {
 				"umask", "unset", "wait", "cp", "rm" ]),
 				'/[\{\}]/'
 
-	],
-	'variables'	=>	[
+		],
+		'word2',	[
 				'/\b(local|let|set)\b/',
 				'/[-=<>:\?\+\*\!\%&\|]+/',
 				'/\$\w+/'
-	],
-	'comments'	=>	clone(mp.syntax.perl.comments),
-	'quotes'	=>	[
-		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
-		"/\b-?[0-9]+\b/",			/* numbers */
-		"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
-		[ "/\(/", "/\)/" ],			/* parens */
-		[ "/`/", "/`/" ],			/* backticks */
-		[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
+		],
+		'quotes',	[
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
+			[ "/\(/", "/\)/" ],			/* parens */
+			[ "/`/", "/`/" ],			/* backticks */
+			[ "/<<[\"']?EOF[\"']?;$/m", "/^EOF$/m" ]	/* 'document here' */
+		],
+		'comments',	[ "/#.*$/m" ]
 	],
 	'detect'	=>	sub (d) {
 		/* take the first line */
@@ -252,7 +286,8 @@ mp.syntax.html = {
 	'id'		=>	'html',
 	'name'		=>	'HTML',
 	'filenames'	=>	[ '/\.html$/', '/\.htm$/' ],
-	'tokens'	=>	[
+	'defs'		=>	[
+		'word1',	[
 				"/<[\/]?[ \t]*(" ~
 				join("|", [
 				"a", "abbr", "acronym", "address",
@@ -273,8 +308,8 @@ mp.syntax.html = {
 				"thead", "title", "tr", "tt", "ul",
 				"var" ] ) ~
 				")[^<>]*>/i"
-	],
-	'variables'	=>	[
+		],
+		'word2',	[
 				mp.syn_token_list( [
 				 "!DOCTYPE", "class", "type",
 				"cellspacing", "cellpadding",
@@ -283,13 +318,14 @@ mp.syntax.html = {
 				"content", "http-equiv", "src", "alt",
 				"bgcolor", "text", "link", "vlink", "alink",
 				"media" ])
-	],
-	'comments'	=>	[
+		],
+		'comments',	[
 				[ '/<!--/', '/-->/' ]
-	],
-	'quotes'	=>	[
-		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/"	/* single-quoted strings */
+		],
+		'quotes',	[
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/"	/* single-quoted strings */
+		]
 	]
 };
 
@@ -298,14 +334,16 @@ mp.syntax.conf = {
 	'id'		=>	'conf',
 	'name'		=>	'Config file',
 	'filenames'	=>	[ '/\.conf$/', '/\.cfg$/' ],
-	'tokens'	=>	[ '/^\[.+\]$/m' ],
-	'variables'	=>	[ "/^[^:=\n]+[:=]/m" ],
-	'comments'	=>	[ "/#.*$/m" ],
-	'quotes'	=>	[
-		"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-		"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
-		"/\b-?[0-9]+\b/",			/* numbers */
-		"/\b0x[0-9a-f]+\b/i"			/* hex numbers */
+	'defs'		=>	[
+		'word1',	[ '/^\[.+\]$/m' ],
+		'word2',	[ "/^[^:=\n]+[:=]/m" ],
+		'quotes',	[
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b0x[0-9a-f]+\b/i"			/* hex numbers */
+		],
+		'comments',	[ "/#.*$/m" ]
 	]
 };
 
