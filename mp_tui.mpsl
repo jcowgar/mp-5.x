@@ -144,5 +144,75 @@ sub mp.drv.savefile(prompt)
 }
 
 
+sub mp.drv.list(prompt, data, pos)
+{
+	local vy, ty;
+
+	mp.tui.move(0, 0, 1);
+	mp.tui.addstr(prompt);
+
+	vy = 0;
+	ty = mp.window.ty - 1;
+
+	if(pos == NULL) pos = 0;
+
+	while(1)
+	{
+		local k, n;
+
+		if(pos < vy) vy = pos;
+		if(vy + ty <= pos) vy = pos - ty + 1;
+
+		/* draw all the lines */
+		n = 0;
+		while(n < ty)
+		{
+			local l = data[n + vy];
+
+			/* no more data? */
+			if(l == NULL) break;
+
+			mp.tui.move(0, n + 1, 1);
+
+			if(n + vy == pos)
+				mp.tui.attr(mp.colors.cursor.attr);
+			else
+				mp.tui.attr(mp.colors.normal.attr);
+
+			mp.tui.addstr(l);
+
+			n++;
+		}
+
+		/* clean the rest of lines */
+		while(n < ty)
+		{
+			mp.tui.move(0, n + 1, 1);
+			n++;
+		}
+
+		k = mp.tui.getkey();
+
+		if(k eq 'cursor-up' && pos > 0) pos--;
+		else
+		if(k eq 'cursor-down' && pos < size(data) - 1) pos++;
+		else
+		if(k eq 'page-up') { pos -= ty; if(pos < 0) pos = 0; }
+		else
+		if(k eq 'page-down') { pos += ty; if(pos >= size(data)) pos = size(data) - 1; }
+		else
+		if(k eq 'home') { pos = 0; }
+		else
+		if(k eq 'end') { pos = size(data) - 1; }
+		else
+		if(k eq 'enter') break;
+		else
+		if(k eq 'escape') { pos = -1; break; }
+	}
+
+	return(pos);
+}
+
+
 /* returns the main namespace */
 mp.tui;
