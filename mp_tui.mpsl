@@ -146,7 +146,7 @@ sub mp.drv.savefile(prompt)
 
 sub mp.drv.list(prompt, data, pos)
 {
-	local vy, ty;
+	local vy, ty, r, f;
 
 	mp.tui.move(0, 0, 1);
 	mp.tui.addstr(prompt);
@@ -154,12 +154,23 @@ sub mp.drv.list(prompt, data, pos)
 	vy = 0;
 	ty = mp.window.ty - 1;
 
+	/* filler (there should be a better way to do this) */
+	while(size(f) < mp.window.tx) f = f ~ '       ';
+
+	/* clipping regex */
+	r = '/^.{1,' ~ (mp.window.tx) ~ '}/';
+
 	if(pos == NULL) pos = 0;
 
 	while(1)
 	{
 		local k, n;
 
+		/* limits for pos */
+		if(pos < 0) pos = 0;
+		if(pos >= size(data)) pos = size(data) - 1;
+
+		/* limits for vy */
 		if(pos < vy) vy = pos;
 		if(vy + ty <= pos) vy = pos - ty + 1;
 
@@ -179,7 +190,7 @@ sub mp.drv.list(prompt, data, pos)
 			else
 				mp.tui.attr(mp.colors.normal.attr);
 
-			mp.tui.addstr(l);
+			mp.tui.addstr(regex(r, l ~ f));
 
 			n++;
 		}
@@ -193,17 +204,17 @@ sub mp.drv.list(prompt, data, pos)
 
 		k = mp.tui.getkey();
 
-		if(k eq 'cursor-up' && pos > 0) pos--;
+		if(k eq 'cursor-up') pos--;
 		else
-		if(k eq 'cursor-down' && pos < size(data) - 1) pos++;
+		if(k eq 'cursor-down') pos++;
 		else
-		if(k eq 'page-up') { pos -= ty; if(pos < 0) pos = 0; }
+		if(k eq 'page-up') pos -= ty;
 		else
-		if(k eq 'page-down') { pos += ty; if(pos >= size(data)) pos = size(data) - 1; }
+		if(k eq 'page-down') pos += ty;
 		else
-		if(k eq 'home') { pos = 0; }
+		if(k eq 'home') pos = 0;
 		else
-		if(k eq 'end') { pos = size(data) - 1; }
+		if(k eq 'end') pos = size(data) - 1;
 		else
 		if(k eq 'enter') break;
 		else
