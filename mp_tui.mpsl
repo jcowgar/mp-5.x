@@ -218,7 +218,7 @@ sub mp.drv.list(prompt, data, pos)
 		else
 		if(k eq 'enter') break;
 		else
-		if(k eq 'escape') { pos = -1; break; }
+		if(k eq 'escape') { pos = NULL; break; }
 	}
 
 	return(pos);

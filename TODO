@@ -5,7 +5,6 @@ Release Critical Bugs
 ---------------------
 
  * 1109: Add jump to matching paren.
- * 1110: Add mp_templates support.
  * 1115: Add password protection.
  * 1116: Add grep.
  * 1120: Add system command execution (pipes).
@@ -103,5 +102,6 @@ Closed
    (Tue, 13 Jun 2006 16:19:11 +0200).
  * 1154: Change syntax highlight definitions to be an array, so that
    preference works (Tue, 27 Jun 2006 16:35:18 +0200).
+ * 1110: Add mp_templates support (Tue, 27 Jun 2006 18:18:49 +0200).
 
 Email bugs to angel@triptico.com

@@ -27,6 +27,22 @@
 
 /* editor actions */
 
+mp.actions['insert_template']	 = sub(d) {
+
+	local l, t;
+
+	/* no local templates? do nothing */
+	if((l = mp.read_templates_file()) == NULL)
+		return;
+
+	/* select one */
+	if((t = mp.drv.list(L("Template to insert:"), l, 0)) == NULL)
+		return;
+
+	/* insert the template content */
+	mp.insert(d, mp.templates[l[t]]);
+};
+
 /* default key bindings */
 
 /* data */
