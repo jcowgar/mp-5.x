@@ -15,6 +15,7 @@ Release Critical Bugs
  * 1141: Add complete tag support, with 'ctags' execution, asking for
    a tag (needs #1139) and selecting from a list (needs #1140).
  * 1142: Add symbol completion with tags (needs #1140).
+ * 1155: Add replace.
 
 Open Bugs
 ---------
