@@ -1,6 +1,14 @@
 Minimum Profit 5.x Release Notes
 ================================
 
+4.99.11
+-------
+
+ * Syntax highlight definition have changed (again, hopefully for the last
+   time). Definitions are now an array of attribute name / regexes in which
+   the order is significative.
+ * Template insertion works.
+
 4.99.10
 -------
 
