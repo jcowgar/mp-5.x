@@ -1569,9 +1569,10 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 
 	gtk_widget_show(list);
 
-	/* fill the list */
+	/* 2nd argument: list of data */
 	data = mpdm_aget(a, 1);
 
+	/* fill the list */
 	for(n = 0;n < mpdm_size(data);n++)
 	{
 		char * args[1];
@@ -1624,7 +1625,6 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
 
 	gtk_widget_show(dlg);
-	gtk_widget_grab_focus(entry);
 
 	wait_for_modal_status_change();
 
