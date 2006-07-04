@@ -1520,6 +1520,102 @@ static mpdm_t gtkdrv_savefile(mpdm_t a)
 }
 
 
+static mpdm_t gtkdrv_list(mpdm_t a)
+/* list driver function */
+{
+	wchar_t * wptr;
+	char * ptr;
+	GtkWidget * dlg;
+	GtkWidget * label;
+	GtkWidget * ybutton;
+	GtkWidget * nbutton;
+	GtkWidget * scrolled;
+	GtkWidget * list;
+	int pos;
+
+	/* 1# arg: prompt */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+
+	if((ptr = wcs_to_utf8(wptr)) == NULL)
+		return(NULL);
+
+	dlg = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
+	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
+
+	label = gtk_label_new(ptr);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
+	gtk_widget_show(label);
+	g_free(ptr);
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+/*	gtk_widget_set_usize(scrolled, _mpv_gtk_width / 2, _mpv_gtk_height / 2);*/
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), scrolled, TRUE, TRUE, 0);
+	gtk_widget_show(scrolled);
+
+	list = gtk_clist_new(1);
+	gtk_clist_set_selection_mode(GTK_CLIST(list), GTK_SELECTION_BROWSE);
+	gtk_clist_column_titles_hide(GTK_CLIST(list));
+	gtk_container_add(GTK_CONTAINER(scrolled), list);
+
+	/* no title for the column */
+	gtk_clist_set_column_title(GTK_CLIST(list), 0, "");
+
+	/* set width to an optimal one */
+	gtk_clist_set_column_auto_resize(GTK_CLIST(list), 0, 1);
+
+	gtk_widget_show(list);
+
+	/* fill the list */
+	/* ... */
+
+	/* 3rd argument: initial position */
+	pos = mpdm_ival(mpdm_aget(a, 2));
+
+	/* set desired element as active */
+	gtk_clist_select_row(GTK_CLIST(list), pos, 0);
+
+	/* move also the black outline (cursor)
+	   Is there a better way to do this? */
+	GTK_CLIST(list)->focus_row = pos;
+
+/*	gtk_signal_connect(GTK_OBJECT(list), "select-row",
+		GTK_SIGNAL_FUNC(_mpv_select_row_callback), NULL);*/
+
+	ptr = localize(LL("OK"));
+	ybutton = gtk_button_new_with_label(ptr);
+	gtk_signal_connect_object(GTK_OBJECT(ybutton),"clicked",
+		GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
+	gtk_widget_show(ybutton);
+	g_free(ptr);
+
+	ptr = localize(LL("Cancel"));
+	nbutton = gtk_button_new_with_label(ptr);
+	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
+			GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
+	gtk_widget_show(nbutton);
+	g_free(ptr);
+
+	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
+		(GtkSignalFunc) confirm_key_press_event, NULL);
+
+	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
+	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
+
+	gtk_widget_show(dlg);
+	gtk_widget_grab_focus(entry);
+
+	wait_for_modal_status_change();
+
+	return(NULL);
+}
+
+
 static mpdm_t gtkdrv_update_ui(mpdm_t a)
 {
 	build_fonts();
@@ -1557,6 +1653,7 @@ int gtkdrv_init(void)
 	mpdm_hset_s(drv, L"readline", MPDM_X(gtkdrv_readline));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(gtkdrv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(gtkdrv_savefile));
+	mpdm_hset_s(drv, L"list", MPDM_X(gtkdrv_list));
 
 	return(1);
 }
