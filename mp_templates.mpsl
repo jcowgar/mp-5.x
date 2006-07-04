@@ -45,6 +45,10 @@ mp.actions['insert_template']	 = sub(d) {
 
 /* default key bindings */
 
+/* action descriptions */
+
+mp.actdesc['insert_template']	= LL("Insert template...");
+
 /* data */
 
 mp.templates = {};
