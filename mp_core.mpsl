@@ -117,6 +117,7 @@ mp.menu = [
 	LL("&File"),	[ 'new', 'open', 'save', 'save_as', 'close', '-', 'exit' ],
 	LL("&Edit"),	[ 'cut_mark', 'copy_mark', 'paste_mark', 'delete_line', '-',
 			'mark',	'unmark', '-',
+			'insert_template', '-',
 			'word_wrap_paragraph', 'join_paragraph', '-',
 			'eval', 'eval_doc' ],
 	LL("&Search"),	[ 'seek', 'seek_next', 'replace' ],
