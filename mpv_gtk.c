@@ -1531,7 +1531,8 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	GtkWidget * nbutton;
 	GtkWidget * scrolled;
 	GtkWidget * list;
-	int pos;
+	int pos, n;
+	mpdm_t data;
 
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
@@ -1569,7 +1570,22 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	gtk_widget_show(list);
 
 	/* fill the list */
-	/* ... */
+	data = mpdm_aget(a, 1);
+
+	for(n = 0;n < mpdm_size(data);n++)
+	{
+		char * args[1];
+
+		wptr = mpdm_string(mpdm_aget(data, n));
+
+		if((ptr = wcs_to_utf8(wptr)) != NULL)
+		{
+			args[0] = strdup(ptr);
+			gtk_clist_append(GTK_CLIST(list), args);
+			free(args[0]);
+			g_free(ptr);
+		}
+	}
 
 	/* 3rd argument: initial position */
 	pos = mpdm_ival(mpdm_aget(a, 2));
