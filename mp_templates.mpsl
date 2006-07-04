@@ -39,6 +39,8 @@ mp.actions['insert_template']	 = sub(d) {
 	if((t = mp.drv.list(L("Template to insert:"), l, 0)) == NULL)
 		return;
 
+	mp.store_undo(d);
+
 	/* insert the template content */
 	mp.insert(d, mp.templates[l[t]]);
 };
