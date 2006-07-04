@@ -114,7 +114,9 @@ mp.alert_log = [];
 
 /* the menu */
 mp.menu = [
-	LL("&File"),	[ 'new', 'open', 'save', 'save_as', 'close', '-', 'exit' ],
+	LL("&File"),	[ 'new', 'open', 'save', 'save_as', 'close',
+			'-', 'open_config_file',
+			'-', 'exit' ],
 	LL("&Edit"),	[ 'cut_mark', 'copy_mark', 'paste_mark', 'delete_line', '-',
 			'mark',	'unmark', '-',
 			'insert_template', '-',
