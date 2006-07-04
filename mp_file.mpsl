@@ -94,6 +94,11 @@ mp.actions['open']	= sub (d) {
 		mp.open(n);
 };
 
+mp.actions['open_config_file']	= sub (d) {
+
+	mp.open(HOMEDIR ~ ".mp.mpsl");
+};
+
 /* default key bindings */
 
 mp.keycodes['ctrl-n']		= 'next';
@@ -113,6 +118,9 @@ mp.actdesc['next'] 	= LL("Next");
 mp.actdesc['open'] 	= LL("Open...");
 mp.actdesc['exit'] 	= LL("Exit");
 mp.actdesc['close'] 	= LL("Close");
+
+mp.actdesc['open_config_file']		= LL("Open configuration file");
+mp.actdesc['open_templates_file']	= LL("Open templates file");
 
 /* code */
 
