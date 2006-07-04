@@ -90,6 +90,9 @@ static mpdm_t readline_text = NULL;
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
 
+/* selected row on list */
+static int list_selected_row = -1;
+
 /*******************
 	Code
 ********************/
@@ -1250,6 +1253,13 @@ static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
 }
 
 
+static void select_row(GtkCList * list, gint row,
+	gint column, GdkEventButton * event, gpointer data)
+{
+	list_selected_row = row;
+}
+
+
 static mpdm_t gtkdrv_alert(mpdm_t a)
 /* alert driver function */
 {
@@ -1532,7 +1542,7 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	GtkWidget * scrolled;
 	GtkWidget * list;
 	int pos, n;
-	mpdm_t data;
+	mpdm_t v;
 
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
@@ -1550,7 +1560,8 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	g_free(ptr);
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
-/*	gtk_widget_set_usize(scrolled, _mpv_gtk_width / 2, _mpv_gtk_height / 2);*/
+	gtk_widget_set_usize(scrolled, area->allocation.width / 2,
+		area->allocation.height / 2);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), scrolled, TRUE, TRUE, 0);
@@ -1570,14 +1581,14 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	gtk_widget_show(list);
 
 	/* 2nd argument: list of data */
-	data = mpdm_aget(a, 1);
+	v = mpdm_aget(a, 1);
 
 	/* fill the list */
-	for(n = 0;n < mpdm_size(data);n++)
+	for(n = 0;n < mpdm_size(v);n++)
 	{
 		char * args[1];
 
-		wptr = mpdm_string(mpdm_aget(data, n));
+		wptr = mpdm_string(mpdm_aget(v, n));
 
 		if((ptr = wcs_to_utf8(wptr)) != NULL)
 		{
@@ -1598,8 +1609,8 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	   Is there a better way to do this? */
 	GTK_CLIST(list)->focus_row = pos;
 
-/*	gtk_signal_connect(GTK_OBJECT(list), "select-row",
-		GTK_SIGNAL_FUNC(_mpv_select_row_callback), NULL);*/
+	gtk_signal_connect(GTK_OBJECT(list), "select-row",
+		GTK_SIGNAL_FUNC(select_row), NULL);
 
 	ptr = localize(LL("OK"));
 	ybutton = gtk_button_new_with_label(ptr);
@@ -1626,7 +1637,12 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 
 	gtk_widget_show(dlg);
 
+	list_selected_row = pos;
+
 	wait_for_modal_status_change();
+
+	if(modal_status == 1)
+		return(MPDM_I(list_selected_row));
 
 	return(NULL);
 }
