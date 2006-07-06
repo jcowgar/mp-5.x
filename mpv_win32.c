@@ -1218,6 +1218,7 @@ BOOL CALLBACK listDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	int ret;
 	HWND lst;
+	int n;
 
 	switch(msg)
 	{
@@ -1229,6 +1230,8 @@ BOOL CALLBACK listDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			free(dialog_prompt);
 			dialog_prompt = NULL;
 		}
+		else
+			SetWindowText(hwnd, "mp " VERSION);
 
 		lst = GetDlgItem(hwnd, WMP_LIST);
 		SendMessage(lst, WM_SETFONT, 
@@ -1243,22 +1246,22 @@ BOOL CALLBACK listDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		}
 
 		/* traverses the list, filling the listbox */
-#ifdef QQ
-		mp_move_bof(_mpv_list_text);
-
-		while(mp_peek_char(_mpv_list_text)!='\0')
+		for(n = 0;n < mpdm_size(list_data);n++)
 		{
-			mp_get_str(_mpv_list_text,line,
-				sizeof(line),'\n');
+			wchar_t * wptr;
+			char * ptr;
 
-			SendMessage(lst, LB_ADDSTRING, 0,
-				(LPARAM) line);
+			wptr = mpdm_string(mpdm_aget(list_data, n));
+			if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
+			{
+				SendMessage(lst, LB_ADDSTRING, 0, (LPARAM) ptr);
+				free(ptr);
+			}
 		}
 
 		/* sets the desired element as default */
-		SendDlgItemMessage(hwnd, WMP_LIST, LB_SETCURSEL,
-			_mpv_list_pos, 0);
-#endif
+		SendMessage(lst, LB_SETCURSEL, list_pos, 0);
+
 		return(TRUE);
 
 	case WM_COMMAND:
@@ -1296,7 +1299,7 @@ static mpdm_t w32drv_list(mpdm_t a)
 	if((dialog_prompt = mpdm_wcstombs(wptr, NULL)) != NULL)
 	{
 		/* 2# arg: list */
-		list_data = mp_get_history(mpdm_aget(a, 1));
+		list_data = mpdm_aget(a, 1);
 
 		/* 3# arg: position */
 		list_pos = mpdm_ival(mpdm_aget(a, 2));

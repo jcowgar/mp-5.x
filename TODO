@@ -15,7 +15,6 @@ Release Critical Bugs
    a tag (needs #1139) and selecting from a list (needs #1140).
  * 1142: Add symbol completion with tags (needs #1140).
  * 1155: Add replace.
- * 1157: Add mp.drv.list() to win32.
 
 Open Bugs
 ---------
@@ -106,5 +105,6 @@ Closed
  * 1110: Add mp_templates support (Tue, 27 Jun 2006 18:18:49 +0200).
  * 1140: Add mp.drv.list() (Closed by #1156 and #1157).
  * 1156: Add mp.drv.list() to GTK (Tue, 04 Jul 2006 13:19:58 +0200).
+ * 1157: Add mp.drv.list() to win32 (Thu, 06 Jul 2006 13:14:14 +0200).
 
 Email bugs to angel@triptico.com
