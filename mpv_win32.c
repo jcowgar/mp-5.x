@@ -83,10 +83,16 @@ static int normal_attr = 0;
 static mpdm_t readline_text = NULL;
 
 /* history for readline */
-mpdm_t readline_history = NULL;
+static mpdm_t readline_history = NULL;
 
 /* default value for readline */
-mpdm_t readline_default = NULL;
+static mpdm_t readline_default = NULL;
+
+/* list data */
+static mpdm_t list_data = NULL;
+
+/* list position */
+int list_pos = -1;
 
 /* the menu */
 static HMENU menu = NULL;
@@ -1207,6 +1213,101 @@ static mpdm_t w32drv_savefile(mpdm_t a)
 }
 
 
+BOOL CALLBACK listDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+/* list dialog proc */
+{
+	int ret;
+	HWND lst;
+
+	switch(msg)
+	{
+	case WM_INITDIALOG:
+
+		if(dialog_prompt != NULL)
+		{
+			SetWindowText(hwnd, dialog_prompt);
+			free(dialog_prompt);
+			dialog_prompt = NULL;
+		}
+
+		lst = GetDlgItem(hwnd, WMP_LIST);
+		SendMessage(lst, WM_SETFONT, 
+			(WPARAM) GetStockObject(ANSI_FIXED_FONT), 0);
+
+		{
+			int n = 20 * 4;
+
+			/* sets tab stops on each 20 quarters of char */
+			SendMessage(lst, LB_SETTABSTOPS,
+				(WPARAM) 1, (LPARAM) &n);
+		}
+
+		/* traverses the list, filling the listbox */
+#ifdef QQ
+		mp_move_bof(_mpv_list_text);
+
+		while(mp_peek_char(_mpv_list_text)!='\0')
+		{
+			mp_get_str(_mpv_list_text,line,
+				sizeof(line),'\n');
+
+			SendMessage(lst, LB_ADDSTRING, 0,
+				(LPARAM) line);
+		}
+
+		/* sets the desired element as default */
+		SendDlgItemMessage(hwnd, WMP_LIST, LB_SETCURSEL,
+			_mpv_list_pos, 0);
+#endif
+		return(TRUE);
+
+	case WM_COMMAND:
+
+		switch(LOWORD(wparam))
+		{
+		case WMP_OK:
+		case WMP_CANCEL:
+
+			if(LOWORD(wparam) == WMP_OK)
+				ret = SendDlgItemMessage(hwnd, WMP_LIST,
+					LB_GETCURSEL, 0, 0);
+			else
+				ret = -1;
+
+			EndDialog(hwnd, ret);
+
+			return(TRUE);
+		}
+	}
+
+	return(FALSE);
+}
+
+
+static mpdm_t w32drv_list(mpdm_t a)
+/* readline list function */
+{
+	wchar_t * wptr;
+	int ret = -1;
+
+	/* 1# arg: prompt */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+
+	if((dialog_prompt = mpdm_wcstombs(wptr, NULL)) != NULL)
+	{
+		/* 2# arg: list */
+		list_data = mp_get_history(mpdm_aget(a, 1));
+
+		/* 3# arg: position */
+		list_pos = mpdm_ival(mpdm_aget(a, 2));
+
+		ret = DialogBox(hinst, "LIST", hwnd, listDlgProc);
+	}
+
+	return(ret == -1 ? NULL : MPDM_I(ret));
+}
+
+
 static mpdm_t w32drv_update_ui(mpdm_t a)
 {
 	build_fonts(GetDC(hwnd));
@@ -1239,6 +1340,7 @@ int w32drv_init(void)
 	mpdm_hset_s(drv, L"readline", MPDM_X(w32drv_readline));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(w32drv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(w32drv_savefile));
+	mpdm_hset_s(drv, L"list", MPDM_X(w32drv_list));
 
 	return(1);
 }
