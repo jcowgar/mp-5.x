@@ -1,0 +1,82 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Encrypting functions.
+
+    Copyright (C) 1991-2006 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+sub mp.arcfour_byte()
+/* gets next ARCFOUR byte */
+/* next char is chr(ord(getchar(l)) ^ mp.arcfour_byte()) */
+{
+	local i, j, S;
+
+	i = mp.arcfour.i;
+	j = mp.arcfour.j;
+	S = mp.arcfour.S;
+
+	i = (i + 1) & 0xff;
+	j = (j + S[i]) & 0xff;
+
+	mp.arcfour.i = i; mp.arcfour.j = j;
+
+	/* swap */
+	local t = S[i]; S[i] = S[j]; S[j] = t;
+
+	return(S[(S[i] + S[j]) & 0xff]);
+}
+
+
+sub mp.arcfour_init(key)
+/* initializes an ARCFOUR cypher */
+{
+	/* no key? nothing to do */
+	if(key == NULL) return;
+
+	/* split as an array of characters */
+	local k = split(NULL, key);
+
+	/* init structures */
+	mp.arcfour = {};
+	mp.arcfour.S = [ 0 .. 255 ];
+	mp.arcfour.i = 0;
+	mp.arcfour.j = 0;
+
+	local i;
+	local j = 0;
+
+	/* scramble */
+	foreach(i, [ 0 .. 255 ])
+	{
+		local t = mp.arcfour.S[i];
+
+		j = (j + t + ord(k[i % size(k)])) & 0xff;
+
+		mp.arcfour.S[i] = mp.arcfour.S[j];
+		mp.arcfour.S[j] = t;
+	}
+
+	/* discard 256 bytes (as recommended in many sources) */
+	foreach(i, [ 0 .. 255 ])
+		mp.arcfour_byte();
+}
