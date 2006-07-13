@@ -132,6 +132,8 @@ sub mp.load_tags(force)
 		r = sregex('/\)/g', r, '\)');
 		r = sregex('/\*/g', r, '\*');
 		r = sregex('/\?/g', r, '\?');
+		r = sregex('/\{/g', r, '\{');
+		r = sregex('/\}/g', r, '\}');
 
 		/* store the tag information */
 		mp.tags[t[0]] = {
