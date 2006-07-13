@@ -8,6 +8,8 @@ Minimum Profit 5.x Release Notes
    time). Definitions are now an array of attribute name / regexes in which
    the order is significative.
  * Template insertion works.
+ * Tag selection (open the file where a symbol is defined) works.
+ * Symbol completion (using tags) works.
 
 4.99.10
 -------
