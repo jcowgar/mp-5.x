@@ -282,6 +282,12 @@ sub mp.process_cmdline()
 				print(ERROR, "\n");
 		}
 		else
+		if(o eq '-t')
+		{
+			/* search tag */
+			mp.cmdline_tag = shift(ARGV);
+		}
+		else
 		if(regex('/^\+/', o))
 		{
 			/* move to line */
@@ -314,6 +320,12 @@ sub mp.post_ui_startup()
 /* code to execute after driver startup */
 {
 	mp.load_tags();
+
+	if(mp.cmdline_tag)
+	{
+		mp.open_tag(mp.cmdline_tag);
+		hdel(mp, cmdline_tag);
+	}
 }
 
 
