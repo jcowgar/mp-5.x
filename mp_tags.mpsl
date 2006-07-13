@@ -54,19 +54,21 @@ mp.actions['find_tag']	= sub(d) {
 			return;
 		}
 
-		/* build a list to ask the user */
-		local l = [];
-
-		/* FIXME: map candidate */
-		foreach(a, t)
-			push(l, a.label);
-
-		/* only one? pre-select */
+		/* only one? get the first one */
 		if(size(t) == 1)
 			a = 0;
 		else
-		if((a = mp.list(L("Select tag"), l)) == -1)
-			return;
+		{
+			/* build a list to ask the user */
+			local l = [];
+
+			/* FIXME: map candidate */
+			foreach(a, t)
+				push(l, a.label);
+
+			if((a = mp.list(L("Select tag"), l)) == -1)
+				return;
+		}
 
 		tag = t[a].tag;
 
