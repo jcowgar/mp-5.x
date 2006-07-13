@@ -25,13 +25,30 @@
 
 */
 
-sub mp.load_tags
+/* default ctags command */
+mp.config.ctags_cmd = "ctags *";
+
+/* code */
+
+sub mp.load_tags(force)
 /* load a 'tags' file */
 {
 	local f, l, a;
 
 	if((f = open("tags", "r")) == NULL)
-		return;
+	{
+		/* if force is set, execute the ctags command */
+		if((f = popen(mp.config.ctags_cmd, "r")) == NULL)
+			return;
+
+		/* read (and discard) a line from it */
+		read(f);
+		pclose(f);
+
+		/* try again */
+		if((f = open("tags", "r")) == NULL)
+			return;
+	}
 
 	/* deletes all currently stored tags from the word/color cache */
 	foreach(l, keys(mp.tags))
