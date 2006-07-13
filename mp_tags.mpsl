@@ -29,6 +29,7 @@
 mp.config.ctags_cmd = "ctags *";
 
 /* editor actions */
+
 mp.actions['find_tag']	= sub(d) {
 
 	local tag = mp.get_word(d);
@@ -53,26 +54,34 @@ mp.actions['find_tag']	= sub(d) {
 			return;
 		}
 
-		/* if there is more than one, ask */
-		if(size(t) > 1)
-		{
-			local l = [];
+		/* build a list to ask the user */
+		local l = [];
 
-			/* build a list and ask the user */
-			/* FIXME: map candidate */
-			foreach(a, t)
-				push(l, a.label);
+		/* FIXME: map candidate */
+		foreach(a, t)
+			push(l, a.label);
 
-			if((a = mp.list(L("Select tag"), l)) == -1)
-				return;
+		/* only one? pre-select */
+		if(size(t) == 1)
+			a = 0;
+		else
+		if((a = mp.list(L("Select tag"), l)) == -1)
+			return;
 
-			tag = t[a].tag;
-		}
+		tag = t[a].tag;
 
 		mp.open_tag(tag);
 	}
 };
 
+
+/* Default key bindings */
+
+mp.keycodes['ctrl-t']	=	"find_tag";
+
+/* action descriptions */
+
+mp.actdesc['find_tag']	=	LL("Find tag...");
 
 /* code */
 
