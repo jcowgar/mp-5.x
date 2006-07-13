@@ -63,16 +63,21 @@ sub mp.load_tags(force)
 	while((l = read(f)))
 	{
 		local t = split("\t", l);
-		local l;
+		local l, r;
 
 		/* clean the regex 'markup' for the label */
 		l = sregex('/^\/\^/', t[2], '');
 		l = sregex('/\$\/;"$/', l, '') ~ ' [' ~ t[1] ~ ']';
 
+		/* clean the regex itself */
+		r = sregex('/;"$/', t[2], '');
+		r = sregex('/\(/g', r, '\(');
+		r = sregex('/\)/g', r, '\)');
+
 		/* store the tag information */
 		mp.tags[t[0]] = {
 			'file'	=> t[1],
-			'regex'	=> t[2],
+			'regex'	=> r,
 			'label' => l
 			};
 
@@ -81,4 +86,25 @@ sub mp.load_tags(force)
 	}
 
 	close(f);
+}
+
+
+sub mp.open_tag(tag)
+/* opens a tag */
+{
+	local doc, t;
+
+	/* read the tag file (forcing) */
+	mp.load_tags(1);
+
+	/* doesn't exist? return */
+	if((t = mp.tags[tag]) == NULL)
+		return(NULL);
+
+	/* open the file */
+	doc = mp.open(t.file);
+
+	/* move up and search */
+	mp.move_bof(doc);
+	return(mp.search(doc, t.regex));
 }
