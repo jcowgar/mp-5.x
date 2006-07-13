@@ -28,6 +28,52 @@
 /* default ctags command */
 mp.config.ctags_cmd = "ctags *";
 
+/* editor actions */
+mp.actions['find_tag']	= sub(d) {
+
+	local tag = mp.get_word(d);
+
+	/* ask for it, taking the word under the cursor */
+	if((tag = mp.readline(L("Tag to find:"), 'find_tag', tag)) != NULL)
+	{
+		local t, a;
+
+		t = [];
+
+		mp.load_tags(1);
+
+		/* FIXME: grep candidate */
+		foreach(a, keys(mp.tags))
+			if(regex('/' ~ tag ~ '/', a))
+				push(t, mp.tags[a]);
+
+		if(size(t) == 0)
+		{
+			mp.alert(L("Tag not found."));
+			return;
+		}
+
+		/* if there is more than one, ask */
+		if(size(t) > 1)
+		{
+			local l = [];
+
+			/* build a list and ask the user */
+			/* FIXME: map candidate */
+			foreach(a, t)
+				push(l, a.label);
+
+			if((a = mp.list(L("Select tag"), l)) == -1)
+				return;
+
+			tag = t[a].tag;
+		}
+
+		mp.open_tag(tag);
+	}
+};
+
+
 /* code */
 
 sub mp.load_tags(force)
@@ -73,9 +119,12 @@ sub mp.load_tags(force)
 		r = sregex('/;"$/', t[2], '');
 		r = sregex('/\(/g', r, '\(');
 		r = sregex('/\)/g', r, '\)');
+		r = sregex('/\*/g', r, '\*');
+		r = sregex('/\?/g', r, '\?');
 
 		/* store the tag information */
 		mp.tags[t[0]] = {
+			'tag'	=> t[0],
 			'file'	=> t[1],
 			'regex'	=> r,
 			'label' => l

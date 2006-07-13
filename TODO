@@ -11,8 +11,6 @@ Release Critical Bugs
  * 1131: Add move to next / previous ocurrence of character.
  * 1137: Word wrap counts all caracters as measuring 1 column, which is
    stupid.
- * 1141: Add complete tag support, with 'ctags' execution, asking for
-   a tag (needs #1139) and selecting from a list (needs #1140).
  * 1142: Add symbol completion with tags (needs #1140).
  * 1155: Add replace.
 
@@ -106,5 +104,8 @@ Closed
  * 1140: Add mp.drv.list() (Closed by #1156 and #1157).
  * 1156: Add mp.drv.list() to GTK (Tue, 04 Jul 2006 13:19:58 +0200).
  * 1157: Add mp.drv.list() to win32 (Thu, 06 Jul 2006 13:14:14 +0200).
+ * 1141: Add complete tag support, with 'ctags' execution, asking for
+   a tag (needs #1139) and selecting from a list (needs #1140)
+   (Thu, 13 Jul 2006 13:59:02 +0200).
 
 Email bugs to angel@triptico.com
