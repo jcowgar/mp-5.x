@@ -156,9 +156,6 @@ sub mp.open_tag(tag)
 {
 	local doc, t;
 
-	/* read the tag file (forcing) */
-	mp.load_tags(1);
-
 	/* doesn't exist? return */
 	if((t = mp.tags[tag]) == NULL)
 		return(NULL);
