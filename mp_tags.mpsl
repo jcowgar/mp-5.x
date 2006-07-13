@@ -39,6 +39,51 @@ mp.actions['find_tag']	= sub(d) {
 		mp.open_tag(tag);
 };
 
+mp.actions['complete_symbol'] = sub(d) {
+
+	local l, a;
+	local symbol = mp.get_word(d);
+
+	mp.load_tags(1);
+
+	l = [];
+
+	/* FIXME: grep candidate */
+	foreach(a, keys(mp.tags))
+		if(regex('/^' ~ symbol ~ '/', a))
+			push(l, a);
+
+	l = sort(l);
+
+	/* no tag starts with symbol */
+	if(size(l) == 0)
+	{
+		mp.alert(L("No matching symbol found."));
+		return;
+	}
+
+	if(size(l) == 1)
+		a = 0;
+	else
+	{
+		/* more than one; ask user */
+		if((a = mp.list(L("Select symbol"), l)) == NULL)
+			return;
+	}
+
+	/* accepted; substitute current word with symbol */
+
+	/* split line by words to take the offset of current word */
+	local r = mp.split_line_by_words(d);
+	local offset = r[1][r[2]];
+
+	/* substitute current word with newly selected symbol */
+	local w = splice(d.txt.lines[d.txt.y], l[a], offset, size(symbol));
+
+	/* change line and x cursor */
+	d.txt.lines[d.txt.y] = w[0];
+	d.txt.x = offset + size(l[a]);
+};
 
 /* Default key bindings */
 
@@ -46,7 +91,8 @@ mp.keycodes['ctrl-t']	=	"find_tag";
 
 /* action descriptions */
 
-mp.actdesc['find_tag']	=	LL("Find tag...");
+mp.actdesc['find_tag']		= LL("Find tag...");
+mp.actdesc['complete_symbol']	= LL("Symbol completion...");
 
 /* code */
 
