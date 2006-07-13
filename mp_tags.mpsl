@@ -95,7 +95,7 @@ sub mp.load_tags(force)
 	if((f = open("tags", "r")) == NULL)
 	{
 		/* if force is set, execute the ctags command */
-		if((f = popen(mp.config.ctags_cmd, "r")) == NULL)
+		if(!force || (f = popen(mp.config.ctags_cmd, "r")) == NULL)
 			return;
 
 		/* read (and discard) a line from it */
