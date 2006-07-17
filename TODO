@@ -13,7 +13,6 @@ Release Critical Bugs
    stupid.
  * 1155: Add replace.
  * 1158: Fail on trying to open directories.
- * 1159: Do something to avoid having carriage returns in the text.
 
 Open Bugs
 ---------
@@ -110,5 +109,7 @@ Closed
    (Thu, 13 Jul 2006 13:59:02 +0200).
  * 1142: Add symbol completion with tags (needs #1140)
    (Thu, 13 Jul 2006 17:10:49 +0200).
+ * 1159: Do something to avoid having carriage returns in the text
+   (Mon, 17 Jul 2006 14:22:26 +0200).
 
 Email bugs to angel@triptico.com

@@ -127,7 +127,7 @@ mp.actdesc['open_templates_file']	= LL("Open templates file");
 sub mp.chomp(str)
 /* chomps the end of file chars from a string */
 {
-	sregex("/" ~ mp.config.eol ~ "$/", str, NULL);
+	sregex("/\r?\n$/", str, NULL);
 }
 
 
