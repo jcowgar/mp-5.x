@@ -10,6 +10,10 @@ Minimum Profit 5.x Release Notes
  * Template insertion works.
  * Tag selection (open the file where a symbol is defined) works.
  * Symbol completion (using tags) works.
+ * Fixed bugs: avoid having carriage return characters inside lines (#1159),
+   if a file cannot be opened (i.e. not enough permissions, it's a directory
+   and such) an error message is shown instead of creating a new document as
+   if it didn't exist (#1158).
 
 4.99.10
 -------
