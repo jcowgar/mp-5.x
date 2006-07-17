@@ -91,7 +91,8 @@ mp.actions['open']	= sub (d) {
 	local n;
 
 	if((n = mp.openfile(L("File to open:"))) != NULL && n ne "")
-		mp.open(n);
+		if(mp.open(n) == NULL)
+			mp.alert(sprintf("Error opening '%s': %s", n, ERRNO));
 };
 
 mp.actions['open_config_file']	= sub (d) {
@@ -137,10 +138,43 @@ sub mp.load(filename)
 	local f, l;
 	local doc;
 	local txt;
+	local lines = [];
 
-	/* open or fail */
-	if((f = open(filename, "r")) == NULL)
-		return(NULL);
+	/* clear previous errors */
+	ERRNO = NULL;
+
+	/* try to open in read-write mode; it will fail if not
+	   enough permissions or it's a directory */
+	if((f = open(filename, "r+")) == NULL)
+	{
+		/* save ERRNO */
+		local e = ERRNO;
+
+		/* if a stat() can be done, it means the file
+		   exists and we must fail */
+		if(stat(filename) != NULL)
+		{
+			/* restore ERRNO */
+			ERRNO = e;
+			return(NULL);
+		}
+
+		/* if stat() returned NULL, it means the file doesn't
+		   exist (so we must create one), or stat() isn't
+		   supported, so no more can be known about the file */
+	}
+	else
+	{
+		/* file was open; read it into lines */
+		while((l = read(f)) != NULL)
+			push(lines, mp.chomp(l));
+
+		/* if previous line was chomped, add an empty line */
+		if(sregex())
+			push(lines, '');
+
+		close(f);
+	}
 
 	doc = mp.new();
 
@@ -149,21 +183,9 @@ sub mp.load(filename)
 
 	txt = doc.txt;
 
-	/* set lines as an empty array */
-	txt.lines = [];
-
-	/* read the file into it */
-	while((l = read(f)) != NULL)
-		push(txt.lines, mp.chomp(l));
-
-	/* if previous line was chomped, add an empty line */
-	if(sregex())
-		push(txt.lines, '');
-
-	close(f);
+	txt.lines = lines;
 
 	/* move to bof and save to the undo buffer */
-	mp.move_bof(doc);
 	mp.store_undo(doc);
 
 	mp.detect_syntax(doc);
@@ -302,12 +324,7 @@ sub mp.open(filename)
 	else
 	{
 		/* try to open */
-		if((d = mp.load(filename)) == NULL)
-		{
-			/* can't open; create an empty one */
-			d = mp.new();
-			d.name = filename;
-		}
+		d = mp.load(filename);
 	}
 
 	return(d);
