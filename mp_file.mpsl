@@ -143,9 +143,7 @@ sub mp.load(filename)
 	/* clear previous errors */
 	ERRNO = NULL;
 
-	/* try to open in read-write mode; it will fail if not
-	   enough permissions or it's a directory */
-	if((f = open(filename, "r+")) == NULL)
+	if((f = open(filename, "r")) == NULL)
 	{
 		/* save ERRNO */
 		local e = ERRNO;
