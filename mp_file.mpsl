@@ -133,8 +133,8 @@ sub mp.chomp(str)
 
 
 sub mp.open_file_for_reading(filename)
-/* opens a file for reading and returns the file descriptor or NULL,
-   optionally setting ERRNO */
+/* the three-state file opening of text editors: open if possible,
+   fail on errors, create new if non-existent */
 {
 	local f;
 
