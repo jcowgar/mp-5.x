@@ -132,13 +132,11 @@ sub mp.chomp(str)
 }
 
 
-sub mp.load(filename)
-/* loads a file from disk */
+sub mp.open_file_for_reading(filename)
+/* opens a file for reading and returns the file descriptor or NULL,
+   optionally setting ERRNO */
 {
-	local f, l;
-	local doc;
-	local txt;
-	local lines = [];
+	local f;
 
 	/* clear previous errors */
 	ERRNO = NULL;
@@ -149,17 +147,32 @@ sub mp.load(filename)
 		local e = ERRNO;
 
 		/* if a stat() can be done, it means the file
-		   exists and we must fail */
+		   exists and can't be open; this is an error.
+		   otherwise, it's a non-existent file, so not
+		   an error for a text editor */
 		if(stat(filename) != NULL)
-		{
-			/* restore ERRNO */
 			ERRNO = e;
-			return(NULL);
-		}
+		else
+			ERRNO = NULL;
+	}
 
-		/* if stat() returned NULL, it means the file doesn't
-		   exist (so we must create one), or stat() isn't
-		   supported, so no more can be known about the file */
+	return(f);
+}
+
+
+sub mp.load(filename)
+/* loads a file from disk */
+{
+	local f, l;
+	local doc;
+	local lines = [];
+
+	if((f = mp.open_file_for_reading(filename)) == NULL)
+	{
+		if(ERRNO != NULL)
+			return(NULL);
+
+		/* file doesn't exist: new document */
 	}
 	else
 	{
@@ -176,19 +189,15 @@ sub mp.load(filename)
 
 	doc = mp.new();
 
-	/* store the filename */
+	/* store the filename and lines */
 	doc.name = filename;
+	doc.txt.lines = lines;
 
-	txt = doc.txt;
-
-	txt.lines = lines;
-
-	/* move to bof and save to the undo buffer */
+	/* store in the undo buffer */
 	mp.store_undo(doc);
 
+	/* autodetect syntax */
 	mp.detect_syntax(doc);
-
-	doc.txt.mod = 0;
 
 	return(doc);
 }
