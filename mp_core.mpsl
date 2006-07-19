@@ -124,7 +124,8 @@ mp.menu = [
 			'eval', 'eval_doc' ],
 	LL("&Search"),	[ 'seek', 'seek_next', 'replace', '-',
 			'find_tag', 'complete_symbol' ],
-	LL("&Go to"),	[ 'next', 'move_bof', 'move_eof', 'move_bol', 'move_eol',
+	LL("&Go to"),	[ 'next', 'prev',
+			'move_bof', 'move_eof', 'move_bol', 'move_eol',
 			'goto', 'move_word_right', 'move_word_left' ],
 	LL("&Options"),	[ 'record_macro', 'play_macro', '-',
 			'zoom_in', 'zoom_out' ]
