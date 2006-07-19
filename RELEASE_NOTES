@@ -10,7 +10,7 @@ Minimum Profit 5.x Release Notes
  * Template insertion works.
  * Tag selection (open the file where a symbol is defined) works.
  * Symbol completion (using tags) works.
- * Closed bugs #1159, #1158, #1153.
+ * Closed bugs #1159, #1158, #1153, #1161.
 
 4.99.10
 -------

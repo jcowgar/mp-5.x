@@ -33,7 +33,7 @@ mp.actions['delete_line']	= sub (d) { mp.store_undo(d); mp.delete_line(d); };
 mp.actions['insert_space']	= sub (d) { mp.store_undo(d); mp.insert_space(d); };
 mp.actions['insert_tab']	= sub (d) { mp.store_undo(d); mp.insert_tab(d); };
 mp.actions['delete']		= sub (d) { mp.store_undo(d); mp.delete_char(d); };
-mp.actions['delete_left']	= sub (d) { mp.store_undo(d); mp.move_left(d);
+mp.actions['delete_left']	= sub (d) { mp.store_undo(d); mp.move_left(d) &&
 					mp.delete_char(d); };
 mp.actions['undo']		= sub (d) { mp.undo(d); };
 mp.actions['join_paragraph']	= sub (d) { mp.store_undo(d); mp.join_paragraph(d); };
