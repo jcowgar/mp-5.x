@@ -37,7 +37,7 @@ sub LL(x) { x; }
 
 mp.config = {};
 mp.config.eol = "\n";
-mp.config.undo_levels = 20;
+mp.config.undo_levels = 100;
 mp.config.word_wrap = 0;
 mp.config.auto_indent = 0;
 mp.config.status_format = "%m%n %x,%y [%l] %R%O %s %t";
