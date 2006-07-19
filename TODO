@@ -12,8 +12,6 @@ Release Critical Bugs
  * 1137: Word wrap counts all caracters as measuring 1 column, which is
    stupid.
  * 1155: Add replace.
- * 1160: Current opening file method (read-write mode and then stat())
-   fails opening read-only files, which is unacceptable.
 
 Open Bugs
 ---------
@@ -21,6 +19,8 @@ Open Bugs
  * 1150: The GTK menu is not rebuilt when calling mp.update_ui().
  * 1153: Suppress the "File '.mp.mpsl' not found in INC" spurious
    error message.
+ * 1161: Pressing backspace at the beggining of a document deleted
+   the first character.
 
 Pending Enhancements
 --------------------
@@ -113,5 +113,8 @@ Closed
  * 1159: Do something to avoid having carriage returns in the text
    (Mon, 17 Jul 2006 14:22:26 +0200).
  * 1158: Fail on trying to open directories (Mon, 17 Jul 2006 15:54:25 +0200).
+ * 1160: Current opening file method (read-write mode and then stat())
+   fails opening read-only files, which is unacceptable
+   (Wed, 19 Jul 2006 13:15:07 +0200).
 
 Email bugs to angel@triptico.com
