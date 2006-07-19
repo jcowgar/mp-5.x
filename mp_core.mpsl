@@ -309,10 +309,14 @@ sub mp.process_cmdline()
 sub mp.load_profile()
 /* loads ~/.mp.mpsl */
 {
-	eval( sub {
-		local INC = [ HOMEDIR ];
-		load(".mp.mpsl");
-	});
+	/* if ~/.mp.mpsl exists, execute it */
+	if(stat(HOMEDIR ~ '.mp.mpsl') != NULL)
+	{
+		eval( sub {
+			local INC = [ HOMEDIR ];
+			load(".mp.mpsl");
+		});
+	}
 }
 
 
