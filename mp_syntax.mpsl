@@ -41,13 +41,7 @@ mp.actions['help']	=	sub (d) {
 	if(h == NULL)
 		mp.alert(sprintf(L("No help for '%s'."), w));
 	else
-	{
-		mp.new();
-
-		d = mp.active();
-		d.txt.lines = h;
-		d.name = sprintf(L("<help on '%s'>"), w);
-	}
+		mp.new(sprintf(L("<help on '%s'>"), w), h);
 };
 
 /* default key bindings */

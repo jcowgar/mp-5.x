@@ -164,7 +164,6 @@ sub mp.load(filename)
 /* loads a file from disk */
 {
 	local f, l;
-	local doc;
 	local lines = [];
 
 	if((f = mp.open_file_for_reading(filename)) == NULL)
@@ -187,19 +186,7 @@ sub mp.load(filename)
 		close(f);
 	}
 
-	doc = mp.new();
-
-	/* store the filename and lines */
-	doc.name = filename;
-	doc.txt.lines = lines;
-
-	/* store in the undo buffer */
-	mp.store_undo(doc);
-
-	/* autodetect syntax */
-	mp.detect_syntax(doc);
-
-	return(doc);
+	return(mp.new(filename, lines));
 }
 
 
@@ -245,7 +232,7 @@ sub mp.save(doc)
 }
 
 
-sub mp.new()
+sub mp.new(filename, lines)
 /* creates a new document */
 {
 	local doc, txt;
@@ -255,11 +242,11 @@ sub mp.new()
 	txt.y = 0;
 	txt.vx = 0;
 	txt.vy = 0;
-	txt.lines = [ '' ];
+	txt.lines = lines || [ '' ];
 	txt.mod = 0;
 
 	doc = {};
-	doc.name = "<unnamed>";
+	doc.name = filename || L("<unnamed>");
 	doc.txt = txt;
 
 	doc.undo = [];
@@ -269,6 +256,12 @@ sub mp.new()
 	/* store in the list and set as active */
 	push(mp.docs, doc);
 	mp.active_i = size(mp.docs) - 1;
+
+	/* store in the undo buffer */
+	mp.store_undo(doc);
+
+	/* autodetect syntax */
+	mp.detect_syntax(doc);
 
 	return(doc);
 }
