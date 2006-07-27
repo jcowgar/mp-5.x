@@ -93,6 +93,9 @@ static int normal_attr = 0;
 /* selected row on list */
 static int list_selected_row = -1;
 
+/* show the entry as password */
+static int entry_is_password = 0;
+
 /*******************
 	Code
 ********************/
@@ -1431,6 +1434,13 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 /*		g_free(ptr);*/
 	}
 
+	/* is it a password? show entry as asterisks */
+	if(entry_is_password)
+	{
+		gtk_entry_set_visibility(GTK_ENTRY(entry), FALSE);
+		entry_is_password = 0;
+	}
+
 	gtk_combo_set_popdown_strings(GTK_COMBO(combo), combo_items);
 	g_list_free(combo_items);
 
@@ -1477,6 +1487,15 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 
 	entry = NULL;
 	return(ret);
+}
+
+
+static mpdm_t gtkdrv_readline_password(mpdm_t a)
+/* readline_password driver function */
+{
+	entry_is_password = 1;
+
+	return(gtkdrv_readline(a));
 }
 
 
@@ -1683,6 +1702,7 @@ int gtkdrv_init(void)
 	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(gtkdrv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(gtkdrv_readline));
+	mpdm_hset_s(drv, L"readline_password", MPDM_X(gtkdrv_readline_password));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(gtkdrv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(gtkdrv_savefile));
 	mpdm_hset_s(drv, L"list", MPDM_X(gtkdrv_list));
