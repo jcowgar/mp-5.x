@@ -97,6 +97,9 @@ int list_pos = -1;
 /* the menu */
 static HMENU menu = NULL;
 
+/* show the entry as password */
+static int entry_is_password = 0;
+
 /*******************
 	Code
 ********************/
@@ -1080,10 +1083,13 @@ BOOL CALLBACK readlineDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			}
 		}
 
-/*		if (_mpv_readline_type == MPR_PASSWORD) {
+		if(entry_is_password)
+		{
 			SendDlgItemMessage(hwnd, WMP_1STR_EDIT,
 				EM_SETPASSWORDCHAR, (WPARAM)'*', (LPARAM)0);
-		} else {*/
+
+			entry_is_password = 0;
+		}
 
 		return(TRUE);
 
@@ -1136,7 +1142,9 @@ static mpdm_t w32drv_readline(mpdm_t a)
 		/* 3# arg: default value */
 		readline_default = mpdm_aget(a, 2);
 
-		if(DialogBox(hinst, "READLINE", hwnd, readlineDlgProc))
+		if(DialogBox(hinst,
+			entry_is_password ? "READLINE_PASSWORD" : "READLINE",
+			hwnd, readlineDlgProc))
 		{
 			if(readline_history != NULL &&
 				mpdm_size(readline_text) > 0 &&
@@ -1149,6 +1157,15 @@ static mpdm_t w32drv_readline(mpdm_t a)
 	}
 
 	return(NULL);
+}
+
+
+static mpdm_t w32drv_readline_password(mpdm_t a)
+/* readline_password driver function */
+{
+	entry_is_password = 1;
+
+	return(w32drv_readline(a));
 }
 
 
@@ -1341,6 +1358,7 @@ int w32drv_init(void)
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(w32drv_readline));
+	mpdm_hset_s(drv, L"readline_password", MPDM_X(w32drv_readline_password));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(w32drv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(w32drv_savefile));
 	mpdm_hset_s(drv, L"list", MPDM_X(w32drv_list));
