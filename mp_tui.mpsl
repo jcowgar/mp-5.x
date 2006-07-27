@@ -42,6 +42,68 @@ sub mp.tui.prompt(prompt)
 }
 
 
+sub mp.tui.readline(prompt, history, default, flags)
+/* the readline function, with special functionality in 'flags' */
+{
+	local c, r, h, i, v;
+
+	mp.tui.prompt(prompt ~ ' ');
+	c = mp.tui.getxy();
+	r = default || '';
+
+	/* get the history stack */
+	h = mp.get_history(history);
+
+	/* create the clipping regular expression */
+	v = '/.{1,' ~ (mp.window.tx - c[0] - 1) ~ '}$/';
+
+	i = 0;
+
+	while(1)
+	{
+		local k, s;
+
+		/* builds the string */
+		s = regex(v, r) || '';
+
+		/* if it's a password, change everything to asterisks */
+		if(flags.password)
+			s = sregex('/./g', s, flags.password);
+
+		/* draws the string */
+		mp.tui.move(c[0], c[1], 1);
+		mp.tui.addstr(s);
+
+		k = mp.tui.getkey();
+
+		if(k eq 'enter') break;
+		else
+		if(k eq 'escape') { r = NULL; break; }
+		else
+		if(k eq 'backspace') r = sregex('/.$/', r);
+		else
+		if(k eq 'ctrl-u') r = '';
+		else
+		if(k eq 'space') r = r ~ ' ';
+		else
+		if(k eq 'cursor-up' && size(h)) { i--; r = h[i % size(h)]; }
+		else
+		if(k eq 'cursor-down' && size(h)) { i++; r = h[i % size(h)]; }
+		else
+		if(size(k) == 1)
+			r = r ~ k;
+	}
+
+	/* if a string was accepted, store in the history */
+	if(h && size(r) && h[-1] ne r)
+		push(h, r);
+
+	return(r);
+}
+
+
+/* interface */
+
 sub mp.drv.alert(msg)
 {
 	mp.tui.prompt(msg ~ L(" [ENTER]"));
@@ -76,59 +138,19 @@ sub mp.drv.confirm(msg)
 
 sub mp.drv.readline(prompt, history, default)
 {
-	local c, r, h, i, v;
-
-	mp.tui.prompt(prompt ~ ' ');
-	c = mp.tui.getxy();
-	r = default || '';
-
-	/* get the history stack */
-	h = mp.get_history(history);
-
-	/* create the clipping regular expression */
-	v = '/.{1,' ~ (mp.window.tx - c[0] - 1) ~ '}$/';
-
-	i = 0;
-
-	while(1)
-	{
-		local k;
-
-		/* draws the string */
-		mp.tui.move(c[0], c[1], 1);
-		mp.tui.addstr(regex(v, r) || '');
-
-		k = mp.tui.getkey();
-
-		if(k eq 'enter') break;
-		else
-		if(k eq 'escape') { r = NULL; break; }
-		else
-		if(k eq 'backspace') r = sregex('/.$/', r);
-		else
-		if(k eq 'ctrl-u') r = '';
-		else
-		if(k eq 'space') r = r ~ ' ';
-		else
-		if(k eq 'cursor-up' && size(h)) { i--; r = h[i % size(h)]; }
-		else
-		if(k eq 'cursor-down' && size(h)) { i++; r = h[i % size(h)]; }
-		else
-		if(size(k) == 1)
-			r = r ~ k;
-	}
-
-	/* if a string was accepted, store in the history */
-	if(size(r) && h[-1] ne r)
-		push(h, r);
-
-	return(r);
+	mp.tui.readline(prompt, history, default);
 }
 
 
 sub mp.drv.readline_search(prompt)
 {
 	mp.drv.readline(prompt, 'search');
+}
+
+
+sub mp.drv.readline_password(prompt)
+{
+	mp.tui.readline(prompt, NULL, NULL, { 'password' => '*' } );
 }
 
 
