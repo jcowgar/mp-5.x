@@ -187,11 +187,7 @@ sub mp.open_tag(tag)
 	else
 	{
 		/* build a list to ask the user */
-		local l = [];
-
-		/* FIXME: map candidate */
-		foreach(a, t)
-			push(l, a.label);
+		local l = map(sub(e) { e.label; }, t);
 
 		if((a = mp.list(L("Select tag"), l)) == NULL)
 			return;
