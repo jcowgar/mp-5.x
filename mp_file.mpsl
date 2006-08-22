@@ -302,21 +302,7 @@ sub mp.close()
 sub mp.find_file_by_name(filename)
 /* finds an open file by its name */
 {
-	local n = 0;
-
-	while(n < size(mp.docs))
-	{
-		local d = mp.docs[n];
-
-		/* it's this one? return */
-		if(d.name eq filename)
-			return(n);
-
-		n++;
-	}
-
-	/* not found */
-	return(-1);
+	seek(map(sub(d) { d.name; }, mp.docs), filename);
 }
 
 
