@@ -46,17 +46,8 @@ mp.actions['complete_symbol'] = sub(d) {
 
 	mp.load_tags(1);
 
-	l = [];
-
-	/* FIXME: grep candidate */
-	foreach(a, keys(mp.tags))
-		if(regex('/^' ~ symbol ~ '/', a))
-			push(l, a);
-
-	l = sort(l);
-
-	/* no tag starts with symbol */
-	if(size(l) == 0)
+	/* takes all tags starting with symbol */
+	if((l = sort(grep('/^' ~ symbol ~ '/', keys(mp.tags)))) == NULL)
 	{
 		mp.alert(L("No matching symbol found."));
 		return;
@@ -163,19 +154,14 @@ sub mp.load_tags(force)
 sub mp.open_tag(tag)
 /* opens a tag (uses GUI) */
 {
-	local doc, a;
-
-	local t = [];
+	local doc, a, t;
 
 	/* force loading of the tags file */
 	mp.load_tags(1);
 
-	/* FIXME: grep candidate */
-	foreach(a, keys(mp.tags))
-		if(regex('/' ~ tag ~ '/', a))
-			push(t, mp.tags[a]);
-
-	if(size(t) == 0)
+	/* greps all tags containing the tag, and returns the
+	   values from mp.tags */
+	if((t = map(mp.tags, grep('/' ~ tag ~ '/', keys(mp.tags)))) == NULL)
 	{
 		mp.alert(L("Tag not found."));
 		return;
