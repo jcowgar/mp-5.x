@@ -80,3 +80,67 @@ sub mp.arcfour_init(key)
 	foreach(i, [ 0 .. 255 ])
 		mp.arcfour_byte();
 }
+
+
+sub mp.arcfour_load(fd, lines, password)
+/* loads an ARCFOUR encrypted file into lines */
+{
+	local c;
+	local l = '';
+
+	/* the mpcrypt1\n\0 signature has already been read */
+
+	/* init */
+	mp.arcfour_init(password);
+
+	while((c = getchar(fd)) != NULL)
+	{
+		/* decrypt byte and concat */
+		c = chr(ord(c) ^ mp.arcfour_byte());
+		l = l ~ c;
+
+		if(c eq "\n")
+		{
+			/* end of line; chomp l and push it */
+			push(lines, mp.chomp(l));
+			l = '';
+		}
+	}
+
+	if(l ne '') push(lines, mp.chomp(l));
+}
+
+
+sub mp.arcfour_save(fd, lines, password)
+/* saves the lines as an ARCFOUR encrypted file */
+{
+	local l;
+	local nl = 0;
+
+	/* save first the signature */
+	write(fd, "mpcrypt1\n");
+
+	/* write a \0 */
+	putchar(fd, "");
+
+	/* init */
+	mp.arcfour_init(password);
+
+	/* loop the lines */
+	foreach(l, lines)
+	{
+		local c;
+
+		/* write a line separator if it's not the first line */
+		if(nl) l = mp.config.eol ~ l;
+
+		/* split by chars */
+		local lc = split(NULL, l);
+
+		/* write each char xoring with next crypto-byte */
+		foreach(c, lc)
+			putchar(fd, chr(ord(c) ^ mp.arcfour_byte()));
+
+		nl++;
+	}
+}
