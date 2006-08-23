@@ -143,4 +143,6 @@ sub mp.arcfour_save(fd, lines, password)
 
 		nl++;
 	}
+
+	return(nl);
 }

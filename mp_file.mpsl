@@ -195,7 +195,7 @@ sub mp.load(filename)
 sub mp.save(doc)
 /* saves a file */
 {
-	local f, l;
+	local f;
 	local s = NULL;
 	local nl = 0;
 
@@ -210,13 +210,22 @@ sub mp.save(doc)
 		return(-1);
 	}
 
-	foreach(l, doc.txt.lines)
+	/* if the document has a password, save it encrypted */
+	if(doc.password)
+		nl = mp.arcfour_save(f, doc.txt.lines, doc.password);
+	else
 	{
-		/* write a line separator if it's not the first line */
-		if(nl) write(f, mp.config.eol);
+		/* save as a plain text file */
+		local l;
 
-		write(f, l);
-		nl++;
+		foreach(l, doc.txt.lines)
+		{
+			/* write a line separator if it's not the first line */
+			if(nl) write(f, mp.config.eol);
+
+			write(f, l);
+			nl++;
+		}
 	}
 
 	close(f);
