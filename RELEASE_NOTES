@@ -5,6 +5,8 @@ Minimum Profit 5.x Release Notes
 -------
 
  * Saving of encrypted documents works.
+ * Case sensitivity in searches can be controlled with the new
+   config variable mp.config.case_insensitive_search.
 
 4.99.11
 -------
