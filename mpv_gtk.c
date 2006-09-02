@@ -1377,7 +1377,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	wchar_t * wptr;
 	char * ptr;
 	GtkWidget * dlg;
-	GtkWidget * hbox;
+	GtkWidget * table;
 	GtkWidget * label;
 	GtkWidget * ybutton;
 	GtkWidget * nbutton;
@@ -1401,10 +1401,11 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
 	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
 
-	hbox = gtk_hbox_new(0, 4);
+	table = gtk_table_new(1 + (readline_checkbox_label != NULL), 2, 0);
+	gtk_table_set_col_spacing(GTK_TABLE(table), 0, 4);
 
 	label = gtk_label_new(ptr);
-	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
 	g_free(ptr);
 
 	combo = gtk_combo_new();
@@ -1445,27 +1446,23 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	gtk_combo_set_popdown_strings(GTK_COMBO(combo), combo_items);
 	g_list_free(combo_items);
 
-	gtk_box_pack_start(GTK_BOX(hbox), combo, TRUE, TRUE, 0);
-
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), hbox, TRUE, TRUE, 0);
+	gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 2, 0, 1);
 
 	/* case insensitive checkbox */
 	if(readline_checkbox_label && readline_checkbox_value)
 	{
-		hbox = gtk_hbox_new(0, 4);
-
 		label = gtk_label_new(readline_checkbox_label);
-		gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+		gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
 
 		chkbox = gtk_check_button_new();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chkbox),
 			*readline_checkbox_value ? TRUE : FALSE);
-		gtk_box_pack_start(GTK_BOX(hbox), chkbox, TRUE, TRUE, 0);
-
-		gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), hbox, TRUE, TRUE, 0);
+		gtk_table_attach_defaults(GTK_TABLE(table), chkbox, 1, 2, 1, 2);
 
 		readline_checkbox_label = NULL;
 	}
+
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), table, TRUE, TRUE, 0);
 
 	ptr = localize(LL("OK"));
 	ybutton = gtk_button_new_with_label(ptr);
