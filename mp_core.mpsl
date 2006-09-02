@@ -45,6 +45,7 @@ mp.config.tab_size = 8;
 mp.config.tabs_as_spaces = 0;
 mp.config.unlink = 1;
 mp.config.case_insensitive_search = 0;
+mp.config.global_replace = 0;
 
 /* a regex for selection words */
 mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';

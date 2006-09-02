@@ -11,7 +11,6 @@ Release Critical Bugs
  * 1131: Add move to next / previous ocurrence of character.
  * 1137: Word wrap counts all caracters as measuring 1 column,
    which is stupid. This is specially true for tabs.
- * 1155: Add replace.
  * 1162: Add menu support to the Curses / TUI interface.
  * 1166: Add a file open navigator to TUI.
 
@@ -121,5 +120,6 @@ Closed
  * 1163: Add readline_password to TUI (Thu, 27 Jul 2006 10:17:54 +0200).
  * 1164: Add readline_password to GTK (Thu, 27 Jul 2006 10:23:56 +0200).
  * 1165: Add readline_password to Win32 (Thu, 27 Jul 2006 10:38:16 +0200).
+ * 1155: Add replace (Sat, 02 Sep 2006 11:54:06 +0200).
 
 Email bugs to angel@triptico.com

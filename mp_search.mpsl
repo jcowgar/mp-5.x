@@ -38,9 +38,17 @@ mp.actions['seek_next']	= sub (d) { mp.search(d, NULL) ||
 		mp.alert(L("Text not found."));
 	};
 
-mp.actions['replace']	= sub (d) { mp.replace(d, mp.get_word(d), 'TEST'); };
-mp.actions['replace_all'] = sub (d) { mp.replace_all(d, mp.get_word(d), 'TESTALL'); };
-mp.actions['replace_in_all'] = sub (d) { mp.replace_in_all(mp.get_word(d), 'TESTINALL'); };
+mp.actions['replace']	= sub (d) {
+	local this;
+
+	if((this = mp.readline_search(L("Text to replace:"))) != NULL)
+	{
+		local that;
+
+		if((that = mp.readline(L("Replace with:"), 'replace')) != NULL)
+			mp.replace(d, this, that);
+	}
+};
 
 /* default key bindings */
 
@@ -52,8 +60,6 @@ mp.keycodes['ctrl-r']	= "replace";
 mp.actdesc['seek']		= LL("Search text...");
 mp.actdesc['seek_next'] 	= LL("Search next");
 mp.actdesc['replace']		= LL("Replace...");
-mp.actdesc['replace_all']	= LL("Replace all...");
-mp.actdesc['replace_in_all']	= LL("Replace in all...");
 
 /* code */
 
@@ -96,12 +102,12 @@ sub mp.search(doc, str)
 }
 
 
-sub mp.replace(doc, from, to)
-/* searches 'from' and replaces it with 'to' */
+sub mp.replace_1(doc, this, that)
+/* searches 'this' and replaces it with 'that', once */
 {
 	local r;
 
-	if((r = mp.search(doc, from)) != NULL)
+	if((r = mp.search(doc, this)) != NULL)
 	{
 		local txt, l, c;
 
@@ -113,11 +119,14 @@ sub mp.replace(doc, from, to)
 		c = regex();
 
 		/* substitute */
-		l = splice(l, to, c[0], c[1]);
+		l = splice(l, NULL, c[0], c[1]);
 		txt.lines[txt.y] = l[0];
 
 		/* correct the x position */
 		mp.set_x(doc, c[0] + size(to));
+
+		/* now insert there */
+		mp.insert(doc, that);
 
 		txt.mod++;
 	}
@@ -126,18 +135,11 @@ sub mp.replace(doc, from, to)
 }
 
 
-sub mp.replace_all(doc, from, to)
-/* replaces all ocurrences of 'from' with 'to */
+sub mp.replace(doc, this, that)
+/* replaces 'this' with 'that', may be globally */
 {
-	while(mp.replace(doc, from, to));
-}
-
-
-sub mp.replace_in_all(from, to)
-/* replaces in all open documents all ocurrences of 'from' with 'to' */
-{
-	local d;
-
-	foreach(d, mp.docs)
-		mp.replace_all(d, from, to);
+	while(mp.replace_1(doc, this, that))
+	{
+		if(!mp.config.global_replace) break;
+	}
 }
