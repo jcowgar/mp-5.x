@@ -1526,7 +1526,8 @@ static mpdm_t gtkdrv_readline_search(mpdm_t a)
 /* readline_search driver function */
 {
 	mpdm_t r;
-	int tmp_case_ins = 0;
+	mpdm_t s = MPDM_LS(L"mp.config.case_insensitive_search");
+	int tmp_case_ins = mpdm_ival(mpsl_get_symbol(s));
 
 	readline_checkbox_label = localize("Case insensitive:");
 	readline_checkbox_value = &tmp_case_ins;
