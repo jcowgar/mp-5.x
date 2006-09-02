@@ -1160,6 +1160,13 @@ static mpdm_t w32drv_readline(mpdm_t a)
 }
 
 
+static mpdm_t w32drv_readline_search(mpdm_t a)
+/* readline_search driver function */
+{
+	return(w32drv_readline(a));
+}
+
+
 static mpdm_t w32drv_readline_password(mpdm_t a)
 /* readline_password driver function */
 {
@@ -1358,6 +1365,7 @@ int w32drv_init(void)
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(w32drv_readline));
+	mpdm_hset_s(drv, L"readline_search", MPDM_X(w32drv_readline_search));
 	mpdm_hset_s(drv, L"readline_password", MPDM_X(w32drv_readline_password));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(w32drv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(w32drv_savefile));

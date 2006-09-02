@@ -1490,6 +1490,13 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 }
 
 
+static mpdm_t gtkdrv_readline_search(mpdm_t a)
+/* readline_search driver function */
+{
+	return(gtkdrv_readline(a));
+}
+
+
 static mpdm_t gtkdrv_readline_password(mpdm_t a)
 /* readline_password driver function */
 {
@@ -1702,6 +1709,7 @@ int gtkdrv_init(void)
 	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(gtkdrv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(gtkdrv_readline));
+	mpdm_hset_s(drv, L"readline_search", MPDM_X(gtkdrv_readline_search));
 	mpdm_hset_s(drv, L"readline_password", MPDM_X(gtkdrv_readline_password));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(gtkdrv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(gtkdrv_savefile));

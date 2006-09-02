@@ -142,9 +142,9 @@ sub mp.drv.readline(prompt, history, default)
 }
 
 
-sub mp.drv.readline_search(prompt)
+sub mp.drv.readline_search(prompt, history, default)
 {
-	mp.drv.readline(prompt, 'search');
+	mp.drv.readline(prompt, history, default);
 }
 
 

@@ -345,10 +345,14 @@ sub mp.openfile(prompt)			{ mp.drv.openfile(prompt); }
 sub mp.savefile(prompt)			{ mp.drv.savefile(prompt); }
 sub mp.list(prompt, list, pos)		{ mp.drv.list(prompt, list, pos); }
 
-sub mp.readline_search(a,b)
+sub mp.readline_search(prompt, def)
 {
-	local s = mp.drv.readline(a, 'search', b);
-	if(s == NULL) return(s); else return('/' ~ s ~ '/');
+	local s;
+
+	if((s = mp.drv.readline_search(prompt, 'search', def)) != NULL)
+		s = '/' ~ s ~ '/';
+
+	return(s);
 }
 
 sub mp.ui()
