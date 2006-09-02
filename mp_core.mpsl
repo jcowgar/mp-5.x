@@ -44,6 +44,7 @@ mp.config.status_format = "%m%n %x,%y [%l] %R%O %s %t";
 mp.config.tab_size = 8;
 mp.config.tabs_as_spaces = 0;
 mp.config.unlink = 1;
+mp.config.case_insensitive_search = 0;
 
 /* a regex for selection words */
 mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';
@@ -350,7 +351,7 @@ sub mp.readline_search(prompt, def)
 	local s;
 
 	if((s = mp.drv.readline_search(prompt, 'search', def)) != NULL)
-		s = '/' ~ s ~ '/';
+		s = '/' ~ s ~ '/' ~ (mp.config.case_insensitive_search && 'i' || '');
 
 	return(s);
 }
