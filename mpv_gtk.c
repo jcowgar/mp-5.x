@@ -1288,14 +1288,12 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 
 	label = gtk_label_new(ptr);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show(label);
 	g_free(ptr);
 
 	button = gtk_button_new_with_label("OK");
 	gtk_signal_connect_object(GTK_OBJECT(button), "clicked",
 		GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), button, TRUE, TRUE, 0);
-	gtk_widget_show(button);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
 		(GtkSignalFunc) confirm_key_press_event, NULL);
@@ -1304,7 +1302,7 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 	gtk_window_set_modal(GTK_WINDOW(dlg),TRUE);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg),GTK_WINDOW(window));
 
-	gtk_widget_show(dlg);
+	gtk_widget_show_all(dlg);
 
 	wait_for_modal_status_change();
 
@@ -1335,7 +1333,6 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 
 	label = gtk_label_new(ptr);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show(label);
 	g_free(ptr);
 
 	ptr = localize(LL("Yes"));
@@ -1343,7 +1340,6 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 	gtk_signal_connect_object(GTK_OBJECT(ybutton), "clicked",
 		GTK_SIGNAL_FUNC(clicked_ok),GTK_OBJECT(dlg));
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
-	gtk_widget_show(ybutton);
 	g_free(ptr);
 
 	ptr = localize(LL("No"));
@@ -1351,7 +1347,6 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
 		GTK_SIGNAL_FUNC(clicked_no), GTK_OBJECT(dlg));
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
-	gtk_widget_show(nbutton);
 	g_free(ptr);
 
 	ptr = localize(LL("Cancel"));
@@ -1359,7 +1354,6 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 	gtk_signal_connect_object(GTK_OBJECT(cbutton), "clicked",
 		GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), cbutton, TRUE, TRUE, 0);
-	gtk_widget_show(cbutton);
 	g_free(ptr);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
@@ -1369,7 +1363,7 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
 
-	gtk_widget_show(dlg);
+	gtk_widget_show_all(dlg);
 
 	wait_for_modal_status_change();
 
@@ -1411,7 +1405,6 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 
 	label = gtk_label_new(ptr);
 	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
-	gtk_widget_show(label);
 	g_free(ptr);
 
 	combo = gtk_combo_new();
@@ -1453,10 +1446,8 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	g_list_free(combo_items);
 
 	gtk_box_pack_start(GTK_BOX(hbox), combo, TRUE, TRUE, 0);
-	gtk_widget_show(combo);
 
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), hbox, TRUE, TRUE, 0);
-	gtk_widget_show(hbox);
 
 	/* case insensitive checkbox */
 	if(readline_checkbox_label && readline_checkbox_value)
@@ -1465,16 +1456,13 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 
 		label = gtk_label_new(readline_checkbox_label);
 		gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
-		gtk_widget_show(label);
 
 		chkbox = gtk_check_button_new();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chkbox),
 			*readline_checkbox_value ? TRUE : FALSE);
 		gtk_box_pack_start(GTK_BOX(hbox), chkbox, TRUE, TRUE, 0);
-		gtk_widget_show(chkbox);
 
 		gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), hbox, TRUE, TRUE, 0);
-		gtk_widget_show(hbox);
 
 		readline_checkbox_label = NULL;
 	}
@@ -1484,7 +1472,6 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	gtk_signal_connect_object(GTK_OBJECT(ybutton),"clicked",
 		GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
-	gtk_widget_show(ybutton);
 	g_free(ptr);
 
 	ptr = localize(LL("Cancel"));
@@ -1492,7 +1479,6 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
 			GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
-	gtk_widget_show(nbutton);
 	g_free(ptr);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
@@ -1502,7 +1488,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
 
-	gtk_widget_show(dlg);
+	gtk_widget_show_all(dlg);
 	gtk_widget_grab_focus(entry);
 
 	wait_for_modal_status_change();
@@ -1623,7 +1609,6 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 
 	label = gtk_label_new(ptr);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show(label);
 	g_free(ptr);
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
@@ -1632,7 +1617,6 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), scrolled, TRUE, TRUE, 0);
-	gtk_widget_show(scrolled);
 
 	list = gtk_clist_new(1);
 	gtk_clist_set_selection_mode(GTK_CLIST(list), GTK_SELECTION_BROWSE);
@@ -1644,8 +1628,6 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 
 	/* set width to an optimal one */
 	gtk_clist_set_column_auto_resize(GTK_CLIST(list), 0, 1);
-
-	gtk_widget_show(list);
 
 	/* 2nd argument: list of data */
 	v = mpdm_aget(a, 1);
@@ -1684,7 +1666,6 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	gtk_signal_connect_object(GTK_OBJECT(ybutton),"clicked",
 		GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
-	gtk_widget_show(ybutton);
 	g_free(ptr);
 
 	ptr = localize(LL("Cancel"));
@@ -1692,7 +1673,6 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
 			GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
-	gtk_widget_show(nbutton);
 	g_free(ptr);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
@@ -1702,7 +1682,7 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
 
-	gtk_widget_show(dlg);
+	gtk_widget_show_all(dlg);
 
 	list_selected_row = pos;
 
