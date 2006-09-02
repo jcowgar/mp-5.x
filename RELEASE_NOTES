@@ -6,7 +6,7 @@ Minimum Profit 5.x Release Notes
 
  * Saving of encrypted documents works.
  * Case sensitivity in searches can be controlled with the new
-   config flag mp.config.case_insensitive_search.
+   config flag mp.config.case_sensitive_search.
  * Replace (and global replace by use of the new config flag
    'mp.config.global_replace') works.
 

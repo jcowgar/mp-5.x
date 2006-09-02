@@ -1448,7 +1448,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 
 	gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 2, 0, 1);
 
-	/* case insensitive checkbox */
+	/* case sensitive checkbox */
 	if(readline_checkbox_label && readline_checkbox_value)
 	{
 		label = gtk_label_new(readline_checkbox_label);
@@ -1509,10 +1509,10 @@ static mpdm_t gtkdrv_readline_search(mpdm_t a)
 /* readline_search driver function */
 {
 	mpdm_t r;
-	mpdm_t s = MPDM_LS(L"mp.config.case_insensitive_search");
+	mpdm_t s = MPDM_LS(L"mp.config.case_sensitive_search");
 	int tmp_case_ins = mpdm_ival(mpsl_get_symbol(s));
 
-	readline_checkbox_label = localize("Case insensitive:");
+	readline_checkbox_label = localize("Case sensitive:");
 	readline_checkbox_value = &tmp_case_ins;
 
 	r = gtkdrv_readline(a);
