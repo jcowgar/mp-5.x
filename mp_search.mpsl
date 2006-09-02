@@ -70,6 +70,9 @@ sub mp.search(doc, str)
 	if(str == NULL)
 		return(NULL);
 
+	if(mp.config.case_insensitive_search)
+		str = str ~ 'i';
+
 	txt = doc.txt;
 	x = txt.x;
 	y = txt.y;

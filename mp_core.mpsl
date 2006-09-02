@@ -351,7 +351,7 @@ sub mp.readline_search(prompt, def)
 	local s;
 
 	if((s = mp.drv.readline_search(prompt, 'search', def)) != NULL)
-		s = '/' ~ s ~ '/' ~ (mp.config.case_insensitive_search && 'i' || '');
+		s = '/' ~ s ~ '/';
 
 	return(s);
 }
