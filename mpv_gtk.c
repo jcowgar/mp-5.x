@@ -96,6 +96,10 @@ static int list_selected_row = -1;
 /* show the entry as password */
 static int entry_is_password = 0;
 
+/* optional checkbox in readline; label and integer value */
+static char * readline_checkbox_label = NULL;
+static int * readline_checkbox_value = NULL;
+
 /*******************
 	Code
 ********************/
@@ -1383,6 +1387,7 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	GtkWidget * ybutton;
 	GtkWidget * nbutton;
 	GtkWidget * combo;
+	GtkWidget * chkbox = NULL;
 	mpdm_t h, v;
 	mpdm_t ret = NULL;
 	GList * combo_items = NULL;
@@ -1446,6 +1451,22 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), combo, TRUE, TRUE, 0);
 	gtk_widget_show(combo);
+
+	/* case insensitive checkbox */
+	if(readline_checkbox_label && readline_checkbox_value)
+	{
+		label = gtk_label_new(readline_checkbox_label);
+		gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
+		gtk_widget_show(label);
+
+		chkbox = gtk_check_button_new();
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chkbox),
+			*readline_checkbox_value ? TRUE : FALSE);
+		gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), chkbox, TRUE, TRUE, 0);
+		gtk_widget_show(chkbox);
+
+		readline_checkbox_label = NULL;
+	}
 
 	ptr = localize(LL("OK"));
 	ybutton = gtk_button_new_with_label(ptr);
