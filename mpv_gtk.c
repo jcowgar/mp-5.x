@@ -1267,6 +1267,15 @@ static void select_row(GtkCList * list, gint row,
 }
 
 
+#define DIALOG_BUTTON(l,f) do { GtkWidget * btn; \
+	ptr = localize(l); btn = gtk_button_new_with_label(ptr); \
+	gtk_signal_connect_object(GTK_OBJECT(btn), "clicked", \
+		GTK_SIGNAL_FUNC(f), GTK_OBJECT(dlg)); \
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), \
+		btn, TRUE, TRUE, 0); \
+	g_free(ptr); \
+	} while(0);
+
 static mpdm_t gtkdrv_alert(mpdm_t a)
 /* alert driver function */
 {
@@ -1274,7 +1283,6 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 	char * ptr;
 	GtkWidget * dlg;
 	GtkWidget * label;
-	GtkWidget * button;
 
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
@@ -1290,10 +1298,7 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
 	g_free(ptr);
 
-	button = gtk_button_new_with_label("OK");
-	gtk_signal_connect_object(GTK_OBJECT(button), "clicked",
-		GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), button, TRUE, TRUE, 0);
+	DIALOG_BUTTON(LL("OK"), clicked_ok);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
 		(GtkSignalFunc) confirm_key_press_event, NULL);
@@ -1317,9 +1322,6 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 	char * ptr;
 	GtkWidget * dlg;
 	GtkWidget * label;
-	GtkWidget * ybutton;
-	GtkWidget * nbutton;
-	GtkWidget * cbutton;
 
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
@@ -1335,26 +1337,9 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
 	g_free(ptr);
 
-	ptr = localize(LL("Yes"));
-	ybutton = gtk_button_new_with_label(ptr);
-	gtk_signal_connect_object(GTK_OBJECT(ybutton), "clicked",
-		GTK_SIGNAL_FUNC(clicked_ok),GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
-	g_free(ptr);
-
-	ptr = localize(LL("No"));
-	nbutton = gtk_button_new_with_label(ptr);
-	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
-		GTK_SIGNAL_FUNC(clicked_no), GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
-	g_free(ptr);
-
-	ptr = localize(LL("Cancel"));
-	cbutton = gtk_button_new_with_label(ptr);
-	gtk_signal_connect_object(GTK_OBJECT(cbutton), "clicked",
-		GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), cbutton, TRUE, TRUE, 0);
-	g_free(ptr);
+	DIALOG_BUTTON(LL("Yes"), clicked_ok);
+	DIALOG_BUTTON(LL("No"), clicked_no);
+	DIALOG_BUTTON(LL("Cancel"), clicked_cancel);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
 		(GtkSignalFunc) confirm_key_press_event, NULL);
@@ -1377,9 +1362,10 @@ static mpdm_t dialog_values = NULL;
 
 static void dialog_clicked_ok(GtkWidget * widget, gpointer data)
 {
+	int n;
+
 	mpdm_unref(dialog_values);
 	dialog_values = mpdm_ref(MPDM_A(mpdm_size(dialog_args)));
-	int n;
 
 	for(n = 0;n < mpdm_size(dialog_args);n++)
 	{
@@ -1437,8 +1423,6 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 	char * ptr;
 	GtkWidget * dlg;
 	GtkWidget * table;
-	GtkWidget * ybutton;
-	GtkWidget * nbutton;
 	int n;
 	mpdm_t ret = NULL;
 
@@ -1548,19 +1532,8 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), table, TRUE, TRUE, 0);
 
-	ptr = localize(LL("OK"));
-	ybutton = gtk_button_new_with_label(ptr);
-	gtk_signal_connect_object(GTK_OBJECT(ybutton),"clicked",
-		GTK_SIGNAL_FUNC(dialog_clicked_ok), GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
-	g_free(ptr);
-
-	ptr = localize(LL("Cancel"));
-	nbutton = gtk_button_new_with_label(ptr);
-	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
-			GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
-	g_free(ptr);
+	DIALOG_BUTTON(LL("OK"), dialog_clicked_ok);
+	DIALOG_BUTTON(LL("Cancel"), clicked_cancel);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
 		(GtkSignalFunc) confirm_key_press_event, NULL);
@@ -1589,8 +1562,6 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 	GtkWidget * dlg;
 	GtkWidget * table;
 	GtkWidget * label;
-	GtkWidget * ybutton;
-	GtkWidget * nbutton;
 	GtkWidget * combo;
 	GtkWidget * chkbox = NULL;
 	mpdm_t h, v;
@@ -1674,19 +1645,8 @@ static mpdm_t gtkdrv_readline(mpdm_t a)
 
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), table, TRUE, TRUE, 0);
 
-	ptr = localize(LL("OK"));
-	ybutton = gtk_button_new_with_label(ptr);
-	gtk_signal_connect_object(GTK_OBJECT(ybutton),"clicked",
-		GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
-	g_free(ptr);
-
-	ptr = localize(LL("Cancel"));
-	nbutton = gtk_button_new_with_label(ptr);
-	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
-			GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
-	g_free(ptr);
+	DIALOG_BUTTON(LL("OK"), clicked_ok);
+	DIALOG_BUTTON(LL("Cancel"), clicked_cancel);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
 		(GtkSignalFunc) confirm_key_press_event, NULL);
