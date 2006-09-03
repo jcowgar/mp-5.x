@@ -1757,8 +1757,6 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	char * ptr;
 	GtkWidget * dlg;
 	GtkWidget * label;
-	GtkWidget * ybutton;
-	GtkWidget * nbutton;
 	GtkWidget * scrolled;
 	GtkWidget * list;
 	int pos, n;
@@ -1828,19 +1826,8 @@ static mpdm_t gtkdrv_list(mpdm_t a)
 	gtk_signal_connect(GTK_OBJECT(list), "select-row",
 		GTK_SIGNAL_FUNC(select_row), NULL);
 
-	ptr = localize(LL("OK"));
-	ybutton = gtk_button_new_with_label(ptr);
-	gtk_signal_connect_object(GTK_OBJECT(ybutton),"clicked",
-		GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
-	g_free(ptr);
-
-	ptr = localize(LL("Cancel"));
-	nbutton = gtk_button_new_with_label(ptr);
-	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
-			GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
-	g_free(ptr);
+	DIALOG_BUTTON(LL("OK"), clicked_ok);
+	DIALOG_BUTTON(LL("Cancel"), clicked_cancel);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
 		(GtkSignalFunc) confirm_key_press_event, NULL);
