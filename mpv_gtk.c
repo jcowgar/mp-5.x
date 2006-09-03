@@ -1361,6 +1361,7 @@ static mpdm_t dialog_args = NULL;
 static mpdm_t dialog_values = NULL;
 
 static void dialog_clicked_ok(GtkWidget * widget, gpointer data)
+/* 'clicked_on' signal handler (for gtkdrv_dialog) */
 {
 	int n;
 
@@ -1422,6 +1423,7 @@ static void dialog_clicked_ok(GtkWidget * widget, gpointer data)
 
 static void dialog_select_row(GtkCList * list, gint row,
 	gint column, GdkEventButton * event, gpointer data)
+/* 'select_row' handler (for gtkdrv_dialog) */
 {
 	int n = (int) data;
 
@@ -1430,6 +1432,7 @@ static void dialog_select_row(GtkCList * list, gint row,
 
 
 static mpdm_t gtkdrv_dialog(mpdm_t a)
+/* 'dialog' driver function */
 {
 	char * ptr;
 	GtkWidget * dlg;
@@ -1543,7 +1546,7 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 			int i;
 
 			widget = gtk_scrolled_window_new(NULL, NULL);
-			gtk_widget_set_usize(widget, 350, 450 / mpdm_size(dialog_args));
+			gtk_widget_set_usize(widget, 500, 450 / mpdm_size(dialog_args));
 			gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(widget),
 		                GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
