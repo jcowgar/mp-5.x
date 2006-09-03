@@ -1442,12 +1442,12 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 
 	entry = opensave = NULL;
 
-	mpdm_unref(dialog_values);
-	dialog_values = mpdm_ref(MPDM_A(mpdm_size(dialog_args)));
-
 	/* first argument: list of widgets */
 	mpdm_unref(dialog_args);
 	dialog_args = mpdm_ref(mpdm_aget(a, 0));
+
+	mpdm_unref(dialog_values);
+	dialog_values = mpdm_ref(MPDM_A(mpdm_size(dialog_args)));
 
 	/* resize the widget array */
 	dialog_widgets = (GtkWidget **) realloc(dialog_widgets,
@@ -1459,26 +1459,33 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 
 	table = gtk_table_new(mpdm_size(a), 2, 0);
 	gtk_table_set_col_spacing(GTK_TABLE(table), 0, 4);
+	gtk_table_set_row_spacing(GTK_TABLE(table), 0, 4);
 
 	for(n = 0;n < mpdm_size(dialog_args);n++)
 	{
 		mpdm_t w = mpdm_aget(dialog_args, n);
 		GtkWidget * widget = NULL;
-		wchar_t * wptr;
+		wchar_t * type;
 		char * ptr;
 		mpdm_t t;
 		int col = 0;
 
+		type = mpdm_string(mpdm_hget_s(w, L"type"));
+
 		if((t = mpdm_hget_s(w, L"label")) != NULL)
 		{
 			GtkWidget * label;
+			wchar_t * wptr;
 
 			if((wptr = mpdm_string(t)) != NULL &&
 				(ptr = wcs_to_utf8(wptr)) != NULL)
 			{
 				label = gtk_label_new(ptr);
+
 				gtk_table_attach_defaults(GTK_TABLE(table),
-					label, 0, 1, n, n + 1);
+					label, 0, wcscmp(type, L"label") == 0 ? 2 : 1,
+					n, n + 1);
+
 				g_free(ptr);
 
 				col++;
@@ -1487,12 +1494,11 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 
 		t = mpdm_hget_s(w, L"value");
 
-		wptr = mpdm_string(mpdm_hget_s(w, L"type"));
-
-		if(wcscmp(wptr, L"text") == 0)
+		if(wcscmp(type, L"text") == 0)
 		{
 			GList * combo_items = NULL;
 			mpdm_t h;
+			wchar_t * wptr;
 
 			widget = gtk_combo_new();
 			gtk_widget_set_usize(widget, 300, -1);
@@ -1527,14 +1533,14 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 			g_list_free(combo_items);
 		}
 		else
-		if(wcscmp(wptr, L"password") == 0)
+		if(wcscmp(type, L"password") == 0)
 		{
 			widget = gtk_entry_new();
 			gtk_widget_set_usize(widget, 300, -1);
 			gtk_entry_set_visibility(GTK_ENTRY(widget), FALSE);
 		}
 		else
-		if(wcscmp(wptr, L"checkbox") == 0)
+		if(wcscmp(type, L"checkbox") == 0)
 		{
 			widget = gtk_check_button_new();
 
@@ -1542,13 +1548,13 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 				mpdm_ival(t) ? TRUE : FALSE);
 		}
 		else
-		if(wcscmp(wptr, L"list") == 0)
+		if(wcscmp(type, L"list") == 0)
 		{
 			GtkWidget * list;
 			mpdm_t l;
 			int i;
 
-			if((i = 450 / mpdm_size(dialog_args)) < 100) i = -1;
+			if((i = 450 / mpdm_size(dialog_args)) < 100) i = 100;
 
 			widget = gtk_scrolled_window_new(NULL, NULL);
 			gtk_widget_set_usize(widget, 500, i);
@@ -1572,8 +1578,7 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 			for(i = 0;i < mpdm_size(l);i++)
 			{
 				char * args[1];
-
-				wptr = mpdm_string(mpdm_aget(l, i));
+				wchar_t * wptr = mpdm_string(mpdm_aget(l, i));
 
 				if((ptr = wcs_to_utf8(wptr)) != NULL)
 				{
