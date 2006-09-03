@@ -1467,6 +1467,7 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 		wchar_t * wptr;
 		char * ptr;
 		mpdm_t t;
+		int col = 0;
 
 		if((t = mpdm_hget_s(w, L"label")) != NULL)
 		{
@@ -1479,6 +1480,8 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 				gtk_table_attach_defaults(GTK_TABLE(table),
 					label, 0, 1, n, n + 1);
 				g_free(ptr);
+
+				col++;
 			}
 		}
 
@@ -1597,7 +1600,7 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 		{
 			dialog_widgets[n] = widget;
 			gtk_table_attach_defaults(GTK_TABLE(table),
-				widget, 1, 2, n, n + 1);
+				widget, col, 2, n, n + 1);
 		}
 	}
 
