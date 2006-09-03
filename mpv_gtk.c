@@ -1364,15 +1364,17 @@ static void dialog_clicked_ok(GtkWidget * widget, gpointer data)
 {
 	int n;
 
-	mpdm_unref(dialog_values);
-	dialog_values = mpdm_ref(MPDM_A(mpdm_size(dialog_args)));
-
 	for(n = 0;n < mpdm_size(dialog_args);n++)
 	{
 		GtkWidget * widget = dialog_widgets[n];
 		mpdm_t w = mpdm_aget(dialog_args, n);
 		wchar_t * wptr = mpdm_string(mpdm_hget_s(w, L"type"));
 		mpdm_t v = NULL;
+
+		/* if there is already a value there, if was
+		   previously set from a callback */
+		if(mpdm_aget(dialog_values, n) != NULL)
+			continue;
 
 		if(wcscmp(wptr, L"text") == 0 ||
 		   wcscmp(wptr, L"password") == 0)
@@ -1418,6 +1420,15 @@ static void dialog_clicked_ok(GtkWidget * widget, gpointer data)
 }
 
 
+static void dialog_select_row(GtkCList * list, gint row,
+	gint column, GdkEventButton * event, gpointer data)
+{
+	int n = (int) data;
+
+	mpdm_aset(dialog_values, MPDM_I(row), n);
+}
+
+
 static mpdm_t gtkdrv_dialog(mpdm_t a)
 {
 	char * ptr;
@@ -1427,6 +1438,9 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 	mpdm_t ret = NULL;
 
 	entry = opensave = NULL;
+
+	mpdm_unref(dialog_values);
+	dialog_values = mpdm_ref(MPDM_A(mpdm_size(dialog_args)));
 
 	/* first argument: list of widgets */
 	mpdm_unref(dialog_args);
@@ -1521,6 +1535,57 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),
 				mpdm_ival(t) ? TRUE : FALSE);
 		}
+		else
+		if(wcscmp(wptr, L"list") == 0)
+		{
+			GtkWidget * list;
+			mpdm_t l;
+			int i;
+
+			widget = gtk_scrolled_window_new(NULL, NULL);
+			gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(widget),
+		                GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+			list = gtk_clist_new(1);
+			gtk_clist_set_selection_mode(GTK_CLIST(list),
+				GTK_SELECTION_BROWSE);
+			gtk_clist_column_titles_hide(GTK_CLIST(list));
+			gtk_container_add(GTK_CONTAINER(widget), list);
+
+			/* no title for the column */
+			gtk_clist_set_column_title(GTK_CLIST(list), 0, "");
+
+			/* set width to an optimal one */
+			gtk_clist_set_column_auto_resize(GTK_CLIST(list), 0, 1);
+
+			l = mpdm_hget_s(w, L"list");
+
+			for(i = 0;i < mpdm_size(l);i++)
+			{
+				char * args[1];
+
+				wptr = mpdm_string(mpdm_aget(l, i));
+
+				if((ptr = wcs_to_utf8(wptr)) != NULL)
+				{
+					args[0] = strdup(ptr);
+					gtk_clist_append(GTK_CLIST(list), args);
+					free(args[0]);
+					g_free(ptr);
+				}
+			}
+
+			/* initial position */
+			i = mpdm_ival(t);
+
+			gtk_clist_select_row(GTK_CLIST(list), i, 0);
+			GTK_CLIST(list)->focus_row = i;
+
+			/* connects the signal, storing the
+			   widget number in the 'gpointer' */
+			gtk_signal_connect(GTK_OBJECT(list), "select-row",
+				GTK_SIGNAL_FUNC(dialog_select_row), (gpointer) n);
+                }
 
 		if(widget != NULL)
 		{
@@ -1543,7 +1608,6 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
 
 	gtk_widget_show_all(dlg);
-/*	gtk_widget_grab_focus(entry);*/
 
 	wait_for_modal_status_change();
 
