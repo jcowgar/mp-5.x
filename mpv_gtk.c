@@ -1545,8 +1545,10 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 			mpdm_t l;
 			int i;
 
+			if((i = 450 / mpdm_size(dialog_args)) < 100) i = -1;
+
 			widget = gtk_scrolled_window_new(NULL, NULL);
-			gtk_widget_set_usize(widget, 500, 450 / mpdm_size(dialog_args));
+			gtk_widget_set_usize(widget, 500, i);
 			gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(widget),
 		                GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
