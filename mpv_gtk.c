@@ -1371,6 +1371,216 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 }
 
 
+static GtkWidget ** dialog_widgets = NULL;
+static mpdm_t dialog_args = NULL;
+static mpdm_t dialog_values = NULL;
+
+static void dialog_clicked_ok(GtkWidget * widget, gpointer data)
+{
+	mpdm_unref(dialog_values);
+	dialog_values = mpdm_ref(MPDM_A(mpdm_size(dialog_args)));
+	int n;
+
+	for(n = 0;n < mpdm_size(dialog_args);n++)
+	{
+		GtkWidget * widget = dialog_widgets[n];
+		mpdm_t w = mpdm_aget(dialog_args, n);
+		wchar_t * wptr = mpdm_string(mpdm_hget_s(w, L"type"));
+		mpdm_t v = NULL;
+
+		if(wcscmp(wptr, L"text") == 0 ||
+		   wcscmp(wptr, L"password") == 0)
+		{
+			char * ptr;
+			GtkWidget * gw = widget;
+			mpdm_t h;
+
+			if(wcscmp(wptr, L"text") == 0)
+				gw = GTK_COMBO(widget)->entry;
+
+			if((ptr = gtk_editable_get_chars(
+				GTK_EDITABLE(gw), 0, -1)) != NULL &&
+				(wptr = utf8_to_wcs(ptr)) != NULL)
+			{
+				v = MPDM_S(wptr);
+				g_free(wptr);
+				g_free(ptr);
+			}
+
+			/* if it has history, fill it */
+			if((h = mpdm_hget_s(w, L"history")) != NULL &&
+				wptr != NULL && *wptr != L'\0')
+			{
+				h = mp_get_history(h);
+
+				if(mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
+					mpdm_push(h, v);
+			}
+		}
+		else
+		if(wcscmp(wptr, L"checkbox") == 0)
+		{
+			v = MPDM_I(gtk_toggle_button_get_active(
+				GTK_TOGGLE_BUTTON(widget)));
+		}
+
+		mpdm_aset(dialog_values, v, n);
+	}
+
+	modal_status = 1;
+	gtk_widget_destroy(GTK_WIDGET(widget));
+}
+
+
+static mpdm_t gtkdrv_dialog(mpdm_t a)
+{
+	char * ptr;
+	GtkWidget * dlg;
+	GtkWidget * table;
+	GtkWidget * ybutton;
+	GtkWidget * nbutton;
+	int n;
+	mpdm_t ret = NULL;
+
+	entry = opensave = NULL;
+
+	/* first argument: list of widgets */
+	mpdm_unref(dialog_args);
+	dialog_args = mpdm_ref(mpdm_aget(a, 0));
+
+	/* resize the widget array */
+	dialog_widgets = (GtkWidget **) realloc(dialog_widgets,
+		mpdm_size(dialog_args) * sizeof(GtkWidget *));
+
+	dlg = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
+	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
+
+	table = gtk_table_new(mpdm_size(a), 2, 0);
+	gtk_table_set_col_spacing(GTK_TABLE(table), 0, 4);
+
+	for(n = 0;n < mpdm_size(dialog_args);n++)
+	{
+		mpdm_t w = mpdm_aget(dialog_args, n);
+		GtkWidget * widget = NULL;
+		wchar_t * wptr;
+		char * ptr;
+		mpdm_t t;
+
+		if((t = mpdm_hget_s(w, L"label")) != NULL)
+		{
+			GtkWidget * label;
+
+			if((wptr = mpdm_string(t)) != NULL &&
+				(ptr = wcs_to_utf8(wptr)) != NULL)
+			{
+				label = gtk_label_new(ptr);
+				gtk_table_attach_defaults(GTK_TABLE(table),
+					label, 0, 1, n, n + 1);
+				g_free(ptr);
+			}
+		}
+
+		t = mpdm_hget_s(w, L"value");
+
+		wptr = mpdm_string(mpdm_hget_s(w, L"type"));
+
+		if(wcscmp(wptr, L"text") == 0)
+		{
+			GList * combo_items = NULL;
+			mpdm_t h;
+
+			widget = gtk_combo_new();
+			gtk_widget_set_usize(widget, 300, -1);
+			gtk_combo_set_use_arrows_always(GTK_COMBO(widget), TRUE);
+			gtk_combo_set_case_sensitive(GTK_COMBO(widget), TRUE);
+
+			if((h = mpdm_hget_s(w, L"history")) != NULL)
+			{
+				int i;
+
+				/* has history; fill it */
+				h = mp_get_history(h);
+
+				for(i = 0;i < mpdm_size(h);i++)
+				{
+					wptr = mpdm_string(mpdm_aget(h, i));
+					ptr = wcs_to_utf8(wptr);
+
+					combo_items = g_list_prepend(combo_items, ptr);
+				}
+			}
+
+			if(t != NULL)
+			{
+				wptr = mpdm_string(t);
+				ptr = wcs_to_utf8(wptr);
+
+				combo_items = g_list_prepend(combo_items, ptr);
+			}
+
+			gtk_combo_set_popdown_strings(GTK_COMBO(widget), combo_items);
+			g_list_free(combo_items);
+		}
+		else
+		if(wcscmp(wptr, L"password") == 0)
+		{
+			widget = gtk_entry_new();
+			gtk_widget_set_usize(widget, 300, -1);
+			gtk_entry_set_visibility(GTK_ENTRY(widget), FALSE);
+		}
+		else
+		if(wcscmp(wptr, L"checkbox") == 0)
+		{
+			widget = gtk_check_button_new();
+
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),
+				mpdm_ival(t) ? TRUE : FALSE);
+		}
+
+		if(widget != NULL)
+		{
+			dialog_widgets[n] = widget;
+			gtk_table_attach_defaults(GTK_TABLE(table),
+				widget, 1, 2, n, n + 1);
+		}
+	}
+
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), table, TRUE, TRUE, 0);
+
+	ptr = localize(LL("OK"));
+	ybutton = gtk_button_new_with_label(ptr);
+	gtk_signal_connect_object(GTK_OBJECT(ybutton),"clicked",
+		GTK_SIGNAL_FUNC(dialog_clicked_ok), GTK_OBJECT(dlg));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), ybutton, TRUE, TRUE, 0);
+	g_free(ptr);
+
+	ptr = localize(LL("Cancel"));
+	nbutton = gtk_button_new_with_label(ptr);
+	gtk_signal_connect_object(GTK_OBJECT(nbutton), "clicked",
+			GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), nbutton, TRUE, TRUE, 0);
+	g_free(ptr);
+
+	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
+		(GtkSignalFunc) confirm_key_press_event, NULL);
+
+	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
+	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
+
+	gtk_widget_show_all(dlg);
+/*	gtk_widget_grab_focus(entry);*/
+
+	wait_for_modal_status_change();
+
+	if(modal_status == 1)
+		ret = dialog_values;
+
+	return(ret);
+}
+
+
 static mpdm_t gtkdrv_readline(mpdm_t a)
 /* readline driver function */
 {
@@ -1731,6 +1941,7 @@ int gtkdrv_init(void)
 	mpdm_hset_s(drv, L"readline_password", MPDM_X(gtkdrv_readline_password));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(gtkdrv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(gtkdrv_savefile));
+	mpdm_hset_s(drv, L"dialog", MPDM_X(gtkdrv_dialog));
 	mpdm_hset_s(drv, L"list", MPDM_X(gtkdrv_list));
 
 	return(1);
