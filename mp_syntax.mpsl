@@ -327,7 +327,7 @@ mp.syntax.html = {
 mp.syntax.conf = {
 	'id'		=>	'conf',
 	'name'		=>	'Config file',
-	'filenames'	=>	[ '/\.conf$/', '/\.cfg$/' ],
+	'filenames'	=>	[ '/\.conf$/', '/\.cfg$/', '/^.*\/?\.[0-9a-z_-]+rc$/' ],
 	'defs'		=>	[
 		'word1',	[ '/^\[.+\]$/m' ],
 		'word2',	[ "/^[^:=\n]+[:=]/m" ],
