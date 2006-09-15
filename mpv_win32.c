@@ -904,69 +904,6 @@ static mpdm_t w32drv_sys_to_clip(mpdm_t a)
 }
 
 
-static mpdm_t w32drv_startup(mpdm_t a)
-{
-	WNDCLASS wc;
-	RECT r;
-
-	InitCommonControls();
-
-	/* register the window */
-	wc.style = CS_HREDRAW|CS_VREDRAW;
-	wc.lpfnWndProc = WndProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hinst;
-	wc.hIcon = LoadIcon(hinst,"MP_ICON");
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = NULL;
-	wc.lpszMenuName = NULL;
-	wc.lpszClassName = "minimumprofit5.x";
-
-	RegisterClass(&wc);
-
-	/* create the window */
-	hwnd = CreateWindow("minimumprofit5.x", "mp " VERSION,
-		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_VSCROLL,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		NULL, NULL, hinst, NULL);
-
-/*	mpv_add_menu("");
-
-	DrawMenuBar(hwnd);
-*/
-	ShowWindow(hwnd, SW_SHOW);
-	UpdateWindow(hwnd);
-
-	GetClientRect(hwnd, &r);
-
-	hwtabs = CreateWindow(WC_TABCONTROL, "tab",
-		WS_CHILD | TCS_TABS | TCS_SINGLELINE | TCS_FOCUSNEVER,
-		0, 0, r.right - r.left, tab_height, hwnd, NULL, hinst, NULL);
-
-/*	SendMessage(hwtabs, WM_SETFONT, 
-		(WPARAM) GetStockObject(ANSI_VAR_FONT), 0);
-*/
-	ShowWindow(hwtabs, SW_SHOW);
-	UpdateWindow(hwtabs);
-
-	hwstatus = CreateWindow(WC_STATIC, "status",
-		WS_CHILD,
-		0, r.bottom - r.top - status_height,
-		r.right - r.left, status_height, hwnd, NULL, hinst, NULL);
-
-	build_menu();
-
-	ShowWindow(hwstatus, SW_SHOW);
-	UpdateWindow(hwstatus);
-
-	redraw();
-
-	return(NULL);
-}
-
-
 static mpdm_t w32drv_main_loop(mpdm_t a)
 {
 	MSG msg;
@@ -1345,15 +1282,11 @@ static mpdm_t w32drv_update_ui(mpdm_t a)
 }
 
 
-int w32drv_init(void)
+static void register_functions(void)
 {
 	mpdm_t drv;
 
 	drv = mpdm_hget_s(mp, L"drv");
-
-	mpdm_hset_s(drv, L"id", MPDM_LS(L"win32"));
-
-	mpdm_hset_s(drv, L"startup", MPDM_X(w32drv_startup));
 	mpdm_hset_s(drv, L"main_loop", MPDM_X(w32drv_main_loop));
 	mpdm_hset_s(drv, L"shutdown", MPDM_X(w32drv_shutdown));
 
@@ -1369,6 +1302,79 @@ int w32drv_init(void)
 	mpdm_hset_s(drv, L"openfile", MPDM_X(w32drv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(w32drv_savefile));
 	mpdm_hset_s(drv, L"list", MPDM_X(w32drv_list));
+}
+
+
+static mpdm_t w32drv_startup(mpdm_t a)
+{
+	WNDCLASS wc;
+	RECT r;
+
+	InitCommonControls();
+
+	/* register the window */
+	wc.style = CS_HREDRAW|CS_VREDRAW;
+	wc.lpfnWndProc = WndProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hinst;
+	wc.hIcon = LoadIcon(hinst,"MP_ICON");
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hbrBackground = NULL;
+	wc.lpszMenuName = NULL;
+	wc.lpszClassName = "minimumprofit5.x";
+
+	RegisterClass(&wc);
+
+	/* create the window */
+	hwnd = CreateWindow("minimumprofit5.x", "mp " VERSION,
+		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_VSCROLL,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		NULL, NULL, hinst, NULL);
+
+/*	mpv_add_menu("");
+
+	DrawMenuBar(hwnd);
+*/
+	ShowWindow(hwnd, SW_SHOW);
+	UpdateWindow(hwnd);
+
+	GetClientRect(hwnd, &r);
+
+	hwtabs = CreateWindow(WC_TABCONTROL, "tab",
+		WS_CHILD | TCS_TABS | TCS_SINGLELINE | TCS_FOCUSNEVER,
+		0, 0, r.right - r.left, tab_height, hwnd, NULL, hinst, NULL);
+
+/*	SendMessage(hwtabs, WM_SETFONT, 
+		(WPARAM) GetStockObject(ANSI_VAR_FONT), 0);
+*/
+	ShowWindow(hwtabs, SW_SHOW);
+	UpdateWindow(hwtabs);
+
+	hwstatus = CreateWindow(WC_STATIC, "status",
+		WS_CHILD,
+		0, r.bottom - r.top - status_height,
+		r.right - r.left, status_height, hwnd, NULL, hinst, NULL);
+
+	build_menu();
+
+	ShowWindow(hwstatus, SW_SHOW);
+	UpdateWindow(hwstatus);
+
+	redraw();
+
+	return(NULL);
+}
+
+
+int w32drv_init(void)
+{
+	mpdm_t drv;
+
+	drv = mpdm_hget_s(mp, L"drv");
+	mpdm_hset_s(drv, L"id", MPDM_LS(L"win32"));
+	mpdm_hset_s(drv, L"startup", MPDM_X(w32drv_startup));
 
 	return(1);
 }

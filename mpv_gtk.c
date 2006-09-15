@@ -1017,141 +1017,6 @@ static mpdm_t gtkdrv_sys_to_clip(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_startup(mpdm_t a)
-/* driver initialization */
-{
-	GtkWidget * vbox;
-	GtkWidget * hbox;
-	GdkPixmap * pixmap;
-	GdkPixmap * mask;
-
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
-	gtk_signal_connect(GTK_OBJECT(window), "delete_event",
-		GTK_SIGNAL_FUNC(delete_event), NULL);
-
-	gtk_signal_connect(GTK_OBJECT(window), "destroy",
-		GTK_SIGNAL_FUNC(destroy), NULL);
-
-	/* file tabs */
-	file_tabs = gtk_notebook_new();
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(file_tabs), GTK_POS_TOP);
-	GTK_WIDGET_UNSET_FLAGS(file_tabs,GTK_CAN_FOCUS);
-	gtk_notebook_set_scrollable(GTK_NOTEBOOK(file_tabs), 1);
-
-	vbox = gtk_vbox_new(FALSE, 2);
-	gtk_container_add(GTK_CONTAINER(window), vbox);
-
-	build_menu();
-	gtk_box_pack_start(GTK_BOX(vbox), menu_bar, FALSE, FALSE, 0);
-
-	gtk_box_pack_start(GTK_BOX(vbox), file_tabs, FALSE, FALSE, 0);
-
-	/* horizontal box holding the text and the scrollbar */
-	hbox = gtk_hbox_new(FALSE, 2);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
-
-	/* the Minimum Profit area */
-	area = gtk_drawing_area_new();
-	gtk_box_pack_start(GTK_BOX(hbox), area, TRUE, TRUE, 0);
-	gtk_widget_set_usize(GTK_WIDGET(area), 600, 400);
-	gtk_widget_set_events(GTK_WIDGET(area), GDK_BUTTON_PRESS_MASK);
-
-	gtk_widget_set_double_buffered(area, FALSE);
-
-	gtk_signal_connect(GTK_OBJECT(area),"configure_event",
-		(GtkSignalFunc) configure_event, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area),"expose_event",
-		(GtkSignalFunc) expose_event, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area), "realize",
-		(GtkSignalFunc) realize, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(window),"key_press_event",
-		(GtkSignalFunc) key_press_event, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area),"button_press_event",
-		(GtkSignalFunc) button_press_event, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area), "selection_clear_event",
-		(GtkSignalFunc) selection_clear_event, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area), "selection_get",
-		(GtkSignalFunc) selection_get, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area), "selection_received",
-		(GtkSignalFunc) selection_received, NULL);
-
-	gtk_signal_connect(GTK_OBJECT(area), "scroll_event",
-		(GtkSignalFunc) scroll_event, NULL);
-
-	gtk_selection_add_target(area, GDK_SELECTION_PRIMARY,
-		GDK_SELECTION_TYPE_STRING, 1);
-
-	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
-		(GtkSignalFunc) switch_page, NULL);
-
-	/* the scrollbar */
-	scrollbar = gtk_vscrollbar_new(NULL);
-	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
-
-	gtk_signal_connect(
-		GTK_OBJECT(gtk_range_get_adjustment(GTK_RANGE(scrollbar))),
-		"value_changed", (GtkSignalFunc) value_changed, NULL);
-
-	/* the status bar */
-	status = gtk_label_new("mp " VERSION);
-	gtk_box_pack_start(GTK_BOX(vbox), status, FALSE, FALSE, 0);
-	gtk_misc_set_alignment(GTK_MISC(status), 0, 0.5);
-	gtk_label_set_justify(GTK_LABEL(status), GTK_JUSTIFY_LEFT);
-
-	gtk_widget_show_all(window);
-
-/*	_mpv_font_size--;
-	mpv_zoom(1);
-
-	if (mpv_gtk_maximize)
-		gtk_window_maximize(GTK_WINDOW(window));
-*/
-
-	/* set size */
-/*	if(!mpv_gtk_maximize)
-	{
-		if(_mpv_gtk_xpos >= 0 && _mpv_gtk_ypos >= 0)
-			gdk_window_move(GTK_WIDGET(window)->window,
-				_mpv_gtk_xpos, _mpv_gtk_ypos);
-
-		if(_mpv_gtk_width > 0 && _mpv_gtk_height > 0)
-		{
-			if(_mpv_gtk_width < 150) _mpv_gtk_width=150;
-			if(_mpv_gtk_height < 150) _mpv_gtk_height=150;
-
-			gtk_window_set_default_size(GTK_WINDOW(window),
-				_mpv_gtk_width, _mpv_gtk_height);
-
-			gdk_window_resize(GTK_WIDGET(window)->window,
-				_mpv_gtk_width, _mpv_gtk_height);
-		}
-	}
-*/
-	/* colors */
-/*	_mpv_create_colors();
-
-	fclose(stderr);
-
-	mp_log("X11 geometry set to %dx%d+%d+%d\n", _mpv_gtk_width, _mpv_gtk_height,
-		_mpv_gtk_xpos, _mpv_gtk_ypos);
-*/
-	/* set application icon */
-	pixmap = gdk_pixmap_create_from_xpm_d(window->window,
-		&mask, NULL, mp_xpm);
-	gdk_window_set_icon(window->window, NULL, pixmap, mask);
-
-	return(NULL);
-}
-
-
 static mpdm_t gtkdrv_main_loop(mpdm_t a)
 /* main loop */
 {
@@ -1939,18 +1804,11 @@ static mpdm_t gtkdrv_update_ui(mpdm_t a)
 }
 
 
-int gtkdrv_init(void)
+static void register_functions(void)
 {
 	mpdm_t drv;
 
-	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))
-		return(0);
-
 	drv = mpdm_hget_s(mp, L"drv");
-
-	mpdm_hset_s(drv, L"id", MPDM_LS(L"gtk"));
-
-	mpdm_hset_s(drv, L"startup", MPDM_X(gtkdrv_startup));
 	mpdm_hset_s(drv, L"main_loop", MPDM_X(gtkdrv_main_loop));
 	mpdm_hset_s(drv, L"shutdown", MPDM_X(gtkdrv_shutdown));
 
@@ -1967,6 +1825,156 @@ int gtkdrv_init(void)
 	mpdm_hset_s(drv, L"savefile", MPDM_X(gtkdrv_savefile));
 	mpdm_hset_s(drv, L"dialog", MPDM_X(gtkdrv_dialog));
 	mpdm_hset_s(drv, L"list", MPDM_X(gtkdrv_list));
+}
+
+
+static mpdm_t gtkdrv_startup(mpdm_t a)
+/* driver initialization */
+{
+	GtkWidget * vbox;
+	GtkWidget * hbox;
+	GdkPixmap * pixmap;
+	GdkPixmap * mask;
+
+	register_functions();
+
+	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+	gtk_signal_connect(GTK_OBJECT(window), "delete_event",
+		GTK_SIGNAL_FUNC(delete_event), NULL);
+
+	gtk_signal_connect(GTK_OBJECT(window), "destroy",
+		GTK_SIGNAL_FUNC(destroy), NULL);
+
+	/* file tabs */
+	file_tabs = gtk_notebook_new();
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(file_tabs), GTK_POS_TOP);
+	GTK_WIDGET_UNSET_FLAGS(file_tabs,GTK_CAN_FOCUS);
+	gtk_notebook_set_scrollable(GTK_NOTEBOOK(file_tabs), 1);
+
+	vbox = gtk_vbox_new(FALSE, 2);
+	gtk_container_add(GTK_CONTAINER(window), vbox);
+
+	build_menu();
+	gtk_box_pack_start(GTK_BOX(vbox), menu_bar, FALSE, FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(vbox), file_tabs, FALSE, FALSE, 0);
+
+	/* horizontal box holding the text and the scrollbar */
+	hbox = gtk_hbox_new(FALSE, 2);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
+
+	/* the Minimum Profit area */
+	area = gtk_drawing_area_new();
+	gtk_box_pack_start(GTK_BOX(hbox), area, TRUE, TRUE, 0);
+	gtk_widget_set_usize(GTK_WIDGET(area), 600, 400);
+	gtk_widget_set_events(GTK_WIDGET(area), GDK_BUTTON_PRESS_MASK);
+
+	gtk_widget_set_double_buffered(area, FALSE);
+
+	gtk_signal_connect(GTK_OBJECT(area),"configure_event",
+		(GtkSignalFunc) configure_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area),"expose_event",
+		(GtkSignalFunc) expose_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area), "realize",
+		(GtkSignalFunc) realize, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(window),"key_press_event",
+		(GtkSignalFunc) key_press_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area),"button_press_event",
+		(GtkSignalFunc) button_press_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area), "selection_clear_event",
+		(GtkSignalFunc) selection_clear_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area), "selection_get",
+		(GtkSignalFunc) selection_get, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area), "selection_received",
+		(GtkSignalFunc) selection_received, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area), "scroll_event",
+		(GtkSignalFunc) scroll_event, NULL);
+
+	gtk_selection_add_target(area, GDK_SELECTION_PRIMARY,
+		GDK_SELECTION_TYPE_STRING, 1);
+
+	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
+		(GtkSignalFunc) switch_page, NULL);
+
+	/* the scrollbar */
+	scrollbar = gtk_vscrollbar_new(NULL);
+	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
+
+	gtk_signal_connect(
+		GTK_OBJECT(gtk_range_get_adjustment(GTK_RANGE(scrollbar))),
+		"value_changed", (GtkSignalFunc) value_changed, NULL);
+
+	/* the status bar */
+	status = gtk_label_new("mp " VERSION);
+	gtk_box_pack_start(GTK_BOX(vbox), status, FALSE, FALSE, 0);
+	gtk_misc_set_alignment(GTK_MISC(status), 0, 0.5);
+	gtk_label_set_justify(GTK_LABEL(status), GTK_JUSTIFY_LEFT);
+
+	gtk_widget_show_all(window);
+
+/*	_mpv_font_size--;
+	mpv_zoom(1);
+
+	if (mpv_gtk_maximize)
+		gtk_window_maximize(GTK_WINDOW(window));
+*/
+
+	/* set size */
+/*	if(!mpv_gtk_maximize)
+	{
+		if(_mpv_gtk_xpos >= 0 && _mpv_gtk_ypos >= 0)
+			gdk_window_move(GTK_WIDGET(window)->window,
+				_mpv_gtk_xpos, _mpv_gtk_ypos);
+
+		if(_mpv_gtk_width > 0 && _mpv_gtk_height > 0)
+		{
+			if(_mpv_gtk_width < 150) _mpv_gtk_width=150;
+			if(_mpv_gtk_height < 150) _mpv_gtk_height=150;
+
+			gtk_window_set_default_size(GTK_WINDOW(window),
+				_mpv_gtk_width, _mpv_gtk_height);
+
+			gdk_window_resize(GTK_WIDGET(window)->window,
+				_mpv_gtk_width, _mpv_gtk_height);
+		}
+	}
+*/
+	/* colors */
+/*	_mpv_create_colors();
+
+	fclose(stderr);
+
+	mp_log("X11 geometry set to %dx%d+%d+%d\n", _mpv_gtk_width, _mpv_gtk_height,
+		_mpv_gtk_xpos, _mpv_gtk_ypos);
+*/
+	/* set application icon */
+	pixmap = gdk_pixmap_create_from_xpm_d(window->window,
+		&mask, NULL, mp_xpm);
+	gdk_window_set_icon(window->window, NULL, pixmap, mask);
+
+	return(NULL);
+}
+
+
+int gtkdrv_init(void)
+{
+	mpdm_t drv;
+
+	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))
+		return(0);
+
+	drv = mpdm_hget_s(mp, L"drv");
+	mpdm_hset_s(drv, L"id", MPDM_LS(L"gtk"));
+	mpdm_hset_s(drv, L"startup", MPDM_X(gtkdrv_startup));
 
 	return(1);
 }

@@ -397,29 +397,6 @@ static void build_colors(void)
 }
 
 
-static mpdm_t ncdrv_startup(mpdm_t a)
-{
-	mpdm_t v;
-
-	initscr();
-	start_color();
-	keypad(stdscr, TRUE);
-	nonl();
-	raw();
-	noecho();
-
-	build_colors();
-
-	v = mpdm_hget_s(mp, L"window");
-	mpdm_hset_s(v, L"tx", MPDM_I(COLS));
-	mpdm_hset_s(v, L"ty", MPDM_I(LINES));
-
-	signal(SIGWINCH, nc_sigwinch);
-
-	return(NULL);
-}
-
-
 static mpdm_t ncdrv_main_loop(mpdm_t a)
 /* curses driver main loop */
 {
@@ -518,6 +495,45 @@ static mpdm_t tui_getxy(mpdm_t a)
 }
 
 
+static void register_functions(void)
+{
+	mpdm_t drv;
+
+	drv = mpdm_hget_s(mp, L"drv");
+	mpdm_hset_s(drv, L"main_loop", MPDM_X(ncdrv_main_loop));
+	mpdm_hset_s(drv, L"shutdown", MPDM_X(ncdrv_shutdown));
+
+	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(ncdrv_clip_to_sys));
+	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
+	mpdm_hset_s(drv, L"update_ui", MPDM_X(ncdrv_update_ui));
+}
+
+
+static mpdm_t ncdrv_startup(mpdm_t a)
+{
+	mpdm_t v;
+
+	register_functions();
+
+	initscr();
+	start_color();
+	keypad(stdscr, TRUE);
+	nonl();
+	raw();
+	noecho();
+
+	build_colors();
+
+	v = mpdm_hget_s(mp, L"window");
+	mpdm_hset_s(v, L"tx", MPDM_I(COLS));
+	mpdm_hset_s(v, L"ty", MPDM_I(LINES));
+
+	signal(SIGWINCH, nc_sigwinch);
+
+	return(NULL);
+}
+
+
 int ncdrv_init(void)
 {
 	mpdm_t drv;
@@ -535,16 +551,8 @@ int ncdrv_init(void)
 	}
 
 	drv = mpdm_hget_s(mp, L"drv");
-
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"curses"));
-
 	mpdm_hset_s(drv, L"startup", MPDM_X(ncdrv_startup));
-	mpdm_hset_s(drv, L"main_loop", MPDM_X(ncdrv_main_loop));
-	mpdm_hset_s(drv, L"shutdown", MPDM_X(ncdrv_shutdown));
-
-	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(ncdrv_clip_to_sys));
-	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
-	mpdm_hset_s(drv, L"update_ui", MPDM_X(ncdrv_update_ui));
 
 	/* execute tui */
 	mpdm_hset_s(tui, L"getkey", MPDM_X(nc_getkey));
