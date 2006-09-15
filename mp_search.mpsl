@@ -76,6 +76,10 @@ sub mp.search(doc, str)
 	if(str == NULL)
 		return(NULL);
 
+	/* surround with / for the regex */
+	str = '/' ~ str ~ '/';
+
+	/* add optional case insensitivity flag */
 	if(! mp.config.case_sensitive_search)
 		str = str ~ 'i';
 
