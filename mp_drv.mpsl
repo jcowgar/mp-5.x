@@ -77,6 +77,36 @@ sub mp.drv.readline_search(prompt, def)
 }
 
 
+sub mp.drv.readline_replace(this_p, this_d, that_p, that_d)
+/* mp.drv.dialog()-based readline_replace() */
+{
+	local r = mp.drv.dialog( [
+		{ 'label'	=> this_p,
+		  'type'	=> 'text',
+		  'history'	=> 'search',
+		  'value'	=> this_d },
+		{ 'label'	=> that_p,
+		  'type'	=> 'text',
+		  'history'	=> 'replace',
+		  'value'	=> that_d },
+		{ 'label'	=> L("Case sensitive:"),
+		  'type'	=> 'checkbox',
+		  'value'	=> mp.config.case_sensitive_search },
+		{ 'label'	=> L("Global replace:"),
+		  'type'	=> 'checkbox',
+		  'value'	=> mp.config.global_replace }
+	] );
+
+	if(r != NULL)
+	{
+		mp.config.case_sensitive_search = r[2];
+		mp.config.global_replace = r[3];
+	}
+
+	return([ r[0], r[1] ]);
+}
+
+
 sub mp.drv.list(prompt, list, pos)
 /* mp.drv.dialog()-based list() */
 {
