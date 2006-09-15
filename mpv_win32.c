@@ -1310,6 +1310,8 @@ static mpdm_t w32drv_startup(mpdm_t a)
 	WNDCLASS wc;
 	RECT r;
 
+	register_functions();
+
 	InitCommonControls();
 
 	/* register the window */
