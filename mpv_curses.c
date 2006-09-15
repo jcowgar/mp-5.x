@@ -524,8 +524,17 @@ int ncdrv_init(void)
 	mpdm_t tui;
 	mpdm_t e;
 
-	drv = mpdm_ref(MPDM_H(0));
-	mpdm_hset_s(mp, L"drv", drv);
+	tui = mpsl_eval(MPDM_LS(L"load('mp_tui.mpsl');"), NULL);
+
+	if((e = mpdm_hget_s(mpdm_root(), L"ERROR")) != NULL)
+	{
+		mpdm_write_wcs(stdout, mpdm_string(e));
+		printf("\n");
+
+		return(0);
+	}
+
+	drv = mpdm_hget_s(mp, L"drv");
 
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"curses"));
 
@@ -536,16 +545,6 @@ int ncdrv_init(void)
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(ncdrv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(ncdrv_update_ui));
-
-	tui = mpsl_eval(MPDM_LS(L"load('mp_tui.mpsl');"), NULL);
-
-	if((e = mpdm_hget_s(mpdm_root(), L"ERROR")) != NULL)
-	{
-		mpdm_write_wcs(stdout, mpdm_string(e));
-		printf("\n");
-
-		return(0);
-	}
 
 	/* execute tui */
 	mpdm_hset_s(tui, L"getkey", MPDM_X(nc_getkey));

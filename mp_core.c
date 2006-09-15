@@ -751,6 +751,7 @@ void mp_startup(void)
 	mpdm_hset_s(mp, L"vx2x", MPDM_X(mp_vx2x));
 	mpdm_hset_s(mp, L"exit", MPDM_X(mp_exit));
 	mpdm_hset_s(mp, L"window", MPDM_H(0));
+	mpdm_hset_s(mp, L"drv", MPDM_H(0));
 
 	/* version */
 	mpdm_hset_s(mp, L"VERSION", MPDM_S(L"mp " VERSION));

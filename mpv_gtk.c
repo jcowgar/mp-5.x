@@ -1946,8 +1946,7 @@ int gtkdrv_init(void)
 	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))
 		return(0);
 
-	drv = MPDM_H(0);
-	mpdm_hset_s(mp, L"drv", drv);
+	drv = mpdm_hget_s(mp, L"drv");
 
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"gtk"));
 
