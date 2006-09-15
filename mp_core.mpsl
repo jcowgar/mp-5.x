@@ -336,27 +336,6 @@ sub mp.post_ui_startup()
 }
 
 
-/* driver wrappers */
-
-sub mp.update_ui()			{ mp.drv.update_ui(); }
-sub mp.alert(msg)			{ push(mp.alert_log, msg); mp.drv.alert(msg); }
-sub mp.confirm(msg)			{ mp.drv.confirm(msg); }
-sub mp.readline(prompt, hist, def)	{ mp.drv.readline(prompt, hist, def); }
-sub mp.readline_password(prompt)	{ mp.drv.readline_password(prompt); }
-sub mp.openfile(prompt)			{ mp.drv.openfile(prompt); }
-sub mp.savefile(prompt)			{ mp.drv.savefile(prompt); }
-sub mp.list(prompt, list, pos)		{ mp.drv.list(prompt, list, pos); }
-
-sub mp.readline_search(prompt, def)
-{
-	local s;
-
-	if((s = mp.drv.readline_search(prompt, 'search', def)) != NULL)
-		s = '/' ~ s ~ '/';
-
-	return(s);
-}
-
 sub mp.ui()
 {
 	mp.drv.startup();
@@ -365,6 +344,7 @@ sub mp.ui()
 	mp.drv.shutdown();
 }
 
+load("mp_drv.mpsl");
 load("mp_move.mpsl");
 load("mp_edit.mpsl");
 load("mp_file.mpsl");

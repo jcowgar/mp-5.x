@@ -1,0 +1,46 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Copyright (C) 1991-2006 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+/* driver wrappers */
+
+sub mp.update_ui()			{ mp.drv.update_ui(); }
+sub mp.alert(msg)			{ push(mp.alert_log, msg); mp.drv.alert(msg); }
+sub mp.confirm(msg)			{ mp.drv.confirm(msg); }
+sub mp.readline(prompt, hist, def)	{ mp.drv.readline(prompt, hist, def); }
+sub mp.readline_password(prompt)	{ mp.drv.readline_password(prompt); }
+sub mp.openfile(prompt)			{ mp.drv.openfile(prompt); }
+sub mp.savefile(prompt)			{ mp.drv.savefile(prompt); }
+sub mp.list(prompt, list, pos)		{ mp.drv.list(prompt, list, pos); }
+
+sub mp.readline_search(prompt, def)
+{
+	local s;
+
+	if((s = mp.drv.readline_search(prompt, 'search', def)) != NULL)
+		s = '/' ~ s ~ '/';
+
+	return(s);
+}
+
