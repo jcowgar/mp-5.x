@@ -498,6 +498,7 @@ static mpdm_t tui_getxy(mpdm_t a)
 static void register_functions(void)
 {
 	mpdm_t drv;
+	mpdm_t tui;
 
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"main_loop", MPDM_X(ncdrv_main_loop));
@@ -506,6 +507,26 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(ncdrv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(ncdrv_update_ui));
+
+	tui = mpsl_eval(MPDM_LS(L"load('mp_tui.mpsl');"), NULL);
+
+	/* FIXME: if tui failed, a fatal error must be shown */
+
+/*	if((e = mpdm_hget_s(mpdm_root(), L"ERROR")) != NULL)
+	{
+		mpdm_write_wcs(stdout, mpdm_string(e));
+		printf("\n");
+
+		return(0);
+	}*/
+
+	/* execute tui */
+	mpdm_hset_s(tui, L"getkey", MPDM_X(nc_getkey));
+	mpdm_hset_s(tui, L"addstr", MPDM_X(tui_addstr));
+	mpdm_hset_s(tui, L"move", MPDM_X(tui_move));
+	mpdm_hset_s(tui, L"attr", MPDM_X(tui_attr));
+	mpdm_hset_s(tui, L"refresh", MPDM_X(tui_refresh));
+	mpdm_hset_s(tui, L"getxy", MPDM_X(tui_getxy));
 }
 
 
@@ -537,30 +558,10 @@ static mpdm_t ncdrv_startup(mpdm_t a)
 int ncdrv_init(void)
 {
 	mpdm_t drv;
-	mpdm_t tui;
-	mpdm_t e;
-
-	tui = mpsl_eval(MPDM_LS(L"load('mp_tui.mpsl');"), NULL);
-
-	if((e = mpdm_hget_s(mpdm_root(), L"ERROR")) != NULL)
-	{
-		mpdm_write_wcs(stdout, mpdm_string(e));
-		printf("\n");
-
-		return(0);
-	}
 
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"curses"));
 	mpdm_hset_s(drv, L"startup", MPDM_X(ncdrv_startup));
-
-	/* execute tui */
-	mpdm_hset_s(tui, L"getkey", MPDM_X(nc_getkey));
-	mpdm_hset_s(tui, L"addstr", MPDM_X(tui_addstr));
-	mpdm_hset_s(tui, L"move", MPDM_X(tui_move));
-	mpdm_hset_s(tui, L"attr", MPDM_X(tui_attr));
-	mpdm_hset_s(tui, L"refresh", MPDM_X(tui_refresh));
-	mpdm_hset_s(tui, L"getxy", MPDM_X(tui_getxy));
 
 	return(1);
 }
