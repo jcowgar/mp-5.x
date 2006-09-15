@@ -23,6 +23,11 @@
 
 */
 
+sub mp.drv.dialog()
+{
+	mp.drv.alert(L("This driver doesn't implement mp.drv.dialog()"));
+}
+
 /* driver wrappers */
 
 sub mp.update_ui()			{ mp.drv.update_ui(); }
