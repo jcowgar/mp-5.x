@@ -94,6 +94,10 @@ static void nc_sigwinch(int s)
 }
 
 
+#ifdef CONFOPT_GET_WCH
+int get_wch(wint_t *ch);
+#endif
+
 static wchar_t * nc_getwch(void)
 /* gets a key as a wchar_t */
 {
@@ -101,7 +105,7 @@ static wchar_t * nc_getwch(void)
 
 #ifdef CONFOPT_GET_WCH
 
-	get_wch(c);
+	get_wch((wint_t *)c);
 
 #else
 	char tmp[MB_CUR_MAX + 1];

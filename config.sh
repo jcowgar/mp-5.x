@@ -198,6 +198,20 @@ if [ "$WITHOUT_CURSES" != "1" ] ; then
 	else
 		echo "No"
 	fi
+
+	# test now for get_wch() existence
+	echo -n "Testing for get_wch()... "
+
+	echo "#include <curses.h>" > .tmp.c
+	echo "int main(void) { wchar_t c[2]; initscr(); get_wch(c); endwin(); return 0; }" >> .tmp.c
+
+	$CC $TMP_CFLAGS .tmp.c $TMP_LDFLAGS -o .tmp.o 2>> .config.log
+	if [ $? = 0 ] ; then
+		echo "#define CONFOPT_GET_WCH 1" >> config.h
+		echo "OK"
+	else
+		echo "No"
+	fi
 fi
 
 # GTK
