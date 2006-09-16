@@ -56,7 +56,6 @@ static GtkWidget * area = NULL;
 static GtkWidget * scrollbar = NULL;
 static GtkWidget * status = NULL;
 static GtkWidget * menu_bar = NULL;
-static GtkWidget * entry = NULL;
 static GtkWidget * opensave = NULL;
 static GdkGC * gc = NULL;
 static GtkIMContext * im = NULL;
@@ -90,19 +89,17 @@ static mpdm_t readline_text = NULL;
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
 
-/* selected row on list */
-static int list_selected_row = -1;
+/* mp.drv.dialog() controls */
 
-/* show the entry as password */
-static int entry_is_password = 0;
-
-/* optional checkbox in readline; label and integer value */
-static char * readline_checkbox_label = NULL;
-static int * readline_checkbox_value = NULL;
+static GtkWidget ** dialog_widgets = NULL;
+static mpdm_t dialog_args = NULL;
+static mpdm_t dialog_values = NULL;
 
 /*******************
 	Code
 ********************/
+
+/* support functions */
 
 #define LL(m) (m)
 
@@ -276,6 +273,8 @@ static void build_colors(void)
 }
 
 
+/* menu functions */
+
 static void menu_item_callback(mpdm_t action)
 /* menu click callback */
 {
@@ -372,6 +371,8 @@ static void build_menu(void)
 	}
 }
 
+
+/* main area drawing functions */
 
 static void redraw(void);
 
@@ -882,6 +883,8 @@ static gint button_press_event(GtkWidget * widget, GdkEventButton * event, gpoin
 }
 
 
+/* clipboard functions */
+
 static void commit(GtkIMContext * i, char * str, gpointer u)
 /* 'commit' handler */
 {
@@ -1017,21 +1020,7 @@ static mpdm_t gtkdrv_sys_to_clip(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_main_loop(mpdm_t a)
-/* main loop */
-{
-	gtk_main();
-
-	return(NULL);
-}
-
-
-static mpdm_t gtkdrv_shutdown(mpdm_t a)
-/* shutdown */
-{
-	return(NULL);
-}
-
+/* interface functions */
 
 static void wait_for_modal_status_change(void)
 /* wait until modal status changes */
@@ -1046,20 +1035,6 @@ static void wait_for_modal_status_change(void)
 static void clicked_ok(GtkWidget * widget, gpointer data)
 {
 	char * ptr = NULL;
-
-	if(entry != NULL)
-	{
-		char * tptr;
-
-		/* if there is an entry widget, get its text */
-		if((tptr = gtk_editable_get_chars(GTK_EDITABLE(entry), 0, -1)) != NULL)
-		{
-			ptr = strdup(tptr);
-			g_free(tptr);
-		}
-
-		entry = NULL;
-	}
 
 	if(opensave != NULL)
 	{
@@ -1122,13 +1097,6 @@ static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
 	}
 
 	return(0);
-}
-
-
-static void select_row(GtkCList * list, gint row,
-	gint column, GdkEventButton * event, gpointer data)
-{
-	list_selected_row = row;
 }
 
 
@@ -1221,10 +1189,6 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 }
 
 
-static GtkWidget ** dialog_widgets = NULL;
-static mpdm_t dialog_args = NULL;
-static mpdm_t dialog_values = NULL;
-
 static void dialog_clicked_ok(GtkWidget * widget, gpointer data)
 /* 'clicked_on' signal handler (for gtkdrv_dialog) */
 {
@@ -1305,7 +1269,7 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 	int n;
 	mpdm_t ret = NULL;
 
-	entry = opensave = NULL;
+	opensave = NULL;
 
 	/* first argument: list of widgets */
 	mpdm_unref(dialog_args);
@@ -1555,6 +1519,22 @@ static mpdm_t gtkdrv_update_ui(mpdm_t a)
 
 	redraw();
 
+	return(NULL);
+}
+
+
+static mpdm_t gtkdrv_main_loop(mpdm_t a)
+/* main loop */
+{
+	gtk_main();
+
+	return(NULL);
+}
+
+
+static mpdm_t gtkdrv_shutdown(mpdm_t a)
+/* shutdown */
+{
 	return(NULL);
 }
 
