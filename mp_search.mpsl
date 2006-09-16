@@ -39,15 +39,12 @@ mp.actions['seek_next']	= sub (d) { mp.search(d, NULL) ||
 	};
 
 mp.actions['replace']	= sub (d) {
-	local this;
 
-	if((this = mp.readline_search(L("Text to replace:"))) != NULL)
-	{
-		local that;
+	local r;
 
-		if((that = mp.readline(L("Replace with:"), 'replace')) != NULL)
-			mp.replace(d, this, that);
-	}
+	if((r = mp.readline_replace(L("Text to replace:"), NULL,
+		L("Replace with:"), NULL)) != NULL)
+		mp.replace(d, r[0], r[1]);
 };
 
 /* default key bindings */

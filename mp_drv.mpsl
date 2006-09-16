@@ -129,7 +129,8 @@ sub mp.alert(msg)			{ mp.drv.alert(msg); }
 sub mp.confirm(msg)			{ mp.drv.confirm(msg); }
 sub mp.readline(prompt, hist, def)	{ mp.drv.readline(prompt, hist, def); }
 sub mp.readline_password(prompt)	{ mp.drv.readline_password(prompt); }
+sub mp.readline_search(prompt, def)	{ mp.drv.readline_search(prompt, def); }
+sub mp.readline_replace(p1, d1, p2, d2) { mp.drv.readline_replace(p1, d1, p2, d2); }
 sub mp.openfile(prompt)			{ mp.drv.openfile(prompt); }
 sub mp.savefile(prompt)			{ mp.drv.savefile(prompt); }
 sub mp.list(prompt, list, pos)		{ mp.drv.list(prompt, list, pos); }
-sub mp.readline_search(prompt, def)	{ mp.drv.readline_search(prompt, def); }

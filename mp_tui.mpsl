@@ -142,9 +142,22 @@ sub mp.drv.readline(prompt, history, default)
 }
 
 
-sub mp.drv.readline_search(prompt, history, default)
+sub mp.drv.readline_search(prompt, default)
 {
-	mp.drv.readline(prompt, history, default);
+	mp.drv.readline(prompt, 'search', default);
+}
+
+
+sub mp.drv.readline_replace(this_p, this_d, that_p, that_d)
+{
+	local r1, r2;
+	local r = NULL;
+
+	if((r1 = mp.readline_search(this_p, this_d)) != NULL &&
+	   (r2 = mp.readline(that_p, 'replace', that_d)) != NULL)
+			r = [ r1, r2 ];
+
+	return(r);
 }
 
 

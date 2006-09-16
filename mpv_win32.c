@@ -1113,6 +1113,36 @@ static mpdm_t w32drv_readline_password(mpdm_t a)
 }
 
 
+static mpdm_t w32drv_readline_replace(mpdm_t a)
+/* readline_replace driver function */
+{
+	mpdm_t r = NULL;
+	mpdm_t r1, r2;
+
+	r1 = MPDM_A(2);
+	r2 = MPDM_A(3);
+
+	/* r1 = [ this_p, this_d ]; */
+	mpdm_aset(r1, mpdm_aget(a, 0), 0);
+	mpdm_aset(r1, mpdm_aget(a, 1), 1);
+
+	/* r2 = [ that_p, 'replace', that_d ]; */
+	mpdm_aset(r2, mpdm_aget(a, 2), 0);
+	mpdm_aset(r2, MPDM_LS(L"replace"), 1);
+	mpdm_aset(r2, mpdm_aget(a, 3), 2);
+
+	if((r1 = w32drv_readline_search(r1)) != NULL &&
+	   (r2 = w32drv_readline(r2)) != NULL)
+	{
+		r = MPDM_A(2);
+		mpdm_aset(r, r1, 0);
+		mpdm_aset(r, r2, 1);
+	}
+
+	return(r);
+}
+
+
 static mpdm_t open_or_save(int o, mpdm_t a)
 /* manages an open or save file dialog */
 {
