@@ -56,7 +56,6 @@ static GtkWidget * area = NULL;
 static GtkWidget * scrollbar = NULL;
 static GtkWidget * status = NULL;
 static GtkWidget * menu_bar = NULL;
-static GtkWidget * opensave = NULL;
 static GdkGC * gc = NULL;
 static GtkIMContext * im = NULL;
 static GdkPixmap * pixmap = NULL;
@@ -82,9 +81,6 @@ static int wait_for_selection = 0;
 
 /* global modal status */
 static int modal_status = -1;
-
-/* global text from entry widget */
-static mpdm_t readline_text = NULL;
 
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
@@ -1033,163 +1029,6 @@ static void wait_for_modal_status_change(void)
 
 
 static void clicked_ok(GtkWidget * widget, gpointer data)
-{
-	char * ptr = NULL;
-
-	if(opensave != NULL)
-	{
-		/* if it's an open/save dialog, take from it */
-		const char * cptr;
-
-		if((cptr = gtk_file_selection_get_filename(GTK_FILE_SELECTION(widget))) != NULL)
-			ptr = strdup(cptr);
-
-		opensave = NULL;
-	}
-
-	if(ptr != NULL)
-	{
-		wchar_t * wptr;
-
-		if((wptr = utf8_to_wcs(ptr)) != NULL)
-		{
-			mpdm_unref(readline_text);
-			readline_text = mpdm_ref(MPDM_S(wptr));
-
-			g_free(wptr);
-		}
-
-		/* this is an strdup(), so DON'T free with g_free() */
-		free(ptr);
-	}
-
-	modal_status = 1;
-	gtk_widget_destroy(GTK_WIDGET(widget));
-}
-
-
-static void clicked_cancel(GtkWidget * widget, gpointer data)
-{
-	modal_status = 0;
-	gtk_widget_destroy(GTK_WIDGET(widget));
-}
-
-
-static void clicked_no(GtkWidget * widget, gpointer data)
-{
-	modal_status = 2;
-	gtk_widget_destroy(GTK_WIDGET(widget));
-}
-
-
-static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
-{
-	if(event->string[0] == '\r')
-	{
-		clicked_ok(widget, NULL);
-		return(1);
-	}
-	else
-	if(event->string[0] == '\e')
-	{
-		clicked_cancel(widget, NULL);
-		return(1);
-	}
-
-	return(0);
-}
-
-
-#define DIALOG_BUTTON(l,f) do { GtkWidget * btn; \
-	ptr = localize(l); btn = gtk_button_new_with_label(ptr); \
-	gtk_signal_connect_object(GTK_OBJECT(btn), "clicked", \
-		GTK_SIGNAL_FUNC(f), GTK_OBJECT(dlg)); \
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), \
-		btn, TRUE, TRUE, 0); \
-	g_free(ptr); \
-	} while(0);
-
-static mpdm_t gtkdrv_alert(mpdm_t a)
-/* alert driver function */
-{
-	wchar_t * wptr;
-	char * ptr;
-	GtkWidget * dlg;
-	GtkWidget * label;
-
-	/* 1# arg: prompt */
-	wptr = mpdm_string(mpdm_aget(a, 0));
-
-	if((ptr = wcs_to_utf8(wptr)) == NULL)
-		return(NULL);
-
-	dlg = gtk_dialog_new();
-	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
-	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
-
-	label = gtk_label_new(ptr);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
-	g_free(ptr);
-
-	DIALOG_BUTTON(LL("OK"), clicked_ok);
-
-	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
-		(GtkSignalFunc) confirm_key_press_event, NULL);
-
-	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
-	gtk_window_set_modal(GTK_WINDOW(dlg),TRUE);
-	gtk_window_set_transient_for(GTK_WINDOW(dlg),GTK_WINDOW(window));
-
-	gtk_widget_show_all(dlg);
-
-	wait_for_modal_status_change();
-
-	return(NULL);
-}
-
-
-static mpdm_t gtkdrv_confirm(mpdm_t a)
-/* confirm driver function */
-{
-	wchar_t * wptr;
-	char * ptr;
-	GtkWidget * dlg;
-	GtkWidget * label;
-
-	/* 1# arg: prompt */
-	wptr = mpdm_string(mpdm_aget(a, 0));
-
-	if((ptr = wcs_to_utf8(wptr)) == NULL)
-		return(NULL);
-
-	dlg = gtk_dialog_new();
-	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
-	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
-
-	label = gtk_label_new(ptr);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
-	g_free(ptr);
-
-	DIALOG_BUTTON(LL("Yes"), clicked_ok);
-	DIALOG_BUTTON(LL("No"), clicked_no);
-	DIALOG_BUTTON(LL("Cancel"), clicked_cancel);
-
-	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
-		(GtkSignalFunc) confirm_key_press_event, NULL);
-
-	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
-	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
-	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
-
-	gtk_widget_show_all(dlg);
-
-	wait_for_modal_status_change();
-
-	return(MPDM_I(modal_status));
-}
-
-
-static void dialog_clicked_ok(GtkWidget * widget, gpointer data)
 /* 'clicked_on' signal handler (for gtkdrv_dialog) */
 {
 	int n;
@@ -1241,6 +1080,19 @@ static void dialog_clicked_ok(GtkWidget * widget, gpointer data)
 			v = MPDM_I(gtk_toggle_button_get_active(
 				GTK_TOGGLE_BUTTON(widget)));
 		}
+		else
+		if(wcscmp(wptr, L"file") == 0)
+		{
+			const char * ptr;
+
+			if((ptr = gtk_file_selection_get_filename(
+				GTK_FILE_SELECTION(widget))) != NULL &&
+			   (wptr = utf8_to_wcs((char *) ptr)) != NULL)
+			{
+				v = MPDM_S(wptr);
+				g_free(wptr);
+			}
+		}
 
 		mpdm_aset(dialog_values, v, n);
 	}
@@ -1260,6 +1112,149 @@ static void dialog_select_row(GtkCList * list, gint row,
 }
 
 
+static void clicked_cancel(GtkWidget * widget, gpointer data)
+{
+	modal_status = 0;
+	gtk_widget_destroy(GTK_WIDGET(widget));
+}
+
+
+static void clicked_no(GtkWidget * widget, gpointer data)
+{
+	modal_status = 2;
+	gtk_widget_destroy(GTK_WIDGET(widget));
+}
+
+
+static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
+{
+	if(event->string[0] == '\r')
+	{
+		clicked_ok(widget, NULL);
+		return(1);
+	}
+	else
+	if(event->string[0] == '\e')
+	{
+		clicked_cancel(widget, NULL);
+		return(1);
+	}
+
+	return(0);
+}
+
+
+static void build_dialog_data(mpdm_t widget_list)
+/* builds the necessary information for a list of widgets */
+{
+	mpdm_unref(dialog_args);
+	dialog_args = mpdm_ref(widget_list);
+
+	mpdm_unref(dialog_values);
+	dialog_values = widget_list == NULL ? NULL :
+		mpdm_ref(MPDM_A(mpdm_size(dialog_args)));
+
+	/* resize the widget array */
+	dialog_widgets = (GtkWidget **) realloc(dialog_widgets,
+		mpdm_size(dialog_args) * sizeof(GtkWidget *));
+}
+
+
+/* dialog functions */
+
+#define DIALOG_BUTTON(l,f) do { GtkWidget * btn; \
+	ptr = localize(l); btn = gtk_button_new_with_label(ptr); \
+	gtk_signal_connect_object(GTK_OBJECT(btn), "clicked", \
+		GTK_SIGNAL_FUNC(f), GTK_OBJECT(dlg)); \
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), \
+		btn, TRUE, TRUE, 0); \
+	g_free(ptr); \
+	} while(0);
+
+static mpdm_t gtkdrv_alert(mpdm_t a)
+/* alert driver function */
+{
+	wchar_t * wptr;
+	char * ptr;
+	GtkWidget * dlg;
+	GtkWidget * label;
+
+	build_dialog_data(NULL);
+
+	/* 1# arg: prompt */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+
+	if((ptr = wcs_to_utf8(wptr)) == NULL)
+		return(NULL);
+
+	dlg = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
+	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
+
+	label = gtk_label_new(ptr);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
+	g_free(ptr);
+
+	DIALOG_BUTTON(LL("OK"), clicked_ok);
+
+	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
+		(GtkSignalFunc) confirm_key_press_event, NULL);
+
+	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
+	gtk_window_set_modal(GTK_WINDOW(dlg),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(dlg),GTK_WINDOW(window));
+
+	gtk_widget_show_all(dlg);
+
+	wait_for_modal_status_change();
+
+	return(NULL);
+}
+
+
+static mpdm_t gtkdrv_confirm(mpdm_t a)
+/* confirm driver function */
+{
+	wchar_t * wptr;
+	char * ptr;
+	GtkWidget * dlg;
+	GtkWidget * label;
+
+	build_dialog_data(NULL);
+
+	/* 1# arg: prompt */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+
+	if((ptr = wcs_to_utf8(wptr)) == NULL)
+		return(NULL);
+
+	dlg = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
+	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
+
+	label = gtk_label_new(ptr);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), label, TRUE, TRUE, 0);
+	g_free(ptr);
+
+	DIALOG_BUTTON(LL("Yes"), clicked_ok);
+	DIALOG_BUTTON(LL("No"), clicked_no);
+	DIALOG_BUTTON(LL("Cancel"), clicked_cancel);
+
+	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
+		(GtkSignalFunc) confirm_key_press_event, NULL);
+
+	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
+	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
+
+	gtk_widget_show_all(dlg);
+
+	wait_for_modal_status_change();
+
+	return(MPDM_I(modal_status));
+}
+
+
 static mpdm_t gtkdrv_dialog(mpdm_t a)
 /* 'dialog' driver function */
 {
@@ -1269,18 +1264,8 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 	int n;
 	mpdm_t ret = NULL;
 
-	opensave = NULL;
-
 	/* first argument: list of widgets */
-	mpdm_unref(dialog_args);
-	dialog_args = mpdm_ref(mpdm_aget(a, 0));
-
-	mpdm_unref(dialog_values);
-	dialog_values = mpdm_ref(MPDM_A(mpdm_size(dialog_args)));
-
-	/* resize the widget array */
-	dialog_widgets = (GtkWidget **) realloc(dialog_widgets,
-		mpdm_size(dialog_args) * sizeof(GtkWidget *));
+	build_dialog_data(mpdm_aget(a, 0));
 
 	dlg = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
@@ -1440,7 +1425,7 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), table, TRUE, TRUE, 0);
 
-	DIALOG_BUTTON(LL("OK"), dialog_clicked_ok);
+	DIALOG_BUTTON(LL("OK"), clicked_ok);
 	DIALOG_BUTTON(LL("Cancel"), clicked_cancel);
 
 	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
@@ -1468,6 +1453,7 @@ static mpdm_t gtkdrv_openfile(mpdm_t a)
 	wchar_t * wptr;
 	char * ptr;
 	mpdm_t ret = NULL;
+	mpdm_t l, h;
 
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
@@ -1477,6 +1463,15 @@ static mpdm_t gtkdrv_openfile(mpdm_t a)
 
 	dlg = gtk_file_selection_new(ptr);
 	g_free(ptr);
+
+	/* This is l = [ { 'type' => 'file' } ]; */
+	h = MPDM_H(0);
+	mpdm_hset_s(h, L"type", MPDM_LS(L"file"));
+	l = MPDM_A(1);
+	mpdm_aset(l, h, 0);
+
+	build_dialog_data(l);
+	dialog_widgets[0] = dlg;
 
 	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(dlg)->ok_button),
 		"clicked", GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
@@ -1491,15 +1486,13 @@ static mpdm_t gtkdrv_openfile(mpdm_t a)
 	gtk_window_set_modal(GTK_WINDOW(dlg),TRUE);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
 
-	opensave = dlg;
 	gtk_widget_show(dlg);
 
 	wait_for_modal_status_change();
 
 	if(modal_status == 1)
-		ret = readline_text;
+		ret = mpdm_aget(dialog_values, 0);
 
-	opensave = NULL;
 	return(ret);
 }
 
