@@ -95,7 +95,7 @@ sub mp.tui.readline(prompt, history, default, flags)
 	}
 
 	/* if a string was accepted, store in the history */
-	if(h && size(r) && h[-1] ne r)
+	if(h != NULL && size(r) && h[-1] ne r)
 		push(h, r);
 
 	return(r);
