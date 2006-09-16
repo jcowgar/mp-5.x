@@ -13,6 +13,7 @@ Release Critical Bugs
    which is stupid. This is specially true for tabs.
  * 1162: Add menu support to the Curses / TUI interface.
  * 1166: Add a file open navigator to TUI.
+ * 1167: Tags fail because mp.search() now delimits the string with /.
 
 Open Bugs
 ---------
