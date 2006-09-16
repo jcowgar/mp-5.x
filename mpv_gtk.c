@@ -1066,7 +1066,7 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 
 			/* if it has history, fill it */
 			if((h = mpdm_hget_s(w, L"history")) != NULL &&
-				wptr != NULL && *wptr != L'\0')
+				v != NULL && mpdm_cmp(v, MPDM_LS(L"")) != 0)
 			{
 				h = mp_get_history(h);
 
