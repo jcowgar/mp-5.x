@@ -1328,6 +1328,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
 	mpdm_hset_s(drv, L"readline", MPDM_X(w32drv_readline));
 	mpdm_hset_s(drv, L"readline_search", MPDM_X(w32drv_readline_search));
+	mpdm_hset_s(drv, L"readline_replace", MPDM_X(w32drv_readline_replace));
 	mpdm_hset_s(drv, L"readline_password", MPDM_X(w32drv_readline_password));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(w32drv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(w32drv_savefile));
