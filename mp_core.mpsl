@@ -360,6 +360,6 @@ load("mp_crypt.mpsl");
 
 /** MAIN **/
 
-mp.process_cmdline();
 mp.load_profile();
+mp.process_cmdline();
 mp.ui();
