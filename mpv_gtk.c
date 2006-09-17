@@ -1409,6 +1409,10 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 			gtk_clist_select_row(GTK_CLIST(list), i, 0);
 			GTK_CLIST(list)->focus_row = i;
 
+			/* set the default value, in case the signal is
+			   never called because the it was accepted as is */
+			mpdm_aset(dialog_values, MPDM_I(i), n);
+
 			/* connects the signal, storing the
 			   widget number in the 'gpointer' */
 			gtk_signal_connect(GTK_OBJECT(list), "select-row",
