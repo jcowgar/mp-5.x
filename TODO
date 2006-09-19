@@ -13,6 +13,8 @@ Release Critical Bugs
    which is stupid. This is specially true for tabs.
  * 1162: Add menu support to the Curses / TUI interface.
  * 1166: Add a file open navigator to TUI.
+ * 1168: Port all syntax highlight definitions from mp 3.x.
+ * 1169: Port translations from mp 3.x.
 
 Open Bugs
 ---------
