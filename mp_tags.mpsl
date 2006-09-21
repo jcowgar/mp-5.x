@@ -128,13 +128,10 @@ sub mp.load_tags(force)
 
 		/* clean the regex itself */
 		r = sregex('@/;"$@', t[2], NULL);
-		r = sregex('/\(/g', r, '\(');
-		r = sregex('/\)/g', r, '\)');
-		r = sregex('/\*/g', r, '\*');
-		r = sregex('/\?/g', r, '\?');
-		r = sregex('/\{/g', r, '\{');
-		r = sregex('/\}/g', r, '\}');
 		r = sregex('@^/@', r, NULL);
+
+		/* escape all troublesome characters */
+		r = sregex("/([\(\)\*\?\[\{\}]|\])/g", r, sub (m) { '\' ~ m; });
 
 		/* store the tag information */
 		mp.tags[t[0]] = {
