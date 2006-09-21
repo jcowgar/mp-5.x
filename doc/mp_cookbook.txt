@@ -70,5 +70,22 @@ This snippet will convert a file named 'text' to UTF-8:
 
  local d = mp.open('text'); encoding('utf-8'); mp.save(d); mp.close();
 
+Spellchecking
+-------------
+
+Spellchecking is done under Unix-like systems by piping the words of the
+current document to the external command *ispell*, so it must be installed,
+correctly configured and with properly installed dictionary files to be
+useful. To activate spell checking, the mp.ispell() function must be called
+with a boolean argument telling if spellchecking is wanted or not.
+
+By default, the command to be executed is "ispell -a". If you have it in a
+non-standard path, or want to use a different program as *aspell*, you can
+change it by changing the configuration variable mp.config.ispell_cmd.
+
+Note: if you happen to use an UTF-8 locale, the ispell program doesn't
+work correctly. Either use aspell, or change the command configuration
+variable to "ispell -a -Tutf8".
+
 ----
-Angel Ortega <angel@triptico.com> - $Date$
+Angel Ortega <angel@triptico.com>
