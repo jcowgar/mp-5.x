@@ -22,7 +22,7 @@ Release Critical Bugs
  * 1173: Add interface to set the line terminator.
  * 1174: Add interface to set autoindentation.
  * 1175: Add interface to set the tabs-as-spaces.
- * 1176: Add interface to the set undo levels.
+ * 1176: Add interface to set the undo levels.
 
 Open Bugs
 ---------
