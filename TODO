@@ -17,6 +17,12 @@ Release Critical Bugs
  * 1169: Port translations from mp 3.x.
  * 1170: The curses driver doesn't redraw when the terminal window
    is resized.
+ * 1171: Add interface to set tab size.
+ * 1172: Add interface to set the word wrapping column.
+ * 1173: Add interface to set the line terminator.
+ * 1174: Add interface to set autoindentation.
+ * 1175: Add interface to set the tabs-as-spaces.
+ * 1176: Add interface to the set undo levels.
 
 Open Bugs
 ---------
