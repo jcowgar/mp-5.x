@@ -1063,6 +1063,211 @@ BOOL CALLBACK readlineDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 }
 
 
+static LPWORD lpwAlign(LPWORD lpIn)
+{
+	ULONG ul;
+
+	ul = (ULONG)lpIn;
+	ul ++;
+	ul >>= 1;
+	ul <<= 1;
+	return (LPWORD)ul;
+}
+
+
+#define ID_HELP   150
+#define ID_TEXT   200
+
+/* mp.drv.form() controls */
+
+/*static GtkWidget ** form_widgets = NULL;*/
+static mpdm_t form_args = NULL;
+static mpdm_t form_values = NULL;
+
+BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+/* mp.drv.form() dialog proc */
+{
+	int ret, n;
+
+	switch(msg)
+	{
+	case WM_INITDIALOG:
+
+		SetWindowText(hwnd, "mp " VERSION);
+
+		for(n = 0;n < mpdm_size(form_args);n++)
+		{
+			mpdm_t w = mpdm_aget(form_args, n);
+			mpdm_t t;
+
+			if((t = mpdm_hget_s(w, L"label")) != NULL)
+			{
+				SetDlgItemTextW(hwnd, 100 + n * 2, mpdm_string(t));
+				SendDlgItemMessage(hwnd, 100 + n * 2, WM_SETFONT,
+					(WPARAM)GetStockObject(DEFAULT_GUI_FONT),
+					MAKELPARAM(FALSE, 0));
+			}
+		}
+
+
+		SetDlgItemTextW(hwnd, IDOK, L"OK");
+		SendDlgItemMessage(hwnd, IDOK, WM_SETFONT,
+			(WPARAM)GetStockObject(DEFAULT_GUI_FONT),
+			MAKELPARAM(FALSE, 0));
+
+		SetDlgItemTextW(hwnd, IDCANCEL, L"Cancel");
+		SendDlgItemMessage(hwnd, IDCANCEL, WM_SETFONT,
+			(WPARAM)GetStockObject(DEFAULT_GUI_FONT),
+			MAKELPARAM(FALSE, 0));
+
+		return(TRUE);
+
+	case WM_COMMAND:
+
+		switch(LOWORD(wparam))
+		{
+		case WMP_OK:
+		case WMP_CANCEL:
+
+			if(LOWORD(wparam) == WMP_OK)
+				ret = 1;
+			else
+				ret = 0;
+
+			EndDialog(hwnd, ret);
+
+			return(TRUE);
+		}
+	}
+
+	return(FALSE);
+}
+
+
+static void build_form_data(mpdm_t widget_list)
+/* builds the necessary information for a list of widgets */
+{
+	mpdm_unref(form_args);
+	form_args = mpdm_ref(widget_list);
+
+	mpdm_unref(form_values);
+	form_values = widget_list == NULL ? NULL :
+		mpdm_ref(MPDM_A(mpdm_size(form_args)));
+
+	/* resize the widget array */
+/*	form_widgets = (GtkWidget **) realloc(form_widgets,
+		mpdm_size(form_args) * sizeof(GtkWidget *));*/
+}
+
+
+static mpdm_t w32drv_form(mpdm_t a)
+/* mp.drv.form() function */
+{
+	HGLOBAL hgbl;
+	LPDLGTEMPLATE lpdt;
+	LPDLGITEMTEMPLATE lpdit;
+	LPWORD lpw;
+	LPWSTR lpwsz;
+	int n;
+	LPSTR lpszMessage = "Cargo Cult";
+
+	/* first argument: list of widgets */
+	build_form_data(mpdm_aget(a, 0));
+
+	/* On-the-fly dialog template creation */
+	/* Note: all this crap is taken from MSDN, no less */
+
+	/* magic size; looking for problems */
+	hgbl = GlobalAlloc(GMEM_ZEROINIT, 4096);
+	lpdt = (LPDLGTEMPLATE)GlobalLock(hgbl);
+
+	lpdt->style = WS_POPUP | WS_BORDER | WS_SYSMENU | DS_MODALFRAME | WS_CAPTION;
+	lpdt->cdit = mpdm_size(form_args) + 2;
+	lpdt->x  = 20;  lpdt->y  = 20;
+	lpdt->cx = 100; lpdt->cy = 30 + mpdm_size(form_args) * 10;
+
+	lpw = (LPWORD)(lpdt + 1);
+	*lpw++ = 0;             // No menu
+	*lpw++ = 0;             // Predefined dialog box class (by default)
+	*lpw++ = 0;		// No title
+
+	for(n = 0;n < mpdm_size(form_args);n++)
+	{
+		mpdm_t w = mpdm_aget(form_args, n);
+		mpdm_t t;
+		wchar_t * type;
+
+		if((t = mpdm_hget_s(w, L"label")) != NULL)
+		{
+			/* label */
+			lpw = lpwAlign(lpw);
+			lpdit = (LPDLGITEMTEMPLATE)lpw;
+			lpdit->x  = 10; lpdit->y  = 5 + n * 10;
+			lpdit->cx = 40; lpdit->cy = 20;
+			lpdit->id = 100 + (n * 2);
+			lpdit->style = WS_CHILD | WS_VISIBLE | SS_RIGHT;
+
+			lpw = (LPWORD)(lpdit + 1);
+			*lpw++ = 0xFFFF;
+			*lpw++ = 0x0082;
+
+			/* no text (will be set on dialog setup) */
+			*lpw++ = 0;
+			*lpw++ = 0;
+
+			/* Align creation data on DWORD boundary */
+			lpw = lpwAlign(lpw);
+			/* No creation data */
+			*lpw++ = 0;
+		}
+	}
+
+	/* OK */
+	lpw = lpwAlign(lpw);
+	lpdit = (LPDLGITEMTEMPLATE)lpw;
+	lpdit->x  = 10; lpdit->y  = 10 + n * 10;
+	lpdit->cx = 40; lpdit->cy = 15;
+	lpdit->id = IDOK;
+	lpdit->style = WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON;
+
+	lpw = (LPWORD)(lpdit + 1);
+	*lpw++ = 0xFFFF;
+	*lpw++ = 0x0080;        // Button class
+
+	*lpw++ = 0;
+	*lpw++ = 0;
+
+	lpw = lpwAlign(lpw);
+	*lpw++ = 0;
+
+	/* Cancel */
+	lpw = lpwAlign(lpw);
+	lpdit = (LPDLGITEMTEMPLATE)lpw;
+	lpdit->x  = 55; lpdit->y  = 10 + n * 10;
+	lpdit->cx = 40; lpdit->cy = 15;
+	lpdit->id = IDCANCEL;
+	lpdit->style = WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON;
+
+	lpw = (LPWORD)(lpdit + 1);
+	*lpw++ = 0xFFFF;
+	*lpw++ = 0x0080;
+
+	*lpw++ = 0;
+	*lpw++ = 0;
+
+	lpw = lpwAlign(lpw);
+	*lpw++ = 0;
+
+	GlobalUnlock(hgbl);
+	DialogBoxIndirect(hinst, (LPDLGTEMPLATE)hgbl,
+		hwnd, (DLGPROC)formDlgProc);
+
+	GlobalFree(hgbl);
+
+	return(NULL);
+}
+
+
 static mpdm_t w32drv_readline(mpdm_t a)
 /* readline driver function */
 {
@@ -1333,6 +1538,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"openfile", MPDM_X(w32drv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(w32drv_savefile));
 	mpdm_hset_s(drv, L"list", MPDM_X(w32drv_list));
+	mpdm_hset_s(drv, L"form", MPDM_X(w32drv_form));
 }
 
 
