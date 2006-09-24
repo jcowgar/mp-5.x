@@ -1075,12 +1075,8 @@ static LPWORD lpwAlign(LPWORD lpIn)
 }
 
 
-#define ID_HELP   150
-#define ID_TEXT   200
-
 /* mp.drv.form() controls */
 
-/*static GtkWidget ** form_widgets = NULL;*/
 static mpdm_t form_args = NULL;
 static mpdm_t form_values = NULL;
 
@@ -1194,8 +1190,17 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			wchar_t * type = mpdm_string(mpdm_hget_s(w, L"type"));
 			int ctrl = 101 + n * 2;
 
-			if(wcscmp(type, L"text") == 0 ||
-			   wcscmp(type, L"password") == 0)
+			if(wcscmp(type, L"text") == 0)
+			{
+				wchar_t tmp[2048];
+
+				GetDlgItemTextW(hwnd, ctrl, tmp, sizeof(tmp) - 1);
+				mpdm_aset(form_values, MPDM_S(tmp), n);
+
+				/* fill history, if available */
+				/* ... */
+			}
+			if(wcscmp(type, L"password") == 0)
 			{
 				wchar_t tmp[2048];
 
@@ -1232,10 +1237,6 @@ static void build_form_data(mpdm_t widget_list)
 	mpdm_unref(form_values);
 	form_values = widget_list == NULL ? NULL :
 		mpdm_ref(MPDM_A(mpdm_size(form_args)));
-
-	/* resize the widget array */
-/*	form_widgets = (GtkWidget **) realloc(form_widgets,
-		mpdm_size(form_args) * sizeof(GtkWidget *));*/
 }
 
 
