@@ -25,16 +25,16 @@
 
 /* default UI functions */
 
-sub mp.drv.dialog()
-/* fallback for drivers lacking mp.drv.dialog() */
+sub mp.drv.form()
+/* fallback for drivers lacking mp.drv.form() */
 {
-	mp.drv.alert(L("This driver doesn't implement mp.drv.dialog()"));
+	mp.drv.alert(L("This driver doesn't implement mp.drv.form()"));
 }
 
 sub mp.drv.readline(prompt, hist, def)
-/* mp.drv.dialog()-based readline() */
+/* mp.drv.form()-based readline() */
 {
-	local r = mp.drv.dialog( [
+	local r = mp.drv.form( [
 		{ 'label'	=> prompt,
 		  'type'	=> 'text',
 		  'history'	=> hist,
@@ -46,9 +46,9 @@ sub mp.drv.readline(prompt, hist, def)
 
 
 sub mp.drv.readline_password(prompt)
-/* mp.drv.dialog()-based readline_password() */
+/* mp.drv.form()-based readline_password() */
 {
-	local r = mp.drv.dialog( [
+	local r = mp.drv.form( [
 		{ 'label'	=> prompt,
 		  'type'	=> 'password' }
 	] );
@@ -58,9 +58,9 @@ sub mp.drv.readline_password(prompt)
 
 
 sub mp.drv.readline_search(prompt, def)
-/* mp.drv.dialog()-based readline_search() */
+/* mp.drv.form()-based readline_search() */
 {
-	local r = mp.drv.dialog( [
+	local r = mp.drv.form( [
 		{ 'label'	=> prompt,
 		  'type'	=> 'text',
 		  'history'	=> 'search',
@@ -78,9 +78,9 @@ sub mp.drv.readline_search(prompt, def)
 
 
 sub mp.drv.readline_replace(this_p, this_d, that_p, that_d)
-/* mp.drv.dialog()-based readline_replace() */
+/* mp.drv.form()-based readline_replace() */
 {
-	local r = mp.drv.dialog( [
+	local r = mp.drv.form( [
 		{ 'label'	=> this_p,
 		  'type'	=> 'text',
 		  'history'	=> 'search',
@@ -109,9 +109,9 @@ sub mp.drv.readline_replace(this_p, this_d, that_p, that_d)
 
 
 sub mp.drv.list(prompt, list, pos)
-/* mp.drv.dialog()-based list() */
+/* mp.drv.form()-based list() */
 {
-	local r = mp.drv.dialog( [
+	local r = mp.drv.form( [
 		{ 'label'	=> prompt,
 		  'type'	=> 'list',
 		  'list'	=> list,

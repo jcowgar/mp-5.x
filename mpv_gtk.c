@@ -85,11 +85,11 @@ static int modal_status = -1;
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
 
-/* mp.drv.dialog() controls */
+/* mp.drv.form() controls */
 
-static GtkWidget ** dialog_widgets = NULL;
-static mpdm_t dialog_args = NULL;
-static mpdm_t dialog_values = NULL;
+static GtkWidget ** form_widgets = NULL;
+static mpdm_t form_args = NULL;
+static mpdm_t form_values = NULL;
 
 /*******************
 	Code
@@ -1029,20 +1029,20 @@ static void wait_for_modal_status_change(void)
 
 
 static void clicked_ok(GtkWidget * widget, gpointer data)
-/* 'clicked_on' signal handler (for gtkdrv_dialog) */
+/* 'clicked_on' signal handler (for gtkdrv_form) */
 {
 	int n;
 
-	for(n = 0;n < mpdm_size(dialog_args);n++)
+	for(n = 0;n < mpdm_size(form_args);n++)
 	{
-		GtkWidget * widget = dialog_widgets[n];
-		mpdm_t w = mpdm_aget(dialog_args, n);
+		GtkWidget * widget = form_widgets[n];
+		mpdm_t w = mpdm_aget(form_args, n);
 		wchar_t * wptr = mpdm_string(mpdm_hget_s(w, L"type"));
 		mpdm_t v = NULL;
 
 		/* if there is already a value there, if was
 		   previously set from a callback */
-		if(mpdm_aget(dialog_values, n) != NULL)
+		if(mpdm_aget(form_values, n) != NULL)
 			continue;
 
 		if(wcscmp(wptr, L"text") == 0 ||
@@ -1094,7 +1094,7 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 			}
 		}
 
-		mpdm_aset(dialog_values, v, n);
+		mpdm_aset(form_values, v, n);
 	}
 
 	modal_status = 1;
@@ -1102,13 +1102,13 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 }
 
 
-static void dialog_select_row(GtkCList * list, gint row,
+static void form_select_row(GtkCList * list, gint row,
 	gint column, GdkEventButton * event, gpointer data)
-/* 'select_row' handler (for gtkdrv_dialog) */
+/* 'select_row' handler (for gtkdrv_form) */
 {
 	int n = (int) data;
 
-	mpdm_aset(dialog_values, MPDM_I(row), n);
+	mpdm_aset(form_values, MPDM_I(row), n);
 }
 
 
@@ -1144,19 +1144,19 @@ static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
 }
 
 
-static void build_dialog_data(mpdm_t widget_list)
+static void build_form_data(mpdm_t widget_list)
 /* builds the necessary information for a list of widgets */
 {
-	mpdm_unref(dialog_args);
-	dialog_args = mpdm_ref(widget_list);
+	mpdm_unref(form_args);
+	form_args = mpdm_ref(widget_list);
 
-	mpdm_unref(dialog_values);
-	dialog_values = widget_list == NULL ? NULL :
-		mpdm_ref(MPDM_A(mpdm_size(dialog_args)));
+	mpdm_unref(form_values);
+	form_values = widget_list == NULL ? NULL :
+		mpdm_ref(MPDM_A(mpdm_size(form_args)));
 
 	/* resize the widget array */
-	dialog_widgets = (GtkWidget **) realloc(dialog_widgets,
-		mpdm_size(dialog_args) * sizeof(GtkWidget *));
+	form_widgets = (GtkWidget **) realloc(form_widgets,
+		mpdm_size(form_args) * sizeof(GtkWidget *));
 }
 
 
@@ -1179,7 +1179,7 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 	GtkWidget * dlg;
 	GtkWidget * label;
 
-	build_dialog_data(NULL);
+	build_form_data(NULL);
 
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
@@ -1220,7 +1220,7 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 	GtkWidget * dlg;
 	GtkWidget * label;
 
-	build_dialog_data(NULL);
+	build_form_data(NULL);
 
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
@@ -1255,8 +1255,8 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_dialog(mpdm_t a)
-/* 'dialog' driver function */
+static mpdm_t gtkdrv_form(mpdm_t a)
+/* 'form' driver function */
 {
 	char * ptr;
 	GtkWidget * dlg;
@@ -1265,7 +1265,7 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 	mpdm_t ret = NULL;
 
 	/* first argument: list of widgets */
-	build_dialog_data(mpdm_aget(a, 0));
+	build_form_data(mpdm_aget(a, 0));
 
 	dlg = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
@@ -1275,9 +1275,9 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 	gtk_table_set_col_spacing(GTK_TABLE(table), 0, 4);
 	gtk_table_set_row_spacing(GTK_TABLE(table), 0, 4);
 
-	for(n = 0;n < mpdm_size(dialog_args);n++)
+	for(n = 0;n < mpdm_size(form_args);n++)
 	{
-		mpdm_t w = mpdm_aget(dialog_args, n);
+		mpdm_t w = mpdm_aget(form_args, n);
 		GtkWidget * widget = NULL;
 		wchar_t * type;
 		char * ptr;
@@ -1368,7 +1368,7 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 			mpdm_t l;
 			int i;
 
-			if((i = 450 / mpdm_size(dialog_args)) < 100) i = 100;
+			if((i = 450 / mpdm_size(form_args)) < 100) i = 100;
 
 			widget = gtk_scrolled_window_new(NULL, NULL);
 			gtk_widget_set_usize(widget, 500, i);
@@ -1411,17 +1411,17 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 
 			/* set the default value, in case the signal is
 			   never called because the it was accepted as is */
-			mpdm_aset(dialog_values, MPDM_I(i), n);
+			mpdm_aset(form_values, MPDM_I(i), n);
 
 			/* connects the signal, storing the
 			   widget number in the 'gpointer' */
 			gtk_signal_connect(GTK_OBJECT(list), "select-row",
-				GTK_SIGNAL_FUNC(dialog_select_row), (gpointer) n);
+				GTK_SIGNAL_FUNC(form_select_row), (gpointer) n);
                 }
 
 		if(widget != NULL)
 		{
-			dialog_widgets[n] = widget;
+			form_widgets[n] = widget;
 			gtk_table_attach_defaults(GTK_TABLE(table),
 				widget, col, 2, n, n + 1);
 		}
@@ -1444,7 +1444,7 @@ static mpdm_t gtkdrv_dialog(mpdm_t a)
 	wait_for_modal_status_change();
 
 	if(modal_status == 1)
-		ret = dialog_values;
+		ret = form_values;
 
 	return(ret);
 }
@@ -1474,8 +1474,8 @@ static mpdm_t gtkdrv_openfile(mpdm_t a)
 	l = MPDM_A(1);
 	mpdm_aset(l, h, 0);
 
-	build_dialog_data(l);
-	dialog_widgets[0] = dlg;
+	build_form_data(l);
+	form_widgets[0] = dlg;
 
 	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(dlg)->ok_button),
 		"clicked", GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
@@ -1495,7 +1495,7 @@ static mpdm_t gtkdrv_openfile(mpdm_t a)
 	wait_for_modal_status_change();
 
 	if(modal_status == 1)
-		ret = mpdm_aget(dialog_values, 0);
+		ret = mpdm_aget(form_values, 0);
 
 	return(ret);
 }
@@ -1552,7 +1552,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"confirm", MPDM_X(gtkdrv_confirm));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(gtkdrv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(gtkdrv_savefile));
-	mpdm_hset_s(drv, L"dialog", MPDM_X(gtkdrv_dialog));
+	mpdm_hset_s(drv, L"form", MPDM_X(gtkdrv_form));
 }
 
 
