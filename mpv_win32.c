@@ -1087,7 +1087,7 @@ static mpdm_t form_values = NULL;
 BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 /* mp.drv.form() dialog proc */
 {
-	int ret, n;
+	int n;
 	HFONT hf;
 
 	switch(msg)
@@ -1101,15 +1101,68 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		for(n = 0;n < mpdm_size(form_args);n++)
 		{
 			mpdm_t w = mpdm_aget(form_args, n);
+			wchar_t * type;
 			mpdm_t t;
+			int ctrl = 101 + n * 2;
 
 			if((t = mpdm_hget_s(w, L"label")) != NULL)
 				SetDlgItemTextW(hwnd, 100 + n * 2, mpdm_string(t));
 
 			SendDlgItemMessage(hwnd, 100 + n * 2, WM_SETFONT,
 				(WPARAM) hf, MAKELPARAM(FALSE, 0));
-			SendDlgItemMessage(hwnd, 101 + n * 2, WM_SETFONT,
+			SendDlgItemMessage(hwnd, ctrl, WM_SETFONT,
 				(WPARAM) hf, MAKELPARAM(FALSE, 0));
+
+			type = mpdm_string(mpdm_hget_s(w, L"type"));
+
+			if(wcscmp(type, L"text") == 0)
+			{
+				if((t = mpdm_hget_s(w, L"value")) != NULL)
+					SetDlgItemTextW(hwnd, ctrl,
+						mpdm_string(t));
+
+				/* store the history into combo_items */
+				if((t = mpdm_hget_s(w, L"history")) != NULL)
+				{
+					t = mp_get_history(t);
+					int i;
+
+					for(i = 0;i < mpdm_size(t);i++)
+					{
+						mpdm_t v = mpdm_aget(t, i);
+						char * ptr;
+
+						if((ptr = mpdm_wcstombs(v->data,
+							NULL)) != NULL)
+						{
+			 				SendDlgItemMessage(hwnd,
+								ctrl,
+								CB_INSERTSTRING, 0,
+								(LPARAM)ptr);
+							free(ptr);
+						}
+					}
+				}
+			}
+			else
+			if(wcscmp(type, L"password") == 0)
+			{
+				SendDlgItemMessage(hwnd, ctrl,
+				EM_SETPASSWORDCHAR, (WPARAM)'*', (LPARAM)0);
+			}
+			else
+			if(wcscmp(type, L"checkbox") == 0)
+			{
+				if((t = mpdm_hget_s(w, L"value")) != NULL)
+					SendDlgItemMessage(hwnd, ctrl,
+					BM_SETCHECK, mpdm_ival(t) ?
+						BST_CHECKED : BST_UNCHECKED,
+					0);
+			}
+			else
+			if(wcscmp(type, L"list") == 0)
+			{
+			}
 		}
 
 
@@ -1125,20 +1178,45 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 	case WM_COMMAND:
 
-		switch(LOWORD(wparam))
+		if(LOWORD(wparam) == IDCANCEL)
 		{
-		case WMP_OK:
-		case WMP_CANCEL:
-
-			if(LOWORD(wparam) == WMP_OK)
-				ret = 1;
-			else
-				ret = 0;
-
-			EndDialog(hwnd, ret);
-
+			EndDialog(hwnd, 0);
 			return(TRUE);
 		}
+
+		if(LOWORD(wparam) != IDOK)
+			break;
+
+		/* fill all values in form_values */
+		for(n = 0;n < mpdm_size(form_args);n++)
+		{
+			mpdm_t w = mpdm_aget(form_args, n);
+			wchar_t * type = mpdm_string(mpdm_hget_s(w, L"type"));
+			int ctrl = 101 + n * 2;
+
+			if(wcscmp(type, L"text") == 0 ||
+			   wcscmp(type, L"password") == 0)
+			{
+				wchar_t tmp[2048];
+
+				GetDlgItemTextW(hwnd, ctrl, tmp, sizeof(tmp) - 1);
+				mpdm_aset(form_values, MPDM_S(tmp), n);
+			}
+			else
+			if(wcscmp(type, L"checkbox") == 0)
+			{
+				mpdm_aset(form_values,
+					MPDM_I(SendDlgItemMessage(hwnd, ctrl,
+						BM_GETCHECK, 0, 0)), n);
+			}
+			else
+			if(wcscmp(type, L"list") == 0)
+			{
+			}
+		}
+
+		EndDialog(hwnd, 1);
+		return(TRUE);
 	}
 
 	return(FALSE);
@@ -1237,7 +1315,7 @@ static mpdm_t w32drv_form(mpdm_t a)
 		{
 			class = 0x0085;
 			style = WS_CHILD | WS_VISIBLE | WS_TABSTOP |
-				CBS_DROPDOWN | CBS_AUTOHSCROLL;
+				CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL;
 		}
 		else
 		if(wcscmp(type, L"password") == 0)
@@ -1271,12 +1349,12 @@ static mpdm_t w32drv_form(mpdm_t a)
 			0x0080, WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | WS_TABSTOP);
 
 	GlobalUnlock(hgbl);
-	DialogBoxIndirect(hinst, (LPDLGTEMPLATE)hgbl,
+	n = DialogBoxIndirect(hinst, (LPDLGTEMPLATE)hgbl,
 		hwnd, (DLGPROC)formDlgProc);
 
 	GlobalFree(hgbl);
 
-	return(NULL);
+	return(n ? form_values : NULL);
 }
 
 
