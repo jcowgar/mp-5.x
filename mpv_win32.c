@@ -1167,9 +1167,7 @@ static mpdm_t w32drv_form(mpdm_t a)
 	LPDLGTEMPLATE lpdt;
 	LPDLGITEMTEMPLATE lpdit;
 	LPWORD lpw;
-	LPWSTR lpwsz;
 	int n;
-	LPSTR lpszMessage = "Cargo Cult";
 
 	/* first argument: list of widgets */
 	build_form_data(mpdm_aget(a, 0));
@@ -1219,6 +1217,43 @@ static mpdm_t w32drv_form(mpdm_t a)
 			lpw = lpwAlign(lpw);
 			/* No creation data */
 			*lpw++ = 0;
+		}
+
+		type = mpdm_string(mpdm_hget_s(w, L"type"));
+
+		if(wcscmp(type, L"text") == 0)
+		{
+		}
+		else
+		if(wcscmp(type, L"password") == 0)
+		{
+		}
+		else
+		if(wcscmp(type, L"checkbox") == 0)
+		{
+			lpw = lpwAlign(lpw);
+			lpdit = (LPDLGITEMTEMPLATE)lpw;
+			lpdit->x  = 55; lpdit->y  = 5 + n * 10;
+			lpdit->cx = 40; lpdit->cy = 10;
+			lpdit->id = 101 + (n * 2);
+			lpdit->style = WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX;
+
+			lpw = (LPWORD)(lpdit + 1);
+			*lpw++ = 0xFFFF;
+			*lpw++ = 0x0080;
+
+			/* no text (will be set on dialog setup) */
+			*lpw++ = 0;
+			*lpw++ = 0;
+
+			/* Align creation data on DWORD boundary */
+			lpw = lpwAlign(lpw);
+			/* No creation data */
+			*lpw++ = 0;
+		}
+		else
+		if(wcscmp(type, L"list") == 0)
+		{
 		}
 	}
 
