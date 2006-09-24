@@ -1088,6 +1088,7 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 /* mp.drv.form() dialog proc */
 {
 	int ret, n;
+	HFONT hf;
 
 	switch(msg)
 	{
@@ -1095,30 +1096,30 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		SetWindowText(hwnd, "mp " VERSION);
 
+		hf = GetStockObject(DEFAULT_GUI_FONT);
+
 		for(n = 0;n < mpdm_size(form_args);n++)
 		{
 			mpdm_t w = mpdm_aget(form_args, n);
 			mpdm_t t;
 
 			if((t = mpdm_hget_s(w, L"label")) != NULL)
-			{
 				SetDlgItemTextW(hwnd, 100 + n * 2, mpdm_string(t));
-				SendDlgItemMessage(hwnd, 100 + n * 2, WM_SETFONT,
-					(WPARAM)GetStockObject(DEFAULT_GUI_FONT),
-					MAKELPARAM(FALSE, 0));
-			}
+
+			SendDlgItemMessage(hwnd, 100 + n * 2, WM_SETFONT,
+				(WPARAM) hf, MAKELPARAM(FALSE, 0));
+			SendDlgItemMessage(hwnd, 101 + n * 2, WM_SETFONT,
+				(WPARAM) hf, MAKELPARAM(FALSE, 0));
 		}
 
 
 		SetDlgItemTextW(hwnd, IDOK, L"OK");
 		SendDlgItemMessage(hwnd, IDOK, WM_SETFONT,
-			(WPARAM)GetStockObject(DEFAULT_GUI_FONT),
-			MAKELPARAM(FALSE, 0));
+			(WPARAM) hf, MAKELPARAM(FALSE, 0));
 
 		SetDlgItemTextW(hwnd, IDCANCEL, L"Cancel");
 		SendDlgItemMessage(hwnd, IDCANCEL, WM_SETFONT,
-			(WPARAM)GetStockObject(DEFAULT_GUI_FONT),
-			MAKELPARAM(FALSE, 0));
+			(WPARAM) hf, MAKELPARAM(FALSE, 0));
 
 		return(TRUE);
 
@@ -1160,14 +1161,43 @@ static void build_form_data(mpdm_t widget_list)
 }
 
 
+LPWORD static build_control(LPWORD lpw, int x, int y,
+	int cx, int cy,	int id, int class, int style)
+{
+	LPDLGITEMTEMPLATE lpdit;
+
+	lpw = lpwAlign(lpw);
+	lpdit = (LPDLGITEMTEMPLATE)lpw;
+	lpdit->x  = x; lpdit->y  = y;
+	lpdit->cx = cx; lpdit->cy = cy;
+	lpdit->id = id;
+	lpdit->style = style;
+
+	lpw = (LPWORD)(lpdit + 1);
+	*lpw++ = 0xFFFF;
+	*lpw++ = class;
+
+	/* no text (will be set on dialog setup) */
+	*lpw++ = 0;
+	*lpw++ = 0;
+
+	/* Align creation data on DWORD boundary */
+	lpw = lpwAlign(lpw);
+	/* No creation data */
+	*lpw++ = 0;
+
+	return(lpw);
+}
+
+
 static mpdm_t w32drv_form(mpdm_t a)
 /* mp.drv.form() function */
 {
 	HGLOBAL hgbl;
 	LPDLGTEMPLATE lpdt;
-	LPDLGITEMTEMPLATE lpdit;
 	LPWORD lpw;
 	int n;
+	int il = 12;
 
 	/* first argument: list of widgets */
 	build_form_data(mpdm_aget(a, 0));
@@ -1180,118 +1210,65 @@ static mpdm_t w32drv_form(mpdm_t a)
 	lpdt = (LPDLGTEMPLATE)GlobalLock(hgbl);
 
 	lpdt->style = WS_POPUP | WS_BORDER | WS_SYSMENU | DS_MODALFRAME | WS_CAPTION;
-	lpdt->cdit = mpdm_size(form_args) + 2;
+	lpdt->cdit = (2 * mpdm_size(form_args)) + 2;
 	lpdt->x  = 20;  lpdt->y  = 20;
-	lpdt->cx = 100; lpdt->cy = 30 + mpdm_size(form_args) * 10;
+	lpdt->cx = 160; lpdt->cy = 30 + mpdm_size(form_args) * il;
 
 	lpw = (LPWORD)(lpdt + 1);
-	*lpw++ = 0;             // No menu
-	*lpw++ = 0;             // Predefined dialog box class (by default)
-	*lpw++ = 0;		// No title
+	*lpw++ = 0;	/* No menu */
+	*lpw++ = 0;	/* Predefined dialog box class (by default) */
+	*lpw++ = 0;	/* No title */
 
 	for(n = 0;n < mpdm_size(form_args);n++)
 	{
 		mpdm_t w = mpdm_aget(form_args, n);
-		mpdm_t t;
 		wchar_t * type;
+		int class;
+		int style;
 
-		if((t = mpdm_hget_s(w, L"label")) != NULL)
-		{
-			/* label */
-			lpw = lpwAlign(lpw);
-			lpdit = (LPDLGITEMTEMPLATE)lpw;
-			lpdit->x  = 10; lpdit->y  = 5 + n * 10;
-			lpdit->cx = 40; lpdit->cy = 20;
-			lpdit->id = 100 + (n * 2);
-			lpdit->style = WS_CHILD | WS_VISIBLE | SS_RIGHT;
-
-			lpw = (LPWORD)(lpdit + 1);
-			*lpw++ = 0xFFFF;
-			*lpw++ = 0x0082;
-
-			/* no text (will be set on dialog setup) */
-			*lpw++ = 0;
-			*lpw++ = 0;
-
-			/* Align creation data on DWORD boundary */
-			lpw = lpwAlign(lpw);
-			/* No creation data */
-			*lpw++ = 0;
-		}
+		/* label */
+		lpw = build_control(lpw, 10, 5 + n * il,
+			40, 20, 100 + (n * 2), 0x0082,
+			WS_CHILD | WS_VISIBLE | SS_RIGHT);
 
 		type = mpdm_string(mpdm_hget_s(w, L"type"));
 
 		if(wcscmp(type, L"text") == 0)
 		{
+			class = 0x0085;
+			style = WS_CHILD | WS_VISIBLE | WS_TABSTOP |
+				CBS_DROPDOWN | CBS_AUTOHSCROLL;
 		}
 		else
 		if(wcscmp(type, L"password") == 0)
 		{
+			class = 0x0081;
+			style = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP;
 		}
 		else
 		if(wcscmp(type, L"checkbox") == 0)
 		{
-			lpw = lpwAlign(lpw);
-			lpdit = (LPDLGITEMTEMPLATE)lpw;
-			lpdit->x  = 55; lpdit->y  = 5 + n * 10;
-			lpdit->cx = 40; lpdit->cy = 10;
-			lpdit->id = 101 + (n * 2);
-			lpdit->style = WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX;
-
-			lpw = (LPWORD)(lpdit + 1);
-			*lpw++ = 0xFFFF;
-			*lpw++ = 0x0080;
-
-			/* no text (will be set on dialog setup) */
-			*lpw++ = 0;
-			*lpw++ = 0;
-
-			/* Align creation data on DWORD boundary */
-			lpw = lpwAlign(lpw);
-			/* No creation data */
-			*lpw++ = 0;
+			class = 0x0080;
+			style = WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP;
 		}
 		else
 		if(wcscmp(type, L"list") == 0)
 		{
+			class = 0x0083;
+			style = WS_CHILD | WS_VISIBLE | WS_TABSTOP;
 		}
+
+		lpw = build_control(lpw, 55, 5 + n * il,
+			100, 10, 101 + (n * 2), class, style);
 	}
 
 	/* OK */
-	lpw = lpwAlign(lpw);
-	lpdit = (LPDLGITEMTEMPLATE)lpw;
-	lpdit->x  = 10; lpdit->y  = 10 + n * 10;
-	lpdit->cx = 40; lpdit->cy = 15;
-	lpdit->id = IDOK;
-	lpdit->style = WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON;
-
-	lpw = (LPWORD)(lpdit + 1);
-	*lpw++ = 0xFFFF;
-	*lpw++ = 0x0080;        // Button class
-
-	*lpw++ = 0;
-	*lpw++ = 0;
-
-	lpw = lpwAlign(lpw);
-	*lpw++ = 0;
+	lpw = build_control(lpw, 70, 10 + n * il, 40, 15, IDOK,
+			0x0080, WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_TABSTOP);
 
 	/* Cancel */
-	lpw = lpwAlign(lpw);
-	lpdit = (LPDLGITEMTEMPLATE)lpw;
-	lpdit->x  = 55; lpdit->y  = 10 + n * 10;
-	lpdit->cx = 40; lpdit->cy = 15;
-	lpdit->id = IDCANCEL;
-	lpdit->style = WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON;
-
-	lpw = (LPWORD)(lpdit + 1);
-	*lpw++ = 0xFFFF;
-	*lpw++ = 0x0080;
-
-	*lpw++ = 0;
-	*lpw++ = 0;
-
-	lpw = lpwAlign(lpw);
-	*lpw++ = 0;
+	lpw = build_control(lpw, 115, 10 + n * il, 40, 15, IDCANCEL,
+			0x0080, WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | WS_TABSTOP);
 
 	GlobalUnlock(hgbl);
 	DialogBoxIndirect(hinst, (LPDLGTEMPLATE)hgbl,
