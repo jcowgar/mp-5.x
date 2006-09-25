@@ -1312,7 +1312,8 @@ static mpdm_t w32drv_form(mpdm_t a)
 	LPDLGTEMPLATE lpdt;
 	LPWORD lpw;
 	int n, p;
-	int il = 12;
+	int il = 10;
+	int lbl = 0;
 
 	/* first argument: list of widgets */
 	build_form_data(mpdm_aget(a, 0));
@@ -1334,6 +1335,16 @@ static mpdm_t w32drv_form(mpdm_t a)
 	*lpw++ = 0;	/* Predefined dialog box class (by default) */
 	*lpw++ = 0;	/* No title */
 
+	/* first pass: calculate maximum size of labels */
+	for(n = 0;n < mpdm_size(form_args);n++)
+	{
+		mpdm_t w = mpdm_aget(form_args, n);
+		int l = mpdm_size(mpdm_hget_s(w, L"label"));
+
+		if(lbl < l) lbl = l;
+	}
+
+	/* second pass: create the dialog controls */
 	for(n = p = 0;n < mpdm_size(form_args);n++)
 	{
 		mpdm_t w = mpdm_aget(form_args, n);
@@ -1343,8 +1354,8 @@ static mpdm_t w32drv_form(mpdm_t a)
 		int inc = 1;
 
 		/* label */
-		lpw = build_control(lpw, 10, 5 + p * il,
-			50, 20, 100 + (n * 2), 0x0082,
+		lpw = build_control(lpw, 0, 5 + p * il,
+			lbl * 3, 20, 100 + (n * 2), 0x0082,
 			WS_CHILD | WS_VISIBLE | SS_RIGHT);
 
 		type = mpdm_string(mpdm_hget_s(w, L"type"));
@@ -1379,8 +1390,8 @@ static mpdm_t w32drv_form(mpdm_t a)
 			inc = 5;
 		}
 
-		lpw = build_control(lpw, 65, 5 + p * il,
-			190, (inc * il) - 5, 101 + (n * 2), class, style);
+		lpw = build_control(lpw, 10 + lbl * 3, 5 + p * il,
+			245 - lbl * 3, inc * il, 101 + (n * 2), class, style);
 
 		/* next position */
 		p += inc;
