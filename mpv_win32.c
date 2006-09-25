@@ -100,6 +100,11 @@ static HMENU menu = NULL;
 /* show the entry as password */
 static int entry_is_password = 0;
 
+/* mp.drv.form() controls */
+
+static mpdm_t form_args = NULL;
+static mpdm_t form_values = NULL;
+
 /*******************
 	Code
 ********************/
@@ -1064,6 +1069,7 @@ BOOL CALLBACK readlineDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 
 static LPWORD lpwAlign(LPWORD lpIn)
+/* aligns a pointer to DWORD boundary (for dialog templates) */
 {
 	ULONG ul;
 
@@ -1075,10 +1081,8 @@ static LPWORD lpwAlign(LPWORD lpIn)
 }
 
 
-/* mp.drv.form() controls */
-
-static mpdm_t form_args = NULL;
-static mpdm_t form_values = NULL;
+#define LABEL_ID	1000
+#define CTRL_ID		2000
 
 BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 /* mp.drv.form() dialog proc */
@@ -1094,18 +1098,21 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		hf = GetStockObject(DEFAULT_GUI_FONT);
 
+		/* fill controls with its initial data */
 		for(n = 0;n < mpdm_size(form_args);n++)
 		{
 			mpdm_t w = mpdm_aget(form_args, n);
 			wchar_t * type;
 			mpdm_t t;
-			int ctrl = 101 + n * 2;
+			int ctrl = CTRL_ID + n;
 
 			if((t = mpdm_hget_s(w, L"label")) != NULL)
-				SetDlgItemTextW(hwnd, 100 + n * 2, mpdm_string(t));
+			{
+				SetDlgItemTextW(hwnd, LABEL_ID + n, mpdm_string(t));
+				SendDlgItemMessage(hwnd, LABEL_ID + n, WM_SETFONT,
+					(WPARAM) hf, MAKELPARAM(FALSE, 0));
+			}
 
-			SendDlgItemMessage(hwnd, 100 + n * 2, WM_SETFONT,
-				(WPARAM) hf, MAKELPARAM(FALSE, 0));
 			SendDlgItemMessage(hwnd, ctrl, WM_SETFONT,
 				(WPARAM) hf, MAKELPARAM(FALSE, 0));
 
@@ -1205,12 +1212,12 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		if(LOWORD(wparam) != IDOK)
 			break;
 
-		/* fill all values in form_values */
+		/* fill all return values */
 		for(n = 0;n < mpdm_size(form_args);n++)
 		{
 			mpdm_t w = mpdm_aget(form_args, n);
 			wchar_t * type = mpdm_string(mpdm_hget_s(w, L"type"));
-			int ctrl = 101 + n * 2;
+			int ctrl = CTRL_ID + n;
 
 			if(wcscmp(type, L"text") == 0)
 			{
@@ -1278,6 +1285,7 @@ static void build_form_data(mpdm_t widget_list)
 
 LPWORD static build_control(LPWORD lpw, int x, int y,
 	int cx, int cy,	int id, int class, int style)
+/* fills a control structure in a hand-made dialog template */
 {
 	LPDLGITEMTEMPLATE lpdit;
 
@@ -1353,9 +1361,9 @@ static mpdm_t w32drv_form(mpdm_t a)
 		int style;
 		int inc = 1;
 
-		/* label */
+		/* label control */
 		lpw = build_control(lpw, 0, 5 + p * il,
-			lbl * 3, 20, 100 + (n * 2), 0x0082,
+			lbl * 3, 20, LABEL_ID + n, 0x0082,
 			WS_CHILD | WS_VISIBLE | SS_RIGHT);
 
 		type = mpdm_string(mpdm_hget_s(w, L"type"));
@@ -1390,8 +1398,9 @@ static mpdm_t w32drv_form(mpdm_t a)
 			inc = 5;
 		}
 
+		/* the control */
 		lpw = build_control(lpw, 10 + lbl * 3, 5 + p * il,
-			245 - lbl * 3, inc * il, 101 + (n * 2), class, style);
+			245 - lbl * 3, inc * il, CTRL_ID + n, class, style);
 
 		/* next position */
 		p += inc;
