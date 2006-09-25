@@ -4,6 +4,10 @@ Minimum Profit 5.x Release Notes
 4.99.12
 -------
 
+ * Interfaces have changed internally; a new driver function, mp.drv.form()
+   (implemented in GTK and Win32 for now) serves as a dialog box generic
+   generator, resulting in more useful queries for data (for example, all
+   data required for a 'replace' operation is queried in only one dialog box).
  * Saving of encrypted documents works.
  * Case sensitivity in searches can be controlled with the new
    config flag mp.config.case_sensitive_search.
