@@ -1158,6 +1158,28 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			else
 			if(wcscmp(type, L"list") == 0)
 			{
+				int i;
+
+				t = mpdm_hget_s(w, L"list");
+
+				/* fill the list */
+				for(i = 0;i < mpdm_size(t);i++)
+				{
+					wchar_t * wptr;
+					char * ptr;
+
+					wptr = mpdm_string(mpdm_aget(t, i));
+					if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
+					{
+						SendDlgItemMessage(hwnd, ctrl,
+							LB_ADDSTRING, 0, (LPARAM) ptr);
+						free(ptr);
+					}
+				}
+
+				/* set position */
+				SendDlgItemMessage(hwnd, ctrl, LB_SETCURSEL,
+					mpdm_ival(mpdm_hget_s(w, L"value")), 0);
 			}
 		}
 
@@ -1217,6 +1239,9 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			else
 			if(wcscmp(type, L"list") == 0)
 			{
+				mpdm_aset(form_values,
+					MPDM_I(SendDlgItemMessage(hwnd, ctrl,
+						LB_GETCURSEL, 0, 0)), n);
 			}
 		}
 
