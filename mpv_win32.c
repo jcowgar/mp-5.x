@@ -73,32 +73,11 @@ static COLORREF * inks = NULL;
 static COLORREF * papers = NULL;
 HBRUSH bgbrush;
 
-/* prompt for dialogs */
-static char * dialog_prompt = NULL;
-
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
 
-/* readline text */
-static mpdm_t readline_text = NULL;
-
-/* history for readline */
-static mpdm_t readline_history = NULL;
-
-/* default value for readline */
-static mpdm_t readline_default = NULL;
-
-/* list data */
-static mpdm_t list_data = NULL;
-
-/* list position */
-int list_pos = -1;
-
 /* the menu */
 static HMENU menu = NULL;
-
-/* show the entry as password */
-static int entry_is_password = 0;
 
 /* mp.drv.form() controls */
 
@@ -975,99 +954,6 @@ static mpdm_t w32drv_confirm(mpdm_t a)
 }
 
 
-BOOL CALLBACK readlineDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
-/* readline dialog proc */
-{
-	int ret, n;
-
-	switch(msg)
-	{
-	case WM_INITDIALOG:
-
-		SetWindowText(hwnd, "mp " VERSION);
-
-		if(dialog_prompt != NULL)
-		{
-			SetDlgItemText(hwnd, WMP_1STR_LABEL, dialog_prompt);
-			free(dialog_prompt);
-			dialog_prompt = NULL;
-		}
-
-		/* store the history into combo_items */
-		SendDlgItemMessage(hwnd, WMP_1STR_EDIT, CB_RESETCONTENT, 0, 0);
-		
-		for(n = 0;n < mpdm_size(readline_history);n++)
-		{
-			char * ptr;
-
-			mpdm_t v = mpdm_aget(readline_history, n);
-
-			if((ptr = mpdm_wcstombs(v->data, NULL)) != NULL)
-			{
-			 	SendDlgItemMessage(hwnd, WMP_1STR_EDIT,
-		 			CB_INSERTSTRING, 0, (LPARAM)ptr);
-				free(ptr);
-			}
-		}
-
-		/* set the default value */
-		if(readline_default != NULL)
-		{
-			char * ptr;
-
-			if((ptr = mpdm_wcstombs(readline_default->data, NULL)) != NULL)
-			{
-				SetDlgItemText(hwnd, WMP_1STR_EDIT, ptr);
-				SendDlgItemMessage(hwnd, WMP_1STR_EDIT,
-					EM_SETSEL, 0, 1000);
-
-				free(ptr);
-			}
-		}
-
-		if(entry_is_password)
-		{
-			SendDlgItemMessage(hwnd, WMP_1STR_EDIT,
-				EM_SETPASSWORDCHAR, (WPARAM)'*', (LPARAM)0);
-
-			entry_is_password = 0;
-		}
-
-		return(TRUE);
-
-	case WM_COMMAND:
-
-		switch(LOWORD(wparam))
-		{
-		case WMP_OK:
-		case WMP_CANCEL:
-
-			if(LOWORD(wparam) == WMP_OK)
-			{
-				char tmp[1024];
-
-				mpdm_unref(readline_text);
-
-				GetDlgItemText(hwnd, WMP_1STR_EDIT,
-					tmp, sizeof(tmp));
-
-				readline_text = mpdm_ref(MPDM_MBS(tmp));
-
-				ret = 1;
-			}
-			else
-				ret = 0;
-
-			EndDialog(hwnd, ret);
-
-			return(TRUE);
-		}
-	}
-
-	return(FALSE);
-}
-
-
 static LPWORD lpwAlign(LPWORD lpIn)
 /* aligns a pointer to DWORD boundary (for dialog templates) */
 {
@@ -1427,86 +1313,6 @@ static mpdm_t w32drv_form(mpdm_t a)
 }
 
 
-static mpdm_t w32drv_readline(mpdm_t a)
-/* readline driver function */
-{
-	wchar_t * wptr;
-
-	/* 1# arg: prompt */
-	wptr = mpdm_string(mpdm_aget(a, 0));
-
-	if((dialog_prompt = mpdm_wcstombs(wptr, NULL)) != NULL)
-	{
-		/* 2# arg: history key */
-		readline_history = mp_get_history(mpdm_aget(a, 1));
-
-		/* 3# arg: default value */
-		readline_default = mpdm_aget(a, 2);
-
-		if(DialogBox(hinst,
-			entry_is_password ? "READLINE_PASSWORD" : "READLINE",
-			hwnd, readlineDlgProc))
-		{
-			if(readline_history != NULL &&
-				mpdm_size(readline_text) > 0 &&
-				mpdm_cmp(readline_text,
-					mpdm_aget(readline_history, -1)) != 0)
-				mpdm_push(readline_history, readline_text);
-
-			return(readline_text);
-		}
-	}
-
-	return(NULL);
-}
-
-
-static mpdm_t w32drv_readline_search(mpdm_t a)
-/* readline_search driver function */
-{
-	return(w32drv_readline(a));
-}
-
-
-static mpdm_t w32drv_readline_password(mpdm_t a)
-/* readline_password driver function */
-{
-	entry_is_password = 1;
-
-	return(w32drv_readline(a));
-}
-
-
-static mpdm_t w32drv_readline_replace(mpdm_t a)
-/* readline_replace driver function */
-{
-	mpdm_t r = NULL;
-	mpdm_t r1, r2;
-
-	r1 = MPDM_A(2);
-	r2 = MPDM_A(3);
-
-	/* r1 = [ this_p, this_d ]; */
-	mpdm_aset(r1, mpdm_aget(a, 0), 0);
-	mpdm_aset(r1, mpdm_aget(a, 1), 1);
-
-	/* r2 = [ that_p, 'replace', that_d ]; */
-	mpdm_aset(r2, mpdm_aget(a, 2), 0);
-	mpdm_aset(r2, MPDM_LS(L"replace"), 1);
-	mpdm_aset(r2, mpdm_aget(a, 3), 2);
-
-	if((r1 = w32drv_readline_search(r1)) != NULL &&
-	   (r2 = w32drv_readline(r2)) != NULL)
-	{
-		r = MPDM_A(2);
-		mpdm_aset(r, r1, 0);
-		mpdm_aset(r, r2, 1);
-	}
-
-	return(r);
-}
-
-
 static mpdm_t open_or_save(int o, mpdm_t a)
 /* manages an open or save file dialog */
 {
@@ -1568,104 +1374,6 @@ static mpdm_t w32drv_savefile(mpdm_t a)
 }
 
 
-BOOL CALLBACK listDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
-/* list dialog proc */
-{
-	int ret;
-	HWND lst;
-	int n;
-
-	switch(msg)
-	{
-	case WM_INITDIALOG:
-
-		if(dialog_prompt != NULL)
-		{
-			SetWindowText(hwnd, dialog_prompt);
-			free(dialog_prompt);
-			dialog_prompt = NULL;
-		}
-		else
-			SetWindowText(hwnd, "mp " VERSION);
-
-		lst = GetDlgItem(hwnd, WMP_LIST);
-		SendMessage(lst, WM_SETFONT, 
-			(WPARAM) GetStockObject(ANSI_FIXED_FONT), 0);
-
-		{
-			int n = 20 * 4;
-
-			/* sets tab stops on each 20 quarters of char */
-			SendMessage(lst, LB_SETTABSTOPS,
-				(WPARAM) 1, (LPARAM) &n);
-		}
-
-		/* traverses the list, filling the listbox */
-		for(n = 0;n < mpdm_size(list_data);n++)
-		{
-			wchar_t * wptr;
-			char * ptr;
-
-			wptr = mpdm_string(mpdm_aget(list_data, n));
-			if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
-			{
-				SendMessage(lst, LB_ADDSTRING, 0, (LPARAM) ptr);
-				free(ptr);
-			}
-		}
-
-		/* sets the desired element as default */
-		SendMessage(lst, LB_SETCURSEL, list_pos, 0);
-
-		return(TRUE);
-
-	case WM_COMMAND:
-
-		switch(LOWORD(wparam))
-		{
-		case WMP_OK:
-		case WMP_CANCEL:
-
-			if(LOWORD(wparam) == WMP_OK)
-				ret = SendDlgItemMessage(hwnd, WMP_LIST,
-					LB_GETCURSEL, 0, 0);
-			else
-				ret = -1;
-
-			EndDialog(hwnd, ret);
-
-			return(TRUE);
-		}
-	}
-
-	return(FALSE);
-}
-
-
-static mpdm_t w32drv_list(mpdm_t a)
-/* readline list function */
-{
-	wchar_t * wptr;
-	int ret = -1;
-
-	/* 1# arg: prompt */
-	wptr = mpdm_string(mpdm_aget(a, 0));
-
-	if((dialog_prompt = mpdm_wcstombs(wptr, NULL)) != NULL)
-	{
-		/* 2# arg: list */
-		list_data = mpdm_aget(a, 1);
-
-		/* 3# arg: position */
-		list_pos = mpdm_ival(mpdm_aget(a, 2));
-
-		ret = DialogBox(hinst, "LIST", hwnd, listDlgProc);
-	}
-
-	return(ret == -1 ? NULL : MPDM_I(ret));
-}
-
-
 static mpdm_t w32drv_update_ui(mpdm_t a)
 {
 	build_fonts(GetDC(hwnd));
@@ -1690,13 +1398,8 @@ static void register_functions(void)
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
-	mpdm_hset_s(drv, L"readline", MPDM_X(w32drv_readline));
-	mpdm_hset_s(drv, L"readline_search", MPDM_X(w32drv_readline_search));
-	mpdm_hset_s(drv, L"readline_replace", MPDM_X(w32drv_readline_replace));
-	mpdm_hset_s(drv, L"readline_password", MPDM_X(w32drv_readline_password));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(w32drv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(w32drv_savefile));
-	mpdm_hset_s(drv, L"list", MPDM_X(w32drv_list));
 	mpdm_hset_s(drv, L"form", MPDM_X(w32drv_form));
 }
 
