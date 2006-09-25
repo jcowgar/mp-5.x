@@ -23,6 +23,8 @@ Release Critical Bugs
  * 1174: Add interface to set autoindentation.
  * 1175: Add interface to set the tabs-as-spaces.
  * 1176: Add interface to set the undo levels.
+ * 1177: Add mp.drv.form() support to Win32.
+ * 1178: Add mp.drv.form() support to TUI.
 
 Open Bugs
 ---------
