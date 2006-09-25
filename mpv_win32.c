@@ -1275,7 +1275,7 @@ static mpdm_t w32drv_form(mpdm_t a)
 	HGLOBAL hgbl;
 	LPDLGTEMPLATE lpdt;
 	LPWORD lpw;
-	int n;
+	int n, p;
 	int il = 12;
 
 	/* first argument: list of widgets */
@@ -1291,22 +1291,23 @@ static mpdm_t w32drv_form(mpdm_t a)
 	lpdt->style = WS_POPUP | WS_BORDER | WS_SYSMENU | DS_MODALFRAME | WS_CAPTION;
 	lpdt->cdit = (2 * mpdm_size(form_args)) + 2;
 	lpdt->x  = 20;  lpdt->y  = 20;
-	lpdt->cx = 160; lpdt->cy = 30 + mpdm_size(form_args) * il;
+	lpdt->cx = 160; /* lpdt->cy = 30 + mpdm_size(form_args) * il; */
 
 	lpw = (LPWORD)(lpdt + 1);
 	*lpw++ = 0;	/* No menu */
 	*lpw++ = 0;	/* Predefined dialog box class (by default) */
 	*lpw++ = 0;	/* No title */
 
-	for(n = 0;n < mpdm_size(form_args);n++)
+	for(n = p = 0;n < mpdm_size(form_args);n++)
 	{
 		mpdm_t w = mpdm_aget(form_args, n);
 		wchar_t * type;
 		int class;
 		int style;
+		int inc = 1;
 
 		/* label */
-		lpw = build_control(lpw, 10, 5 + n * il,
+		lpw = build_control(lpw, 10, 5 + p * il,
 			40, 20, 100 + (n * 2), 0x0082,
 			WS_CHILD | WS_VISIBLE | SS_RIGHT);
 
@@ -1334,19 +1335,30 @@ static mpdm_t w32drv_form(mpdm_t a)
 		if(wcscmp(type, L"list") == 0)
 		{
 			class = 0x0083;
-			style = WS_CHILD | WS_VISIBLE | WS_TABSTOP;
+			style = WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_BORDER |
+				LBS_NOINTEGRALHEIGHT | WS_VSCROLL |
+				LBS_NOTIFY | LBS_USETABSTOPS;
+
+			/* height */
+			inc = 5;
 		}
 
-		lpw = build_control(lpw, 55, 5 + n * il,
-			100, 10, 101 + (n * 2), class, style);
+		lpw = build_control(lpw, 55, 5 + p * il,
+			100, (inc * il) - 5, 101 + (n * 2), class, style);
+
+		/* next position */
+		p += inc;
 	}
 
+	/* set total height */
+	lpdt->cy = 30 + p * il;
+
 	/* OK */
-	lpw = build_control(lpw, 70, 10 + n * il, 40, 15, IDOK,
+	lpw = build_control(lpw, 70, 10 + p * il, 40, 15, IDOK,
 			0x0080, WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_TABSTOP);
 
 	/* Cancel */
-	lpw = build_control(lpw, 115, 10 + n * il, 40, 15, IDCANCEL,
+	lpw = build_control(lpw, 115, 10 + p * il, 40, 15, IDCANCEL,
 			0x0080, WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | WS_TABSTOP);
 
 	GlobalUnlock(hgbl);
