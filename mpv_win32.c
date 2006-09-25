@@ -1215,12 +1215,23 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			if(wcscmp(type, L"text") == 0)
 			{
 				wchar_t tmp[2048];
+				mpdm_t v;
+				mpdm_t h;
 
 				GetDlgItemTextW(hwnd, ctrl, tmp, sizeof(tmp) - 1);
-				mpdm_aset(form_values, MPDM_S(tmp), n);
+				v = MPDM_S(tmp);
 
-				/* fill history, if available */
-				/* ... */
+				mpdm_aset(form_values, v, n);
+
+				/* if it has history, fill it */
+				if((h = mpdm_hget_s(w, L"history")) != NULL &&
+					v != NULL && mpdm_cmp(v, MPDM_LS(L"")) != 0)
+				{
+					h = mp_get_history(h);
+
+					if(mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
+						mpdm_push(h, v);
+				}
 			}
 			if(wcscmp(type, L"password") == 0)
 			{
