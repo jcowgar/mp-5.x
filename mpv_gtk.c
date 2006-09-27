@@ -335,16 +335,18 @@ static void build_menu(void)
 	/* create a new menu */
 	menu_bar = gtk_menu_bar_new();
 
-	for(n = 0;n < mpdm_size(m);n += 2)
+	for(n = 0;n < mpdm_size(m);n++)
 	{
 		char * ptr;
+		mpdm_t mi;
 		mpdm_t v;
 		GtkWidget * menu;
 		GtkWidget * menu_item;
 		int i;
 
 		/* get the label and the items */
-		v = mpdm_aget(m, n);
+		mi = mpdm_aget(m, n);
+		v = mpdm_aget(mi, 0);
 
 		if((ptr = wcs_to_utf8(mpdm_string(v))) == NULL)
 			continue;
@@ -363,7 +365,7 @@ static void build_menu(void)
 		gtk_menu_bar_append(GTK_MENU_BAR(menu_bar), menu_item);
 
 		/* now loop the items */
-		build_submenu(menu, mpdm_aget(m, n + 1));
+		build_submenu(menu, mpdm_aget(mi, 1));
 	}
 }
 

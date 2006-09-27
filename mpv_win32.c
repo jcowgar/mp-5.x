@@ -241,16 +241,17 @@ static void build_menu(void)
 
 	menu = CreateMenu();
 
-	for(n = 0;n < mpdm_size(m);n += 2)
+	for(n = 0;n < mpdm_size(m);n++)
 	{
 		char * ptr;
-		mpdm_t v, l;
+		mpdm_t mi, v, l;
 		int i;
 		HMENU submenu = CreatePopupMenu();
 
 		/* get the label and the items */
-		v = mpdm_aget(m, n);
-		l = mpdm_aget(m, n + 1);
+		mi = mpdm_aget(m, n);
+		v = mpdm_aget(mi, 0);
+		l = mpdm_aget(mi, 1);
 
 		/* create the submenus */
 		for(i = 0;i < mpdm_size(l);i++)
