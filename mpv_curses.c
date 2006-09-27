@@ -57,6 +57,10 @@ static int normal_attr = 0;
 /* current window */
 static WINDOW * cw = NULL;
 
+/* stack of windows */
+static int n_stack = 0;
+static WINDOW ** w_stack = NULL;
+
 /*******************
 	Code
 ********************/
@@ -502,6 +506,35 @@ static mpdm_t tui_getxy(mpdm_t a)
 }
 
 
+static mpdm_t tui_openpanel(mpdm_t a)
+/* opens a panel (creates new window) */
+{
+	n_stack++;
+	w_stack = realloc(w_stack, n_stack * sizeof(WINDOW *));
+	cw = w_stack[n_stack - 1] = newwin(mpdm_ival(mpdm_aget(a, 3)),
+			mpdm_ival(mpdm_aget(a, 2)),
+			mpdm_ival(mpdm_aget(a, 1)),
+			mpdm_ival(mpdm_aget(a, 0)));
+
+	return(NULL);
+}
+
+
+static mpdm_t tui_closepanel(mpdm_t a)
+/* closes a panel (deletes last window) */
+{
+	n_stack--;
+	delwin(w_stack[n_stack]);
+
+	w_stack = realloc(w_stack, n_stack * sizeof(WINDOW *));
+	cw = n_stack == 0 ? stdscr : w_stack[n_stack - 1];
+
+	wrefresh(cw);
+
+	return(NULL);
+}
+
+
 static void register_functions(void)
 {
 	mpdm_t drv;
@@ -534,6 +567,8 @@ static void register_functions(void)
 	mpdm_hset_s(tui, L"attr", MPDM_X(tui_attr));
 	mpdm_hset_s(tui, L"refresh", MPDM_X(tui_refresh));
 	mpdm_hset_s(tui, L"getxy", MPDM_X(tui_getxy));
+	mpdm_hset_s(tui, L"openpanel", MPDM_X(tui_openpanel));
+	mpdm_hset_s(tui, L"closepanel", MPDM_X(tui_closepanel));
 }
 
 
