@@ -260,5 +260,34 @@ sub mp.drv.list(prompt, data, pos)
 }
 
 
+sub mp.drv.menu()
+{
+/*	local n, l;
+
+	mp.tui.move(0, 0, 1);
+
+	foreach(l, mp.menu)
+	{
+		if(!is_array(l))
+			mp.tui.addstr(l ~ '  ');
+	}
+
+	mp.tui.openpanel(0, 1, 20, 10);
+	mp.tui.move(1, 1, 1);
+
+	while(1)
+	{
+		mp.tui.addstr('a');
+		if(mp.tui.getkey() eq 'a')
+			break;
+	}
+
+	mp.tui.closepanel();
+	return('jajaja');*/
+	1;
+}
+
+
+
 /* returns the main namespace */
 mp.tui;
