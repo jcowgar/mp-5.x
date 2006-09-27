@@ -54,6 +54,9 @@ int * nc_attrs = NULL;
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
 
+/* current window */
+static WINDOW * cw = NULL;
+
 /*******************
 	Code
 ********************/
@@ -94,8 +97,8 @@ static void nc_sigwinch(int s)
 }
 
 
-#ifdef CONFOPT_GET_WCH
-int get_wch(wint_t *ch);
+#ifdef CONFOPT_WGET_WCH
+int wget_wch(WINDOW * w, wint_t *ch);
 #endif
 
 static wchar_t * nc_getwch(void)
@@ -103,16 +106,16 @@ static wchar_t * nc_getwch(void)
 {
 	static wchar_t c[2];
 
-#ifdef CONFOPT_GET_WCH
+#ifdef CONFOPT_WGET_WCH
 
-	get_wch((wint_t *)c);
+	wget_wch(cw, (wint_t *)c);
 
 #else
 	char tmp[MB_CUR_MAX + 1];
 	int cc, n = 0;
 
 	/* read one byte */
-	cc = getch();
+	cc = wgetch(cw);
 	if(has_key(cc))
 	{
 		c[0] = cc;
@@ -120,7 +123,7 @@ static wchar_t * nc_getwch(void)
 	}
 
 	/* set to non-blocking */
-	nodelay(stdscr, 1);
+	nodelay(cw, 1);
 
 	/* read all possible following characters */
 	tmp[n++] = cc;
@@ -128,7 +131,7 @@ static wchar_t * nc_getwch(void)
 		tmp[n++] = cc;
 
 	/* sets input as blocking */
-	nodelay(stdscr, 0);
+	nodelay(cw, 0);
 
 	tmp[n] = '\0';
 	mbstowcs(c, tmp, n);
@@ -272,11 +275,11 @@ static mpdm_t nc_addwstr(mpdm_t str)
 	char * cptr;
 
 	cptr = mpdm_wcstombs(wptr, NULL);
-	addstr(cptr);
+	waddstr(cw, cptr);
 	free(cptr);
 
 #else
-	addwstr(wptr);
+	waddwstr(cw, wptr);
 #endif /* CONFOPT_ADDWSTR */
 
 	return(NULL);
@@ -291,9 +294,9 @@ static void draw_status(void)
 	t = mp_build_status_line();
 
 	/* move to the last line, clear it and draw there */
-	move(LINES - 1, 0);
-	attrset(nc_attrs[normal_attr]);
-	clrtoeol();
+	wmove(cw, LINES - 1, 0);
+	wattrset(cw, nc_attrs[normal_attr]);
+	wclrtoeol(cw);
 	nc_addwstr(t);
 }
 
@@ -304,7 +307,7 @@ static void nc_draw(mpdm_t doc)
 	mpdm_t d;
 	int n, m;
 
-	erase();
+	werase(cw);
 
 	d = mp_draw(doc, 0);
 
@@ -312,7 +315,7 @@ static void nc_draw(mpdm_t doc)
 	{
 		mpdm_t l = mpdm_aget(d, n);
 
-		move(n, 0);
+		wmove(cw, n, 0);
 
 		for(m = 0;m < mpdm_size(l);m++)
 		{
@@ -323,14 +326,14 @@ static void nc_draw(mpdm_t doc)
 			attr = mpdm_ival(mpdm_aget(l, m++));
 			s = mpdm_aget(l, m);
 
-			attrset(nc_attrs[attr]);
+			wattrset(cw, nc_attrs[attr]);
 			nc_addwstr(s);
 		}
 	}
 
 	draw_status();
 
-	refresh();
+	wrefresh(cw);
 }
 
 
@@ -397,7 +400,7 @@ static void build_colors(void)
 	}
 
 	/* set the background filler */
-	bkgdset(' ' | nc_attrs[normal_attr]);
+	wbkgdset(cw, ' ' | nc_attrs[normal_attr]);
 }
 
 
@@ -458,11 +461,11 @@ static mpdm_t tui_move(mpdm_t a)
 /* TUI: move to a screen position */
 {
 	/* curses' move() use y, x */
-	move(mpdm_ival(mpdm_aget(a, 1)), mpdm_ival(mpdm_aget(a, 0)));
+	wmove(cw, mpdm_ival(mpdm_aget(a, 1)), mpdm_ival(mpdm_aget(a, 0)));
 
 	/* if third argument is not NULL, clear line */
 	if(mpdm_aget(a, 2) != NULL)
-		clrtoeol();
+		wclrtoeol(cw);
 
 	return(NULL);
 }
@@ -471,7 +474,7 @@ static mpdm_t tui_move(mpdm_t a)
 static mpdm_t tui_attr(mpdm_t a)
 /* TUI: set attribute for next string */
 {
-	attrset(nc_attrs[mpdm_ival(mpdm_aget(a, 0))]);
+	wattrset(cw, nc_attrs[mpdm_ival(mpdm_aget(a, 0))]);
 	return(NULL);
 }
 
@@ -479,7 +482,7 @@ static mpdm_t tui_attr(mpdm_t a)
 static mpdm_t tui_refresh(mpdm_t a)
 /* TUI: refresh the screen */
 {
-	refresh();
+	wrefresh(cw);
 	return(NULL);
 }
 
@@ -490,7 +493,7 @@ static mpdm_t tui_getxy(mpdm_t a)
 	mpdm_t v;
 	int x, y;
 
-	getyx(stdscr, y, x);
+	getyx(cw, y, x);
 
 	v = MPDM_A(2);
 	mpdm_aset(v, MPDM_I(x), 0);
@@ -554,6 +557,8 @@ static mpdm_t ncdrv_startup(mpdm_t a)
 	mpdm_hset_s(v, L"ty", MPDM_I(LINES));
 
 	signal(SIGWINCH, nc_sigwinch);
+
+	cw = stdscr;
 
 	return(NULL);
 }
