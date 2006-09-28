@@ -529,6 +529,7 @@ static mpdm_t tui_closepanel(mpdm_t a)
 	w_stack = realloc(w_stack, n_stack * sizeof(WINDOW *));
 	cw = n_stack == 0 ? stdscr : w_stack[n_stack - 1];
 
+	touchwin(cw);
 	wrefresh(cw);
 
 	return(NULL);
