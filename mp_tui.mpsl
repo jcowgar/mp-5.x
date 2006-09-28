@@ -302,7 +302,7 @@ sub mp.drv.menu()
 		mo = mp.menu[mx][1];
 
 		mp.tui.refresh();
-/*		mp.tui.openpanel(pos[0], 1, 20, size(mo) + 2);*/
+		mp.tui.openpanel(pos[0], 1, 20, size(mo) + 2);
 
 		my = 0;
 
@@ -331,7 +331,7 @@ sub mp.drv.menu()
 			if(k eq 'enter') { action = 'noop'; break; }
 		}
 
-/*		mp.tui.closepanel();*/
+		mp.tui.closepanel();
 	}
 
 /*	mp.tui.openpanel(0, 1, 20, 10);
@@ -346,6 +346,7 @@ sub mp.drv.menu()
 
 	mp.tui.closepanel();
 	return('jajaja');*/
+	return(action);
 }
 
 

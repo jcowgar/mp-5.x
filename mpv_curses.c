@@ -112,7 +112,7 @@ static wchar_t * nc_getwch(void)
 
 #ifdef CONFOPT_WGET_WCH
 
-	wget_wch(cw, (wint_t *)c);
+	wget_wch(stdscr, (wint_t *)c);
 
 #else
 	char tmp[MB_CUR_MAX + 1];
