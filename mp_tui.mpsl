@@ -326,10 +326,6 @@ sub mp.drv.menu()
 
 		while(key ne 'escape')
 		{
-			/* wrap */
-			if(my < 0) my = size(mo) - 1;
-			if(my >= size(mo)) my = 0;
-
 			/* draw the options */
 			n = 0;
 			while(n < size(mo))
@@ -355,9 +351,29 @@ sub mp.drv.menu()
 
 			key = mp.tui.getkey();
 
-			if(key eq 'cursor-up') my--;
+			if(key eq 'cursor-up')
+			{
+				/* move up avoiding separators */
+				while(1)
+				{
+					if(--my <= 0)
+						my = size(mo) - 1;
+
+					if(mo[my] ne '-') break;
+				}
+			}
 			else
-			if(key eq 'cursor-down') my++;
+			if(key eq 'cursor-down')
+			{
+				/* move down avoiding separators */
+				while(1)
+				{
+					if(++my >= size(mo))
+						my = 0;
+
+					if(mo[my] ne '-') break;
+				}
+			}
 			else
 			if(key eq 'cursor-right') { mx++; break; }
 			else
