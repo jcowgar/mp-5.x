@@ -264,8 +264,9 @@ sub mp.drv.menu()
 {
 	local mx = 0;
 	local action = NULL;
+	local key = NULL;
 
-	while(action == NULL)
+	while(action == NULL && key ne 'escape')
 	{
 		local pos, mo, my;
 		local n = 0;
@@ -274,6 +275,7 @@ sub mp.drv.menu()
 		if(mx < 0) mx = size(mp.menu) - 1;
 		if(mx >= size(mp.menu)) mx = 0;
 
+		/* draw the menu bar */
 		mp.tui.move(0, 0, 1);
 
 		while(n < size(mp.menu))
@@ -301,52 +303,76 @@ sub mp.drv.menu()
 		/* get the menu options */
 		mo = mp.menu[mx][1];
 
+		/* calculate panel optimal dimensions */
+		pos[2] = 0;
+
+		foreach(n, mo)
+		{
+			local l = L(mp.actdesc[n]);
+
+			if(size(l) > pos[2])
+				pos[2] = size(l);
+		}
+
+		/* if the panel will surpass the right margin,
+		   move to the left */
+		if(pos[0] + pos[2] > mp.window.tx)
+			pos[0] = pos[2] - mp.window.tx;
+
 		mp.tui.refresh();
-		mp.tui.openpanel(pos[0], 1, 20, size(mo) + 2);
+		mp.tui.openpanel(pos[0], 1, pos[2] + 2, size(mo) + 2);
 
 		my = 0;
 
-		while(1)
+		while(key ne 'escape')
 		{
-			local k;
-
 			/* wrap */
 			if(my < 0) my = size(mo) - 1;
 			if(my >= size(mo)) my = 0;
 
-			mp.tui.move(1, 1 + my, 0);
-			mp.tui.addstr('>' ~ mo[my]);
+			/* draw the options */
+			n = 0;
+			while(n < size(mo))
+			{
+				local l = L(mp.actdesc[mo[n]]);
+
+				/* set color */
+				if(n == my)
+					mp.tui.attr(mp.colors.cursor.attr);
+				else
+					mp.tui.attr(mp.colors.normal.attr);
+
+				if(l != NULL)
+				{
+					mp.tui.move(1, 1 + n, 1);
+					mp.tui.addstr(l);
+				}
+
+				n++;
+			}
+
 			mp.tui.refresh();
 
-			k = mp.tui.getkey();
+			key = mp.tui.getkey();
 
-			if(k eq 'cursor-up') my--;
+			if(key eq 'cursor-up') my--;
 			else
-			if(k eq 'cursor-down') my++;
+			if(key eq 'cursor-down') my++;
 			else
-			if(k eq 'cursor-right') { mx++; break; }
+			if(key eq 'cursor-right') { mx++; break; }
 			else
-			if(k eq 'cursor-left') { mx--; break; }
+			if(key eq 'cursor-left') { mx--; break; }
 			else
-			if(k eq 'enter') { action = 'noop'; break; }
+			if(key eq 'enter') { action = mo[my]; break; }
 		}
 
 		mp.tui.closepanel();
 	}
 
-/*	mp.tui.openpanel(0, 1, 20, 10);
-	mp.tui.move(1, 1, 1);
+	if(action != NULL)
+		mp.process_action(action);
 
-	while(1)
-	{
-		mp.tui.addstr('a');
-		if(mp.tui.getkey() eq 'a')
-			break;
-	}
-
-	mp.tui.closepanel();
-	return('jajaja');*/
-	return(action);
+	return(NULL);
 }
 
 
