@@ -314,7 +314,7 @@ sub mp.drv.menu()
 			if(my < 0) my = size(mo) - 1;
 			if(my >= size(mo)) my = 0;
 
-			mp.tui.move(pos[0] + 1, 1 + my, 0);
+			mp.tui.move(1, 1 + my, 0);
 			mp.tui.addstr('>' ~ mo[my]);
 			mp.tui.refresh();
 
