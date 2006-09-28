@@ -266,10 +266,11 @@ sub mp.drv.menu()
 
 	while(1)
 	{
-		local n, pos, k;
+		local pos, k;
+		local n = 0;
 
-		if(mx < 0) mx = 0;
-		if(mx >= size(mp.menu)) mx = size(mp.menu) - 1;
+		if(mx < 0) mx = size(mp.menu) - 1;
+		if(mx >= size(mp.menu)) mx = 0;
 
 		mp.tui.move(0, 0, 1);
 
@@ -281,15 +282,16 @@ sub mp.drv.menu()
 			/* strip (by now) the & */
 			l = sregex('/&/g', l, NULL);
 
+			mp.tui.attr(mp.colors.normal.attr);
+			mp.tui.addstr('   ');
+
 			if(n == mx)
 			{
 				pos = mp.tui.getxy();
 				mp.tui.attr(mp.colors.cursor.attr);
 			}
-			else
-				mp.tui.attr(mp.colors.normal.attr);
 
-			mp.tui.addstr(l ~ '   ');
+			mp.tui.addstr(l);
 
 			n++;
 		}
