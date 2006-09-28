@@ -356,7 +356,7 @@ sub mp.drv.menu()
 				/* move up avoiding separators */
 				while(1)
 				{
-					if(--my <= 0)
+					if(--my < 0)
 						my = size(mo) - 1;
 
 					if(mo[my] ne '-') break;
