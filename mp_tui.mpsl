@@ -263,12 +263,14 @@ sub mp.drv.list(prompt, data, pos)
 sub mp.drv.menu()
 {
 	local mx = 0;
+	local action = NULL;
 
-	while(1)
+	while(action == NULL)
 	{
-		local pos, k;
+		local pos, mo, my;
 		local n = 0;
 
+		/* wrap */
 		if(mx < 0) mx = size(mp.menu) - 1;
 		if(mx >= size(mp.menu)) mx = 0;
 
@@ -296,13 +298,40 @@ sub mp.drv.menu()
 			n++;
 		}
 
-		k = mp.tui.getkey();
+		/* get the menu options */
+		mo = mp.menu[mx][1];
 
-		if(k eq 'cursor-right') mx++;
-		else
-		if(k eq 'cursor-left') mx--;
-		else
-		if(k eq 'enter') break;
+		mp.tui.refresh();
+/*		mp.tui.openpanel(pos[0], 1, 20, size(mo) + 2);*/
+
+		my = 0;
+
+		while(1)
+		{
+			local k;
+
+			/* wrap */
+			if(my < 0) my = size(mo) - 1;
+			if(my >= size(mo)) my = 0;
+
+			mp.tui.move(pos[0] + 1, 1 + my, 0);
+			mp.tui.addstr('>' ~ mo[my]);
+			mp.tui.refresh();
+
+			k = mp.tui.getkey();
+
+			if(k eq 'cursor-up') my--;
+			else
+			if(k eq 'cursor-down') my++;
+			else
+			if(k eq 'cursor-right') { mx++; break; }
+			else
+			if(k eq 'cursor-left') { mx--; break; }
+			else
+			if(k eq 'enter') { action = 'noop'; break; }
+		}
+
+/*		mp.tui.closepanel();*/
 	}
 
 /*	mp.tui.openpanel(0, 1, 20, 10);
