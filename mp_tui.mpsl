@@ -181,16 +181,13 @@ sub mp.drv.savefile(prompt)
 
 sub mp.drv.list(prompt, data, pos)
 {
-	local vy, ty, r, f;
+	local vy, ty, r;
 
 	mp.tui.move(0, 0, 1);
 	mp.tui.addstr(prompt);
 
 	vy = 0;
 	ty = mp.window.ty - 1;
-
-	/* filler (there should be a better way to do this) */
-	while(size(f) < mp.window.tx) f = f ~ '       ';
 
 	/* clipping regex */
 	r = '/^.{1,' ~ (mp.window.tx) ~ '}/';
@@ -225,7 +222,8 @@ sub mp.drv.list(prompt, data, pos)
 			else
 				mp.tui.attr(mp.colors.normal.attr);
 
-			mp.tui.addstr(regex(r, l ~ f));
+			mp.tui.addstr(regex(r,
+				sprintf("%-" ~ mp.window.tx ~ "s", l)));
 
 			n++;
 		}
