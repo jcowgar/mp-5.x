@@ -83,7 +83,7 @@ mp.colors = {
 				'flags' => [ 'bright' ] },
 	'tag' => {		'text'	=> [ 'cyan', 'default' ],
 				'gui'	=> [ 0x8888ff, 0xffffff ],
-				'flags'	=> [ 'bright', 'underline' ] },
+				'flags'	=> [ 'underline' ] },
 	'spell' => {		'text'	=> [ 'red', 'default' ],
 				'gui'	=> [ 0xff8888, 0xffffff ],
 				'flags'	=> [ 'bright', 'underline' ] }
