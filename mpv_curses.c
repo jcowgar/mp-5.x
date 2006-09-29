@@ -478,7 +478,11 @@ static mpdm_t tui_move(mpdm_t a)
 static mpdm_t tui_attr(mpdm_t a)
 /* TUI: set attribute for next string */
 {
-	wattrset(cw, nc_attrs[mpdm_ival(mpdm_aget(a, 0))]);
+	int i = mpdm_ival(mpdm_aget(a, 0));
+
+	wattrset(cw, nc_attrs[i]);
+	wbkgdset(cw, ' ' | nc_attrs[i]);
+
 	return(NULL);
 }
 

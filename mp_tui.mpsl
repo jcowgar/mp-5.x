@@ -391,6 +391,8 @@ sub mp.drv.menu()
 		mp.tui.closepanel();
 	}
 
+	mp.tui.attr(mp.color.normal.attr);
+
 	if(action != NULL)
 		mp.process_action(action);
 
