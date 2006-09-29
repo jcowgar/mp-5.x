@@ -40,6 +40,7 @@ sub mp.tui.prompt(prompt)
 	/* delete all possible newlines */
 	prompt = sregex("/\n/g", prompt, ' ');
 
+	mp.tui.attr(mp.colors.normal.attr);
 	mp.tui.move(0, mp.window.ty - 1, 1);
 	mp.tui.addstr(prompt);
 	mp.tui.refresh();
