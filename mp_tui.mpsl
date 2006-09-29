@@ -28,6 +28,10 @@
 /* main TUI namspace */
 mp.tui = {};
 
+/* colors */
+
+mp.colors.menu = { 'text' => [ 'white', 'blue' ], 'flags' => [ 'bright' ] };
+
 /* code */
 
 sub mp.tui.prompt(prompt)
@@ -274,6 +278,7 @@ sub mp.drv.menu()
 		if(mx >= size(mp.menu)) mx = 0;
 
 		/* draw the menu bar */
+		mp.tui.attr(mp.colors.menu.attr);
 		mp.tui.move(0, 0, 1);
 
 		while(n < size(mp.menu))
@@ -284,7 +289,7 @@ sub mp.drv.menu()
 			/* strip (by now) the & */
 			l = sregex('/&/g', l, NULL);
 
-			mp.tui.attr(mp.colors.normal.attr);
+			mp.tui.attr(mp.colors.menu.attr);
 			mp.tui.addstr('   ');
 
 			if(n == mx)
@@ -334,7 +339,7 @@ sub mp.drv.menu()
 				if(n == my)
 					mp.tui.attr(mp.colors.cursor.attr);
 				else
-					mp.tui.attr(mp.colors.normal.attr);
+					mp.tui.attr(mp.colors.menu.attr);
 
 				if(l != NULL)
 				{
