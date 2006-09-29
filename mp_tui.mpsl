@@ -312,7 +312,7 @@ sub mp.drv.menu()
 
 		foreach(n, mo)
 		{
-			local l = L(mp.actdesc[n]);
+			local l = mp.menu_label(n);
 
 			if(size(l) > pos[2])
 				pos[2] = size(l);
@@ -335,7 +335,7 @@ sub mp.drv.menu()
 			n = 0;
 			while(n < size(mo))
 			{
-				local l = L(mp.actdesc[mo[n]]);
+				local l = mp.menu_label(mo[n]);
 
 				/* set color */
 				if(n == my)
