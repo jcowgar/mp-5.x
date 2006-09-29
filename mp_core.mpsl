@@ -95,7 +95,6 @@ mp.word_color = {};
 mp.keycodes = {
 	'ctrl-f5'	=>	sub (d) { mp.insert(d, "1968-08-17"); },
 
-	'ctrl-a'	=>	NULL,
 	'ctrl-b'	=>	NULL,
 	'ctrl-d'	=>	NULL,
 	'ctrl-e'	=>	NULL,

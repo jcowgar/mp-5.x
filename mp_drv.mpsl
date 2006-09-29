@@ -23,6 +23,18 @@
 
 */
 
+/* editor actions */
+
+mp.actions['menu']	= sub (d) { mp.drv.menu(); };
+
+/* default key bindings */
+
+mp.keycodes['ctrl-a']	= 'menu';
+
+/* action descriptions */
+
+mp.actdesc['menu']	= LL("Menu");
+
 /* default UI functions */
 
 sub mp.drv.form()
@@ -119,6 +131,13 @@ sub mp.drv.list(prompt, list, pos)
 	] );
 
 	return(r[0]);
+}
+
+
+sub mp.drv.menu()
+/* default menu invocation (dummy) */
+{
+	return(NULL);
 }
 
 
