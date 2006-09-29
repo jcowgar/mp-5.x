@@ -248,6 +248,9 @@ sub mp.menu_label(action)
 {
 	local l, i;
 
+	/* if action is '-', it's a menu separator */
+	if(action eq '-') return(NULL);
+
 	/* no recognized action? return */
 	if(!exists(mp.actions, action))
 		return(action ~ "?");
