@@ -350,6 +350,9 @@ sub mp.drv.menu()
 				n++;
 			}
 
+			/* move the hw cursor to the selected option */
+			mp.tui.move(1, 1 + my);
+
 			mp.tui.refresh();
 
 			key = mp.tui.getkey();
