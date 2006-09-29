@@ -520,6 +520,7 @@ static mpdm_t tui_openpanel(mpdm_t a)
 			mpdm_ival(mpdm_aget(a, 1)),
 			mpdm_ival(mpdm_aget(a, 0)));
 
+	clearok(cw, 1);
 	return(NULL);
 }
 

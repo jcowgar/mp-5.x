@@ -324,6 +324,7 @@ sub mp.drv.menu()
 			pos[0] = pos[2] - mp.window.tx;
 
 		mp.tui.refresh();
+		mp.tui.attr(mp.colors.menu.attr);
 		mp.tui.openpanel(pos[0], 1, pos[2] + 2, size(mo) + 2);
 
 		my = 0;
