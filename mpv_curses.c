@@ -61,9 +61,20 @@ static WINDOW * cw = NULL;
 static int n_stack = 0;
 static WINDOW ** w_stack = NULL;
 
+/* last attr set */
+static int last_attr = 0;
+
 /*******************
 	Code
 ********************/
+
+static void set_attr(void)
+/* set the current and fill attributes */
+{
+	wattrset(cw, nc_attrs[last_attr]);
+	wbkgdset(cw, ' ' | nc_attrs[last_attr]);
+}
+
 
 static void nc_sigwinch(int s)
 /* SIGWINCH signal handler */
@@ -478,10 +489,9 @@ static mpdm_t tui_move(mpdm_t a)
 static mpdm_t tui_attr(mpdm_t a)
 /* TUI: set attribute for next string */
 {
-	int i = mpdm_ival(mpdm_aget(a, 0));
+	last_attr = mpdm_ival(mpdm_aget(a, 0));
 
-	wattrset(cw, nc_attrs[i]);
-	wbkgdset(cw, ' ' | nc_attrs[i]);
+	set_attr();
 
 	return(NULL);
 }
@@ -520,7 +530,9 @@ static mpdm_t tui_openpanel(mpdm_t a)
 			mpdm_ival(mpdm_aget(a, 1)),
 			mpdm_ival(mpdm_aget(a, 0)));
 
-	clearok(cw, 1);
+	set_attr();
+	wclrtobot(cw);
+
 	return(NULL);
 }
 

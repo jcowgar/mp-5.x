@@ -345,7 +345,7 @@ sub mp.drv.menu()
 
 				if(l != NULL)
 				{
-					mp.tui.move(1, 1 + n, 1);
+					mp.tui.move(1, 1 + n);
 					mp.tui.addstr(sprintf("%-" ~ pos[2] ~ "s", l));
 				}
 
