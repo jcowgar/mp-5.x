@@ -263,6 +263,48 @@ sub mp.drv.list(prompt, data, pos)
 }
 
 
+sub mp.drv.form(widgets)
+{
+	local r = [];
+	local w;
+
+	foreach(w, widgets)
+	{
+		local r1 = NULL;
+
+		if(w.type eq 'text')
+			r1 = mp.tui.readline(w.label, w.history, w.value);
+		else
+		if(w.type eq 'password')
+			r1 = mp.tui.readline(w.label, NULL, NULL,
+				{ 'password' => '*' });
+		else
+		if(w.type eq 'checkbox')
+		{
+			/* return value conversion */
+			local c = [ NULL, 1, 0 ];
+
+			r1 = c[mp.drv.confirm(w.label)];
+		}
+		else
+		if(w.type eq 'list')
+			r1 = mp.drv.list(w.label, w.list, w.value);
+
+		/* cancellation? */
+		if(r1 == NULL)
+		{
+			r = NULL;
+			break;
+		}
+
+		/* store value */
+		push(r, r1);
+	}
+
+	return(r);
+}
+
+
 sub mp.drv.menu()
 {
 	local mx = 0;
