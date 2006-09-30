@@ -6,9 +6,44 @@ Minimum Profit 5.x Release Notes
 
  * The menu in the Curses interface has been (finally) implemented.
  * Interfaces have changed internally; a new driver function, mp.drv.form()
-   (implemented in GTK and Win32 for now) serves as a dialog box generic
-   generator, resulting in more useful queries for data (for example, all
-   data required for a 'replace' operation is queried in only one dialog box).
+   serves as a dialog box generic generator, resulting in more useful queries
+   for data (for example, all data required for a 'replace' operation is
+   queried in only one dialog box). The Curses implementation, though
+   functional, is still just a wrapper to the old interface functions
+   and fields are queried one-by-one (which is annoying). This is an example
+   of a call to mp.drv.form(); the r variable will contain an array of 5
+   elements (one per widget) containing the values, or NULL if user cancelled:
+
+	local r = mp.drv.form( [
+	
+		/* a 'text' widget */
+		{ 'label'	=> "Replace this:",
+		  'type'	=> 'text',
+		  'history'	=> 'search',
+		  'value'	=> 'THIS' },
+	
+		/* another one */
+		{ 'label'	=> "With:",
+		  'type'	=> 'text',
+		  'history'	=> 'replace',
+		  'value'	=> 'THAT' },
+	
+		/* a 'password' widget */
+		{ 'label'	=> 'Password:',
+		  'type'	=> 'password' },
+	
+		/* a 'checkbox' widget */
+		{ 'label'	=> "Case sensitive:",
+		  'type'	=> 'checkbox',
+		  'value'	=> mp.config.case_sensitive_search },
+	
+		/* a 'list' widget */
+		{ 'label'	=> 'All C files:',
+		  'type'	=> 'list',
+		  'list'	=> glob('*.c'),
+		  'value'	=> 10 }
+	] );
+
  * Saving of encrypted documents works.
  * Case sensitivity in searches can be controlled with the new
    config flag mp.config.case_sensitive_search.
