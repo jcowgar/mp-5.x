@@ -107,84 +107,8 @@ sub mp.tui.readline(prompt, history, default, flags)
 }
 
 
-/* interface */
-
-sub mp.drv.alert(msg)
-{
-	mp.tui.prompt(msg ~ L(" [ENTER]"));
-
-	while(mp.tui.getkey() ne 'enter');
-}
-
-
-sub mp.drv.confirm(msg)
-{
-	local y, n;
-	local ret = NULL;
-
-	/* get the initials for localized 'Yes' and 'No' */
-	y = regex('/^./', L("Yes"));
-	n = regex('/^./', L("No"));
-
-	mp.tui.prompt(msg ~ ' [' ~ y ~ '/' ~ n ~ ']');
-
-	while(ret == NULL)
-	{
-		local k = mp.tui.getkey();
-
-		if(regex('/^' ~ y ~ '$/i', k)) ret = 1;
-		if(regex('/^' ~ n ~ '$/i', k)) ret = 2;
-		if(k eq 'escape') ret = 0;
-	}
-
-	return(ret);
-}
-
-
-sub mp.drv.readline(prompt, history, default)
-{
-	mp.tui.readline(prompt, history, default);
-}
-
-
-sub mp.drv.readline_search(prompt, default)
-{
-	mp.drv.readline(prompt, 'search', default);
-}
-
-
-sub mp.drv.readline_replace(this_p, this_d, that_p, that_d)
-{
-	local r1, r2;
-	local r = NULL;
-
-	if((r1 = mp.readline_search(this_p, this_d)) != NULL &&
-	   (r2 = mp.readline(that_p, 'replace', that_d)) != NULL)
-			r = [ r1, r2 ];
-
-	return(r);
-}
-
-
-sub mp.drv.readline_password(prompt)
-{
-	mp.tui.readline(prompt, NULL, NULL, { 'password' => '*' } );
-}
-
-
-sub mp.drv.openfile(prompt)
-{
-	mp.drv.readline(prompt, 'openfile');
-}
-
-
-sub mp.drv.savefile(prompt)
-{
-	mp.drv.readline(prompt, 'savefile');
-}
-
-
-sub mp.drv.list(prompt, data, pos)
+sub mp.tui.list(prompt, data, pos)
+/* select from a list */
 {
 	local vy, ty, r;
 
@@ -263,6 +187,51 @@ sub mp.drv.list(prompt, data, pos)
 }
 
 
+/* interface */
+
+sub mp.drv.alert(msg)
+{
+	mp.tui.prompt(msg ~ L(" [ENTER]"));
+
+	while(mp.tui.getkey() ne 'enter');
+}
+
+
+sub mp.drv.confirm(msg)
+{
+	local y, n;
+	local ret = NULL;
+
+	/* get the initials for localized 'Yes' and 'No' */
+	y = regex('/^./', L("Yes"));
+	n = regex('/^./', L("No"));
+
+	mp.tui.prompt(msg ~ ' [' ~ y ~ '/' ~ n ~ ']');
+
+	while(ret == NULL)
+	{
+		local k = mp.tui.getkey();
+
+		if(regex('/^' ~ y ~ '$/i', k)) ret = 1;
+		if(regex('/^' ~ n ~ '$/i', k)) ret = 2;
+		if(k eq 'escape') ret = 0;
+	}
+
+	return(ret);
+}
+
+sub mp.drv.openfile(prompt)
+{
+	mp.drv.readline(prompt, 'openfile');
+}
+
+
+sub mp.drv.savefile(prompt)
+{
+	mp.drv.readline(prompt, 'savefile');
+}
+
+
 sub mp.drv.form(widgets)
 {
 	local r = [];
@@ -288,7 +257,7 @@ sub mp.drv.form(widgets)
 		}
 		else
 		if(w.type eq 'list')
-			r1 = mp.drv.list(w.label, w.list, w.value);
+			r1 = mp.tui.list(w.label, w.list, w.value);
 
 		/* cancellation? */
 		if(r1 == NULL)
