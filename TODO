@@ -24,7 +24,6 @@ Release Critical Bugs
  * 1179: It doesn't work with ncurses, so stop lying about it and
    ask for ncursesw.
  * 1180: Prompt for a password when detecting encrypted files.
- * 1181: Search should always be positioned in the same line.
 
 Open Bugs
 ---------
@@ -141,5 +140,7 @@ Closed
    Mon, 02 Oct 2006 17:24:36 +0200).
  * 1162: Add menu support to the Curses / TUI interface
    (Mon, 02 Oct 2006 20:11:28 +0200).
+ * 1181: Search should always be positioned in the same line
+   (Mon, 02 Oct 2006 20:19:24 +0200).
 
 Email bugs to angel@triptico.com
