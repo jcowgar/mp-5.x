@@ -118,6 +118,7 @@ mp.menu = [
 	[
 		LL("&File"),
 		[ 'new', 'open', 'save', 'save_as', 'close',
+			'-', 'set_password',
 			'-', 'open_config_file',
 			'-', 'exit'
 		]

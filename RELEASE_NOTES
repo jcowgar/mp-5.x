@@ -44,7 +44,8 @@ Minimum Profit 5.x Release Notes
 		  'value'	=> 10 }
 	] );
 
- * Saving of encrypted documents works.
+ * Password protecting files works (but they cannot be opened yet, so this
+   is far from useful, unless you use mp 3.x to open them).
  * Case sensitivity in searches can be controlled with the new
    config flag mp.config.case_sensitive_search.
  * Replace (and global replace by use of the new config flag

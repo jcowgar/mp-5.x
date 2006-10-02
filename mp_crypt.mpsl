@@ -25,6 +25,32 @@
 
 */
 
+/* editor actions */
+
+mp.actions['set_password'] = sub(d) {
+	local r = mp.drv.form( [
+		{ 'type' => 'password', 'label' => L("Password:") },
+		{ 'type' => 'password', 'label' => L("Password (again):") }
+		]
+	);
+
+	if(r != NULL)
+	{
+		if(r[0] ne r[1])
+			mp.drv.alert(L("Passwords don't match."));
+		else
+		{
+			d.password = r[0];
+			d.txt.mod = 1;
+		}
+	}
+};
+
+
+/* action descriptions */
+
+mp.actdesc['set_password'] = LL("Password protect...");
+
 sub mp.arcfour_byte()
 /* gets next ARCFOUR byte */
 /* next char is chr(ord(getchar(l)) ^ mp.arcfour_byte()) */
