@@ -24,6 +24,7 @@ Release Critical Bugs
  * 1179: It doesn't work with ncurses, so stop lying about it and
    ask for ncursesw.
  * 1180: Prompt for a password when detecting encrypted files.
+ * 1181: Search should always be positioned in the same line.
 
 Open Bugs
 ---------
