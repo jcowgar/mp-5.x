@@ -1525,7 +1525,8 @@ static mpdm_t gtkdrv_update_ui(mpdm_t a)
 static mpdm_t gtkdrv_main_loop(mpdm_t a)
 /* main loop */
 {
-	gtk_main();
+	if(!mp_exit_requested)
+		gtk_main();
 
 	return(NULL);
 }
