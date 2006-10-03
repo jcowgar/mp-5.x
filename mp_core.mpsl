@@ -247,7 +247,7 @@ sub mp.get_history(key)
 sub mp.menu_label(action)
 /* returns a label for the menu for an action */
 {
-	local l, i;
+	local l;
 
 	/* if action is '-', it's a menu separator */
 	if(action eq '-') return(NULL);
@@ -260,7 +260,7 @@ sub mp.menu_label(action)
 	l = L(mp.actdesc[action]) || action;
 
 	/* is there a keycode that generates this action? */
-	foreach(i, sort(keys(mp.keycodes)))
+	foreach(local i, sort(keys(mp.keycodes)))
 	{
 		if(mp.keycodes[i] eq action)
 		{

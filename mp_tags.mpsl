@@ -90,7 +90,7 @@ mp.actdesc['complete_symbol']	= LL("Symbol completion...");
 sub mp.load_tags(force)
 /* load a 'tags' file */
 {
-	local f, l, a;
+	local f, a;
 
 	if((f = open("tags", "r")) == NULL)
 	{
@@ -108,7 +108,7 @@ sub mp.load_tags(force)
 	}
 
 	/* deletes all currently stored tags from the word/color cache */
-	foreach(l, keys(mp.tags))
+	foreach(local l, keys(mp.tags))
 		hdel(mp.word_color, l);
 
 	/* reset current tags */

@@ -140,7 +140,6 @@ sub mp.arcfour_load(fd, lines, password)
 sub mp.arcfour_save(fd, lines, password)
 /* saves the lines as an ARCFOUR encrypted file */
 {
-	local l;
 	local nl = 0;
 
 	/* save first the signature */
@@ -153,10 +152,8 @@ sub mp.arcfour_save(fd, lines, password)
 	mp.arcfour_init(password);
 
 	/* loop the lines */
-	foreach(l, lines)
+	foreach(local l, lines)
 	{
-		local c;
-
 		/* write a line separator if it's not the first line */
 		if(nl) l = mp.config.eol ~ l;
 
@@ -164,7 +161,7 @@ sub mp.arcfour_save(fd, lines, password)
 		local lc = split(NULL, l);
 
 		/* write each char xoring with next crypto-byte */
-		foreach(c, lc)
+		foreach(local c, lc)
 			putchar(fd, chr(ord(c) ^ mp.arcfour_byte()));
 
 		nl++;

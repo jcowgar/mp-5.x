@@ -352,11 +352,10 @@ sub mp.detect_syntax(doc)
 	/* loops the syntax highlight definitions */
 	foreach(n, keys(mp.syntax))
 	{
-		local ext;
 		local s = mp.syntax[n];
 
 		/* test the extensions */
-		foreach(ext, s.filenames)
+		foreach(local ext, s.filenames)
 		{
 			if(regex(ext, doc.name))
 			{
@@ -382,9 +381,9 @@ sub mp.detect_syntax(doc)
 
 sub mp.help(doc, word)
 {
-	local c, h;
+	local h;
 
-	foreach(c, doc.syntax.help)
+	foreach(local c, doc.syntax.help)
 	{
 		local f;
 

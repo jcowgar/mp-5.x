@@ -235,9 +235,8 @@ sub mp.drv.savefile(prompt)
 sub mp.drv.form(widgets)
 {
 	local r = [];
-	local w;
 
-	foreach(w, widgets)
+	foreach(local w, widgets)
 	{
 		local r1 = NULL;
 

@@ -88,13 +88,11 @@ sub mp.record_macro
 sub mp.play_macro
 /* play a macro */
 {
-	local k;
-
 	/* if it's recording, stop now */
 	if(mp.macro.process_event != NULL)
 		mp.record_macro();
 
 	/* process all stored keycodes */
-	foreach(k, mp.macro.keycodes)
+	foreach(local k, mp.macro.keycodes)
 		mp.process_event(k);
 }

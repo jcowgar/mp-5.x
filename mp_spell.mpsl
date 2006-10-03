@@ -68,8 +68,6 @@ sub mp.open_ispell_pipe
 sub mp.close_ispell_pipe
 /* closes the pipe to ispell */
 {
-	local w;
-
 	if(mp.ispell_pipe == NULL)
 		return;
 
@@ -78,7 +76,7 @@ sub mp.close_ispell_pipe
 	mp.ispell_pipe = NULL;
 
 	/* delete all words marked as misspelled from the word cache */
-	foreach(w, keys(mp.word_color))
+	foreach(local w, keys(mp.word_color))
 	{
 		if(mp.word_color[w] == mp.colors.spell.attr)
 			hdel(mp.word_color, w);

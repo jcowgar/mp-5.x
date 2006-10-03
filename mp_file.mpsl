@@ -216,9 +216,7 @@ sub mp.save(doc)
 	else
 	{
 		/* save as a plain text file */
-		local l;
-
-		foreach(l, doc.txt.lines)
+		foreach(local l, doc.txt.lines)
 		{
 			/* write a line separator if it's not the first line */
 			if(nl) write(f, mp.config.eol);
