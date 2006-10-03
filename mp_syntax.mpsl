@@ -106,7 +106,7 @@ mp.syntax.c = {
 			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
-			"/\b[[:upper:]_]+\b/"			/* all-caps words */
+			"/\b[0-9[:upper:]_]+\b/"		/* all-caps words */
 		],
 		'comments',	[
 			[ '|/\*|', '|\*/|' ],			/* C-like */
@@ -129,7 +129,7 @@ mp.syntax.rc = {
 			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
-			"/\b[[:upper:]_]+\b/"			/* all-caps words */
+			"/\b[0-9[:upper:]_]+\b/"		/* all-caps words */
 		],
 		'comments',	[
 			[ '|/\*|', '|\*/|' ],			/* C-like */
@@ -173,6 +173,7 @@ mp.syntax.perl = {
 			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
+			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
 			[ "/q\(/", "/\)/" ],			/* quote */
 			[ "/qw\(/", "/\)/" ],			/* quote word */
 			'/\w+\s*=>/',				/* barewords as hash keys */
@@ -219,7 +220,7 @@ mp.syntax.mpsl = {
 			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
-			"/\b[[:upper:]_]+\b/"			/* all-caps words */
+			"/\b[0-9[:upper:]_]+\b/"		/* all-caps words */
 		],
 		'comments',	[
 			[ '|/\*|', '|\*/|' ],			/* C-like */
