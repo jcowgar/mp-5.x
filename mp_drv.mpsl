@@ -37,12 +37,6 @@ mp.actdesc['menu']	= LL("Menu");
 
 /* default UI functions */
 
-sub mp.drv.form()
-/* fallback for drivers lacking mp.drv.form() */
-{
-	mp.drv.alert(L("This driver doesn't implement mp.drv.form()"));
-}
-
 sub mp.drv.menu()
 /* default menu invocation (dummy) */
 {
