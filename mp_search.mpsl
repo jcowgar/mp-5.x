@@ -31,11 +31,21 @@ mp.config.move_seek_to_line = 5;
 /* editor actions */
 
 mp.actions['seek'] 	= sub (d) {
-	local t = mp.readline_search(L("Text to seek:"));
+	local t = mp.drv.form( [
+		{ 'label'	=> L("Text to seek:"),
+		  'type'	=> 'text',
+		  'history'	=> 'search' },
+		{ 'label'	=> L("Case sensitive:"),
+		  'type'	=> 'checkbox',
+		  'value'	=> mp.config.case_sensitive_search }
+	] );
 
 	if(t != NULL)
-		mp.search(d, t) || mp.alert(L("Text not found."));
-	};
+	{
+		mp.config.case_sensitive_search = t[1];
+		mp.search(d, t[0]) || mp.alert(L("Text not found."));
+	}
+};
 
 mp.actions['seek_next']	= sub (d) { mp.search(d, NULL) ||
 		mp.alert(L("Text not found."));
@@ -43,11 +53,28 @@ mp.actions['seek_next']	= sub (d) { mp.search(d, NULL) ||
 
 mp.actions['replace']	= sub (d) {
 
-	local r;
+	local r = mp.drv.form( [
+		{ 'label'	=> L("Text to replace:"),
+		  'type'	=> 'text',
+		  'history'	=> 'search'},
+		{ 'label'	=> L("Replace with:"),
+		  'type'	=> 'text',
+		  'history'	=> 'replace'},
+		{ 'label'	=> L("Case sensitive:"),
+		  'type'	=> 'checkbox',
+		  'value'	=> mp.config.case_sensitive_search },
+		{ 'label'	=> L("Global replace:"),
+		  'type'	=> 'checkbox',
+		  'value'	=> mp.config.global_replace }
+	] );
 
-	if((r = mp.readline_replace(L("Text to replace:"), NULL,
-		L("Replace with:"), NULL)) != NULL)
+	if(r != NULL)
+	{
+		mp.config.case_sensitive_search = r[2];
+		mp.config.global_replace = r[3];
+
 		mp.replace(d, r[0], r[1]);
+	}
 };
 
 /* default key bindings */

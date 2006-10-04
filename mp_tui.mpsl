@@ -222,13 +222,13 @@ sub mp.drv.confirm(msg)
 
 sub mp.drv.openfile(prompt)
 {
-	mp.drv.readline(prompt, 'openfile');
+	mp.tui.readline(prompt, 'openfile');
 }
 
 
 sub mp.drv.savefile(prompt)
 {
-	mp.drv.readline(prompt, 'savefile');
+	mp.tui.readline(prompt, 'savefile');
 }
 
 

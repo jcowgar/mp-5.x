@@ -43,83 +43,6 @@ sub mp.drv.form()
 	mp.drv.alert(L("This driver doesn't implement mp.drv.form()"));
 }
 
-sub mp.drv.readline(prompt, hist, def)
-/* mp.drv.form()-based readline() */
-{
-	local r = mp.drv.form( [
-		{ 'label'	=> prompt,
-		  'type'	=> 'text',
-		  'history'	=> hist,
-		  'value'	=> def	}
-	] );
-
-	return(r[0]);
-}
-
-
-sub mp.drv.readline_password(prompt)
-/* mp.drv.form()-based readline_password() */
-{
-	local r = mp.drv.form( [
-		{ 'label'	=> prompt,
-		  'type'	=> 'password' }
-	] );
-
-	return(r[0]);
-}
-
-
-sub mp.drv.readline_search(prompt, def)
-/* mp.drv.form()-based readline_search() */
-{
-	local r = mp.drv.form( [
-		{ 'label'	=> prompt,
-		  'type'	=> 'text',
-		  'history'	=> 'search',
-		  'value'	=> def	},
-		{ 'label'	=> L("Case sensitive:"),
-		  'type'	=> 'checkbox',
-		  'value'	=> mp.config.case_sensitive_search }
-	] );
-
-	if(r != NULL)
-		mp.config.case_sensitive_search = r[1];
-
-	return(r[0]);
-}
-
-
-sub mp.drv.readline_replace(this_p, this_d, that_p, that_d)
-/* mp.drv.form()-based readline_replace() */
-{
-	local r = mp.drv.form( [
-		{ 'label'	=> this_p,
-		  'type'	=> 'text',
-		  'history'	=> 'search',
-		  'value'	=> this_d },
-		{ 'label'	=> that_p,
-		  'type'	=> 'text',
-		  'history'	=> 'replace',
-		  'value'	=> that_d },
-		{ 'label'	=> L("Case sensitive:"),
-		  'type'	=> 'checkbox',
-		  'value'	=> mp.config.case_sensitive_search },
-		{ 'label'	=> L("Global replace:"),
-		  'type'	=> 'checkbox',
-		  'value'	=> mp.config.global_replace }
-	] );
-
-	if(r != NULL)
-	{
-		mp.config.case_sensitive_search = r[2];
-		mp.config.global_replace = r[3];
-		r = [ r[0], r[1] ];
-	}
-
-	return(r);
-}
-
-
 sub mp.drv.menu()
 /* default menu invocation (dummy) */
 {
@@ -132,9 +55,5 @@ sub mp.drv.menu()
 sub mp.update_ui()			{ mp.drv.update_ui(); }
 sub mp.alert(msg)			{ mp.drv.alert(msg); }
 sub mp.confirm(msg)			{ mp.drv.confirm(msg); }
-sub mp.readline(prompt, hist, def)	{ mp.drv.readline(prompt, hist, def); }
-sub mp.readline_password(prompt)	{ mp.drv.readline_password(prompt); }
-sub mp.readline_search(prompt, def)	{ mp.drv.readline_search(prompt, def); }
-sub mp.readline_replace(p1, d1, p2, d2) { mp.drv.readline_replace(p1, d1, p2, d2); }
 sub mp.openfile(prompt)			{ mp.drv.openfile(prompt); }
 sub mp.savefile(prompt)			{ mp.drv.savefile(prompt); }

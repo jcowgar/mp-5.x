@@ -41,12 +41,16 @@ mp.actions['move_word_left']	= sub (d) { mp.move_word_left(d); };
 mp.actions['move_word_right']	= sub (d) { mp.move_word_right(d); };
 
 mp.actions['goto']		= sub (d) {
-	local y = mp.readline(L("Line to go to:"), "goto");
+	local y = mp.drv.form( [
+		{ 'label'	=> L("Line to go to:"),
+		  'type'	=> 'text',
+		  'history'	=> 'goto' }
+		]);
 
-	if(y >= 1)
+	if(y != NULL && y[0] >= 1)
 	{
 		d.txt.x = 0;
-		mp.set_y(d, y - 1);
+		mp.set_y(d, y[0] - 1);
 	}
 };
 

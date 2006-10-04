@@ -35,8 +35,15 @@ mp.actions['find_tag']	= sub(d) {
 	local tag = mp.get_word(d);
 
 	/* ask for it, taking the word under the cursor */
-	if((tag = mp.readline(L("Tag to find:"), 'find_tag', tag)) != NULL)
-		mp.open_tag(tag);
+	local r = mp.drv.form( [
+		{ 'label'	=> L("Tag to find:"),
+		  'type'	=> 'text',
+		  'history'	=> 'find_tag',
+		  'value'	=> tag }
+		]);
+
+	if(r != NULL)
+		mp.open_tag(r[0]);
 };
 
 mp.actions['complete_symbol'] = sub(d) {

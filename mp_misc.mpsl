@@ -28,11 +28,15 @@
 /* editor actions */
 
 mp.actions['eval']	= sub (d) { 
-	local t = mp.readline(L("Code to execute:"), "eval");
+	local t = mp.drv.form( [
+		{ 'label' => L("Code to execute:"),
+		  'type' => 'text',
+		  'history' => 'eval' }
+		]);
 
 	if(t != NULL)
 	{
-		t = eval(t);
+		t = eval(t[0]);
 
 		if(ERROR != NULL)
 		{
