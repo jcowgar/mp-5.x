@@ -120,20 +120,6 @@ sub mp.drv.readline_replace(this_p, this_d, that_p, that_d)
 }
 
 
-sub mp.drv.list(prompt, list, pos)
-/* mp.drv.form()-based list() */
-{
-	local r = mp.drv.form( [
-		{ 'label'	=> prompt,
-		  'type'	=> 'list',
-		  'list'	=> list,
-		  'value'	=> pos	}
-	] );
-
-	return(r[0]);
-}
-
-
 sub mp.drv.menu()
 /* default menu invocation (dummy) */
 {
@@ -152,4 +138,3 @@ sub mp.readline_search(prompt, def)	{ mp.drv.readline_search(prompt, def); }
 sub mp.readline_replace(p1, d1, p2, d2) { mp.drv.readline_replace(p1, d1, p2, d2); }
 sub mp.openfile(prompt)			{ mp.drv.openfile(prompt); }
 sub mp.savefile(prompt)			{ mp.drv.savefile(prompt); }
-sub mp.list(prompt, list, pos)		{ mp.drv.list(prompt, list, pos); }

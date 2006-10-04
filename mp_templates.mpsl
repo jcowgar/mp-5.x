@@ -36,8 +36,13 @@ mp.actions['insert_template']	 = sub(d) {
 		return;
 
 	/* select one */
-	if((t = mp.drv.list(L("Template to insert:"), l, 0)) == NULL)
+	if((t = mp.drv.form( [
+		{ 'label'	=> L("Template to insert:"),
+		  'type'	=> 'list',
+		  'list'	=> l }
+		])) == NULL)
 		return;
+	t = t[0];
 
 	mp.store_undo(d);
 

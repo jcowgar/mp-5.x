@@ -58,8 +58,14 @@ mp.actions['complete_symbol'] = sub(d) {
 	else
 	{
 		/* more than one; ask user */
-		if((a = mp.list(L("Select symbol"), l)) == NULL)
-			return;
+		local r = mp.drv.form( [
+			{ 'label'	=> L("Select symbol:"),
+			  'type'	=> 'list',
+			  'list'	=> l }
+			]);
+
+		if(r == NULL) return;
+		a = r[0];
 	}
 
 	/* accepted; substitute current word with symbol */
@@ -173,8 +179,14 @@ sub mp.open_tag(tag)
 		/* build a list to ask the user */
 		local l = map(sub(e) { e.label; }, t);
 
-		if((a = mp.list(L("Select tag"), l)) == NULL)
-			return;
+		local r = mp.drv.form( [
+			{ 'label'	=> L("Select tag:"),
+			  'type'	=> 'list',
+			  'list'	=> l }
+			]);
+
+		if(r == NULL) return;
+		a = r[0];
 	}
 
 	tag = t[a];
