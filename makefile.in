@@ -21,7 +21,7 @@ version:
 	@echo $(VERSION)
 
 ChangeLog:
-	cvs2cl --fsf --stdout > Changelog
+	svn update && svn log > Changelog
 
 .c.o:
 	$(CC) $(CFLAGS) -I. `cat config.cflags` -c $<
