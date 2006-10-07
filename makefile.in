@@ -68,12 +68,12 @@ docs: $(DOCS)
 
 dist: distclean docs ChangeLog po/minimum-profit.pot build-mo
 	DIR=`pwd` ; cd .. ; ln -s $$DIR $(PROJ)-$(VERSION); \
-	tar czvf $(PROJ)-$(VERSION)/$(PROJ)-$(VERSION).tar.gz --exclude=CVS $(PROJ)-$(VERSION)/* ; \
+	tar czvf $(PROJ)-$(VERSION)/$(PROJ)-$(VERSION).tar.gz --exclude=.svn $(PROJ)-$(VERSION)/* ; \
 	rm $(PROJ)-$(VERSION)
 
 midnight: distclean docs ChangeLog po/minimum-profit.pot build-mo
 	DIR=`pwd` ; cd .. ; ln -s $$DIR $(PROJ)-$(VERSION); \
-	tar czvf $(PROJ)-$(VERSION)/mp-midnight.tar.gz --exclude=CVS $(PROJ)-$(VERSION)/* ; \
+	tar czvf $(PROJ)-$(VERSION)/mp-midnight.tar.gz --exclude=.svn $(PROJ)-$(VERSION)/* ; \
 	rm $(PROJ)-$(VERSION)
 
 win32dist:
