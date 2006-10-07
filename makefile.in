@@ -45,7 +45,7 @@ wmp.exe: $(OBJS) mp_res.o $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 	$(CC) $(CFLAGS) $(OBJS) mp_res.o `cat config.ldflags` -o $@
 
 clean:
-	rm -f $(APPNAME) $(LIB) $(OBJS) *.o tags *.tar.gz wmp.exe Changelog
+	rm -f $(APPNAME) $(LIB) $(OBJS) *.o tags *.tar.gz wmp.exe *.zip Changelog
 	(cd $(MPDM) ; make clean)
 	(cd $(MPSL) ; make clean)
 
@@ -77,7 +77,11 @@ midnight: distclean docs ChangeLog po/minimum-profit.pot build-mo
 	rm $(PROJ)-$(VERSION)
 
 win32dist:
-	zip mp33x-win32.zip README COPYING RELEASE_NOTES Changelog mp.reg wmp.exe mprc.sample mprc-win32.sample
+	i586-mingw32msvc-strip wmp.exe
+	mv wmp.exe ..
+	make distclean
+	mv ../wmp.exe .
+	zip -r mp-$(VERSION).zip . -x \*.svn/*
 
 install: $(INSTALL_MSG) installdoc
 	install $(APPNAME) $(PREFIX)/bin/$(APPNAME)
