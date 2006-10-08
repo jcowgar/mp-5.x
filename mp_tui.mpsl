@@ -295,7 +295,7 @@ sub mp.drv.menu()
 		while(n < size(mp.menu))
 		{
 			/* get the label */
-			local l = mp.menu[n][0];
+			local l = L(mp.menu[n][0]);
 
 			/* strip (by now) the & */
 			l = sregex('/&/g', l, NULL);
