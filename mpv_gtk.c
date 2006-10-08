@@ -348,7 +348,7 @@ static void build_menu(void)
 		mi = mpdm_aget(m, n);
 		v = mpdm_aget(mi, 0);
 
-		if((ptr = wcs_to_utf8(mpdm_string(v))) == NULL)
+		if((ptr = wcs_to_utf8(mpdm_string(mpdm_gettext(v)))) == NULL)
 			continue;
 
 		/* change the & by _ for the mnemonic */
@@ -1293,7 +1293,7 @@ static mpdm_t gtkdrv_form(mpdm_t a)
 			GtkWidget * label;
 			wchar_t * wptr;
 
-			if((wptr = mpdm_string(t)) != NULL &&
+			if((wptr = mpdm_string(mpdm_gettext(t))) != NULL &&
 				(ptr = wcs_to_utf8(wptr)) != NULL)
 			{
 				label = gtk_label_new(ptr);

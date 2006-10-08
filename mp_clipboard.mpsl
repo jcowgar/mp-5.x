@@ -57,7 +57,7 @@ mp.keycodes['ctrl-x']	= "cut_mark";
 
 /* action descriptions */
 mp.actdesc['unmark']	= LL("Unmark block");
-mp.actdesc['mark']	= LL("Mark begining/end of block");
+mp.actdesc['mark']	= LL("Mark beginning/end of block");
 mp.actdesc['copy_mark']	= LL("Copy block");
 mp.actdesc['paste_mark']= LL("Paste block");
 mp.actdesc['cut_mark']	= LL("Cut block");

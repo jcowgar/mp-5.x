@@ -35,7 +35,7 @@ mp.actions['seek'] 	= sub (d) {
 		{ 'label'	=> L("Text to seek:"),
 		  'type'	=> 'text',
 		  'history'	=> 'search' },
-		{ 'label'	=> L("Case sensitive:"),
+		{ 'label'	=> L("Case sensitive") ~ ':',
 		  'type'	=> 'checkbox',
 		  'value'	=> mp.config.case_sensitive_search }
 	] );
@@ -54,13 +54,13 @@ mp.actions['seek_next']	= sub (d) { mp.search(d, NULL) ||
 mp.actions['replace']	= sub (d) {
 
 	local r = mp.drv.form( [
-		{ 'label'	=> L("Text to replace:"),
+		{ 'label'	=> L("Replace text:"),
 		  'type'	=> 'text',
 		  'history'	=> 'search'},
 		{ 'label'	=> L("Replace with:"),
 		  'type'	=> 'text',
 		  'history'	=> 'replace'},
-		{ 'label'	=> L("Case sensitive:"),
+		{ 'label'	=> L("Case sensitive") ~ ':',
 		  'type'	=> 'checkbox',
 		  'value'	=> mp.config.case_sensitive_search },
 		{ 'label'	=> L("Global replace:"),

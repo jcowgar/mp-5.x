@@ -36,7 +36,7 @@ mp.actions['find_tag']	= sub(d) {
 
 	/* ask for it, taking the word under the cursor */
 	local r = mp.drv.form( [
-		{ 'label'	=> L("Tag to find:"),
+		{ 'label'	=> L("Tag to seek:"),
 		  'type'	=> 'text',
 		  'history'	=> 'find_tag',
 		  'value'	=> tag }
@@ -95,7 +95,7 @@ mp.keycodes['ctrl-t']	=	"find_tag";
 
 /* action descriptions */
 
-mp.actdesc['find_tag']		= LL("Find tag...");
+mp.actdesc['find_tag']		= LL("Search tag...");
 mp.actdesc['complete_symbol']	= LL("Symbol completion...");
 
 /* code */
