@@ -33,6 +33,9 @@ L = gettext;
 /* LL(x) is the same as x */
 sub LL(x) { x; }
 
+/* set gettext() domain */
+gettext_domain('minimum-profit', APPDIR ~ 'locale');
+
 /* configuration */
 
 mp.config = {};
