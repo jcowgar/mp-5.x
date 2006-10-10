@@ -27,6 +27,7 @@ Release Critical Bugs
  * 1182: Add selection by moving with the shift key down.
  * 1183: Many actions should operate only on the selection block
    (expand this bug).
+ * 1184: Stop inserting the keypress if a key is not bound.
 
 Open Bugs
 ---------
