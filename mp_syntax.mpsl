@@ -82,7 +82,7 @@ mp.syntax.c = {
 				"fscanf", "popen", "pclose", "realloc", "fread",
 				"fwrite", "fseek", '\{', '\}', "putchar", "fflush",
 				"wcscmp", "swprintf", "wmemcpy", "swscanf", "sscanf",
-				"wcslen", "wmemset", "wcscpy", "wcsncpy",
+				"wcslen", "wmemset", "wcscpy", "wcsncpy", "wcscoll",
 				"mbstowcs", "wcstombs", "wprintf", "wcschr",
 				"wcsrchr", "wcsstr", "strdup", "wctomb", "mbtowc",
 				"mbrtowc", "wcrtomb", "open", "close", "read",
