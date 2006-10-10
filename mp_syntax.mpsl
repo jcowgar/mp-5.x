@@ -177,6 +177,7 @@ mp.syntax.perl = {
 			[ "/q\(/", "/\)/" ],			/* quote */
 			[ "/qw\(/", "/\)/" ],			/* quote word */
 			'/\w+\s*=>/',				/* barewords as hash keys */
+			[ "/`/", "/`/" ],			/* backticks */
 			[ "/<<[\"']?EOF.*$/m", "/^EOF$/m" ]	/* 'document here' */
 		],
 		/* color all => as word2 */
