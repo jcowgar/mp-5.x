@@ -25,6 +25,8 @@ Release Critical Bugs
    ask for ncursesw.
  * 1180: Prompt for a password when detecting encrypted files.
  * 1182: Add selection by moving with the shift key down.
+ * 1183: Many actions should operate only on the selection block
+   (expand this bug).
 
 Open Bugs
 ---------
