@@ -43,10 +43,6 @@ int mpi_preread_lines = 60;
 /* exit requested? */
 int mp_exit_requested = 0;
 
-/* arguments from main() */
-int mp_main_argc = 0;
-char ** mp_main_argv = NULL;
-
 /* main namespace */
 mpdm_t mp = NULL;
 
@@ -730,17 +726,15 @@ mpdm_t mp_x2vx(mpdm_t args)
 }
 
 
-int ncdrv_init(void);
-int gtkdrv_init(void);
-int w32drv_init(void);
+int ncdrv_detect(int * argc, char *** argv);
+int gtkdrv_detect(int * argc, char *** argv);
+int w32drv_detect(int * argc, char *** argv);
 
-void mp_startup(void)
+void mp_startup(int argc, char * argv[])
 {
 	mpdm_t INC;
 
 	mpsl_startup();
-
-	mpsl_argv(mp_main_argc, mp_main_argv);
 
 	/* create main namespace */
 	mp = MPDM_H(0);
@@ -771,13 +765,15 @@ void mp_startup(void)
 	/* set INC */
 	mpdm_hset_s(mpdm_root(), L"INC", INC);
 
-	if(!w32drv_init())
-	if(!gtkdrv_init())
-	if(!ncdrv_init())
+	if(!w32drv_detect(&argc, &argv))
+	if(!gtkdrv_detect(&argc, &argv))
+	if(!ncdrv_detect(&argc, &argv))
 	{
 		printf("No usable driver found; exiting.\n");
 		exit(1);
 	}
+
+	mpsl_argv(argc, argv);
 }
 
 
@@ -803,11 +799,7 @@ void mp_shutdown(void)
 
 int main(int argc, char * argv[])
 {
-	/* store for later usage */
-	mp_main_argc = argc;
-	mp_main_argv = argv;
-
-	mp_startup();
+	mp_startup(argc, argv);
 
 	mp_mpsl();
 

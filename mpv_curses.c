@@ -617,7 +617,7 @@ static mpdm_t ncdrv_startup(mpdm_t a)
 }
 
 
-int ncdrv_init(void)
+int ncdrv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
 
@@ -630,7 +630,7 @@ int ncdrv_init(void)
 
 #else /* CONFOPT_CURSES */
 
-int ncdrv_init(void)
+int ncdrv_detect(int * argc, char *** argv)
 {
 	/* no curses */
 	return(0);

@@ -1696,11 +1696,11 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 }
 
 
-int gtkdrv_init(void)
+int gtkdrv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
 
-	if(!gtk_init_check(&mp_main_argc, &mp_main_argv))
+	if(!gtk_init_check(argc, argv))
 		return(0);
 
 	drv = mpdm_hget_s(mp, L"drv");
@@ -1712,7 +1712,7 @@ int gtkdrv_init(void)
 
 #else /* CONFOPT_GTK */
 
-int gtkdrv_init(void)
+int gtkdrv_detect(int * argc, char *** argv)
 {
 	/* no GTK */
 	return(0);

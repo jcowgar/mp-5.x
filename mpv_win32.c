@@ -1468,7 +1468,7 @@ static mpdm_t w32drv_startup(mpdm_t a)
 }
 
 
-int w32drv_init(void)
+int w32drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
 
@@ -1481,7 +1481,7 @@ int w32drv_init(void)
 
 #else /* CONFOPT_WIN32 */
 
-int w32drv_init(void)
+int w32drv_detect(int * argc, char *** argv)
 {
 	/* no Win32 */
 	return(0);
