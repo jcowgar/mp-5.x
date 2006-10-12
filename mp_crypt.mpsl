@@ -108,11 +108,12 @@ sub mp.arcfour_init(key)
 }
 
 
-sub mp.crypt1_load(fd, lines, password)
+sub mp.crypt1_load(fd, password)
 /* loads a crypt1 encrypted file into lines */
 {
 	local c;
 	local l = '';
+	local lines = [];
 
 	/* the mpcrypt1\n\0 signature has already been read */
 
@@ -133,7 +134,9 @@ sub mp.crypt1_load(fd, lines, password)
 		}
 	}
 
-	if(l ne '') push(lines, mp.chomp(l));
+	push(lines, mp.chomp(l));
+
+	return(lines);
 }
 
 

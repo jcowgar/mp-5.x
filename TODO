@@ -23,7 +23,6 @@ Release Critical Bugs
  * 1176: Add interface to set the undo levels.
  * 1179: It doesn't work with ncurses, so stop lying about it and
    ask for ncursesw.
- * 1180: Prompt for a password when detecting encrypted files.
  * 1182: Add selection by moving with the shift key down.
  * 1183: Many actions should operate only on the selection block
    (expand this bug).
@@ -147,5 +146,7 @@ Closed
    (Mon, 02 Oct 2006 20:11:28 +0200).
  * 1181: Search should always be positioned in the same line
    (Mon, 02 Oct 2006 20:19:24 +0200).
+ * 1180: Prompt for a password when detecting encrypted files
+   (Thu, 12 Oct 2006 10:54:45 +0200).
 
 Email bugs to angel@triptico.com

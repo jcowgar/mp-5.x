@@ -92,7 +92,7 @@ mp.actions['open']	= sub (d) {
 	local n;
 
 	if((n = mp.openfile(L("File to open:"))) != NULL && n ne "")
-		if(mp.open(n) == NULL)
+		if(mp.open(n) == NULL && ERRNO != NULL)
 			mp.alert(sprintf("Error opening '%s': %s", n, ERRNO));
 };
 
@@ -162,33 +162,21 @@ sub mp.open_file_for_reading(filename)
 }
 
 
-sub mp.load(filename)
-/* loads a file from disk */
+sub mp.plain_load(f)
+/* loads a plain file */
 {
-	local f, l;
+	local l;
 	local lines = [];
 
-	if((f = mp.open_file_for_reading(filename)) == NULL)
-	{
-		if(ERRNO != NULL)
-			return(NULL);
+	/* file was open; read it into lines */
+	while((l = read(f)) != NULL)
+		push(lines, mp.chomp(l));
 
-		/* file doesn't exist: new document */
-	}
-	else
-	{
-		/* file was open; read it into lines */
-		while((l = read(f)) != NULL)
-			push(lines, mp.chomp(l));
+	/* if previous line was chomped, add an empty line */
+	if(sregex())
+		push(lines, '');
 
-		/* if previous line was chomped, add an empty line */
-		if(sregex())
-			push(lines, '');
-
-		close(f);
-	}
-
-	return(mp.new(filename, lines));
+	return(lines);
 }
 
 
@@ -314,7 +302,7 @@ sub mp.find_file_by_name(filename)
 
 
 sub mp.open(filename)
-/* opens a new document */
+/* opens a new document (uses UI) */
 {
 	local d = mp.find_file_by_name(filename);
 
@@ -326,8 +314,46 @@ sub mp.open(filename)
 	}
 	else
 	{
-		/* try to open */
-		d = mp.load(filename);
+		local f, l, p;
+
+		if((f = mp.open_file_for_reading(filename)) == NULL)
+		{
+			if(ERRNO != NULL)
+				return(NULL);
+
+			/* file doesn't exist: new document */
+		}
+		else
+		{
+			if(mp.crypt1_detect(f))
+			{
+				/* password needed; ask for it */
+				if((p = mp.drv.form( [
+					{ 'label'	=> L("Password:"),
+					  'type'	=> 'password' }
+					])) == NULL)
+				{
+					/* cancel? fail, but not on error */
+					ERRNO = NULL;
+					return(NULL);
+				}
+
+				/* get the password */
+				p = p[0];
+
+				/* and load the file */
+				l = mp.crypt1_load(f, p);
+			}
+			else
+				l = mp.plain_load(f);
+
+			close(f);
+		}
+
+		d = mp.new(filename, l);
+
+		/* does it have a password? store it */
+		if(p != NULL) d.password = p;
 	}
 
 	return(d);
