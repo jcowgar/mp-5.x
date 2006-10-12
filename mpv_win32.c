@@ -567,6 +567,7 @@ static void win32_vkey(int c)
 	{
 		mp_process_event(MPDM_S(ptr));
 		is_wm_keydown = 1;
+		mp_active();
 		redraw();
 	}
 }
@@ -627,6 +628,7 @@ static void win32_akey(int k)
 	if(ptr != NULL)
 	{
 		mp_process_event(MPDM_S(ptr));
+		mp_active();
 		redraw();
 	}
 }
@@ -670,7 +672,10 @@ static void action_by_menu(int item)
 	if(GetMenuItemInfo(menu, item, FALSE, &mi))
 	{
 		if(mi.dwItemData != 0)
+		{
 			mp_process_action((mpdm_t)mi.dwItemData);
+			mp_active();
+		}
         }
 }
 
@@ -720,7 +725,10 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		return(0);
 
 	case WM_PAINT:
-		win32_draw(hwnd, mp_active());
+
+		if(mpdm_size(mpdm_hget_s(mp, L"docs")))
+			win32_draw(hwnd, mp_active());
+
 		return(0);
 
 	case WM_SIZE:
@@ -890,6 +898,8 @@ static mpdm_t w32drv_sys_to_clip(mpdm_t a)
 static mpdm_t w32drv_main_loop(mpdm_t a)
 {
 	MSG msg;
+
+	mp_active();
 
 	while(GetMessage(&msg, NULL, 0, 0))
 	{
@@ -1461,8 +1471,6 @@ static mpdm_t w32drv_startup(mpdm_t a)
 
 	ShowWindow(hwstatus, SW_SHOW);
 	UpdateWindow(hwstatus);
-
-	redraw();
 
 	return(NULL);
 }

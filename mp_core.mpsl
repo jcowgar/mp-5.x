@@ -314,7 +314,8 @@ sub mp.process_cmdline()
 		if(o eq '-t')
 		{
 			/* search tag */
-			mp.cmdline_tag = shift(ARGV);
+			mp.load_tags();
+			mp.open_tag(shift(ARGV));
 		}
 		else
 		if(regex('/^\+/', o))
@@ -349,23 +350,10 @@ sub mp.load_profile()
 }
 
 
-sub mp.post_ui_startup()
-/* code to execute after driver startup */
-{
-	mp.load_tags();
-
-	if(mp.cmdline_tag)
-	{
-		mp.open_tag(mp.cmdline_tag);
-		hdel(mp, cmdline_tag);
-	}
-}
-
-
 sub mp.ui()
 {
 	mp.drv.startup();
-	mp.post_ui_startup();
+	mp.process_cmdline();
 	mp.drv.main_loop();
 	mp.drv.shutdown();
 }
@@ -387,5 +375,4 @@ load("mp_crypt.mpsl");
 /** MAIN **/
 
 mp.load_profile();
-mp.process_cmdline();
 mp.ui();

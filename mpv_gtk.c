@@ -698,7 +698,8 @@ static void gtkdrv_paint(mpdm_t doc, int optimize)
 
 static void redraw(void)
 {
-	gtkdrv_paint(mp_active(), 0);
+	if(mpdm_size(mpdm_hget_s(mp, L"docs")))
+		gtkdrv_paint(mp_active(), 0);
 }
 
 
@@ -1525,6 +1526,11 @@ static mpdm_t gtkdrv_update_ui(mpdm_t a)
 static mpdm_t gtkdrv_main_loop(mpdm_t a)
 /* main loop */
 {
+	/* force the creation of the empty file (if needed)
+	   and then redraw */
+	mp_active();
+	redraw();
+
 	if(!mp_exit_requested)
 		gtk_main();
 

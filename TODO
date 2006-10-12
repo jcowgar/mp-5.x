@@ -28,8 +28,6 @@ Release Critical Bugs
    (expand this bug).
  * 1184: Stop inserting the keypress if a key is not bound.
  * 1185: Delete '.' from INC.
- * 1186: Password-protected files cannot be opened from the command
-   line because mp.drv.form() doesn't exist at that time.
 
 Open Bugs
 ---------
@@ -150,5 +148,8 @@ Closed
    (Mon, 02 Oct 2006 20:19:24 +0200).
  * 1180: Prompt for a password when detecting encrypted files
    (Thu, 12 Oct 2006 10:54:45 +0200).
+ * 1186: Password-protected files cannot be opened from the command
+   line because mp.drv.form() doesn't exist at that time
+   (Thu, 12 Oct 2006 12:23:14 +0200).
 
 Email bugs to angel@triptico.com
