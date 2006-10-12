@@ -974,11 +974,16 @@ static void selection_received(GtkWidget * widget,
 {
 	mpdm_t d;
 
-	/* get selection */
-	d = MPDM_NMBS((char *)sel->data, sel->length);
+	if(sel->data != NULL)
+	{
+		/* get selection */
+		wchar_t * wptr = utf8_to_wcs((char *)sel->data);
+		d = MPDM_S(wptr);
+		g_free(wptr);
 
-	/* split and set as the clipboard */
-	mpdm_hset_s(mp, L"clipboard", mpdm_split(MPDM_LS(L"\n"), d));
+		/* split and set as the clipboard */
+		mpdm_hset_s(mp, L"clipboard", mpdm_split(MPDM_LS(L"\n"), d));
+	}
 
 	/* wait no more for the selection */
 	wait_for_selection = 0;
