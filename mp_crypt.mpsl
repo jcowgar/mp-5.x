@@ -108,8 +108,8 @@ sub mp.arcfour_init(key)
 }
 
 
-sub mp.arcfour_load(fd, lines, password)
-/* loads an ARCFOUR encrypted file into lines */
+sub mp.crypt1_load(fd, lines, password)
+/* loads a crypt1 encrypted file into lines */
 {
 	local c;
 	local l = '';
@@ -137,8 +137,8 @@ sub mp.arcfour_load(fd, lines, password)
 }
 
 
-sub mp.arcfour_save(fd, lines, password)
-/* saves the lines as an ARCFOUR encrypted file */
+sub mp.crypt1_save(fd, lines, password)
+/* saves the lines as a crypt1 encrypted file */
 {
 	local nl = 0;
 
@@ -168,4 +168,17 @@ sub mp.arcfour_save(fd, lines, password)
 	}
 
 	return(nl);
+}
+
+
+sub mp.crypt1_detect(fd)
+/* detects if fd is an mpcrypt1-type file */
+{
+	/* is it mpcrypt1\n followed by a 0? */
+	if(read(fd) eq "mpcrypt1\n" && ord(getchar(fd)) == 0)
+		return(1);
+
+	/* no; rewind file and say it */
+	fseek(fd, 0, 0);
+	return(0);
 }

@@ -212,7 +212,7 @@ sub mp.save(doc)
 
 	/* if the document has a password, save it encrypted */
 	if(doc.password)
-		nl = mp.arcfour_save(f, doc.txt.lines, doc.password);
+		nl = mp.crypt1_save(f, doc.txt.lines, doc.password);
 	else
 	{
 		/* save as a plain text file */
