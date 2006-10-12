@@ -442,27 +442,6 @@ static mpdm_t ncdrv_shutdown(mpdm_t a)
 }
 
 
-static mpdm_t ncdrv_clip_to_sys(mpdm_t a)
-{
-	/* dummy */
-	return(NULL);
-}
-
-
-static mpdm_t ncdrv_sys_to_clip(mpdm_t a)
-{
-	/* dummy */
-	return(NULL);
-}
-
-
-static mpdm_t ncdrv_update_ui(mpdm_t a)
-{
-	/* dummy */
-	return(NULL);
-}
-
-
 /* TUI */
 
 static mpdm_t tui_addstr(mpdm_t a)
@@ -561,10 +540,6 @@ static void register_functions(void)
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"main_loop", MPDM_X(ncdrv_main_loop));
 	mpdm_hset_s(drv, L"shutdown", MPDM_X(ncdrv_shutdown));
-
-	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(ncdrv_clip_to_sys));
-	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(ncdrv_sys_to_clip));
-	mpdm_hset_s(drv, L"update_ui", MPDM_X(ncdrv_update_ui));
 
 	tui = mpsl_eval(MPDM_LS(L"load('mp_tui.mpsl');"), NULL);
 

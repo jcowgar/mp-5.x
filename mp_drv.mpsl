@@ -35,14 +35,12 @@ mp.keycodes['ctrl-a']	= 'menu';
 
 mp.actdesc['menu']	= LL("Menu");
 
-/* default UI functions */
+/* default UI functions (dummy) */
 
-sub mp.drv.menu()
-/* default menu invocation (dummy) */
-{
-	return(NULL);
-}
-
+sub mp.drv.menu()			{ return(NULL); }
+sub mp.drv.clip_to_sys()		{ return(NULL); }
+sub mp.drv.sys_to_clip()		{ return(NULL); }
+sub mp.drv.update_ui()			{ return(NULL); }
 
 /* driver wrappers */
 
