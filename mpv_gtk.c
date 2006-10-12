@@ -1002,7 +1002,7 @@ static mpdm_t gtkdrv_sys_to_clip(mpdm_t a)
 	{
 		/* triggers a selection capture */
 		if(gtk_selection_convert(area, GDK_SELECTION_PRIMARY,
-			gdk_atom_intern("STRING", FALSE),
+			gdk_atom_intern("UTF8_STRING", FALSE),
 			GDK_CURRENT_TIME))
 		{
 
