@@ -1443,10 +1443,6 @@ static mpdm_t w32drv_startup(mpdm_t a)
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, NULL, hinst, NULL);
 
-/*	mpv_add_menu("");
-
-	DrawMenuBar(hwnd);
-*/
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 
@@ -1456,9 +1452,9 @@ static mpdm_t w32drv_startup(mpdm_t a)
 		WS_CHILD | TCS_TABS | TCS_SINGLELINE | TCS_FOCUSNEVER,
 		0, 0, r.right - r.left, tab_height, hwnd, NULL, hinst, NULL);
 
-/*	SendMessage(hwtabs, WM_SETFONT, 
-		(WPARAM) GetStockObject(ANSI_VAR_FONT), 0);
-*/
+	SendMessage(hwtabs, WM_SETFONT, 
+		(WPARAM) GetStockObject(DEFAULT_GUI_FONT), 0);
+
 	ShowWindow(hwtabs, SW_SHOW);
 	UpdateWindow(hwtabs);
 
@@ -1467,12 +1463,10 @@ static mpdm_t w32drv_startup(mpdm_t a)
 		0, r.bottom - r.top - status_height,
 		r.right - r.left, status_height, hwnd, NULL, hinst, NULL);
 
-	build_menu();
+	w32drv_update_ui(NULL);
 
 	ShowWindow(hwstatus, SW_SHOW);
 	UpdateWindow(hwstatus);
-
-	build_colors();
 
 	return(NULL);
 }
