@@ -1472,6 +1472,8 @@ static mpdm_t w32drv_startup(mpdm_t a)
 	ShowWindow(hwstatus, SW_SHOW);
 	UpdateWindow(hwstatus);
 
+	build_colors();
+
 	return(NULL);
 }
 

@@ -28,7 +28,6 @@ Release Critical Bugs
    (expand this bug).
  * 1184: Stop inserting the keypress if a key is not bound.
  * 1185: Delete '.' from INC.
- * 1188: Tagged words aren't coloured in the win32 driver.
 
 Open Bugs
 ---------
@@ -154,5 +153,7 @@ Closed
    (Thu, 12 Oct 2006 12:23:14 +0200).
  * 1187: Tagged words aren't coloured in the GTK driver
    (Fri, 13 Oct 2006 17:45:56 +0200).
+ * 1188: Tagged words aren't coloured in the win32 driver
+   (Fri, 13 Oct 2006 18:02:55 +0200).
 
 Email bugs to angel@triptico.com
