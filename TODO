@@ -29,8 +29,6 @@ Release Critical Bugs
  * 1184: Stop inserting the keypress if a key is not bound.
  * 1185: Delete '.' from INC.
  * 1189: mp.drv.form() cannot be used from the command line in win32.
- * 1191: The win32 version seems to write encrypted files correctly
-   (they can be read on win32 and on unix), but can't read.
 
 Open Bugs
 ---------
@@ -160,5 +158,8 @@ Closed
    (Fri, 13 Oct 2006 18:02:55 +0200).
  * 1190: Encrypted files fail opening in win32
    (Closed by #1191; Fri, 13 Oct 2006 18:28:02 +0200).
+ * 1191: The win32 version seems to write encrypted files correctly
+   (they can be read on win32 and on unix), but can't read
+   (Fixed in MPDM; Fri, 13 Oct 2006 18:59:01 +0200).
 
 Email bugs to angel@triptico.com
