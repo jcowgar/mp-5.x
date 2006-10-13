@@ -143,7 +143,7 @@ sub mp.open_file_for_reading(filename)
 	/* clear previous errors */
 	ERRNO = NULL;
 
-	if((f = open(filename, "r")) == NULL)
+	if((f = open(filename, "rb")) == NULL)
 	{
 		/* save ERRNO */
 		local e = ERRNO;
@@ -191,7 +191,7 @@ sub mp.save(doc)
 	if(mp.config.unlink && (s = stat(doc.name)) != NULL)
 		unlink(doc.name);
 
-	if((f = open(doc.name, "w")) == NULL)
+	if((f = open(doc.name, "wb")) == NULL)
 	{
 		/* can't write? delete name */
 		doc.name = L("<unnamed>");
