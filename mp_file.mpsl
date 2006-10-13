@@ -341,6 +341,9 @@ sub mp.open(filename)
 				/* get the password */
 				p = p[0];
 
+				/* an empty password is equal to cancellation */
+				if(p eq '') return(NULL);
+
 				/* and load the file */
 				l = mp.crypt1_load(f, p);
 			}
