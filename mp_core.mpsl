@@ -285,8 +285,7 @@ sub mp.process_cmdline()
 {
 	local o, line;
 
-	if(size(ARGV) <= 1)
-		return;
+	mp.load_tags();
 
 	/* skip ARGV[0] */
 	shift(ARGV);
@@ -312,11 +311,7 @@ sub mp.process_cmdline()
 		}
 		else
 		if(o eq '-t')
-		{
-			/* search tag */
-			mp.load_tags();
 			mp.open_tag(shift(ARGV));
-		}
 		else
 		if(regex('/^\+/', o))
 		{
@@ -329,6 +324,7 @@ sub mp.process_cmdline()
 
 	/* set the first as the active one */
 	mp.active_i = 0;
+	mp.active();
 
 	/* if there is a line defined, move there */
 	if(line != NULL)
@@ -350,14 +346,6 @@ sub mp.load_profile()
 }
 
 
-sub mp.ui()
-{
-	mp.drv.startup();
-	mp.process_cmdline();
-	mp.drv.main_loop();
-	mp.drv.shutdown();
-}
-
 load("mp_drv.mpsl");
 load("mp_move.mpsl");
 load("mp_edit.mpsl");
@@ -375,4 +363,7 @@ load("mp_crypt.mpsl");
 /** MAIN **/
 
 mp.load_profile();
-mp.ui();
+mp.drv.startup();
+mp.process_cmdline();
+mp.drv.main_loop();
+mp.drv.shutdown();

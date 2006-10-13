@@ -581,10 +581,7 @@ static void gtkdrv_paint(mpdm_t doc, int optimize)
 		gc = gdk_gc_new(area->window);
 
 	if(font == NULL)
-	{
 		build_fonts();
-		build_colors();
-	}
 
 	if((d = mp_draw(doc, optimize)) == NULL)
 		return;
@@ -1702,6 +1699,8 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 	pixmap = gdk_pixmap_create_from_xpm_d(window->window,
 		&mask, NULL, mp_xpm);
 	gdk_window_set_icon(window->window, NULL, pixmap, mask);
+
+	build_colors();
 
 	return(NULL);
 }
