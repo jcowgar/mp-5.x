@@ -28,6 +28,8 @@ Release Critical Bugs
    (expand this bug).
  * 1184: Stop inserting the keypress if a key is not bound.
  * 1185: Delete '.' from INC.
+ * 1189: mp.drv.form() cannot be used from the command line in win32.
+ * 1190: Encrypted files fail opening in win32.
 
 Open Bugs
 ---------
