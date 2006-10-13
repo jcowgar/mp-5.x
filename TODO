@@ -29,6 +29,9 @@ Release Critical Bugs
  * 1184: Stop inserting the keypress if a key is not bound.
  * 1185: Delete '.' from INC.
  * 1189: mp.drv.form() cannot be used from the command line in win32.
+ * 1193: mp.drv.form() cannot be used from the command line in GTK,
+   dialogs are created with no fields (but password protected files
+   and tags do work).
 
 Open Bugs
 ---------
