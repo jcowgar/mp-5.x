@@ -1528,11 +1528,6 @@ static mpdm_t gtkdrv_update_ui(mpdm_t a)
 static mpdm_t gtkdrv_main_loop(mpdm_t a)
 /* main loop */
 {
-	/* force the creation of the empty file (if needed)
-	   and then redraw */
-	mp_active();
-	redraw();
-
 	if(!mp_exit_requested)
 		gtk_main();
 
