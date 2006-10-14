@@ -29,9 +29,6 @@ Release Critical Bugs
  * 1184: Stop inserting the keypress if a key is not bound.
  * 1185: Delete '.' from INC.
  * 1189: mp.drv.form() cannot be used from the command line in win32.
- * 1193: mp.drv.form() cannot be used from the command line in GTK,
-   dialogs are created with no fields (but password protected files
-   and tags do work).
 
 Open Bugs
 ---------
@@ -166,5 +163,8 @@ Closed
    (Fixed in MPDM; Fri, 13 Oct 2006 18:59:01 +0200).
  * 1192: Fix password protected opening form to equal cancellation
    if the password is empty (Fri, 13 Oct 2006 20:37:41 +0200).
+ * 1193: mp.drv.form() cannot be used from the command line in GTK,
+   dialogs are created with no fields (but password protected files
+   and tags do work) (My mistake, they work; Sat, 14 Oct 2006 09:31:57 +0200).
 
 Email bugs to angel@triptico.com
