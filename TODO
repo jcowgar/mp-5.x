@@ -28,12 +28,13 @@ Release Critical Bugs
    (expand this bug).
  * 1184: Stop inserting the keypress if a key is not bound.
  * 1185: Delete '.' from INC.
- * 1189: mp.drv.form() cannot be used from the command line in win32.
+ * 1194: Underlined text doesn't work under win32.
 
 Open Bugs
 ---------
 
  * 1150: The GTK menu is not rebuilt when calling mp.update_ui().
+ * 1189: mp.drv.form() cannot be used from the command line in win32.
 
 Pending Enhancements
 --------------------
