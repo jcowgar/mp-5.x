@@ -28,6 +28,7 @@ Release Critical Bugs
  * 1184: Stop inserting the keypress if a key is not bound.
  * 1185: Delete '.' from INC.
  * 1194: Underlined text doesn't work under win32.
+ * 1195: The curses menu crashes if it doesn't fit on the screen.
 
 Open Bugs
 ---------
