@@ -51,6 +51,10 @@ mp.actions['seek_next']	= sub (d) { mp.search(d, NULL) ||
 		mp.alert(L("Text not found."));
 	};
 
+mp.actions['seek_prev']	= sub (d) { mp.search_back(d, NULL) ||
+		mp.alert(L("Text not found."));
+	};
+
 mp.actions['replace']	= sub (d) {
 
 	local r = mp.drv.form( [
@@ -77,26 +81,30 @@ mp.actions['replace']	= sub (d) {
 	}
 };
 
-mp.actions['search_next_char'] = sub (d) { mp.search_next_char(d); };
-mp.actions['search_prev_char'] = sub (d) { mp.search_prev_char(d); };
+mp.actions['seek_next_char'] = sub (d) { mp.seek_next_char(d); };
+mp.actions['seek_prev_char'] = sub (d) { mp.seek_prev_char(d); };
 
 /* default key bindings */
 
 mp.keycodes['f3']		= 'seek_next';
+mp.keycodes['ctrl-f3']		= 'seek_prev';
 mp.keycodes['ctrl-f']		= 'seek';
 mp.keycodes['ctrl-r']		= 'replace';
-mp.keycodes['ctrl-page-down']	= 'search_next_char';
-mp.keycodes['ctrl-page-up']	= 'search_prev_char';
+mp.keycodes['ctrl-page-down']	= 'seek_next_char';
+mp.keycodes['ctrl-page-up']	= 'seek_prev_char';
 
 /* action descriptions */
 mp.actdesc['seek']		= LL("Search text...");
 mp.actdesc['seek_next'] 	= LL("Search next");
+mp.actdesc['seek_prev'] 	= LL("Search previous");
 mp.actdesc['replace']		= LL("Replace...");
+mp.actdesc['seek_next_char']	= LL("Move to next instance of current char");
+mp.actdesc['seek_prev_char']	= LL("Move to previous instance of current char");
 
 /* code */
 
 sub mp.search(doc, str)
-/* search str and put the current position there */
+/* search str and put the current position there, downwards */
 {
 	local txt, x, y, r;
 
@@ -124,6 +132,53 @@ sub mp.search(doc, str)
 	{
 		x = 0; y++;
 	}
+
+	/* get last coords */
+	r = regex();
+
+	if(r)
+	{
+		mp.set_y(doc, y);
+		mp.set_x(doc, r[0] + r[1]);
+
+		/* set always to the same line */
+		if((doc.txt.vy = doc.txt.y - mp.config.move_seek_to_line) < 0)
+			doc.txt.vy = 0;
+	}
+
+	return(r);
+}
+
+
+sub mp.search_back(doc, str)
+/* search str and put the current position there, backwards */
+{
+	local txt, x, y, r;
+
+	if(str == NULL)
+		str = mp.last_search;
+	else
+		mp.last_search = str;
+
+	if(str == NULL)
+		return(NULL);
+
+	/* surround with / for the regex */
+	str = '/' ~ str ~ '/l';
+
+	/* add optional case insensitivity flag */
+	if(! mp.config.case_sensitive_search)
+		str = str ~ 'i';
+
+	txt = doc.txt;
+	x = txt.x;
+	y = txt.y;
+
+	/* while not found, loop the lines */
+	local l = splice(txt.lines[y], NULL, 0, txt.x);
+
+	while(regex(str, l, 0) == NULL && y > 0)
+		l = txt.lines[--y];
 
 	/* get last coords */
 	r = regex();
@@ -185,7 +240,7 @@ sub mp.replace(doc, this, that)
 }
 
 
-sub mp.search_next_char(doc)
+sub mp.seek_next_char(doc)
 /* moves to next occurent of current char */
 {
 	local txt = doc.txt;
@@ -204,7 +259,7 @@ sub mp.search_next_char(doc)
 }
 
 
-sub mp.search_prev_char(doc)
+sub mp.seek_prev_char(doc)
 /* moves to previous occurent of current char */
 {
 	1;
