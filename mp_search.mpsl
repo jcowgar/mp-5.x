@@ -81,8 +81,8 @@ mp.actions['replace']	= sub (d) {
 	}
 };
 
-mp.actions['seek_next_char'] = sub (d) { mp.seek_next_char(d); };
-mp.actions['seek_prev_char'] = sub (d) { mp.seek_prev_char(d); };
+mp.actions['seek_next_char'] = sub (d) { mp.seek_prev_or_next_char(d, mp.search); };
+mp.actions['seek_prev_char'] = sub (d) { mp.seek_prev_or_next_char(d, mp.search_back); };
 
 /* default key bindings */
 
@@ -240,8 +240,8 @@ sub mp.replace(doc, this, that)
 }
 
 
-sub mp.seek_next_char(doc)
-/* moves to next occurent of current char */
+sub mp.seek_prev_or_next_char(doc, func)
+/* moves to next or previous occurent of current char */
 {
 	local txt = doc.txt;
 
@@ -251,27 +251,8 @@ sub mp.seek_next_char(doc)
 	/* move one char right */
 	mp.move_right(doc);
 
-	/* search for it */
-	mp.search(doc, '\' ~ w[1]);
-
-	/* move back */
-	mp.move_left(doc);
-}
-
-
-sub mp.seek_prev_char(doc)
-/* moves to previous occurent of current char */
-{
-	local txt = doc.txt;
-
-	/* get current char */
-	local w = splice(txt.lines[txt.y], NULL, txt.x, 1);
-
-	/* move one char right */
-	mp.move_right(doc);
-
-	/* search for it */
-	mp.search_back(doc, '\' ~ w[1]);
+	/* search for it (mp.search() or mp.search_back()) */
+	func(doc, '\' ~ w[1]);
 
 	/* move back */
 	mp.move_left(doc);
