@@ -103,8 +103,8 @@ mp.actdesc['seek_prev_char']	= LL("Move to previous instance of current char");
 
 /* code */
 
-sub mp.search(doc, str)
-/* search str and put the current position there, downwards */
+sub mp.search_dir(doc, str, dir)
+/* search str and put the current position there, with direction */
 {
 	local txt, x, y, r;
 
@@ -127,10 +127,28 @@ sub mp.search(doc, str)
 	x = txt.x;
 	y = txt.y;
 
-	/* while not found, loop the lines */
-	while(regex(str, txt.lines[y], x) == NULL && y < size(txt.lines))
+	if(dir == -1)
 	{
-		x = 0; y++;
+		local l;
+		str = str ~ 'l';
+
+		/* search backwards */
+		if(txt.x)
+		{
+			l = splice(txt.lines[y], NULL, 0, txt.x - 1);
+			l = l[1];
+		}
+
+		while(regex(str, l, 0) == NULL && y > 0)
+			l = txt.lines[--y];
+	}
+	else
+	{
+		/* search forward */
+		while(regex(str, txt.lines[y], x) == NULL && y < size(txt.lines))
+		{
+			x = 0; y++;
+		}
 	}
 
 	/* get last coords */
@@ -150,50 +168,17 @@ sub mp.search(doc, str)
 }
 
 
+sub mp.search(doc, str)
+/* search str and put the current position there, downwards */
+{
+	mp.search_dir(doc, str, 1);
+}
+
+
 sub mp.search_back(doc, str)
 /* search str and put the current position there, backwards */
 {
-	local txt, x, y, r;
-
-	if(str == NULL)
-		str = mp.last_search;
-	else
-		mp.last_search = str;
-
-	if(str == NULL)
-		return(NULL);
-
-	/* surround with / for the regex */
-	str = '/' ~ str ~ '/l';
-
-	/* add optional case insensitivity flag */
-	if(! mp.config.case_sensitive_search)
-		str = str ~ 'i';
-
-	txt = doc.txt;
-	x = txt.x;
-	y = txt.y;
-
-	/* while not found, loop the lines */
-	local l = splice(txt.lines[y], NULL, 0, txt.x);
-
-	while(regex(str, l, 0) == NULL && y > 0)
-		l = txt.lines[--y];
-
-	/* get last coords */
-	r = regex();
-
-	if(r)
-	{
-		mp.set_y(doc, y);
-		mp.set_x(doc, r[0] + r[1]);
-
-		/* set always to the same line */
-		if((doc.txt.vy = doc.txt.y - mp.config.move_seek_to_line) < 0)
-			doc.txt.vy = 0;
-	}
-
-	return(r);
+	mp.search_dir(doc, str, -1);
 }
 
 
