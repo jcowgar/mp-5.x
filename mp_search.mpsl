@@ -262,7 +262,17 @@ sub mp.seek_next_char(doc)
 sub mp.seek_prev_char(doc)
 /* moves to previous occurent of current char */
 {
-	1;
+	local txt = doc.txt;
+
+	/* get current char */
+	local w = splice(txt.lines[txt.y], NULL, txt.x, 1);
+
+	/* move one char right */
+	mp.move_right(doc);
+
+	/* search for it */
+	mp.search_back(doc, '\' ~ w[1]);
+
+	/* move back */
+	mp.move_left(doc);
 }
-
-
