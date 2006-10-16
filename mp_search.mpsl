@@ -77,11 +77,16 @@ mp.actions['replace']	= sub (d) {
 	}
 };
 
+mp.actions['search_next_char'] = sub (d) { mp.search_next_char(d); };
+mp.actions['search_prev_char'] = sub (d) { mp.search_prev_char(d); };
+
 /* default key bindings */
 
-mp.keycodes['f3']	= "seek_next";
-mp.keycodes['ctrl-f']	= "seek";
-mp.keycodes['ctrl-r']	= "replace";
+mp.keycodes['f3']		= 'seek_next';
+mp.keycodes['ctrl-f']		= 'seek';
+mp.keycodes['ctrl-r']		= 'replace';
+mp.keycodes['ctrl-page-down']	= 'search_next_char';
+mp.keycodes['ctrl-page-up']	= 'search_prev_char';
 
 /* action descriptions */
 mp.actdesc['seek']		= LL("Search text...");
@@ -178,3 +183,31 @@ sub mp.replace(doc, this, that)
 		if(!mp.config.global_replace) break;
 	}
 }
+
+
+sub mp.search_next_char(doc)
+/* moves to next occurent of current char */
+{
+	local txt = doc.txt;
+
+	/* get current char */
+	local w = splice(txt.lines[txt.y], NULL, txt.x, 1);
+
+	/* move one char right */
+	mp.move_right(doc);
+
+	/* search for it */
+	mp.search(doc, '\' ~ w[1]);
+
+	/* move back */
+	mp.move_left(doc);
+}
+
+
+sub mp.search_prev_char(doc)
+/* moves to previous occurent of current char */
+{
+	1;
+}
+
+
