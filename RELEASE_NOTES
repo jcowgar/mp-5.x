@@ -5,6 +5,8 @@ Minimum Profit 5.x Release Notes
 ----------
 
  * Password-protected files fully work.
+ * Moving to next / previous instance of character (bound to ctrl-page-down
+   and ctrl-page-up) works.
 
 4.99.12
 -------
