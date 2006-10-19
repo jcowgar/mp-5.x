@@ -725,6 +725,36 @@ mpdm_t mp_x2vx(mpdm_t args)
 		mpdm_ival(mpdm_aget(args, 1)))));
 }
 
+mpdm_t mp_plain_load(mpdm_t args)
+/* loads a plain file into an array (highly optimized one) */
+{
+	mpdm_t f = mpdm_aget(args, 0);
+	mpdm_t a = MPDM_A(0);
+	mpdm_t v;
+	int chomped = 1;
+
+	while((v = mpdm_read(f)) != NULL)
+	{
+		wchar_t * ptr = v->data;
+		int size = v->size;
+
+		/* chomp */
+		if(size && ptr[size - 1] == L'\n')
+		{
+			if(--size && ptr[size - 1] == L'\r')
+				--size;
+		}
+		else
+			chomped = 0;
+
+		mpdm_push(a, MPDM_NS(ptr, size));
+	}
+
+	/* if last line was chomped, add a last, empty one */
+	if(chomped) mpdm_push(a, MPDM_LS(L""));
+
+	return(a);
+}
 
 
 int ncdrv_detect(int * argc, char *** argv);
@@ -745,6 +775,7 @@ void mp_startup(int argc, char * argv[])
 	mpdm_hset_s(mp, L"x2vx", MPDM_X(mp_x2vx));
 	mpdm_hset_s(mp, L"vx2x", MPDM_X(mp_vx2x));
 	mpdm_hset_s(mp, L"exit", MPDM_X(mp_exit));
+	mpdm_hset_s(mp, L"plain_load", MPDM_X(mp_plain_load));
 	mpdm_hset_s(mp, L"window", MPDM_H(0));
 	mpdm_hset_s(mp, L"drv", MPDM_H(0));
 

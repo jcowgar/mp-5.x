@@ -162,24 +162,6 @@ sub mp.open_file_for_reading(filename)
 }
 
 
-sub mp.plain_load(f)
-/* loads a plain file */
-{
-	local l;
-	local lines = [];
-
-	/* file was open; read it into lines */
-	while((l = read(f)) != NULL)
-		push(lines, mp.chomp(l));
-
-	/* if previous line was chomped, add an empty line */
-	if(sregex())
-		push(lines, '');
-
-	return(lines);
-}
-
-
 sub mp.save(doc)
 /* saves a file */
 {
