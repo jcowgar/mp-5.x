@@ -29,6 +29,10 @@ Release Critical Bugs
  * 1185: Delete '.' from INC.
  * 1194: Underlined text doesn't work under win32.
  * 1195: The curses menu crashes if it doesn't fit on the screen.
+ * 1196: Win32 forms don't show any text under Win98 (it seems that
+   SetDlgItemTextW() is failing).
+ * 1197: Win32 forms under Win98 don't return anything (it seems that
+   GetDlgItemTextW() is failing).
 
 Open Bugs
 ---------
