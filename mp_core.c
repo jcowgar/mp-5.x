@@ -653,49 +653,49 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 
 
 mpdm_t mp_active(void)
-/* interfaz to mp.active() */
+/* interface to mp.active() */
 {
 	return(mpdm_exec(mpdm_hget_s(mp, L"active"), NULL));
 }
 
 
 mpdm_t mp_process_action(mpdm_t action)
-/* interfaz to mp.process_action() */
+/* interface to mp.process_action() */
 {
 	return(mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action));
 }
 
 
 mpdm_t mp_process_event(mpdm_t keycode)
-/* interfaz to mp.process_event() */
+/* interface to mp.process_event() */
 {
 	return(mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode));
 }
 
 
 mpdm_t mp_set_y(mpdm_t doc, int y)
-/* interfaz to mp.set_y() */
+/* interface to mp.set_y() */
 {
 	return(mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y)));
 }
 
 
 mpdm_t mp_build_status_line(void)
-/* interfaz to mp.build_status_line() */
+/* interface to mp.build_status_line() */
 {
 	return(mpdm_exec(mpdm_hget_s(mp, L"build_status_line"), NULL));
 }
 
 
 mpdm_t mp_get_history(mpdm_t key)
-/* interfaz to mp.get_history() */
+/* interface to mp.get_history() */
 {
 	return(mpdm_exec_1(mpdm_hget_s(mp, L"get_history"), key));
 }
 
 
 mpdm_t mp_menu_label(mpdm_t action)
-/* interfaz to mp.menu_label() */
+/* interface to mp.menu_label() */
 {
 	return(mpdm_exec_1(mpdm_hget_s(mp, L"menu_label"), action));
 }
@@ -711,7 +711,7 @@ mpdm_t mp_exit(mpdm_t args)
 
 
 mpdm_t mp_vx2x(mpdm_t args)
-/* interfaz to drw_vx2x() */
+/* interface to drw_vx2x() */
 {
 	return(MPDM_I(drw_vx2x(mpdm_aget(args, 0),
 		mpdm_ival(mpdm_aget(args, 1)))));
@@ -719,11 +719,12 @@ mpdm_t mp_vx2x(mpdm_t args)
 
 
 mpdm_t mp_x2vx(mpdm_t args)
-/* interfaz to drw_x2vx() */
+/* interface to drw_x2vx() */
 {
 	return(MPDM_I(drw_x2vx(mpdm_aget(args, 0),
 		mpdm_ival(mpdm_aget(args, 1)))));
 }
+
 
 
 int ncdrv_detect(int * argc, char *** argv);
