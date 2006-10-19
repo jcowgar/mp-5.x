@@ -748,6 +748,7 @@ mpdm_t mp_plain_load(mpdm_t args)
 			chomped = 0;
 
 		mpdm_push(a, MPDM_NS(ptr, size));
+		mpdm_destroy(v);
 	}
 
 	/* if last line was chomped, add a last, empty one */
