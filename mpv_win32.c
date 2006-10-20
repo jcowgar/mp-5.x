@@ -1000,12 +1000,19 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			wchar_t * type;
 			mpdm_t t;
 			int ctrl = CTRL_ID + n;
+			wchar_t * wptr;
+			char * ptr;
 
 			if((t = mpdm_hget_s(w, L"label")) != NULL)
 			{
-				SetDlgItemTextW(hwnd, LABEL_ID + n, mpdm_string(t));
-				SendDlgItemMessage(hwnd, LABEL_ID + n, WM_SETFONT,
-					(WPARAM) hf, MAKELPARAM(FALSE, 0));
+				if((ptr = mpdm_wcstombs(mpdm_string(t), NULL)) != NULL)
+				{
+					SetDlgItemText(hwnd, LABEL_ID + n, ptr);
+					free(ptr);
+
+					SendDlgItemMessage(hwnd, LABEL_ID + n, WM_SETFONT,
+						(WPARAM) hf, MAKELPARAM(FALSE, 0));
+				}
 			}
 
 			SendDlgItemMessage(hwnd, ctrl, WM_SETFONT,
@@ -1015,9 +1022,12 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 			if(wcscmp(type, L"text") == 0)
 			{
-				if((t = mpdm_hget_s(w, L"value")) != NULL)
-					SetDlgItemTextW(hwnd, ctrl,
-						mpdm_string(t));
+				if((t = mpdm_hget_s(w, L"value")) != NULL &&
+				   (ptr = mpdm_wcstombs(mpdm_string(t), NULL)) != NULL)
+				{
+					SetDlgItemText(hwnd, ctrl, ptr);
+					free(ptr);
+				}
 
 				/* store the history into combo_items */
 				if((t = mpdm_hget_s(w, L"history")) != NULL)
@@ -1028,7 +1038,6 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 					for(i = 0;i < mpdm_size(t);i++)
 					{
 						mpdm_t v = mpdm_aget(t, i);
-						char * ptr;
 
 						if((ptr = mpdm_wcstombs(v->data,
 							NULL)) != NULL)
@@ -1067,9 +1076,6 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 				/* fill the list */
 				for(i = 0;i < mpdm_size(t);i++)
 				{
-					wchar_t * wptr;
-					char * ptr;
-
 					wptr = mpdm_string(mpdm_aget(t, i));
 					if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
 					{
@@ -1085,12 +1091,13 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			}
 		}
 
+		/* FIXME: untranslated strings */
 
-		SetDlgItemTextW(hwnd, IDOK, L"OK");
+		SetDlgItemText(hwnd, IDOK, "OK");
 		SendDlgItemMessage(hwnd, IDOK, WM_SETFONT,
 			(WPARAM) hf, MAKELPARAM(FALSE, 0));
 
-		SetDlgItemTextW(hwnd, IDCANCEL, L"Cancel");
+		SetDlgItemText(hwnd, IDCANCEL, "Cancel");
 		SendDlgItemMessage(hwnd, IDCANCEL, WM_SETFONT,
 			(WPARAM) hf, MAKELPARAM(FALSE, 0));
 
