@@ -7,6 +7,7 @@ Minimum Profit 5.x Release Notes
  * Password-protected files fully work.
  * Moving to next / previous instance of character (bound to ctrl-page-down
    and ctrl-page-up) works.
+ * Files open MUCH faster.
  * Dialog boxes work under Windows 98 (Closed bugs #1196, #1197).
 
 4.99.12
