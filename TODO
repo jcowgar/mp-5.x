@@ -31,8 +31,6 @@ Release Critical Bugs
  * 1195: The curses menu crashes if it doesn't fit on the screen.
  * 1196: Win32 forms don't show any text under Win98 (it seems that
    SetDlgItemTextW() is failing).
- * 1197: Win32 forms under Win98 don't return anything (it seems that
-   GetDlgItemTextW() is failing).
 
 Open Bugs
 ---------
@@ -173,5 +171,7 @@ Closed
    and tags do work) (My mistake, they work; Sat, 14 Oct 2006 09:31:57 +0200).
  * 1131: Add move to next / previous ocurrence of character
    (Mon, 16 Oct 2006 16:17:54 +0200).
+ * 1197: Win32 forms under Win98 don't return anything (it seems that
+   GetDlgItemTextW() is failing) (Fri, 20 Oct 2006 07:42:10 +0200).
 
 Email bugs to angel@triptico.com

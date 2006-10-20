@@ -1116,12 +1116,12 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 			if(wcscmp(type, L"text") == 0)
 			{
-				wchar_t tmp[2048];
+				char tmp[2048];
 				mpdm_t v;
 				mpdm_t h;
 
-				GetDlgItemTextW(hwnd, ctrl, tmp, sizeof(tmp) - 1);
-				v = MPDM_S(tmp);
+				GetDlgItemText(hwnd, ctrl, tmp, sizeof(tmp) - 1);
+				v = MPDM_MBS(tmp);
 
 				mpdm_aset(form_values, v, n);
 
@@ -1137,10 +1137,10 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			}
 			if(wcscmp(type, L"password") == 0)
 			{
-				wchar_t tmp[2048];
+				char tmp[2048];
 
-				GetDlgItemTextW(hwnd, ctrl, tmp, sizeof(tmp) - 1);
-				mpdm_aset(form_values, MPDM_S(tmp), n);
+				GetDlgItemText(hwnd, ctrl, tmp, sizeof(tmp) - 1);
+				mpdm_aset(form_values, MPDM_MBS(tmp), n);
 			}
 			else
 			if(wcscmp(type, L"checkbox") == 0)
