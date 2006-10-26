@@ -132,3 +132,13 @@ sub mp.ispell(b)
 {
 	b && mp.open_ispell_pipe() || mp.close_ispell_pipe();
 }
+
+
+sub mp.toggle_ispell()
+/* toggles ispell state */
+{
+	if(mp.ispell_pipe)
+		mp.close_ispell_pipe();
+	else
+		mp.open_ispell_pipe();
+}
