@@ -27,18 +27,18 @@
 
 /* editor actions */
 
-mp.actions['move_left']	 	= sub (d) { mp.move_left(d); };
-mp.actions['move_right'] 	= sub (d) { mp.move_right(d); };
-mp.actions['move_up']		= sub (d) { mp.move_up(d); };
-mp.actions['move_down']		= sub (d) { mp.move_down(d); };
-mp.actions['move_pgup']		= sub (d) { mp.move_pgup(d); };
-mp.actions['move_pgdn']		= sub (d) { mp.move_pgdn(d); };
-mp.actions['move_bol']		= sub (d) { mp.move_bol(d); };
-mp.actions['move_eol']		= sub (d) { mp.move_eol(d); };
-mp.actions['move_bof']		= sub (d) { mp.move_bof(d); };
-mp.actions['move_eof']		= sub (d) { mp.move_eof(d); };
-mp.actions['move_word_left']	= sub (d) { mp.move_word_left(d); };
-mp.actions['move_word_right']	= sub (d) { mp.move_word_right(d); };
+mp.actions['move_left']	 	= sub (d) { mp.move(d, mp.move_left); };
+mp.actions['move_right'] 	= sub (d) { mp.move(d, mp.move_right); };
+mp.actions['move_up']		= sub (d) { mp.move(d, mp.move_up); };
+mp.actions['move_down']		= sub (d) { mp.move(d, mp.move_down); };
+mp.actions['move_pgup']		= sub (d) { mp.move(d, mp.move_pgup); };
+mp.actions['move_pgdn']		= sub (d) { mp.move(d, mp.move_pgdn); };
+mp.actions['move_bol']		= sub (d) { mp.move(d, mp.move_bol); };
+mp.actions['move_eol']		= sub (d) { mp.move(d, mp.move_eol); };
+mp.actions['move_bof']		= sub (d) { mp.move(d, mp.move_bof); };
+mp.actions['move_eof']		= sub (d) { mp.move(d, mp.move_eof); };
+mp.actions['move_word_left']	= sub (d) { mp.move(d, mp.move_word_left); };
+mp.actions['move_word_right']	= sub (d) { mp.move(d, mp.move_word_right); };
 
 mp.actions['goto']		= sub (d) {
 	local y = mp.drv.form( [
@@ -67,17 +67,21 @@ mp.actions['move_to_mouse_position']	= sub (d) {
 };
 
 mp.actions['move_mouse_wheel_up']	= sub (d) {
-	mp.move_up(d);
-	mp.move_up(d);
-	mp.move_up(d);
-	mp.move_up(d);
+	mp.move(d, sub (d) {
+		mp.move_up(d);
+		mp.move_up(d);
+		mp.move_up(d);
+		mp.move_up(d);
+	});
 };
 
 mp.actions['move_mouse_wheel_down']	= sub (d) {
-	mp.move_down(d);
-	mp.move_down(d);
-	mp.move_down(d);
-	mp.move_down(d);
+	mp.move(d, sub(d) {
+		mp.move_down(d);
+		mp.move_down(d);
+		mp.move_down(d);
+		mp.move_down(d);
+	});
 };
 
 /* default key bindings */
@@ -121,6 +125,26 @@ mp.actdesc['move_mouse_wheel_down']	= LL("Mouse wheel up");
 mp.actdesc['move_mouse_wheel_up']	= LL("Mouse wheel down");
 
 /* code */
+
+sub mp.move(doc, func)
+/* wrapper for movement functions, with possible shift selection */
+{
+	if(func != NULL)
+	{
+		if(mp.shift_pressed)
+		{
+			/* shift pressed? move selecting */
+			mp.mark(doc);
+			func(doc);
+			mp.mark(doc);
+
+			mp.shift_pressed = NULL;
+		}
+		else
+			func(doc);
+	}
+}
+
 
 sub mp.split_line_by_words(doc, r)
 /* splits current line by words and returns a three element array containing
