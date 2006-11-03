@@ -40,6 +40,9 @@ Open Bugs
    this, set mp.config.font_face (in the config file) to an existing
    monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
  * 1201: Add selection by mouse dragging to Win32.
+ * 1202: Block selection doesn't work well. The first mark should have
+   preference from the other (must never change in a selection
+   'session').
 
 Pending Enhancements
 --------------------
