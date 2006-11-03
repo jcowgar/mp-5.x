@@ -48,6 +48,9 @@ Pending Enhancements
    HTML / XML / SGML match < > pairs.
  * 1101: Paren matching should not be limited to just parentheses and
    similar, but to full strings (very useful for HTML open / close tags.)
+ * 1203: Change the drawing engine to only apply the syntax highlighting
+   regexes whenever the modified flag has changed or the viewport is
+   different.
 
 Closed
 ------
