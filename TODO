@@ -39,6 +39,8 @@ Open Bugs
    margin detection and mouse positioning doesn't work. To workaround
    this, set mp.config.font_face (in the config file) to an existing
    monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
+ * 1200: Add selection by mouse dragging to GTK.
+ * 1201: Add selection by mouse dragging to Win32.
 
 Pending Enhancements
 --------------------
