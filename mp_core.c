@@ -786,9 +786,6 @@ void mp_startup(int argc, char * argv[])
 	/* creates the INC (executable path) array */
 	INC = MPDM_A(0);
 
-	/* HACK: use current directory */
-	mpdm_push(INC, MPDM_LS(L"."));
-
 	/* add installed library path */
 	mpdm_push(INC, mpdm_strcat(
 		mpdm_hget_s(mpdm_root(), L"APPDIR"),
