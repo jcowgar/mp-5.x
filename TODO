@@ -35,6 +35,11 @@ Open Bugs
 
  * 1150: The GTK menu is not rebuilt when calling mp.update_ui().
  * 1189: mp.drv.form() cannot be used from the command line in win32.
+ * 1199: On GTK, the default font (Mono 12, seemingly an alias to an
+   actual font) doesn't get its width calculated correctly, so right
+   margin detection and mouse positioning doesn't work. To workaround
+   this, set mp.config.font_face (in the config file) to an existing
+   font, like "DejaVu".
 
 Pending Enhancements
 --------------------
