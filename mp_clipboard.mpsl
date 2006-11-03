@@ -102,26 +102,28 @@ sub mp.mark(doc)
 	{
 		/* no mark; create one */
 		txt.mark = {};
-		txt.mark.bx = txt.x;
-		txt.mark.by = txt.y;
-		txt.mark.ex = txt.x;
-		txt.mark.ey = txt.y;
+		txt.mark.ax = txt.mark.bx = txt.mark.ex = txt.x;
+		txt.mark.ay = txt.mark.by = txt.mark.ey = txt.y;
 	}
 	else
 	{
 		/* mark exists; extend current one */
-		if(txt.y < txt.mark.by ||
-			(txt.y == txt.mark.by && txt.x < txt.mark.bx))
+		if(txt.y < txt.mark.ay ||
+			(txt.y == txt.mark.ay && txt.x < txt.mark.ax))
 		{
 			/* move the beginning of the block */
 			txt.mark.bx = txt.x;
 			txt.mark.by = txt.y;
+			txt.mark.ex = txt.mark.ax;
+			txt.mark.ey = txt.mark.ay;
 		}
 		else
 		{
 			/* move the end of the block */
 			txt.mark.ex = txt.x;
 			txt.mark.ey = txt.y;
+			txt.mark.bx = txt.mark.ax;
+			txt.mark.by = txt.mark.ay;
 		}
 	}
 }

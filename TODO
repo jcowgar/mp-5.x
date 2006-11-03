@@ -40,9 +40,6 @@ Open Bugs
    this, set mp.config.font_face (in the config file) to an existing
    monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
  * 1201: Add selection by mouse dragging to Win32.
- * 1202: Block selection doesn't work well. The first mark should have
-   preference from the other (must never change in a selection
-   'session').
 
 Pending Enhancements
 --------------------
@@ -186,5 +183,8 @@ Closed
    (Fri, 03 Nov 2006 15:48:41 +0100).
  * 1200: Add selection by mouse dragging to GTK
    (Fri, 03 Nov 2006 16:57:26 +0100).
+ * 1202: Block selection doesn't work well. The first mark should have
+   preference from the other (must never change in a selection
+   'session') (Fri, 03 Nov 2006 17:34:03 +0100).
 
 Email bugs to angel@triptico.com
