@@ -723,8 +723,10 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 
 	gtk_im_context_filter_keypress(im, event);
 
-/*	mpi_move_selecting=event->state & GDK_SHIFT_MASK;
-*/
+	/* set mp.shift_pressed */
+	if(event->state & (GDK_SHIFT_MASK))
+		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
+
 	/* reserve alt for menu mnemonics */
 	if (GDK_MOD1_MASK & event->state)
 		return(0);

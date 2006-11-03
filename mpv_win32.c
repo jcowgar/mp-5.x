@@ -486,8 +486,10 @@ static void win32_vkey(int c)
 	wchar_t * ptr = NULL;
 	static int maxed = 0;
 
-/*	mpi_move_selecting=(GetKeyState(VK_SHIFT) & 0x8000);
-*/
+	/* set mp.shift_pressed */
+	if(GetKeyState(VK_SHIFT) & 0x8000)
+		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
+
 	if(GetKeyState(VK_CONTROL) & 0x8000 ||
 	   GetKeyState(VK_MENU) & 0x8000)
 	{
@@ -583,6 +585,10 @@ static void win32_akey(int k)
 
 	if (is_wm_keydown)
 		return;
+
+	/* set mp.shift_pressed */
+	if(GetKeyState(VK_SHIFT) & 0x8000)
+		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
 
 	switch(k)
 	{

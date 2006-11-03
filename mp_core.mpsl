@@ -209,6 +209,8 @@ sub mp.process_event(k)
 	}
 	else
 		mp.insert(d, k);
+
+	mp.shift_pressed = NULL;
 }
 
 

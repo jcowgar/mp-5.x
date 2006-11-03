@@ -8,6 +8,7 @@ Minimum Profit 5.x Release Notes
  * Moving to next / previous instance of character (bound to ctrl-page-down
    and ctrl-page-up) works.
  * Files open MUCH faster.
+ * Selection can be done by pressing shift + any movement key.
  * Dialog boxes work under Windows 98 (Closed bugs #1196, #1197).
 
 4.99.12

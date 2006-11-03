@@ -134,11 +134,11 @@ sub mp.move(doc, func)
 		if(mp.shift_pressed)
 		{
 			/* shift pressed? move selecting */
-			mp.mark(doc);
+			if(doc.txt.mark == NULL)
+				mp.mark(doc);
+
 			func(doc);
 			mp.mark(doc);
-
-			mp.shift_pressed = NULL;
 		}
 		else
 			func(doc);
