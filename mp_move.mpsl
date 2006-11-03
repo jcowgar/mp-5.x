@@ -64,6 +64,8 @@ mp.actions['move_to_mouse_position']	= sub (d) {
 
 	/* move there */
 	mp.set_x(d, x);
+
+	mp.unmark(d);
 };
 
 mp.actions['move_mouse_wheel_up']	= sub (d) {

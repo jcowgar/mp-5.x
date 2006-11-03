@@ -850,11 +850,15 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 }
 
 
+static int mouse_down = 0;
+
 static gint button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer data)
 /* 'button_press_event' handler (mouse buttons) */
 {
 	int x, y;
 	wchar_t * ptr = NULL;
+
+	mouse_down = 1;
 
 	/* mouse instant positioning */
 	x = ((int)event->x) / font_width;
@@ -878,6 +882,37 @@ static gint button_press_event(GtkWidget * widget, GdkEventButton * event, gpoin
 	redraw();
 
 	return(0);
+}
+
+
+static gint button_release_event(GtkWidget * widget, GdkEventButton * event, gpointer data)
+/* 'button_release_event' handle (mouse buttons) */
+{
+	mouse_down = 0;
+
+	return(TRUE);
+}
+
+
+static gint motion_notify_event(GtkWidget *widget, GdkEventMotion * event, gpointer data)
+/* 'motion_notify_event' handler (mouse movement) */
+{
+	if(mouse_down)
+	{
+		int x, y;
+
+		/* mouse dragging */
+		x = ((int)event->x) / font_width;
+		y = ((int)event->y) / font_height;
+
+		mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
+		mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
+
+		mp_process_event(MPDM_LS(L"mouse-drag"));
+		redraw();
+	}
+
+	return(TRUE);
 }
 
 
@@ -1604,7 +1639,9 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 	area = gtk_drawing_area_new();
 	gtk_box_pack_start(GTK_BOX(hbox), area, TRUE, TRUE, 0);
 	gtk_widget_set_usize(GTK_WIDGET(area), 600, 400);
-	gtk_widget_set_events(GTK_WIDGET(area), GDK_BUTTON_PRESS_MASK);
+	gtk_widget_set_events(GTK_WIDGET(area), GDK_BUTTON_PRESS_MASK |
+		GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK |
+		GDK_LEAVE_NOTIFY_MASK);
 
 	gtk_widget_set_double_buffered(area, FALSE);
 
@@ -1622,6 +1659,12 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 
 	gtk_signal_connect(GTK_OBJECT(area),"button_press_event",
 		(GtkSignalFunc) button_press_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area),"button_release_event",
+		(GtkSignalFunc) button_release_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(area),"motion_notify_event",
+		(GtkSignalFunc) motion_notify_event, NULL);
 
 	gtk_signal_connect(GTK_OBJECT(area), "selection_clear_event",
 		(GtkSignalFunc) selection_clear_event, NULL);

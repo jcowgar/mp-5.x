@@ -47,13 +47,34 @@ mp.actions['cut_mark']	= sub (d) {
 					mp.drv.clip_to_sys();
 				};
 
+mp.actions['mouse_drag_mark'] = sub (d) {
+
+	/* no selection yet? move to initial click and mark */
+	if(d.txt.mark == NULL)
+		mp.mark(d);
+
+	/* move to drag position */
+	mp.set_y(d, d.txt.vy + mp.mouse_to_y);
+
+	/* calculate the real position in that line
+	   where the mouse click seem to be */
+	local x = mp.vx2x(d.txt.lines[d.txt.y], d.txt.vx + mp.mouse_to_x);
+
+	/* move there */
+	mp.set_x(d, x);
+
+	/* and mark */
+	mp.mark(d);
+};
+
 /* default key bindings */
 
-mp.keycodes['f8']	= "unmark";
-mp.keycodes['f9']	= "mark";
-mp.keycodes['ctrl-c']	= "copy_mark";
-mp.keycodes['ctrl-v']	= "paste_mark";
-mp.keycodes['ctrl-x']	= "cut_mark";
+mp.keycodes['f8']		= "unmark";
+mp.keycodes['f9']		= "mark";
+mp.keycodes['ctrl-c']		= "copy_mark";
+mp.keycodes['ctrl-v']		= "paste_mark";
+mp.keycodes['ctrl-x']		= "cut_mark";
+mp.keycodes['mouse-drag']	= "mouse_drag_mark";
 
 /* action descriptions */
 mp.actdesc['unmark']	= LL("Unmark block");
@@ -148,3 +169,5 @@ sub mp.paste(doc)
 {
 	mp.insert_array(doc, mp.clipboard);
 }
+
+
