@@ -897,6 +897,9 @@ static gint button_release_event(GtkWidget * widget, GdkEventButton * event, gpo
 static gint motion_notify_event(GtkWidget *widget, GdkEventMotion * event, gpointer data)
 /* 'motion_notify_event' handler (mouse movement) */
 {
+	static int ox = 0;
+	static int oy = 0;
+
 	if(mouse_down)
 	{
 		int x, y;
@@ -905,11 +908,14 @@ static gint motion_notify_event(GtkWidget *widget, GdkEventMotion * event, gpoin
 		x = ((int)event->x) / font_width;
 		y = ((int)event->y) / font_height;
 
-		mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
-		mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
+		if(ox != x && oy != y)
+		{
+			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
+			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
 
-		mp_process_event(MPDM_LS(L"mouse-drag"));
-		redraw();
+			mp_process_event(MPDM_LS(L"mouse-drag"));
+			gtkdrv_paint(mp_active(), 1);
+		}
 	}
 
 	return(TRUE);
