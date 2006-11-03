@@ -71,6 +71,9 @@ static struct {
 	mpdm_t colors;		/* color definitions (for attributes) */
 	int normal_attr;	/* normal attr */
 	int cursor_attr;	/* cursor attr */
+	int matchparen_offset;	/* offset to matched paren */
+	int matchparen_o_attr;	/* original attribute there */
+	int cursor_o_attr;	/* original attribute under cursor */
 	mpdm_t v;		/* the data */
 	mpdm_t old;		/* the previously generated array */
 } drw;
@@ -432,6 +435,9 @@ static void drw_matching_paren(void)
 	int i = 0;
 	wchar_t c;
 
+	/* by default, no offset has been found */
+	drw.matchparen_offset = -1;
+
 	/* find the opposite and the increment (direction) */
 	switch(drw.ptr[o]) {
 	case L'(': c = L')'; i = 1; break;
@@ -463,6 +469,8 @@ static void drw_matching_paren(void)
 				if(--m == 0)
 				{
 					/* found! fill and exit */
+					drw.matchparen_offset = o;
+					drw.matchparen_o_attr = drw.attrs[o];
 					drw_fill_attr(drw_get_attr(L"matching"), o, 1);
 					break;
 				}
@@ -492,8 +500,8 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 		mpdm_push(l, MPDM_I(a));
 		mpdm_push(l, MPDM_NS(tmp, 1));
 
-		/* cursor color is normal */
-		a = drw.normal_attr;
+		/* the rest of the string has the original attr */
+		a = drw.cursor_o_attr;
 
 		/* one char less */
 		tmp[i - 1] = L'\0';
@@ -642,6 +650,7 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 	drw_matching_paren();
 
 	/* and finally the cursor */
+	drw.cursor_o_attr = drw.attrs[drw.cursor];
 	drw_fill_attr(drw.cursor_attr, drw.cursor, 1);
 
 	r = drw_as_array();
