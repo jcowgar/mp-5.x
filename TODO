@@ -39,7 +39,7 @@ Open Bugs
    actual font) doesn't get its width calculated correctly, so right
    margin detection and mouse positioning doesn't work. To workaround
    this, set mp.config.font_face (in the config file) to an existing
-   font, like "DejaVu".
+   monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
 
 Pending Enhancements
 --------------------
