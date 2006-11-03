@@ -54,14 +54,7 @@ mp.actions['mouse_drag_mark'] = sub (d) {
 		mp.mark(d);
 
 	/* move to drag position */
-	mp.set_y(d, d.txt.vy + mp.mouse_to_y);
-
-	/* calculate the real position in that line
-	   where the mouse click seem to be */
-	local x = mp.vx2x(d.txt.lines[d.txt.y], d.txt.vx + mp.mouse_to_x);
-
-	/* move there */
-	mp.set_x(d, x);
+	mp.move_to_coords_xy(d, mp.mouse_to_x, mp.mouse_to_y);
 
 	/* and mark */
 	mp.mark(d);

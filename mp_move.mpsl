@@ -55,16 +55,11 @@ mp.actions['goto']		= sub (d) {
 };
 
 mp.actions['move_to_mouse_position']	= sub (d) {
-	/* move to that line */
-	mp.set_y(d, d.txt.vy + mp.mouse_y);
 
-	/* calculate the real position in that line
-	   where the mouse click seem to be */
-	local x = mp.vx2x(d.txt.lines[d.txt.y], d.txt.vx + mp.mouse_x);
+	/* move the cursor there */
+	mp.move_to_coords_xy(d, mp.mouse_x, mp.mouse_y);
 
-	/* move there */
-	mp.set_x(d, x);
-
+	/* mouse click always unmarks */
 	mp.unmark(d);
 };
 
@@ -445,4 +440,19 @@ sub mp.move_word_right(doc)
 		txt.y++;
 		txt.x = 0;
 	}
+}
+
+
+sub mp.move_to_coords_xy(doc, x, y)
+/* move the cursor to the character on the visual coords x and y */
+{
+	/* set y */
+	mp.set_y(doc, doc.txt.vy + y);
+
+	/* calculate the real position in that line
+	   where the mouse click seem to be */
+	x = mp.vx2x(doc.txt.lines[doc.txt.y], doc.txt.vx + x);
+
+	/* move there */
+	mp.set_x(doc, x);
 }
