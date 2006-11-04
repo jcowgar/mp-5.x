@@ -52,34 +52,40 @@ mpdm_t mp = NULL;
 
 /* private data for drawing syntax-highlighted text */
 
-static struct {
-	int n_lines;		/* total number of lines */
-	int p_lines;		/* number of prereaded lines */
-	int * offsets;		/* offsets of lines */
-	char * attrs;		/* attributes */
-	int vx;			/* first visible column */
-	int vy;			/* first visible line */
-	int tx;			/* horizontal window size */
-	int ty;			/* vertical window size */
-	int visible;		/* offset to the first visible character */
-	int cursor;		/* offset to cursor */
-	int tab_size;		/* tabulator size */
-	wchar_t * ptr;		/* pointer to joined data */
-	int size;		/* size of joined data */
+struct drw_1_info {
 	mpdm_t txt;		/* the document */
 	mpdm_t syntax;		/* syntax highlight information */
 	mpdm_t colors;		/* color definitions (for attributes) */
 	int normal_attr;	/* normal attr */
 	int cursor_attr;	/* cursor attr */
+	int n_lines;		/* total number of lines */
+	int p_lines;		/* number of prereaded lines */
+	int vx;			/* first visible column */
+	int vy;			/* first visible line */
+	int tx;			/* horizontal window size */
+	int ty;			/* vertical window size */
+	int tab_size;		/* tabulator size */
+};
+
+struct drw_1_info drw_1;
+struct drw_1_info drw_1_o;
+
+static struct {
+	int * offsets;		/* offsets of lines */
+	char * attrs;		/* attributes */
+	int visible;		/* offset to the first visible character */
+	int cursor;		/* offset to cursor */
+	wchar_t * ptr;		/* pointer to joined data */
+	int size;		/* size of joined data */
 	int matchparen_offset;	/* offset to matched paren */
 	int matchparen_o_attr;	/* original attribute there */
 	int cursor_o_attr;	/* original attribute under cursor */
 	mpdm_t v;		/* the data */
 	mpdm_t old;		/* the previously generated array */
-} drw;
+} drw_2;
 
 
-#define MP_REAL_TAB_SIZE(x) (drw.tab_size - ((x) % drw.tab_size))
+#define MP_REAL_TAB_SIZE(x) (drw_1.tab_size - ((x) % drw_1.tab_size))
 
 static int drw_wcwidth(int x, wchar_t c)
 /* returns the wcwidth of c, or the tab spaces for
@@ -126,7 +132,7 @@ int drw_x2vx(mpdm_t str, int x)
 static int drw_line_offset(int l)
 /* returns the offset into v for line number l */
 {
-	return(drw.offsets[l - drw.vy + drw.p_lines]);
+	return(drw_2.offsets[l - drw_1.vy + drw_1.p_lines]);
 }
 
 
@@ -153,7 +159,7 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 	int t = *vx;
 
 	/* move to the first character of the line */
-	ptr = drw.ptr + drw_line_offset(y);
+	ptr = drw_2.ptr + drw_line_offset(y);
 
 	/* calculate the column for the cursor position */
 	for(n = m = 0;n < x;n++, ptr++)
@@ -175,14 +181,14 @@ static int drw_get_attr(wchar_t * color_name)
 	mpdm_t v;
 	int attr = 0;
 
-	if((v = mpdm_hget_s(drw.colors, color_name)) != NULL)
+	if((v = mpdm_hget_s(drw_1.colors, color_name)) != NULL)
 		attr = mpdm_ival(mpdm_hget_s(v, L"attr"));
 
 	return(attr);
 }
 
 
-static void drw_prepare(mpdm_t doc)
+static int drw_prepare(mpdm_t doc)
 /* prepares the document for screen drawing */
 {
 	mpdm_t window = mpdm_hget_s(mp, L"window");
@@ -193,77 +199,79 @@ static void drw_prepare(mpdm_t doc)
 	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
 	int n;
 
-	drw.vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
-	drw.vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
-	drw.tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
-	drw.ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
-	drw.tab_size = mpdm_ival(mpdm_hget_s(config, L"tab_size"));
+	drw_1.vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
+	drw_1.vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
+	drw_1.tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
+	drw_1.ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
+	drw_1.tab_size = mpdm_ival(mpdm_hget_s(config, L"tab_size"));
 
 	/* adjust the visual y coordinate */
-	if(drw_adjust_y(y, &drw.vy, drw.ty))
-		mpdm_hset_s(txt, L"vy", MPDM_I(drw.vy));
+	if(drw_adjust_y(y, &drw_1.vy, drw_1.ty))
+		mpdm_hset_s(txt, L"vy", MPDM_I(drw_1.vy));
 
 	/* get the maximum prereadable lines */
-	drw.p_lines = drw.vy > mpi_preread_lines ? mpi_preread_lines : drw.vy;
+	drw_1.p_lines = drw_1.vy > mpi_preread_lines ? mpi_preread_lines : drw_1.vy;
 
 	/* maximum lines */
-	drw.n_lines = drw.ty + drw.p_lines;
+	drw_1.n_lines = drw_1.ty + drw_1.p_lines;
 
 	/* alloc space for line offsets */
-	drw.offsets = realloc(drw.offsets, drw.n_lines * sizeof(int));
+	drw_2.offsets = realloc(drw_2.offsets, drw_1.n_lines * sizeof(int));
 
-	drw.ptr = NULL;
-	drw.size = 0;
+	drw_2.ptr = NULL;
+	drw_2.size = 0;
 
 	/* add first line */
-	drw.ptr = mpdm_pokev(drw.ptr, &drw.size,
-		mpdm_aget(lines, drw.vy - drw.p_lines));
+	drw_2.ptr = mpdm_pokev(drw_2.ptr, &drw_2.size,
+		mpdm_aget(lines, drw_1.vy - drw_1.p_lines));
 
 	/* first line start at 0 */
-	drw.offsets[0] = 0;
+	drw_2.offsets[0] = 0;
 
 	/* add the following lines and store their offsets */
-	for(n = 1;n < drw.n_lines;n++)
+	for(n = 1;n < drw_1.n_lines;n++)
 	{
 		/* add the separator */
-		drw.ptr = mpdm_poke(drw.ptr, &drw.size,
+		drw_2.ptr = mpdm_poke(drw_2.ptr, &drw_2.size,
 			L"\n", 1, sizeof(wchar_t));
 
 		/* this line starts here */
-		drw.offsets[n] = drw.size;
+		drw_2.offsets[n] = drw_2.size;
 
 		/* now add it */
-		drw.ptr = mpdm_pokev(drw.ptr, &drw.size,
-			mpdm_aget(lines, n + drw.vy - drw.p_lines));
+		drw_2.ptr = mpdm_pokev(drw_2.ptr, &drw_2.size,
+			mpdm_aget(lines, n + drw_1.vy - drw_1.p_lines));
 	}
 
-	drw.ptr = mpdm_poke(drw.ptr, &drw.size, L"", 1, sizeof(wchar_t));
-	drw.size--;
+	drw_2.ptr = mpdm_poke(drw_2.ptr, &drw_2.size, L"", 1, sizeof(wchar_t));
+	drw_2.size--;
 
 	/* now create a value */
-	mpdm_unref(drw.v);
-	drw.v = mpdm_ref(MPDM_ENS(drw.ptr, drw.size));
+	mpdm_unref(drw_2.v);
+	drw_2.v = mpdm_ref(MPDM_ENS(drw_2.ptr, drw_2.size));
 
 	/* get the mp.colors structure and the most used attributes */
-	drw.colors = mpdm_hget_s(mp, L"colors");
-	drw.normal_attr = drw_get_attr(L"normal");
-	drw.cursor_attr = drw_get_attr(L"cursor");
+	drw_1.colors = mpdm_hget_s(mp, L"colors");
+	drw_1.normal_attr = drw_get_attr(L"normal");
+	drw_1.cursor_attr = drw_get_attr(L"cursor");
 
 	/* alloc and init space for the attributes */
-	drw.attrs = realloc(drw.attrs, drw.size + 1);
-	memset(drw.attrs, drw.normal_attr, drw.size + 1);
+	drw_2.attrs = realloc(drw_2.attrs, drw_2.size + 1);
+	memset(drw_2.attrs, drw_1.normal_attr, drw_2.size + 1);
 
 	/* store the syntax highlight structure */
-	drw.syntax = mpdm_hget_s(doc, L"syntax");
+	drw_1.syntax = mpdm_hget_s(doc, L"syntax");
 
 	/* adjust the visual x coordinate */
-	if(drw_adjust_x(x, y, &drw.vx, drw.tx))
-		mpdm_hset_s(txt, L"vx", MPDM_I(drw.vx));
+	if(drw_adjust_x(x, y, &drw_1.vx, drw_1.tx))
+		mpdm_hset_s(txt, L"vx", MPDM_I(drw_1.vx));
 
-	mpdm_unref(drw.txt);
-	drw.txt = mpdm_ref(txt);
-	drw.visible = drw_line_offset(drw.vy);
-	drw.cursor = drw_line_offset(y) + x;
+	mpdm_unref(drw_1.txt);
+	drw_1.txt = mpdm_ref(txt);
+	drw_2.visible = drw_line_offset(drw_1.vy);
+	drw_2.cursor = drw_line_offset(y) + x;
+
+	return(1);
 }
 
 
@@ -271,7 +279,7 @@ static int drw_fill_attr(int attr, int offset, int size)
 /* fill an attribute */
 {
 	if(attr != -1)
-		memset(drw.attrs + offset, attr, size);
+		memset(drw_2.attrs + offset, attr, size);
 
 	return(offset + size);
 }
@@ -288,7 +296,7 @@ static void drw_words(void)
 /* fills the attributes for separate words */
 {
 	mpdm_t r, t;
-	int o = drw.visible;
+	int o = drw_2.visible;
 	mpdm_t word_color = NULL;
 	mpdm_t word_color_func = NULL;
 
@@ -303,7 +311,7 @@ static void drw_words(void)
 	/* get the word color function */
 	word_color_func = mpdm_hget_s(mp, L"word_color_func");
 
-	while((t = mpdm_regex(r, drw.v, o)) != NULL)
+	while((t = mpdm_regex(r, drw_2.v, o)) != NULL)
 	{
 		int attr = -1;
 		mpdm_t v;
@@ -336,7 +344,7 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 			mpdm_t rs = mpdm_aget(r, 0);
 			mpdm_t re = mpdm_aget(r, 1);
 
-			while(mpdm_regex(rs, drw.v, o))
+			while(mpdm_regex(rs, drw_2.v, o))
 			{
 				int s;
 
@@ -344,7 +352,7 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 				o = drw_fill_attr_regex(attr);
 
 				/* try to match the end */
-				if(mpdm_regex(re, drw.v, o))
+				if(mpdm_regex(re, drw_2.v, o))
 				{
 					/* found; fill the attribute
 					   to the end of the match */
@@ -355,7 +363,7 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 				{
 					/* not found; fill to the end
 					   of the document */
-					s = drw.size - o;
+					s = drw_2.size - o;
 				}
 
 				/* fill to there */
@@ -366,7 +374,7 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 		{
 			/* it's a scalar: */
 			/* while the regex matches, fill attributes */
-			while(mpdm_regex(r, drw.v, o))
+			while(mpdm_regex(r, drw_2.v, o))
 				o = drw_fill_attr_regex(attr);
 		}
 	}
@@ -380,7 +388,7 @@ static void drw_blocks(void)
 	int n;
 
 	/* no definitions? return */
-	if(drw.syntax == NULL || (defs = mpdm_hget_s(drw.syntax, L"defs")) == NULL)
+	if(drw_1.syntax == NULL || (defs = mpdm_hget_s(drw_1.syntax, L"defs")) == NULL)
 		return;
 
 	for(n = 0;n < mpdm_size(defs);n += 2)
@@ -390,7 +398,7 @@ static void drw_blocks(void)
 
 		/* get the attribute */
 		attr = mpdm_aget(defs, n);
-		attr = mpdm_hget(drw.colors, attr);
+		attr = mpdm_hget(drw_1.colors, attr);
 		attr = mpdm_hget_s(attr, L"attr");
 
 		/* get the list for this word color */
@@ -409,7 +417,7 @@ static void drw_selection(void)
 	int so, eo;
 
 	/* no mark? return */
-	if((mark = mpdm_hget_s(drw.txt, L"mark")) == NULL)
+	if((mark = mpdm_hget_s(drw_1.txt, L"mark")) == NULL)
 		return;
 
 	bx = mpdm_ival(mpdm_hget_s(mark, L"bx"));
@@ -418,11 +426,11 @@ static void drw_selection(void)
 	ey = mpdm_ival(mpdm_hget_s(mark, L"ey"));
 
 	/* if block is not visible, return */
-	if(ey < drw.vy || by > drw.vy + drw.ty)
+	if(ey < drw_1.vy || by > drw_1.vy + drw_1.ty)
 		return;
 
-	so = by < drw.vy ? drw.visible : drw_line_offset(by) + bx;
-	eo = ey >= drw.vy + drw.ty ? drw.size : drw_line_offset(ey) + ex;
+	so = by < drw_1.vy ? drw_2.visible : drw_line_offset(by) + bx;
+	eo = ey >= drw_1.vy + drw_1.ty ? drw_2.size : drw_line_offset(ey) + ex;
 
 	drw_fill_attr(drw_get_attr(L"selection"), so, eo - so);
 }
@@ -431,15 +439,15 @@ static void drw_selection(void)
 static void drw_matching_paren(void)
 /* highlights the matching paren */
 {
-	int o = drw.cursor;
+	int o = drw_2.cursor;
 	int i = 0;
 	wchar_t c;
 
 	/* by default, no offset has been found */
-	drw.matchparen_offset = -1;
+	drw_2.matchparen_offset = -1;
 
 	/* find the opposite and the increment (direction) */
-	switch(drw.ptr[o]) {
+	switch(drw_2.ptr[o]) {
 	case L'(': c = L')'; i = 1; break;
 	case L'{': c = L'}'; i = 1; break;
 	case L'[': c = L']'; i = 1; break;
@@ -451,26 +459,26 @@ static void drw_matching_paren(void)
 	/* if a direction is set, do the searching */
 	if(i)
 	{
-		wchar_t s = drw.ptr[o];
+		wchar_t s = drw_2.ptr[o];
 		int m = 0;
-		int l = i == -1 ? drw.visible - 1 : drw.size;
+		int l = i == -1 ? drw_2.visible - 1 : drw_2.size;
 
 		while(o != l)
 		{
-			if (drw.ptr[o] == s)
+			if (drw_2.ptr[o] == s)
 			{
 				/* found the same */
 				m++;
 			}
 			else
-			if (drw.ptr[o] == c)
+			if (drw_2.ptr[o] == c)
 			{
 				/* found the opposite */
 				if(--m == 0)
 				{
 					/* found! fill and exit */
-					drw.matchparen_offset = o;
-					drw.matchparen_o_attr = drw.attrs[o];
+					drw_2.matchparen_offset = o;
+					drw_2.matchparen_o_attr = drw_2.attrs[o];
 					drw_fill_attr(drw_get_attr(L"matching"), o, 1);
 					break;
 				}
@@ -495,13 +503,13 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 	   one of the cursor and the string is more than
 	   one character, create two strings; the
 	   cursor is over a tab */
-	if(a == drw.cursor_attr && i > 1)
+	if(a == drw_1.cursor_attr && i > 1)
 	{
 		mpdm_push(l, MPDM_I(a));
 		mpdm_push(l, MPDM_NS(tmp, 1));
 
 		/* the rest of the string has the original attr */
-		a = drw.cursor_o_attr;
+		a = drw_2.cursor_o_attr;
 
 		/* one char less */
 		tmp[i - 1] = L'\0';
@@ -522,24 +530,24 @@ static mpdm_t drw_line(int line)
 {
 	mpdm_t l = NULL;
 	int m, i, t, n;
-	int o = drw.offsets[line + drw.p_lines];
-	int a = drw.attrs[o];
+	int o = drw_2.offsets[line + drw_1.p_lines];
+	int a = drw_2.attrs[o];
 	wchar_t tmp[BUF_LINE];
 	wchar_t c;
 
 	/* loop while not beyond the right margin */
-	for(m = i = 0;m < drw.vx + drw.tx;m += t, o++)
+	for(m = i = 0;m < drw_1.vx + drw_1.tx;m += t, o++)
 	{
 		/* take char and size */
-		c = drw.ptr[o];
+		c = drw_2.ptr[o];
 		t = drw_wcwidth(m, c);
 
 		/* further the left margin? */
-		if(m >= drw.vx)
+		if(m >= drw_1.vx)
 		{
 			/* if the attribute is different or we're out of
 			   temporary space, push and go on */
-			if(drw.attrs[o] != a || i >= BUF_LINE - t - 1)
+			if(drw_2.attrs[o] != a || i >= BUF_LINE - t - 1)
 			{
 				l = drw_push_pair(l, i, a, tmp);
 				i = 0;
@@ -553,13 +561,13 @@ static mpdm_t drw_line(int line)
 				c = L' ';
 
 			/* if next char will not fit, use a space */
-			if(m + t > drw.vx + drw.tx)
+			if(m + t > drw_1.vx + drw_1.tx)
 				c = L' ';
 		}
 		else
 		{
 			/* left filler */
-			n = m + t - drw.vx;
+			n = m + t - drw_1.vx;
 			c = L' ';
 		}
 
@@ -567,10 +575,10 @@ static mpdm_t drw_line(int line)
 		for(;n > 0;n--)
 			tmp[i++] = c;
 
-		a = drw.attrs[o];
+		a = drw_2.attrs[o];
 
 		/* end of line? */
-		if(drw.ptr[o] == L'\0' || drw.ptr[o] == L'\n')
+		if(drw_2.ptr[o] == L'\0' || drw_2.ptr[o] == L'\n')
 			break;
 	}
 
@@ -586,10 +594,10 @@ static mpdm_t drw_as_array(void)
 	int n;
 
 	/* the array of lines */
-	a = MPDM_A(drw.ty);
+	a = MPDM_A(drw_1.ty);
 
 	/* push each line */
-	for(n = 0;n < drw.ty;n++)
+	for(n = 0;n < drw_1.ty;n++)
 		mpdm_aset(a, drw_line(n), n);
 
 	return(a);
@@ -599,7 +607,7 @@ static mpdm_t drw_as_array(void)
 static mpdm_t drw_optimize_array(mpdm_t a, int optimize)
 /* optimizes the array, NULLifying all lines that are the same as the last time */
 {
-	mpdm_t o = drw.old;
+	mpdm_t o = drw_2.old;
 	mpdm_t r = a;
 
 	if(optimize && o != NULL)
@@ -620,7 +628,7 @@ static mpdm_t drw_optimize_array(mpdm_t a, int optimize)
 		}
 	}
 
-	mpdm_unref(drw.old); drw.old = mpdm_ref(a);
+	mpdm_unref(drw_2.old); drw_2.old = mpdm_ref(a);
 
 	return(r);
 }
@@ -635,27 +643,35 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 	if(doc == NULL)
 		return(NULL);
 
-	drw_prepare(doc);
+	if(drw_prepare(doc))
+	{
+		/* colorize separate words */
+		drw_words();
 
-	/* colorize separate words */
-	drw_words();
+		/* colorize multiline blocks */
+		drw_blocks();
 
-	/* colorize multiline blocks */
-	drw_blocks();
-
-	/* now set the marked block (if any) */
-	drw_selection();
+		/* now set the marked block (if any) */
+		drw_selection();
+	}
 
 	/* highlight the matching paren */
 	drw_matching_paren();
 
 	/* and finally the cursor */
-	drw.cursor_o_attr = drw.attrs[drw.cursor];
-	drw_fill_attr(drw.cursor_attr, drw.cursor, 1);
+	drw_2.cursor_o_attr = drw_2.attrs[drw_2.cursor];
+	drw_fill_attr(drw_1.cursor_attr, drw_2.cursor, 1);
 
+	/* convert to an array of string / atribute pairs */
 	r = drw_as_array();
 
+	/* optimize */
 	r = drw_optimize_array(r, optimize);
+
+	/* restore the patched attributes */
+	if(drw_2.matchparen_offset != -1)
+		drw_fill_attr(drw_2.matchparen_o_attr, drw_2.matchparen_offset, 1);
+	drw_fill_attr(drw_2.cursor_o_attr, drw_2.cursor, 1);
 
 	return(r);
 }
