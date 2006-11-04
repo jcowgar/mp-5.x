@@ -250,12 +250,7 @@ static int drw_prepare(mpdm_t doc)
 	/* compare drw_1 with drw_1_o; if they are the same,
 	   no more expensive calculations on drw_2 are needed */
 	if(memcmp(&drw_1, &drw_1_o, sizeof(drw_1)) == 0)
-	{
-		printf("o!\n");
 		return(0);
-	}
-	else
-		printf("n!\n");
 
 	/* different; store now */
 	memcpy(&drw_1_o, &drw_1, sizeof(drw_1_o));
