@@ -90,6 +90,9 @@ static struct {
 	int cursor_o_attr;	/* original attribute under cursor */
 	mpdm_t v;		/* the data */
 	mpdm_t old;		/* the previously generated array */
+	int mark_offset;	/* offset to the marked block */
+	int mark_size;		/* size of mark_o_attr */
+	char * mark_o_attr;	/* saved attributes for the mark */
 } drw_2;
 
 
@@ -450,6 +453,12 @@ static void drw_selection(void)
 	so = drw_1.by < drw_1.vy ? drw_2.visible : drw_line_offset(drw_1.by) + drw_1.bx;
 	eo = drw_1.ey >= drw_1.vy + drw_1.ty ? drw_2.size : drw_line_offset(drw_1.ey) + drw_1.ex;
 
+	/* alloc space and save the attributes being destroyed */
+	drw_2.mark_offset = so;
+	drw_2.mark_size = eo - so;
+	drw_2.mark_o_attr = malloc(eo - so);
+	memcpy(drw_2.mark_o_attr, &drw_2.attrs[so], eo - so);
+
 	drw_fill_attr(drw_get_attr(L"selection"), so, eo - so);
 }
 
@@ -663,6 +672,28 @@ static mpdm_t drw_optimize_array(mpdm_t a, int optimize)
 }
 
 
+static void drw_restore_attrs(void)
+/* restored the patched attrs */
+{
+	/* matching paren, if any */
+	if(drw_2.matchparen_offset != -1)
+		drw_fill_attr(drw_2.matchparen_o_attr, drw_2.matchparen_offset, 1);
+
+	/* cursor */
+	drw_fill_attr(drw_2.cursor_o_attr, drw_2.cursor, 1);
+
+	/* marked block, if any */
+	if(drw_2.mark_o_attr != NULL)
+	{
+		memcpy(&drw_2.attrs[drw_2.mark_offset],
+			drw_2.mark_o_attr, drw_2.mark_size);
+
+		free(drw_2.mark_o_attr);
+		drw_2.mark_o_attr = NULL;
+	}
+}
+
+
 mpdm_t mp_draw(mpdm_t doc, int optimize)
 /* main drawing function: takes a document and returns an array of
    arrays of attribute / string pairs */
@@ -679,10 +710,10 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 
 		/* colorize multiline blocks */
 		drw_blocks();
-
-		/* now set the marked block (if any) */
-		drw_selection();
 	}
+
+	/* now set the marked block (if any) */
+	drw_selection();
 
 	/* the cursor */
 	drw_cursor();
@@ -696,10 +727,8 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 	/* optimize */
 	r = drw_optimize_array(r, optimize);
 
-	/* restore the patched attributes */
-	if(drw_2.matchparen_offset != -1)
-		drw_fill_attr(drw_2.matchparen_o_attr, drw_2.matchparen_offset, 1);
-	drw_fill_attr(drw_2.cursor_o_attr, drw_2.cursor, 1);
+	/* restore the patched attrs */
+	drw_restore_attrs();
 
 	return(r);
 }
