@@ -215,6 +215,19 @@ static int drw_prepare(mpdm_t doc)
 	/* maximum lines */
 	drw_1.n_lines = drw_1.ty + drw_1.p_lines;
 
+	/* get the mp.colors structure and the most used attributes */
+	drw_1.colors = mpdm_hget_s(mp, L"colors");
+	drw_1.normal_attr = drw_get_attr(L"normal");
+	drw_1.cursor_attr = drw_get_attr(L"cursor");
+
+	/* store the syntax highlight structure */
+	drw_1.syntax = mpdm_hget_s(doc, L"syntax");
+
+	mpdm_unref(drw_1.txt);
+	drw_1.txt = mpdm_ref(txt);
+
+	/* --- */
+
 	/* alloc space for line offsets */
 	drw_2.offsets = realloc(drw_2.offsets, drw_1.n_lines * sizeof(int));
 
@@ -250,24 +263,14 @@ static int drw_prepare(mpdm_t doc)
 	mpdm_unref(drw_2.v);
 	drw_2.v = mpdm_ref(MPDM_ENS(drw_2.ptr, drw_2.size));
 
-	/* get the mp.colors structure and the most used attributes */
-	drw_1.colors = mpdm_hget_s(mp, L"colors");
-	drw_1.normal_attr = drw_get_attr(L"normal");
-	drw_1.cursor_attr = drw_get_attr(L"cursor");
-
 	/* alloc and init space for the attributes */
 	drw_2.attrs = realloc(drw_2.attrs, drw_2.size + 1);
 	memset(drw_2.attrs, drw_1.normal_attr, drw_2.size + 1);
-
-	/* store the syntax highlight structure */
-	drw_1.syntax = mpdm_hget_s(doc, L"syntax");
 
 	/* adjust the visual x coordinate */
 	if(drw_adjust_x(x, y, &drw_1.vx, drw_1.tx))
 		mpdm_hset_s(txt, L"vx", MPDM_I(drw_1.vx));
 
-	mpdm_unref(drw_1.txt);
-	drw_1.txt = mpdm_ref(txt);
 	drw_2.visible = drw_line_offset(drw_1.vy);
 	drw_2.cursor = drw_line_offset(y) + x;
 
@@ -792,6 +795,10 @@ void mp_startup(int argc, char * argv[])
 	mpdm_t INC;
 
 	mpsl_startup();
+
+	/* reset the structures */
+	memset(&drw_1, '\0', sizeof(drw_1));
+	memset(&drw_1_o, '\0', sizeof(drw_1_o));
 
 	/* create main namespace */
 	mp = MPDM_H(0);
