@@ -71,6 +71,8 @@ struct drw_1_info drw_1;
 struct drw_1_info drw_1_o;
 
 static struct {
+	int x;			/* cursor x */
+	int y;			/* cursor y */
 	int * offsets;		/* offsets of lines */
 	char * attrs;		/* attributes */
 	int visible;		/* offset to the first visible character */
@@ -226,6 +228,9 @@ static int drw_prepare(mpdm_t doc)
 	mpdm_unref(drw_1.txt);
 	drw_1.txt = mpdm_ref(txt);
 
+	drw_2.x = x;
+	drw_2.y = y;
+
 	/* compare drw_1 with drw_1_o; if they are the same,
 	   no more expensive calculations on drw_2 are needed */
 /*	if(memcmp(&drw_1, &drw_1_o, sizeof(drw_1)) == 0)
@@ -274,7 +279,6 @@ static int drw_prepare(mpdm_t doc)
 	memset(drw_2.attrs, drw_1.normal_attr, drw_2.size + 1);
 
 	drw_2.visible = drw_line_offset(drw_1.vy);
-	drw_2.cursor = drw_line_offset(y) + x;
 
 	return(1);
 }
@@ -438,6 +442,17 @@ static void drw_selection(void)
 	eo = ey >= drw_1.vy + drw_1.ty ? drw_2.size : drw_line_offset(ey) + ex;
 
 	drw_fill_attr(drw_get_attr(L"selection"), so, eo - so);
+}
+
+
+static void drw_cursor(void)
+/* fill the attribute for the cursor */
+{
+	/* calculate the cursor offset */
+	drw_2.cursor = drw_line_offset(drw_2.y) + drw_2.x;
+
+	drw_2.cursor_o_attr = drw_2.attrs[drw_2.cursor];
+	drw_fill_attr(drw_1.cursor_attr, drw_2.cursor, 1);
 }
 
 
@@ -660,12 +675,11 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 		drw_selection();
 	}
 
+	/* the cursor */
+	drw_cursor();
+
 	/* highlight the matching paren */
 	drw_matching_paren();
-
-	/* and finally the cursor */
-	drw_2.cursor_o_attr = drw_2.attrs[drw_2.cursor];
-	drw_fill_attr(drw_1.cursor_attr, drw_2.cursor, 1);
 
 	/* convert to an array of string / atribute pairs */
 	r = drw_as_array();
