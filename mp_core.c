@@ -65,6 +65,7 @@ struct drw_1_info {
 	int tx;			/* horizontal window size */
 	int ty;			/* vertical window size */
 	int tab_size;		/* tabulator size */
+	int mod;		/* modify count */
 };
 
 struct drw_1_info drw_1;
@@ -202,6 +203,7 @@ static int drw_prepare(mpdm_t doc)
 	drw_1.tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
 	drw_1.ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
 	drw_1.tab_size = mpdm_ival(mpdm_hget_s(config, L"tab_size"));
+	drw_1.mod = mpdm_ival(mpdm_hget_s(txt, L"mod"));
 
 	/* adjust the visual y coordinate */
 	if(drw_adjust_y(y, &drw_1.vy, drw_1.ty))
@@ -233,9 +235,14 @@ static int drw_prepare(mpdm_t doc)
 
 	/* compare drw_1 with drw_1_o; if they are the same,
 	   no more expensive calculations on drw_2 are needed */
-/*	if(memcmp(&drw_1, &drw_1_o, sizeof(drw_1)) == 0)
+	if(memcmp(&drw_1, &drw_1_o, sizeof(drw_1)) == 0)
+	{
+		printf("o!\n");
 		return(0);
-*/
+	}
+	else
+		printf("n!\n");
+
 	/* different; store now */
 	memcpy(&drw_1_o, &drw_1, sizeof(drw_1_o));
 
