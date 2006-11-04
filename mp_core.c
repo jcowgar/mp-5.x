@@ -66,6 +66,11 @@ struct drw_1_info {
 	int ty;			/* vertical window size */
 	int tab_size;		/* tabulator size */
 	int mod;		/* modify count */
+	mpdm_t mark;		/* marked block */
+	int bx;			/* beginning of mark, x */
+	int by;			/* beginning of mark, y */
+	int ex;			/* end of mark, x */
+	int ey;			/* end of mark, y */
 };
 
 struct drw_1_info drw_1;
@@ -226,6 +231,15 @@ static int drw_prepare(mpdm_t doc)
 
 	/* store the syntax highlight structure */
 	drw_1.syntax = mpdm_hget_s(doc, L"syntax");
+
+	/* get the marked block information */
+	if((drw_1.mark = mpdm_hget_s(txt, L"mark")) != NULL)
+	{
+		drw_1.bx = mpdm_ival(mpdm_hget_s(drw_1.mark, L"bx"));
+		drw_1.by = mpdm_ival(mpdm_hget_s(drw_1.mark, L"by"));
+		drw_1.ex = mpdm_ival(mpdm_hget_s(drw_1.mark, L"ex"));
+		drw_1.ey = mpdm_ival(mpdm_hget_s(drw_1.mark, L"ey"));
+	}
 
 	mpdm_unref(drw_1.txt);
 	drw_1.txt = mpdm_ref(txt);
@@ -428,25 +442,18 @@ static void drw_blocks(void)
 static void drw_selection(void)
 /* draws the selected block, if any */
 {
-	int bx, by, ex, ey;
-	mpdm_t mark;
 	int so, eo;
 
 	/* no mark? return */
-	if((mark = mpdm_hget_s(drw_1.txt, L"mark")) == NULL)
+	if(drw_1.mark == NULL)
 		return;
-
-	bx = mpdm_ival(mpdm_hget_s(mark, L"bx"));
-	by = mpdm_ival(mpdm_hget_s(mark, L"by"));
-	ex = mpdm_ival(mpdm_hget_s(mark, L"ex"));
-	ey = mpdm_ival(mpdm_hget_s(mark, L"ey"));
 
 	/* if block is not visible, return */
-	if(ey < drw_1.vy || by > drw_1.vy + drw_1.ty)
+	if(drw_1.ey < drw_1.vy || drw_1.by > drw_1.vy + drw_1.ty)
 		return;
 
-	so = by < drw_1.vy ? drw_2.visible : drw_line_offset(by) + bx;
-	eo = ey >= drw_1.vy + drw_1.ty ? drw_2.size : drw_line_offset(ey) + ex;
+	so = drw_1.by < drw_1.vy ? drw_2.visible : drw_line_offset(drw_1.by) + drw_1.bx;
+	eo = drw_1.ey >= drw_1.vy + drw_1.ty ? drw_2.size : drw_line_offset(drw_1.ey) + drw_1.ex;
 
 	drw_fill_attr(drw_get_attr(L"selection"), so, eo - so);
 }
