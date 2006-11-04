@@ -56,6 +56,7 @@ struct drw_1_info {
 	mpdm_t txt;		/* the document */
 	mpdm_t syntax;		/* syntax highlight information */
 	mpdm_t colors;		/* color definitions (for attributes) */
+	mpdm_t line;		/* line where the cursor is */
 	int normal_attr;	/* normal attr */
 	int cursor_attr;	/* cursor attr */
 	int n_lines;		/* total number of lines */
@@ -159,7 +160,7 @@ static int drw_adjust_x(int x, int y, int * vx, int tx)
 	int t = *vx;
 
 	/* move to the first character of the line */
-	ptr = drw_2.ptr + drw_line_offset(y);
+	ptr = mpdm_string(drw_1.line);
 
 	/* calculate the column for the cursor position */
 	for(n = m = 0;n < x;n++, ptr++)
@@ -199,6 +200,7 @@ static int drw_prepare(mpdm_t doc)
 	int y = mpdm_ival(mpdm_hget_s(txt, L"y"));
 	int n;
 
+	drw_1.line = mpdm_aget(lines, y);
 	drw_1.vx = mpdm_ival(mpdm_hget_s(txt, L"vx"));
 	drw_1.vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
 	drw_1.tx = mpdm_ival(mpdm_hget_s(window, L"tx"));
@@ -208,6 +210,10 @@ static int drw_prepare(mpdm_t doc)
 	/* adjust the visual y coordinate */
 	if(drw_adjust_y(y, &drw_1.vy, drw_1.ty))
 		mpdm_hset_s(txt, L"vy", MPDM_I(drw_1.vy));
+
+	/* adjust the visual x coordinate */
+	if(drw_adjust_x(x, y, &drw_1.vx, drw_1.tx))
+		mpdm_hset_s(txt, L"vx", MPDM_I(drw_1.vx));
 
 	/* get the maximum prereadable lines */
 	drw_1.p_lines = drw_1.vy > mpi_preread_lines ? mpi_preread_lines : drw_1.vy;
@@ -266,10 +272,6 @@ static int drw_prepare(mpdm_t doc)
 	/* alloc and init space for the attributes */
 	drw_2.attrs = realloc(drw_2.attrs, drw_2.size + 1);
 	memset(drw_2.attrs, drw_1.normal_attr, drw_2.size + 1);
-
-	/* adjust the visual x coordinate */
-	if(drw_adjust_x(x, y, &drw_1.vx, drw_1.tx))
-		mpdm_hset_s(txt, L"vx", MPDM_I(drw_1.vx));
 
 	drw_2.visible = drw_line_offset(drw_1.vy);
 	drw_2.cursor = drw_line_offset(y) + x;
