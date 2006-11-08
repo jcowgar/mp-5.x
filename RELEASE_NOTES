@@ -10,7 +10,7 @@ Minimum Profit 5.x Release Notes
  * Files open MUCH faster.
  * Selection can be done by pressing shift + any movement key.
  * Dialog boxes work under Windows 98 (Closed bugs #1196, #1197).
- * Block selection can be done by dragging the mouse, as usual (in GTK).
+ * Block selection can be done by dragging the mouse.
 
 4.99.12
 -------
