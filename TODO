@@ -39,7 +39,6 @@ Open Bugs
    margin detection and mouse positioning doesn't work. To workaround
    this, set mp.config.font_face (in the config file) to an existing
    monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
- * 1201: Add selection by mouse dragging to Win32.
 
 Pending Enhancements
 --------------------
@@ -189,5 +188,7 @@ Closed
  * 1202: Block selection doesn't work well. The first mark should have
    preference from the other (must never change in a selection
    'session') (Fri, 03 Nov 2006 17:34:03 +0100).
+ * 1201: Add selection by mouse dragging to Win32
+   (Wed, 08 Nov 2006 18:04:03 +0100).
 
 Email bugs to angel@triptico.com

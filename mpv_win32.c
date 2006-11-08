@@ -690,6 +690,8 @@ static void action_by_menu(int item)
 #define WM_MOUSEWHEEL			0x020A
 #endif
 
+static int mouse_down = 0;
+
 long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 /* main window Proc */
 {
@@ -754,6 +756,10 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		return(0);
 
 	case WM_LBUTTONDOWN:
+
+		mouse_down = 1;
+		/* fallthrough */
+
 	case WM_RBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 
@@ -773,6 +779,27 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		if(ptr != NULL)
 		{
 			mp_process_event(MPDM_S(ptr));
+			redraw();
+		}
+
+		return(0);
+
+	case WM_LBUTTONUP:
+
+		mouse_down = 0;
+		return(0);
+
+	case WM_MOUSEMOVE:
+
+		if(mouse_down)
+		{
+			x = (LOWORD(lparam)) / font_width;
+			y = (HIWORD(lparam) - tab_height) / font_height;
+
+			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
+			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
+
+			mp_process_event(MPDM_LS(L"mouse-drag"));
 			redraw();
 		}
 
