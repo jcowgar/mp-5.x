@@ -82,6 +82,9 @@ static HMENU menu = NULL;
 static mpdm_t form_args = NULL;
 static mpdm_t form_values = NULL;
 
+/* mouse down flag */
+static int mouse_down = 0;
+
 /*******************
 	Code
 ********************/
@@ -689,8 +692,6 @@ static void action_by_menu(int item)
 #ifndef WM_MOUSEWHEEL
 #define WM_MOUSEWHEEL			0x020A
 #endif
-
-static int mouse_down = 0;
 
 long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 /* main window Proc */

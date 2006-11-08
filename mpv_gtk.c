@@ -91,6 +91,9 @@ static GtkWidget ** form_widgets = NULL;
 static mpdm_t form_args = NULL;
 static mpdm_t form_values = NULL;
 
+/* mouse down flag */
+static int mouse_down = 0;
+
 /*******************
 	Code
 ********************/
@@ -849,8 +852,6 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	return(0);
 }
 
-
-static int mouse_down = 0;
 
 static gint button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer data)
 /* 'button_press_event' handler (mouse buttons) */
