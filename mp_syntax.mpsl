@@ -160,7 +160,6 @@ mp.syntax.perl = {
 				"use", "package", "require", "ref", "can", "isa",
 				"qw", "qq", "eq", "ne", "or", "exists",
 				"and", "not", "import", "our", "caller" ]),
-				'/[\{\}]/',
 				'/->/'
 		],
 		'word2',	[
@@ -176,12 +175,15 @@ mp.syntax.perl = {
 			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
 			[ "/q\(/", "/\)/" ],			/* quote */
 			[ "/qw\(/", "/\)/" ],			/* quote word */
-			'/\w+\s*=>/',				/* barewords as hash keys */
+			'/\w+\s*=>/',				/* barewords as hash keys 1 */
+			'/\{\s*-?\w+\s*\}/',			/* barewords as hash keys 2 */
 			[ "/`/", "/`/" ],			/* backticks */
 			[ "/<<[\"']?EOF.*$/m", "/^EOF$/m" ]	/* 'document here' */
 		],
 		/* color all => as word2 */
 		'word2',	[ '/=>/' ],
+		/* color curly brackets as word */
+		'word',		[ '/[{}]/' ],
 		'comments',	[
 			"/#.*$/m",				/* Comments */
 			"/__END__\n.*$/",			/* __END__ */
