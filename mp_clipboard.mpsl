@@ -162,7 +162,7 @@ sub mp.cut(doc)
 sub mp.paste(doc)
 /* pastes from the clipboard into a text */
 {
-	mp.insert_array(doc, mp.clipboard);
+	mp.insert(doc, mp.clipboard);
 }
 
 

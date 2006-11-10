@@ -256,11 +256,15 @@ sub mp.insert_string(doc, str)
 }
 
 
-sub mp.insert_array(doc, a)
+sub mp.insert(doc, a)
 /* inserts an array of text into a document */
 {
 	local txt = doc.txt;
 	local s;
+
+	/* if a is not an array, split it */
+	if(!is_array(a))
+		a = split("\n", a);
 
 	/* empty array? return */
 	if((s = size(a)) == 0) return;
@@ -290,13 +294,6 @@ sub mp.insert_array(doc, a)
 		while(n < s - 1)
 			txt.lines[txt.y++] = a[n++];
 	}
-}
-
-
-sub mp.insert(doc, text)
-/* inserts a text into the cursor position */
-{
-	mp.insert_array(doc, split("\n", text));
 }
 
 
