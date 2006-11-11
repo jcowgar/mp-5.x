@@ -107,3 +107,12 @@ mp.actdesc['zoom_out']	= LL("Smaller font");
 
 /* code */
 
+sub dump(v)
+/* overwrite of the MPSL dump() function, dumping over a text document */
+{
+	local d = mp.open("<dump>");
+
+	mp.move_eof(d);
+	mp.insert(d, dumper(v));
+	d.txt.mod = 0;
+}
