@@ -28,6 +28,7 @@ Release Critical Bugs
  * 1194: Underlined text doesn't work under win32.
  * 1195: The curses menu crashes if it doesn't fit on the screen.
  * 1198: Add interface to active spellchecking.
+ * 1204: When toggling spelling, the document is incorrectly refreshed.
 
 Open Bugs
 ---------
