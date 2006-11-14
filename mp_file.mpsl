@@ -236,9 +236,6 @@ sub mp.new(filename, lines)
 	push(mp.docs, doc);
 	mp.active_i = size(mp.docs) - 1;
 
-	/* store in the undo buffer */
-	mp.store_undo(doc);
-
 	/* autodetect syntax */
 	mp.detect_syntax(doc);
 
