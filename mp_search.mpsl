@@ -243,3 +243,55 @@ sub mp.seek_prev_or_next_char(doc, func)
 	/* move back */
 	mp.move_left(doc);
 }
+
+
+sub mp.grep(doc, str, spec)
+/* greps str in the files in spec */
+{
+	local fs, ns, ls;
+	local all = glob(spec);
+
+	if(all == NULL)
+	{
+		mp.alert(L("File(s) not found"));
+		return(0);
+	}
+
+	fs = [];
+	ns = [];
+	ls = [];
+
+	foreach(local fn, all)
+	{
+		local f;
+
+		if((f = open(fn, "r")) != NULL)
+		{
+			local l, n;
+
+			/* file open; now grep */
+			while(l = read(f))
+			{
+				l = mp.chomp(l);
+
+				if(regex(str, l))
+				{
+					/* found; store line, filename and linenum */
+					push(ls, sprintf("%s (%d): %s", fn, n, l));
+					push(fs, fn);
+					push(ns, n);
+				}
+
+				n++;
+			}
+
+			close(f);
+		}
+	}
+
+	local r = mp.drv.form( [
+		{ 'label'	=> L("Grep"),
+		  'type'	=> 'list',
+		  'list'	=> ls }
+		]);
+}
