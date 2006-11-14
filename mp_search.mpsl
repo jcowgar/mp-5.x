@@ -95,11 +95,11 @@ mp.actions['grep']	= sub (d) {
 		  'history'	=> 'replace'}
 	] );
 
-	if(r != NULL)
+	if(r != NULL && r[0] ne '')
 	{
 		local i = 0;
 
-		if((r = mp.grep(r[0], r[1])) == NULL)
+		if((r = mp.grep('/' ~ r[0] ~ '/', r[1])) == NULL)
 			mp.alert(L("File(s) not found."));
 
 		if(size(r) > 1)
