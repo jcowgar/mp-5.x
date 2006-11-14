@@ -245,17 +245,15 @@ sub mp.seek_prev_or_next_char(doc, func)
 }
 
 
-sub mp.grep(doc, str, spec)
-/* greps str in the files in spec */
+sub mp.grep(rx, spec)
+/* greps str in the files in spec. Returns a three element list of lists
+   contaning the file, the line number and the line that matches */
 {
 	local fs, ns, ls;
 	local all = glob(spec);
 
-	if(all == NULL)
-	{
-		mp.alert(L("File(s) not found"));
-		return(0);
-	}
+	/* spec globs to nothing */
+	if(all == NULL) { return(NULL); }
 
 	fs = [];
 	ns = [];
@@ -274,12 +272,12 @@ sub mp.grep(doc, str, spec)
 			{
 				l = mp.chomp(l);
 
-				if(regex(str, l))
+				if(regex(yx, l))
 				{
 					/* found; store line, filename and linenum */
-					push(ls, sprintf("%s (%d): %s", fn, n, l));
 					push(fs, fn);
 					push(ns, n);
+					push(ls, l);
 				}
 
 				n++;
@@ -289,9 +287,5 @@ sub mp.grep(doc, str, spec)
 		}
 	}
 
-	local r = mp.drv.form( [
-		{ 'label'	=> L("Grep"),
-		  'type'	=> 'list',
-		  'list'	=> ls }
-		]);
+	return([fs, ns, ls]);
 }
