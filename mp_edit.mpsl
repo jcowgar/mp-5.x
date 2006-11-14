@@ -355,6 +355,14 @@ sub mp.insert_newline(doc)
 }
 
 
+sub mp.insert_keystroke(doc, key)
+/* inserts from a keystroke (with undo) */
+{
+	mp.store_undo(doc);
+	mp.insert(doc, key);
+}
+
+
 /* undo */
 
 sub mp.store_undo(doc)

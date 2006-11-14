@@ -186,7 +186,7 @@ sub mp.process_action(a)
 	if((f = mp.actions[a]) != NULL)
 		f(d);
 	else
-		mp.insert(d, a);
+		mp.insert_keystroke(d, a);
 }
 
 
@@ -208,7 +208,7 @@ sub mp.process_event(k)
 			mp.process_action(a);
 	}
 	else
-		mp.insert(d, k);
+		mp.insert_keystroke(d, k);
 
 	mp.shift_pressed = NULL;
 }
