@@ -272,7 +272,7 @@ sub mp.grep(rx, spec)
 			{
 				l = mp.chomp(l);
 
-				if(regex(yx, l))
+				if(regex(rx, l))
 				{
 					/* found; store line, filename and linenum */
 					push(fs, fn);
