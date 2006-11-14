@@ -84,6 +84,49 @@ mp.actions['replace']	= sub (d) {
 mp.actions['seek_next_char'] = sub (d) { mp.seek_prev_or_next_char(d, mp.search); };
 mp.actions['seek_prev_char'] = sub (d) { mp.seek_prev_or_next_char(d, mp.search_back); };
 
+mp.actions['grep']	= sub (d) {
+
+	local r = mp.drv.form( [
+		{ 'label'	=> L("Text to seek:"),
+		  'type'	=> 'text',
+		  'history'	=> 'search'},
+		{ 'label'	=> L("Files to grep (empty, all):"),
+		  'type'	=> 'text',
+		  'history'	=> 'replace'}
+	] );
+
+	if(r != NULL)
+	{
+		local i = 0;
+
+		if((r = mp.grep(r[0], r[1])) == NULL)
+			mp.alert(L("File(s) not found."));
+
+		if(size(r) > 1)
+		{
+			/* more than one; ask for it */
+			local l = mp.drv.form( [
+				{ 'label'	=> L("Grep"),
+				  'type'	=> 'list',
+				  'list'	=> map(sub (e) {
+					sprintf("%s (%d): %s", e[0], e[1] + 1, e[2]); }, r)
+				 }
+				]);
+
+			if(l == NULL)
+				return;
+
+			/* get index of the desired item */
+			i = l[0];
+		}
+
+		/* now open the document and move there */
+		d = mp.open(r[i][0]);
+		d.txt.x = 0;
+		mp.set_y(d, r[i][1]);
+	}
+};
+
 /* default key bindings */
 
 mp.keycodes['f3']		= 'seek_next';
@@ -100,6 +143,7 @@ mp.actdesc['seek_prev'] 	= LL("Search previous");
 mp.actdesc['replace']		= LL("Replace...");
 mp.actdesc['seek_next_char']	= LL("Move to next instance of current char");
 mp.actdesc['seek_prev_char']	= LL("Move to previous instance of current char");
+mp.actdesc['grep']		= LL("Grep (find inside) files...");
 
 /* code */
 
@@ -251,11 +295,15 @@ sub mp.grep(rx, spec)
    an array with the matches, that are three-element arrays with the file name,
    the line number and the line that matched */
 {
-	local r;
-	local all = glob(spec);
+	local r, all;
 
-	/* spec globs to nothing */
-	if(all == NULL) { return(NULL); }
+	/* if spec is empty, set as NULL (meaning "glob everything") */
+	if(spec eq '') spec = NULL;
+
+	all = glob(spec);
+
+	/* spec globs to NULL or empty; abort */
+	if(size(all) == 0) { return(NULL); }
 
 	r = [];
 
