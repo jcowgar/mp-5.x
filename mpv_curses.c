@@ -511,6 +511,7 @@ static mpdm_t tui_openpanel(mpdm_t a)
 
 	set_attr();
 	wclrtobot(cw);
+	box(cw, 0, 0);
 
 	return(NULL);
 }
