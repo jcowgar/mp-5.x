@@ -246,18 +246,18 @@ sub mp.seek_prev_or_next_char(doc, func)
 
 
 sub mp.grep(rx, spec)
-/* greps str in the files in spec. Returns a three element list of lists
-   contaning the file, the line number and the line that matches */
+/* Greps str in the files in spec. Returns NULL if no file matched the glob()
+   (or glob() is unsupported), an empty list if the string was not found or
+   an array with the matches, that are three-element arrays with the file name,
+   the line number and the line that matched */
 {
-	local fs, ns, ls;
+	local r;
 	local all = glob(spec);
 
 	/* spec globs to nothing */
 	if(all == NULL) { return(NULL); }
 
-	fs = [];
-	ns = [];
-	ls = [];
+	r = [];
 
 	foreach(local fn, all)
 	{
@@ -275,9 +275,7 @@ sub mp.grep(rx, spec)
 				if(regex(rx, l))
 				{
 					/* found; store line, filename and linenum */
-					push(fs, fn);
-					push(ns, n);
-					push(ls, l);
+					push(r, [ fn, n, l ]);
 				}
 
 				n++;
@@ -287,5 +285,5 @@ sub mp.grep(rx, spec)
 		}
 	}
 
-	return([fs, ns, ls]);
+	return(r);
 }
