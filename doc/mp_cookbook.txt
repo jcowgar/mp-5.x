@@ -87,5 +87,15 @@ Note: if you happen to use an UTF-8 locale, the ispell program doesn't
 work correctly. Either use aspell, or change the command configuration
 variable to "ispell -a -Tutf8".
 
+Disabling syntax highlighting for slow machines
+-----------------------------------------------
+
+Syntax highlighting in Minimum Profit 5.x can be a CPU hog on embedded or
+small systems. An easy way to disable it is to set mp.syntax to an empty
+hash:
+
+	/* disable all syntax highlighting */
+	mp.syntax = {};
+
 ----
 Angel Ortega <angel@triptico.com>
