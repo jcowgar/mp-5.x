@@ -45,7 +45,7 @@ wmp.exe: $(OBJS) mp_res.o $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 	$(CC) $(CFLAGS) $(OBJS) mp_res.o `cat config.ldflags` -o $@
 
 clean:
-	rm -f $(APPNAME) $(LIB) $(OBJS) *.o tags *.tar.gz *.exe *.zip Changelog
+	rm -f $(APPNAME) $(LIB) $(OBJS) *.o tags *.tar.gz *.exe *.zip .installer.c Changelog
 	(cd $(MPDM) ; make clean)
 	(cd $(MPSL) ; make clean)
 
