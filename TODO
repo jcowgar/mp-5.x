@@ -31,6 +31,9 @@ Release Critical Bugs
  * 1205: Copy & paste from two different instances of MP (GTK)
    seem to fail (copying or pasting from other applications seem
    to work).
+ * 1206: Add 'sync' (save all modified documents).
+ * 1207: Add 'Reopen as UTF-8'.
+ * 1208: Add 'Reopen as current locale'.
 
 Open Bugs
 ---------
