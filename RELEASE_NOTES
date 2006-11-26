@@ -12,6 +12,7 @@ Minimum Profit 5.x Release Notes
  * Dialog boxes work under Windows 98 (Closed bugs #1196, #1197).
  * Block selection can be done by dragging the mouse (Closed bugs #1200, #1201).
  * New 'grep' functionality (Closed bug #1116).
+ * New action 'sync' (save all modified documents, closed bug #1206).
 
 4.99.12
 -------
