@@ -35,7 +35,6 @@ mp.actions['save_as']	= sub (d) {
 
 	local t;
 
-	/* name is <unnamed> or something similar; ask for one */
 	if((t = mp.savefile(L("Save file as:"))) == NULL)
 		return;
 
@@ -48,6 +47,7 @@ mp.actions['save_as']	= sub (d) {
 
 mp.actions['save']	= sub (d) {
 
+	/* name is <unnamed> or something similar; ask for one */
 	if(regex("/^<.+>$/", d.name))
 		mp.actions.save_as(d);
 	else
@@ -101,6 +101,13 @@ mp.actions['open_config_file']	= sub (d) {
 	mp.open(HOMEDIR ~ ".mp.mpsl");
 };
 
+mp.actions['sync'] = sub (d) {
+
+	/* save all modified documents */
+	foreach(local d, grep(sub (e) { e.txt.mod; }, mp.docs))
+		mp.actions.save(d);
+};
+
 /* default key bindings */
 
 mp.keycodes['ctrl-n']		= 'next';
@@ -124,6 +131,7 @@ mp.actdesc['close'] 	= LL("Close");
 
 mp.actdesc['open_config_file']		= LL("Edit configuration file");
 mp.actdesc['open_templates_file']	= LL("Edit templates file");
+mp.actdesc['sync']			= LL("Save modified texts");
 
 /* code */
 
