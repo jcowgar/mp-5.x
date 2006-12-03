@@ -318,12 +318,12 @@ mp.syntax.html = {
 				"bgcolor", "text", "link", "vlink", "alink",
 				"media" ])
 		],
-		'comments',	[
-				[ '/<!--/', '/-->/' ]
-		],
 		'quotes',	[
 			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
 			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/"	/* single-quoted strings */
+		],
+		'comments',	[
+				[ '/<!--/', '/-->/' ]
 		]
 	]
 };
