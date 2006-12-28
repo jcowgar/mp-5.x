@@ -102,6 +102,9 @@ mp.actions['grep']	= sub (d) {
 		if((r = mp.grep('/' ~ r[0] ~ '/', r[1])) == NULL)
 			mp.alert(L("File(s) not found."));
 
+		if(size(r) == 0)
+			mp.alert(L("Text not found."));
+		else
 		if(size(r) > 1)
 		{
 			/* more than one; ask for it */
@@ -120,10 +123,13 @@ mp.actions['grep']	= sub (d) {
 			i = l[0];
 		}
 
-		/* now open the document and move there */
-		d = mp.open(r[i][0]);
-		d.txt.x = 0;
-		mp.set_y(d, r[i][1]);
+		if(size(r))
+		{
+			/* now open the document and move there */
+			d = mp.open(r[i][0]);
+			d.txt.x = 0;
+			mp.set_y(d, r[i][1]);
+		}
 	}
 };
 
