@@ -256,7 +256,8 @@ mp.syntax.sh = {
 				'/\b(local|let|set)\b/',
 				'/[-=<>:\?\+\*\!\%&\|]+/',
 				'/\$\w+/',
-				'/\$\{\w+\}/'
+				'/\$\{\w+\}/',
+				"/\b[0-9[:upper:]_]+\b/"	/* all-caps words */
 		],
 		'quotes',	[
 			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
