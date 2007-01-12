@@ -13,6 +13,8 @@ Minimum Profit 5.x Release Notes
  * Block selection can be done by dragging the mouse (Closed bugs #1200, #1201).
  * New 'grep' functionality (Closed bug #1116).
  * New action 'sync' (save all modified documents, closed bug #1206).
+ * New action 'document_list' (show a box with all open documents, allowing
+   the selection of the active one; closed bug #1211).
 
 4.99.12
 -------
