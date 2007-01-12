@@ -81,6 +81,21 @@ mp.actions['move_mouse_wheel_down']	= sub (d) {
 	});
 };
 
+mp.actions['document_list'] = sub (d) {
+
+	local r = mp.drv.form( [
+		{ 'label'	=>	L("Document list"),
+		  'type'	=>	'list',
+		  'list'	=>	map( sub(e) {
+			sprintf('%s %s', (e.txt.mod && '*' || ' '), e.name);
+			}, mp.docs),
+		  'value'	=>	mp.active_i
+		} ]
+	);
+
+	if(r[0]) mp.active_i = r[0];
+};
+
 /* default key bindings */
 
 mp.keycodes['cursor-left']		= "move_left";
@@ -120,6 +135,7 @@ mp.actdesc['goto']			= LL("Go to line...");
 mp.actdesc['move_to_mouse_position']	= LL("Move cursor to mouse click");
 mp.actdesc['move_mouse_wheel_down']	= LL("Mouse wheel up");
 mp.actdesc['move_mouse_wheel_up']	= LL("Mouse wheel down");
+mp.actdesc['document_list']		= LL("Document list");
 
 /* code */
 
