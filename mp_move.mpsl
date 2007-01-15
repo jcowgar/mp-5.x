@@ -93,7 +93,7 @@ mp.actions['document_list'] = sub (d) {
 		} ]
 	);
 
-	if(r[0]) mp.active_i = r[0];
+	if(r[0] != NULL) mp.active_i = r[0];
 };
 
 /* default key bindings */
