@@ -687,14 +687,11 @@ static void drw_restore_attrs(void)
 }
 
 
-mpdm_t mp_draw(mpdm_t doc, int optimize)
-/* main drawing function: takes a document and returns an array of
+static mpdm_t drw_draw(mpdm_t doc, int optimize)
+/* main document drawing function: takes a document and returns an array of
    arrays of attribute / string pairs */
 {
 	mpdm_t r = NULL;
-
-	if(doc == NULL)
-		return(NULL);
 
 	if(drw_prepare(doc))
 	{
@@ -722,6 +719,26 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 
 	/* restore the patched attrs */
 	drw_restore_attrs();
+
+	return(r);
+}
+
+
+mpdm_t mp_draw(mpdm_t doc, int optimize)
+/* main generic drawing function: if the document has a 'paint' code,
+   calls it; otherwise, call drw_draw() */
+{
+	mpdm_t r = NULL;
+
+	if(doc != NULL)
+	{
+		mpdm_t f;
+
+		if((f = mpdm_hget_s(doc, L"paint")) != NULL)
+			r = mpdm_exec_2(f, doc, MPDM_I(optimize));
+		else
+			r = drw_draw(doc, optimize);
+	}
 
 	return(r);
 }
