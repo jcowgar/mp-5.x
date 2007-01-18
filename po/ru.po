@@ -1,0 +1,713 @@
+#
+# Copyright (C) 2006 Alexandr Orlov
+# This file is distributed under the same license as the Minimum Profit package.
+# Alexandr Orlov <alxorlov@pochta.ru>, 2006.
+#
+#, fuzzy
+
+msgid ""
+msgstr ""
+"Project-Id-Version: Minimum Profit\n"
+"Report-Msgid-Bugs-To: alxorlov@pochta.ru\n"
+"POT-Creation-Date: 2006-01-11 06:09+0100\n"
+"PO-Revision-Date: 2006-09-11 23:07+0300\n"
+"Last-Translator: Alexandr Orlov <alxorlov@pochta.ru>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=koi8-r\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: mp_conf.c:134
+msgid "&File"
+msgstr "&Файл"
+
+#: mp_conf.c:136
+msgid "&Edit"
+msgstr "&Правка"
+
+#: mp_conf.c:141
+msgid "&Search"
+msgstr "&Поиск"
+
+#: mp_conf.c:143
+msgid "&Go to"
+msgstr "&Переход"
+
+#: mp_conf.c:146
+msgid "&Options"
+msgstr "&Параметры"
+
+#: mp_func.c:405
+#, c-format
+msgid ""
+"%%Empty template file\n"
+"\n"
+"This template file is empty. To create templates, write a name for\n"
+"each one (marked by two % characteres together in the beginning of\n"
+"the line) and a text body, delimited by the next template name\n"
+"or the end of file. By selecting a template from the list (popped up\n"
+"by Ctrl-U), it will be inserted into the current text.\n"
+msgstr ""
+"%%Пустой файл шаблонов\n"
+"\n"
+"Этот файл шаблонов пуст. Чтобы создать шаблон, напишите название\n"
+"для него (обозначив двумя знаками % в начале строки) и текстовое\n"
+"сообщение, ограниченное названием следующего шаблона, или концом\n"
+"файла. Выберете шаблон из списка (который появиться при\n"
+"нажатии Ctrl-U), и он будет вставлен в текущий текст.\n"
+
+#: mp_func.c:433
+msgid ""
+"#\n"
+"# Minimum Profit Config File\n"
+"#\n"
+"\n"
+msgstr ""
+
+#: mp_func.c:481 mp_iface.c:649
+msgid "Password:"
+msgstr "Пароль:"
+
+#: mp_func.c:488
+msgid "Password (again):"
+msgstr "Пароль (еще раз):"
+
+#: mp_func.c:498
+msgid "Error: Passwords mismatch."
+msgstr "Ошибка: Пароли не совпадают."
+
+#: mp_func.c:883
+msgid "<help on keys>"
+msgstr "<справка о клавишах>"
+
+#: mp_func.c:894
+msgid "<none>"
+msgstr "<ничего>"
+
+#: mp_func.c:908
+msgid "Unlinked functions"
+msgstr "Несвязанные функции"
+
+#: mp_func.c:1175
+msgid "Error executing user defined function"
+msgstr "Ошибка при выполнении функции пользователя"
+
+#: mp_iface.c:583
+msgid "Line to go to:"
+msgstr "Перейти на строку:"
+
+#: mp_iface.c:603 mp_iface.c:607 mp_iface.c:735 mp_iface.c:1608 mp_video.c:614
+msgid "<unnamed>"
+msgstr "<безымянный>"
+
+#: mp_iface.c:629 mp_iface.c:696
+msgid "Enter file name:"
+msgstr "Введите имя файла:"
+
+#: mp_iface.c:672 mp_iface.c:1248 mp_iface.c:1313
+#, c-format
+msgid "File '%s' not found."
+msgstr "Файл '%s' не найден."
+
+#: mp_iface.c:734
+#, c-format
+msgid "Can't create file '%s'."
+msgstr "Невозможно создать файл '%s'."
+
+#: mp_iface.c:773
+msgid "File has changed. Save changes?"
+msgstr "Файл изменен. Сохранить?"
+
+#: mp_iface.c:840
+msgid "System command:"
+msgstr "Системная команда:"
+
+#: mp_iface.c:870
+#, c-format
+msgid "<Output of \"%s\">"
+msgstr "<Вывод \"%s\">"
+
+#: mp_iface.c:900
+msgid "Error executing command."
+msgstr "Ошибка при выполнении команды."
+
+#: mp_iface.c:926
+msgid "<open files>"
+msgstr "<открытые файлы>"
+
+#: mp_iface.c:944
+msgid "Open documents"
+msgstr "Открытые документы"
+
+#: mp_iface.c:982
+#, c-format
+msgid "Template file not found (%s)"
+msgstr "Файл шаблонов не найден (%s)"
+
+#: mp_iface.c:1004
+msgid "Select template"
+msgstr "Выбор шаблона"
+
+#: mp_iface.c:1100 mp_iface.c:1236
+msgid "Text to seek:"
+msgstr "Искать текст:"
+
+#: mp_iface.c:1105 mp_iface.c:1123 mp_iface.c:1164 mp_iface.c:1320
+msgid "Text not found."
+msgstr "Текст не найден."
+
+#: mp_iface.c:1143 mp_iface.c:1187
+msgid "Replace text:"
+msgstr "Заменить текст:"
+
+#: mp_iface.c:1148 mp_iface.c:1192
+msgid "Replace with:"
+msgstr "Заменить на:"
+
+#: mp_iface.c:1150
+msgid "To end of file?"
+msgstr "До конца файла?"
+
+#: mp_iface.c:1243
+msgid "Files to grep (empty, all):"
+msgstr "Файлы для поиска (пусто = все):"
+
+#: mp_iface.c:1327
+msgid "grep"
+msgstr ""
+
+#: mp_iface.c:1381
+msgid "Tag to seek:"
+msgstr "Искать тэг:"
+
+#: mp_iface.c:1397
+msgid "Word wrap on column (0, no word wrap):"
+msgstr "Перенос строк на столбце (0 = нет переноса):"
+
+#: mp_iface.c:1418
+msgid "Tab size:"
+msgstr "Ширина табуляции:"
+
+#: mp_iface.c:1529
+msgid "Function to execute:"
+msgstr "Выполнить функцию:"
+
+#: mp_iface.c:1537
+#, c-format
+msgid "Function not found (%s)"
+msgstr "Функция не найдена (%s)"
+
+#: mp_tags.c:292
+msgid "Tag list"
+msgstr "Список тэгов"
+
+#: mp_tags.c:302
+msgid "Tag(s) not found."
+msgstr "Тэг(и) не наиден(ы)."
+
+#: mpv_curses.c:304
+msgid "menu"
+msgstr "меню"
+
+#: mpv_curses.c:743 mpv_curses.c:942
+msgid "ESC Cancel"
+msgstr "ESC Отмена"
+
+#: mpv_curses.c:895 mpv_gtk.c:504
+msgid "Y"
+msgstr ""
+
+#: mpv_curses.c:896 mpv_gtk.c:505
+msgid "N"
+msgstr ""
+
+#: mpv_curses.c:918
+msgid " [Y/N]"
+msgstr ""
+
+#: mpv_curses.c:931
+msgid " [ENTER]"
+msgstr " [ВВОД]"
+
+#: mpv_curses.c:1272 mpv_win32.c:580
+msgid "<about Minimum Profit>"
+msgstr "<о программе Minimum Profit>"
+
+#: mpv_curses.c:1508 mpv_gtk.c:2216
+msgid ""
+"Usage: mp [options] [file [file ...]]\n"
+"\n"
+"Options:\n"
+"\n"
+" -t|--tag [tag] \tEdits the file where tag is defined\n"
+" -w|--word-wrap [col]\tSets wordwrapping in column col\n"
+" -ts|--tab-size [size]\tSets tab size\n"
+" -ai|--autoindent\tSets automatic indentation mode\n"
+" -l|--lang [lang]\tLanguage selection\n"
+" -m|--mode [mode]\tSyntax-hilight mode\n"
+" --col80\t\tMarks column # 80\n"
+" -bw|--monochrome\tMonochrome\n"
+" -tx|--text\t\tUse text mode (instead of GUI)\n"
+" -sp|--spellcheck\tActive spellchecking\n"
+" -h|--help\t\tThis help screen\n"
+"\n"
+" -hw|--hardware-cursor\tActivates the use of hardware cursor\n"
+" --mouse\t\tActivate mouse usage for cursor positioning\n"
+" -nt|--no-transparent\tDisable transparent mode (eterm, aterm, etc.)\n"
+"\t\t\t"
+msgstr ""
+"Использование: mp [КЛЮЧИ] [ФАЙЛ [ФАЙЛ ...]]\n"
+"\n"
+"Параметры:\n"
+"\n"
+"  -t,  --tag [tag]        Редактировать фаил, содержащий определение тэга [tag]\n"
+"  -w,  --word-wrap [col]  Установить перенос строк в столбце [col]\n"
+"  -ts, --tab-size [size]  Установить ширину табуляции [size]\n"
+"  -ai, --autoindent       Включить режим автоматических отступов\n"
+"  -l,  --lang [lang]      Выбрать язык [lang]\n"
+"  -m,  --mode [mode]      Режим подсветки синтаксиса [mode]\n"
+"       --col80            Обозначить столбец N80\n"
+"  -bw, --monochrome       Монохромный режим\n"
+"  -tx, --text             Использовать текстовый режим (вместо GUI)\n"
+"  -sp, --spellcheck       Включить проверку правописания\n"
+"  -h,  --help             Показать это справочное сообщение\n"
+"\n"
+"  -hw, --hardware-cursor  Включить использование аппаратного курсора\n"
+"       --mouse            Включить использование мыши для позиционирования\n"
+"                          курсора\n"
+"  -nt, --no-transparent   Отключить прозрачный режим (eterm, aterm, и.т.п.)\n"
+"                         "
+
+#: mpv_gtk.c:624
+msgid "Yes"
+msgstr "Да"
+
+#: mpv_gtk.c:630
+msgid "No"
+msgstr "Нет"
+
+#: mpv_gtk.c:767 mpv_gtk.c:919
+msgid "OK"
+msgstr "ОК"
+
+#: mpv_gtk.c:774 mpv_gtk.c:926
+msgid "Cancel"
+msgstr "Отмена"
+
+#: mp_video.c:582
+msgid "No usable video driver found."
+msgstr "Не найдено ни одного рабочего видео драйвера."
+
+#: mp_video.c:623
+msgid "Bad mode."
+msgstr "Плохой режим."
+
+#: mpv_unix_common.c:276
+#, c-format
+msgid "<help about '%s'>"
+msgstr "<справка о '%s'>"
+
+#: mpv_unix_common.c:300
+#, c-format
+msgid "No help for '%s'"
+msgstr "Нет справки о '%s'"
+
+#: mpv_win32.c:1767
+msgid ""
+"Usage: mp [options] [file [file ...]]\n"
+"\n"
+"Options:\n"
+"\n"
+" -t|--tag [tag] \tEdits the file where tag is defined\n"
+" -w|--word-wrap [col]\tSets wordwrapping in column col\n"
+" -ts|--tab-size [size]\tSets tab size\n"
+" -ai|--autoindent\tSets automatic indentation mode\n"
+" -l|--lang [lang]\tLanguage selection\n"
+" -m|--mode [mode]\tSyntax-hilight mode\n"
+" --col80\t\tMarks column # 80\n"
+" -bw|--monochrome\tMonochrome\n"
+" -tx|--text\t\tUse text mode (instead of GUI)\n"
+" -h|--help\t\tThis help screen\n"
+"\n"
+" -hw|--hardware-cursor\tActivates the use of hardware cursor\n"
+" --mouse\t\tActivate mouse usage for cursor positioning\n"
+" -nt|--no-transparent\tDisable transparent mode (eterm, aterm, etc.)\n"
+"\t\t\t"
+msgstr ""
+"Использование: mp [КЛЮЧИ] [ФАЙЛ [ФАЙЛ ...]]\n"
+"\n"
+"Параметры:\n"
+"\n"
+"  -t,  --tag [tag]        Редактировать фаил, содержащий определение тэга [tag]\n"
+"  -w,  --word-wrap [col]  Установить перенос строк в столбце [col]\n"
+"  -ts, --tab-size [size]  Установить ширину табуляции [size]\n"
+"  -ai, --autoindent       Включить режим автоматических отступов\n"
+"  -l,  --lang [lang]      Выбрать язык [lang]\n"
+"  -m,  --mode [mode]      Режим подсветки синтаксиса [mode]\n"
+"       --col80            Пометить столбец N80\n"
+"  -bw, --monochrome       Монохромный режим\n"
+"  -tx, --text             Использовать текстовый режим (вместо GUI)\n"
+"  -h,  --help             Показать это справочное сообщение\n"
+"\n"
+"  -hw, --hardware-cursor  Включить использование аппаратного курсора\n"
+"       --mouse            Включить использование мыши для позиционирования\n"
+"                          курсора\n"
+"  -nt, --no-transparent   Отключить прозрачный режим (eterm, aterm, и.т.п.)\n"
+"                         "
+
+#: mp_wordp.c:195
+#, c-format
+msgid "Can't execute '%s'"
+msgstr "Невозможно выполнить '%s'"
+
+#: mp_wordp.c:241
+msgid "Spellchecking is only available under Unix systems."
+msgstr "Проверка правописания доступна только для Unix систем."
+
+#: mp_func_i.h:3
+msgid "Decrement font size"
+msgstr "Уменьшить размер шрифта"
+
+#: mp_func_i.h:7
+msgid "Mark spelling errors"
+msgstr "Помечать ошибки правописания"
+
+#: mp_func_i.h:11
+msgid "Unmark block"
+msgstr "Снять выделение с блока"
+
+#: mp_func_i.h:15
+msgid "Increment font size"
+msgstr "Увеличить размер шрифта"
+
+#: mp_func_i.h:19
+msgid "Toggle insert/overwrite"
+msgstr "Переключить режим вставка/замена"
+
+#: mp_func_i.h:23
+msgid "Use regular expressions"
+msgstr "Использовать регулярные выражения"
+
+#: mp_func_i.h:27
+msgid "Case sensitive"
+msgstr "Учитывать регистр"
+
+#: mp_func_i.h:31
+msgid "Mark column #80"
+msgstr "Обозначить столбец N80"
+
+#: mp_func_i.h:35
+msgid "Save LF as CR/LF"
+msgstr "Сохранять LF как CR/LF"
+
+#: mp_func_i.h:39
+msgid "Save tabs"
+msgstr "Сохранять табуляцию"
+
+#: mp_func_i.h:43
+msgid "Automatic indentation"
+msgstr "Автоматические отступы"
+
+#: mp_func_i.h:47
+msgid "Sort lines"
+msgstr "Сортировать строки"
+
+#: mp_func_i.h:51
+msgid "Suspend application"
+msgstr "Приостановить приложение"
+
+#: mp_func_i.h:55
+msgid "Save modified texts"
+msgstr "Сохранить измененные тексты"
+
+#: mp_func_i.h:59
+msgid "Word wrap..."
+msgstr "Перенос слов..."
+
+#: mp_func_i.h:63
+msgid "Show clipboard"
+msgstr "Показать буфер обмена"
+
+#: mp_func_i.h:67
+msgid "Search next"
+msgstr "Искать дальше"
+
+#: mp_func_i.h:71
+msgid "Password protect..."
+msgstr "Защитить паролем..."
+
+#: mp_func_i.h:75
+msgid "Tab size..."
+msgstr "Ширина табуляции..."
+
+#: mp_func_i.h:79
+msgid "Show log"
+msgstr "Показать лог"
+
+#: mp_func_i.h:83
+msgid "Break hardlinks on write"
+msgstr "Разрушать жесткие ссылки при записи"
+
+#: mp_func_i.h:87
+msgid "Save as..."
+msgstr "Сохранить как..."
+
+#: mp_func_i.h:91
+msgid "Replace..."
+msgstr "Заменить..."
+
+#: mp_func_i.h:95
+msgid "Replace in all..."
+msgstr "Заменить везде..."
+
+#: mp_func_i.h:99
+msgid "Save..."
+msgstr "Сохранить..."
+
+#: mp_func_i.h:103
+msgid "Record macro"
+msgstr "Записать макрос"
+
+#: mp_func_i.h:107
+msgid "Reformat paragraph with word wrapping"
+msgstr "Форматировать параграф с переносом строк"
+
+#: mp_func_i.h:111
+msgid "Paste block"
+msgstr "Вставить блок"
+
+#: mp_func_i.h:115
+msgid "Play macro"
+msgstr "Воспроизвести макрос"
+
+#: mp_func_i.h:119
+msgid "Previous"
+msgstr "Предыдущий"
+
+#: mp_func_i.h:123
+msgid "Reopen..."
+msgstr "Открыть еще раз..."
+
+#: mp_func_i.h:127
+msgid "Next"
+msgstr "Следующий"
+
+#: mp_func_i.h:131
+msgid "Open..."
+msgstr "Открыть..."
+
+#: mp_func_i.h:135
+msgid "Word left"
+msgstr "Следующее слово"
+
+#: mp_func_i.h:139
+msgid "Word right"
+msgstr "Предыдущее слово"
+
+#: mp_func_i.h:143
+msgid "New"
+msgstr "Создать"
+
+#: mp_func_i.h:147
+msgid "Line up"
+msgstr "Предыдуюая строка"
+
+#: mp_func_i.h:151 mp_func_i.h:355
+msgid "Page down"
+msgstr "Следующая страница"
+
+#: mp_func_i.h:155 mp_func_i.h:167
+msgid "Page up"
+msgstr "Предыдущая страница"
+
+#: mp_func_i.h:159
+msgid "Move to previous instance of current char"
+msgstr "Перейти назад к такому же символу"
+
+#: mp_func_i.h:163
+msgid "Character right"
+msgstr "Следующий символ"
+
+#: mp_func_i.h:171
+msgid "Open file under cursor"
+msgstr "Открыть файл под курсором"
+
+#: mp_func_i.h:175
+msgid "Search text..."
+msgstr "Искать текст..."
+
+#: mp_func_i.h:179
+msgid "Move to next instance of current char"
+msgstr "Перейти вперед к такому же символу"
+
+#: mp_func_i.h:183
+msgid "End of document"
+msgstr "Конец документа"
+
+#: mp_func_i.h:187
+msgid "End of line"
+msgstr "Конец строки"
+
+#: mp_func_i.h:191
+msgid "Character left"
+msgstr "Предыдущий символ"
+
+#: mp_func_i.h:195
+msgid "Beginning of document"
+msgstr "Начало документа"
+
+#: mp_func_i.h:199
+msgid "Beginning of line"
+msgstr "Начало строки"
+
+#: mp_func_i.h:203
+msgid "Select last succesful search"
+msgstr "Показать последний успешный поиск"
+
+#: mp_func_i.h:207
+msgid "Menu"
+msgstr "Меню"
+
+#: mp_func_i.h:211
+msgid "Position cursor with mouse"
+msgstr "Перемещение курсора мышью"
+
+#: mp_func_i.h:215
+msgid "Line down"
+msgstr "Следующая строка"
+
+#: mp_func_i.h:219
+msgid "Help on keys"
+msgstr "Справка о клавишах"
+
+#: mp_func_i.h:223
+msgid "Join current line to one above"
+msgstr "Объединить текущую строку с предыдущей"
+
+#: mp_func_i.h:227
+msgid "Join current line to one below"
+msgstr "Объединить текущую строку со следующей"
+
+#: mp_func_i.h:231
+msgid "Jump to matching bracket"
+msgstr "Перейти на соответствующюю скобку"
+
+#: mp_func_i.h:235
+msgid "Insert new line below cursor"
+msgstr "Вставить новую строку от курсора"
+
+#: mp_func_i.h:239
+msgid "Insert tab"
+msgstr "Вставить символ табуляции"
+
+#: mp_func_i.h:243
+msgid "Help for word under cursor"
+msgstr "Справка о слове под курсором"
+
+#: mp_func_i.h:247
+msgid "Insert line"
+msgstr "Вставить строку"
+
+#: mp_func_i.h:251
+msgid "Insert new line above cursor"
+msgstr "Вставить новую строку над курсором"
+
+#: mp_func_i.h:255
+msgid "Insert template..."
+msgstr "Вставить шаблон..."
+
+#: mp_func_i.h:259
+msgid "Mark beginning/end of block"
+msgstr "Пометить начало/конец блока"
+
+#: mp_func_i.h:263
+msgid "Go to line..."
+msgstr "Перейти к строке..."
+
+#: mp_func_i.h:267
+msgid "Search tag..."
+msgstr "Искать тэг..."
+
+#: mp_func_i.h:271
+msgid "Flip letter case if A-Z or a-z"
+msgstr "Заменить начертание буквы, если A-Z или a-z"
+
+#: mp_func_i.h:275
+msgid "Flip word case"
+msgstr "Заменить начертание слова"
+
+#: mp_func_i.h:279
+msgid "Run system command..."
+msgstr "Выполнить системную команду..."
+
+#: mp_func_i.h:283
+msgid "Execute editor function..."
+msgstr "Выполнить функцию редактора..."
+
+#: mp_func_i.h:287
+msgid "Document list"
+msgstr "Список документов"
+
+#: mp_func_i.h:291
+msgid "Edit configuration file"
+msgstr "Редактировать конфигурационный файл"
+
+#: mp_func_i.h:295
+msgid "Edit templates file"
+msgstr "Редактировать файл шаблонов"
+
+#: mp_func_i.h:299
+msgid "Exit"
+msgstr "Выход"
+
+#: mp_func_i.h:303
+msgid "Delete whole word"
+msgstr "Удалить слово целиком"
+
+#: mp_func_i.h:307
+msgid "Delete to the beginning of word"
+msgstr "Удалить до начала слова"
+
+#: mp_func_i.h:311
+msgid "Delete char to the left of cursor"
+msgstr "Удалить символ слева от курсора"
+
+#: mp_func_i.h:315
+msgid "Delete line"
+msgstr "Удалить строку"
+
+#: mp_func_i.h:319
+msgid "Delete all whitespace after cursor"
+msgstr "Удалить все пробелы после курсора"
+
+#: mp_func_i.h:323
+msgid "Copy block"
+msgstr "Копировать блок"
+
+#: mp_func_i.h:327
+msgid "Cut block"
+msgstr "Вырезать блок"
+
+#: mp_func_i.h:331
+msgid "About..."
+msgstr "О программе..."
+
+#: mp_func_i.h:335
+msgid "Close"
+msgstr "Закрыть"
+
+#: mp_func_i.h:339
+msgid "Complete tag..."
+msgstr "Дополнить тэг..."
+
+#: mp_func_i.h:343
+msgid "Delete char over cursor"
+msgstr "Удалить символ под курсором"
+
+#: mp_func_i.h:347
+msgid "Delete to the end of word"
+msgstr "Удалить до конца слова"
+
+#: mp_func_i.h:351
+msgid "Grep (find inside) files..."
+msgstr "Поиск (grep) по файлам..."
