@@ -869,139 +869,139 @@ msgstr ""
 
 #: mp_crypt.mpsl:40
 msgid "Passwords don't match."
-msgstr ""
+msgstr "Las palabras clave no coinciden."
 
 #: mp_edit.mpsl:44
 msgid "Word wrapping must be set"
-msgstr ""
+msgstr "El recorte de líneas debe estar activo."
 
 #: mp_edit.mpsl:70
 msgid "Insert space"
-msgstr ""
+msgstr "Insertar espacio"
 
 #: mp_edit.mpsl:72
 msgid "Delete character"
-msgstr ""
+msgstr "Borrar carácter"
 
 #: mp_edit.mpsl:73
 msgid "Delete character to the left"
-msgstr ""
+msgstr "Borrar carácter a la izquierda"
 
 #: mp_edit.mpsl:74
 msgid "Undo last operation"
-msgstr ""
+msgstr "Deshacer la última operación"
 
 #: mp_edit.mpsl:75
 msgid "Join a paragraph in one line"
-msgstr ""
+msgstr "Juntar un párrafo en una sola línea"
 
 #: mp_edit.mpsl:76
 msgid "Word-wrap a paragraph"
-msgstr ""
+msgstr "Recortar por palabras un párrafo"
 
 #: mp_file.mpsl:38
 msgid "Save file as:"
-msgstr ""
+msgstr "Salvar fichero como:"
 
 #: mp_file.mpsl:45 mp_file.mpsl:55
 #, c-format
 msgid "Error saving file: %s"
-msgstr ""
+msgstr "Error salvando fichero: %s"
 
 #: mp_file.mpsl:94
 msgid "File to open:"
-msgstr ""
+msgstr "Fichero a abrir:"
 
 #: mp_misc.mpsl:32
 msgid "Code to execute:"
-msgstr ""
+msgstr "Código a ejecutar:"
 
 #: mp_misc.mpsl:43 mp_misc.mpsl:61
 msgid "Error: "
-msgstr ""
+msgstr "Error: "
 
 #: mp_misc.mpsl:48
 msgid "Exit value:\n"
-msgstr ""
+msgstr "Valor de salida:\n"
 
 #: mp_misc.mpsl:103
 msgid "Execute MPSL code..."
-msgstr ""
+msgstr "Executar código MPSL..."
 
 #: mp_misc.mpsl:104
 msgid "Execute document as MPSL"
-msgstr ""
+msgstr "Ejecutar documento como MPSL"
 
 #: mp_misc.mpsl:105
 msgid "Bigger font"
-msgstr ""
+msgstr "Tipo de letra más grande"
 
 #: mp_misc.mpsl:106
 msgid "Smaller font"
-msgstr ""
+msgstr "Tipo de letra más pequeño"
 
 #: mp_move.mpsl:135
 msgid "Move cursor to mouse click"
-msgstr ""
+msgstr "Mover el cursor al puntero del ratón"
 
 #: mp_move.mpsl:136
 msgid "Mouse wheel up"
-msgstr ""
+msgstr "Rueda del ratón arriba"
 
 #: mp_move.mpsl:137
 msgid "Mouse wheel down"
-msgstr ""
+msgstr "Rueda del ratón abajo"
 
 #: mp_search.mpsl:70
 msgid "Global replace:"
-msgstr ""
+msgstr "Reemplazo global:"
 
 #: mp_search.mpsl:103
 msgid "File(s) not found."
-msgstr ""
+msgstr "Fichero(s) no encontrado(s)."
 
 #: mp_search.mpsl:112
 msgid "Grep"
-msgstr ""
+msgstr "Buscar en ficheros (grep)"
 
 #: mp_search.mpsl:148
 msgid "Search previous"
-msgstr ""
+msgstr "Buscar anterior"
 
 #: mp_syntax.mpsl:42
 #, c-format
 msgid "No help for '%s'."
-msgstr ""
+msgstr "No hay ayuda para '%s'."
 
 #: mp_syntax.mpsl:44
 #, c-format
 msgid "<help on '%s'>"
-msgstr ""
+msgstr "<ayuda para '%s'>"
 
 #: mp_syntax.mpsl:53
 msgid "Help on word over cursor"
-msgstr ""
+msgstr "Ayuda sobre la tecla bajo el cursor"
 
 #: mp_tags.mpsl:59
 msgid "No matching symbol found."
-msgstr ""
+msgstr "No coincide ningún símbolo."
 
 #: mp_tags.mpsl:69
 msgid "Select symbol:"
-msgstr ""
+msgstr "Seleccionar símbolo:"
 
 #: mp_tags.mpsl:99
 msgid "Symbol completion..."
-msgstr ""
+msgstr "Completado de símbolos..."
 
 #: mp_tags.mpsl:177
 msgid "Tag not found."
-msgstr ""
+msgstr "Tag no encontrado."
 
 #: mp_tags.mpsl:190
 msgid "Select tag:"
-msgstr ""
+msgstr "Seleccionar tag:"
 
 #: mp_templates.mpsl:40
 msgid "Template to insert:"
-msgstr ""
+msgstr "Plantilla a insertar:"
