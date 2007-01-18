@@ -90,7 +90,7 @@ win32dist: wmp.exe
 	mv win32/installer.exe mp-$(VERSION).exe
 	rm -rf win32
 
-install: $(INSTALL_MSG) installdoc
+install: $(INSTALL_MSG) installdoc install-mo
 	install $(APPNAME) $(PREFIX)/bin/$(APPNAME)
 	./mkinstalldirs $(PREFIX)/share/$(APPNAME)
 	install -m 644 mp_*.mpsl $(PREFIX)/share/$(APPNAME)
@@ -127,7 +127,7 @@ build-mo:
 		msgfmt -o po/$$B.mo $$a ; \
 	done
 
-install-mo:
+install-mo: build-mo
 	for a in po/*.mo ; do \
 		B=`basename $$a .mo` ; \
 		./mkinstalldirs $(PREFIX)/share/locale/$$B/LC_MESSAGES ; \
