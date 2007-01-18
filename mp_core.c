@@ -735,7 +735,12 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 		mpdm_t f;
 
 		if((f = mpdm_hget_s(doc, L"paint")) != NULL)
+		{
+			/* invalidate old cached drw data */
+			memset(&drw_1_o, '\0', sizeof(drw_1_o));
+
 			r = mpdm_exec_2(f, doc, MPDM_I(optimize));
+		}
 		else
 			r = drw_draw(doc, optimize);
 	}
