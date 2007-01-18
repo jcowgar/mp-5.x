@@ -144,7 +144,7 @@ sub mp.load_tags(force)
 		r = sregex('@^/@', r, NULL);
 
 		/* escape all troublesome characters */
-		r = sregex("/([\(\)\*\?\[\{\}]|\])/g", r, sub (m) { '\' ~ m; });
+		r = sregex("/([\(\)\*\?\[\{\}]|\])/g", r, sub (m) { "\\" ~ m; });
 
 		/* store the tag information */
 		mp.tags[t[0]] = {

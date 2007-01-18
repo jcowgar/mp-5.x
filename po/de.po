@@ -10,23 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_conf.c:134
+#: mp_conf.c:134 mp_core.mpsl:122
 msgid "&File"
 msgstr "&Datei"
 
-#: mp_conf.c:136
+#: mp_conf.c:136 mp_core.mpsl:131
 msgid "&Edit"
 msgstr "&Bearbeiten"
 
-#: mp_conf.c:141
+#: mp_conf.c:141 mp_core.mpsl:140
 msgid "&Search"
 msgstr "&Suchen"
 
-#: mp_conf.c:143
+#: mp_conf.c:143 mp_core.mpsl:146
 msgid "&Go to"
 msgstr "&Gehe zu"
 
-#: mp_conf.c:146
+#: mp_conf.c:146 mp_core.mpsl:154
 msgid "&Options"
 msgstr "&Optionen"
 
@@ -67,11 +67,12 @@ msgstr ""
 "#\n"
 "\n"
 
-#: mp_func.c:481 mp_iface.c:649 mp_iface.c:651
+#: mp_func.c:481 mp_iface.c:649 mp_iface.c:651 mp_crypt.mpsl:32
+#: mp_file.mpsl:319
 msgid "Password:"
 msgstr "Passwort:"
 
-#: mp_func.c:488
+#: mp_func.c:488 mp_crypt.mpsl:33
 msgid "Password (again):"
 msgstr "Passwort wiederholen:"
 
@@ -95,12 +96,13 @@ msgstr "Editorfunktionen ohne Tastenkürzel"
 msgid "Error executing user defined function"
 msgstr "Fehler beim Ausführen der benutzerdefinierten Funktion!"
 
-#: mp_iface.c:583 mp_iface.c:585
+#: mp_iface.c:583 mp_iface.c:585 mp_move.mpsl:45
 msgid "Line to go to:"
 msgstr "Gehe zu Zeile:"
 
 #: mp_iface.c:603 mp_iface.c:607 mp_iface.c:735 mp_iface.c:1608 mp_video.c:614
 #: mp_iface.c:605 mp_iface.c:609 mp_iface.c:737 mp_iface.c:1618
+#: mp_file.mpsl:187 mp_file.mpsl:236
 msgid "<unnamed>"
 msgstr "<unbenannt>"
 
@@ -119,7 +121,7 @@ msgstr "Fehler: Datei '%s' nicht gefunden!"
 msgid "Can't create file '%s'."
 msgstr "Fehler: Kann Datei '%s' nicht erstellen!"
 
-#: mp_iface.c:773 mp_iface.c:775
+#: mp_iface.c:773 mp_iface.c:775 mp_file.mpsl:63
 msgid "File has changed. Save changes?"
 msgstr "Die Datei wurde geändert. Änderungen speichern?"
 
@@ -150,19 +152,23 @@ msgid "Select template"
 msgstr "Wähle eine Vorlage"
 
 #: mp_iface.c:1100 mp_iface.c:1236 mp_iface.c:1102 mp_iface.c:1246
+#: mp_search.mpsl:35 mp_search.mpsl:90
 msgid "Text to seek:"
 msgstr "Zu suchender Text:"
 
 #: mp_iface.c:1105 mp_iface.c:1123 mp_iface.c:1164 mp_iface.c:1320
 #: mp_iface.c:1107 mp_iface.c:1129 mp_iface.c:1174 mp_iface.c:1330
+#: mp_search.mpsl:46 mp_search.mpsl:51 mp_search.mpsl:55 mp_search.mpsl:106
 msgid "Text not found."
 msgstr "Text nicht gefunden!"
 
 #: mp_iface.c:1143 mp_iface.c:1187 mp_iface.c:1153 mp_iface.c:1197
+#: mp_search.mpsl:61
 msgid "Replace text:"
 msgstr "Zu ersetzender Text:"
 
 #: mp_iface.c:1148 mp_iface.c:1192 mp_iface.c:1158 mp_iface.c:1202
+#: mp_search.mpsl:64
 msgid "Replace with:"
 msgstr "Ersetzen durch:"
 
@@ -170,7 +176,7 @@ msgstr "Ersetzen durch:"
 msgid "To end of file?"
 msgstr "Bis zum Dateiende?"
 
-#: mp_iface.c:1243 mp_iface.c:1253
+#: mp_iface.c:1243 mp_iface.c:1253 mp_search.mpsl:93
 msgid "Files to grep (empty, all):"
 msgstr "Zu durchsuchende Dateien (leer=alle):"
 
@@ -178,7 +184,7 @@ msgstr "Zu durchsuchende Dateien (leer=alle):"
 msgid "grep"
 msgstr "Grep-Suche"
 
-#: mp_iface.c:1381 mp_iface.c:1391
+#: mp_iface.c:1381 mp_iface.c:1391 mp_tags.mpsl:39
 msgid "Tag to seek:"
 msgstr "Zu suchender Tag:"
 
@@ -227,7 +233,7 @@ msgstr "N"
 msgid " [Y/N]"
 msgstr "[J/N]"
 
-#: mpv_curses.c:931
+#: mpv_curses.c:931 mp_tui.mpsl:194
 msgid " [ENTER]"
 msgstr "[ENTER]"
 
@@ -280,19 +286,21 @@ msgstr ""
 "Modi für die Syntax-Hervorhebung:\n"
 "\t"
 
-#: mpv_gtk.c:624 mpv_gtk.c:631
+#: mpv_gtk.c:624 mpv_gtk.c:631 mpv_gtk.c:1288 mp_tui.mpsl:206
 msgid "Yes"
 msgstr "Ja"
 
-#: mpv_gtk.c:630 mpv_gtk.c:637
+#: mpv_gtk.c:630 mpv_gtk.c:637 mpv_gtk.c:1289 mp_tui.mpsl:207
 msgid "No"
 msgstr "Nein"
 
-#: mpv_gtk.c:767 mpv_gtk.c:919 mpv_gtk.c:774 mpv_gtk.c:926
+#: mpv_gtk.c:767 mpv_gtk.c:919 mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:1247
+#: mpv_gtk.c:1481
 msgid "OK"
 msgstr "Übernehmen"
 
-#: mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:781 mpv_gtk.c:933
+#: mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:781 mpv_gtk.c:933 mpv_gtk.c:1290
+#: mpv_gtk.c:1482
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -376,7 +384,7 @@ msgstr "Schrift kleiner"
 msgid "Mark spelling errors"
 msgstr "Rechtschreibfehler markieren"
 
-#: mp_func_i.h:11
+#: mp_func_i.h:11 mp_clipboard.mpsl:73
 msgid "Unmark block"
 msgstr "Blockmarkierung aufheben"
 
@@ -392,7 +400,7 @@ msgstr "Einfügen/Überschreiben umschalten"
 msgid "Use regular expressions"
 msgstr "Reguläre Ausdrücke verwenden"
 
-#: mp_func_i.h:27
+#: mp_func_i.h:27 mp_search.mpsl:38 mp_search.mpsl:67
 msgid "Case sensitive"
 msgstr "Groß-/Kleinschreibung beachten"
 
@@ -420,7 +428,7 @@ msgstr "Zeilen sortieren"
 msgid "Suspend application"
 msgstr "Editor-Schlafmodus"
 
-#: mp_func_i.h:55
+#: mp_func_i.h:55 mp_file.mpsl:134
 msgid "Save modified texts"
 msgstr "Alle geänderten Dateien speichern"
 
@@ -432,11 +440,11 @@ msgstr "Zeilenumbruch..."
 msgid "Show clipboard"
 msgstr "Zwischenablage zeigen"
 
-#: mp_func_i.h:67
+#: mp_func_i.h:67 mp_search.mpsl:147
 msgid "Search next"
 msgstr "Weitersuchen"
 
-#: mp_func_i.h:71
+#: mp_func_i.h:71 mp_crypt.mpsl:52
 msgid "Password protect..."
 msgstr "Passwortschutz..."
 
@@ -452,11 +460,11 @@ msgstr "Log-Datei zeigen"
 msgid "Break hardlinks on write"
 msgstr "Hardlinks beim Speichern trennen"
 
-#: mp_func_i.h:87
+#: mp_func_i.h:87 mp_file.mpsl:125
 msgid "Save as..."
 msgstr "Speichern unter..."
 
-#: mp_func_i.h:91
+#: mp_func_i.h:91 mp_search.mpsl:149
 msgid "Replace..."
 msgstr "Ersetzen..."
 
@@ -464,11 +472,11 @@ msgstr "Ersetzen..."
 msgid "Replace in all..."
 msgstr "Ersetzen in allen Dokumenten..."
 
-#: mp_func_i.h:99
+#: mp_func_i.h:99 mp_file.mpsl:124
 msgid "Save..."
 msgstr "Speichern..."
 
-#: mp_func_i.h:103
+#: mp_func_i.h:103 mp_macro.mpsl:41
 msgid "Record macro"
 msgstr "Makro aufzeichnen ein/aus"
 
@@ -476,15 +484,15 @@ msgstr "Makro aufzeichnen ein/aus"
 msgid "Reformat paragraph with word wrapping"
 msgstr "Abschnitt neu formatieren"
 
-#: mp_func_i.h:111
+#: mp_func_i.h:111 mp_clipboard.mpsl:76
 msgid "Paste block"
 msgstr "Block einfügen"
 
-#: mp_func_i.h:115
+#: mp_func_i.h:115 mp_macro.mpsl:42
 msgid "Play macro"
 msgstr "Makro ausführen"
 
-#: mp_func_i.h:119
+#: mp_func_i.h:119 mp_file.mpsl:127
 msgid "Previous"
 msgstr "Vorheriges Dokument fokusieren"
 
@@ -492,43 +500,43 @@ msgstr "Vorheriges Dokument fokusieren"
 msgid "Reopen..."
 msgstr "Erneut öffnen..."
 
-#: mp_func_i.h:127
+#: mp_func_i.h:127 mp_file.mpsl:126
 msgid "Next"
 msgstr "Nächstes Dokument fokusieren"
 
-#: mp_func_i.h:131
+#: mp_func_i.h:131 mp_file.mpsl:128
 msgid "Open..."
 msgstr "Öffnen..."
 
-#: mp_func_i.h:135
+#: mp_func_i.h:135 mp_move.mpsl:132
 msgid "Word left"
 msgstr "Wort nach links"
 
-#: mp_func_i.h:139
+#: mp_func_i.h:139 mp_move.mpsl:133
 msgid "Word right"
 msgstr "Wort nach rechts"
 
-#: mp_func_i.h:143
+#: mp_func_i.h:143 mp_file.mpsl:123
 msgid "New"
 msgstr "Neu"
 
-#: mp_func_i.h:147
+#: mp_func_i.h:147 mp_move.mpsl:124
 msgid "Line up"
 msgstr "Zeile nach oben"
 
-#: mp_func_i.h:151 mp_func_i.h:355
+#: mp_func_i.h:151 mp_func_i.h:355 mp_move.mpsl:127
 msgid "Page down"
 msgstr "Seite nach unten"
 
-#: mp_func_i.h:155 mp_func_i.h:167
+#: mp_func_i.h:155 mp_func_i.h:167 mp_move.mpsl:126
 msgid "Page up"
 msgstr "Seite nach oben"
 
-#: mp_func_i.h:159
+#: mp_func_i.h:159 mp_search.mpsl:151
 msgid "Move to previous instance of current char"
 msgstr "Zum vorherigen Vorkommen des aktuellen Buchstabens"
 
-#: mp_func_i.h:163
+#: mp_func_i.h:163 mp_move.mpsl:123
 msgid "Character right"
 msgstr "Buchstabe nach rechts"
 
@@ -536,31 +544,31 @@ msgstr "Buchstabe nach rechts"
 msgid "Open file under cursor"
 msgstr "Datei über dem Kursor öffnen"
 
-#: mp_func_i.h:175
+#: mp_func_i.h:175 mp_search.mpsl:146
 msgid "Search text..."
 msgstr "Suchen..."
 
-#: mp_func_i.h:179
+#: mp_func_i.h:179 mp_search.mpsl:150
 msgid "Move to next instance of current char"
 msgstr "Zum nächsten Vorkommen des aktuellen Buchstabens"
 
-#: mp_func_i.h:183
+#: mp_func_i.h:183 mp_move.mpsl:131
 msgid "End of document"
 msgstr "Zum Ende des Dokumentes"
 
-#: mp_func_i.h:187
+#: mp_func_i.h:187 mp_move.mpsl:129
 msgid "End of line"
 msgstr "Zum Ende der Zeile"
 
-#: mp_func_i.h:191
+#: mp_func_i.h:191 mp_move.mpsl:122
 msgid "Character left"
 msgstr "Buchstabe nach links"
 
-#: mp_func_i.h:195
+#: mp_func_i.h:195 mp_move.mpsl:130
 msgid "Beginning of document"
 msgstr "Zum Anfang des Dokumentes"
 
-#: mp_func_i.h:199
+#: mp_func_i.h:199 mp_move.mpsl:128
 msgid "Beginning of line"
 msgstr "Zum Anfang der Zeile"
 
@@ -568,7 +576,7 @@ msgstr "Zum Anfang der Zeile"
 msgid "Select last succesful search"
 msgstr "Letzte erfolgreiche Suche markieren"
 
-#: mp_func_i.h:207
+#: mp_func_i.h:207 mp_drv.mpsl:36
 msgid "Menu"
 msgstr "Menü"
 
@@ -576,7 +584,7 @@ msgstr "Menü"
 msgid "Position cursor with mouse"
 msgstr "Kursor mit der Maus positionieren"
 
-#: mp_func_i.h:215
+#: mp_func_i.h:215 mp_move.mpsl:125
 msgid "Line down"
 msgstr "Zeile nach unten"
 
@@ -600,7 +608,7 @@ msgstr "Zur zugehörigen Klammer"
 msgid "Insert new line below cursor"
 msgstr "Zeile unter dem Kursor einfügen"
 
-#: mp_func_i.h:239
+#: mp_func_i.h:239 mp_edit.mpsl:71
 msgid "Insert tab"
 msgstr "Tabulator einfügen"
 
@@ -608,7 +616,7 @@ msgstr "Tabulator einfügen"
 msgid "Help for word under cursor"
 msgstr "Hilfe zum Wort über dem Kursor"
 
-#: mp_func_i.h:247
+#: mp_func_i.h:247 mp_edit.mpsl:68
 msgid "Insert line"
 msgstr "Zeile an der Kursorposition einfügen"
 
@@ -616,19 +624,19 @@ msgstr "Zeile an der Kursorposition einfügen"
 msgid "Insert new line above cursor"
 msgstr "Zeile über dem Kursor einfügen"
 
-#: mp_func_i.h:255
+#: mp_func_i.h:255 mp_templates.mpsl:57
 msgid "Insert template..."
 msgstr "Vorlage einfügen..."
 
-#: mp_func_i.h:259
+#: mp_func_i.h:259 mp_clipboard.mpsl:74
 msgid "Mark beginning/end of block"
 msgstr "Bockanfang/-ende markieren"
 
-#: mp_func_i.h:263
+#: mp_func_i.h:263 mp_move.mpsl:134
 msgid "Go to line..."
 msgstr "Gehe zu Zeile..."
 
-#: mp_func_i.h:267
+#: mp_func_i.h:267 mp_tags.mpsl:98
 msgid "Search tag..."
 msgstr "Tag suchen..."
 
@@ -648,19 +656,19 @@ msgstr "System-Kommando ausführen"
 msgid "Execute editor function..."
 msgstr "Editorfunktion ausführen..."
 
-#: mp_func_i.h:287
+#: mp_func_i.h:287 mp_move.mpsl:87 mp_move.mpsl:138
 msgid "Document list"
 msgstr "Liste der Dokumente"
 
-#: mp_func_i.h:291
+#: mp_func_i.h:291 mp_file.mpsl:132
 msgid "Edit configuration file"
 msgstr "Konfigurationsdatei bearbeiten"
 
-#: mp_func_i.h:295
+#: mp_func_i.h:295 mp_file.mpsl:133
 msgid "Edit templates file"
 msgstr "Vorlagendatei bearbeiten"
 
-#: mp_func_i.h:299
+#: mp_func_i.h:299 mp_file.mpsl:129
 msgid "Exit"
 msgstr "Beenden"
 
@@ -676,7 +684,7 @@ msgstr "Löschen bis zum Anfang des Wortes"
 msgid "Delete char to the left of cursor"
 msgstr "Zeichen links vom Kursor löschen"
 
-#: mp_func_i.h:315
+#: mp_func_i.h:315 mp_edit.mpsl:69
 msgid "Delete line"
 msgstr "Zeile löschen"
 
@@ -684,11 +692,11 @@ msgstr "Zeile löschen"
 msgid "Delete all whitespace after cursor"
 msgstr "Leerzeichen bis zum nächsten Wort entfernen"
 
-#: mp_func_i.h:323
+#: mp_func_i.h:323 mp_clipboard.mpsl:75
 msgid "Copy block"
 msgstr "Block kopieren"
 
-#: mp_func_i.h:327
+#: mp_func_i.h:327 mp_clipboard.mpsl:77
 msgid "Cut block"
 msgstr "Block ausschneiden+kopieren"
 
@@ -696,7 +704,7 @@ msgstr "Block ausschneiden+kopieren"
 msgid "About..."
 msgstr "Über..."
 
-#: mp_func_i.h:335
+#: mp_func_i.h:335 mp_file.mpsl:130
 msgid "Close"
 msgstr "Schließen"
 
@@ -712,6 +720,145 @@ msgstr "Zeichen über dem Kursor löschen"
 msgid "Delete to the end of word"
 msgstr "Löschen bis zum Ende des Wortes"
 
-#: mp_func_i.h:351
+#: mp_func_i.h:351 mp_search.mpsl:152
 msgid "Grep (find inside) files..."
 msgstr "Grep-Suche in Dateien..."
+
+#: mp_crypt.mpsl:40
+msgid "Passwords don't match."
+msgstr ""
+
+#: mp_edit.mpsl:44
+msgid "Word wrapping must be set"
+msgstr ""
+
+#: mp_edit.mpsl:70
+msgid "Insert space"
+msgstr ""
+
+#: mp_edit.mpsl:72
+msgid "Delete character"
+msgstr ""
+
+#: mp_edit.mpsl:73
+msgid "Delete character to the left"
+msgstr ""
+
+#: mp_edit.mpsl:74
+msgid "Undo last operation"
+msgstr ""
+
+#: mp_edit.mpsl:75
+msgid "Join a paragraph in one line"
+msgstr ""
+
+#: mp_edit.mpsl:76
+msgid "Word-wrap a paragraph"
+msgstr ""
+
+#: mp_file.mpsl:38
+msgid "Save file as:"
+msgstr ""
+
+#: mp_file.mpsl:45 mp_file.mpsl:55
+#, c-format
+msgid "Error saving file: %s"
+msgstr ""
+
+#: mp_file.mpsl:94
+msgid "File to open:"
+msgstr ""
+
+#: mp_misc.mpsl:32
+msgid "Code to execute:"
+msgstr ""
+
+#: mp_misc.mpsl:43 mp_misc.mpsl:61
+msgid "Error: "
+msgstr ""
+
+#: mp_misc.mpsl:48
+msgid "Exit value:\n"
+msgstr ""
+
+#: mp_misc.mpsl:103
+msgid "Execute MPSL code..."
+msgstr ""
+
+#: mp_misc.mpsl:104
+msgid "Execute document as MPSL"
+msgstr ""
+
+#: mp_misc.mpsl:105
+msgid "Bigger font"
+msgstr ""
+
+#: mp_misc.mpsl:106
+msgid "Smaller font"
+msgstr ""
+
+#: mp_move.mpsl:135
+msgid "Move cursor to mouse click"
+msgstr ""
+
+#: mp_move.mpsl:136
+msgid "Mouse wheel up"
+msgstr ""
+
+#: mp_move.mpsl:137
+msgid "Mouse wheel down"
+msgstr ""
+
+#: mp_search.mpsl:70
+msgid "Global replace:"
+msgstr ""
+
+#: mp_search.mpsl:103
+msgid "File(s) not found."
+msgstr ""
+
+#: mp_search.mpsl:112
+msgid "Grep"
+msgstr ""
+
+#: mp_search.mpsl:148
+msgid "Search previous"
+msgstr ""
+
+#: mp_syntax.mpsl:42
+#, c-format
+msgid "No help for '%s'."
+msgstr ""
+
+#: mp_syntax.mpsl:44
+#, c-format
+msgid "<help on '%s'>"
+msgstr ""
+
+#: mp_syntax.mpsl:53
+msgid "Help on word over cursor"
+msgstr ""
+
+#: mp_tags.mpsl:59
+msgid "No matching symbol found."
+msgstr ""
+
+#: mp_tags.mpsl:69
+msgid "Select symbol:"
+msgstr ""
+
+#: mp_tags.mpsl:99
+msgid "Symbol completion..."
+msgstr ""
+
+#: mp_tags.mpsl:177
+msgid "Tag not found."
+msgstr ""
+
+#: mp_tags.mpsl:190
+msgid "Select tag:"
+msgstr ""
+
+#: mp_templates.mpsl:40
+msgid "Template to insert:"
+msgstr ""

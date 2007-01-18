@@ -116,9 +116,6 @@ update-po:
 	for a in po/*.po ; do \
 		xgettext --omit-header -j -o $$a --language=C \
 			--keyword=L --keyword=LL mp*.c *.mpsl ; \
-		mv $$a $$a.tmp ; \
-		msgconv --to-code=iso-8859-1 $$a.tmp > $$a ; \
-		rm -f $$a.tmp ; \
 	done
 
 .po.mo:
