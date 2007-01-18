@@ -77,9 +77,17 @@ midnight: distclean docs ChangeLog po/minimum-profit.pot build-mo
 	rm $(PROJ)-$(VERSION)
 
 win32dist:
-	i586-mingw32msvc-strip wmp.exe
-	aovwinstall mp-5 "Minimum Profit $(VERSION)" wmp.exe *.mpsl doc doc/*.html README
-	mv installer.exe mp-$(VERSION).exe
+	mkdir -p win32
+	mkdir -p win32/doc
+	i586-mingw32msvc-strip $(APPNAME)
+	install $(APPNAME) win32
+	install mp_*.mpsl win32
+	(cd mpdm ; make installdoc DOCDIR=../win32/doc)
+	(cd mpsl ; make installdoc DOCDIR=../win32/doc)
+	install $(DOCS) win32/doc
+	(cd win32 ; aovwinstall mp-5 "Minimum Profit $(VERSION)" * doc/*)
+	mv win32/installer.exe mp-$(VERSION).exe
+	rm -rf win32
 
 install: $(INSTALL_MSG) installdoc
 	install $(APPNAME) $(PREFIX)/bin/$(APPNAME)
