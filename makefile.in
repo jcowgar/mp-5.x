@@ -76,7 +76,7 @@ midnight: distclean docs ChangeLog po/minimum-profit.pot build-mo
 	tar czvf $(PROJ)-$(VERSION)/mp-midnight.tar.gz --exclude=.svn $(PROJ)-$(VERSION)/* ; \
 	rm $(PROJ)-$(VERSION)
 
-win32dist:
+win32dist: wmp.exe
 	mkdir -p win32
 	mkdir -p win32/doc
 	i586-mingw32msvc-strip $(APPNAME)
@@ -86,6 +86,7 @@ win32dist:
 	(cd mpsl ; make installdoc DOCDIR=../win32/doc)
 	install $(DOCS) win32/doc
 	(cd win32 ; aovwinstall mp-5 "Minimum Profit $(VERSION)" * doc/*)
+	i586-mingw32msvc-strip win32/installer.exe
 	mv win32/installer.exe mp-$(VERSION).exe
 	rm -rf win32
 
