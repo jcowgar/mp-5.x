@@ -149,7 +149,7 @@ cat $MPSL/config.ldflags >> config.ldflags
 echo "MPSL=$MPSL" >> makefile.opts
 
 # test for curses / ncurses library
-echo -n "Testing for curses... "
+echo -n "Testing for ncursesw... "
 
 if [ "$WITHOUT_CURSES" = "1" ] ; then
 	echo "Disabled by user"
@@ -168,19 +168,8 @@ else
 		echo "OK (ncursesw)"
 		DRIVERS="curses $DRIVERS"
 	else
-		# try plain curses library
-		TMP_LDFLAGS="-L/usr/local/lib -lcurses"
-		$CC $TMP_CFLAGS .tmp.c $TMP_LDFLAGS -o .tmp.o 2>> .config.log
-		if [ $? = 0 ] ; then
-			echo "#define CONFOPT_CURSES 1" >> config.h
-			echo $TMP_CFLAGS >> config.cflags
-			echo $TMP_LDFLAGS >> config.ldflags
-			echo "OK (plain curses)"
-			DRIVERS="curses $DRIVERS"
-		else
-			echo "No"
-			WITHOUT_CURSES=1
-		fi
+		echo "No"
+		WITHOUT_CURSES=1
 	fi
 fi
 
