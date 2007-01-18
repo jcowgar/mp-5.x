@@ -288,7 +288,7 @@ sub mp.seek_prev_or_next_char(doc, func)
 	mp.move_right(doc);
 
 	/* search for it (mp.search() or mp.search_back()) */
-	func(doc, "\\" ~ w[1]);
+	func(doc, '\' ~ w[1]);
 
 	/* move back */
 	mp.move_left(doc);
