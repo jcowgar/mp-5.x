@@ -15,6 +15,7 @@ Minimum Profit 5.x Release Notes
  * New action 'sync' (save all modified documents, closed bug #1206).
  * New action 'document_list' (show a box with all open documents, allowing
    the selection of the active one; closed bug #1211).
+ * Translations ported from mp 3.x (closed bug #1169).
 
 4.99.12
 -------
