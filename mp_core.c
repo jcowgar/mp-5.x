@@ -730,14 +730,13 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 {
 	mpdm_t r = NULL;
 	static int ppp = 0;	/* previous private paint */
+	mpdm_t f;
 
 	/* if previous paint was private, disable optimizations */
 	if(ppp) optimize = ppp = 0;
 
 	if(doc != NULL)
 	{
-		mpdm_t f;
-
 		if((f = mpdm_hget_s(doc, L"paint")) != NULL)
 		{
 			ppp = 1;
@@ -746,6 +745,10 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 		else
 			r = drw_draw(doc, optimize);
 	}
+
+	/* if doc has a post_paint function, execute it */
+	if((f = mpdm_hget_s(doc, L"post_paint")) != NULL)
+		r = mpdm_exec_1(f, r);
 
 	return(r);
 }
