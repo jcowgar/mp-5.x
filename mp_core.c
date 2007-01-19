@@ -746,6 +746,10 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 			r = drw_draw(doc, optimize);
 	}
 
+	/* if there is a global post_paint function, execute it */
+	if((f = mpdm_hget_s(mp, L"post_paint")) != NULL)
+		r = mpdm_exec_1(f, r);
+
 	/* if doc has a post_paint function, execute it */
 	if((f = mpdm_hget_s(doc, L"post_paint")) != NULL)
 		r = mpdm_exec_1(f, r);
