@@ -13,9 +13,6 @@ Release Critical Bugs
  * 1170: The curses driver doesn't redraw when the terminal window
    is resized.
  * 1171: Add interface to set tab size.
- * 1172: Add interface to set the word wrapping column.
- * 1173: Add interface to set the line terminator.
- * 1174: Add interface to set autoindentation.
  * 1175: Add interface to set the tabs-as-spaces.
  * 1176: Add interface to set the undo levels.
  * 1183: Many actions should operate only on the selection block
@@ -206,5 +203,11 @@ Closed
  * 1210: Add interface to set the encoding
    (Mon, 22 Jan 2007 13:35:25 +0100).
  * 1209: Add 'Reopen' (renamed to 'Revert'; Mon, 22 Jan 2007 13:40:25 +0100).
+ * 1172: Add interface to set the word wrapping column
+   (Mon, 22 Jan 2007 14:06:09 +0100).
+ * 1173: Add interface to set the line terminator
+   (Mon, 22 Jan 2007 14:06:09 +0100).
+ * 1174: Add interface to set autoindentation.
+   (Mon, 22 Jan 2007 14:06:09 +0100).
 
 Email bugs to angel@triptico.com

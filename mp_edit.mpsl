@@ -49,6 +49,32 @@ mp.actions['word_wrap_paragraph'] = sub (d) {
 	}
 };
 
+mp.actions['line_control']	= sub (d) {
+
+	/* convert special characters on end of line */
+	local lt = sregex("/[\r\n]/g", mp.config.eol, { "\r" => '\r', "\n" => '\n'});
+
+	local t = mp.drv.form( [
+		{ 'label'	=> L("Word wrap on column (0, no word wrap)") ~ ':',
+		  'type'	=> 'text',
+		  'value'	=> mp.config.word_wrap,
+		  'history'	=> 'wordwrap' },
+		{ 'label'	=> L("Automatic indentation") ~ ':',
+		  'type'	=> 'checkbox',
+		  'value'	=> mp.config.auto_indent },
+		{ 'label'	=> L("Line termination") ~ ':',
+		  'value'	=> lt,
+		  'type'	=> 'text' }
+	] );
+
+	if(t != NULL)
+	{
+		mp.config.word_wrap = t[0];
+		mp.config.auto_indent = t[1];
+		mp.config.eol = sregex("/\\[rn]/g", t[2], { '\r' => "\r", '\n' => "\n"});
+	}
+};
+
 /* default key bindings */
 
 mp.keycodes['enter']	= "insert_line";
@@ -74,6 +100,7 @@ mp.actdesc['delete_left']	= LL("Delete character to the left");
 mp.actdesc['undo']		= LL("Undo last operation");
 mp.actdesc['join_paragraph']	= LL("Join a paragraph in one line");
 mp.actdesc['word_wrap_paragraph'] = LL("Word-wrap a paragraph");
+mp.actdesc['line_control']	= LL("Line control...");
 
 /* code */
 
