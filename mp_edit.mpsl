@@ -49,7 +49,7 @@ mp.actions['word_wrap_paragraph'] = sub (d) {
 	}
 };
 
-mp.actions['line_control']	= sub (d) {
+mp.actions['line_options']	= sub (d) {
 
 	/* convert special characters on end of line */
 	local lt = sregex("/[\r\n]/g", mp.config.eol, { "\r" => '\r', "\n" => '\n'});
@@ -119,7 +119,7 @@ mp.actdesc['delete_left']	= LL("Delete character to the left");
 mp.actdesc['undo']		= LL("Undo last operation");
 mp.actdesc['join_paragraph']	= LL("Join a paragraph in one line");
 mp.actdesc['word_wrap_paragraph'] = LL("Word-wrap a paragraph");
-mp.actdesc['line_control']	= LL("Line control...");
+mp.actdesc['line_options']	= LL("Line options...");
 mp.actdesc['tab_options']	= LL("Tab options...");
 
 /* code */
