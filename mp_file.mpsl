@@ -96,6 +96,17 @@ mp.actions['open']	= sub (d) {
 			mp.alert(sprintf("Error opening '%s': %s", n, ERRNO));
 };
 
+mp.actions['revert']	= sub (d) {
+	/* save current name */
+	local p = d.name;
+
+	/* close (possible asking) */
+	mp.actions.close(d);
+
+	if(mp.open(p) == NULL && ERRNO != NULL)
+		mp.alert(sprintf("Error opening '%s': %s", p, ERRNO));
+};
+
 mp.actions['open_config_file']	= sub (d) {
 
 	mp.open(HOMEDIR ~ ".mp.mpsl");
@@ -128,6 +139,7 @@ mp.actdesc['prev'] 	= LL("Previous");
 mp.actdesc['open'] 	= LL("Open...");
 mp.actdesc['exit'] 	= LL("Exit");
 mp.actdesc['close'] 	= LL("Close");
+mp.actdesc['revert']	= LL("Revert");
 
 mp.actdesc['open_config_file']		= LL("Edit configuration file");
 mp.actdesc['open_templates_file']	= LL("Edit templates file");

@@ -120,7 +120,7 @@ mp.alert_log = [];
 mp.menu = [
 	[
 		LL("&File"),
-		[ 'new', 'open', 'save', 'save_as', 'close',
+		[ 'new', 'open', 'save', 'save_as', 'close', 'revert',
 			'-', 'set_password',
 			'-', 'open_config_file',
 			'-', 'sync',

@@ -26,7 +26,6 @@ Release Critical Bugs
  * 1205: Copy & paste from two different instances of MP (GTK)
    seem to fail (copying or pasting from other applications seem
    to work).
- * 1209: Add 'Reopen'.
 
 Open Bugs
 ---------
@@ -206,5 +205,6 @@ Closed
    (Mon, 22 Jan 2007 13:28:36 +0100).
  * 1210: Add interface to set the encoding
    (Mon, 22 Jan 2007 13:35:25 +0100).
+ * 1209: Add 'Reopen' (renamed to 'Revert'; Mon, 22 Jan 2007 13:40:25 +0100).
 
 Email bugs to angel@triptico.com
