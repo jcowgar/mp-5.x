@@ -131,7 +131,7 @@ sub mp.ispell(b)
 /* sets or unsets spell checking (-1, toggle) */
 {
 	if(b == -1)
-		b = mp.ispell_pipe && 0 || 1;
+		b = mp.ispell_pipe == NULL && 1 || 0;
 
 	b && mp.open_ispell_pipe() || mp.close_ispell_pipe();
 }
