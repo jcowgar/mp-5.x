@@ -100,9 +100,16 @@ mp.actions['revert']	= sub (d) {
 	/* save current name */
 	local p = d.name;
 
-	/* close (possible asking) */
-	mp.actions.close(d);
+	if(d.txt.mod)
+	{
+		local r;
+		r = mp.confirm(L("File has changed. Are you sure?"));
 
+		/* cancel? don't close */
+		if(r == 0 || r == 2) return;
+	}
+
+	mp.close();
 	if(mp.open(p) == NULL && ERRNO != NULL)
 		mp.alert(sprintf("Error opening '%s': %s", p, ERRNO));
 };
