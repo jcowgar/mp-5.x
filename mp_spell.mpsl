@@ -128,17 +128,10 @@ sub mp.ispell_word_color_func(w)
 
 
 sub mp.ispell(b)
-/* sets or unsets spell checking */
+/* sets or unsets spell checking (-1, toggle) */
 {
+	if(b == -1)
+		b = mp.ispell_pipe && 0 || 1;
+
 	b && mp.open_ispell_pipe() || mp.close_ispell_pipe();
-}
-
-
-sub mp.toggle_ispell()
-/* toggles ispell state */
-{
-	if(mp.ispell_pipe)
-		mp.close_ispell_pipe();
-	else
-		mp.open_ispell_pipe();
 }
