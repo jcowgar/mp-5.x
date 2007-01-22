@@ -24,7 +24,6 @@ Release Critical Bugs
  * 1194: Underlined text doesn't work under win32.
  * 1195: The curses menu crashes if it doesn't fit on the screen.
  * 1198: Add interface to active spellchecking.
- * 1204: When toggling spelling, the document is incorrectly refreshed.
  * 1205: Copy & paste from two different instances of MP (GTK)
    seem to fail (copying or pasting from other applications seem
    to work).
@@ -203,5 +202,7 @@ Closed
  * 1179: It doesn't work with ncurses, so stop lying about it and
    ask for ncursesw (Thu, 18 Jan 2007 08:15:14 +0100).
  * 1169: Port translations from mp 3.x (Thu, 18 Jan 2007 09:02:38 +0100).
+ * 1204: When toggling spelling, the document is incorrectly refreshed
+   (Mon, 22 Jan 2007 13:21:09 +0100).
 
 Email bugs to angel@triptico.com

@@ -56,6 +56,7 @@ struct drw_1_info {
 	mpdm_t txt;		/* the document */
 	mpdm_t syntax;		/* syntax highlight information */
 	mpdm_t colors;		/* color definitions (for attributes) */
+	mpdm_t word_color_func;	/* word color function (just for detection) */
 	int normal_attr;	/* normal attr */
 	int cursor_attr;	/* cursor attr */
 	int n_lines;		/* total number of lines */
@@ -229,6 +230,8 @@ static int drw_prepare(mpdm_t doc)
 
 	/* store the syntax highlight structure */
 	drw_1.syntax = mpdm_hget_s(doc, L"syntax");
+
+	drw_1.word_color_func = mpdm_hget_s(mp, L"word_color_func");
 
 	mpdm_unref(drw_1.txt);
 	drw_1.txt = mpdm_ref(txt);
