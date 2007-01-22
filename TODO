@@ -27,7 +27,6 @@ Release Critical Bugs
    seem to fail (copying or pasting from other applications seem
    to work).
  * 1209: Add 'Reopen'.
- * 1210: Add interface to set the encoding.
 
 Open Bugs
 ---------
@@ -205,5 +204,7 @@ Closed
    (Mon, 22 Jan 2007 13:21:09 +0100).
  * 1198: Add interface to active spellchecking
    (Mon, 22 Jan 2007 13:28:36 +0100).
+ * 1210: Add interface to set the encoding
+   (Mon, 22 Jan 2007 13:35:25 +0100).
 
 Email bugs to angel@triptico.com

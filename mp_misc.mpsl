@@ -75,6 +75,18 @@ mp.actions['eval_doc']	= sub (d) {
 	}
 };
 
+mp.actions['encoding']	= sub (d) {
+	local t = mp.drv.form( [
+		{ 'label' => L("Encoding (utf-8, iso8859-1, etc.; empty, current locale)"),
+		  'type' => 'text',
+		  'history' => 'encoding' }
+		]);
+
+	if(t != NULL)
+		if(encoding(t[0]) == -1)
+			mp.alert(L("Invalid encoding ") ~ t[0]);
+};
+
 mp.actions['zoom_in'] 	= sub (d) {
 
 	mp.config.font_size++;
@@ -104,6 +116,7 @@ mp.actdesc['eval']	= LL("Execute MPSL code...");
 mp.actdesc['eval_doc']	= LL("Execute document as MPSL");
 mp.actdesc['zoom_in']	= LL("Bigger font");
 mp.actdesc['zoom_out']	= LL("Smaller font");
+mp.actdesc['encoding']	= LL("Set charset encoding...");
 
 /* code */
 
