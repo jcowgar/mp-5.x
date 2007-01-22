@@ -75,6 +75,25 @@ mp.actions['line_control']	= sub (d) {
 	}
 };
 
+mp.actions['tab_options']	= sub (d) {
+
+	local t = mp.drv.form( [
+		{ 'label'	=> L("Tab size") ~ ':',
+		  'type'	=> 'text',
+		  'value'	=> mp.config.tab_size,
+		  'history'	=> 'tabsize' },
+		{ 'label'	=> L("Convert tabs to spaces") ~ ':',
+		  'type'	=> 'checkbox',
+		  'value'	=> mp.config.tabs_as_spaces }
+	] );
+
+	if(t != NULL)
+	{
+		mp.config.tab_size = t[0];
+		mp.config.tabs_as_spaces = t[1];
+	}
+};
+
 /* default key bindings */
 
 mp.keycodes['enter']	= "insert_line";
@@ -101,6 +120,7 @@ mp.actdesc['undo']		= LL("Undo last operation");
 mp.actdesc['join_paragraph']	= LL("Join a paragraph in one line");
 mp.actdesc['word_wrap_paragraph'] = LL("Word-wrap a paragraph");
 mp.actdesc['line_control']	= LL("Line control...");
+mp.actdesc['tab_options']	= LL("Tab options...");
 
 /* code */
 
