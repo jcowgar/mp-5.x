@@ -27,9 +27,13 @@
 
 /* editor actions */
 
+mp.actions['toggle_spellcheck'] = sub(d) { mp.ispell(-1); };
+
 /* default key bindings */
 
 /* action descriptions */
+
+mp.actdesc['toggle_spellcheck'] = LL("Toggle spellchecking");
 
 /* data */
 

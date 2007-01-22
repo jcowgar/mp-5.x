@@ -153,6 +153,7 @@ mp.menu = [
 	[
 		LL("&Options"),
 		[ 'record_macro', 'play_macro', '-',
+			'toggle_spellcheck', '-',
 			'zoom_in', 'zoom_out'
 		]
 	]
