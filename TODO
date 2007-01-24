@@ -9,7 +9,6 @@ Release Critical Bugs
  * 1137: Word wrap counts all caracters as measuring 1 column,
    which is stupid. This is specially true for tabs.
  * 1166: Add a file open navigator to TUI.
- * 1168: Port all syntax highlight definitions from mp 3.x.
  * 1170: The curses driver doesn't redraw when the terminal window
    is resized.
  * 1176: Add interface to set the undo levels.
@@ -210,5 +209,7 @@ Closed
  * 1171: Add interface to set tab size (Mon, 22 Jan 2007 16:28:47 +0100).
  * 1175: Add interface to set the tabs-as-spaces
    (Mon, 22 Jan 2007 16:28:47 +0100).
+ * 1168: Port all syntax highlight definitions from mp 3.x
+   (Wed, 24 Jan 2007 17:58:36 +0100).
 
 Email bugs to angel@triptico.com
