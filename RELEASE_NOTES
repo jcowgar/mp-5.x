@@ -16,6 +16,7 @@ Minimum Profit 5.x Release Notes
  * New action 'document_list' (show a box with all open documents, allowing
    the selection of the active one; closed bug #1211).
  * Translations ported from mp 3.x (closed bug #1169).
+ * Most syntax highlight definitions ported from mp 3.x (closed bug #1168).
 
 4.99.12
 -------
