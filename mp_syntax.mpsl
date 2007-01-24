@@ -422,6 +422,43 @@ mp.syntax.python = {
 	}
 };
 
+mp.syntax.ruby = {
+	'id'		=>	'ruby',
+	'name'		=>	'Ruby',
+	'filenames'	=>	[ '/\.rb$/' ],
+	'defs'		=>	[
+		'word1',	[
+			mp.syn_token_list( [
+				"BEGIN", "END", "alias", "and", "begin",
+				"break", "case", "class", "def", "defined",
+				"do", "else", "elsif", "end", "ensure", 
+				"false", "for", "if", "in", "module", "next",
+				"nil", "not", "or", "redo", "rescue", "retry",
+				"return", "self", "super", "then", "true",
+				"undef", "unless", "until", "when", "while",
+				"yield", "require", "include" ]
+			)
+		],
+		'word2',	[ '/[-=<>:\?\+\*\!\%&\|{}]+/', '/=(begin|end)/' ],
+		'quotes',	[
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
+			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
+			[ "/`/", "/`/" ]			/* backticks */
+		],
+		'comments',	[ "/#.*$/m" ]
+	],
+	'detect'	=>	sub (d) {
+		/* take the first line */
+		local f = d.txt.lines[0];
+
+		/* is it a 'she-bang'? */
+		return(regex('/^#!/usr/bin/(env )?ruby/', f));
+	}
+};
+
 mp.syntax.diff = {
 	'id'		=>	'diff',
 	'name'		=>	'diff',
