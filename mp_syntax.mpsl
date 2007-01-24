@@ -422,6 +422,17 @@ mp.syntax.python = {
 	}
 };
 
+mp.syntax.diff = {
+	'id'		=>	'diff',
+	'name'		=>	'diff',
+	'filenames'	=>	[ '/\.diff$/', '/\.patch$/' ],
+	'defs'		=>	[
+		'word1',	[ '/^\+.+$/m' ],
+		'word2',	[ '/^\-.+$/m' ],
+		'quotes',	[ '/^@@.+@@$/m' ]
+	]
+};
+
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
