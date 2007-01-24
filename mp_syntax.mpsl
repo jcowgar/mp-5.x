@@ -387,6 +387,41 @@ mp.syntax.php = {
 	]
 };
 
+mp.syntax.python = {
+	'id'		=>	'python',
+	'name'		=>	'Python',
+	'filenames'	=>	[ '/\.py$/' ],
+	'defs'		=>	[
+		'word1',	[
+			mp.syn_token_list( [
+				"and", "assert", "break", "class", "continue",
+				"def", "del", "elif", "else", "except", "exec",
+				"finally", "for", "from", "if", "import", "in",
+				"is", "lambda", "not", "or", "pass", "print",
+				"raise", "return", "try", "while", "yield"
+				]
+			)
+		],
+		'word2',	[ '/global/', '/\$\w+/', '/[-=<>:\?\+\*\!\%&\|{}]+/' ],
+		'quotes',	[
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
+			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
+			[ "/`/", "/`/" ]			/* backticks */
+		],
+		'comments',	[ "/#.*$/m", [ '/""".+[^"]$/m', '/"""$/m' ] ]
+	],
+	'detect'	=>	sub (d) {
+		/* take the first line */
+		local f = d.txt.lines[0];
+
+		/* is it a 'she-bang'? */
+		return(regex('/^#!/usr/bin/(env )?python/', f));
+	}
+};
+
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
