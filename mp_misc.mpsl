@@ -65,10 +65,7 @@ mp.actions['eval_doc']	= sub (d) {
 			local l;
 
 			if((l = regex( [ '/, line /', '/[0-9]+/' ], ERROR)) != NULL)
-			{
-				dump(l);
 				mp.set_y(d, l[1]);
-			}
 
 			ERROR = NULL;
 		}
