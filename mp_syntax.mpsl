@@ -348,6 +348,45 @@ mp.syntax.conf = {
 };
 
 
+mp.syntax.php = {
+	'id'		=>	'php',
+	'name'		=>	'PHP',
+	'filenames'	=>	[ '/\.php[345]?$/', '/\.inc$/' ],
+	'defs'		=>	[
+		'word1',	[
+				mp.syn_token_list( [
+				"and", "array", "as",
+				"bool", "boolean", "break", "case", "class",
+				"const", "continue", "declare", "default",
+				"die", "do", "double", "echo", "else", "elseif",
+				"empty", "enddeclare", "endfor", "endforeach",
+				"endif", "endswitch", "endwhile", "eval",
+				"exit", "extends", "__FILE__", "float", "for",
+				"foreach", "function", "cfunction", "global",
+				"if", "include", "include_once", "int",
+				"integer", "isset", "__LINE__", "list", "new",
+				"object", "old_function", "or", "print", "real",
+				"require", "require_once", "return",
+				"static", "string", "switch", "unset", "use",
+				"var", "while", "xor", 'true', 'false' ]
+				)
+		],
+		'word2',	[ '/\$\w+/', '/[-=<>:\?\+\*\!\%&\|]+/' ],
+		'quotes',	[
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
+			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
+			[ "/`/", "/`/" ]			/* backticks */
+		],
+		'comments',	[
+			[ '|/\*|', '|\*/|' ],			/* C-like */
+			'|//.*$|m'				/* C++ */
+		]
+	]
+};
+
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
