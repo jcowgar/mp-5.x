@@ -20,7 +20,6 @@ Release Critical Bugs
  * 1205: Copy & paste from two different instances of MP (GTK)
    seem to fail (copying or pasting from other applications seem
    to work).
- * 1213: Add mp.config.maximize support for Win32.
 
 Open Bugs
 ---------
@@ -214,5 +213,7 @@ Closed
    (Wed, 24 Jan 2007 17:58:36 +0100).
  * 1212: Add mp.config.maximize support for GTK
    (Thu, 25 Jan 2007 08:45:39 +0100).
+ * 1213: Add mp.config.maximize support for Win32
+   (Thu, 25 Jan 2007 17:12:39 +0100).
 
 Email bugs to angel@triptico.com
