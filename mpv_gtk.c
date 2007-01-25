@@ -1613,6 +1613,7 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 	GtkWidget * hbox;
 	GdkPixmap * pixmap;
 	GdkPixmap * mask;
+	mpdm_t v;
 
 	register_functions();
 
@@ -1748,6 +1749,10 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 	gdk_window_set_icon(window->window, NULL, pixmap, mask);
 
 	build_colors();
+
+	if((v = mpdm_hget_s(mp, L"config")) != NULL &&
+		mpdm_ival(mpdm_hget_s(v, L"maximize")) > 0)
+		gtk_window_maximize(GTK_WINDOW(window));
 
 	return(NULL);
 }
