@@ -857,6 +857,11 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		}
 
 		return(0);
+
+	case WM_TIMER:
+		mp_process_event(MPDM_LS(L"timer"));
+
+		return(0);
 	}
 
 	if(mp_exit_requested)
@@ -1513,6 +1518,8 @@ static mpdm_t w32drv_startup(mpdm_t a)
 	if((v = mpdm_hget_s(mp, L"config")) != NULL &&
 		mpdm_ival(mpdm_hget_s(v, L"maximize")) > 0)
 		SendMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+
+	SetTimer(hwnd, 1, 1000, NULL);
 
 	return(NULL);
 }
