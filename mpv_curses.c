@@ -123,7 +123,9 @@ static wchar_t * nc_getwch(void)
 
 #ifdef CONFOPT_WGET_WCH
 
-	wget_wch(stdscr, (wint_t *)c);
+	timeout(1000);
+	if(wget_wch(stdscr, (wint_t *)c) == -1)
+		c[0] = (wchar_t) -1;
 
 #else
 	char tmp[MB_CUR_MAX + 1];
@@ -223,6 +225,7 @@ static mpdm_t nc_getkey(mpdm_t args)
 	else
 	{
 		switch(f[0]) {
+		case -1:		f = L"timer"; break;
 		case KEY_LEFT:		f = L"cursor-left"; break;
 		case KEY_RIGHT:		f = L"cursor-right"; break;
 		case KEY_UP:		f = L"cursor-up"; break;
