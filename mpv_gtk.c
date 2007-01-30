@@ -1193,6 +1193,14 @@ static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
 }
 
 
+static gint timer_callback(gpointer data)
+{
+	mp_process_event(MPDM_LS(L"timer"));
+
+	return(TRUE);
+}
+
+
 static void build_form_data(mpdm_t widget_list)
 /* builds the necessary information for a list of widgets */
 {
@@ -1743,6 +1751,8 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 	mp_log("X11 geometry set to %dx%d+%d+%d\n", _mpv_gtk_width, _mpv_gtk_height,
 		_mpv_gtk_xpos, _mpv_gtk_ypos);
 */
+	gtk_timeout_add(1000, timer_callback, NULL);
+
 	/* set application icon */
 	pixmap = gdk_pixmap_create_from_xpm_d(window->window,
 		&mask, NULL, mp_xpm);

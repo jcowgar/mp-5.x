@@ -99,6 +99,11 @@ mp.actions['zoom_out'] 	= sub (d) {
 	}
 };
 
+mp.actions['timer']	= sub (d) {
+	if(d.syntax == NULL)
+		mp.detect_syntax(d);
+};
+
 /* default key bindings */
 
 mp.keycodes['escape']		= 'eval';
@@ -106,6 +111,7 @@ mp.keycodes['f12']		= 'zoom_in';
 mp.keycodes['ctrl-kp-plus' ]	= 'zoom_in';
 mp.keycodes['f11']		= 'zoom_out';
 mp.keycodes['ctrl-kp-minus' ]	= 'zoom_out';
+mp.keycodes['timer']		= 'timer';
 
 /* action descriptions */
 
