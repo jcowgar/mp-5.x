@@ -1196,6 +1196,7 @@ static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
 static gint timer_callback(gpointer data)
 {
 	mp_process_event(MPDM_LS(L"timer"));
+	redraw();
 
 	return(TRUE);
 }
