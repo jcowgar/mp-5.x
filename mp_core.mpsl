@@ -198,6 +198,10 @@ sub mp.process_event(k)
 {
 	local d, a;
 
+	/* empty document list? do nothing */
+	if(size(mp.docs) == 0)
+		return;
+
 	d = mp.active();
 
 	/* get the action asociated to the keycode */
