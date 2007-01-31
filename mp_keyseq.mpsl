@@ -48,7 +48,8 @@ sub mp.process_keyseq(key)
 	{
 		mp.keyseq.pending = mp.keyseq.tmp;
 		mp.keyseq.tmp = [];
-		key = pending_key();
+		key = mp.pending_key();
+		mp.keyseq.ptr = NULL;
 	}
 	else
 	if(is_hash(k))

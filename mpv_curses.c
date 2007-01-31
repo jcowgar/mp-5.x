@@ -166,6 +166,11 @@ static mpdm_t nc_getkey(mpdm_t args)
 {
 	static int shift = 0;
 	wchar_t * f = NULL;
+	mpdm_t k = NULL;
+
+	/* any pending key? return it */
+	if((k = mp_pending_key()) != NULL)
+		return(k);
 
 	f = nc_getwch();
 
@@ -280,7 +285,10 @@ static mpdm_t nc_getkey(mpdm_t args)
 		}
 	}
 
-	return(f != NULL ? MPDM_S(f) : NULL);
+	/* no known key? do nothing */
+	if(f == NULL) return(NULL);
+
+	return(mp_process_keyseq(MPDM_S(f)));
 }
 
 
