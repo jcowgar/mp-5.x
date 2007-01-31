@@ -4,7 +4,14 @@ Minimum Profit 5.x Release Notes
 5.0.0-pre2
 ----------
 
- * New timer support.
+ * New timer support (FIXME: explain).
+ * New support for translating key sequences into MP keycodes, mainly
+   for redefining ANSI sequences not supported by current terminfo /
+   termcap. For example, if your terminal sends the ANSI sequence [6;5~
+   whenever you press Ctrl+page down, you can add to your config file
+   the following line:
+
+	mp.add_keyseq("[6;5~", 'ctrl-page-down');
 
 5.0.0-pre1
 ----------
