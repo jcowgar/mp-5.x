@@ -368,6 +368,7 @@ load("mp_templates.mpsl");
 load("mp_spell.mpsl");
 load("mp_misc.mpsl");
 load("mp_crypt.mpsl");
+load("mp_keyseq.mpsl");
 
 /** MAIN **/
 

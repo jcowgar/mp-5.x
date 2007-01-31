@@ -1,0 +1,85 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Key sequences support (mainly for ANSI strings).
+
+    Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+mp.keyseq = {
+	'store'		=> {},
+	'pending'	=> [],
+	'tmp'		=> [],
+	'ptr'		=> NULL
+};
+
+sub mp.pending_key() { shift(mp.keyseq.pending); }
+
+sub mp.process_keyseq(key)
+{
+	local k;
+
+	if(mp.keyseq.ptr == NULL)
+		mp.keyseq.ptr = mp.keyseq.store;
+
+	push(mp.keyseq.tmp, key);
+	k = mp.keyseq.ptr[key];
+
+	if(k == NULL)
+	{
+		mp.keyseq.pending = mp.keyseq.tmp;
+		mp.keyseq.tmp = [];
+		key = pending_key();
+	}
+	else
+	if(is_hash(k))
+	{
+		mp.keyseq.ptr = k;
+		key = NULL;
+	}
+	else
+	{
+		key = k;
+		mp.keyseq.pending = [];
+		mp.keyseq.tmp = [];
+		mp.keyseq.ptr = NULL;
+	}
+
+	return(key);
+}
+
+
+sub mp.add_keyseq(seq, keycode)
+{
+	local p = mp.keyseq.store;
+	local l = split(NULL, seq);
+	local v = pop(l);
+
+	foreach(local k, l)
+	{
+		if(! p[k]) p[k] = {};
+		p = p[k];
+	}
+
+	p[v] = keycode;
+}
+
