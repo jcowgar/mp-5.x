@@ -810,6 +810,20 @@ mpdm_t mp_menu_label(mpdm_t action)
 }
 
 
+mpdm_t mp_pending_key(void)
+/* interface to mp.pending_key() */
+{
+	return(mpdm_exec_1(mpdm_hget_s(mp, L"pending_key"), NULL));
+}
+
+
+mpdm_t mp_process_keyseq(mpdm_t key)
+/* interface to mp.process_keyseq() */
+{
+	return(mpdm_exec_1(mpdm_hget_s(mp, L"process_keyseq"), key));
+}
+
+
 mpdm_t mp_exit(mpdm_t args)
 /* exit the editor (set mp_exit_requested) */
 {
