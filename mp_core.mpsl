@@ -106,7 +106,6 @@ mp.keycodes = {
 	'ctrl-k'	=>	NULL,
 	'ctrl-l'	=>	NULL,
 	'ctrl-p'	=>	NULL,
-	'ctrl-t'	=>	NULL,
 	'ctrl-u'	=>	NULL
 };
 
