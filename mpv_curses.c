@@ -267,6 +267,7 @@ static mpdm_t nc_getkey(mpdm_t args)
 		case ctrl('f'):		f = L"ctrl-f"; break;
 		case ctrl('g'):		f = L"ctrl-g"; break;
 		case ctrl('j'):		f = L"ctrl-j"; break;
+		case ctrl('k'):		f = L"ctrl-k"; break;
 		case ctrl('l'):		f = L"ctrl-l"; break;
 		case ctrl('n'):		f = L"ctrl-n"; break;
 		case ctrl('o'):		f = L"ctrl-o"; break;
