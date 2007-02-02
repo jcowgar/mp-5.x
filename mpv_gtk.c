@@ -1623,6 +1623,7 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 	GdkPixmap * pixmap;
 	GdkPixmap * mask;
 	mpdm_t v;
+	int n;
 
 	register_functions();
 
@@ -1752,7 +1753,9 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 	mp_log("X11 geometry set to %dx%d+%d+%d\n", _mpv_gtk_width, _mpv_gtk_height,
 		_mpv_gtk_xpos, _mpv_gtk_ypos);
 */
-	gtk_timeout_add(1000, timer_callback, NULL);
+	/* set timer period */
+	if((n = mpdm_ival(mpdm_hget_s(mp, L"timer_period"))) > 0)
+		gtk_timeout_add(n, timer_callback, NULL);
 
 	/* set application icon */
 	pixmap = gdk_pixmap_create_from_xpm_d(window->window,

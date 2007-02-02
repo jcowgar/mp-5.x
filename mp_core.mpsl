@@ -158,6 +158,9 @@ mp.menu = [
 	]
 ];
 
+/* timer period in milliseconds */
+mp.timer_period = 3000;
+
 /*******************
 	Code
 ********************/

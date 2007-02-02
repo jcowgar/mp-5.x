@@ -123,7 +123,12 @@ static wchar_t * nc_getwch(void)
 
 #ifdef CONFOPT_WGET_WCH
 
-	timeout(1000);
+	int n;
+
+	/* set timer period */
+	if((n = mpdm_ival(mpdm_hget_s(mp, L"timer_period"))) > 0)
+		timeout(n);
+
 	if(wget_wch(stdscr, (wint_t *)c) == -1)
 		c[0] = (wchar_t) -1;
 

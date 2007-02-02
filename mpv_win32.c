@@ -1464,6 +1464,7 @@ static mpdm_t w32drv_startup(mpdm_t a)
 	WNDCLASS wc;
 	RECT r;
 	mpdm_t v;
+	int n;
 
 	register_functions();
 
@@ -1519,7 +1520,9 @@ static mpdm_t w32drv_startup(mpdm_t a)
 		mpdm_ival(mpdm_hget_s(v, L"maximize")) > 0)
 		SendMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 
-	SetTimer(hwnd, 1, 1000, NULL);
+	/* set timer period */
+	if((n = mpdm_ival(mpdm_hget_s(mp, L"timer_period"))) > 0)
+		SetTimer(hwnd, 1, n, NULL);
 
 	return(NULL);
 }
