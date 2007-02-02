@@ -126,6 +126,60 @@ mp.actions['sync'] = sub (d) {
 		mp.actions.save(d);
 };
 
+mp.actions['exec_command']	= sub (d) {
+
+	local t = mp.drv.form( [
+		{ 'label' => L("System command") ~ ':',
+		  'type' => 'text',
+		  'history' => 'system' }
+		]);
+
+	if(t != NULL)
+	{
+		local cmd = t[0];
+
+		/* does it start with a pipe? */
+		if(regex('/^\|/', cmd))
+		{
+			local p;
+
+			/* yes; current document should be fed to it */
+			cmd = sregex('/^\|/', cmd, NULL);
+
+			if((p = popen(cmd, "w")) != NULL)
+			{
+				foreach(local l, d.txt.lines)
+					write(p, l ~ mp.config.eol);
+
+				pclose(p);
+			}
+			else
+				mp.drv.alert(
+					sprintf(L("Error writing command '%s'"), cmd));
+		}
+		else
+		{
+			/* no; execute command and insert into cursor */
+			local p;
+
+			if((p = popen(cmd, "r")) != NULL)
+			{
+				local l;
+
+				mp.store_undo(d);
+
+				while((l = read(p)) != NULL)
+					mp.insert(d, l);
+
+				pclose(p);
+			}
+			else
+				mp.drv.alert(
+					sprintf(L("Error reading from command '%s'"), cmd));
+		}
+	}
+};
+
 /* default key bindings */
 
 mp.keycodes['ctrl-n']		= 'next';
@@ -151,6 +205,7 @@ mp.actdesc['revert']	= LL("Revert");
 mp.actdesc['open_config_file']		= LL("Edit configuration file");
 mp.actdesc['open_templates_file']	= LL("Edit templates file");
 mp.actdesc['sync']			= LL("Save modified texts");
+mp.actdesc['exec_command']		= LL("Run system command...");
 
 /* code */
 

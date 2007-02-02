@@ -13,6 +13,9 @@ Minimum Profit 5.x Release Notes
 
 	mp.add_keyseq("[6;5~", 'ctrl-page-down');
 
+ * A new 'system_command' action, to pipe from and to system commands
+   (Closed bug #1120).
+
 5.0.0-pre1
 ----------
 

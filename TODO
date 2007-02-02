@@ -38,7 +38,6 @@ Pending Enhancements
  * 1101: Paren matching should not be limited to just parentheses and
    similar, but to full strings (very useful for HTML open / close tags.)
  * 1109: Add jump to matching paren.
- * 1120: Add a 'system-command' action.
  * 1166: Add a file open navigator to TUI.
  * 1203: Change the drawing engine to only apply the syntax highlighting
    regexes whenever the modified flag has changed or the viewport is
@@ -216,5 +215,6 @@ Closed
    (Thu, 25 Jan 2007 08:45:39 +0100).
  * 1213: Add mp.config.maximize support for Win32
    (Thu, 25 Jan 2007 17:12:39 +0100).
+ * 1120: Add a 'system-command' action (Fri, 02 Feb 2007 10:13:26 +0100).
 
 Email bugs to angel@triptico.com

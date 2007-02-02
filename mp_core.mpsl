@@ -132,6 +132,7 @@ mp.menu = [
 			'mark',	'unmark', '-',
 			'insert_template', '-',
 			'word_wrap_paragraph', 'join_paragraph', '-',
+			'exec_command', '-',
 			'eval', 'eval_doc'
 		]
 	],
