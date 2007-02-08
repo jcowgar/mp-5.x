@@ -122,16 +122,23 @@ sub mp.mark(doc)
 }
 
 
+sub mp.get_active_area(doc)
+/* returns the active area: the selection or the full document */
+{
+	local m;
+
+	if((m = doc.txt.mark) == NULL)
+		return(doc.txt.lines);
+	else
+		return(mp.get_range(doc, m.bx, m.by, m.ex, m.ey));
+}
+
+
 sub mp.copy(doc)
 /* copies the mark to the clipboard */
 {
-	local txt = doc.txt;
-
-	/* no mark? done */
-	if(txt.mark == NULL) return;
-
-	mp.clipboard = mp.get_range(doc,
-		txt.mark.bx, txt.mark.by, txt.mark.ex, txt.mark.ey);
+	if(doc.txt.mark)
+		mp.clipboard = mp.get_active_area(doc);
 }
 
 
