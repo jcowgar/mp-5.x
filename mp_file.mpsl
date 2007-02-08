@@ -148,7 +148,7 @@ mp.actions['exec_command']	= sub (d) {
 
 			if((p = popen(cmd, "w")) != NULL)
 			{
-				foreach(local l, d.txt.lines)
+				foreach(local l, mp.get_active_area(d))
 					write(p, l ~ mp.config.eol);
 
 				pclose(p);
