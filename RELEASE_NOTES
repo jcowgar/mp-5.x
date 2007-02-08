@@ -15,6 +15,8 @@ Minimum Profit 5.x Release Notes
 
  * A new 'system_command' action, to pipe from and to system commands
    (Closed bug #1120).
+ * A new 'word_count' action, to count the number of lines and words
+   in a document (or in the selected block).
 
 5.0.0-pre1
 ----------
