@@ -104,6 +104,16 @@ mp.actions['timer']	= sub (d) {
 		mp.detect_syntax(d);
 };
 
+mp.actions['word_count'] = sub (d) {
+	local w = 0;
+	local a = mp.get_active_area(d);
+
+	foreach(local l, a)
+		w += size(mp.split_by_words(l));
+
+	mp.alert(sprintf(L("Lines: %d Words: %d"), size(a), w));
+};
+
 /* default key bindings */
 
 mp.keycodes['escape']		= 'eval';
@@ -115,11 +125,12 @@ mp.keycodes['timer']		= 'timer';
 
 /* action descriptions */
 
-mp.actdesc['eval']	= LL("Execute MPSL code...");
-mp.actdesc['eval_doc']	= LL("Execute document as MPSL");
-mp.actdesc['encoding']	= LL("Set charset encoding...");
-mp.actdesc['zoom_in']	= LL("Bigger font");
-mp.actdesc['zoom_out']	= LL("Smaller font");
+mp.actdesc['eval']		= LL("Execute MPSL code...");
+mp.actdesc['eval_doc']		= LL("Execute document as MPSL");
+mp.actdesc['encoding']		= LL("Set charset encoding...");
+mp.actdesc['zoom_in']		= LL("Bigger font");
+mp.actdesc['zoom_out']		= LL("Smaller font");
+mp.actdesc['word_count']	= LL("Count words");
 
 /* code */
 
