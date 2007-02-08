@@ -159,6 +159,22 @@ sub mp.move(doc, func)
 }
 
 
+sub mp.split_by_words(s)
+/* splits a string by words */
+{
+	local l = [];
+	local w, c;
+
+	while((w = regex(mp.word_regex, s, c[0] + c[1])) != NULL)
+	{
+		push(l, w);
+		c = regex();
+	}
+
+	return(l);
+}
+
+
 sub mp.split_line_by_words(doc, r)
 /* splits current line by words and returns a three element array containing
    the list of words, the list of offsets and the current position */
