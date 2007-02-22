@@ -351,7 +351,10 @@ sub mp.wrap_words(doc)
 
 	if(mp.config.word_wrap == 0) return;
 
-	if(txt.x >= mp.config.word_wrap &&
+	/* take the column where the cursor is */
+	local c = mp.x2vx(txt.lines[txt.y], txt.x);
+
+	if(c >= mp.config.word_wrap &&
 		regex("/^.{1," ~ mp.config.word_wrap ~ "}\s/", txt.lines[txt.y]))
 	{
 		local w;
