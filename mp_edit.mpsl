@@ -52,7 +52,7 @@ mp.actions['word_wrap_paragraph'] = sub (d) {
 mp.actions['line_options']	= sub (d) {
 
 	/* convert special characters on end of line */
-	local lt = sregex("/[\r\n]/g", mp.config.eol, { "\r" => '\r', "\n" => '\n'});
+	local lt = mp.backslash_codes(mp.config.eol, 1);
 
 	local t = mp.drv.form( [
 		{ 'label'	=> L("Word wrap on column (0, no word wrap)") ~ ':',
@@ -71,7 +71,7 @@ mp.actions['line_options']	= sub (d) {
 	{
 		mp.config.word_wrap = t[0];
 		mp.config.auto_indent = t[1];
-		mp.config.eol = sregex("/\\[rn]/g", t[2], { '\r' => "\r", '\n' => "\n"});
+		mp.config.eol = mp.backslash_codes(t[2], 0);
 	}
 };
 
@@ -124,8 +124,8 @@ mp.actdesc['tab_options']	= LL("Tab options...");
 
 /* code */
 
-sub mp.backspace_codes(s, d)
-/* encodes (d == 0) or decodes (d == 1) backspace codes
+sub mp.backslash_codes(s, d)
+/* encodes (d == 0) or decodes (d == 1) backslash codes
    (like \n, \r, etc.) */
 {
 	d &&	sregex("/[\r\n\t]/g", s, { "\r" => '\r', "\n" => '\n', "\t" => '\t'}) ||
