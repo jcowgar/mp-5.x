@@ -249,6 +249,14 @@ sub mp.build_status_line()
 }
 
 
+sub mp.backslash_codes(s, d)
+/* encodes (d == 0) or decodes (d == 1) backslash codes
+   (like \n, \r, etc.) */
+{
+	d &&	sregex("/[\r\n\t]/g", s, { "\r" => '\r', "\n" => '\n', "\t" => '\t'}) ||
+		sregex("/\\[rnt]/g", s, { '\r' => "\r", '\n' => "\n", '\t' => "\t"});
+}
+
 sub mp.get_history(key)
 /* returns a history for the specified key */
 {

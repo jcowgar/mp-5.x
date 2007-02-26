@@ -124,14 +124,6 @@ mp.actdesc['tab_options']	= LL("Tab options...");
 
 /* code */
 
-sub mp.backslash_codes(s, d)
-/* encodes (d == 0) or decodes (d == 1) backslash codes
-   (like \n, \r, etc.) */
-{
-	d &&	sregex("/[\r\n\t]/g", s, { "\r" => '\r', "\n" => '\n', "\t" => '\t'}) ||
-		sregex("/\\[rnt]/g", s, { '\r' => "\r", '\n' => "\n", '\t' => "\t"});
-}
-
 sub mp.break_line(doc, col)
 /* breaks current line in two (inserts a newline) */
 {
