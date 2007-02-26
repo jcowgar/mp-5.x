@@ -43,7 +43,7 @@ mp.actions['seek'] 	= sub (d) {
 	if(t != NULL)
 	{
 		mp.config.case_sensitive_search = t[1];
-		mp.search(d, t[0]) || mp.alert(L("Text not found."));
+		mp.search(d, mp.backslash_codes(t[0])) || mp.alert(L("Text not found."));
 	}
 };
 
@@ -77,7 +77,7 @@ mp.actions['replace']	= sub (d) {
 		mp.config.case_sensitive_search = r[2];
 		mp.config.global_replace = r[3];
 
-		mp.replace(d, r[0], r[1]);
+		mp.replace(d, mp.backslash_codes(r[0]), mp.backslash_codes(r[1]));
 	}
 };
 
