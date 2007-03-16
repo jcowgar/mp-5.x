@@ -68,18 +68,18 @@ docs: $(DOCS)
 
 distcopy: distclean docs ChangeLog
 	mkdir -p $(DIST_TARGET) ; \
-	tar cf - --exclude=.svn . | (cd $(DIST_TARGET) ; tar xf -)
+	tar cf - --exclude=.svn . | (cd $(DIST_TARGET) ; tar xf -) ; \
+	(cd $(MPDM) ; $(MAKE) distcopy DIST_TARGET=$(DIST_TARGET)/mpdm ) ; \
+	(cd $(MPSL) ; $(MAKE) distcopy DIST_TARGET=$(DIST_TARGET)/mpsl )
 
 dist: distcopy po/minimum-profit.pot build-mo
-	(cd $(MPDM) ; $(MAKE) distcopy DIST_TARGET=$(DIST_TARGET)/mpdm ) ; \
-	(cd $(MPSL) ; $(MAKE) distcopy DIST_TARGET=$(DIST_TARGET)/mpsl ) ; \
 	(cd /tmp ; tar czf - $(PROJ)-$(VERSION)/* ) > $(PROJ)-$(VERSION).tar.gz ; \
 	rm -rf $(DIST_TARGET)
 
-midnight: distcopy po/minimum-profit.pot build-mo
-	DIR=`pwd` ; cd .. ; ln -s $$DIR $(PROJ)-$(VERSION); \
-	tar czvf $(PROJ)-$(VERSION)/mp-midnight.tar.gz --exclude=.svn $(PROJ)-$(VERSION)/* ; \
-	rm $(PROJ)-$(VERSION)
+midnight:
+	$(MAKE) distcopy DIST_TARGET=/tmp/mp-midnight
+	(cd /tmp ; tar czf - mp-midnight/* ) > mp-midnight.tar.gz ; \
+	rm -rf /tmp/mp-midnight
 
 win32dist: wmp.exe
 	mkdir -p win32
