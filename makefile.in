@@ -15,13 +15,15 @@ OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
 #	mp_lang.o mp_conf.o mp_func.o mp_video.o $(LANG_MSG_O) \
 #	mpv_unix_common.o mpv_curses.o mpv_gtk.o mpv_win32.o
 
+DIST_TARGET=/tmp/$(PROJ)-$(VERSION)
+
 ##################################################################
 
 version:
 	@echo $(VERSION)
 
 ChangeLog:
-	svn update && svn log > Changelog
+	svk log -x > Changelog
 
 .c.o:
 	$(CC) $(CFLAGS) -I. `cat config.cflags` -c $<
@@ -52,8 +54,6 @@ clean:
 distclean: clean
 	rm -f config.h config.cflags config.ldflags \
 		makefile.opts Makefile po/minimum-profit.pot
-	(cd $(MPDM) ; make distclean)
-	(cd $(MPSL) ; make distclean)
 
 doc/index.html: doc/index.txt
 	-grutatxt -i $< -o $@
@@ -66,12 +66,17 @@ doc/mp_internals.html: doc/mp_internals.txt
 
 docs: $(DOCS)
 
-dist: distclean docs ChangeLog po/minimum-profit.pot build-mo
-	DIR=`pwd` ; cd .. ; ln -s $$DIR $(PROJ)-$(VERSION); \
-	tar czvf $(PROJ)-$(VERSION)/$(PROJ)-$(VERSION).tar.gz --exclude=.svn $(PROJ)-$(VERSION)/* ; \
-	rm $(PROJ)-$(VERSION)
+distcopy: distclean docs ChangeLog
+	mkdir -p $(DIST_TARGET) ; \
+	tar cf - --exclude=.svn . | (cd $(DIST_TARGET) ; tar xf -)
 
-midnight: distclean docs ChangeLog po/minimum-profit.pot build-mo
+dist: distcopy po/minimum-profit.pot build-mo
+	(cd $(MPDM) ; $(MAKE) distcopy DIST_TARGET=$(DIST_TARGET)/mpdm ) ; \
+	(cd $(MPSL) ; $(MAKE) distcopy DIST_TARGET=$(DIST_TARGET)/mpsl ) ; \
+	(cd /tmp ; tar czf - $(PROJ)-$(VERSION)/* ) > $(PROJ)-$(VERSION).tar.gz ; \
+	rm -rf $(DIST_TARGET)
+
+midnight: distcopy po/minimum-profit.pot build-mo
 	DIR=`pwd` ; cd .. ; ln -s $$DIR $(PROJ)-$(VERSION); \
 	tar czvf $(PROJ)-$(VERSION)/mp-midnight.tar.gz --exclude=.svn $(PROJ)-$(VERSION)/* ; \
 	rm $(PROJ)-$(VERSION)
