@@ -29,7 +29,8 @@ mp.actions['menu']	= sub (d) { mp.drv.menu(); };
 
 /* default key bindings */
 
-mp.keycodes['ctrl-a']	= 'menu';
+mp.keycodes['ctrl-a']		= 'menu';
+mp.keycodes['ctrl-space']	= 'menu';
 
 /* action descriptions */
 
