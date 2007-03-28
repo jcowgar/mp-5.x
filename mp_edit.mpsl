@@ -28,7 +28,13 @@
 
 /* editor actions */
 
-mp.actions['insert_line']	= sub (d) { mp.store_undo(d); mp.insert_newline(d); };
+mp.actions['insert_line']	= sub (d) {
+	mp.store_undo(d);
+	mp.insert_newline(d);
+
+	if (d.syntax == NULL) mp.detect_syntax(d);
+};
+
 mp.actions['delete_line']	= sub (d) { mp.store_undo(d); mp.delete_line(d); };
 mp.actions['insert_space']	= sub (d) { mp.store_undo(d); mp.insert_space(d); };
 mp.actions['insert_tab']	= sub (d) { mp.store_undo(d); mp.insert_tab(d); };
