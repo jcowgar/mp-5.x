@@ -17,6 +17,9 @@ Minimum Profit 5.x Release Notes
    (Closed bug #1120).
  * A new 'word_count' action, to count the number of lines and words
    in a document (or in the selected block).
+ * Incorrect word wrapping has been fixed (Closed bug #1137).
+ * Search and replace expand backslashed characters like \n and \t
+   (Closed bug #1214).
 
 5.0.0-pre1
 ----------
