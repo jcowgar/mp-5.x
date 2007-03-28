@@ -99,10 +99,7 @@ mp.actions['zoom_out'] 	= sub (d) {
 	}
 };
 
-mp.actions['timer']	= sub (d) {
-	if(d.syntax == NULL)
-		mp.detect_syntax(d);
-};
+mp.actions['timer']	= sub (d) { NULL; };
 
 mp.actions['word_count'] = sub (d) {
 	local w = 0;
