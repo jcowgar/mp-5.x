@@ -4,8 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1215: Rewrite the timer so that it's no longer an action, but
-   a specific function call.
+ * 1216: Document the new timer functionality.
 
 Open Bugs
 ---------
@@ -220,5 +219,7 @@ Closed
    (Thu, 22 Feb 2007 14:10:09 +0100).
  * 1214: Search and replace don't replace \t, \r and such
    (Mon, 26 Feb 2007 17:30:50 +0100).
+ * 1215: Rewrite the timer so that it's no longer an action, but
+   a specific function call (Thu, 29 Mar 2007 12:37:01 +0200).
 
 Email bugs to angel@triptico.com
