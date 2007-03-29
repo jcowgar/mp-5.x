@@ -1474,6 +1474,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(w32drv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32drv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(w32drv_update_ui));
+	mpdm_hset_s(drv, L"timer", MPDM_X(w32drv_timer));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
