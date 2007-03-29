@@ -162,7 +162,10 @@ sub mp.break_line(doc, col)
 	{
 		/* extract leading blanks in the original line
 		   to prepend them to the line to be inserted */
-		local i = regex("/^[ \t]*/", c, 0);
+		local i = regex("/^[ \t]*[-\+\*]?[ \t]+/", c, 0);
+
+		/* substitute all non-tab characters with spaces */
+		i = sregex("/[^\t]/g", i, " ");
 
 		/* delete any blank in the new line */
 		w[1] = sregex("/^[ \t]*/", w[1]);
