@@ -94,6 +94,9 @@ static mpdm_t form_values = NULL;
 /* mouse down flag */
 static int mouse_down = 0;
 
+/* timer function */
+static mpdm_t timer_func = NULL;
+
 /*******************
 	Code
 ********************/
@@ -1195,7 +1198,7 @@ static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
 
 static gint timer_callback(gpointer data)
 {
-	mp_process_event(MPDM_LS(L"timer"));
+	mpdm_exec(timer_func, NULL);
 	redraw();
 
 	return(TRUE);
@@ -1578,6 +1581,28 @@ static mpdm_t gtkdrv_update_ui(mpdm_t a)
 }
 
 
+static mpdm_t gtkdrv_timer(mpdm_t a)
+{
+	static guint prev = 0;
+	int msecs = mpdm_ival(mpdm_aget(a, 0));
+	mpdm_t func = mpdm_aget(a, 1);
+	mpdm_t r;
+
+	/* previously defined one? remove */
+	if(timer_func != NULL)
+		gtk_timeout_remove(prev);
+
+	/* if msecs and func are set, program timer */
+	if(msecs > 0 && func != NULL)
+		prev = gtk_timeout_add(msecs, timer_callback, NULL);
+
+	r = mpdm_unref(timer_func);
+	timer_func = mpdm_ref(func);
+
+	return(r);
+}
+
+
 static mpdm_t gtkdrv_main_loop(mpdm_t a)
 /* main loop */
 {
@@ -1606,6 +1631,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(gtkdrv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtkdrv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(gtkdrv_update_ui));
+	mpdm_hset_s(drv, L"timer", MPDM_X(gtkdrv_timer));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(gtkdrv_confirm));
@@ -1623,7 +1649,6 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 	GdkPixmap * pixmap;
 	GdkPixmap * mask;
 	mpdm_t v;
-	int n;
 
 	register_functions();
 
@@ -1753,9 +1778,6 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 	mp_log("X11 geometry set to %dx%d+%d+%d\n", _mpv_gtk_width, _mpv_gtk_height,
 		_mpv_gtk_xpos, _mpv_gtk_ypos);
 */
-	/* set timer period */
-	if((n = mpdm_ival(mpdm_hget_s(mp, L"timer_period"))) > 0)
-		gtk_timeout_add(n, timer_callback, NULL);
 
 	/* set application icon */
 	pixmap = gdk_pixmap_create_from_xpm_d(window->window,
