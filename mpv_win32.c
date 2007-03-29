@@ -85,6 +85,9 @@ static mpdm_t form_values = NULL;
 /* mouse down flag */
 static int mouse_down = 0;
 
+/* timer function */
+static mpdm_t timer_func = NULL;
+
 /*******************
 	Code
 ********************/
@@ -859,7 +862,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		return(0);
 
 	case WM_TIMER:
-		mp_process_event(MPDM_LS(L"timer"));
+		mpdm_exec(timer_func, NULL);
 
 		return(0);
 	}
@@ -1439,6 +1442,27 @@ static mpdm_t w32drv_update_ui(mpdm_t a)
 }
 
 
+static mpdm_t w32drv_timer(mpdm_t a)
+{
+	int msecs = mpdm_ival(mpdm_aget(a, 0));
+	mpdm_t func = mpdm_aget(a, 1);
+	mpdm_t r;
+
+	/* previously defined one? remove */
+	if(timer_func != NULL)
+		KillTimer(hwnd, 1);
+
+	/* if msecs and func are set, program timer */
+	if(msecs > 0 && func != NULL)
+		SetTimer(hwnd, 1, msecs, NULL);
+
+	r = mpdm_unref(timer_func);
+	timer_func = mpdm_ref(func);
+
+	return(r);
+}
+
+
 static void register_functions(void)
 {
 	mpdm_t drv;
@@ -1519,10 +1543,6 @@ static mpdm_t w32drv_startup(mpdm_t a)
 	if((v = mpdm_hget_s(mp, L"config")) != NULL &&
 		mpdm_ival(mpdm_hget_s(v, L"maximize")) > 0)
 		SendMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
-
-	/* set timer period */
-	if((n = mpdm_ival(mpdm_hget_s(mp, L"timer_period"))) > 0)
-		SetTimer(hwnd, 1, n, NULL);
 
 	return(NULL);
 }
