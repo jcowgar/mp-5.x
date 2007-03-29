@@ -172,7 +172,7 @@ static int drw_adjust_x(int x, int y, int * vx, int tx, wchar_t * ptr)
 	if(m < *vx) *vx = m;
 
 	/* if new cursor column is further the rightmost column, set */
-	if(m > *vx + (tx - 2)) *vx = m - (tx - 2);
+	if(m > *vx + (tx - 1)) *vx = m - (tx - 1);
 
 	return(t != *vx);
 }
