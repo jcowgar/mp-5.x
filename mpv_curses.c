@@ -64,6 +64,10 @@ static WINDOW ** w_stack = NULL;
 /* last attr set */
 static int last_attr = 0;
 
+/* timer function */
+static int timer_msecs = 0;
+static mpdm_t timer_func = NULL;
+
 /*******************
 	Code
 ********************/
@@ -123,11 +127,9 @@ static wchar_t * nc_getwch(void)
 
 #ifdef CONFOPT_WGET_WCH
 
-	int n;
-
 	/* set timer period */
-	if((n = mpdm_ival(mpdm_hget_s(mp, L"timer_period"))) > 0)
-		timeout(n);
+	if(timer_msecs > 0)
+		timeout(timer_msecs);
 
 	if(wget_wch(stdscr, (wint_t *)c) == -1)
 		c[0] = (wchar_t) -1;
@@ -178,6 +180,12 @@ static mpdm_t nc_getkey(mpdm_t args)
 		return(k);
 
 	f = nc_getwch();
+
+	if(f[0] == -1)
+	{
+		mpdm_exec(timer_func, NULL);
+		return(NULL);
+	}
 
 	if(shift)
 	{
@@ -235,7 +243,6 @@ static mpdm_t nc_getkey(mpdm_t args)
 	else
 	{
 		switch(f[0]) {
-		case -1:		f = L"timer"; break;
 		case KEY_LEFT:		f = L"cursor-left"; break;
 		case KEY_RIGHT:		f = L"cursor-right"; break;
 		case KEY_UP:		f = L"cursor-up"; break;
@@ -436,6 +443,20 @@ static void build_colors(void)
 }
 
 
+static mpdm_t ncdrv_timer(mpdm_t a)
+{
+	mpdm_t func = mpdm_aget(a, 1);
+	mpdm_t r;
+
+	timer_msecs = mpdm_ival(mpdm_aget(a, 0));
+
+	r = mpdm_unref(timer_func);
+	timer_func = mpdm_ref(func);
+
+	return(r);
+}
+
+
 static mpdm_t ncdrv_main_loop(mpdm_t a)
 /* curses driver main loop */
 {
@@ -556,6 +577,7 @@ static void register_functions(void)
 	mpdm_t tui;
 
 	drv = mpdm_hget_s(mp, L"drv");
+	mpdm_hset_s(drv, L"timer", MPDM_X(ncdrv_timer));
 	mpdm_hset_s(drv, L"main_loop", MPDM_X(ncdrv_main_loop));
 	mpdm_hset_s(drv, L"shutdown", MPDM_X(ncdrv_shutdown));
 
