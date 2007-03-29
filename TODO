@@ -4,7 +4,8 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
-None!
+ * 1215: Rewrite the timer so that it's no longer an action, but
+   a specific function call.
 
 Open Bugs
 ---------
