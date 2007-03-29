@@ -42,6 +42,7 @@ sub mp.drv.menu()			{ return(NULL); }
 sub mp.drv.clip_to_sys()		{ return(NULL); }
 sub mp.drv.sys_to_clip()		{ return(NULL); }
 sub mp.drv.update_ui()			{ return(NULL); }
+sub mp.drv.timer(msecs,func)		{ return(NULL); }
 
 /* driver wrappers */
 
