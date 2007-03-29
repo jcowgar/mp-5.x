@@ -166,7 +166,7 @@ static int drw_adjust_x(int x, int y, int * vx, int tx, wchar_t * ptr)
 
 	/* calculate the column for the cursor position */
 	for(n = m = 0;n < x;n++, ptr++)
-		m += drw_wcwidth(n, *ptr);
+		m += drw_wcwidth(m, *ptr);
 
 	/* if new cursor column is nearer the leftmost column, set */
 	if(m < *vx) *vx = m;
