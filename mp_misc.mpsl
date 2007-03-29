@@ -99,8 +99,6 @@ mp.actions['zoom_out'] 	= sub (d) {
 	}
 };
 
-mp.actions['timer']	= sub (d) { NULL; };
-
 mp.actions['word_count'] = sub (d) {
 	local w = 0;
 	local a = mp.get_active_area(d);
@@ -118,7 +116,6 @@ mp.keycodes['f12']		= 'zoom_in';
 mp.keycodes['ctrl-kp-plus' ]	= 'zoom_in';
 mp.keycodes['f11']		= 'zoom_out';
 mp.keycodes['ctrl-kp-minus' ]	= 'zoom_out';
-mp.keycodes['timer']		= 'timer';
 
 /* action descriptions */
 

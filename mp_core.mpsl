@@ -160,10 +160,6 @@ mp.menu = [
 	]
 ];
 
-/* timer period in milliseconds
-   (disabled by default) */
-mp.timer_period = 0;
-
 /*******************
 	Code
 ********************/
