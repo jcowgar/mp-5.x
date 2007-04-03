@@ -470,9 +470,9 @@ mp.syntax.diff = {
 	]
 };
 
-mp.syntax.commit_message = {
-	'id'		=>	'commit_message',
-	'name'		=>	'Commit message',
+mp.syntax.commit_msg = {
+	'id'		=>	'commit_msg',
+	'name'		=>	'VCS commit message',
 	'filenames'	=>	[ '/sv[kn]-commit.*\./' ],
 	'defs'		=>	[
 		'word1',	[ '/^A .+$/m' ],
