@@ -4,7 +4,6 @@ Minimum Profit 5.x Release Notes
 5.0.0-pre2
 ----------
 
- * New timer support (FIXME: explain).
  * New support for translating key sequences into MP keycodes, mainly
    for redefining ANSI sequences not supported by current terminfo /
    termcap. For example, if your terminal sends the ANSI sequence [6;5~
@@ -20,6 +19,12 @@ Minimum Profit 5.x Release Notes
  * Incorrect word wrapping has been fixed (Closed bug #1137).
  * Search and replace expand backslashed characters like \n and \t
    (Closed bug #1214).
+ * New timer functionality has been added; a user function can be called
+   each time a specified period of milliseconds have elapsed. If, for
+   example, you want to print a string on standard output each two
+   seconds, you can run
+
+	mp.timer(2000, sub { print("Hi, world!\n"); });
 
 5.0.0-pre1
 ----------
