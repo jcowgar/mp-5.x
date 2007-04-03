@@ -470,6 +470,18 @@ mp.syntax.diff = {
 	]
 };
 
+mp.syntax.commit_message = {
+	'id'		=>	'commit_message',
+	'name'		=>	'Commit message',
+	'filenames'	=>	[ '/sv[kn]-commit.*\./' ],
+	'defs'		=>	[
+		'word1',	[ '/^A .+$/m' ],
+		'word2',	[ '/^D .+$/m' ],
+		'quotes',	[ '/^M .+$/m' ],
+		'comments',	[ '/^=== .+$/m' ]
+	]
+};
+
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
