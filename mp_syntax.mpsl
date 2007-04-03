@@ -478,7 +478,7 @@ mp.syntax.commit_message = {
 		'word1',	[ '/^A .+$/m' ],
 		'word2',	[ '/^D .+$/m' ],
 		'quotes',	[ '/^M .+$/m' ],
-		'comments',	[ '/^=== .+$/m' ]
+		'comments',	[ '/^=== .+$/m', '/^--.+$/m' ]
 	]
 };
 
