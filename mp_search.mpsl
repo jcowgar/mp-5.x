@@ -31,7 +31,7 @@ mp.config.move_seek_to_line = 5;
 /* editor actions */
 
 mp.actions['seek'] 	= sub (d) {
-	local t = mp.drv.form( [
+	local t = mp.form( [
 		{ 'label'	=> L("Text to seek:"),
 		  'type'	=> 'text',
 		  'history'	=> 'search' },
@@ -57,7 +57,7 @@ mp.actions['seek_prev']	= sub (d) { mp.search_back(d, NULL) ||
 
 mp.actions['replace']	= sub (d) {
 
-	local r = mp.drv.form( [
+	local r = mp.form( [
 		{ 'label'	=> L("Replace text:"),
 		  'type'	=> 'text',
 		  'history'	=> 'search'},
@@ -86,7 +86,7 @@ mp.actions['seek_prev_char'] = sub (d) { mp.seek_prev_or_next_char(d, mp.search_
 
 mp.actions['grep']	= sub (d) {
 
-	local r = mp.drv.form( [
+	local r = mp.form( [
 		{ 'label'	=> L("Text to seek:"),
 		  'type'	=> 'text',
 		  'history'	=> 'search'},
@@ -108,7 +108,7 @@ mp.actions['grep']	= sub (d) {
 		if(size(r) > 1)
 		{
 			/* more than one; ask for it */
-			local l = mp.drv.form( [
+			local l = mp.form( [
 				{ 'label'	=> L("Grep"),
 				  'type'	=> 'list',
 				  'list'	=> map(sub (e) {

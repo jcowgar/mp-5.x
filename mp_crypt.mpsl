@@ -28,7 +28,7 @@
 /* editor actions */
 
 mp.actions['set_password'] = sub(d) {
-	local r = mp.drv.form( [
+	local r = mp.form( [
 		{ 'type' => 'password', 'label' => L("Password:") },
 		{ 'type' => 'password', 'label' => L("Password (again):") }
 		]

@@ -60,7 +60,7 @@ mp.actions['line_options']	= sub (d) {
 	/* convert special characters on end of line */
 	local lt = mp.backslash_codes(mp.config.eol, 1);
 
-	local t = mp.drv.form( [
+	local t = mp.form( [
 		{ 'label'	=> L("Word wrap on column (0, no word wrap)") ~ ':',
 		  'type'	=> 'text',
 		  'value'	=> mp.config.word_wrap,
@@ -83,7 +83,7 @@ mp.actions['line_options']	= sub (d) {
 
 mp.actions['tab_options']	= sub (d) {
 
-	local t = mp.drv.form( [
+	local t = mp.form( [
 		{ 'label'	=> L("Tab size") ~ ':',
 		  'type'	=> 'text',
 		  'value'	=> mp.config.tab_size,

@@ -28,7 +28,7 @@
 /* editor actions */
 
 mp.actions['eval']	= sub (d) { 
-	local t = mp.drv.form( [
+	local t = mp.form( [
 		{ 'label' => L("Code to execute:"),
 		  'type' => 'text',
 		  'history' => 'eval' }
@@ -73,7 +73,7 @@ mp.actions['eval_doc']	= sub (d) {
 };
 
 mp.actions['encoding']	= sub (d) {
-	local t = mp.drv.form( [
+	local t = mp.form( [
 		{ 'label' => L("Encoding (utf-8, iso8859-1, etc.; empty, current locale)") ~ ':',
 		  'type' => 'text',
 		  'history' => 'encoding' }

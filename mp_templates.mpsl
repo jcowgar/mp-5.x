@@ -36,7 +36,7 @@ mp.actions['insert_template']	 = sub(d) {
 		return;
 
 	/* select one */
-	if((t = mp.drv.form( [
+	if((t = mp.form( [
 		{ 'label'	=> L("Template to insert:"),
 		  'type'	=> 'list',
 		  'list'	=> l }

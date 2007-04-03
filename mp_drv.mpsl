@@ -51,3 +51,5 @@ sub mp.alert(msg)			{ mp.drv.alert(msg); }
 sub mp.confirm(msg)			{ mp.drv.confirm(msg); }
 sub mp.openfile(prompt)			{ mp.drv.openfile(prompt); }
 sub mp.savefile(prompt)			{ mp.drv.savefile(prompt); }
+sub mp.form(widgets)			{ mp.drv.form(widgets); }
+sub mp.timer(msecs,func)		{ mp.drv.timer(msecs,func); }

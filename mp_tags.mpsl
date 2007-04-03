@@ -35,7 +35,7 @@ mp.actions['find_tag']	= sub(d) {
 	local tag = mp.get_word(d);
 
 	/* ask for it, taking the word under the cursor */
-	local r = mp.drv.form( [
+	local r = mp.form( [
 		{ 'label'	=> L("Tag to seek:"),
 		  'type'	=> 'text',
 		  'history'	=> 'find_tag',
@@ -65,7 +65,7 @@ mp.actions['complete_symbol'] = sub(d) {
 	else
 	{
 		/* more than one; ask user */
-		local r = mp.drv.form( [
+		local r = mp.form( [
 			{ 'label'	=> L("Select symbol:"),
 			  'type'	=> 'list',
 			  'list'	=> l }
@@ -186,7 +186,7 @@ sub mp.open_tag(tag)
 		/* build a list to ask the user */
 		local l = map(sub(e) { e.label; }, t);
 
-		local r = mp.drv.form( [
+		local r = mp.form( [
 			{ 'label'	=> L("Select tag:"),
 			  'type'	=> 'list',
 			  'list'	=> l }

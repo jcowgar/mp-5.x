@@ -128,7 +128,7 @@ mp.actions['sync'] = sub (d) {
 
 mp.actions['exec_command']	= sub (d) {
 
-	local t = mp.drv.form( [
+	local t = mp.form( [
 		{ 'label' => L("System command") ~ ':',
 		  'type' => 'text',
 		  'history' => 'system' }
@@ -389,7 +389,7 @@ sub mp.open(filename)
 			if(mp.crypt1_detect(f))
 			{
 				/* password needed; ask for it */
-				if((p = mp.drv.form( [
+				if((p = mp.form( [
 					{ 'label'	=> L("Password:"),
 					  'type'	=> 'password' }
 					])) == NULL)

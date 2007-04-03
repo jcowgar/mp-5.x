@@ -41,7 +41,7 @@ mp.actions['move_word_left']	= sub (d) { mp.move(d, mp.move_word_left); };
 mp.actions['move_word_right']	= sub (d) { mp.move(d, mp.move_word_right); };
 
 mp.actions['goto']		= sub (d) {
-	local y = mp.drv.form( [
+	local y = mp.form( [
 		{ 'label'	=> L("Line to go to:"),
 		  'type'	=> 'text',
 		  'history'	=> 'goto' }
@@ -83,7 +83,7 @@ mp.actions['move_mouse_wheel_down']	= sub (d) {
 
 mp.actions['document_list'] = sub (d) {
 
-	local r = mp.drv.form( [
+	local r = mp.form( [
 		{ 'label'	=>	L("Document list"),
 		  'type'	=>	'list',
 		  'list'	=>	map( sub(e) {
