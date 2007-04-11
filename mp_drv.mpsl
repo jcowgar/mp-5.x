@@ -43,6 +43,7 @@ sub mp.drv.clip_to_sys()		{ return(NULL); }
 sub mp.drv.sys_to_clip()		{ return(NULL); }
 sub mp.drv.update_ui()			{ return(NULL); }
 sub mp.drv.timer(msecs,func)		{ return(NULL); }
+sub mp.drv.busy(onoff)			{ return(NULL); }
 
 /* driver wrappers */
 
@@ -53,3 +54,4 @@ sub mp.openfile(prompt)			{ mp.drv.openfile(prompt); }
 sub mp.savefile(prompt)			{ mp.drv.savefile(prompt); }
 sub mp.form(widgets)			{ mp.drv.form(widgets); }
 sub mp.timer(msecs,func)		{ mp.drv.timer(msecs,func); }
+sub mp.busy(onoff)			{ mp.drv.busy(onoff); }
