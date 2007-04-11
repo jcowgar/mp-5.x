@@ -27,6 +27,7 @@ Open Bugs
  * 1205: Copy & paste from two different instances of MP (GTK)
    seem to fail (copying or pasting from other applications seem
    to work).
+ * 1217: Add 'Please wait...' messages.
 
 Pending Enhancements
 --------------------
