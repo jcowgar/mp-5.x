@@ -475,7 +475,7 @@ mp.syntax.commit_msg = {
 	'name'		=>	'VCS commit message',
 	'filenames'	=>	[ '/sv[kn]-commit.*\./' ],
 	'defs'		=>	[
-		'word1',	[ '/^A .+$/m' ],
+		'word1',	[ '/^AM? .+$/m' ],
 		'word2',	[ '/^D .+$/m' ],
 		'quotes',	[ '/^M .+$/m' ],
 		'comments',	[ '/^=== .+$/m', '/^--.+$/m' ]
