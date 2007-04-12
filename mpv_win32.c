@@ -1463,6 +1463,16 @@ static mpdm_t w32drv_timer(mpdm_t a)
 }
 
 
+static mpdm_t w32drv_busy(mpdm_t a)
+{
+	int onoff = mpdm_ival(mpdm_aget(a, 0));
+
+	SetCursor(LoadCursor(NULL, onoff ? IDC_WAIT : IDC_ARROW));
+
+	return(NULL);
+}
+
+
 static void register_functions(void)
 {
 	mpdm_t drv;
@@ -1475,6 +1485,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32drv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(w32drv_update_ui));
 	mpdm_hset_s(drv, L"timer", MPDM_X(w32drv_timer));
+	mpdm_hset_s(drv, L"busy", MPDM_X(w32drv_busy));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
@@ -1489,7 +1500,6 @@ static mpdm_t w32drv_startup(mpdm_t a)
 	WNDCLASS wc;
 	RECT r;
 	mpdm_t v;
-	int n;
 
 	register_functions();
 
