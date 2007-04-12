@@ -87,8 +87,8 @@ win32dist: wmp.exe
 	i586-mingw32msvc-strip $(APPNAME)
 	install $(APPNAME) win32
 	install mp_*.mpsl win32
-	(cd mpdm ; make installdoc DOCDIR=../win32/doc)
-	(cd mpsl ; make installdoc DOCDIR=../win32/doc)
+	(DIR=`pwd` ; cd $(MPDM) ; make installdoc DOCDIR=$$DIR/win32/doc)
+	(DIR=`pwd` ; cd $(MPSL) ; make installdoc DOCDIR=$$DIR/win32/doc)
 	install $(DOCS) win32/doc
 	(cd win32 ; aovwinstall mp-5 "Minimum Profit $(VERSION)" * doc/*)
 	i586-mingw32msvc-strip win32/installer.exe
