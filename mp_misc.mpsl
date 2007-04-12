@@ -103,8 +103,10 @@ mp.actions['word_count'] = sub (d) {
 	local w = 0;
 	local a = mp.get_active_area(d);
 
+	mp.busy(1);
 	foreach(local l, a)
 		w += size(mp.split_by_words(l));
+	mp.busy(0);
 
 	mp.alert(sprintf(L("Lines: %d Words: %d"), size(a), w));
 };
