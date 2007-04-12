@@ -32,7 +32,7 @@ mp.actions['insert_template']	 = sub(d) {
 	local l, t;
 
 	/* no local templates? do nothing */
-	if((l = mp.read_templates_file()) == NULL)
+	if((l = mp.long_op(mp.read_templates_file)) == NULL)
 		return;
 
 	/* select one */
