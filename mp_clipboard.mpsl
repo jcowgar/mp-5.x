@@ -30,21 +30,27 @@
 mp.actions['unmark']	= sub (d) { mp.unmark(d); };
 mp.actions['mark']	= sub (d) { mp.mark(d); };
 mp.actions['copy_mark']	= sub (d) {
+					mp.busy(1);
 					mp.copy(d);
 					mp.unmark(d);
 					mp.drv.clip_to_sys();
+					mp.busy(0);
 				};
 
 mp.actions['paste_mark'] = sub (d) {
+					mp.busy(1);
 					mp.store_undo(d);
 					mp.drv.sys_to_clip();
 					mp.paste(d);
+					mp.busy(0);
 				};
 
 mp.actions['cut_mark']	= sub (d) {
+					mp.busy(1);
 					mp.store_undo(d);
 					mp.cut(d);
 					mp.drv.clip_to_sys();
+					mp.busy(0);
 				};
 
 mp.actions['mouse_drag_mark'] = sub (d) {
