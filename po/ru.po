@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_conf.c:134 mp_core.mpsl:122
+#: mp_conf.c:134 mp_core.mpsl:122 mp_core.mpsl:121
 msgid "&File"
 msgstr "&Файл"
 
-#: mp_conf.c:136 mp_core.mpsl:131
+#: mp_conf.c:136 mp_core.mpsl:131 mp_core.mpsl:130
 msgid "&Edit"
 msgstr "&Правка"
 
@@ -64,6 +64,7 @@ msgid ""
 msgstr ""
 
 #: mp_func.c:481 mp_iface.c:649 mp_crypt.mpsl:32 mp_file.mpsl:319
+#: mp_file.mpsl:393
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -96,7 +97,7 @@ msgid "Line to go to:"
 msgstr "Перейти на строку:"
 
 #: mp_iface.c:603 mp_iface.c:607 mp_iface.c:735 mp_iface.c:1608 mp_video.c:614
-#: mp_file.mpsl:187 mp_file.mpsl:236
+#: mp_file.mpsl:187 mp_file.mpsl:236 mp_file.mpsl:261 mp_file.mpsl:310
 msgid "<unnamed>"
 msgstr "<безымянный>"
 
@@ -149,19 +150,21 @@ msgid "Select template"
 msgstr "Выбор шаблона"
 
 #: mp_iface.c:1100 mp_iface.c:1236 mp_search.mpsl:35 mp_search.mpsl:90
+#: mp_search.mpsl:92
 msgid "Text to seek:"
 msgstr "Искать текст:"
 
 #: mp_iface.c:1105 mp_iface.c:1123 mp_iface.c:1164 mp_iface.c:1320
 #: mp_search.mpsl:46 mp_search.mpsl:51 mp_search.mpsl:55 mp_search.mpsl:106
+#: mp_search.mpsl:48 mp_search.mpsl:53 mp_search.mpsl:57 mp_search.mpsl:108
 msgid "Text not found."
 msgstr "Текст не найден."
 
-#: mp_iface.c:1143 mp_iface.c:1187 mp_search.mpsl:61
+#: mp_iface.c:1143 mp_iface.c:1187 mp_search.mpsl:61 mp_search.mpsl:63
 msgid "Replace text:"
 msgstr "Заменить текст:"
 
-#: mp_iface.c:1148 mp_iface.c:1192 mp_search.mpsl:64
+#: mp_iface.c:1148 mp_iface.c:1192 mp_search.mpsl:64 mp_search.mpsl:66
 msgid "Replace with:"
 msgstr "Заменить на:"
 
@@ -169,7 +172,7 @@ msgstr "Заменить на:"
 msgid "To end of file?"
 msgstr "До конца файла?"
 
-#: mp_iface.c:1243 mp_search.mpsl:93
+#: mp_iface.c:1243 mp_search.mpsl:93 mp_search.mpsl:95
 msgid "Files to grep (empty, all):"
 msgstr "Файлы для поиска (пусто = все):"
 
@@ -280,19 +283,21 @@ msgstr ""
 "  -nt, --no-transparent   Отключить прозрачный режим (eterm, aterm, и.т.п.)\n"
 "                         "
 
-#: mpv_gtk.c:624 mpv_gtk.c:1288 mp_tui.mpsl:206
+#: mpv_gtk.c:624 mpv_gtk.c:1288 mp_tui.mpsl:206 mpv_gtk.c:1300
 msgid "Yes"
 msgstr "Да"
 
-#: mpv_gtk.c:630 mpv_gtk.c:1289 mp_tui.mpsl:207
+#: mpv_gtk.c:630 mpv_gtk.c:1289 mp_tui.mpsl:207 mpv_gtk.c:1301
 msgid "No"
 msgstr "Нет"
 
-#: mpv_gtk.c:767 mpv_gtk.c:919 mpv_gtk.c:1247 mpv_gtk.c:1481
+#: mpv_gtk.c:767 mpv_gtk.c:919 mpv_gtk.c:1247 mpv_gtk.c:1481 mpv_gtk.c:1259
+#: mpv_gtk.c:1493
 msgid "OK"
 msgstr "ОК"
 
-#: mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:1290 mpv_gtk.c:1482
+#: mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:1290 mpv_gtk.c:1482 mpv_gtk.c:1302
+#: mpv_gtk.c:1494
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -375,7 +380,7 @@ msgstr "Уменьшить размер шрифта"
 msgid "Mark spelling errors"
 msgstr "Помечать ошибки правописания"
 
-#: mp_func_i.h:11 mp_clipboard.mpsl:73
+#: mp_func_i.h:11 mp_clipboard.mpsl:73 mp_clipboard.mpsl:79
 msgid "Unmark block"
 msgstr "Снять выделение с блока"
 
@@ -391,7 +396,7 @@ msgstr "Переключить режим вставка/замена"
 msgid "Use regular expressions"
 msgstr "Использовать регулярные выражения"
 
-#: mp_func_i.h:27 mp_search.mpsl:38 mp_search.mpsl:67
+#: mp_func_i.h:27 mp_search.mpsl:38 mp_search.mpsl:67 mp_search.mpsl:69
 msgid "Case sensitive"
 msgstr "Учитывать регистр"
 
@@ -407,7 +412,7 @@ msgstr "Сохранять LF как CR/LF"
 msgid "Save tabs"
 msgstr "Сохранять табуляцию"
 
-#: mp_func_i.h:43
+#: mp_func_i.h:43 mp_edit.mpsl:68
 msgid "Automatic indentation"
 msgstr "Автоматические отступы"
 
@@ -419,7 +424,7 @@ msgstr "Сортировать строки"
 msgid "Suspend application"
 msgstr "Приостановить приложение"
 
-#: mp_func_i.h:55 mp_file.mpsl:134
+#: mp_func_i.h:55 mp_file.mpsl:134 mp_file.mpsl:207
 msgid "Save modified texts"
 msgstr "Сохранить измененные тексты"
 
@@ -431,7 +436,7 @@ msgstr "Перенос слов..."
 msgid "Show clipboard"
 msgstr "Показать буфер обмена"
 
-#: mp_func_i.h:67 mp_search.mpsl:147
+#: mp_func_i.h:67 mp_search.mpsl:147 mp_search.mpsl:149
 msgid "Search next"
 msgstr "Искать дальше"
 
@@ -451,11 +456,11 @@ msgstr "Показать лог"
 msgid "Break hardlinks on write"
 msgstr "Разрушать жесткие ссылки при записи"
 
-#: mp_func_i.h:87 mp_file.mpsl:125
+#: mp_func_i.h:87 mp_file.mpsl:125 mp_file.mpsl:197
 msgid "Save as..."
 msgstr "Сохранить как..."
 
-#: mp_func_i.h:91 mp_search.mpsl:149
+#: mp_func_i.h:91 mp_search.mpsl:149 mp_search.mpsl:151
 msgid "Replace..."
 msgstr "Заменить..."
 
@@ -463,7 +468,7 @@ msgstr "Заменить..."
 msgid "Replace in all..."
 msgstr "Заменить везде..."
 
-#: mp_func_i.h:99 mp_file.mpsl:124
+#: mp_func_i.h:99 mp_file.mpsl:124 mp_file.mpsl:196
 msgid "Save..."
 msgstr "Сохранить..."
 
@@ -475,7 +480,7 @@ msgstr "Записать макрос"
 msgid "Reformat paragraph with word wrapping"
 msgstr "Форматировать параграф с переносом строк"
 
-#: mp_func_i.h:111 mp_clipboard.mpsl:76
+#: mp_func_i.h:111 mp_clipboard.mpsl:76 mp_clipboard.mpsl:82
 msgid "Paste block"
 msgstr "Вставить блок"
 
@@ -483,7 +488,7 @@ msgstr "Вставить блок"
 msgid "Play macro"
 msgstr "Воспроизвести макрос"
 
-#: mp_func_i.h:119 mp_file.mpsl:127
+#: mp_func_i.h:119 mp_file.mpsl:127 mp_file.mpsl:199
 msgid "Previous"
 msgstr "Предыдущий"
 
@@ -491,11 +496,11 @@ msgstr "Предыдущий"
 msgid "Reopen..."
 msgstr "Открыть еще раз..."
 
-#: mp_func_i.h:127 mp_file.mpsl:126
+#: mp_func_i.h:127 mp_file.mpsl:126 mp_file.mpsl:198
 msgid "Next"
 msgstr "Следующий"
 
-#: mp_func_i.h:131 mp_file.mpsl:128
+#: mp_func_i.h:131 mp_file.mpsl:128 mp_file.mpsl:200
 msgid "Open..."
 msgstr "Открыть..."
 
@@ -507,7 +512,7 @@ msgstr "Следующее слово"
 msgid "Word right"
 msgstr "Предыдущее слово"
 
-#: mp_func_i.h:143 mp_file.mpsl:123
+#: mp_func_i.h:143 mp_file.mpsl:123 mp_file.mpsl:195
 msgid "New"
 msgstr "Создать"
 
@@ -523,7 +528,7 @@ msgstr "Следующая страница"
 msgid "Page up"
 msgstr "Предыдущая страница"
 
-#: mp_func_i.h:159 mp_search.mpsl:151
+#: mp_func_i.h:159 mp_search.mpsl:151 mp_search.mpsl:153
 msgid "Move to previous instance of current char"
 msgstr "Перейти назад к такому же символу"
 
@@ -535,11 +540,11 @@ msgstr "Следующий символ"
 msgid "Open file under cursor"
 msgstr "Открыть файл под курсором"
 
-#: mp_func_i.h:175 mp_search.mpsl:146
+#: mp_func_i.h:175 mp_search.mpsl:146 mp_search.mpsl:148
 msgid "Search text..."
 msgstr "Искать текст..."
 
-#: mp_func_i.h:179 mp_search.mpsl:150
+#: mp_func_i.h:179 mp_search.mpsl:150 mp_search.mpsl:152
 msgid "Move to next instance of current char"
 msgstr "Перейти вперед к такому же символу"
 
@@ -567,7 +572,7 @@ msgstr "Начало строки"
 msgid "Select last succesful search"
 msgstr "Показать последний успешный поиск"
 
-#: mp_func_i.h:207 mp_drv.mpsl:36
+#: mp_func_i.h:207 mp_drv.mpsl:36 mp_drv.mpsl:37
 msgid "Menu"
 msgstr "Меню"
 
@@ -599,7 +604,7 @@ msgstr "Перейти на соответствующюю скобку"
 msgid "Insert new line below cursor"
 msgstr "Вставить новую строку от курсора"
 
-#: mp_func_i.h:239 mp_edit.mpsl:71
+#: mp_func_i.h:239 mp_edit.mpsl:71 mp_edit.mpsl:122
 msgid "Insert tab"
 msgstr "Вставить символ табуляции"
 
@@ -607,7 +612,7 @@ msgstr "Вставить символ табуляции"
 msgid "Help for word under cursor"
 msgstr "Справка о слове под курсором"
 
-#: mp_func_i.h:247 mp_edit.mpsl:68
+#: mp_func_i.h:247 mp_edit.mpsl:68 mp_edit.mpsl:119
 msgid "Insert line"
 msgstr "Вставить строку"
 
@@ -619,7 +624,7 @@ msgstr "Вставить новую строку над курсором"
 msgid "Insert template..."
 msgstr "Вставить шаблон..."
 
-#: mp_func_i.h:259 mp_clipboard.mpsl:74
+#: mp_func_i.h:259 mp_clipboard.mpsl:74 mp_clipboard.mpsl:80
 msgid "Mark beginning/end of block"
 msgstr "Пометить начало/конец блока"
 
@@ -639,7 +644,7 @@ msgstr "Заменить начертание буквы, если A-Z или a-
 msgid "Flip word case"
 msgstr "Заменить начертание слова"
 
-#: mp_func_i.h:279
+#: mp_func_i.h:279 mp_file.mpsl:208
 msgid "Run system command..."
 msgstr "Выполнить системную команду..."
 
@@ -651,15 +656,15 @@ msgstr "Выполнить функцию редактора..."
 msgid "Document list"
 msgstr "Список документов"
 
-#: mp_func_i.h:291 mp_file.mpsl:132
+#: mp_func_i.h:291 mp_file.mpsl:132 mp_file.mpsl:205
 msgid "Edit configuration file"
 msgstr "Редактировать конфигурационный файл"
 
-#: mp_func_i.h:295 mp_file.mpsl:133
+#: mp_func_i.h:295 mp_file.mpsl:133 mp_file.mpsl:206
 msgid "Edit templates file"
 msgstr "Редактировать файл шаблонов"
 
-#: mp_func_i.h:299 mp_file.mpsl:129
+#: mp_func_i.h:299 mp_file.mpsl:129 mp_file.mpsl:201
 msgid "Exit"
 msgstr "Выход"
 
@@ -675,7 +680,7 @@ msgstr "Удалить до начала слова"
 msgid "Delete char to the left of cursor"
 msgstr "Удалить символ слева от курсора"
 
-#: mp_func_i.h:315 mp_edit.mpsl:69
+#: mp_func_i.h:315 mp_edit.mpsl:69 mp_edit.mpsl:120
 msgid "Delete line"
 msgstr "Удалить строку"
 
@@ -683,11 +688,11 @@ msgstr "Удалить строку"
 msgid "Delete all whitespace after cursor"
 msgstr "Удалить все пробелы после курсора"
 
-#: mp_func_i.h:323 mp_clipboard.mpsl:75
+#: mp_func_i.h:323 mp_clipboard.mpsl:75 mp_clipboard.mpsl:81
 msgid "Copy block"
 msgstr "Копировать блок"
 
-#: mp_func_i.h:327 mp_clipboard.mpsl:77
+#: mp_func_i.h:327 mp_clipboard.mpsl:77 mp_clipboard.mpsl:83
 msgid "Cut block"
 msgstr "Вырезать блок"
 
@@ -695,7 +700,7 @@ msgstr "Вырезать блок"
 msgid "About..."
 msgstr "О программе..."
 
-#: mp_func_i.h:335 mp_file.mpsl:130
+#: mp_func_i.h:335 mp_file.mpsl:130 mp_file.mpsl:202
 msgid "Close"
 msgstr "Закрыть"
 
@@ -711,7 +716,7 @@ msgstr "Удалить символ под курсором"
 msgid "Delete to the end of word"
 msgstr "Удалить до конца слова"
 
-#: mp_func_i.h:351 mp_search.mpsl:152
+#: mp_func_i.h:351 mp_search.mpsl:152 mp_search.mpsl:154
 msgid "Grep (find inside) files..."
 msgstr "Поиск (grep) по файлам..."
 
@@ -719,31 +724,31 @@ msgstr "Поиск (grep) по файлам..."
 msgid "Passwords don't match."
 msgstr ""
 
-#: mp_edit.mpsl:44
+#: mp_edit.mpsl:44 mp_edit.mpsl:50
 msgid "Word wrapping must be set"
 msgstr ""
 
-#: mp_edit.mpsl:70
+#: mp_edit.mpsl:70 mp_edit.mpsl:121
 msgid "Insert space"
 msgstr ""
 
-#: mp_edit.mpsl:72
+#: mp_edit.mpsl:72 mp_edit.mpsl:123
 msgid "Delete character"
 msgstr ""
 
-#: mp_edit.mpsl:73
+#: mp_edit.mpsl:73 mp_edit.mpsl:124
 msgid "Delete character to the left"
 msgstr ""
 
-#: mp_edit.mpsl:74
+#: mp_edit.mpsl:74 mp_edit.mpsl:125
 msgid "Undo last operation"
 msgstr ""
 
-#: mp_edit.mpsl:75
+#: mp_edit.mpsl:75 mp_edit.mpsl:126
 msgid "Join a paragraph in one line"
 msgstr ""
 
-#: mp_edit.mpsl:76
+#: mp_edit.mpsl:76 mp_edit.mpsl:127
 msgid "Word-wrap a paragraph"
 msgstr ""
 
@@ -772,19 +777,19 @@ msgstr ""
 msgid "Exit value:\n"
 msgstr ""
 
-#: mp_misc.mpsl:103
+#: mp_misc.mpsl:103 mp_misc.mpsl:124
 msgid "Execute MPSL code..."
 msgstr ""
 
-#: mp_misc.mpsl:104
+#: mp_misc.mpsl:104 mp_misc.mpsl:125
 msgid "Execute document as MPSL"
 msgstr ""
 
-#: mp_misc.mpsl:105
+#: mp_misc.mpsl:105 mp_misc.mpsl:127
 msgid "Bigger font"
 msgstr ""
 
-#: mp_misc.mpsl:106
+#: mp_misc.mpsl:106 mp_misc.mpsl:128
 msgid "Smaller font"
 msgstr ""
 
@@ -800,19 +805,19 @@ msgstr ""
 msgid "Mouse wheel down"
 msgstr ""
 
-#: mp_search.mpsl:70
+#: mp_search.mpsl:70 mp_search.mpsl:72
 msgid "Global replace:"
 msgstr ""
 
-#: mp_search.mpsl:103
+#: mp_search.mpsl:103 mp_search.mpsl:105
 msgid "File(s) not found."
 msgstr ""
 
-#: mp_search.mpsl:112
+#: mp_search.mpsl:112 mp_search.mpsl:114
 msgid "Grep"
 msgstr ""
 
-#: mp_search.mpsl:148
+#: mp_search.mpsl:148 mp_search.mpsl:150
 msgid "Search previous"
 msgstr ""
 
@@ -852,4 +857,79 @@ msgstr ""
 
 #: mp_templates.mpsl:40
 msgid "Template to insert:"
+msgstr ""
+
+#: mp_edit.mpsl:64
+msgid "Word wrap on column (0, no word wrap)"
+msgstr ""
+
+#: mp_edit.mpsl:71
+msgid "Line termination"
+msgstr ""
+
+#: mp_edit.mpsl:87
+msgid "Tab size"
+msgstr ""
+
+#: mp_edit.mpsl:91
+msgid "Convert tabs to spaces"
+msgstr ""
+
+#: mp_edit.mpsl:128
+msgid "Line options..."
+msgstr ""
+
+#: mp_edit.mpsl:129
+msgid "Tab options..."
+msgstr ""
+
+#: mp_file.mpsl:106
+msgid "File has changed. Are you sure?"
+msgstr ""
+
+#: mp_file.mpsl:132
+msgid "System command"
+msgstr ""
+
+#: mp_file.mpsl:158
+#, c-format
+msgid "Error writing command '%s'"
+msgstr ""
+
+#: mp_file.mpsl:178
+#, c-format
+msgid "Error reading from command '%s'"
+msgstr ""
+
+#: mp_file.mpsl:203
+msgid "Revert"
+msgstr ""
+
+#: mp_misc.mpsl:77
+msgid "Encoding (utf-8, iso8859-1, etc.; empty, current locale)"
+msgstr ""
+
+#: mp_misc.mpsl:84
+msgid "Invalid encoding "
+msgstr ""
+
+#: mp_misc.mpsl:111
+#, c-format
+msgid "Lines: %d Words: %d"
+msgstr ""
+
+#: mp_misc.mpsl:126
+msgid "Set charset encoding..."
+msgstr ""
+
+#: mp_misc.mpsl:129
+msgid "Count words"
+msgstr ""
+
+#: mp_spell.mpsl:36
+msgid "Toggle spellchecking"
+msgstr ""
+
+#: mp_tui.mpsl:417
+msgid "Please, wait..."
 msgstr ""
