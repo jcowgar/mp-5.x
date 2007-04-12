@@ -1603,6 +1603,17 @@ static mpdm_t gtkdrv_timer(mpdm_t a)
 }
 
 
+static mpdm_t gtkdrv_busy(mpdm_t a)
+{
+	int onoff = mpdm_ival(mpdm_aget(a, 0));
+
+	gdk_window_set_cursor(window->window,
+		gdk_cursor_new(onoff ? GDK_WATCH : GDK_LEFT_PTR));
+
+	return(NULL);
+}
+
+
 static mpdm_t gtkdrv_main_loop(mpdm_t a)
 /* main loop */
 {
@@ -1632,6 +1643,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtkdrv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(gtkdrv_update_ui));
 	mpdm_hset_s(drv, L"timer", MPDM_X(gtkdrv_timer));
+	mpdm_hset_s(drv, L"busy", MPDM_X(gtkdrv_busy));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(gtkdrv_confirm));
