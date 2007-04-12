@@ -254,6 +254,20 @@ sub mp.backslash_codes(s, d)
 		sregex("/\\[rnt]/g", s, { '\r' => "\r", '\n' => "\n", '\t' => "\t"});
 }
 
+
+sub mp.long_op(func, arg)
+/* executes a potentially long function */
+{
+	local r;
+
+	mp.busy(1);
+	r = func(arg);
+	mp.busy(0);
+
+	return(r);
+}
+
+
 sub mp.get_history(key)
 /* returns a history for the specified key */
 {
