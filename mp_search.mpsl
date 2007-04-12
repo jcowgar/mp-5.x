@@ -43,15 +43,17 @@ mp.actions['seek'] 	= sub (d) {
 	if(t != NULL)
 	{
 		mp.config.case_sensitive_search = t[1];
-		mp.search(d, mp.backslash_codes(t[0])) || mp.alert(L("Text not found."));
+
+		mp.long_op(mp.search, d, mp.backslash_codes(t[0])) ||
+			mp.alert(L("Text not found."));
 	}
 };
 
-mp.actions['seek_next']	= sub (d) { mp.search(d, NULL) ||
+mp.actions['seek_next']	= sub (d) { mp.long_op(mp.search, d, NULL) ||
 		mp.alert(L("Text not found."));
 	};
 
-mp.actions['seek_prev']	= sub (d) { mp.search_back(d, NULL) ||
+mp.actions['seek_prev']	= sub (d) { mp.long_op(mp.search_back, d, NULL) ||
 		mp.alert(L("Text not found."));
 	};
 
@@ -77,7 +79,7 @@ mp.actions['replace']	= sub (d) {
 		mp.config.case_sensitive_search = r[2];
 		mp.config.global_replace = r[3];
 
-		mp.replace(d, mp.backslash_codes(r[0]), mp.backslash_codes(r[1]));
+		mp.long_op(mp.replace, d, mp.backslash_codes(r[0]), mp.backslash_codes(r[1]));
 	}
 };
 
@@ -99,7 +101,7 @@ mp.actions['grep']	= sub (d) {
 	{
 		local i = 0;
 
-		if((r = mp.grep('/' ~ r[0] ~ '/', r[1])) == NULL)
+		if((r = mp.long_op(mp.grep, '/' ~ r[0] ~ '/', r[1])) == NULL)
 			mp.alert(L("File(s) not found."));
 
 		if(size(r) == 0)
@@ -126,7 +128,7 @@ mp.actions['grep']	= sub (d) {
 		if(size(r))
 		{
 			/* now open the document and move there */
-			d = mp.open(r[i][0]);
+			d = mp.long_op(mp.open, r[i][0]);
 			d.txt.x = 0;
 			mp.set_y(d, r[i][1]);
 		}
