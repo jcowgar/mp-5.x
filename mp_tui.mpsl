@@ -414,7 +414,7 @@ sub mp.drv.menu()
 
 sub mp.drv.busy(onoff)
 {
-	mp.tui.prompt(onoff && L("Please wait...") || '');
+	mp.tui.prompt(onoff && L("Please, wait...") || '');
 }
 
 
