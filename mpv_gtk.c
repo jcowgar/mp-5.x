@@ -1610,6 +1610,9 @@ static mpdm_t gtkdrv_busy(mpdm_t a)
 	gdk_window_set_cursor(window->window,
 		gdk_cursor_new(onoff ? GDK_WATCH : GDK_LEFT_PTR));
 
+	while(gtk_events_pending())
+		gtk_main_iteration();
+
 	return(NULL);
 }
 
