@@ -168,7 +168,7 @@ sub mp.open_tag(tag)
 	local doc, a, t;
 
 	/* force loading of the tags file */
-	mp.load_tags(1);
+	mp.long_op(mp.load_tags, 1);
 
 	/* greps all tags containing the tag, and returns the
 	   values from mp.tags */
@@ -199,9 +199,9 @@ sub mp.open_tag(tag)
 	tag = t[a];
 
 	/* open the file */
-	doc = mp.open(tag.file);
+	doc = mp.long_op(mp.open, tag.file);
 
 	/* move up and search */
 	mp.move_bof(doc);
-	return(mp.search(doc, tag.regex));
+	return(mp.long_op(mp.search, doc, tag.regex));
 }
