@@ -412,6 +412,11 @@ sub mp.drv.menu()
 }
 
 
+sub mp.drv.busy(onoff)
+{
+	mp.tui.prompt(onoff && L("Please wait...") || '');
+}
+
 
 /* returns the main namespace */
 mp.tui;
