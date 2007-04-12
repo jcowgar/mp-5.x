@@ -41,7 +41,7 @@ mp.actions['save_as']	= sub (d) {
 	/* store new name */
 	d.name = t;
 
-	if(mp.save(d) == -1)
+	if(mp.long_op(mp.save, d) == -1)
 		mp.alert(sprintf(L("Error saving file: %s"), ERRNO));
 };
 
@@ -51,7 +51,7 @@ mp.actions['save']	= sub (d) {
 	if(regex("/^<.+>$/", d.name))
 		mp.actions.save_as(d);
 	else
-	if(mp.save(d) == -1)
+	if(mp.long_op(mp.save, d) == -1)
 		mp.alert(sprintf(L("Error saving file: %s"), ERRNO));
 };
 
@@ -92,7 +92,7 @@ mp.actions['open']	= sub (d) {
 	local n;
 
 	if((n = mp.openfile(L("File to open:"))) != NULL && n ne "")
-		if(mp.open(n) == NULL && ERRNO != NULL)
+		if(mp.long_op(mp.open, n) == NULL && ERRNO != NULL)
 			mp.alert(sprintf("Error opening '%s': %s", n, ERRNO));
 };
 
@@ -110,7 +110,7 @@ mp.actions['revert']	= sub (d) {
 	}
 
 	mp.close();
-	if(mp.open(p) == NULL && ERRNO != NULL)
+	if(mp.long_op(mp.open, p) == NULL && ERRNO != NULL)
 		mp.alert(sprintf("Error opening '%s': %s", p, ERRNO));
 };
 
