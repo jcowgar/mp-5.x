@@ -51,7 +51,7 @@ mp.actions['complete_symbol'] = sub(d) {
 	local l, a;
 	local symbol = mp.get_word(d);
 
-	mp.load_tags(1);
+	mp.long_op(mp.load_tags, 1);
 
 	/* takes all tags starting with symbol */
 	if((l = sort(grep('/^' ~ symbol ~ '/', keys(mp.tags)))) == NULL)
