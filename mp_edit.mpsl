@@ -61,7 +61,7 @@ mp.actions['line_options']	= sub (d) {
 	local lt = mp.backslash_codes(mp.config.eol, 1);
 
 	local t = mp.form( [
-		{ 'label'	=> L("Word wrap on column (0, no word wrap)") ~ ':',
+		{ 'label'	=> L("Word wrap on column (0, no word wrap):"),
 		  'type'	=> 'text',
 		  'value'	=> mp.config.word_wrap,
 		  'history'	=> 'wordwrap' },

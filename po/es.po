@@ -169,7 +169,7 @@ msgid "Tag to seek:"
 msgstr "Tag a buscar:"
 
 #: mp_iface.c:1320 mp_iface.c:1323 mp_iface.c:1319 mp_iface.c:1338
-#: mp_iface.c:1339 mp_iface.c:1356 mp_iface.c:1407
+#: mp_iface.c:1339 mp_iface.c:1356 mp_iface.c:1407 mp_edit.mpsl:64
 msgid "Word wrap on column (0, no word wrap):"
 msgstr "Word wrap en columna (0, ninguno):"
 
@@ -1018,10 +1018,6 @@ msgstr "Seleccionar tag:"
 #: mp_templates.mpsl:40
 msgid "Template to insert:"
 msgstr "Plantilla a insertar:"
-
-#: mp_edit.mpsl:64
-msgid "Word wrap on column (0, no word wrap)"
-msgstr ""
 
 #: mp_edit.mpsl:71
 msgid "Line termination"

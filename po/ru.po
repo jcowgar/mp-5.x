@@ -184,7 +184,7 @@ msgstr ""
 msgid "Tag to seek:"
 msgstr "Искать тэг:"
 
-#: mp_iface.c:1397
+#: mp_iface.c:1397 mp_edit.mpsl:64
 msgid "Word wrap on column (0, no word wrap):"
 msgstr "Перенос строк на столбце (0 = нет переноса):"
 
@@ -857,10 +857,6 @@ msgstr ""
 
 #: mp_templates.mpsl:40
 msgid "Template to insert:"
-msgstr ""
-
-#: mp_edit.mpsl:64
-msgid "Word wrap on column (0, no word wrap)"
 msgstr ""
 
 #: mp_edit.mpsl:71
