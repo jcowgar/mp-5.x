@@ -155,7 +155,8 @@ mp.menu = [
 		[ 'record_macro', 'play_macro', '-',
 			'encoding', 'tab_options', 'line_options', 'toggle_spellcheck', '-',
 			'word_count', '-',
-			'zoom_in', 'zoom_out'
+			'zoom_in', 'zoom_out', '-',
+			'about'
 		]
 	]
 ];
