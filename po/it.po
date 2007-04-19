@@ -92,7 +92,7 @@ msgid "File has changed. Save changes?"
 msgstr "Il file e' cambiato. Salvare i cambiamenti?"
 
 #: mp_iface.c:800 mp_iface.c:803 mp_iface.c:799 mp_iface.c:810 mp_iface.c:811
-#: mp_iface.c:842
+#: mp_iface.c:842 mp_file.mpsl:132
 msgid "System command:"
 msgstr "Esegui:"
 
@@ -628,6 +628,7 @@ msgstr "Menu"
 
 #: mp_func.c:347 mp_func.c:356 mp_func.c:363 mp_func.c:526 mp_func_i.h:311
 #: mp_func_i.h:315 mp_func_i.h:319 mp_func_i.h:323 mp_func_i.h:331
+#: mp_misc.mpsl:167
 msgid "About..."
 msgstr "Circa..."
 
@@ -934,19 +935,19 @@ msgstr ""
 msgid "Exit value:\n"
 msgstr ""
 
-#: mp_misc.mpsl:103 mp_misc.mpsl:124
+#: mp_misc.mpsl:103 mp_misc.mpsl:124 mp_misc.mpsl:161
 msgid "Execute MPSL code..."
 msgstr ""
 
-#: mp_misc.mpsl:104 mp_misc.mpsl:125
+#: mp_misc.mpsl:104 mp_misc.mpsl:125 mp_misc.mpsl:162
 msgid "Execute document as MPSL"
 msgstr ""
 
-#: mp_misc.mpsl:105 mp_misc.mpsl:127
+#: mp_misc.mpsl:105 mp_misc.mpsl:127 mp_misc.mpsl:164
 msgid "Bigger font"
 msgstr ""
 
-#: mp_misc.mpsl:106 mp_misc.mpsl:128
+#: mp_misc.mpsl:106 mp_misc.mpsl:128 mp_misc.mpsl:165
 msgid "Smaller font"
 msgstr ""
 
@@ -1071,11 +1072,11 @@ msgstr ""
 msgid "Lines: %d Words: %d"
 msgstr ""
 
-#: mp_misc.mpsl:126
+#: mp_misc.mpsl:126 mp_misc.mpsl:163
 msgid "Set charset encoding..."
 msgstr ""
 
-#: mp_misc.mpsl:129
+#: mp_misc.mpsl:129 mp_misc.mpsl:166
 msgid "Count words"
 msgstr ""
 
@@ -1085,4 +1086,37 @@ msgstr ""
 
 #: mp_tui.mpsl:417
 msgid "Please, wait..."
+msgstr ""
+
+#: mp_misc.mpsl:116
+#, c-format
+msgid ""
+"\n"
+"Minimum Profit %s - Programmer Text Editor\n"
+"\n"
+"Components: MPDM %s, MPSL %s\n"
+"\n"
+"Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>\n"
+"\n"
+"This program is free software; you can redistribute it and/or\n"
+"modify it under the terms of the GNU General Public License\n"
+"as published by the Free Software Foundation; either version 2\n"
+"of the License, or (at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+"See the GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software Foundation,\n"
+"Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.\n"
+"\n"
+"Home page: http://www.triptico.com/software/mp.html\n"
+"Mailing list: mp-subscribe@lists.triptico.com\n"
+msgstr ""
+
+#: mp_file.mpsl:158
+#, c-format
+msgid "Error writing to command '%s'"
 msgstr ""

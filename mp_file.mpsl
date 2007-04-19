@@ -129,7 +129,7 @@ mp.actions['sync'] = sub (d) {
 mp.actions['exec_command']	= sub (d) {
 
 	local t = mp.form( [
-		{ 'label' => L("System command") ~ ':',
+		{ 'label' => L("System command:"),
 		  'type' => 'text',
 		  'history' => 'system' }
 		]);
@@ -155,7 +155,7 @@ mp.actions['exec_command']	= sub (d) {
 			}
 			else
 				mp.drv.alert(
-					sprintf(L("Error writing command '%s'"), cmd));
+					sprintf(L("Error writing to command '%s'"), cmd));
 		}
 		else
 		{
