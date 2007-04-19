@@ -27,7 +27,6 @@ Open Bugs
  * 1205: Copy & paste from two different instances of MP (GTK)
    seem to fail (copying or pasting from other applications seem
    to work).
- * 1217: Add 'Please wait...' messages.
 
 Pending Enhancements
 --------------------
@@ -224,5 +223,6 @@ Closed
    a specific function call (Thu, 29 Mar 2007 12:37:01 +0200).
  * 1216: Document the new timer functionality
    (Tue, 03 Apr 2007 16:51:06 +0200).
+ * 1217: Add 'Please wait...' messages (Thu, 19 Apr 2007 13:06:54 +0200).
 
 Email bugs to angel@triptico.com
