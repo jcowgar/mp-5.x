@@ -908,7 +908,7 @@ void mp_startup(int argc, char * argv[])
 	mpdm_hset_s(mp, L"drv", MPDM_H(0));
 
 	/* version */
-	mpdm_hset_s(mp, L"VERSION", MPDM_S(L"mp " VERSION));
+	mpdm_hset_s(mp, L"VERSION", MPDM_S(L"" VERSION));
 
 	/* creates the INC (executable path) array */
 	INC = MPDM_A(0);
