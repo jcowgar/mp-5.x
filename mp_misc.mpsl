@@ -114,6 +114,7 @@ mp.actions['word_count'] = sub (d) {
 mp.actions['about'] = sub (d) {
 	local msg = L(
 	"\nMinimum Profit %s - Programmer Text Editor\n\n"\
+	"Components: MPDM %s, MPSL %s\n\n"\
 	"Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>\n"\
 	"\n"\
 	"This program is free software; you can redistribute it and/or\n"\
@@ -133,7 +134,18 @@ mp.actions['about'] = sub (d) {
 	"Home page: http://www.triptico.com/software/mp.html\n"\
 	"Mailing list: mp-subscribe@lists.triptico.com\n");
 
-	mp.alert(sprintf(msg, mp.VERSION));
+	local mpdm = MPDM();
+	msg = sprintf(msg, mp.VERSION, mpdm.version, MPSL.VERSION);
+
+	d = mp.find_file_by_name("<about>");
+
+	if(d != -1)
+	{
+		mp.active_i = d;
+		d = mp.active();
+	}
+	else
+		d = mp.new("<about>", split("\n", msg));
 };
 
 /* default key bindings */
