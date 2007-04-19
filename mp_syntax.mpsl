@@ -482,6 +482,20 @@ mp.syntax.commit_msg = {
 	]
 };
 
+mp.syntax.po = {
+	'id'		=>	'po',
+	'name'		=>	'Gettext file',
+	'filenames'	=>	[ '/\.po$/' ],
+	'defs'		=>	[
+		'word1',	[ '/^msgid/m' ],
+		'word2',	[ '/^msgstr/m' ],
+		'comments',	[ "/#.*$/m" ],
+		'quotes',	[
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/"	/* double-quoted strings */
+		]
+	]
+};
+
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
