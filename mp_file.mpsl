@@ -27,7 +27,18 @@
 
 /* editor actions */
 
-mp.actions['new']	= sub (d) { mp.new(); };
+mp.actions['new']	= sub (d) {
+	d = mp.find_file_by_name(L("<unnamed>"));
+
+	if(d != -1)
+	{
+		mp.active_i = d;
+		d = mp.active();
+	}
+	else
+		d = mp.new();
+};
+
 mp.actions['next']	= sub (d) { mp.next(); };
 mp.actions['prev']	= sub (d) { mp.prev(); };
 
