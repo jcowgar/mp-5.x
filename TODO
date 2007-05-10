@@ -11,7 +11,6 @@ Release Critical Bugs
    to work).
  * 1218: Create or adapt The README file.
  * 1219: Update the man page.
- * 1220: Code completion seems to redraw incorrectly.
 
 Open Bugs
 ---------
@@ -226,5 +225,7 @@ Closed
  * 1216: Document the new timer functionality
    (Tue, 03 Apr 2007 16:51:06 +0200).
  * 1217: Add 'Please wait...' messages (Thu, 19 Apr 2007 13:06:54 +0200).
+ * 1220: Tag completion seems to redraw incorrectly
+   (Thu, 10 May 2007 10:29:08 +0200).
 
 Email bugs to angel@triptico.com

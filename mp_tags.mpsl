@@ -76,6 +76,7 @@ mp.actions['complete_symbol'] = sub(d) {
 	}
 
 	/* accepted; substitute current word with symbol */
+	mp.store_undo(d);
 
 	/* split line by words to take the offset of current word */
 	local r = mp.split_line_by_words(d);
@@ -87,6 +88,8 @@ mp.actions['complete_symbol'] = sub(d) {
 	/* change line and x cursor */
 	d.txt.lines[d.txt.y] = w[0];
 	d.txt.x = offset + size(l[a]);
+
+	d.txt.mod++;
 };
 
 /* Default key bindings */
