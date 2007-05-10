@@ -79,6 +79,7 @@ mp.actions['replace']	= sub (d) {
 		mp.config.case_sensitive_search = r[2];
 		mp.config.global_replace = r[3];
 
+		mp.store_undo(d);
 		mp.long_op(mp.replace, d, mp.backslash_codes(r[0]), mp.backslash_codes(r[1]));
 	}
 };
