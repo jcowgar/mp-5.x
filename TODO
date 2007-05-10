@@ -11,8 +11,6 @@ Release Critical Bugs
    to work).
  * 1218: Create or adapt The README file.
  * 1219: Update the man page.
- * 1221: When tag completion expands to exactly one tag, redraw
-   is still incorrect.
 
 Open Bugs
 ---------
@@ -229,5 +227,7 @@ Closed
  * 1217: Add 'Please wait...' messages (Thu, 19 Apr 2007 13:06:54 +0200).
  * 1220: Tag completion seems to redraw incorrectly
    (Thu, 10 May 2007 10:29:08 +0200).
+ * 1221: When tag completion expands to exactly one tag, redraw
+   is still incorrect (Thu, 10 May 2007 13:25:25 +0200).
 
 Email bugs to angel@triptico.com

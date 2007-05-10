@@ -277,10 +277,13 @@ static void build_colors(void)
 
 /* menu functions */
 
+static void redraw(void);
+
 static void menu_item_callback(mpdm_t action)
 /* menu click callback */
 {
 	mp_process_action(action);
+	redraw();
 
 	if(mp_exit_requested)
 		gtk_main_quit();
@@ -377,8 +380,6 @@ static void build_menu(void)
 
 
 /* main area drawing functions */
-
-static void redraw(void);
 
 static void switch_page(GtkNotebook * notebook, GtkNotebookPage * page,
 	gint pg_num, gpointer data)
