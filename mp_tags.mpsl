@@ -48,11 +48,9 @@ mp.actions['find_tag']	= sub(d) {
 
 mp.actions['complete_symbol'] = sub(d) {
 
-	local symbol = mp.get_word(d);
-
 	mp.long_op(mp.load_tags, 1);
 
-	if(!mp.complete(d, symbol, keys(mp.tags), L("Select symbol:")))
+	if(!mp.complete(d, keys(mp.tags), L("Select symbol:")))
 		mp.alert(L("No matching symbol found."));
 };
 
@@ -174,12 +172,13 @@ sub mp.open_tag(tag)
 }
 
 
-sub mp.complete(d, word, list, label)
-/* completes a word given a list (uses GUI) */
+sub mp.complete(d, list, label)
+/* completes the current word given a list (uses GUI) */
 {
 	local l, a;
+	local word = mp.get_word(d);
 
-	/* takes all tags starting with word */
+	/* takes all list elements starting with word */
 	if((l = sort(grep('/^' ~ word ~ '/', list))) == NULL)
 		return(0);
 
