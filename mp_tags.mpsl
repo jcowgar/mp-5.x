@@ -46,6 +46,17 @@ mp.actions['find_tag']	= sub(d) {
 		mp.open_tag(r[0]);
 };
 
+mp.actions['complete'] = sub(d) {
+
+	local words = {};
+
+	foreach(local l, d.txt.lines)
+		foreach(local w, mp.split_by_words(l))
+			words[w] = 1;
+
+	mp.complete(d, keys(words));
+};
+
 mp.actions['complete_symbol'] = sub(d) {
 
 	mp.long_op(mp.load_tags, 1);
@@ -57,10 +68,12 @@ mp.actions['complete_symbol'] = sub(d) {
 /* Default key bindings */
 
 mp.keycodes['ctrl-t']	=	"find_tag";
+mp.keycodes['ctrl-u']	=	"complete";
 
 /* action descriptions */
 
 mp.actdesc['find_tag']		= LL("Search tag...");
+mp.actdesc['complete']		= LL("Complete...");
 mp.actdesc['complete_symbol']	= LL("Symbol completion...");
 
 /* code */
