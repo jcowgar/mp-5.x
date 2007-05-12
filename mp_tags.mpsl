@@ -48,48 +48,12 @@ mp.actions['find_tag']	= sub(d) {
 
 mp.actions['complete_symbol'] = sub(d) {
 
-	local l, a;
 	local symbol = mp.get_word(d);
 
 	mp.long_op(mp.load_tags, 1);
 
-	/* takes all tags starting with symbol */
-	if((l = sort(grep('/^' ~ symbol ~ '/', keys(mp.tags)))) == NULL)
-	{
+	if(!mp.complete(d, symbol, keys(mp.tags), L("Select symbol:")))
 		mp.alert(L("No matching symbol found."));
-		return;
-	}
-
-	if(size(l) == 1)
-		a = 0;
-	else
-	{
-		/* more than one; ask user */
-		local r = mp.form( [
-			{ 'label'	=> L("Select symbol:"),
-			  'type'	=> 'list',
-			  'list'	=> l }
-			]);
-
-		if(r == NULL) return;
-		a = r[0];
-	}
-
-	/* accepted; substitute current word with symbol */
-	mp.store_undo(d);
-
-	/* split line by words to take the offset of current word */
-	local r = mp.split_line_by_words(d);
-	local offset = r[1][r[2]];
-
-	/* substitute current word with newly selected symbol */
-	local w = splice(d.txt.lines[d.txt.y], l[a], offset, size(symbol));
-
-	/* change line and x cursor */
-	d.txt.lines[d.txt.y] = w[0];
-	d.txt.x = offset + size(l[a]);
-
-	d.txt.mod++;
 };
 
 /* Default key bindings */
@@ -207,4 +171,48 @@ sub mp.open_tag(tag)
 	/* move up and search */
 	mp.move_bof(doc);
 	return(mp.long_op(mp.search, doc, tag.regex));
+}
+
+
+sub mp.complete(d, word, list, label)
+/* completes a word given a list (uses GUI) */
+{
+	local l, a;
+
+	/* takes all tags starting with word */
+	if((l = sort(grep('/^' ~ word ~ '/', list))) == NULL)
+		return(0);
+
+	if(size(l) == 1)
+		a = 0;
+	else
+	{
+		/* more than one; ask user */
+		local r = mp.form( [
+			{ 'label'	=> label || L("Select:"),
+			  'type'	=> 'list',
+			  'list'	=> l }
+			]);
+
+		if(r == NULL) return;
+		a = r[0];
+	}
+
+	/* accepted; substitute current word */
+	mp.store_undo(d);
+
+	/* split line by words to take the offset of current word */
+	local r = mp.split_line_by_words(d);
+	local offset = r[1][r[2]];
+
+	/* substitute current word with newly selected word */
+	local w = splice(d.txt.lines[d.txt.y], l[a], offset, size(word));
+
+	/* change line and x cursor */
+	d.txt.lines[d.txt.y] = w[0];
+	d.txt.x = offset + size(l[a]);
+
+	d.txt.mod++;
+
+	return(1);
 }
