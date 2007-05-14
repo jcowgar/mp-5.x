@@ -50,9 +50,18 @@ mp.actions['complete'] = sub(d) {
 
 	local words = {};
 
+	mp.busy(1);
+
 	foreach(local l, d.txt.lines)
 		foreach(local w, mp.split_by_words(l))
-			words[w] = 1;
+			words[w]++;
+
+	mp.busy(0);
+
+	/* if the current word happens only one time, delete it */
+	local w = mp.get_word(d);
+	if(words[w] == 1)
+		hdel(words, w);
 
 	mp.complete(d, keys(words));
 };
