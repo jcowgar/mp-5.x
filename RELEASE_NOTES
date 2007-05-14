@@ -6,6 +6,7 @@ Minimum Profit 5.x Release Notes
 
  * New 'complete' action, that asks for completion on the current
    word using any of the words found in the same document.
+ * New 'redo' action, to revert undo operations.
 
 5.0.0-rc1
 ---------

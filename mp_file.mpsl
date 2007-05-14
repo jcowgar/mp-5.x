@@ -322,6 +322,7 @@ sub mp.new(filename, lines)
 	doc.txt = txt;
 
 	doc.undo = [];
+	doc.redo = [];
 
 	doc.syntax = NULL;
 
