@@ -43,6 +43,8 @@ Pending Enhancements
  * 1203: Change the drawing engine to only apply the syntax highlighting
    regexes whenever the modified flag has changed or the viewport is
    different.
+ * 1225: Add a regex (or similar) filter for lines. Lines matching it
+   (or not) won't appear on screen.
 
 Closed
 ------
