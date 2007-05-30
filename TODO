@@ -12,6 +12,7 @@ Release Critical Bugs
  * 1218: Create or adapt The README file.
  * 1219: Update the man page.
  * 1222: Add --help info.
+ * 1227: History seems broken on win32 (Windows XP).
 
 Open Bugs
 ---------
