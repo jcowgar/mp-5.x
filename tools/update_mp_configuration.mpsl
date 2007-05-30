@@ -1,0 +1,51 @@
+sub repl(s,t) { local r = ''; while(t--) r = r ~ s; r; }
+
+local header = [];
+local desc = {};
+local f;
+
+if((f = open("doc/mp_configuration.txt", "r")) != NULL)
+{
+	local l;
+	local k = '';
+
+	while(l = read(f))
+	{
+		l = sregex("/\r?\n$/", l);
+
+		if(l eq "----") break;
+
+		if(regex('/^mp\.config\..+$/', l))
+		{
+			read(f); read(f);
+			k = l;
+			desc[k] = "";
+		}
+		else
+		if(k)
+			desc[k] = desc[k] ~ "\n" ~ l;
+		else
+			push(header, l);
+	}
+
+	close(f);
+}
+
+if((f = open("doc/mp_configuration.txt", "w")) != NULL)
+{
+	write(f, join("\n", header) ~ "\n");
+
+	foreach(local k, map(sub(l) { 'mp.config.' ~ l; }, sort(keys(mp.config))))
+	{
+		write(f, k ~ "\n");
+		write(f, repl('-', size(k)));
+		write(f, "\n");
+
+		write(f, desc[k] || "To be written.\n");
+		write(f, "\n");
+	}
+
+	write(f, "----\nAngel Ortega <angel@triptico.com>\n");
+
+	close(f);
+}

@@ -4,6 +4,7 @@ Minimum Profit Documentation Center
 General Documentation
 ---------------------
 
+ * ./mp_configuration.html (Minimum Profit Configuration Directives).
  * ./mp_cookbook.html (Minimum Profit Cookbook).
  * ./mp_internals.html (Internals). Implementation details.
 
@@ -24,4 +25,4 @@ Minimum Profit Data Manager
  * ./mpdm_api.html (C API). Reference for using MPDM from inside C programs.
 
 ---
-Angel Ortega <angel@triptico.com> - $Date$
+Angel Ortega <angel@triptico.com>

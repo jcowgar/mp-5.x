@@ -1,0 +1,137 @@
+Minimum Profit Configuration Directives
+=======================================
+
+ Angel Ortega <angel@triptico.com>
+
+The following configuration values can be set in the configuration files,
+executed from the command line or from the `Execute MPSL code...' option in
+the `Edit' menu. So, for example, if you always want automatic indentation,
+word wrapping at column 75 and a special ispell command, you can add the
+following MPSL code to ~/.mp.mpsl or /etc/mp.mpsl:
+
+ mp.config.auto_indent = 1;
+ mp.config.word_wrap = 75;
+ mp.config.ispell_cmd = "aspell -a";
+
+All configuration variables are in the `mp.config' hash.
+
+mp.config.auto_indent
+---------------------
+
+Set to 1 if automatic indentation is wanted (default: 0, no indentation).
+
+mp.config.case_sensitive_search
+-------------------------------
+
+Set to 1 if searches are to be done in a case-sensitive way (default: 1).
+
+mp.config.ctags_cmd
+-------------------
+
+The external command to be executed when a tag search is requested. By
+default is `ctags *'. Other useful value is `ctags -R', that search for
+tags recursively in subdirectories.
+
+mp.config.eol
+-------------
+
+The end of line character (or characters). By default is "\n". Other useful
+values are "\r\n" for MSDOS / Windows systems, or "\r" for legacy MacOS
+systems.
+
+mp.config.font_face
+-------------------
+
+The font face to be used in GUI environments. By default it's "Mono" on
+GTK and "Lucida Console" on MS Windows.
+
+mp.config.font_size
+-------------------
+
+The font size to be used in GUI environments. By defaults it's 12 on GTK
+and 14 on MS Windows.
+
+mp.config.global_replace
+------------------------
+
+Set to 1 if the _replace_ operation must be done to the end of the file
+(default: 0, do it only once).
+
+mp.config.ispell_cmd
+--------------------
+
+The external command to be executed as a pipe for spellchecking. It must be
+compatible with `ispell', and by default it's "ispell -a". Other useful
+values are "aspell -a", if you have `aspell' installed (a better
+alternative), or "ispell -a -Tutf8", if you happen to be in an UTF-8
+environment and must use `ispell'.
+
+mp.config.maximize
+------------------
+
+Set to 1 if the GUI window must open maximized (default: 0, no maximize).
+
+mp.config.move_seek_to_line
+---------------------------
+
+The line number to be set the cursor to when a successful search is hit
+(default: 5). If set to 0, the position is not touched.
+
+mp.config.status_format
+-----------------------
+
+The status format string to be shown in the status line. By default it's
+"%m%n %x,%y [%l] %R%O %s %t", where each percent-value means:
+
+ +----+---------------------------------------------------------+
+ | %V | Current MP version                                      |
+ +----+---------------------------------------------------------+
+ | %m | Modify flag (asterisk or the empty string)              |
+ +----+---------------------------------------------------------+
+ | %x | X coordinate (column)                                   |
+ +----+---------------------------------------------------------+
+ | %y | Y coordinate (line)                                     |
+ +----+---------------------------------------------------------+
+ | %l | Total number of lines in current document               |
+ +----+---------------------------------------------------------+
+ | %R | Macro recording flag (R or the empty string)            |
+ +----+---------------------------------------------------------+
+ | %O | Overwrite flag (O or the empty string if inserting)     |
+ +----+---------------------------------------------------------+
+ | %s | Syntax highlight in use                                 |
+ +----+---------------------------------------------------------+
+ | %t | Tag target over the cursor, or the empty string if none |
+ +----+---------------------------------------------------------+
+ | %n | Document name                                           |
+ +----+---------------------------------------------------------+
+ | %% | A percent sign                                          |
+ +----+---------------------------------------------------------+
+
+mp.config.tabs_as_spaces
+------------------------
+
+Set to 1 if tabs must be converted to spaces (default: 0, no conversion).
+
+mp.config.tab_size
+------------------
+
+Tab size in column spaces (default: 8).
+
+mp.config.undo_levels
+---------------------
+
+Maximum number of undo levels per document (default: 100).
+
+mp.config.unlink
+----------------
+
+Set to 1 if the file must be unlinked just before being overwritten
+(default: 1, do it).
+
+mp.config.word_wrap
+-------------------
+
+The column where word wrapping occurs (default: 0, no word wrapping).
+
+----
+Angel Ortega <angel@triptico.com>
