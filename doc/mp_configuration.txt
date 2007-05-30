@@ -7,7 +7,7 @@ The following configuration values can be set in the configuration files,
 executed from the command line or from the `Execute MPSL code...' option in
 the `Edit' menu. So, for example, if you always want automatic indentation,
 word wrapping at column 75 and a special ispell command, you can add the
-following MPSL code to ~/.mp.mpsl or /etc/mp.mpsl:
+following MPSL code to `~/.mp.mpsl' or `/etc/mp.mpsl':
 
  mp.config.auto_indent = 1;
  mp.config.word_wrap = 75;
