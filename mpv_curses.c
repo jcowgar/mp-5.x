@@ -337,6 +337,11 @@ static void draw_status(void)
 	wattrset(cw, nc_attrs[normal_attr]);
 	wclrtoeol(cw);
 	nc_addwstr(t);
+
+	/* draw the menu key hint, right-aligned */
+	t = mpdm_hget_s(mp, L"menu_key_hint");
+	wmove(cw, LINES - 1, COLS - mpdm_size(t));
+	nc_addwstr(t);
 }
 
 

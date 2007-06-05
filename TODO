@@ -14,7 +14,6 @@ Release Critical Bugs
  * 1222: Add --help info.
  * 1227: The length of an open combobox (at least under XP)
    is ridiculous.
- * 1228: Add 'ctrl-a: Menu' to Curses status line.
 
 Open Bugs
 ---------
@@ -240,5 +239,7 @@ Closed
    Wed, 30 May 2007 13:51:51 +0200).
  * 1226: Document the configuration values
    (Wed, 30 May 2007 13:51:58 +0200).
+ * 1228: Add 'ctrl-a: Menu' to Curses status line
+   (Tue, 05 Jun 2007 13:49:02 +0200).
 
 Email bugs to angel@triptico.com
