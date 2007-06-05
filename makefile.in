@@ -55,6 +55,10 @@ distclean: clean
 	rm -f config.h config.cflags config.ldflags \
 		makefile.opts Makefile po/minimum-profit.pot
 
+realdistclean: distclean
+	(cd $(MPDM) ; make distclean)
+	(cd $(MPSL) ; make distclean)
+
 doc/index.html: doc/index.txt
 	-grutatxt -i $< -o $@
 
