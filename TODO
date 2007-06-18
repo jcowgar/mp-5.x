@@ -29,6 +29,8 @@ Open Bugs
    margin detection and mouse positioning doesn't work. To workaround
    this, set mp.config.font_face (in the config file) to an existing
    monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
+ * 1229: The 'replace' action should use sregex() instead of an
+   ad-hoc splice() + mp.insert().
 
 Pending Enhancements
 --------------------
