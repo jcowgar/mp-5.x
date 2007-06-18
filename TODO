@@ -14,6 +14,7 @@ Release Critical Bugs
  * 1222: Add --help info.
  * 1227: The length of an open combobox (at least under XP)
    is ridiculous.
+ * 1230: Action 'eval_doc' seems to fail forever after an error.
 
 Open Bugs
 ---------
