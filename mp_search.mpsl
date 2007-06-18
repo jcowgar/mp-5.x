@@ -156,6 +156,20 @@ mp.actdesc['grep']		= LL("Grep (find inside) files...");
 
 /* code */
 
+sub mp.prefix_regex(str)
+/* set str to be a valid regex */
+{
+	/* surround with / for the regex */
+	str = '/' ~ str ~ '/';
+
+	/* add optional case insensitivity flag */
+	if(! mp.config.case_sensitive_search)
+		str = str ~ 'i';
+
+	return(str);
+}
+
+
 sub mp.search_dir(doc, str, dir)
 /* search str and put the current position there, with direction */
 {
@@ -169,12 +183,7 @@ sub mp.search_dir(doc, str, dir)
 	if(str == NULL)
 		return(NULL);
 
-	/* surround with / for the regex */
-	str = '/' ~ str ~ '/';
-
-	/* add optional case insensitivity flag */
-	if(! mp.config.case_sensitive_search)
-		str = str ~ 'i';
+	str = mp.prefix_regex(str);
 
 	txt = doc.txt;
 	x = txt.x;
@@ -245,19 +254,15 @@ sub mp.replace_1(doc, this, that)
 	{
 		local txt, l;
 
-		/* get current line */
 		txt = doc.txt;
-		l = txt.lines[txt.y];
 
 		/* substitute */
-		l = splice(l, NULL, c[0], c[1]);
-		txt.lines[txt.y] = l[0];
+		txt.lines[txt.y] = sregex(mp.prefix_regex(this),
+			txt.lines[txt.y], that, c[0]);
 
-		/* correct the x position */
-		mp.set_x(doc, c[0]);
-
-		/* now insert there */
-		mp.insert(doc, that);
+		/* move to correct position */
+		c = regex();
+		mp.set_x(doc, c[0] + c[1]);
 
 		txt.mod++;
 	}
