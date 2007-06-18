@@ -262,7 +262,7 @@ sub mp.replace_1(doc, this, that)
 		txt.mod++;
 	}
 
-	return(r);
+	return(c);
 }
 
 
