@@ -239,25 +239,22 @@ sub mp.search_back(doc, str)
 sub mp.replace_1(doc, this, that)
 /* searches 'this' and replaces it with 'that', once */
 {
-	local r;
+	local c;
 
-	if((r = mp.search(doc, this)) != NULL)
+	if((c = mp.search(doc, this)) != NULL)
 	{
-		local txt, l, c;
+		local txt, l;
 
 		/* get current line */
 		txt = doc.txt;
 		l = txt.lines[txt.y];
-
-		/* get last match */
-		c = regex();
 
 		/* substitute */
 		l = splice(l, NULL, c[0], c[1]);
 		txt.lines[txt.y] = l[0];
 
 		/* correct the x position */
-		mp.set_x(doc, c[0] + size(to));
+		mp.set_x(doc, c[0]);
 
 		/* now insert there */
 		mp.insert(doc, that);
