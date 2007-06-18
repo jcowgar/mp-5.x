@@ -95,7 +95,7 @@ mp.actions['grep']	= sub (d) {
 		  'history'	=> 'search'},
 		{ 'label'	=> L("Files to grep (empty, all):"),
 		  'type'	=> 'text',
-		  'history'	=> 'replace'}
+		  'history'	=> 'grep'}
 	] );
 
 	if(r != NULL && r[0] ne '')
