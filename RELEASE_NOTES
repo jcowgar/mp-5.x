@@ -8,6 +8,9 @@ Minimum Profit 5.x Release Notes
    word using any of the words found in the same document.
  * New 'redo' action, to revert undo operations.
  * The global configuration file `/etc/mp.mpsl' is also executed.
+ * In the 'replace' action, the substitution string can contain
+   the special character &, that will be replaced by the matched
+   string (as in the `sed' command line tool).
 
 5.0.0-rc1
 ---------

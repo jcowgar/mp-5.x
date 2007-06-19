@@ -30,8 +30,6 @@ Open Bugs
    margin detection and mouse positioning doesn't work. To workaround
    this, set mp.config.font_face (in the config file) to an existing
    monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
- * 1229: The 'replace' action should use sregex() instead of an
-   ad-hoc splice() + mp.insert().
 
 Pending Enhancements
 --------------------
@@ -244,5 +242,7 @@ Closed
    (Wed, 30 May 2007 13:51:58 +0200).
  * 1228: Add 'ctrl-a: Menu' to Curses status line
    (Tue, 05 Jun 2007 13:49:02 +0200).
+ * 1229: The 'replace' action should use sregex() instead of an
+   ad-hoc splice() + mp.insert() (Tue, 19 Jun 2007 09:03:57 +0200).
 
 Email bugs to angel@triptico.com
