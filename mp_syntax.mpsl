@@ -496,6 +496,30 @@ mp.syntax.po = {
 	]
 };
 
+mp.syntax.xml = {
+	'id'		=>	'xml',
+	'name'		=>	'XML / XGML',
+	'filenames'	=>	[ '/\.xml$/', '/\.sgml$/' ],
+	'defs'		=>	[
+		'word1',	[ '/<[^>]+>/' ],
+		'word2',	[ '/<\?[^\?]+\?>/' ],
+		'quotes',	[
+			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/"	/* single-quoted strings */
+		],
+		'comments',	[
+				[ '/<!--/', '/-->/' ]
+		]
+	],
+	'detect'	=>	sub (d) {
+		/* take the first line */
+		local f = d.txt.lines[0];
+
+		return(regex('/<\?xml/', f));
+	}
+};
+
+
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
