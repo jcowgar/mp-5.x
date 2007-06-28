@@ -15,8 +15,8 @@ Release Critical Bugs
  * 1227: The length of an open combobox (at least under XP)
    is ridiculous.
  * 1230: Action 'eval_doc' seems to fail forever after an error.
- * 1231: Any selection fron the GTK list crashes if it's not the
-   first one.
+ * 1231: Selection from GTK lists crashes if the element have
+   changed and ENTER or Escape is pressed.
 
 Open Bugs
 ---------
