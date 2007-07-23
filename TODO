@@ -15,6 +15,7 @@ Release Critical Bugs
  * 1227: The length of an open combobox (at least under XP)
    is ridiculous.
  * 1230: Action 'eval_doc' seems to fail forever after an error.
+ * 1232: Update the features in the home page.
 
 Open Bugs
 ---------
