@@ -1,0 +1,10 @@
+.config.log
+Makefile
+config.cflags
+config.h
+config.ldflags
+doc/*.html
+makefile.opts
+mp-5
+po/*.mo
+*.[oa]
