@@ -220,9 +220,10 @@ sub mp.drv.confirm(msg, def)
 	{
 		local k = mp.tui.getkey();
 
-		if(regex('/^' ~ y ~ '$/i', k)) ret = 1;
-		if(regex('/^' ~ n ~ '$/i', k)) ret = 2;
-		if(k eq 'escape') ret = 0;
+		if (regex('/^' ~ y ~ '$/i', k)) ret = 1;
+		if (regex('/^' ~ n ~ '$/i', k)) ret = 2;
+		if (k eq 'escape') ret = 0;
+		if (k eq 'enter') ret = (def && 1 || 2);
 	}
 
 	return(ret);
