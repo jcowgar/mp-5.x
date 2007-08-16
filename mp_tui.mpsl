@@ -197,7 +197,7 @@ sub mp.drv.alert(msg)
 }
 
 
-sub mp.drv.confirm(msg)
+sub mp.drv.confirm(msg, def)
 {
 	local y, n;
 	local ret = NULL;
@@ -206,7 +206,15 @@ sub mp.drv.confirm(msg)
 	y = regex('/^./', L("Yes"));
 	n = regex('/^./', L("No"));
 
-	mp.tui.prompt(msg ~ ' [' ~ y ~ '/' ~ n ~ ']');
+	/* add options */
+	msg = msg ~ ' (' ~ y ~ '/' ~ n ~ ')';
+
+	if (def != NULL) {
+		/* a default option? add to prompt */
+		msg = msg ~ ' [' ~ (def && y || n) ~ ']';
+	}
+
+	mp.tui.prompt(msg);
 
 	while(ret == NULL)
 	{
@@ -252,7 +260,7 @@ sub mp.drv.form(widgets)
 			/* return value conversion */
 			local c = [ NULL, 1, 0 ];
 
-			r1 = c[mp.drv.confirm(w.label)];
+			r1 = c[mp.drv.confirm(w.label, w.value)];
 		}
 		else
 		if(w.type eq 'list')
