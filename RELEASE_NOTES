@@ -1,6 +1,12 @@
 Minimum Profit 5.x Release Notes
 ================================
 
+5.0.0-rc3
+---------
+
+ * In the curses version, confirmations now have default values
+   (shown in brackets), activated with the ENTER key.
+
 5.0.0-rc2
 ---------
 
