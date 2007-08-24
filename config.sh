@@ -78,7 +78,7 @@ fi
 echo "CC=$CC" >> makefile.opts
 
 # set cflags
-if [ "$CFLAGS" = "" ] ; then
+if [ "$CFLAGS" = "" -a "$CC" = "gcc" ] ; then
 	CFLAGS="-g -Wall"
 fi
 
