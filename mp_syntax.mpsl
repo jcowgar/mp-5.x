@@ -63,7 +63,7 @@ sub mp.syn_token_list(l) { '/\b(' ~ join("|", l) ~ ')\b/'; }
 mp.syntax.c = {
 	'id'		=>	'c',
 	'name'		=>	'C / C++',
-	'filenames'	=>	[ '/\.c$/', '/\.h$/', '/\.l$/', '/\.y$/',
+	'filenames'	=>	[ '/\.c$/', '/\.h$/', '/\.l$/', '/\.y$/', '/\.d$/',
 				'/\.cpp$/', '/\.hpp$/', '/\.c++$/', '/\.xpm$/' ],
 	'help'		=>	[ "man 2 %s", "man 3 %s" ],
 	'defs'		=>	[
