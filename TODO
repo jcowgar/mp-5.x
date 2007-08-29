@@ -15,7 +15,6 @@ Release Critical Bugs
  * 1227: The length of an open combobox (at least under XP)
    is ridiculous.
  * 1230: Action 'eval_doc' seems to fail forever after an error.
- * 1232: Update the features in the home page.
 
 Open Bugs
 ---------
@@ -248,5 +247,7 @@ Closed
  * 1231: Selection from GTK lists crashes if the element have
    changed and ENTER or Escape is pressed (Fixed by a library
    upgrade; Fri, 29 Jun 2007 08:01:17 +0200).
+ * 1232: Update the features in the home page
+   (Wed, 29 Aug 2007 14:04:15 +0200).
 
 Email bugs to angel@triptico.com
