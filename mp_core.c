@@ -881,12 +881,6 @@ mpdm_t mp_plain_load(mpdm_t args)
 }
 
 
-int w32_drv_detect(int * argc, char *** argv);
-int gtk_drv_detect(int * argc, char *** argv);
-int ncursesw_drv_detect(int * argc, char *** argv);
-
-#define TRY_DRIVERS() (w32_drv_detect(&argc, &argv) || gtk_drv_detect(&argc, &argv) || ncursesw_drv_detect(&argc, &argv))
-
 void mp_startup(int argc, char * argv[])
 {
 	mpdm_t INC;

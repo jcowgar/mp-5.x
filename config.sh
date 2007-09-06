@@ -277,10 +277,17 @@ echo "Configured drivers:" $DRIVERS
 echo
 echo "Type 'make' to build Minimum Profit."
 
+# insert driver detection code into config.h
+
+TRY_DRIVERS="#define TRY_DRIVERS() ("
 echo >> config.h
 for drv in $DRIVERS ; do
 	echo "int ${drv}_drv_detect(int * argc, char *** argv);" >> config.h
+	TRY_DRIVERS="$TRY_DRIVERS ${drv}_drv_detect(&argc, &argv) || "
 done
+
+echo >> config.h
+echo $TRY_DRIVERS '0)' >> config.h
 
 # cleanup
 rm -f .tmp.c .tmp.o
