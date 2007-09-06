@@ -650,12 +650,4 @@ int ncursesw_drv_detect(int * argc, char *** argv)
 	return(1);
 }
 
-#else /* CONFOPT_CURSES */
-
-int ncursesw_drv_detect(int * argc, char *** argv)
-{
-	/* no curses */
-	return(0);
-}
-
 #endif /* CONFOPT_CURSES */

@@ -1570,12 +1570,4 @@ int w32_drv_detect(int * argc, char *** argv)
 	return(1);
 }
 
-#else /* CONFOPT_WIN32 */
-
-int w32_drv_detect(int * argc, char *** argv)
-{
-	/* no Win32 */
-	return(0);
-}
-
 #endif /* CONFOPT_WIN32 */

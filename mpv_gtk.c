@@ -1824,12 +1824,4 @@ int gtk_drv_detect(int * argc, char *** argv)
 	return(1);
 }
 
-#else /* CONFOPT_GTK */
-
-int gtk_drv_detect(int * argc, char *** argv)
-{
-	/* no GTK */
-	return(0);
-}
-
 #endif /* CONFOPT_GTK */
