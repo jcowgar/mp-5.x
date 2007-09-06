@@ -166,7 +166,7 @@ else
 		echo $TMP_CFLAGS >> config.cflags
 		echo $TMP_LDFLAGS >> config.ldflags
 		echo "OK (ncursesw)"
-		DRIVERS="curses $DRIVERS"
+		DRIVERS="ncursesw $DRIVERS"
 	else
 		echo "No"
 		WITHOUT_CURSES=1
