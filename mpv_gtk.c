@@ -576,7 +576,7 @@ static void draw_scrollbar(void)
 }
 
 
-static void gtkdrv_paint(mpdm_t doc, int optimize)
+static void gtk_drv_paint(mpdm_t doc, int optimize)
 /* GTK document draw function */
 {
 	GdkRectangle gr;
@@ -703,7 +703,7 @@ static void gtkdrv_paint(mpdm_t doc, int optimize)
 static void redraw(void)
 {
 	if(mpdm_size(mpdm_hget_s(mp, L"docs")))
-		gtkdrv_paint(mp_active(), 0);
+		gtk_drv_paint(mp_active(), 0);
 }
 
 
@@ -851,7 +851,7 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	if(mp_exit_requested)
 		gtk_main_quit();
 
-	gtkdrv_paint(mp_active(), 1);
+	gtk_drv_paint(mp_active(), 1);
 
 	return(0);
 }
@@ -919,7 +919,7 @@ static gint motion_notify_event(GtkWidget *widget, GdkEventMotion * event, gpoin
 			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
 
 			mp_process_event(MPDM_LS(L"mouse-drag"));
-			gtkdrv_paint(mp_active(), 1);
+			gtk_drv_paint(mp_active(), 1);
 		}
 	}
 
@@ -1035,7 +1035,7 @@ static void selection_received(GtkWidget * widget,
 }
 
 
-static mpdm_t gtkdrv_clip_to_sys(mpdm_t a)
+static mpdm_t gtk_drv_clip_to_sys(mpdm_t a)
 /* driver-dependent mp to system clipboard */
 {
 	got_selection = gtk_selection_owner_set(area,
@@ -1045,7 +1045,7 @@ static mpdm_t gtkdrv_clip_to_sys(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_sys_to_clip(mpdm_t a)
+static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
 /* driver-dependent system to mp clipboard */
 {
 	if(!got_selection)
@@ -1082,7 +1082,7 @@ static void wait_for_modal_status_change(void)
 
 
 static void clicked_ok(GtkWidget * widget, gpointer data)
-/* 'clicked_on' signal handler (for gtkdrv_form) */
+/* 'clicked_on' signal handler (for gtk_drv_form) */
 {
 	int n;
 
@@ -1157,7 +1157,7 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 
 static void form_select_row(GtkCList * list, gint row,
 	gint column, GdkEventButton * event, gpointer data)
-/* 'select_row' handler (for gtkdrv_form) */
+/* 'select_row' handler (for gtk_drv_form) */
 {
 	int n = (int) data;
 
@@ -1233,7 +1233,7 @@ static void build_form_data(mpdm_t widget_list)
 	g_free(ptr); \
 	} while(0);
 
-static mpdm_t gtkdrv_alert(mpdm_t a)
+static mpdm_t gtk_drv_alert(mpdm_t a)
 /* alert driver function */
 {
 	wchar_t * wptr;
@@ -1274,7 +1274,7 @@ static mpdm_t gtkdrv_alert(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_confirm(mpdm_t a)
+static mpdm_t gtk_drv_confirm(mpdm_t a)
 /* confirm driver function */
 {
 	wchar_t * wptr;
@@ -1317,7 +1317,7 @@ static mpdm_t gtkdrv_confirm(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_form(mpdm_t a)
+static mpdm_t gtk_drv_form(mpdm_t a)
 /* 'form' driver function */
 {
 	char * ptr;
@@ -1512,7 +1512,7 @@ static mpdm_t gtkdrv_form(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_openfile(mpdm_t a)
+static mpdm_t gtk_drv_openfile(mpdm_t a)
 /* openfile driver function */
 {
 	GtkWidget * dlg;
@@ -1563,14 +1563,14 @@ static mpdm_t gtkdrv_openfile(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_savefile(mpdm_t a)
+static mpdm_t gtk_drv_savefile(mpdm_t a)
 /* savefile driver function */
 {
-	return(gtkdrv_openfile(a));
+	return(gtk_drv_openfile(a));
 }
 
 
-static mpdm_t gtkdrv_update_ui(mpdm_t a)
+static mpdm_t gtk_drv_update_ui(mpdm_t a)
 {
 	build_fonts();
 	build_colors();
@@ -1582,7 +1582,7 @@ static mpdm_t gtkdrv_update_ui(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_timer(mpdm_t a)
+static mpdm_t gtk_drv_timer(mpdm_t a)
 {
 	static guint prev = 0;
 	int msecs = mpdm_ival(mpdm_aget(a, 0));
@@ -1604,7 +1604,7 @@ static mpdm_t gtkdrv_timer(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_busy(mpdm_t a)
+static mpdm_t gtk_drv_busy(mpdm_t a)
 {
 	int onoff = mpdm_ival(mpdm_aget(a, 0));
 
@@ -1618,7 +1618,7 @@ static mpdm_t gtkdrv_busy(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_main_loop(mpdm_t a)
+static mpdm_t gtk_drv_main_loop(mpdm_t a)
 /* main loop */
 {
 	if(!mp_exit_requested)
@@ -1628,7 +1628,7 @@ static mpdm_t gtkdrv_main_loop(mpdm_t a)
 }
 
 
-static mpdm_t gtkdrv_shutdown(mpdm_t a)
+static mpdm_t gtk_drv_shutdown(mpdm_t a)
 /* shutdown */
 {
 	return(NULL);
@@ -1640,24 +1640,24 @@ static void register_functions(void)
 	mpdm_t drv;
 
 	drv = mpdm_hget_s(mp, L"drv");
-	mpdm_hset_s(drv, L"main_loop", MPDM_X(gtkdrv_main_loop));
-	mpdm_hset_s(drv, L"shutdown", MPDM_X(gtkdrv_shutdown));
+	mpdm_hset_s(drv, L"main_loop", MPDM_X(gtk_drv_main_loop));
+	mpdm_hset_s(drv, L"shutdown", MPDM_X(gtk_drv_shutdown));
 
-	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(gtkdrv_clip_to_sys));
-	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtkdrv_sys_to_clip));
-	mpdm_hset_s(drv, L"update_ui", MPDM_X(gtkdrv_update_ui));
-	mpdm_hset_s(drv, L"timer", MPDM_X(gtkdrv_timer));
-	mpdm_hset_s(drv, L"busy", MPDM_X(gtkdrv_busy));
+	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(gtk_drv_clip_to_sys));
+	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtk_drv_sys_to_clip));
+	mpdm_hset_s(drv, L"update_ui", MPDM_X(gtk_drv_update_ui));
+	mpdm_hset_s(drv, L"timer", MPDM_X(gtk_drv_timer));
+	mpdm_hset_s(drv, L"busy", MPDM_X(gtk_drv_busy));
 
-	mpdm_hset_s(drv, L"alert", MPDM_X(gtkdrv_alert));
-	mpdm_hset_s(drv, L"confirm", MPDM_X(gtkdrv_confirm));
-	mpdm_hset_s(drv, L"openfile", MPDM_X(gtkdrv_openfile));
-	mpdm_hset_s(drv, L"savefile", MPDM_X(gtkdrv_savefile));
-	mpdm_hset_s(drv, L"form", MPDM_X(gtkdrv_form));
+	mpdm_hset_s(drv, L"alert", MPDM_X(gtk_drv_alert));
+	mpdm_hset_s(drv, L"confirm", MPDM_X(gtk_drv_confirm));
+	mpdm_hset_s(drv, L"openfile", MPDM_X(gtk_drv_openfile));
+	mpdm_hset_s(drv, L"savefile", MPDM_X(gtk_drv_savefile));
+	mpdm_hset_s(drv, L"form", MPDM_X(gtk_drv_form));
 }
 
 
-static mpdm_t gtkdrv_startup(mpdm_t a)
+static mpdm_t gtk_drv_startup(mpdm_t a)
 /* driver initialization */
 {
 	GtkWidget * vbox;
@@ -1810,7 +1810,7 @@ static mpdm_t gtkdrv_startup(mpdm_t a)
 }
 
 
-int gtkdrv_detect(int * argc, char *** argv)
+int gtk_drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
 
@@ -1819,14 +1819,14 @@ int gtkdrv_detect(int * argc, char *** argv)
 
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"gtk"));
-	mpdm_hset_s(drv, L"startup", MPDM_X(gtkdrv_startup));
+	mpdm_hset_s(drv, L"startup", MPDM_X(gtk_drv_startup));
 
 	return(1);
 }
 
 #else /* CONFOPT_GTK */
 
-int gtkdrv_detect(int * argc, char *** argv)
+int gtk_drv_detect(int * argc, char *** argv)
 {
 	/* no GTK */
 	return(0);

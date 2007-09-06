@@ -450,7 +450,7 @@ static void build_colors(void)
 }
 
 
-static mpdm_t ncdrv_timer(mpdm_t a)
+static mpdm_t ncursesw_drv_timer(mpdm_t a)
 {
 	mpdm_t func = mpdm_aget(a, 1);
 	mpdm_t r;
@@ -464,7 +464,7 @@ static mpdm_t ncdrv_timer(mpdm_t a)
 }
 
 
-static mpdm_t ncdrv_main_loop(mpdm_t a)
+static mpdm_t ncursesw_drv_main_loop(mpdm_t a)
 /* curses driver main loop */
 {
 	while(! mp_exit_requested)
@@ -480,7 +480,7 @@ static mpdm_t ncdrv_main_loop(mpdm_t a)
 }
 
 
-static mpdm_t ncdrv_shutdown(mpdm_t a)
+static mpdm_t ncursesw_drv_shutdown(mpdm_t a)
 {
 	endwin();
 	return(NULL);
@@ -584,9 +584,9 @@ static void register_functions(void)
 	mpdm_t tui;
 
 	drv = mpdm_hget_s(mp, L"drv");
-	mpdm_hset_s(drv, L"timer", MPDM_X(ncdrv_timer));
-	mpdm_hset_s(drv, L"main_loop", MPDM_X(ncdrv_main_loop));
-	mpdm_hset_s(drv, L"shutdown", MPDM_X(ncdrv_shutdown));
+	mpdm_hset_s(drv, L"timer", MPDM_X(ncursesw_drv_timer));
+	mpdm_hset_s(drv, L"main_loop", MPDM_X(ncursesw_drv_main_loop));
+	mpdm_hset_s(drv, L"shutdown", MPDM_X(ncursesw_drv_shutdown));
 
 	tui = mpsl_eval(MPDM_LS(L"load('mp_tui.mpsl');"), NULL);
 
@@ -612,7 +612,7 @@ static void register_functions(void)
 }
 
 
-static mpdm_t ncdrv_startup(mpdm_t a)
+static mpdm_t ncursesw_drv_startup(mpdm_t a)
 {
 	mpdm_t v;
 
@@ -639,20 +639,20 @@ static mpdm_t ncdrv_startup(mpdm_t a)
 }
 
 
-int ncurseswdrv_detect(int * argc, char *** argv)
+int ncursesw_drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
 
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"curses"));
-	mpdm_hset_s(drv, L"startup", MPDM_X(ncdrv_startup));
+	mpdm_hset_s(drv, L"startup", MPDM_X(ncursesw_drv_startup));
 
 	return(1);
 }
 
 #else /* CONFOPT_CURSES */
 
-int ncurseswdrv_detect(int * argc, char *** argv)
+int ncursesw_drv_detect(int * argc, char *** argv)
 {
 	/* no curses */
 	return(0);

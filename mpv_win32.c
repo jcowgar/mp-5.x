@@ -877,7 +877,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 }
 
 
-static mpdm_t w32drv_clip_to_sys(mpdm_t a)
+static mpdm_t w32_drv_clip_to_sys(mpdm_t a)
 /* driver-dependent mp to system clipboard */
 {
 	HGLOBAL hclp;
@@ -909,7 +909,7 @@ static mpdm_t w32drv_clip_to_sys(mpdm_t a)
 }
 
 
-static mpdm_t w32drv_sys_to_clip(mpdm_t a)
+static mpdm_t w32_drv_sys_to_clip(mpdm_t a)
 /* driver-dependent system to mp clipboard */
 {
 	HGLOBAL hclp;
@@ -937,7 +937,7 @@ static mpdm_t w32drv_sys_to_clip(mpdm_t a)
 }
 
 
-static mpdm_t w32drv_main_loop(mpdm_t a)
+static mpdm_t w32_drv_main_loop(mpdm_t a)
 {
 	MSG msg;
 
@@ -953,14 +953,14 @@ static mpdm_t w32drv_main_loop(mpdm_t a)
 }
 
 
-static mpdm_t w32drv_shutdown(mpdm_t a)
+static mpdm_t w32_drv_shutdown(mpdm_t a)
 {
 	SendMessage(hwnd, WM_CLOSE, 0, 0);
 	return(NULL);
 }
 
 
-static mpdm_t w32drv_alert(mpdm_t a)
+static mpdm_t w32_drv_alert(mpdm_t a)
 /* alert driver function */
 {
 	wchar_t * wptr;
@@ -979,7 +979,7 @@ static mpdm_t w32drv_alert(mpdm_t a)
 }
 
 
-static mpdm_t w32drv_confirm(mpdm_t a)
+static mpdm_t w32_drv_confirm(mpdm_t a)
 /* confirm driver function */
 {
 	wchar_t * wptr;
@@ -1257,7 +1257,7 @@ LPWORD static build_control(LPWORD lpw, int x, int y,
 }
 
 
-static mpdm_t w32drv_form(mpdm_t a)
+static mpdm_t w32_drv_form(mpdm_t a)
 /* mp.drv.form() function */
 {
 	HGLOBAL hgbl;
@@ -1418,21 +1418,21 @@ static mpdm_t open_or_save(int o, mpdm_t a)
 }
 
 
-static mpdm_t w32drv_openfile(mpdm_t a)
+static mpdm_t w32_drv_openfile(mpdm_t a)
 /* openfile driver function */
 {
 	return(open_or_save(1, a));
 }
 
 
-static mpdm_t w32drv_savefile(mpdm_t a)
+static mpdm_t w32_drv_savefile(mpdm_t a)
 /* savefile driver function */
 {
 	return(open_or_save(0, a));
 }
 
 
-static mpdm_t w32drv_update_ui(mpdm_t a)
+static mpdm_t w32_drv_update_ui(mpdm_t a)
 {
 	build_fonts(GetDC(hwnd));
 	build_colors();
@@ -1442,7 +1442,7 @@ static mpdm_t w32drv_update_ui(mpdm_t a)
 }
 
 
-static mpdm_t w32drv_timer(mpdm_t a)
+static mpdm_t w32_drv_timer(mpdm_t a)
 {
 	int msecs = mpdm_ival(mpdm_aget(a, 0));
 	mpdm_t func = mpdm_aget(a, 1);
@@ -1463,7 +1463,7 @@ static mpdm_t w32drv_timer(mpdm_t a)
 }
 
 
-static mpdm_t w32drv_busy(mpdm_t a)
+static mpdm_t w32_drv_busy(mpdm_t a)
 {
 	int onoff = mpdm_ival(mpdm_aget(a, 0));
 
@@ -1478,24 +1478,24 @@ static void register_functions(void)
 	mpdm_t drv;
 
 	drv = mpdm_hget_s(mp, L"drv");
-	mpdm_hset_s(drv, L"main_loop", MPDM_X(w32drv_main_loop));
-	mpdm_hset_s(drv, L"shutdown", MPDM_X(w32drv_shutdown));
+	mpdm_hset_s(drv, L"main_loop", MPDM_X(w32_drv_main_loop));
+	mpdm_hset_s(drv, L"shutdown", MPDM_X(w32_drv_shutdown));
 
-	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(w32drv_clip_to_sys));
-	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32drv_sys_to_clip));
-	mpdm_hset_s(drv, L"update_ui", MPDM_X(w32drv_update_ui));
-	mpdm_hset_s(drv, L"timer", MPDM_X(w32drv_timer));
-	mpdm_hset_s(drv, L"busy", MPDM_X(w32drv_busy));
+	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(w32_drv_clip_to_sys));
+	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(w32_drv_sys_to_clip));
+	mpdm_hset_s(drv, L"update_ui", MPDM_X(w32_drv_update_ui));
+	mpdm_hset_s(drv, L"timer", MPDM_X(w32_drv_timer));
+	mpdm_hset_s(drv, L"busy", MPDM_X(w32_drv_busy));
 
-	mpdm_hset_s(drv, L"alert", MPDM_X(w32drv_alert));
-	mpdm_hset_s(drv, L"confirm", MPDM_X(w32drv_confirm));
-	mpdm_hset_s(drv, L"openfile", MPDM_X(w32drv_openfile));
-	mpdm_hset_s(drv, L"savefile", MPDM_X(w32drv_savefile));
-	mpdm_hset_s(drv, L"form", MPDM_X(w32drv_form));
+	mpdm_hset_s(drv, L"alert", MPDM_X(w32_drv_alert));
+	mpdm_hset_s(drv, L"confirm", MPDM_X(w32_drv_confirm));
+	mpdm_hset_s(drv, L"openfile", MPDM_X(w32_drv_openfile));
+	mpdm_hset_s(drv, L"savefile", MPDM_X(w32_drv_savefile));
+	mpdm_hset_s(drv, L"form", MPDM_X(w32_drv_form));
 }
 
 
-static mpdm_t w32drv_startup(mpdm_t a)
+static mpdm_t w32_drv_startup(mpdm_t a)
 {
 	WNDCLASS wc;
 	RECT r;
@@ -1546,7 +1546,7 @@ static mpdm_t w32drv_startup(mpdm_t a)
 		0, r.bottom - r.top - status_height,
 		r.right - r.left, status_height, hwnd, NULL, hinst, NULL);
 
-	w32drv_update_ui(NULL);
+	w32_drv_update_ui(NULL);
 
 	ShowWindow(hwstatus, SW_SHOW);
 	UpdateWindow(hwstatus);
@@ -1559,20 +1559,20 @@ static mpdm_t w32drv_startup(mpdm_t a)
 }
 
 
-int w32drv_detect(int * argc, char *** argv)
+int w32_drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
 
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"win32"));
-	mpdm_hset_s(drv, L"startup", MPDM_X(w32drv_startup));
+	mpdm_hset_s(drv, L"startup", MPDM_X(w32_drv_startup));
 
 	return(1);
 }
 
 #else /* CONFOPT_WIN32 */
 
-int w32drv_detect(int * argc, char *** argv)
+int w32_drv_detect(int * argc, char *** argv)
 {
 	/* no Win32 */
 	return(0);
