@@ -881,9 +881,11 @@ mpdm_t mp_plain_load(mpdm_t args)
 }
 
 
-int ncdrv_detect(int * argc, char *** argv);
-int gtkdrv_detect(int * argc, char *** argv);
 int w32drv_detect(int * argc, char *** argv);
+int gtkdrv_detect(int * argc, char *** argv);
+int ncdrv_detect(int * argc, char *** argv);
+
+#define TRY_DRIVERS() (w32drv_detect(&argc, &argv) || gtkdrv_detect(&argc, &argv) || ncdrv_detect(&argc, &argv))
 
 void mp_startup(int argc, char * argv[])
 {
@@ -922,9 +924,7 @@ void mp_startup(int argc, char * argv[])
 	/* set INC */
 	mpdm_hset_s(mpdm_root(), L"INC", INC);
 
-	if(!w32drv_detect(&argc, &argv))
-	if(!gtkdrv_detect(&argc, &argv))
-	if(!ncdrv_detect(&argc, &argv))
+	if(!TRY_DRIVERS())
 	{
 		printf("No usable driver found; exiting.\n");
 		exit(1);
