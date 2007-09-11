@@ -10,23 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_conf.c:134 mp_core.mpsl:122 mp_core.mpsl:121
+#: mp_conf.c:134 mp_core.mpsl:122 mp_core.mpsl:121 mp_core.mpsl:125
 msgid "&File"
 msgstr "&Datei"
 
-#: mp_conf.c:136 mp_core.mpsl:131 mp_core.mpsl:130
+#: mp_conf.c:136 mp_core.mpsl:131 mp_core.mpsl:130 mp_core.mpsl:135
 msgid "&Edit"
 msgstr "&Bearbeiten"
 
-#: mp_conf.c:141 mp_core.mpsl:140 mp_core.mpsl:141
+#: mp_conf.c:141 mp_core.mpsl:140 mp_core.mpsl:141 mp_core.mpsl:146
 msgid "&Search"
 msgstr "&Suchen"
 
-#: mp_conf.c:143 mp_core.mpsl:146 mp_core.mpsl:147
+#: mp_conf.c:143 mp_core.mpsl:146 mp_core.mpsl:147 mp_core.mpsl:152
 msgid "&Go to"
 msgstr "&Gehe zu"
 
-#: mp_conf.c:146 mp_core.mpsl:154 mp_core.mpsl:155
+#: mp_conf.c:146 mp_core.mpsl:154 mp_core.mpsl:155 mp_core.mpsl:160
 msgid "&Options"
 msgstr "&Optionen"
 
@@ -68,7 +68,7 @@ msgstr ""
 "\n"
 
 #: mp_func.c:481 mp_iface.c:649 mp_iface.c:651 mp_crypt.mpsl:32
-#: mp_file.mpsl:319 mp_file.mpsl:393 mp_file.mpsl:405
+#: mp_file.mpsl:319 mp_file.mpsl:393 mp_file.mpsl:405 mp_file.mpsl:411
 msgid "Password:"
 msgstr "Passwort:"
 
@@ -103,7 +103,8 @@ msgstr "Gehe zu Zeile:"
 #: mp_iface.c:603 mp_iface.c:607 mp_iface.c:735 mp_iface.c:1608 mp_video.c:614
 #: mp_iface.c:605 mp_iface.c:609 mp_iface.c:737 mp_iface.c:1618
 #: mp_file.mpsl:187 mp_file.mpsl:236 mp_file.mpsl:261 mp_file.mpsl:310
-#: mp_file.mpsl:31 mp_file.mpsl:272 mp_file.mpsl:321
+#: mp_file.mpsl:31 mp_file.mpsl:272 mp_file.mpsl:321 mp_file.mpsl:278
+#: mp_file.mpsl:327 mp_session.mpsl:40
 msgid "<unnamed>"
 msgstr "<unbenannt>"
 
@@ -127,6 +128,7 @@ msgid "File has changed. Save changes?"
 msgstr "Die Datei wurde geändert. Änderungen speichern?"
 
 #: mp_iface.c:840 mp_iface.c:842 mp_file.mpsl:132 mp_file.mpsl:143
+#: mp_file.mpsl:149
 msgid "System command:"
 msgstr "System-Kommando:"
 
@@ -435,6 +437,7 @@ msgid "Suspend application"
 msgstr "Editor-Schlafmodus"
 
 #: mp_func_i.h:55 mp_file.mpsl:134 mp_file.mpsl:207 mp_file.mpsl:218
+#: mp_file.mpsl:224
 msgid "Save modified texts"
 msgstr "Alle geänderten Dateien speichern"
 
@@ -467,6 +470,7 @@ msgid "Break hardlinks on write"
 msgstr "Hardlinks beim Speichern trennen"
 
 #: mp_func_i.h:87 mp_file.mpsl:125 mp_file.mpsl:197 mp_file.mpsl:208
+#: mp_file.mpsl:214
 msgid "Save as..."
 msgstr "Speichern unter..."
 
@@ -479,6 +483,7 @@ msgid "Replace in all..."
 msgstr "Ersetzen in allen Dokumenten..."
 
 #: mp_func_i.h:99 mp_file.mpsl:124 mp_file.mpsl:196 mp_file.mpsl:207
+#: mp_file.mpsl:213
 msgid "Save..."
 msgstr "Speichern..."
 
@@ -499,6 +504,7 @@ msgid "Play macro"
 msgstr "Makro ausführen"
 
 #: mp_func_i.h:119 mp_file.mpsl:127 mp_file.mpsl:199 mp_file.mpsl:210
+#: mp_file.mpsl:216
 msgid "Previous"
 msgstr "Vorheriges Dokument fokusieren"
 
@@ -507,10 +513,12 @@ msgid "Reopen..."
 msgstr "Erneut öffnen..."
 
 #: mp_func_i.h:127 mp_file.mpsl:126 mp_file.mpsl:198 mp_file.mpsl:209
+#: mp_file.mpsl:215
 msgid "Next"
 msgstr "Nächstes Dokument fokusieren"
 
 #: mp_func_i.h:131 mp_file.mpsl:128 mp_file.mpsl:200 mp_file.mpsl:211
+#: mp_file.mpsl:217
 msgid "Open..."
 msgstr "Öffnen..."
 
@@ -523,6 +531,7 @@ msgid "Word right"
 msgstr "Wort nach rechts"
 
 #: mp_func_i.h:143 mp_file.mpsl:123 mp_file.mpsl:195 mp_file.mpsl:206
+#: mp_file.mpsl:212
 msgid "New"
 msgstr "Neu"
 
@@ -582,7 +591,7 @@ msgstr "Zum Anfang der Zeile"
 msgid "Select last succesful search"
 msgstr "Letzte erfolgreiche Suche markieren"
 
-#: mp_func_i.h:207 mp_drv.mpsl:36 mp_drv.mpsl:37
+#: mp_func_i.h:207 mp_drv.mpsl:36 mp_drv.mpsl:37 mp_drv.mpsl:60
 msgid "Menu"
 msgstr "Menü"
 
@@ -654,7 +663,7 @@ msgstr "Groß- in Kleinbuchstabe und umgekehrt"
 msgid "Flip word case"
 msgstr "Groß- in Kleinbuchstaben und umgekehrt (Wort)"
 
-#: mp_func_i.h:279 mp_file.mpsl:208 mp_file.mpsl:219
+#: mp_func_i.h:279 mp_file.mpsl:208 mp_file.mpsl:219 mp_file.mpsl:225
 msgid "Run system command..."
 msgstr "System-Kommando ausführen"
 
@@ -667,14 +676,17 @@ msgid "Document list"
 msgstr "Liste der Dokumente"
 
 #: mp_func_i.h:291 mp_file.mpsl:132 mp_file.mpsl:205 mp_file.mpsl:216
+#: mp_file.mpsl:222
 msgid "Edit configuration file"
 msgstr "Konfigurationsdatei bearbeiten"
 
 #: mp_func_i.h:295 mp_file.mpsl:133 mp_file.mpsl:206 mp_file.mpsl:217
+#: mp_file.mpsl:223
 msgid "Edit templates file"
 msgstr "Vorlagendatei bearbeiten"
 
 #: mp_func_i.h:299 mp_file.mpsl:129 mp_file.mpsl:201 mp_file.mpsl:212
+#: mp_file.mpsl:218
 msgid "Exit"
 msgstr "Beenden"
 
@@ -711,6 +723,7 @@ msgid "About..."
 msgstr "Über..."
 
 #: mp_func_i.h:335 mp_file.mpsl:130 mp_file.mpsl:202 mp_file.mpsl:213
+#: mp_file.mpsl:219
 msgid "Close"
 msgstr "Schließen"
 
@@ -771,7 +784,7 @@ msgstr ""
 msgid "Error saving file: %s"
 msgstr ""
 
-#: mp_file.mpsl:94 mp_file.mpsl:105
+#: mp_file.mpsl:94 mp_file.mpsl:105 mp_file.mpsl:111
 msgid "File to open:"
 msgstr ""
 
@@ -889,7 +902,7 @@ msgstr ""
 msgid "Tab options..."
 msgstr ""
 
-#: mp_file.mpsl:106 mp_file.mpsl:117
+#: mp_file.mpsl:106 mp_file.mpsl:117 mp_file.mpsl:123
 msgid "File has changed. Are you sure?"
 msgstr ""
 
@@ -902,12 +915,12 @@ msgstr ""
 msgid "Error writing command '%s'"
 msgstr ""
 
-#: mp_file.mpsl:178 mp_file.mpsl:189
+#: mp_file.mpsl:178 mp_file.mpsl:189 mp_file.mpsl:195
 #, c-format
 msgid "Error reading from command '%s'"
 msgstr ""
 
-#: mp_file.mpsl:203 mp_file.mpsl:214
+#: mp_file.mpsl:203 mp_file.mpsl:214 mp_file.mpsl:220
 msgid "Revert"
 msgstr ""
 
@@ -936,7 +949,7 @@ msgstr ""
 msgid "Toggle spellchecking"
 msgstr ""
 
-#: mp_tui.mpsl:417
+#: mp_tui.mpsl:417 mp_tui.mpsl:426
 msgid "Please, wait..."
 msgstr ""
 
@@ -968,7 +981,7 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_file.mpsl:158 mp_file.mpsl:169
+#: mp_file.mpsl:158 mp_file.mpsl:169 mp_file.mpsl:175
 #, c-format
 msgid "Error writing to command '%s'"
 msgstr ""
@@ -983,4 +996,20 @@ msgstr ""
 
 #: mp_tags.mpsl:213
 msgid "Select:"
+msgstr ""
+
+#: mp_session.mpsl:53
+msgid "No session file was found to load"
+msgstr ""
+
+#: mp_session.mpsl:80
+msgid "Could not be found and was not opened"
+msgstr ""
+
+#: mp_session.mpsl:91
+msgid "Load session"
+msgstr ""
+
+#: mp_session.mpsl:92
+msgid "Save session"
 msgstr ""
