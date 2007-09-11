@@ -45,7 +45,7 @@ mp.actions['session_save'] = sub (d) {
 };
 
 mp.actions['session_load'] = sub (d) {
-	local s, fh, l;
+	local fh, l;
 	
 	/* check to see if a session file can actually be opened before closing
 	   all the editing windows */
@@ -53,19 +53,10 @@ mp.actions['session_load'] = sub (d) {
 		mp.alert(L("No session file was found to load"));
 		return (NULL);
 	}
-	
-	while(s = size(mp.docs))
-	{
-		local doc = mp.docs[mp.active_i];
-		
-		/* close current document */
-		mp.actions.close(doc);
 
-		/* if the size of the list hasn't changed,
-		   action was cancelled, so don't exit */
-		if(s == size(mp.docs)) return;
-	}
-	
+	if (!mp.actions.close_all())
+		return;
+
 	while (l = read(fh)) {
 		local data, doc;
 		data = split ("\t", mp.chomp(l));

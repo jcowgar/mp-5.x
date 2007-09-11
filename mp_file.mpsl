@@ -90,18 +90,9 @@ mp.actions['exit']	= sub (d) {
 		mp.actions.session_save (NULL);
 		mp.auto_session_saved = 1;
 	}
-		
-	while(s = size(mp.docs))
-	{
-		/* close current document */
-		mp.actions.close(mp.docs[mp.active_i]);
 
-		/* if the size of the list hasn't changed,
-		   action was cancelled, so don't exit */
-		if(s == size(mp.docs)) return;
-	}
-
-	mp.exit();
+	if (mp.actions.close_all())
+		mp.exit();
 };
 
 mp.actions['open']	= sub (d) {
