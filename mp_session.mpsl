@@ -37,7 +37,7 @@ mp.actions['session_save'] = sub (d) {
 	}
 	
 	foreach (local doc, mp.docs) {
-		if (doc.name ne "<unnamed>")
+		if (doc.name ne L("<unnamed>"))
 			write (fh, sprintf("%s\t%i\t%i\n", doc.name, doc.txt.x, doc.txt.y));
 	}
 	
@@ -50,7 +50,7 @@ mp.actions['session_load'] = sub (d) {
 	/* check to see if a session file can actually be opened before closing
 	   all the editing windows */
 	if ((fh = open(HOMEDIR ~ "./.mp_session", "r")) == NULL) {
-		mp.alert("No session file was found to load");
+		mp.alert(L("No session file was found to load"));
 		return (NULL);
 	}
 	
@@ -76,7 +76,8 @@ mp.actions['session_load'] = sub (d) {
 			doc.txt.x = data[1];
 			doc.txt.y = data[2];
 		} else {
-			mp.alert(data[0] ~ "\n\nCould not be found and was not opened");
+			mp.alert(data[0] ~ "\n\n" ~ 
+				L("Could not be found and was not opened"));
 		}
 	}
 	
@@ -87,7 +88,7 @@ mp.actions['session_load'] = sub (d) {
 
 /* action descriptions */
 
-mp.actdesc['session_load'] = "Load session";
-mp.actdesc['session_save'] = "Save session";
+mp.actdesc['session_load'] = LL("Load session");
+mp.actdesc['session_save'] = LL("Save session");
 
 /* code */
