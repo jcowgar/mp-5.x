@@ -17,6 +17,8 @@ Release Critical Bugs
  * 1230: Action 'eval_doc' seems to fail forever after an error.
  * 1233: Document all MPSL code using mp_doccer (at least,
    the interface functions).
+ * 1234: Add support for local sessions.
+ * 1235: Change the calling points for auto-saved sessions.
 
 Open Bugs
 ---------
