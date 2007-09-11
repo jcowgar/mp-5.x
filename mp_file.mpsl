@@ -197,6 +197,24 @@ mp.actions['exec_command']	= sub (d) {
 	}
 };
 
+mp.actions['close_all'] = sub {
+
+	local s;
+
+	while (s = size(mp.docs)) {
+		local doc = mp.docs[mp.active_i];
+		
+		/* close current document */
+		mp.actions.close(doc);
+
+		/* if the size of the list hasn't changed,
+		   action was cancelled, so don't exit */
+		if(s == size(mp.docs)) return (0);
+	}
+
+	return (1);
+};
+
 /* default key bindings */
 
 mp.keycodes['ctrl-n']		= 'next';
