@@ -1,0 +1,93 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Session handling.
+
+    Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+/* session actions */
+
+mp.actions['session_save'] = sub (d) {
+	local fh, filenames;
+	
+	filenames = [];
+	
+	if ((fh = open(HOMEDIR ~ "./.mp_session", "w")) == NULL) {
+		return (NULL);
+	}
+	
+	foreach (local doc, mp.docs) {
+		if (doc.name ne "<unnamed>")
+			write (fh, sprintf("%s\t%i\t%i\n", doc.name, doc.txt.x, doc.txt.y));
+	}
+	
+	close(fh);
+};
+
+mp.actions['session_load'] = sub (d) {
+	local s, fh, l;
+	
+	/* check to see if a session file can actually be opened before closing
+	   all the editing windows */
+	if ((fh = open(HOMEDIR ~ "./.mp_session", "r")) == NULL) {
+		mp.alert("No session file was found to load");
+		return (NULL);
+	}
+	
+	while(s = size(mp.docs))
+	{
+		local doc = mp.docs[mp.active_i];
+		
+		/* close current document */
+		mp.actions.close(doc);
+
+		/* if the size of the list hasn't changed,
+		   action was cancelled, so don't exit */
+		if(s == size(mp.docs)) return;
+	}
+	
+	while (l = read(fh)) {
+		local data, doc;
+		data = split ("\t", mp.chomp(l));
+		
+		if (stat(data[0]) != NULL) {
+			doc = mp.open(data[0]);
+			
+			doc.txt.x = data[1];
+			doc.txt.y = data[2];
+		} else {
+			mp.alert(data[0] ~ "\n\nCould not be found and was not opened");
+		}
+	}
+	
+	close(fh);
+};
+
+/* default keybindings */
+
+/* action descriptions */
+
+mp.actdesc['session_load'] = "Load session";
+mp.actdesc['session_save'] = "Save session";
+
+/* code */

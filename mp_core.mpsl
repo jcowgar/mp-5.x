@@ -49,6 +49,7 @@ mp.config.tabs_as_spaces = 0;
 mp.config.unlink = 1;
 mp.config.case_sensitive_search = 1;
 mp.config.global_replace = 0;
+mp.config.auto_sessions = 0;
 
 /* a regex for selection words */
 mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';
@@ -56,6 +57,9 @@ mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';
 /* document list */
 mp.docs = [];
 mp.active_i = 0;
+
+/* auto session flag */
+mp.auto_session_saved = 0;
 
 /* allowed color names (order matters, match the Unix curses one) */
 mp.color_names = [ "default", "black", "red", "green",
@@ -123,6 +127,7 @@ mp.menu = [
 			'-', 'set_password',
 			'-', 'open_config_file',
 			'-', 'sync',
+			'-', 'session_save', 'session_load',
 			'-', 'exit'
 		]
 	],
@@ -398,11 +403,13 @@ load("mp_spell.mpsl");
 load("mp_misc.mpsl");
 load("mp_crypt.mpsl");
 load("mp_keyseq.mpsl");
+load("mp_session.mpsl");
 
 /** MAIN **/
 
 mp.load_profile();
 mp.drv.startup();
 mp.process_cmdline();
+if (mp.config.auto_sessions == 1) { mp.actions.session_load (NULL); }
 mp.drv.main_loop();
 mp.drv.shutdown();

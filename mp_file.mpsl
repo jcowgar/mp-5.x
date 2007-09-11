@@ -85,6 +85,12 @@ mp.actions['exit']	= sub (d) {
 
 	local s;
 
+	/* auto_session_saved check is required because exit is being called twice */
+	if (mp.config.auto_sessions == 1 && mp.auto_session_saved == 0) { 
+		mp.actions.session_save (NULL);
+		mp.auto_session_saved = 1;
+	}
+		
 	while(s = size(mp.docs))
 	{
 		/* close current document */
