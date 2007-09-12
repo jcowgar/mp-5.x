@@ -81,6 +81,8 @@ sub mp.load_session()
 		return (-2);
 	}
 
+	local active = -1;
+
 	while (l = read(fh)) {
 		local data, doc;
 		data = split ("\t", mp.chomp(l));
@@ -90,8 +92,15 @@ sub mp.load_session()
 			
 			doc.txt.x = data[1];
 			doc.txt.y = data[2];
+
+			/* if it has the 'a' flag, set as active */
+			if (regex('/a/', data[3]))
+				active = seek(mp.docs, doc);
 		}
 	}
+
+	if (active != -1)
+		mp.active_i = active;
 	
 	close(fh);
 
