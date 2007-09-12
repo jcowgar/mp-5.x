@@ -27,7 +27,21 @@
 
 /* session actions */
 
-mp.actions['session_save'] = sub (d) {
+mp.actions['session_save'] = sub (d) { mp.save_session(); };
+mp.actions['session_load'] = sub (d) { mp.load_session(); };
+
+/* default keybindings */
+
+/* action descriptions */
+
+mp.actdesc['session_load'] = LL("Load session");
+mp.actdesc['session_save'] = LL("Save session");
+
+/* code */
+
+sub mp.save_session()
+/* saves currently open files as a session */
+{
 	local fh, filenames;
 	
 	filenames = [];
@@ -42,20 +56,25 @@ mp.actions['session_save'] = sub (d) {
 	}
 	
 	close(fh);
-};
+}
 
-mp.actions['session_load'] = sub (d) {
+
+sub mp.load_session()
+/* loads a session. Returns: -1, no session, -2, user cancellation on closing
+   currently open documents and 0, ok */
+{
 	local fh, l;
 	
 	/* check to see if a session file can actually be opened before closing
 	   all the editing windows */
 	if ((fh = open(HOMEDIR ~ "./.mp_session", "r")) == NULL) {
-		mp.alert(L("No session file was found to load"));
-		return (NULL);
+		return (-1);
 	}
 
-	if (!mp.actions.close_all())
-		return;
+	if (!mp.actions.close_all()) {
+		close(fh);
+		return (-2);
+	}
 
 	while (l = read(fh)) {
 		local data, doc;
@@ -66,20 +85,10 @@ mp.actions['session_load'] = sub (d) {
 			
 			doc.txt.x = data[1];
 			doc.txt.y = data[2];
-		} else {
-			mp.alert(data[0] ~ "\n\n" ~ 
-				L("Could not be found and was not opened"));
 		}
 	}
 	
 	close(fh);
-};
 
-/* default keybindings */
-
-/* action descriptions */
-
-mp.actdesc['session_load'] = LL("Load session");
-mp.actdesc['session_save'] = LL("Save session");
-
-/* code */
+	return (0);
+}
