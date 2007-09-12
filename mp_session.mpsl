@@ -27,15 +27,15 @@
 
 /* session actions */
 
-mp.actions['session_save'] = sub (d) { mp.save_session(); };
-mp.actions['session_load'] = sub (d) { mp.load_session(); };
+mp.actions['save_session'] = sub (d) { mp.save_session(); };
+mp.actions['load_session'] = sub (d) { mp.load_session(); };
 
 /* default keybindings */
 
 /* action descriptions */
 
-mp.actdesc['session_load'] = LL("Load session");
-mp.actdesc['session_save'] = LL("Save session");
+mp.actdesc['load_session'] = LL("Load session");
+mp.actdesc['save_session'] = LL("Save session");
 
 /* code */
 
@@ -52,7 +52,12 @@ sub mp.save_session()
 	
 	foreach (local doc, mp.docs) {
 		if (doc.name ne L("<unnamed>"))
-			write (fh, sprintf("%s\t%i\t%i\n", doc.name, doc.txt.x, doc.txt.y));
+			write (fh,
+				sprintf("%s\t%i\t%i\t%s\n",
+					doc.name, doc.txt.x, doc.txt.y,
+					(cmp(doc, mp.active()) == 0 && 'a' || '')
+				)
+			);
 	}
 	
 	close(fh);

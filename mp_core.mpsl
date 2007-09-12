@@ -127,7 +127,7 @@ mp.menu = [
 			'-', 'set_password',
 			'-', 'open_config_file',
 			'-', 'sync',
-			'-', 'session_save', 'session_load',
+			'-', 'save_session', 'load_session',
 			'-', 'exit'
 		]
 	],
