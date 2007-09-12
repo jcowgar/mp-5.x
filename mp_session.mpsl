@@ -27,8 +27,8 @@
 
 /* session actions */
 
-mp.actions['save_session'] = sub (d) { mp.save_session(); };
-mp.actions['load_session'] = sub (d) { mp.load_session(); };
+mp.actions['save_session'] = sub (d) { mp.long_op(mp.save_session); };
+mp.actions['load_session'] = sub (d) { mp.long_op(mp.load_session); };
 
 /* default keybindings */
 
