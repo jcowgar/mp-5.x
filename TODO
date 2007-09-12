@@ -19,6 +19,8 @@ Release Critical Bugs
    the interface functions).
  * 1234: Add support for local sessions.
  * 1235: Change the calling points for auto-saved sessions.
+ * 1236: Calling with -t doesn't draw the screen if only one
+   tag is found.
 
 Open Bugs
 ---------
