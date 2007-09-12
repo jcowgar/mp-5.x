@@ -54,6 +54,8 @@ mp.actions['save_as']	= sub (d) {
 
 	if(mp.long_op(mp.save, d) == -1)
 		mp.alert(sprintf(L("Error saving file: %s"), ERRNO));
+	else
+		mp.detect_syntax(d);
 };
 
 mp.actions['save']	= sub (d) {
