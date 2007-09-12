@@ -4,8 +4,12 @@ Minimum Profit 5.x Release Notes
 5.0.0-rc3
 ---------
 
+ * New session support. All open documents and its current position
+   can be stored / retrieved with the new 'save_session' and
+   'load_session' actions.
  * In the curses version, confirmations now have default values
    (shown in brackets), activated with the ENTER key.
+ * New action 'close_all', that closes all documents.
 
 5.0.0-rc2
 ---------
