@@ -375,8 +375,12 @@ sub mp.load_profile()
 /* loads ~/.mp.mpsl */
 {
 	/* if /etc/mp.mpsl exists, execute it */
-	if(stat('/etc/mp.mpsl') != NULL)
-		eval(sub { load('/etc/mp.mpsl'); } );
+	if(stat('/etc/mp.mpsl') != NULL) {
+		eval( sub {
+			local INC = [ '/etc' ];
+			load('mp.mpsl');
+		});
+	}
 
 	/* if ~/.mp.mpsl exists, execute it */
 	if(stat(HOMEDIR ~ '.mp.mpsl') != NULL)
