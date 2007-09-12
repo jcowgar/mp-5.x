@@ -1,5 +1,3 @@
-sub repl(s,t) { local r = ''; while(t--) r = r ~ s; r; }
-
 local header = [];
 local desc = {};
 local f;
@@ -38,7 +36,7 @@ if((f = open("doc/mp_configuration.txt", "w")) != NULL)
 	foreach(local k, map(sub(l) { 'mp.config.' ~ l; }, sort(keys(mp.config))))
 	{
 		write(f, k ~ "\n");
-		write(f, repl('-', size(k)));
+		write(f, sregex('/./g', k, '-'));
 		write(f, "\n");
 
 		write(f, desc[k] || "\nTo be written.\n");
