@@ -20,6 +20,11 @@ mp.config.auto_indent
 
 Set to 1 if automatic indentation is wanted (default: 0, no indentation).
 
+mp.config.auto_sessions
+-----------------------
+
+To be written.
+
 mp.config.case_sensitive_search
 -------------------------------
 

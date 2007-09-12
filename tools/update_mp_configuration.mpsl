@@ -41,7 +41,7 @@ if((f = open("doc/mp_configuration.txt", "w")) != NULL)
 		write(f, repl('-', size(k)));
 		write(f, "\n");
 
-		write(f, desc[k] || "To be written.\n");
+		write(f, desc[k] || "\nTo be written.\n");
 		write(f, "\n");
 	}
 
