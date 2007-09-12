@@ -1,6 +1,7 @@
 local header = [];
 local desc = {};
 local f;
+local sig = '';
 
 if((f = open("doc/mp_configuration.txt", "r")) != NULL)
 {
@@ -26,6 +27,8 @@ if((f = open("doc/mp_configuration.txt", "r")) != NULL)
 			push(header, l);
 	}
 
+	sig = read(f);
+
 	close(f);
 }
 
@@ -43,7 +46,8 @@ if((f = open("doc/mp_configuration.txt", "w")) != NULL)
 		write(f, "\n");
 	}
 
-	write(f, "----\nAngel Ortega <angel@triptico.com>\n");
+	write(f, "----\n");
+	write(f, sig);
 
 	close(f);
 }
