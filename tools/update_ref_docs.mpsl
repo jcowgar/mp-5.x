@@ -1,0 +1,110 @@
+/*
+
+	update_ref_docs.mpsl
+
+	Updates some MP reference documents.
+
+	Angel Ortega <angel@triptico.com>
+
+*/
+
+sub load_ref_document(file)
+/* loads a document and returns a structure with header,
+   data entries and signature */
+{
+	local f, l, d, k;
+	local r = {
+		'header'	=> NULL,
+		'data'		=> {},
+		'sig'		=> ''
+	};
+
+	if ((f = open(file, "r")) == NULL)
+		return NULL;
+
+	d = [];
+	k = NULL;
+
+	while (l = read(f)) {
+		l = sregex("/\r?\n$/", l);
+
+		/* is the line only dashes? */
+		if (regex('/^-+$/', l)) {
+
+			/* pop last string */
+			local p = pop(d);
+
+			/* concat all data and reset */
+			local b = join("\n", d);
+			d = [];
+
+			/* flush previous data: is this the first one? */
+			if (k == NULL) {
+				/* yes; everything is the header */
+				r.header = b;
+			}
+			else {
+				/* there is a previous one; store */
+				r.data[k] = b;
+			}
+
+			k = p;
+
+			/* if it's the empty string, it's the
+			   signature mark; we're done */
+			if (p eq '') {
+				r.sig = join("\n", [ l, read(f) ] );
+				break;
+			}
+		}
+		else
+			push(d, l);
+	}
+
+	close(f);
+
+	return r;
+}
+
+
+sub save_ref_document(file, r, hash, prefix)
+/* saves a parsed document filling empty entries from hash */
+{
+	local f;
+
+	if ((f = open(file, "w")) == NULL)
+		return;
+
+	write(f, r.header);
+	write(f, "\n");
+
+	foreach (local k, sort(keys(hash))) {
+
+		k = prefix ~ '.' ~ k;
+
+		write(f, k ~ "\n");
+		write(f, sregex('/./g', k, '-'));
+		write(f, "\n");
+
+		write(f, r.data[k] || "\nTo be written.\n");
+		write(f, "\n");
+	}
+
+	write(f, "\n");
+	write(f, r.sig);
+
+	close(f);
+}
+
+
+sub update_ref_document(file, hash, prefix)
+{
+	local r;
+
+	if (r = load_ref_document(file))
+		save_ref_document(file, r, hash, prefix);
+}
+
+/*****************/
+
+update_ref_document('doc/mp_configuration.txt', mp.config, 'mp.config');
