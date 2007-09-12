@@ -21,6 +21,7 @@ Release Critical Bugs
  * 1235: Change the calling points for auto-saved sessions.
  * 1236: Calling with -t doesn't draw the screen if only one
    tag is found.
+ * 1237: /etc/mp.mpsl is not being executed. 
 
 Open Bugs
 ---------
