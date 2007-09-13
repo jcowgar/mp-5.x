@@ -12,10 +12,7 @@ Martin Döring - Win32 version betatesting
 Sergey P. Vazulia - sh/bash scripts syntax highlighter
 Gabriel Emerson - Ruby and SQL syntax highlighters
 Geoff Youngs - PHP syntax highlighter, signal handling improvement
-Peter Ludikovsky, Ronny Steiner - German translation
 Richard Zidlicky - RPM specfile
-lesion, Andrea - Italian translation
-Rick van der Zwet - Dutch translation
 Richard Harris - Python syntax highlighter
 Lars Strojny - Grub.conf and Gentoo ebuild syntax highlight
 Alejandro Liu - Drag and drop support under win32, better key handling,
@@ -24,6 +21,14 @@ Alejandro Liu - Drag and drop support under win32, better key handling,
 jeremy@cowgar - Syntax highlight for mprc, bugfixes
 David Jensen - Mouse wheel configuration
 Roberto Suarez Soto - Debian maintainer
-Jonas Gulle - Swedish translation, Build script for MSVS
-Alexandr Orlov - Russian translation
+Jonas Gulle - Build script for MSVS
 Manuel Zamora - testing and helping, all over the years
+
+Translators
+===========
+
+Peter Ludikovsky, Ronny Steiner - German translation
+lesion, Andrea - Italian translation
+Rick van der Zwet - Dutch translation
+Jonas Gulle - Swedish translation
+Alexandr Orlov - Russian translation
