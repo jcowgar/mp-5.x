@@ -8,7 +8,8 @@ PROJ=mp
 #	RELEASE_NOTES
 
 DOCS=doc/index.html doc/mp_cookbook.html doc/mp_internals.html \
-	doc/mp_configuration.html README README.mingw32 RELEASE_NOTES
+	doc/mp_configuration.html \
+	AUTHORS README README.mingw32 RELEASE_NOTES
 
 OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
 #OBJS=mp_core.o mp_synhi.o mp_iface.o gnu_regex.o mp_tags.o mp_wordp.o \
