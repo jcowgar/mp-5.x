@@ -410,6 +410,6 @@ load("mp_session.mpsl");
 mp.load_profile();
 mp.drv.startup();
 mp.process_cmdline();
-if (mp.config.auto_sessions == 1) { mp.actions.session_load (NULL); }
+if (mp.config.auto_sessions == 1) { mp.actions.load_session(); }
 mp.drv.main_loop();
 mp.drv.shutdown();
