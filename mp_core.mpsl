@@ -228,6 +228,14 @@ sub mp.process_event(k)
 sub mp.build_status_line()
 /* returns the string to be drawn in the status line */
 {
+	if (mp.message) {
+		/* is the message still active? */
+		if (mp.message.timeout > time())
+			return mp.message.string;
+
+		mp.message = NULL;
+	}
+
 	local d = mp.active();
 	local w = mp.get_word(d);
 	local t = mp.tags[w].label;
