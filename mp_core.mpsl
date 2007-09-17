@@ -325,13 +325,6 @@ sub mp.process_cmdline()
 	/* skip ARGV[0] */
 	shift(ARGV);
 
-	/* if no command line arguments are given,
-	   try loading a session */
-	if (size(ARGV) == 0 && mp.config.auto_sessions) {
-		mp.actions.load_session();
-		return;
-	}
-
 	while(o = shift(ARGV))
 	{
 		if(o eq '-e')
@@ -364,8 +357,15 @@ sub mp.process_cmdline()
 			mp.open(o);
 	}
 
-	/* set the first as the active one */
-	mp.active_i = 0;
+	/* if no files are loaded, try a session */
+	if (size(mp.docs) == 0 && mp.config.auto_sessions) {
+		mp.load_session();
+	}
+	else {
+		/* set the first as the active one */
+		mp.active_i = 0;
+	}
+
 	mp.active();
 
 	/* if there is a line defined, move there */

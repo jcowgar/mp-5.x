@@ -88,7 +88,7 @@ mp.actions['exit']	= sub (d) {
 	local s;
 
 	if (mp.config.auto_sessions)
-		mp.actions.save_session();
+		mp.save_session();
 
 	if (mp.actions.close_all())
 		mp.exit();
