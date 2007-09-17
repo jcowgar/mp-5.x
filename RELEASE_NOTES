@@ -6,7 +6,10 @@ Minimum Profit 5.x Release Notes
 
  * New session support. All open documents and its current position
    can be stored / retrieved with the new 'save_session' and
-   'load_session' actions.
+   'load_session' actions. Two new configuration flags has
+   been added: mp.config.auto_sessions, to automatically load / save
+   sessions, and mp.config.local_sessions, to save sessions in the
+   currently active directory instead of in the home directory.
  * In the curses version, confirmations now have default values
    (shown in brackets), activated with the ENTER key.
  * New action 'close_all', that closes all documents.
