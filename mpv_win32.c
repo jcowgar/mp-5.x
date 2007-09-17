@@ -868,10 +868,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 	}
 
 	if(mp_exit_requested)
-	{
 		PostMessage(hwnd, WM_CLOSE, 0, 0);
-		mp_exit_requested = 0;
-	}
 
 	return(DefWindowProc(hwnd, msg, wparam, lparam));
 }

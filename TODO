@@ -21,9 +21,6 @@ Release Critical Bugs
  * 1235: Change the calling points for auto-saved sessions.
  * 1236: Calling with -t doesn't draw the screen if only one
    tag is found.
- * 1238: On win32, the 'exit' action is called twice when exiting
-   from the keystroke or the menu (but *not* when closing the
-   window).
 
 Open Bugs
 ---------
@@ -260,5 +257,8 @@ Closed
    (Wed, 29 Aug 2007 14:04:15 +0200).
  * 1237: /etc/mp.mpsl is not being executed
    (Wed, 12 Sep 2007 12:26:35 +0200).
+ * 1238: On win32, the 'exit' action is called twice when exiting
+   from the keystroke or the menu (but *not* when closing the
+   window) (Mon, 17 Sep 2007 14:28:28 +0200).
 
 Email bugs to angel@triptico.com
