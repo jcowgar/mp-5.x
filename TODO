@@ -4,7 +4,6 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1184: Stop inserting the keypress if a key is not bound.
  * 1195: The curses menu crashes if it doesn't fit on the screen.
  * 1205: Copy & paste from two different instances of MP (GTK)
    seem to fail (copying or pasting from other applications seem
@@ -263,5 +262,7 @@ Closed
    window) (Mon, 17 Sep 2007 14:28:28 +0200).
  * 1234: Add support for local sessions
    (Mon, 17 Sep 2007 17:37:41 +0200).
+ * 1184: Stop inserting the keypress if a key is not bound
+   (Mon, 17 Sep 2007 19:52:19 +0200).
 
 Email bugs to angel@triptico.com

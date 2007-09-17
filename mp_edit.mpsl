@@ -420,7 +420,15 @@ sub mp.insert_keystroke(doc, key)
 /* inserts from a keystroke (with undo) */
 {
 	mp.store_undo(doc);
-	mp.insert(doc, key);
+
+	if (size(key) == 1)
+		mp.insert(doc, key);
+	else {
+		mp.message = {
+			'timeout'	=> time() + 2,
+			'string'	=> sprintf(L("Unbound keystroke '%s'"), key)
+		};
+	}
 }
 
 
