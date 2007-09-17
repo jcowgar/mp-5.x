@@ -325,6 +325,13 @@ sub mp.process_cmdline()
 	/* skip ARGV[0] */
 	shift(ARGV);
 
+	/* if no command line arguments are given,
+	   try loading a session */
+	if (size(ARGV) == 0 && mp.config.auto_sessions) {
+		mp.actions.load_session();
+		return;
+	}
+
 	while(o = shift(ARGV))
 	{
 		if(o eq '-e')
@@ -410,6 +417,5 @@ load("mp_session.mpsl");
 mp.load_profile();
 mp.drv.startup();
 mp.process_cmdline();
-if (mp.config.auto_sessions == 1) { mp.actions.load_session(); }
 mp.drv.main_loop();
 mp.drv.shutdown();
