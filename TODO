@@ -17,7 +17,6 @@ Release Critical Bugs
  * 1230: Action 'eval_doc' seems to fail forever after an error.
  * 1233: Document all MPSL code using mp_doccer (at least,
    the interface functions).
- * 1234: Add support for local sessions.
  * 1235: Change the calling points for auto-saved sessions.
  * 1236: Calling with -t doesn't draw the screen if only one
    tag is found.
@@ -260,5 +259,7 @@ Closed
  * 1238: On win32, the 'exit' action is called twice when exiting
    from the keystroke or the menu (but *not* when closing the
    window) (Mon, 17 Sep 2007 14:28:28 +0200).
+ * 1234: Add support for local sessions
+   (Mon, 17 Sep 2007 17:37:41 +0200).
 
 Email bugs to angel@triptico.com
