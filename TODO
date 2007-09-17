@@ -20,6 +20,7 @@ Release Critical Bugs
  * 1235: Change the calling points for auto-saved sessions.
  * 1236: Calling with -t doesn't draw the screen if only one
    tag is found.
+ * 1239: Don't save session if only unnamed files are open.
 
 Open Bugs
 ---------
