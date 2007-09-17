@@ -23,7 +23,8 @@ Set to 1 if automatic indentation is wanted (default: 0, no indentation).
 mp.config.auto_sessions
 -----------------------
 
-To be written.
+Set to 1 to automatically load / save sessions on startup / exit (default:
+0, no automatic sessions).
 
 mp.config.case_sensitive_search
 -------------------------------
@@ -70,6 +71,13 @@ compatible with `ispell', and by default it's "ispell -a". Other useful
 values are "aspell -a", if you have `aspell' installed (a better
 alternative), or "ispell -a -Tutf8", if you happen to be in an UTF-8
 environment and must use `ispell'.
+
+mp.config.local_sessions
+------------------------
+
+Set to 1 to store session information in the currently working directory
+instead of in the home directory (default: 0, save sessions in the
+home directory).
 
 mp.config.maximize
 ------------------
