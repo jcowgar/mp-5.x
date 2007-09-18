@@ -10,6 +10,16 @@ Minimum Profit 5.x Release Notes
    been added: mp.config.auto_sessions, to automatically load / save
    sessions, and mp.config.local_sessions, to save sessions in the
    currently active directory instead of in the home directory.
+ * Multiple key sequences for invoking actions (ala Emacs) are
+   now possible. To create them, just assign a hash to a keycode
+   instead of an action. For example, to assign the key sequence
+   Ctrl-x Ctrl-f to 'open' and Ctrl-x Ctrl-s to 'save', you can use
+
+	mp.keycodes['ctrl-x'] = {
+		'ctrl-f'	=> 'open',
+		'ctrl-s'	=> 'save'
+	};
+
  * In the curses version, confirmations now have default values
    (shown in brackets), activated with the ENTER key.
  * New action 'close_all', that closes all documents.
