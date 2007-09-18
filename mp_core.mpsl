@@ -183,16 +183,6 @@ sub mp.active()
 }
 
 
-sub mp.unknown_action(d, a)
-/* unknown action processing */
-{
-	mp.message = {
-		'timeout'	=> time() + 2,
-		'string'	=> sprintf(L("Unknown action '%s'"), a)
-	};
-}
-
-
 sub mp.process_action(a)
 /* processes an action */
 {
@@ -200,10 +190,14 @@ sub mp.process_action(a)
 
 	d = mp.active();
 
-	if((f = mp.actions[a]) == NULL)
-		f = mp.unknown_action;
-
-	f(d, a);
+	if((f = mp.actions[a]) != NULL)
+		f(d);
+	else {
+		mp.message = {
+			'timeout'	=> time() + 2,
+			'string'	=> sprintf(L("Unknown action '%s'"), a)
+		};
+	}
 }
 
 
