@@ -212,18 +212,29 @@ sub mp.process_event(k)
 
 	d = mp.active();
 
+	if (mp.keycodes_t == NULL)
+		mp.keycodes_t = mp.keycodes;
+
 	/* get the action asociated to the keycode */
-	if((a = mp.keycodes[k]) != NULL)
-	{
-		/* if it's code, just run it;
-		   otherwise delegate to mp.process_action() */
-		if(is_exec(a))
-			a(d);
-		else
-			mp.process_action(a);
+	if ((a = mp.keycodes_t[k]) != NULL) {
+
+		/* if it's a hash, store for further testing */
+		if (is_hash(a))
+			mp.keycodes_t = a;
+		else {
+			/* if it's executable, run it */
+			if (is_exec(a))
+				a(d);
+			else
+				mp.process_action(a);
+
+			mp.keycodes_t = NULL;
+		}
 	}
-	else
+	else {
 		mp.insert_keystroke(d, k);
+		mp.keycodes_t = NULL;
+	}
 
 	mp.shift_pressed = NULL;
 }
