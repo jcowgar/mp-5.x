@@ -16,7 +16,6 @@ Release Critical Bugs
  * 1230: Action 'eval_doc' seems to fail forever after an error.
  * 1233: Document all MPSL code using mp_doccer (at least,
    the interface functions).
- * 1235: Change the calling points for auto-saved sessions.
  * 1236: Calling with -t doesn't draw the screen if only one
    tag is found.
  * 1239: Don't save session if only unnamed files are open.
@@ -266,5 +265,7 @@ Closed
    (Mon, 17 Sep 2007 19:52:19 +0200).
  * 1241: Implement keycode multiplexing ala Emacs
    (Tue, 18 Sep 2007 13:25:52 +0200).
+ * 1235: Change the calling points for auto-saved sessions
+   (They are fine now; Tue, 18 Sep 2007 13:36:30 +0200).
 
 Email bugs to angel@triptico.com
