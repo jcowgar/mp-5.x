@@ -21,6 +21,7 @@ Release Critical Bugs
    tag is found.
  * 1239: Don't save session if only unnamed files are open.
  * 1240: Fix the -f (execute script) command-line argument.
+ * 1241: Implement keycode multiplexing ala Emacs.
 
 Open Bugs
 ---------
