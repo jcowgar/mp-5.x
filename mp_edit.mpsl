@@ -423,7 +423,8 @@ sub mp.insert_keystroke(doc, key)
 
 	if (size(key) == 1)
 		mp.insert(doc, key);
-	else {
+	else
+	if (key != NULL) {
 		mp.message = {
 			'timeout'	=> time() + 2,
 			'string'	=> sprintf(L("Unbound keystroke '%s'"), key)
