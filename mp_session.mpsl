@@ -53,14 +53,19 @@ sub mp.session_file()
 
 
 sub mp.save_session()
-/* saves currently open files as a session */
+/* saves currently open files as a session. Returns: -1, nothing to save;
+   -2, error saving; or 0, session correctly saved */
 {
 	local fh, filenames;
 	
 	filenames = [];
 	
+	/* no named files? exit doing nothing */
+	if (grep(sub (e) { e.name ne L("<unnamed>"); }, mp.docs) == NULL)
+		return (-1);
+
 	if ((fh = open(mp.session_file(), "w")) == NULL) {
-		return (NULL);
+		return (-2);
 	}
 	
 	foreach (local doc, mp.docs) {
@@ -74,6 +79,8 @@ sub mp.save_session()
 	}
 	
 	close(fh);
+
+	return (0);
 }
 
 
