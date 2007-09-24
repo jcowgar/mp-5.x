@@ -441,6 +441,16 @@ sub mp.assert_version(found, minimal, package)
 }
 
 
+sub mp.test_versions()
+/* tests component versions */
+{
+	local mpdm = MPDM();
+
+	mp.assert_version(mpdm.version, '1.0.0', 'MPDM');
+	mp.assert_version(MPSL.VERSION, '1.0.0', 'MPSL');
+}
+
+
 load("mp_drv.mpsl");
 load("mp_move.mpsl");
 load("mp_edit.mpsl");
@@ -462,5 +472,6 @@ load("mp_session.mpsl");
 mp.load_profile();
 mp.drv.startup();
 mp.process_cmdline();
+mp.test_versions();
 mp.drv.main_loop();
 mp.drv.shutdown();
