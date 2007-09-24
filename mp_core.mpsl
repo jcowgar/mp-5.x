@@ -419,6 +419,13 @@ sub mp.load_profile()
 }
 
 
+sub mp.normalize_version(vs)
+{
+	map(sub(e) { sprintf("%03d", e); },
+		split('.',
+			sregex('/-.+$/', vs)));
+}
+
 load("mp_drv.mpsl");
 load("mp_move.mpsl");
 load("mp_edit.mpsl");
