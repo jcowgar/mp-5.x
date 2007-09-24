@@ -420,11 +420,26 @@ sub mp.load_profile()
 
 
 sub mp.normalize_version(vs)
+/* converts a version string to something usable with cmp() */
 {
 	map(sub(e) { sprintf("%03d", e); },
 		split('.',
 			sregex('/-.+$/', vs)));
 }
+
+
+sub mp.assert_version(found, minimal, package)
+/* asserts that 'found' version of 'package' is at least 'minimal',
+   or generate a warning otherwise */
+{
+	if (cmp(mp.normalize_version(found),
+		mp.normalize_version(minimal)) < 0) {
+		mp.alert(L(
+			sprintf("WARNING: %s version found is %s, but %s is needed",
+				package, found, minimal)));
+	}
+}
+
 
 load("mp_drv.mpsl");
 load("mp_move.mpsl");
