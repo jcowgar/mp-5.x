@@ -90,6 +90,13 @@ mp.config.move_seek_to_line
 The line number to be set the cursor to when a successful search is hit
 (default: 5). If set to 0, the position is not touched.
 
+mp.config.preread_lines
+-----------------------
+
+The number of lines to read above the first visible line to calculate
+syntax highlight in blocks (default: 60 lines). There is probably no
+need to change this, unless using very big comment blocks or the like.
+
 mp.config.status_format
 -----------------------
 

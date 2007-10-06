@@ -38,8 +38,6 @@
 	Data
 ********************/
 
-int mpi_preread_lines = 60;
-
 /* exit requested? */
 int mp_exit_requested = 0;
 
@@ -67,6 +65,7 @@ struct drw_1_info {
 	int ty;			/* vertical window size */
 	int tab_size;		/* tabulator size */
 	int mod;		/* modify count */
+	int preread_lines;	/* lines to pre-read (for synhi blocks) */
 };
 
 struct drw_1_info drw_1;
@@ -208,6 +207,7 @@ static int drw_prepare(mpdm_t doc)
 	drw_1.ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
 	drw_1.tab_size = mpdm_ival(mpdm_hget_s(config, L"tab_size"));
 	drw_1.mod = mpdm_ival(mpdm_hget_s(txt, L"mod"));
+	drw_1.preread_lines = mpdm_ival(mpdm_hget_s(config, L"preread_lines"));
 
 	/* adjust the visual y coordinate */
 	if(drw_adjust_y(y, &drw_1.vy, drw_1.ty))
@@ -218,7 +218,7 @@ static int drw_prepare(mpdm_t doc)
 		mpdm_hset_s(txt, L"vx", MPDM_I(drw_1.vx));
 
 	/* get the maximum prereadable lines */
-	drw_1.p_lines = drw_1.vy > mpi_preread_lines ? mpi_preread_lines : drw_1.vy;
+	drw_1.p_lines = drw_1.vy > drw_1.preread_lines ? drw_1.preread_lines : drw_1.vy;
 
 	/* maximum lines */
 	drw_1.n_lines = drw_1.ty + drw_1.p_lines;
