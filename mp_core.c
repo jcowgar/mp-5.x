@@ -74,11 +74,11 @@ struct drw_1_info drw_1_o;
 static struct {
 	int x;			/* cursor x */
 	int y;			/* cursor y */
-	int * offsets;		/* offsets of lines */
-	char * attrs;		/* attributes */
+	int *offsets;		/* offsets of lines */
+	char *attrs;		/* attributes */
 	int visible;		/* offset to the first visible character */
 	int cursor;		/* offset to cursor */
-	wchar_t * ptr;		/* pointer to joined data */
+	wchar_t *ptr;		/* pointer to joined data */
 	int size;		/* size of joined data */
 	int matchparen_offset;	/* offset to matched paren */
 	int matchparen_o_attr;	/* original attribute there */
@@ -87,7 +87,7 @@ static struct {
 	mpdm_t old;		/* the previously generated array */
 	int mark_offset;	/* offset to the marked block */
 	int mark_size;		/* size of mark_o_attr */
-	char * mark_o_attr;	/* saved attributes for the mark */
+	char *mark_o_attr;	/* saved attributes for the mark */
 } drw_2;
 
 
@@ -99,81 +99,91 @@ static int drw_wcwidth(int x, wchar_t c)
 {
 	int r;
 
-	switch(c) {
-	case L'\n': r = 1; break;
-	case L'\t': r = MP_REAL_TAB_SIZE(x); break;
-	default: r = mpdm_wcwidth(c); break;
+	switch (c) {
+	case L'\n':
+		r = 1;
+		break;
+	case L'\t':
+		r = MP_REAL_TAB_SIZE(x);
+		break;
+	default:
+		r = mpdm_wcwidth(c);
+		break;
 	}
 
-	return(r < 0 ? 1 : r);
+	return r < 0 ? 1 : r;
 }
 
 
 int drw_vx2x(mpdm_t str, int vx)
 /* returns the character in str that is on column vx */
 {
-	wchar_t * ptr = str->data;
+	wchar_t *ptr = str->data;
 	int n, x;
 
-	for(n = x = 0;n < vx && ptr[x] != L'\0';x++)
+	for (n = x = 0; n < vx && ptr[x] != L'\0'; x++)
 		n += drw_wcwidth(n, ptr[x]);
 
-	return(x);
+	return x;
 }
 
 
 int drw_x2vx(mpdm_t str, int x)
 /* returns the column where the character at offset x seems to be */
 {
-	wchar_t * ptr = str->data;
+	wchar_t *ptr = str->data;
 	int n, vx;
 
-	for(n = vx = 0;n < x && ptr[n] != L'\0';n++)
+	for (n = vx = 0; n < x && ptr[n] != L'\0'; n++)
 		vx += drw_wcwidth(vx, ptr[n]);
 
-	return(vx);
+	return vx;
 }
 
 
 static int drw_line_offset(int l)
 /* returns the offset into v for line number l */
 {
-	return(drw_2.offsets[l - drw_1.vy + drw_1.p_lines]);
+	return drw_2.offsets[l - drw_1.vy + drw_1.p_lines];
 }
 
 
-static int drw_adjust_y(int y, int * vy, int ty)
+static int drw_adjust_y(int y, int *vy, int ty)
 /* adjusts the visual y position */
 {
 	int t = *vy;
 
 	/* is y above the first visible line? */
-	if(y < *vy) *vy = y;
+	if (y < *vy)
+		*vy = y;
 
 	/* is y below the last visible line? */
-	if(y > *vy + (ty - 2)) *vy = y - (ty - 2);
+	if (y > *vy + (ty - 2))
+		*vy = y - (ty - 2);
 
-	return(t != *vy);
+	return t != *vy;
 }
 
 
-static int drw_adjust_x(int x, int y, int * vx, int tx, wchar_t * ptr)
+static int drw_adjust_x(int x, int y, int *vx, int tx, wchar_t * ptr)
 /* adjust the visual x position */
 {
 	int n, m;
 	int t = *vx;
 
 	/* calculate the column for the cursor position */
-	for(n = m = 0;n < x;n++, ptr++)
+	for (n = m = 0; n < x; n++, ptr++)
 		m += drw_wcwidth(m, *ptr);
 
 	/* if new cursor column is nearer the leftmost column, set */
-	if(m < *vx) *vx = m;
+	if (m < *vx)
+		*vx = m;
 
 	/* if new cursor column is further the rightmost column, set */
-	if(m > *vx + (tx - 1)) *vx = m - (tx - 1);
+	if (m > *vx + (tx - 1))
+		*vx = m - (tx - 1);
 
-	return(t != *vx);
+	return t != *vx;
 }
 
 
@@ -183,10 +193,10 @@ static int drw_get_attr(wchar_t * color_name)
 	mpdm_t v;
 	int attr = 0;
 
-	if((v = mpdm_hget_s(drw_1.colors, color_name)) != NULL)
+	if ((v = mpdm_hget_s(drw_1.colors, color_name)) != NULL)
 		attr = mpdm_ival(mpdm_hget_s(v, L"attr"));
 
-	return(attr);
+	return attr;
 }
 
 
@@ -210,11 +220,11 @@ static int drw_prepare(mpdm_t doc)
 	drw_1.preread_lines = mpdm_ival(mpdm_hget_s(config, L"preread_lines"));
 
 	/* adjust the visual y coordinate */
-	if(drw_adjust_y(y, &drw_1.vy, drw_1.ty))
+	if (drw_adjust_y(y, &drw_1.vy, drw_1.ty))
 		mpdm_hset_s(txt, L"vy", MPDM_I(drw_1.vy));
 
 	/* adjust the visual x coordinate */
-	if(drw_adjust_x(x, y, &drw_1.vx, drw_1.tx, mpdm_string(mpdm_aget(lines, y))))
+	if (drw_adjust_x(x, y, &drw_1.vx, drw_1.tx, mpdm_string(mpdm_aget(lines, y))))
 		mpdm_hset_s(txt, L"vx", MPDM_I(drw_1.vx));
 
 	/* get the maximum prereadable lines */
@@ -241,8 +251,8 @@ static int drw_prepare(mpdm_t doc)
 
 	/* compare drw_1 with drw_1_o; if they are the same,
 	   no more expensive calculations on drw_2 are needed */
-	if(memcmp(&drw_1, &drw_1_o, sizeof(drw_1)) == 0)
-		return(0);
+	if (memcmp(&drw_1, &drw_1_o, sizeof(drw_1)) == 0)
+		return 0;
 
 	/* different; store now */
 	memcpy(&drw_1_o, &drw_1, sizeof(drw_1_o));
@@ -255,24 +265,22 @@ static int drw_prepare(mpdm_t doc)
 
 	/* add first line */
 	drw_2.ptr = mpdm_pokev(drw_2.ptr, &drw_2.size,
-		mpdm_aget(lines, drw_1.vy - drw_1.p_lines));
+			       mpdm_aget(lines, drw_1.vy - drw_1.p_lines));
 
 	/* first line start at 0 */
 	drw_2.offsets[0] = 0;
 
 	/* add the following lines and store their offsets */
-	for(n = 1;n < drw_1.n_lines;n++)
-	{
+	for (n = 1; n < drw_1.n_lines; n++) {
 		/* add the separator */
-		drw_2.ptr = mpdm_poke(drw_2.ptr, &drw_2.size,
-			L"\n", 1, sizeof(wchar_t));
+		drw_2.ptr = mpdm_poke(drw_2.ptr, &drw_2.size, L"\n", 1, sizeof(wchar_t));
 
 		/* this line starts here */
 		drw_2.offsets[n] = drw_2.size;
 
 		/* now add it */
 		drw_2.ptr = mpdm_pokev(drw_2.ptr, &drw_2.size,
-			mpdm_aget(lines, n + drw_1.vy - drw_1.p_lines));
+				       mpdm_aget(lines, n + drw_1.vy - drw_1.p_lines));
 	}
 
 	drw_2.ptr = mpdm_poke(drw_2.ptr, &drw_2.size, L"", 1, sizeof(wchar_t));
@@ -288,24 +296,24 @@ static int drw_prepare(mpdm_t doc)
 
 	drw_2.visible = drw_line_offset(drw_1.vy);
 
-	return(1);
+	return 1;
 }
 
 
 static int drw_fill_attr(int attr, int offset, int size)
 /* fill an attribute */
 {
-	if(attr != -1)
+	if (attr != -1)
 		memset(drw_2.attrs + offset, attr, size);
 
-	return(offset + size);
+	return offset + size;
 }
 
 
 static int drw_fill_attr_regex(int attr)
 /* fills with an attribute the last regex match */
 {
-	return(drw_fill_attr(attr, mpdm_regex_offset, mpdm_regex_size));
+	return drw_fill_attr(attr, mpdm_regex_offset, mpdm_regex_size);
 }
 
 
@@ -318,25 +326,23 @@ static void drw_words(void)
 	mpdm_t word_color_func = NULL;
 
 	/* take the hash of word colors, if any */
-	if((word_color = mpdm_hget_s(mp, L"word_color")) == NULL)
+	if ((word_color = mpdm_hget_s(mp, L"word_color")) == NULL)
 		return;
 
 	/* get the regex for words */
-	if((r = mpdm_hget_s(mp, L"word_regex")) == NULL)
+	if ((r = mpdm_hget_s(mp, L"word_regex")) == NULL)
 		return;
 
 	/* get the word color function */
 	word_color_func = mpdm_hget_s(mp, L"word_color_func");
 
-	while((t = mpdm_regex(r, drw_2.v, o)) != NULL)
-	{
+	while ((t = mpdm_regex(r, drw_2.v, o)) != NULL) {
 		int attr = -1;
 		mpdm_t v;
 
-		if((v = mpdm_hget(word_color, t)) != NULL)
+		if ((v = mpdm_hget(word_color, t)) != NULL)
 			attr = mpdm_ival(v);
-		else
-		if(word_color_func != NULL)
+		else if (word_color_func != NULL)
 			attr = mpdm_ival(mpdm_exec_1(word_color_func, t));
 
 		o = drw_fill_attr_regex(attr);
@@ -349,35 +355,29 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 {
 	int n;
 
-	for(n = 0;n < mpdm_size(a);n++)
-	{
+	for (n = 0; n < mpdm_size(a); n++) {
 		mpdm_t r = mpdm_aget(a, n);
 		int o = 0;
 
 		/* if the regex is an array, it's a pair of
 		   'match from this' / 'match until this' */
-		if(r->flags & MPDM_MULTIPLE)
-		{
+		if (r->flags & MPDM_MULTIPLE) {
 			mpdm_t rs = mpdm_aget(r, 0);
 			mpdm_t re = mpdm_aget(r, 1);
 
-			while(mpdm_regex(rs, drw_2.v, o))
-			{
+			while (mpdm_regex(rs, drw_2.v, o)) {
 				int s;
 
 				/* fill the matched part */
 				o = drw_fill_attr_regex(attr);
 
 				/* try to match the end */
-				if(mpdm_regex(re, drw_2.v, o))
-				{
+				if (mpdm_regex(re, drw_2.v, o)) {
 					/* found; fill the attribute
 					   to the end of the match */
-					s = mpdm_regex_size +
-						(mpdm_regex_offset - o);
+					s = mpdm_regex_size + (mpdm_regex_offset - o);
 				}
-				else
-				{
+				else {
 					/* not found; fill to the end
 					   of the document */
 					s = drw_2.size - o;
@@ -387,11 +387,10 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 				o = drw_fill_attr(attr, o, s);
 			}
 		}
-		else
-		{
+		else {
 			/* it's a scalar: */
 			/* while the regex matches, fill attributes */
-			while(mpdm_regex(r, drw_2.v, o))
+			while (mpdm_regex(r, drw_2.v, o))
 				o = drw_fill_attr_regex(attr);
 		}
 	}
@@ -405,11 +404,10 @@ static void drw_blocks(void)
 	int n;
 
 	/* no definitions? return */
-	if(drw_1.syntax == NULL || (defs = mpdm_hget_s(drw_1.syntax, L"defs")) == NULL)
+	if (drw_1.syntax == NULL || (defs = mpdm_hget_s(drw_1.syntax, L"defs")) == NULL)
 		return;
 
-	for(n = 0;n < mpdm_size(defs);n += 2)
-	{
+	for (n = 0; n < mpdm_size(defs); n += 2) {
 		mpdm_t attr;
 		mpdm_t list;
 
@@ -434,7 +432,7 @@ static void drw_selection(void)
 	int so, eo;
 
 	/* no mark? return */
-	if((mark = mpdm_hget_s(drw_1.txt, L"mark")) == NULL)
+	if ((mark = mpdm_hget_s(drw_1.txt, L"mark")) == NULL)
 		return;
 
 	bx = mpdm_ival(mpdm_hget_s(mark, L"bx"));
@@ -443,7 +441,7 @@ static void drw_selection(void)
 	ey = mpdm_ival(mpdm_hget_s(mark, L"ey"));
 
 	/* if block is not visible, return */
-	if(ey < drw_1.vy || by > drw_1.vy + drw_1.ty)
+	if (ey < drw_1.vy || by > drw_1.vy + drw_1.ty)
 		return;
 
 	so = by < drw_1.vy ? drw_2.visible : drw_line_offset(by) + bx;
@@ -481,35 +479,47 @@ static void drw_matching_paren(void)
 	drw_2.matchparen_offset = -1;
 
 	/* find the opposite and the increment (direction) */
-	switch(drw_2.ptr[o]) {
-	case L'(': c = L')'; i = 1; break;
-	case L'{': c = L'}'; i = 1; break;
-	case L'[': c = L']'; i = 1; break;
-	case L')': c = L'('; i = -1; break;
-	case L'}': c = L'{'; i = -1; break;
-	case L']': c = L'['; i = -1; break;
+	switch (drw_2.ptr[o]) {
+	case L'(':
+		c = L')';
+		i = 1;
+		break;
+	case L'{':
+		c = L'}';
+		i = 1;
+		break;
+	case L'[':
+		c = L']';
+		i = 1;
+		break;
+	case L')':
+		c = L'(';
+		i = -1;
+		break;
+	case L'}':
+		c = L'{';
+		i = -1;
+		break;
+	case L']':
+		c = L'[';
+		i = -1;
+		break;
 	}
 
 	/* if a direction is set, do the searching */
-	if(i)
-	{
+	if (i) {
 		wchar_t s = drw_2.ptr[o];
 		int m = 0;
 		int l = i == -1 ? drw_2.visible - 1 : drw_2.size;
 
-		while(o != l)
-		{
-			if (drw_2.ptr[o] == s)
-			{
+		while (o != l) {
+			if (drw_2.ptr[o] == s) {
 				/* found the same */
 				m++;
 			}
-			else
-			if (drw_2.ptr[o] == c)
-			{
+			else if (drw_2.ptr[o] == c) {
 				/* found the opposite */
-				if(--m == 0)
-				{
+				if (--m == 0) {
 					/* found! fill and exit */
 					drw_2.matchparen_offset = o;
 					drw_2.matchparen_o_attr = drw_2.attrs[o];
@@ -528,7 +538,8 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 /* pushes a pair of attribute / string into l */
 {
 	/* create the array, if doesn't exist yet */
-	if(l == NULL) l = MPDM_A(0);
+	if (l == NULL)
+		l = MPDM_A(0);
 
 	/* finish the string */
 	tmp[i] = L'\0';
@@ -537,8 +548,7 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 	   one of the cursor and the string is more than
 	   one character, create two strings; the
 	   cursor is over a tab */
-	if(a == drw_1.cursor_attr && i > 1)
-	{
+	if (a == drw_1.cursor_attr && i > 1) {
 		mpdm_push(l, MPDM_I(a));
 		mpdm_push(l, MPDM_NS(tmp, 1));
 
@@ -553,7 +563,7 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 	mpdm_push(l, MPDM_I(a));
 	mpdm_push(l, MPDM_S(tmp));
 
-	return(l);
+	return l;
 }
 
 
@@ -570,53 +580,49 @@ static mpdm_t drw_line(int line)
 	wchar_t c;
 
 	/* loop while not beyond the right margin */
-	for(m = i = 0;m < drw_1.vx + drw_1.tx;m += t, o++)
-	{
+	for (m = i = 0; m < drw_1.vx + drw_1.tx; m += t, o++) {
 		/* take char and size */
 		c = drw_2.ptr[o];
 		t = drw_wcwidth(m, c);
 
 		/* further the left margin? */
-		if(m >= drw_1.vx)
-		{
+		if (m >= drw_1.vx) {
 			/* if the attribute is different or we're out of
 			   temporary space, push and go on */
-			if(drw_2.attrs[o] != a || i >= BUF_LINE - t - 1)
-			{
+			if (drw_2.attrs[o] != a || i >= BUF_LINE - t - 1) {
 				l = drw_push_pair(l, i, a, tmp);
 				i = 0;
 			}
 
 			/* size is 1, unless it's a tab */
 			n = c == L'\t' ? t : 1;
-			
+
 			/* fill EOLs and tabs with spaces */
-			if(c == L'\0' || c == L'\n' || c == L'\t')
+			if (c == L'\0' || c == L'\n' || c == L'\t')
 				c = L' ';
 
 			/* if next char will not fit, use a space */
-			if(m + t > drw_1.vx + drw_1.tx)
+			if (m + t > drw_1.vx + drw_1.tx)
 				c = L' ';
 		}
-		else
-		{
+		else {
 			/* left filler */
 			n = m + t - drw_1.vx;
 			c = L' ';
 		}
 
 		/* fill the string */
-		for(;n > 0;n--)
+		for (; n > 0; n--)
 			tmp[i++] = c;
 
 		a = drw_2.attrs[o];
 
 		/* end of line? */
-		if(drw_2.ptr[o] == L'\0' || drw_2.ptr[o] == L'\n')
+		if (drw_2.ptr[o] == L'\0' || drw_2.ptr[o] == L'\n')
 			break;
 	}
 
-	return(drw_push_pair(l, i, a, tmp));
+	return drw_push_pair(l, i, a, tmp);
 }
 
 
@@ -631,10 +637,10 @@ static mpdm_t drw_as_array(void)
 	a = MPDM_A(drw_1.ty);
 
 	/* push each line */
-	for(n = 0;n < drw_1.ty;n++)
+	for (n = 0; n < drw_1.ty; n++)
 		mpdm_aset(a, drw_line(n), n);
 
-	return(a);
+	return a;
 }
 
 
@@ -644,27 +650,26 @@ static mpdm_t drw_optimize_array(mpdm_t a, int optimize)
 	mpdm_t o = drw_2.old;
 	mpdm_t r = a;
 
-	if(optimize && o != NULL)
-	{
+	if (optimize && o != NULL) {
 		int n = 0;
 
 		/* creates a copy */
 		r = mpdm_clone(a);
 
 		/* compare each array */
-		while(n < mpdm_size(o) && n < mpdm_size(r))
-		{
+		while (n < mpdm_size(o) && n < mpdm_size(r)) {
 			/* if both lines are equal, optimize out */
-			if(mpdm_cmp(mpdm_aget(o, n), mpdm_aget(r, n)) == 0)
+			if (mpdm_cmp(mpdm_aget(o, n), mpdm_aget(r, n)) == 0)
 				mpdm_aset(r, NULL, n);
 
 			n++;
 		}
 	}
 
-	mpdm_unref(drw_2.old); drw_2.old = mpdm_ref(a);
+	mpdm_unref(drw_2.old);
+	drw_2.old = mpdm_ref(a);
 
-	return(r);
+	return r;
 }
 
 
@@ -672,17 +677,15 @@ static void drw_restore_attrs(void)
 /* restored the patched attrs */
 {
 	/* matching paren, if any */
-	if(drw_2.matchparen_offset != -1)
+	if (drw_2.matchparen_offset != -1)
 		drw_fill_attr(drw_2.matchparen_o_attr, drw_2.matchparen_offset, 1);
 
 	/* cursor */
 	drw_fill_attr(drw_2.cursor_o_attr, drw_2.cursor, 1);
 
 	/* marked block, if any */
-	if(drw_2.mark_o_attr != NULL)
-	{
-		memcpy(&drw_2.attrs[drw_2.mark_offset],
-			drw_2.mark_o_attr, drw_2.mark_size);
+	if (drw_2.mark_o_attr != NULL) {
+		memcpy(&drw_2.attrs[drw_2.mark_offset], drw_2.mark_o_attr, drw_2.mark_size);
 
 		free(drw_2.mark_o_attr);
 		drw_2.mark_o_attr = NULL;
@@ -696,8 +699,7 @@ static mpdm_t drw_draw(mpdm_t doc, int optimize)
 {
 	mpdm_t r = NULL;
 
-	if(drw_prepare(doc))
-	{
+	if (drw_prepare(doc)) {
 		/* colorize separate words */
 		drw_words();
 
@@ -723,7 +725,7 @@ static mpdm_t drw_draw(mpdm_t doc, int optimize)
 	/* restore the patched attrs */
 	drw_restore_attrs();
 
-	return(r);
+	return r;
 }
 
 
@@ -736,12 +738,11 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 	mpdm_t f;
 
 	/* if previous paint was private, disable optimizations */
-	if(ppp) optimize = ppp = 0;
+	if (ppp)
+		optimize = ppp = 0;
 
-	if(doc != NULL)
-	{
-		if((f = mpdm_hget_s(doc, L"paint")) != NULL)
-		{
+	if (doc != NULL) {
+		if ((f = mpdm_hget_s(doc, L"paint")) != NULL) {
 			ppp = 1;
 			r = mpdm_exec_2(f, doc, MPDM_I(optimize));
 		}
@@ -750,77 +751,77 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 	}
 
 	/* if there is a global post_paint function, execute it */
-	if((f = mpdm_hget_s(mp, L"post_paint")) != NULL)
+	if ((f = mpdm_hget_s(mp, L"post_paint")) != NULL)
 		r = mpdm_exec_1(f, r);
 
 	/* if doc has a post_paint function, execute it */
-	if((f = mpdm_hget_s(doc, L"post_paint")) != NULL)
+	if ((f = mpdm_hget_s(doc, L"post_paint")) != NULL)
 		r = mpdm_exec_1(f, r);
 
-	return(r);
+	return r;
 }
 
 
 mpdm_t mp_active(void)
 /* interface to mp.active() */
 {
-	return(mpdm_exec(mpdm_hget_s(mp, L"active"), NULL));
+	return mpdm_exec(mpdm_hget_s(mp, L"active"), NULL);
 }
 
 
 mpdm_t mp_process_action(mpdm_t action)
 /* interface to mp.process_action() */
 {
-	return(mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action));
+	return mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action);
 }
 
 
 mpdm_t mp_process_event(mpdm_t keycode)
 /* interface to mp.process_event() */
 {
-	return(mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode));
+	return mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode);
 }
 
 
 mpdm_t mp_set_y(mpdm_t doc, int y)
 /* interface to mp.set_y() */
 {
-	return(mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y)));
+	return mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y));
 }
 
 
 mpdm_t mp_build_status_line(void)
 /* interface to mp.build_status_line() */
 {
-	return(mpdm_exec(mpdm_hget_s(mp, L"build_status_line"), NULL));
+	return mpdm_exec(mpdm_hget_s(mp, L"build_status_line"), NULL);
 }
 
 
 mpdm_t mp_get_history(mpdm_t key)
 /* interface to mp.get_history() */
 {
-	return(mpdm_exec_1(mpdm_hget_s(mp, L"get_history"), key));
+	return mpdm_exec_1(mpdm_hget_s(mp, L"get_history"), key);
 }
 
 
 mpdm_t mp_menu_label(mpdm_t action)
 /* interface to mp.menu_label() */
 {
-	return(mpdm_exec_1(mpdm_hget_s(mp, L"menu_label"), action));
+	return mpdm_exec_1(mpdm_hget_s(mp, L"menu_label"), action);
 }
 
 
 mpdm_t mp_pending_key(void)
 /* interface to mp.pending_key() */
 {
-	return(mpdm_exec_1(mpdm_hget_s(mp, L"pending_key"), NULL));
+	return mpdm_exec_1(mpdm_hget_s(mp, L"pending_key"), NULL);
 }
 
 
 mpdm_t mp_process_keyseq(mpdm_t key)
 /* interface to mp.process_keyseq() */
 {
-	return(mpdm_exec_1(mpdm_hget_s(mp, L"process_keyseq"), key));
+	return mpdm_exec_1(mpdm_hget_s(mp, L"process_keyseq"), key);
 }
 
 
@@ -829,23 +830,21 @@ mpdm_t mp_exit(mpdm_t args)
 {
 	mp_exit_requested = 1;
 
-	return(NULL);
+	return NULL;
 }
 
 
 mpdm_t mp_vx2x(mpdm_t args)
 /* interface to drw_vx2x() */
 {
-	return(MPDM_I(drw_vx2x(mpdm_aget(args, 0),
-		mpdm_ival(mpdm_aget(args, 1)))));
+	return MPDM_I(drw_vx2x(mpdm_aget(args, 0), mpdm_ival(mpdm_aget(args, 1))));
 }
 
 
 mpdm_t mp_x2vx(mpdm_t args)
 /* interface to drw_x2vx() */
 {
-	return(MPDM_I(drw_x2vx(mpdm_aget(args, 0),
-		mpdm_ival(mpdm_aget(args, 1)))));
+	return MPDM_I(drw_x2vx(mpdm_aget(args, 0), mpdm_ival(mpdm_aget(args, 1))));
 }
 
 mpdm_t mp_plain_load(mpdm_t args)
@@ -856,15 +855,13 @@ mpdm_t mp_plain_load(mpdm_t args)
 	mpdm_t v;
 	int chomped = 1;
 
-	while((v = mpdm_read(f)) != NULL)
-	{
-		wchar_t * ptr = v->data;
+	while ((v = mpdm_read(f)) != NULL) {
+		wchar_t *ptr = v->data;
 		int size = v->size;
 
 		/* chomp */
-		if(size && ptr[size - 1] == L'\n')
-		{
-			if(--size && ptr[size - 1] == L'\r')
+		if (size && ptr[size - 1] == L'\n') {
+			if (--size && ptr[size - 1] == L'\r')
 				--size;
 		}
 		else
@@ -875,13 +872,14 @@ mpdm_t mp_plain_load(mpdm_t args)
 	}
 
 	/* if last line was chomped, add a last, empty one */
-	if(chomped) mpdm_push(a, MPDM_LS(L""));
+	if (chomped)
+		mpdm_push(a, MPDM_LS(L""));
 
-	return(a);
+	return a;
 }
 
 
-void mp_startup(int argc, char * argv[])
+void mp_startup(int argc, char *argv[])
 {
 	mpdm_t INC;
 
@@ -910,16 +908,14 @@ void mp_startup(int argc, char * argv[])
 	INC = MPDM_A(0);
 
 	/* add installed library path */
-	mpdm_push(INC, mpdm_strcat(
-		mpdm_hget_s(mpdm_root(), L"APPDIR"),
-		MPDM_MBS(CONFOPT_APPNAME))
-	);
+	mpdm_push(INC, mpdm_strcat(mpdm_hget_s(mpdm_root(), L"APPDIR"),
+				   MPDM_MBS(CONFOPT_APPNAME))
+	    );
 
 	/* set INC */
 	mpdm_hset_s(mpdm_root(), L"INC", INC);
 
-	if(!TRY_DRIVERS())
-	{
+	if (!TRY_DRIVERS()) {
 		printf("No usable driver found; exiting.\n");
 		exit(1);
 	}
@@ -934,8 +930,7 @@ void mp_mpsl(void)
 
 	mpsl_eval(MPDM_LS(L"load('mp_core.mpsl');"), NULL);
 
-	if((e = mpdm_hget_s(mpdm_root(), L"ERROR")) != NULL)
-	{
+	if ((e = mpdm_hget_s(mpdm_root(), L"ERROR")) != NULL) {
 		mpdm_write_wcs(stdout, mpdm_string(e));
 		printf("\n");
 	}
@@ -948,7 +943,7 @@ void mp_shutdown(void)
 }
 
 
-int main(int argc, char * argv[])
+int main(int argc, char *argv[])
 {
 	mp_startup(argc, argv);
 
@@ -956,5 +951,5 @@ int main(int argc, char * argv[])
 
 	mp_shutdown();
 
-	return(0);
+	return 0;
 }
