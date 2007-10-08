@@ -117,7 +117,7 @@ static char * wcs_to_utf8(wchar_t * wptr)
 	ptr = g_convert((gchar *) wptr, (i + 1) * sizeof(wchar_t),
 		"UTF-8", "WCHAR_T", NULL, &o, NULL);
 
-	return(ptr);
+	return ptr;
 }
 
 
@@ -133,7 +133,7 @@ static wchar_t * utf8_to_wcs(char * ptr)
 	wptr = (wchar_t *) g_convert((gchar *) ptr, i + 1,
 		"WCHAR_T", "UTF-8", NULL, &o, NULL);
 
-	return(wptr);
+	return wptr;
 }
 
 
@@ -142,7 +142,7 @@ static char * localize(char * msg)
 	mpdm_t v;
 
 	v = mpdm_gettext(MPDM_MBS(msg));
-	return(wcs_to_utf8(v->data));
+	return wcs_to_utf8(v->data);
 }
 
 
@@ -169,7 +169,8 @@ static void update_window_size(void)
 	mpdm_hset_s(v, L"ty", MPDM_I(ty));
 
 	/* rebuild the pixmap for the double buffer */
-	if(pixmap != NULL) gdk_pixmap_unref(pixmap);
+	if (pixmap != NULL)
+		gdk_pixmap_unref(pixmap);
 
 	pixmap = gdk_pixmap_new(area->window,
 		area->allocation.width, font_height, -1);
@@ -188,17 +189,15 @@ static void build_fonts(void)
 		pango_font_description_free(font);
 
 	/* get current configuration */
-	if((c = mpdm_hget_s(mp, L"config")) != NULL)
-	{
+	if ((c = mpdm_hget_s(mp, L"config")) != NULL) {
 		mpdm_t v;
 
-		if((v = mpdm_hget_s(c, L"font_size")) != NULL)
+		if ((v = mpdm_hget_s(c, L"font_size")) != NULL)
 			font_size = mpdm_ival(v);
 		else
 			mpdm_hset_s(c, L"font_size", MPDM_I(font_size));
 
-		if((v = mpdm_hget_s(c, L"font_face")) != NULL)
-		{
+		if ((v = mpdm_hget_s(c, L"font_face")) != NULL) {
 			v = MPDM_2MBS(v->data);
 			font_face = v->data;
 		}
@@ -244,13 +243,12 @@ static void build_colors(void)
 	underlines = realloc(underlines, sizeof(int) * s);
 
 	/* loop the colors */
-	for(n = 0;n < s && (c = mpdm_aget(l, n)) != NULL;n++)
-	{
+	for (n = 0; n < s && (c = mpdm_aget(l, n)) != NULL; n++) {
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");
 
 		/* store the 'normal' attribute */
-		if(wcscmp(mpdm_string(c), L"normal") == 0)
+		if (wcscmp(mpdm_string(c), L"normal") == 0)
 			normal_attr = n;
 
 		/* store the attr */
@@ -263,8 +261,7 @@ static void build_colors(void)
 		v = mpdm_hget_s(d, L"flags");
 		underlines[n] = mpdm_seek_s(v, L"underline", 1) != -1 ? 1 : 0;
 
-		if(mpdm_seek_s(v, L"reverse", 1) != -1)
-		{
+		if (mpdm_seek_s(v, L"reverse", 1) != -1) {
 			GdkColor t;
 
 			t = inks[n];
@@ -285,7 +282,7 @@ static void menu_item_callback(mpdm_t action)
 	mp_process_action(action);
 	redraw();
 
-	if(mp_exit_requested)
+	if (mp_exit_requested)
 		gtk_main_quit();
 }
 
@@ -300,16 +297,14 @@ static void build_submenu(GtkWidget * menu, mpdm_t labels)
 	/* get the action descriptions */
 	desc = mpdm_hget_s(mp, L"actdesc");
 
-	for(n = 0;n < mpdm_size(labels);n++)
-	{
+	for (n = 0; n < mpdm_size(labels); n++) {
 		/* get the action */
 		mpdm_t v = mpdm_aget(labels, n);
 
 		/* if the action is a separator... */
-		if(*((wchar_t *)v->data) == L'-')
+		if (*((wchar_t *)v->data) == L'-')
 			menu_item = gtk_menu_item_new();
-		else
-		{
+		else {
 			char * ptr;
 			mpdm_t d = mp_menu_label(v);
 
@@ -334,18 +329,17 @@ static void build_menu(void)
 	mpdm_t m;
 
 	/* gets the current menu */
-	if((m = mpdm_hget_s(mp, L"menu")) == NULL)
+	if ((m = mpdm_hget_s(mp, L"menu")) == NULL)
 		return;
 
 	/* if it's the same, do nothing */
-	if(mpdm_cmp(m, prev_menu) == 0)
+	if (mpdm_cmp(m, prev_menu) == 0)
 		return;
 
 	/* create a new menu */
 	menu_bar = gtk_menu_bar_new();
 
-	for(n = 0;n < mpdm_size(m);n++)
-	{
+	for (n = 0; n < mpdm_size(m); n++) {
 		char * ptr;
 		mpdm_t mi;
 		mpdm_t v;
@@ -357,12 +351,13 @@ static void build_menu(void)
 		mi = mpdm_aget(m, n);
 		v = mpdm_aget(mi, 0);
 
-		if((ptr = wcs_to_utf8(mpdm_string(mpdm_gettext(v)))) == NULL)
+		if ((ptr = wcs_to_utf8(mpdm_string(mpdm_gettext(v)))) == NULL)
 			continue;
 
 		/* change the & by _ for the mnemonic */
-		for(i = 0;ptr[i];i++)
-			if(ptr[i] == '&') ptr[i] = '_';
+		for (i = 0; ptr[i]; i++)
+			if (ptr[i] == '&')
+				ptr[i] = '_';
 
 		/* add the menu and the label */
 		menu = gtk_menu_new();
@@ -404,7 +399,7 @@ static void draw_filetabs(void)
 	names = MPDM_A(mpdm_size(docs));
 
 	/* gets a list with the names of the documents */
-	for(n = 0;n < mpdm_size(docs);n++)
+	for (n = 0; n < mpdm_size(docs); n++)
 		mpdm_aset(names, mpdm_hget_s(mpdm_aget(docs, n), L"name"), n);
 
 	/* disconnect redraw signal to avoid infinite loops */
@@ -412,16 +407,14 @@ static void draw_filetabs(void)
 		(GtkSignalFunc) switch_page, NULL);
 
 	/* is the list different from the previous one? */
-	if(mpdm_cmp(names, last) != 0)
-	{
+	if (mpdm_cmp(names, last) != 0) {
 		/* delete the current tabs */
-		for(n = 0;n < mpdm_size(last);n++)
+		for (n = 0; n < mpdm_size(last); n++)
 			gtk_notebook_remove_page(
 				GTK_NOTEBOOK(file_tabs), 0);
 
 		/* create the new ones */
-		for(n = 0;n < mpdm_size(names);n++)
-		{
+		for (n = 0; n < mpdm_size(names); n++) {
 			GtkWidget * p;
 			GtkWidget * f;
 			char * ptr;
@@ -429,13 +422,12 @@ static void draw_filetabs(void)
 			mpdm_t v = mpdm_aget(names, n);
 
 			/* move to the filename if path included */
-			if((wptr = wcsrchr(v->data, L'/')) == NULL)
+			if ((wptr = wcsrchr(v->data, L'/')) == NULL)
 				wptr = v->data;
 			else
 				wptr++;
 
-			if((ptr = wcs_to_utf8(wptr)) != NULL)
-			{
+			if ((ptr = wcs_to_utf8(wptr)) != NULL) {
 				p = gtk_label_new(ptr);
 				gtk_widget_show(p);
 
@@ -450,7 +442,8 @@ static void draw_filetabs(void)
 		}
 
 		/* store for the next time */
-		mpdm_unref(last); last = mpdm_ref(names);
+		mpdm_unref(last);
+		last = mpdm_ref(names);
 	}
 
 	/* set the active one */
@@ -474,8 +467,7 @@ static void draw_status(void)
 	/* call mp.status_line() */
 	t = mp_build_status_line();
 
-	if(t != NULL && (ptr = wcs_to_utf8(t->data)) != NULL)
-	{
+	if (t != NULL && (ptr = wcs_to_utf8(t->data)) != NULL) {
 		gtk_label_set_text(GTK_LABEL(status), ptr);
 		g_free(ptr);
 	}
@@ -487,20 +479,19 @@ static gint scroll_event(GtkWidget * widget, GdkEventScroll * event)
 {
 	wchar_t * ptr = NULL;
 
-	switch(event->direction)
-	{
+	switch (event->direction) {
 	case GDK_SCROLL_UP: ptr = L"mouse-wheel-up"; break;
 	case GDK_SCROLL_DOWN: ptr = L"mouse-wheel-down"; break;
 	case GDK_SCROLL_LEFT: ptr = L"mouse-wheel-left"; break;
 	case GDK_SCROLL_RIGHT: ptr = L"mouse-wheel-right"; break;
 	}
 
-	if(ptr != NULL)
+	if (ptr != NULL)
 		mp_process_event(MPDM_S(ptr));
 
 	redraw();
 
-	return(0);
+	return 0;
 }
 
 
@@ -518,8 +509,7 @@ static void value_changed(GtkAdjustment * adj, gpointer * data)
 	y = mpdm_ival(mpdm_hget_s(txt, L"y"));
 
 	/* if it's different, set and redraw */
-	if(y != i)
-	{
+	if (y != i) {
 		mp_set_y(doc, i);
 		redraw();
 	}
@@ -535,7 +525,7 @@ static void draw_scrollbar(void)
 	int pos, size, max;
 
 	/* gets the active document */
-	if((d = mp_active()) == NULL)
+	if ((d = mp_active()) == NULL)
 		return;
 
 	/* get the coordinates */
@@ -584,13 +574,13 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 	int n, m;
 
 	/* no gc? create it */
-	if(gc == NULL)
+	if (gc == NULL)
 		gc = gdk_gc_new(area->window);
 
-	if(font == NULL)
+	if (font == NULL)
 		build_fonts();
 
-	if((d = mp_draw(doc, optimize)) == NULL)
+	if ((d = mp_draw(doc, optimize)) == NULL)
 		return;
 
 	gr.x = 0;
@@ -598,23 +588,22 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 	gr.width = area->allocation.width;
 	gr.height = font_height;
 
-	for(n = 0;n < mpdm_size(d);n++)
-	{
+	for (n = 0; n < mpdm_size(d); n++) {
 		PangoLayout * pl;
 		PangoAttrList * pal;
 		mpdm_t l = mpdm_aget(d, n);
 		char * str = NULL;
 		int u, p;
 
-		if(l == NULL) continue;
+		if (l == NULL)
+			continue;
 
 		/* create the pango stuff */
 		pl = gtk_widget_create_pango_layout(area, NULL);
 		pango_layout_set_font_description(pl, font);
 		pal = pango_attr_list_new();
 
-		for(m = u = p = 0;m < mpdm_size(l);m++, u = p)
-		{
+		for (m = u = p = 0; m < mpdm_size(l); m++, u = p) {
 			PangoAttribute * pa;
 			int attr;
 			mpdm_t s;
@@ -634,10 +623,9 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 
 			/* create the background if it's
 			   different from the default */
-			if(papers[attr].red != papers[normal_attr].red ||
+			if (papers[attr].red != papers[normal_attr].red ||
 			   papers[attr].green != papers[normal_attr].green ||
-			   papers[attr].blue != papers[normal_attr].blue)
-			{
+			   papers[attr].blue != papers[normal_attr].blue) {
 				pa = pango_attr_background_new(
 					papers[attr].red, papers[attr].green,
 					papers[attr].blue);
@@ -649,8 +637,7 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 			}
 
 			/* underline? */
-			if(underlines[attr])
-			{
+			if (underlines[attr]) {
 				pa = pango_attr_underline_new(TRUE);
 
 				pa->start_index = u;
@@ -702,7 +689,7 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 
 static void redraw(void)
 {
-	if(mpdm_size(mpdm_hget_s(mp, L"docs")))
+	if (mpdm_size(mpdm_hget_s(mp, L"docs")))
 		gtk_drv_paint(mp_active(), 0);
 }
 
@@ -712,7 +699,7 @@ static gint delete_event(GtkWidget * w, GdkEvent * e, gpointer data)
 {
 	mp_process_event(MPDM_LS(L"close-window"));
 
-	return(mp_exit_requested ? FALSE : TRUE);
+	return mp_exit_requested ? FALSE : TRUE;
 }
 
 
@@ -731,17 +718,15 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	gtk_im_context_filter_keypress(im, event);
 
 	/* set mp.shift_pressed */
-	if(event->state & (GDK_SHIFT_MASK))
+	if (event->state & (GDK_SHIFT_MASK))
 		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
 
 	/* reserve alt for menu mnemonics */
 	if (GDK_MOD1_MASK & event->state)
 		return(0);
 
-	if(event->state & (GDK_CONTROL_MASK))
-	{
-		switch(event->keyval)
-		{
+	if (event->state & (GDK_CONTROL_MASK)) {
+		switch (event->keyval) {
 		case GDK_Up:		ptr = L"ctrl-cursor-up"; break;
 		case GDK_Down:		ptr = L"ctrl-cursor-down"; break;
 		case GDK_Left:		ptr = L"ctrl-cursor-left"; break;
@@ -798,10 +783,8 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		case 'z':		ptr = L"ctrl-z"; break;
 		}
 	}
-	else
-	{
-		switch(event->keyval)
-		{
+	else {
+		switch (event->keyval) {
 		case GDK_Up:		ptr = L"cursor-up"; break;
 		case GDK_Down:		ptr = L"cursor-down"; break;
 		case GDK_Left:		ptr = L"cursor-left"; break;
@@ -838,22 +821,22 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	}
 
 	/* if there is a pending char in im_char, use it */
-	if(ptr == NULL && im_char[0] != L'\0')
+	if (ptr == NULL && im_char[0] != L'\0')
 		ptr = im_char;
 
 	/* finally process */
-	if(ptr != NULL)
+	if (ptr != NULL)
 		mp_process_event(MPDM_S(ptr));
 
 	/* delete the pending char */
 	im_char[0] = L'\0';
 
-	if(mp_exit_requested)
+	if (mp_exit_requested)
 		gtk_main_quit();
 
 	gtk_drv_paint(mp_active(), 1);
 
-	return(0);
+	return 0;
 }
 
 
@@ -872,8 +855,7 @@ static gint button_press_event(GtkWidget * widget, GdkEventButton * event, gpoin
 	mpdm_hset_s(mp, L"mouse_x", MPDM_I(x));
 	mpdm_hset_s(mp, L"mouse_y", MPDM_I(y));
 
-	switch(event->button)
-	{
+	switch (event->button) {
 	case 1: ptr = L"mouse-left-button"; break;
 	case 2: ptr = L"mouse-middle-button"; break;
 	case 3: ptr = L"mouse-right-button"; break;
@@ -881,12 +863,12 @@ static gint button_press_event(GtkWidget * widget, GdkEventButton * event, gpoin
 	case 5: ptr = L"mouse-wheel-down"; break;
 	}
 
-	if(ptr != NULL)
+	if (ptr != NULL)
 		mp_process_event(MPDM_S(ptr));
 
 	redraw();
 
-	return(0);
+	return 0;
 }
 
 
@@ -895,7 +877,7 @@ static gint button_release_event(GtkWidget * widget, GdkEventButton * event, gpo
 {
 	mouse_down = 0;
 
-	return(TRUE);
+	return TRUE;
 }
 
 
@@ -905,16 +887,14 @@ static gint motion_notify_event(GtkWidget *widget, GdkEventMotion * event, gpoin
 	static int ox = 0;
 	static int oy = 0;
 
-	if(mouse_down)
-	{
+	if (mouse_down) {
 		int x, y;
 
 		/* mouse dragging */
 		x = ((int)event->x) / font_width;
 		y = ((int)event->y) / font_height;
 
-		if(ox != x && oy != y)
-		{
+		if (ox != x && oy != y) {
 			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
 			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
 
@@ -923,7 +903,7 @@ static gint motion_notify_event(GtkWidget *widget, GdkEventMotion * event, gpoin
 		}
 	}
 
-	return(TRUE);
+	return TRUE;
 }
 
 
@@ -958,7 +938,7 @@ static gint expose_event(GtkWidget * widget, GdkEventExpose * event)
 {
 	redraw();
 
-	return(FALSE);
+	return FALSE;
 }
 
 
@@ -967,15 +947,15 @@ static gint configure_event(GtkWidget * widget, GdkEventConfigure * event)
 {
 	static GdkEventConfigure o;
 
-	if(memcmp(&o, event, sizeof(o)) == 0)
-		return(TRUE);
+	if (memcmp(&o, event, sizeof(o)) == 0)
+		return TRUE;
 
 	memcpy(&o, event, sizeof(o));
 
 	update_window_size();
 	redraw();
 
-	return(TRUE);
+	return TRUE;
 }
 
 
@@ -985,7 +965,7 @@ static gint selection_clear_event(GtkWidget * widget,
 {
 	got_selection = 0;
 
-	return(TRUE);
+	return TRUE;
 }
 
 
@@ -997,7 +977,8 @@ static void selection_get(GtkWidget * widget,
 	unsigned char * ptr;
 	int s;
 
-	if(!got_selection) return;
+	if (!got_selection)
+		return;
 
 	/* gets the clipboard and joins */
 	d = mpdm_hget_s(mp, L"clipboard");
@@ -1019,8 +1000,7 @@ static void selection_received(GtkWidget * widget,
 {
 	mpdm_t d;
 
-	if(sel->data != NULL)
-	{
+	if (sel->data != NULL) {
 		/* get selection */
 		wchar_t * wptr = utf8_to_wcs((char *)sel->data);
 		d = MPDM_S(wptr);
@@ -1041,20 +1021,18 @@ static mpdm_t gtk_drv_clip_to_sys(mpdm_t a)
 	got_selection = gtk_selection_owner_set(area,
 		GDK_SELECTION_PRIMARY, GDK_CURRENT_TIME);
 
-	return(NULL);
+	return NULL;
 }
 
 
 static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
 /* driver-dependent system to mp clipboard */
 {
-	if(!got_selection)
-	{
+	if (!got_selection) {
 		/* triggers a selection capture */
-		if(gtk_selection_convert(area, GDK_SELECTION_PRIMARY,
+		if (gtk_selection_convert(area, GDK_SELECTION_PRIMARY,
 			gdk_atom_intern("UTF8_STRING", FALSE),
-			GDK_CURRENT_TIME))
-		{
+			GDK_CURRENT_TIME)) {
 
 			/* processes the pending events
 			   (i.e., the 'selection_received' handler) */
@@ -1065,7 +1043,7 @@ static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
 		}
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -1076,7 +1054,7 @@ static void wait_for_modal_status_change(void)
 {
 	modal_status = -1;
 
-	while(modal_status == -1)
+	while (modal_status == -1)
 		gtk_main_iteration();
 }
 
@@ -1086,8 +1064,7 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 {
 	int n;
 
-	for(n = 0;n < mpdm_size(form_args);n++)
-	{
+	for (n = 0; n < mpdm_size(form_args); n++) {
 		GtkWidget * widget = form_widgets[n];
 		mpdm_t w = mpdm_aget(form_args, n);
 		wchar_t * wptr = mpdm_string(mpdm_hget_s(w, L"type"));
@@ -1095,53 +1072,47 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 
 		/* if there is already a value there, if was
 		   previously set from a callback */
-		if(mpdm_aget(form_values, n) != NULL)
+		if (mpdm_aget(form_values, n) != NULL)
 			continue;
 
-		if(wcscmp(wptr, L"text") == 0 ||
-		   wcscmp(wptr, L"password") == 0)
-		{
+		if (wcscmp(wptr, L"text") == 0 ||
+		   wcscmp(wptr, L"password") == 0) {
 			char * ptr;
 			GtkWidget * gw = widget;
 			mpdm_t h;
 
-			if(wcscmp(wptr, L"text") == 0)
+			if (wcscmp(wptr, L"text") == 0)
 				gw = GTK_COMBO(widget)->entry;
 
-			if((ptr = gtk_editable_get_chars(
+			if ((ptr = gtk_editable_get_chars(
 				GTK_EDITABLE(gw), 0, -1)) != NULL &&
-				(wptr = utf8_to_wcs(ptr)) != NULL)
-			{
+				(wptr = utf8_to_wcs(ptr)) != NULL) {
 				v = MPDM_S(wptr);
 				g_free(wptr);
 				g_free(ptr);
 			}
 
 			/* if it has history, fill it */
-			if((h = mpdm_hget_s(w, L"history")) != NULL &&
-				v != NULL && mpdm_cmp(v, MPDM_LS(L"")) != 0)
-			{
+			if ((h = mpdm_hget_s(w, L"history")) != NULL &&
+				v != NULL && mpdm_cmp(v, MPDM_LS(L"")) != 0) {
 				h = mp_get_history(h);
 
-				if(mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
+				if (mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
 					mpdm_push(h, v);
 			}
 		}
 		else
-		if(wcscmp(wptr, L"checkbox") == 0)
-		{
+		if (wcscmp(wptr, L"checkbox") == 0) {
 			v = MPDM_I(gtk_toggle_button_get_active(
 				GTK_TOGGLE_BUTTON(widget)));
 		}
 		else
-		if(wcscmp(wptr, L"file") == 0)
-		{
+		if (wcscmp(wptr, L"file") == 0) {
 			const char * ptr;
 
-			if((ptr = gtk_file_selection_get_filename(
+			if ((ptr = gtk_file_selection_get_filename(
 				GTK_FILE_SELECTION(widget))) != NULL &&
-			   (wptr = utf8_to_wcs((char *) ptr)) != NULL)
-			{
+			   (wptr = utf8_to_wcs((char *) ptr)) != NULL) {
 				v = MPDM_S(wptr);
 				g_free(wptr);
 			}
@@ -1181,19 +1152,17 @@ static void clicked_no(GtkWidget * widget, gpointer data)
 
 static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
 {
-	if(event->string[0] == '\r')
-	{
+	if (event->string[0] == '\r') {
 		clicked_ok(widget, NULL);
-		return(1);
+		return 1;
 	}
 	else
-	if(event->string[0] == '\e')
-	{
+	if (event->string[0] == '\e') {
 		clicked_cancel(widget, NULL);
-		return(1);
+		return 1;
 	}
 
-	return(0);
+	return 0;
 }
 
 
@@ -1202,7 +1171,7 @@ static gint timer_callback(gpointer data)
 	mpdm_exec(timer_func, NULL);
 	redraw();
 
-	return(TRUE);
+	return TRUE;
 }
 
 
@@ -1231,7 +1200,7 @@ static void build_form_data(mpdm_t widget_list)
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), \
 		btn, TRUE, TRUE, 0); \
 	g_free(ptr); \
-	} while(0);
+	} while (0);
 
 static mpdm_t gtk_drv_alert(mpdm_t a)
 /* alert driver function */
@@ -1246,8 +1215,8 @@ static mpdm_t gtk_drv_alert(mpdm_t a)
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = wcs_to_utf8(wptr)) == NULL)
-		return(NULL);
+	if ((ptr = wcs_to_utf8(wptr)) == NULL)
+		return NULL;
 
 	dlg = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
@@ -1270,7 +1239,7 @@ static mpdm_t gtk_drv_alert(mpdm_t a)
 
 	wait_for_modal_status_change();
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -1287,8 +1256,8 @@ static mpdm_t gtk_drv_confirm(mpdm_t a)
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = wcs_to_utf8(wptr)) == NULL)
-		return(NULL);
+	if ((ptr = wcs_to_utf8(wptr)) == NULL)
+		return NULL;
 
 	dlg = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
@@ -1313,7 +1282,7 @@ static mpdm_t gtk_drv_confirm(mpdm_t a)
 
 	wait_for_modal_status_change();
 
-	return(MPDM_I(modal_status));
+	return MPDM_I(modal_status);
 }
 
 
@@ -1337,8 +1306,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 	gtk_table_set_col_spacing(GTK_TABLE(table), 0, 4);
 	gtk_table_set_row_spacing(GTK_TABLE(table), 0, 4);
 
-	for(n = 0;n < mpdm_size(form_args);n++)
-	{
+	for (n = 0; n < mpdm_size(form_args); n++) {
 		mpdm_t w = mpdm_aget(form_args, n);
 		GtkWidget * widget = NULL;
 		wchar_t * type;
@@ -1348,14 +1316,12 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 
 		type = mpdm_string(mpdm_hget_s(w, L"type"));
 
-		if((t = mpdm_hget_s(w, L"label")) != NULL)
-		{
+		if ((t = mpdm_hget_s(w, L"label")) != NULL) {
 			GtkWidget * label;
 			wchar_t * wptr;
 
-			if((wptr = mpdm_string(mpdm_gettext(t))) != NULL &&
-				(ptr = wcs_to_utf8(wptr)) != NULL)
-			{
+			if ((wptr = mpdm_string(mpdm_gettext(t))) != NULL &&
+				(ptr = wcs_to_utf8(wptr)) != NULL) {
 				label = gtk_label_new(ptr);
 
 				gtk_table_attach_defaults(GTK_TABLE(table),
@@ -1370,8 +1336,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 
 		t = mpdm_hget_s(w, L"value");
 
-		if(wcscmp(type, L"text") == 0)
-		{
+		if (wcscmp(type, L"text") == 0) {
 			GList * combo_items = NULL;
 			mpdm_t h;
 			wchar_t * wptr;
@@ -1381,15 +1346,13 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 			gtk_combo_set_use_arrows_always(GTK_COMBO(widget), TRUE);
 			gtk_combo_set_case_sensitive(GTK_COMBO(widget), TRUE);
 
-			if((h = mpdm_hget_s(w, L"history")) != NULL)
-			{
+			if ((h = mpdm_hget_s(w, L"history")) != NULL) {
 				int i;
 
 				/* has history; fill it */
 				h = mp_get_history(h);
 
-				for(i = 0;i < mpdm_size(h);i++)
-				{
+				for (i = 0; i < mpdm_size(h); i++) {
 					wptr = mpdm_string(mpdm_aget(h, i));
 					ptr = wcs_to_utf8(wptr);
 
@@ -1397,8 +1360,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 				}
 			}
 
-			if(t != NULL)
-			{
+			if (t != NULL) {
 				wptr = mpdm_string(t);
 				ptr = wcs_to_utf8(wptr);
 
@@ -1409,28 +1371,26 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 			g_list_free(combo_items);
 		}
 		else
-		if(wcscmp(type, L"password") == 0)
-		{
+		if (wcscmp(type, L"password") == 0) {
 			widget = gtk_entry_new();
 			gtk_widget_set_usize(widget, 300, -1);
 			gtk_entry_set_visibility(GTK_ENTRY(widget), FALSE);
 		}
 		else
-		if(wcscmp(type, L"checkbox") == 0)
-		{
+		if (wcscmp(type, L"checkbox") == 0) {
 			widget = gtk_check_button_new();
 
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),
 				mpdm_ival(t) ? TRUE : FALSE);
 		}
 		else
-		if(wcscmp(type, L"list") == 0)
-		{
+		if (wcscmp(type, L"list") == 0) {
 			GtkWidget * list;
 			mpdm_t l;
 			int i;
 
-			if((i = 450 / mpdm_size(form_args)) < 100) i = 100;
+			if ((i = 450 / mpdm_size(form_args)) < 100)
+				i = 100;
 
 			widget = gtk_scrolled_window_new(NULL, NULL);
 			gtk_widget_set_usize(widget, 500, i);
@@ -1451,13 +1411,11 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 
 			l = mpdm_hget_s(w, L"list");
 
-			for(i = 0;i < mpdm_size(l);i++)
-			{
+			for (i = 0; i < mpdm_size(l); i++) {
 				char * args[1];
 				wchar_t * wptr = mpdm_string(mpdm_aget(l, i));
 
-				if((ptr = wcs_to_utf8(wptr)) != NULL)
-				{
+				if ((ptr = wcs_to_utf8(wptr)) != NULL) {
 					args[0] = strdup(ptr);
 					gtk_clist_append(GTK_CLIST(list), args);
 					free(args[0]);
@@ -1481,8 +1439,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 				GTK_SIGNAL_FUNC(form_select_row), (gpointer) n);
                 }
 
-		if(widget != NULL)
-		{
+		if (widget != NULL) {
 			form_widgets[n] = widget;
 			gtk_table_attach_defaults(GTK_TABLE(table),
 				widget, col, 2, n, n + 1);
@@ -1505,7 +1462,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 
 	wait_for_modal_status_change();
 
-	if(modal_status == 1)
+	if (modal_status == 1)
 		ret = form_values;
 
 	return(ret);
@@ -1556,17 +1513,17 @@ static mpdm_t gtk_drv_openfile(mpdm_t a)
 
 	wait_for_modal_status_change();
 
-	if(modal_status == 1)
+	if (modal_status == 1)
 		ret = mpdm_aget(form_values, 0);
 
-	return(ret);
+	return ret;
 }
 
 
 static mpdm_t gtk_drv_savefile(mpdm_t a)
 /* savefile driver function */
 {
-	return(gtk_drv_openfile(a));
+	return gtk_drv_openfile(a);
 }
 
 
@@ -1578,7 +1535,7 @@ static mpdm_t gtk_drv_update_ui(mpdm_t a)
 
 	redraw();
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -1590,17 +1547,17 @@ static mpdm_t gtk_drv_timer(mpdm_t a)
 	mpdm_t r;
 
 	/* previously defined one? remove */
-	if(timer_func != NULL)
+	if (timer_func != NULL)
 		gtk_timeout_remove(prev);
 
 	/* if msecs and func are set, program timer */
-	if(msecs > 0 && func != NULL)
+	if (msecs > 0 && func != NULL)
 		prev = gtk_timeout_add(msecs, timer_callback, NULL);
 
 	r = mpdm_unref(timer_func);
 	timer_func = mpdm_ref(func);
 
-	return(r);
+	return r;
 }
 
 
@@ -1611,27 +1568,27 @@ static mpdm_t gtk_drv_busy(mpdm_t a)
 	gdk_window_set_cursor(window->window,
 		gdk_cursor_new(onoff ? GDK_WATCH : GDK_LEFT_PTR));
 
-	while(gtk_events_pending())
+	while (gtk_events_pending())
 		gtk_main_iteration();
 
-	return(NULL);
+	return NULL;
 }
 
 
 static mpdm_t gtk_drv_main_loop(mpdm_t a)
 /* main loop */
 {
-	if(!mp_exit_requested)
+	if (!mp_exit_requested)
 		gtk_main();
 
-	return(NULL);
+	return NULL;
 }
 
 
 static mpdm_t gtk_drv_shutdown(mpdm_t a)
 /* shutdown */
 {
-	return(NULL);
+	return NULL;
 }
 
 
@@ -1802,11 +1759,11 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 
 	build_colors();
 
-	if((v = mpdm_hget_s(mp, L"config")) != NULL &&
+	if ((v = mpdm_hget_s(mp, L"config")) != NULL &&
 		mpdm_ival(mpdm_hget_s(v, L"maximize")) > 0)
 		gtk_window_maximize(GTK_WINDOW(window));
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -1814,14 +1771,14 @@ int gtk_drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
 
-	if(!gtk_init_check(argc, argv))
-		return(0);
+	if (!gtk_init_check(argc, argv))
+		return 0;
 
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"gtk"));
 	mpdm_hset_s(drv, L"startup", MPDM_X(gtk_drv_startup));
 
-	return(1);
+	return 1;
 }
 
 #endif /* CONFOPT_GTK */

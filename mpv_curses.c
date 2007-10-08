@@ -91,7 +91,8 @@ static void nc_sigwinch(int s)
 
 	int fd = open("/dev/tty", O_RDWR);
 
-	if (fd == -1) return; /* This should never have to happen! */
+	if (fd == -1)
+		return; /* This should never have to happen! */
 
 	if (ioctl(fd, TIOCGWINSZ, &ws) == 0)
 		resizeterm(ws.ws_row, ws.ws_col);
@@ -128,10 +129,10 @@ static wchar_t * nc_getwch(void)
 #ifdef CONFOPT_WGET_WCH
 
 	/* set timer period */
-	if(timer_msecs > 0)
+	if (timer_msecs > 0)
 		timeout(timer_msecs);
 
-	if(wget_wch(stdscr, (wint_t *)c) == -1)
+	if (wget_wch(stdscr, (wint_t *)c) == -1)
 		c[0] = (wchar_t) -1;
 
 #else
@@ -140,10 +141,9 @@ static wchar_t * nc_getwch(void)
 
 	/* read one byte */
 	cc = wgetch(cw);
-	if(has_key(cc))
-	{
+	if (has_key(cc)) {
 		c[0] = cc;
-		return(c);
+		return c;
 	}
 
 	/* set to non-blocking */
@@ -151,7 +151,7 @@ static wchar_t * nc_getwch(void)
 
 	/* read all possible following characters */
 	tmp[n++] = cc;
-	while(n < sizeof(tmp) - 1 && (cc = getch()) != ERR)
+	while (n < sizeof(tmp) - 1 && (cc = getch()) != ERR)
 		tmp[n++] = cc;
 
 	/* sets input as blocking */
@@ -162,7 +162,7 @@ static wchar_t * nc_getwch(void)
 #endif
 
 	c[1] = '\0';
-	return(c);
+	return c;
 }
 
 
@@ -176,20 +176,18 @@ static mpdm_t nc_getkey(mpdm_t args)
 	mpdm_t k = NULL;
 
 	/* any pending key? return it */
-	if((k = mp_pending_key()) != NULL)
-		return(k);
+	if ((k = mp_pending_key()) != NULL)
+		return k;
 
 	f = nc_getwch();
 
-	if(f[0] == -1)
-	{
+	if (f[0] == -1) {
 		mpdm_exec(timer_func, NULL);
-		return(NULL);
+		return NULL;
 	}
 
-	if(shift)
-	{
-		switch(f[0]) {
+	if (shift) {
+		switch (f[0]) {
 		case L'0':		f = L"f10"; break;
 		case L'1':		f = L"f1"; break;
 		case L'2':		f = L"f2"; break;
@@ -240,9 +238,8 @@ static mpdm_t nc_getkey(mpdm_t args)
 
 		shift = 0;
 	}
-	else
-	{
-		switch(f[0]) {
+	else {
+		switch (f[0]) {
 		case KEY_LEFT:		f = L"cursor-left"; break;
 		case KEY_RIGHT:		f = L"cursor-right"; break;
 		case KEY_UP:		f = L"cursor-up"; break;
@@ -299,9 +296,10 @@ static mpdm_t nc_getkey(mpdm_t args)
 	}
 
 	/* no known key? do nothing */
-	if(f == NULL) return(NULL);
+	if(f == NULL)
+		return NULL;
 
-	return(mp_process_keyseq(MPDM_S(f)));
+	return mp_process_keyseq(MPDM_S(f));
 }
 
 
@@ -321,7 +319,7 @@ static mpdm_t nc_addwstr(mpdm_t str)
 	waddwstr(cw, wptr);
 #endif /* CONFOPT_ADDWSTR */
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -339,8 +337,7 @@ static void draw_status(void)
 	nc_addwstr(t);
 
 	/* draw the menu key hint, right-aligned */
-	if((t = mpdm_hget_s(mp, L"menu_key_hint")) != NULL)
-	{
+	if ((t = mpdm_hget_s(mp, L"menu_key_hint")) != NULL) {
 		wmove(cw, LINES - 1, COLS - mpdm_size(t));
 		nc_addwstr(t);
 	}
@@ -357,14 +354,12 @@ static void nc_draw(mpdm_t doc)
 
 	d = mp_draw(doc, 0);
 
-	for(n = 0;n < mpdm_size(d);n++)
-	{
+	for (n = 0; n < mpdm_size(d); n++) {
 		mpdm_t l = mpdm_aget(d, n);
 
 		wmove(cw, n, 0);
 
-		for(m = 0;m < mpdm_size(l);m++)
-		{
+		for (m = 0; m < mpdm_size(l); m++) {
 			int attr;
 			mpdm_t s;
 
@@ -415,21 +410,20 @@ static void build_colors(void)
 	nc_attrs = realloc(nc_attrs, sizeof(int) * s);
 
 	/* loop the colors */
-	for(n = 0;n < s && (c = mpdm_aget(l, n)) != NULL;n++)
-	{
+	for (n = 0; n < s && (c = mpdm_aget(l, n)) != NULL; n++) {
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"text");
 		int cp, c0, c1;
 
 		/* store the 'normal' attribute */
-		if(wcscmp(mpdm_string(c), L"normal") == 0)
+		if (wcscmp(mpdm_string(c), L"normal") == 0)
 			normal_attr = n;
 
 		/* store the attr */
 		mpdm_hset_s(d, L"attr", MPDM_I(n));
 
 		/* get color indexes */
-		if((c0 = mpdm_seek(color_names, mpdm_aget(v, 0), 1)) == -1 ||
+		if ((c0 = mpdm_seek(color_names, mpdm_aget(v, 0), 1)) == -1 ||
 		   (c1 = mpdm_seek(color_names, mpdm_aget(v, 1), 1)) == -1)
 			continue;
 
@@ -438,9 +432,12 @@ static void build_colors(void)
 
 		/* flags */
 		v = mpdm_hget_s(d, L"flags");
-		if(mpdm_seek_s(v, L"reverse", 1) != -1) cp |= A_REVERSE;
-		if(mpdm_seek_s(v, L"bright", 1) != -1) cp |= A_BOLD;
-		if(mpdm_seek_s(v, L"underline", 1) != -1) cp |= A_UNDERLINE;
+		if (mpdm_seek_s(v, L"reverse", 1) != -1)
+			cp |= A_REVERSE;
+		if (mpdm_seek_s(v, L"bright", 1) != -1)
+			cp |= A_BOLD;
+		if (mpdm_seek_s(v, L"underline", 1) != -1)
+			cp |= A_UNDERLINE;
 
 		nc_attrs[n] = cp;
 	}
@@ -460,15 +457,14 @@ static mpdm_t ncursesw_drv_timer(mpdm_t a)
 	r = mpdm_unref(timer_func);
 	timer_func = mpdm_ref(func);
 
-	return(r);
+	return r;
 }
 
 
 static mpdm_t ncursesw_drv_main_loop(mpdm_t a)
 /* curses driver main loop */
 {
-	while(! mp_exit_requested)
-	{
+	while (! mp_exit_requested) {
 		/* get current document and draw it */
 		nc_draw(mp_active());
 
@@ -476,14 +472,14 @@ static mpdm_t ncursesw_drv_main_loop(mpdm_t a)
 		mp_process_event(nc_getkey(NULL));
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 
 static mpdm_t ncursesw_drv_shutdown(mpdm_t a)
 {
 	endwin();
-	return(NULL);
+	return NULL;
 }
 
 
@@ -492,7 +488,7 @@ static mpdm_t ncursesw_drv_shutdown(mpdm_t a)
 static mpdm_t tui_addstr(mpdm_t a)
 /* TUI: add a string */
 {
-	return(nc_addwstr(mpdm_aget(a, 0)));
+	return nc_addwstr(mpdm_aget(a, 0));
 }
 
 
@@ -503,10 +499,10 @@ static mpdm_t tui_move(mpdm_t a)
 	wmove(cw, mpdm_ival(mpdm_aget(a, 1)), mpdm_ival(mpdm_aget(a, 0)));
 
 	/* if third argument is not NULL, clear line */
-	if(mpdm_aget(a, 2) != NULL)
+	if (mpdm_aget(a, 2) != NULL)
 		wclrtoeol(cw);
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -517,7 +513,7 @@ static mpdm_t tui_attr(mpdm_t a)
 
 	set_attr();
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -525,7 +521,7 @@ static mpdm_t tui_refresh(mpdm_t a)
 /* TUI: refresh the screen */
 {
 	wrefresh(cw);
-	return(NULL);
+	return NULL;
 }
 
 
@@ -540,7 +536,8 @@ static mpdm_t tui_getxy(mpdm_t a)
 	v = MPDM_A(2);
 	mpdm_aset(v, MPDM_I(x), 0);
 	mpdm_aset(v, MPDM_I(y), 1);
-	return(v);
+
+	return v;
 }
 
 
@@ -558,7 +555,7 @@ static mpdm_t tui_openpanel(mpdm_t a)
 	wclrtobot(cw);
 	box(cw, 0, 0);
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -574,7 +571,7 @@ static mpdm_t tui_closepanel(mpdm_t a)
 	touchwin(cw);
 	wrefresh(cw);
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -635,7 +632,7 @@ static mpdm_t ncursesw_drv_startup(mpdm_t a)
 
 	cw = stdscr;
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -647,7 +644,7 @@ int ncursesw_drv_detect(int * argc, char *** argv)
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"curses"));
 	mpdm_hset_s(drv, L"startup", MPDM_X(ncursesw_drv_startup));
 
-	return(1);
+	return 1;
 }
 
 #endif /* CONFOPT_CURSES */

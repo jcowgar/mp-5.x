@@ -100,7 +100,7 @@ static void update_window_size(void)
 	mpdm_t v;
 
 	/* no font information? go */
-	if(font_width == 0 || font_height == 0)
+	if (font_width == 0 || font_height == 0)
 		return;
 
 	GetClientRect(hwnd, &rect);
@@ -125,24 +125,21 @@ static void build_fonts(HDC hdc)
 	char * font_face = "Lucida Console";
 	mpdm_t c;
 
-	if(font_normal != NULL)
-	{
+	if (font_normal != NULL) {
 		SelectObject(hdc, GetStockObject(SYSTEM_FONT));
 		DeleteObject(font_normal);
 	}
 
 	/* get current configuration */
-	if((c = mpdm_hget_s(mp, L"config")) != NULL)
-	{
+	if ((c = mpdm_hget_s(mp, L"config")) != NULL) {
 		mpdm_t v;
 
-		if((v = mpdm_hget_s(c, L"font_size")) != NULL)
+		if ((v = mpdm_hget_s(c, L"font_size")) != NULL)
 			font_size = mpdm_ival(v);
 		else
 			mpdm_hset_s(c, L"font_size", MPDM_I(font_size));
 
-		if((v = mpdm_hget_s(c, L"font_face")) != NULL)
-		{
+		if ((v = mpdm_hget_s(c, L"font_face")) != NULL) {
 			v = MPDM_2MBS(v->data);
 			font_face = v->data;
 		}
@@ -185,14 +182,13 @@ static void build_colors(void)
 	papers = realloc(papers, sizeof(COLORREF) * s);
 
 	/* loop the colors */
-	for(n = 0;n < s && (c = mpdm_aget(l, n)) != NULL;n++)
-	{
+	for (n = 0; n < s && (c = mpdm_aget(l, n)) != NULL; n++) {
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");
 		int m;
 
 		/* store the 'normal' attribute */
-		if(wcscmp(mpdm_string(c), L"normal") == 0)
+		if (wcscmp(mpdm_string(c), L"normal") == 0)
 			normal_attr = n;
 
 		/* store the attr */
@@ -211,8 +207,7 @@ static void build_colors(void)
 		v = mpdm_hget_s(d, L"flags");
 /*		underlines[attr] = mpdm_seek_s(v, L"underline", 1) != -1 ? 1 : 0;
 */
-		if(mpdm_seek_s(v, L"reverse", 1) != -1)
-		{
+		if (mpdm_seek_s(v, L"reverse", 1) != -1) {
 			COLORREF t;
 
 			t = inks[n];
@@ -234,19 +229,18 @@ static void build_menu(void)
 	int win32_menu_id = 1000;
 
 	/* gets the current menu */
-	if((m = mpdm_hget_s(mp, L"menu")) == NULL)
+	if ((m = mpdm_hget_s(mp, L"menu")) == NULL)
 		return;
 
 	/* get the action descriptions */
 	desc = mpdm_hget_s(mp, L"actdesc");
 
-	if(menu != NULL)
+	if (menu != NULL)
 		DestroyMenu(menu);
 
 	menu = CreateMenu();
 
-	for(n = 0;n < mpdm_size(m);n++)
-	{
+	for (n = 0; n < mpdm_size(m); n++) {
 		char * ptr;
 		mpdm_t mi, v, l;
 		int i;
@@ -258,16 +252,14 @@ static void build_menu(void)
 		l = mpdm_aget(mi, 1);
 
 		/* create the submenus */
-		for(i = 0;i < mpdm_size(l);i++)
-		{
+		for (i = 0; i < mpdm_size(l); i++) {
 			/* get the action */
 			mpdm_t v = mpdm_aget(l, i);
 
 			/* if the action is a separator... */
-			if(*((wchar_t *)v->data) == L'-')
+			if (*((wchar_t *)v->data) == L'-')
 				AppendMenu(submenu, MF_SEPARATOR, 0, NULL);
-			else
-			{
+			else {
 				MENUITEMINFO mi;
 				mpdm_t d = mp_menu_label(v);
 
@@ -305,30 +297,28 @@ static void draw_filetabs(void)
 	mpdm_t docs, names;
 	int n;
 
-	if(hwtabs == NULL)
+	if (hwtabs == NULL)
 		return;
 
 	docs = mpdm_hget_s(mp, L"docs");
 	names = MPDM_A(mpdm_size(docs));
 
 	/* gets a list with the names of the documents */
-	for(n = 0;n < mpdm_size(docs);n++)
+	for (n = 0; n < mpdm_size(docs); n++)
 		mpdm_aset(names, mpdm_hget_s(mpdm_aget(docs, n), L"name"), n);
 
 	/* is the list different from the previous one? */
-	if(mpdm_cmp(names, last) != 0)
-	{
+	if (mpdm_cmp(names, last) != 0) {
 		TabCtrl_DeleteAllItems(hwtabs);
 
-		for(n = 0;n < mpdm_size(names);n++)
-		{
+		for (n = 0; n < mpdm_size(names); n++) {
 			TCITEM ti;
 			char * ptr;
 			wchar_t * wptr;
 			mpdm_t v = mpdm_aget(names, n);
 
 			/* move to the filename if path included */
-			if((wptr = wcsrchr(v->data, L'\\')) == NULL)
+			if ((wptr = wcsrchr(v->data, L'\\')) == NULL)
 				wptr = v->data;
 			else
 				wptr++;
@@ -363,7 +353,7 @@ static void draw_scrollbar(void)
 	SCROLLINFO si;
 
 	/* gets the active document */
-	if((d = mp_active()) == NULL)
+	if ((d = mp_active()) == NULL)
 		return;
 
 	/* get the coordinates */
@@ -390,11 +380,10 @@ void draw_status(void)
 {
 	mpdm_t t;
 
-	if(hwstatus != NULL && (t = mp_build_status_line()) != NULL)
-	{
+	if (hwstatus != NULL && (t = mp_build_status_line()) != NULL) {
 		t = MPDM_2MBS(t->data);
 
-		if(t->data != NULL)
+		if (t->data != NULL)
 			SetWindowText(hwstatus, t->data);
 	}
 }
@@ -414,15 +403,13 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 	hdc = BeginPaint(hwnd, &ps);
 
 	/* no font? construct it */
-	if(font_normal == NULL)
-	{
+	if (font_normal == NULL) {
 		build_fonts(hdc);
 		build_colors();
 	}
 
 	/* no document? end */
-	if((d = mp_draw(doc, 0)) == NULL)
-	{
+	if ((d = mp_draw(doc, 0)) == NULL) {
 		EndPaint(hwnd, &ps);
 		return;
 	}
@@ -436,14 +423,12 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 	r2.top += tab_height;
 	r2.bottom = r2.top + font_height;
 
-	for(n = 0;n < mpdm_size(d);n++)
-	{
+	for (n = 0; n < mpdm_size(d); n++) {
 		mpdm_t l = mpdm_aget(d, n);
 
 		r2.left = rect.left;
 
-		for(m = 0;m < mpdm_size(l);m++)
-		{
+		for (m = 0; m < mpdm_size(l); m++) {
 			int attr;
 			mpdm_t s;
 
@@ -493,14 +478,12 @@ static void win32_vkey(int c)
 	static int maxed = 0;
 
 	/* set mp.shift_pressed */
-	if(GetKeyState(VK_SHIFT) & 0x8000)
+	if (GetKeyState(VK_SHIFT) & 0x8000)
 		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
 
-	if(GetKeyState(VK_CONTROL) & 0x8000 ||
-	   GetKeyState(VK_MENU) & 0x8000)
-	{
-		switch(c)
-		{
+	if (GetKeyState(VK_CONTROL) & 0x8000 ||
+	   GetKeyState(VK_MENU) & 0x8000) {
+		switch (c) {
 		case VK_UP:		ptr = L"ctrl-cursor-up"; break;
 		case VK_DOWN:		ptr = L"ctrl-cursor-down"; break;
 		case VK_LEFT:		ptr = L"ctrl-cursor-left"; break;
@@ -535,10 +518,8 @@ static void win32_vkey(int c)
 			break;
 		}
 	}
-	else
-	{
-		switch(c)
-		{
+	else {
+		switch (c) {
 		case VK_UP:		ptr = L"cursor-up"; break;
 		case VK_DOWN:		ptr = L"cursor-down"; break;
 		case VK_LEFT:		ptr = L"cursor-left"; break;
@@ -571,8 +552,7 @@ static void win32_vkey(int c)
 		}
 	}
 
-	if(ptr != NULL)
-	{
+	if (ptr != NULL) {
 		mp_process_event(MPDM_S(ptr));
 		is_wm_keydown = 1;
 		mp_active();
@@ -593,11 +573,10 @@ static void win32_akey(int k)
 		return;
 
 	/* set mp.shift_pressed */
-	if(GetKeyState(VK_SHIFT) & 0x8000)
+	if (GetKeyState(VK_SHIFT) & 0x8000)
 		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
 
-	switch(k)
-	{
+	switch (k) {
 	case ctrl(' '):		ptr = L"ctrl-space"; break;
 	case ctrl('a'):		ptr = L"ctrl-a"; break;
 	case ctrl('b'):		ptr = L"ctrl-b"; break;
@@ -637,8 +616,7 @@ static void win32_akey(int k)
 		break;
 	}
 
-	if(ptr != NULL)
-	{
+	if (ptr != NULL) {
 		mp_process_event(MPDM_S(ptr));
 		mp_active();
 		redraw();
@@ -651,8 +629,7 @@ static void win32_vscroll(UINT wparam)
 {
 	wchar_t * ptr = NULL;
 
-	switch(LOWORD(wparam))
-	{
+	switch (LOWORD(wparam)) {
 	case SB_PAGEUP:		ptr = L"page-up"; break;
 	case SB_PAGEDOWN:	ptr = L"page-down"; break;
 	case SB_LINEUP:		ptr = L"cursor-up"; break;
@@ -664,8 +641,7 @@ static void win32_vscroll(UINT wparam)
 		break;
 	}
 
-	if(ptr != NULL)
-	{
+	if (ptr != NULL) {
 		mp_process_event(MPDM_S(ptr));
 		redraw();
 	}
@@ -681,10 +657,8 @@ static void action_by_menu(int item)
 	mi.cbSize = sizeof(mi);
 	mi.fMask = MIIM_DATA;
 
-	if(GetMenuItemInfo(menu, item, FALSE, &mi))
-	{
-		if(mi.dwItemData != 0)
-		{
+	if (GetMenuItemInfo(menu, item, FALSE, &mi)) {
+		if (mi.dwItemData != 0) {
 			mp_process_action((mpdm_t)mi.dwItemData);
 			mp_active();
 		}
@@ -703,13 +677,12 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 	LPNMHDR p;
 	wchar_t * ptr = NULL;
 
-	switch(msg)
-	{
+	switch (msg) {
 	case WM_CREATE:
 
 		is_wm_keydown = 0;
 		DragAcceptFiles(hwnd, TRUE);
-		return(0);
+		return 0;
 
 /*	case WM_DROPFILES:
 
@@ -719,34 +692,33 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 	case WM_KEYUP:
 
 		is_wm_keydown = 0;
-		return(0);
+		return 0;
 
 	case WM_KEYDOWN:
 
 		win32_vkey(wparam);
-		return(0);
+		return 0;
 
 	case WM_CHAR:
 
 		win32_akey(wparam);
-		return(0);
+		return 0;
 
 	case WM_VSCROLL:
 
 		win32_vscroll(wparam);
-		return(0);
+		return 0;
 
 	case WM_PAINT:
 
-		if(mpdm_size(mpdm_hget_s(mp, L"docs")))
+		if (mpdm_size(mpdm_hget_s(mp, L"docs")))
 			win32_draw(hwnd, mp_active());
 
-		return(0);
+		return 0;
 
 	case WM_SIZE:
 
-		if(!IsIconic(hwnd))
-		{
+		if (!IsIconic(hwnd)) {
 			update_window_size();
 
 			MoveWindow(hwtabs, 0, 0, LOWORD(lparam), tab_height, FALSE);
@@ -757,7 +729,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 			redraw();
 		}
 
-		return(0);
+		return 0;
 
 	case WM_LBUTTONDOWN:
 
@@ -773,30 +745,27 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		mpdm_hset_s(mp, L"mouse_x", MPDM_I(x));
 		mpdm_hset_s(mp, L"mouse_y", MPDM_I(y));
 
-		switch(msg)
-		{
+		switch (msg) {
 		case WM_LBUTTONDOWN: ptr = L"mouse-left-button"; break;
 		case WM_RBUTTONDOWN: ptr = L"mouse-right-button"; break;
 		case WM_MBUTTONDOWN: ptr = L"mouse-middle-button"; break;
 		}
 
-		if(ptr != NULL)
-		{
+		if (ptr != NULL) {
 			mp_process_event(MPDM_S(ptr));
 			redraw();
 		}
 
-		return(0);
+		return 0;
 
 	case WM_LBUTTONUP:
 
 		mouse_down = 0;
-		return(0);
+		return 0;
 
 	case WM_MOUSEMOVE:
 
-		if(mouse_down)
-		{
+		if (mouse_down) {
 			x = (LOWORD(lparam)) / font_width;
 			y = (HIWORD(lparam) - tab_height) / font_height;
 
@@ -807,49 +776,47 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 			redraw();
 		}
 
-		return(0);
+		return 0;
 
 	case WM_MOUSEWHEEL:
 
-		if((int) wparam > 0)
+		if ((int) wparam > 0)
 			ptr = L"mouse-wheel-up";
 		else
 			ptr = L"mouse-wheel-down";
 
-		if(ptr != NULL)
-		{
+		if (ptr != NULL) {
 			mp_process_event(MPDM_S(ptr));
 			redraw();
 		}
 
-		return(0);
+		return 0;
 
 	case WM_COMMAND:
 
 		action_by_menu(LOWORD(wparam));
 		redraw();
 
-		return(0);
+		return 0;
 
 	case WM_CLOSE:
 
-		if(!mp_exit_requested)
+		if (!mp_exit_requested)
 			mp_process_event(MPDM_LS(L"close-window"));
 
-		if(mp_exit_requested)
+		if (mp_exit_requested)
 			DestroyWindow(hwnd);
 
-		return(0);
+		return 0;
 
 	case WM_DESTROY:
 		PostQuitMessage(0);
-		return(0);
+		return 0;
 
 	case WM_NOTIFY:
 		p = (LPNMHDR)lparam;
 
-		if(p->code == TCN_SELCHANGE)
-		{
+		if (p->code == TCN_SELCHANGE) {
 			/* tab selected by clicking on it */
 			int n = TabCtrl_GetCurSel(hwtabs);
 
@@ -859,18 +826,18 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 			redraw();
 		}
 
-		return(0);
+		return 0;
 
 	case WM_TIMER:
 		mpdm_exec(timer_func, NULL);
 
-		return(0);
+		return 0;
 	}
 
-	if(mp_exit_requested)
+	if (mp_exit_requested)
 		PostMessage(hwnd, WM_CLOSE, 0, 0);
 
-	return(DefWindowProc(hwnd, msg, wparam, lparam));
+	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
 
@@ -902,7 +869,7 @@ static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
 	SetClipboardData(CF_TEXT, hclp);
 	CloseClipboard();
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -916,8 +883,7 @@ static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
 	hclp = GetClipboardData(CF_TEXT);
 	CloseClipboard();
 
-	if(hclp && (ptr = GlobalLock(hclp)) != NULL)
-	{
+	if (hclp && (ptr = GlobalLock(hclp)) != NULL) {
 		mpdm_t d;
 
 		/* create a value and split */
@@ -930,7 +896,7 @@ static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
 		GlobalUnlock(hclp);
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -940,20 +906,19 @@ static mpdm_t win32_drv_main_loop(mpdm_t a)
 
 	mp_active();
 
-	while(GetMessage(&msg, NULL, 0, 0))
-	{
+	while (GetMessage(&msg, NULL, 0, 0)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 
 static mpdm_t win32_drv_shutdown(mpdm_t a)
 {
 	SendMessage(hwnd, WM_CLOSE, 0, 0);
-	return(NULL);
+	return NULL;
 }
 
 
@@ -966,13 +931,12 @@ static mpdm_t win32_drv_alert(mpdm_t a)
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
-	{
+	if ((ptr = mpdm_wcstombs(wptr, NULL)) != NULL) {
 		MessageBox(hwnd, ptr, "mp " VERSION, MB_ICONWARNING|MB_OK);
 		free(ptr);
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -986,19 +950,20 @@ static mpdm_t win32_drv_confirm(mpdm_t a)
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
-	{
+	if ((ptr = mpdm_wcstombs(wptr, NULL)) != NULL) {
 		ret = MessageBox(hwnd, ptr, "mp " VERSION, MB_ICONQUESTION|MB_YESNOCANCEL);
 		free(ptr);
 
-		if(ret == IDYES) ret = 1;
+		if (ret == IDYES)
+			ret = 1;
 		else
-		if(ret == IDNO) ret = 2;
+		if (ret == IDNO)
+			ret = 2;
 		else
-		ret = 0;
+			ret = 0;
 	}
 
-	return(MPDM_I(ret));
+	return MPDM_I(ret);
 }
 
 
@@ -1024,8 +989,7 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	int n;
 	HFONT hf;
 
-	switch(msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 
 		SetWindowText(hwnd, "mp " VERSION);
@@ -1033,8 +997,7 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		hf = GetStockObject(DEFAULT_GUI_FONT);
 
 		/* fill controls with its initial data */
-		for(n = 0;n < mpdm_size(form_args);n++)
-		{
+		for (n = 0; n < mpdm_size(form_args); n++) {
 			mpdm_t w = mpdm_aget(form_args, n);
 			wchar_t * type;
 			mpdm_t t;
@@ -1042,10 +1005,8 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			wchar_t * wptr;
 			char * ptr;
 
-			if((t = mpdm_hget_s(w, L"label")) != NULL)
-			{
-				if((ptr = mpdm_wcstombs(mpdm_string(t), NULL)) != NULL)
-				{
+			if ((t = mpdm_hget_s(w, L"label")) != NULL) {
+				if ((ptr = mpdm_wcstombs(mpdm_string(t), NULL)) != NULL) {
 					SetDlgItemText(hwnd, LABEL_ID + n, ptr);
 					free(ptr);
 
@@ -1059,28 +1020,23 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 			type = mpdm_string(mpdm_hget_s(w, L"type"));
 
-			if(wcscmp(type, L"text") == 0)
-			{
-				if((t = mpdm_hget_s(w, L"value")) != NULL &&
-				   (ptr = mpdm_wcstombs(mpdm_string(t), NULL)) != NULL)
-				{
+			if (wcscmp(type, L"text") == 0) {
+				if ((t = mpdm_hget_s(w, L"value")) != NULL &&
+				   (ptr = mpdm_wcstombs(mpdm_string(t), NULL)) != NULL) {
 					SetDlgItemText(hwnd, ctrl, ptr);
 					free(ptr);
 				}
 
 				/* store the history into combo_items */
-				if((t = mpdm_hget_s(w, L"history")) != NULL)
-				{
+				if ((t = mpdm_hget_s(w, L"history")) != NULL) {
 					t = mp_get_history(t);
 					int i;
 
-					for(i = 0;i < mpdm_size(t);i++)
-					{
+					for (i = 0; i < mpdm_size(t); i++) {
 						mpdm_t v = mpdm_aget(t, i);
 
-						if((ptr = mpdm_wcstombs(v->data,
-							NULL)) != NULL)
-						{
+						if ((ptr = mpdm_wcstombs(v->data,
+							NULL)) != NULL) {
 			 				SendDlgItemMessage(hwnd,
 								ctrl,
 								CB_INSERTSTRING, 0,
@@ -1091,33 +1047,28 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 				}
 			}
 			else
-			if(wcscmp(type, L"password") == 0)
-			{
+			if (wcscmp(type, L"password") == 0) {
 				SendDlgItemMessage(hwnd, ctrl,
 				EM_SETPASSWORDCHAR, (WPARAM)'*', (LPARAM)0);
 			}
 			else
-			if(wcscmp(type, L"checkbox") == 0)
-			{
-				if((t = mpdm_hget_s(w, L"value")) != NULL)
+			if (wcscmp(type, L"checkbox") == 0) {
+				if ((t = mpdm_hget_s(w, L"value")) != NULL)
 					SendDlgItemMessage(hwnd, ctrl,
 					BM_SETCHECK, mpdm_ival(t) ?
 						BST_CHECKED : BST_UNCHECKED,
 					0);
 			}
 			else
-			if(wcscmp(type, L"list") == 0)
-			{
+			if (wcscmp(type, L"list") == 0) {
 				int i;
 
 				t = mpdm_hget_s(w, L"list");
 
 				/* fill the list */
-				for(i = 0;i < mpdm_size(t);i++)
-				{
+				for (i = 0; i < mpdm_size(t); i++) {
 					wptr = mpdm_string(mpdm_aget(t, i));
-					if((ptr = mpdm_wcstombs(wptr, NULL)) != NULL)
-					{
+					if ((ptr = mpdm_wcstombs(wptr, NULL)) != NULL) {
 						SendDlgItemMessage(hwnd, ctrl,
 							LB_ADDSTRING, 0, (LPARAM) ptr);
 						free(ptr);
@@ -1140,28 +1091,25 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		SendDlgItemMessage(hwnd, IDCANCEL, WM_SETFONT,
 			(WPARAM) hf, MAKELPARAM(FALSE, 0));
 
-		return(TRUE);
+		return TRUE;
 
 	case WM_COMMAND:
 
-		if(LOWORD(wparam) == IDCANCEL)
-		{
+		if (LOWORD(wparam) == IDCANCEL) {
 			EndDialog(hwnd, 0);
-			return(TRUE);
+			return TRUE;
 		}
 
-		if(LOWORD(wparam) != IDOK)
+		if (LOWORD(wparam) != IDOK)
 			break;
 
 		/* fill all return values */
-		for(n = 0;n < mpdm_size(form_args);n++)
-		{
+		for (n = 0; n < mpdm_size(form_args); n++) {
 			mpdm_t w = mpdm_aget(form_args, n);
 			wchar_t * type = mpdm_string(mpdm_hget_s(w, L"type"));
 			int ctrl = CTRL_ID + n;
 
-			if(wcscmp(type, L"text") == 0)
-			{
+			if (wcscmp(type, L"text") == 0) {
 				char tmp[2048];
 				mpdm_t v;
 				mpdm_t h;
@@ -1172,32 +1120,28 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 				mpdm_aset(form_values, v, n);
 
 				/* if it has history, fill it */
-				if((h = mpdm_hget_s(w, L"history")) != NULL &&
-					v != NULL && mpdm_cmp(v, MPDM_LS(L"")) != 0)
-				{
+				if ((h = mpdm_hget_s(w, L"history")) != NULL &&
+					v != NULL && mpdm_cmp(v, MPDM_LS(L"")) != 0) {
 					h = mp_get_history(h);
 
-					if(mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
+					if (mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
 						mpdm_push(h, v);
 				}
 			}
-			if(wcscmp(type, L"password") == 0)
-			{
+			if (wcscmp(type, L"password") == 0) {
 				char tmp[2048];
 
 				GetDlgItemText(hwnd, ctrl, tmp, sizeof(tmp) - 1);
 				mpdm_aset(form_values, MPDM_MBS(tmp), n);
 			}
 			else
-			if(wcscmp(type, L"checkbox") == 0)
-			{
+			if (wcscmp(type, L"checkbox") == 0) {
 				mpdm_aset(form_values,
 					MPDM_I(SendDlgItemMessage(hwnd, ctrl,
 						BM_GETCHECK, 0, 0)), n);
 			}
 			else
-			if(wcscmp(type, L"list") == 0)
-			{
+			if (wcscmp(type, L"list") == 0) {
 				mpdm_aset(form_values,
 					MPDM_I(SendDlgItemMessage(hwnd, ctrl,
 						LB_GETCURSEL, 0, 0)), n);
@@ -1205,10 +1149,10 @@ BOOL CALLBACK formDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		}
 
 		EndDialog(hwnd, 1);
-		return(TRUE);
+		return TRUE;
 	}
 
-	return(FALSE);
+	return FALSE;
 }
 
 
@@ -1250,7 +1194,7 @@ LPWORD static build_control(LPWORD lpw, int x, int y,
 	/* No creation data */
 	*lpw++ = 0;
 
-	return(lpw);
+	return lpw;
 }
 
 
@@ -1285,17 +1229,16 @@ static mpdm_t win32_drv_form(mpdm_t a)
 	*lpw++ = 0;	/* No title */
 
 	/* first pass: calculate maximum size of labels */
-	for(n = 0;n < mpdm_size(form_args);n++)
-	{
+	for (n = 0; n < mpdm_size(form_args); n++) {
 		mpdm_t w = mpdm_aget(form_args, n);
 		int l = mpdm_size(mpdm_hget_s(w, L"label"));
 
-		if(lbl < l) lbl = l;
+		if (lbl < l)
+			lbl = l;
 	}
 
 	/* second pass: create the dialog controls */
-	for(n = p = 0;n < mpdm_size(form_args);n++)
-	{
+	for (n = p = 0; n < mpdm_size(form_args); n++) {
 		mpdm_t w = mpdm_aget(form_args, n);
 		wchar_t * type;
 		int class;
@@ -1309,27 +1252,23 @@ static mpdm_t win32_drv_form(mpdm_t a)
 
 		type = mpdm_string(mpdm_hget_s(w, L"type"));
 
-		if(wcscmp(type, L"text") == 0)
-		{
+		if (wcscmp(type, L"text") == 0) {
 			class = 0x0085;
 			style = WS_CHILD | WS_VISIBLE | WS_TABSTOP |
 				CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL;
 		}
 		else
-		if(wcscmp(type, L"password") == 0)
-		{
+		if (wcscmp(type, L"password") == 0) {
 			class = 0x0081;
 			style = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP;
 		}
 		else
-		if(wcscmp(type, L"checkbox") == 0)
-		{
+		if (wcscmp(type, L"checkbox") == 0) {
 			class = 0x0080;
 			style = WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP;
 		}
 		else
-		if(wcscmp(type, L"list") == 0)
-		{
+		if (wcscmp(type, L"list") == 0) {
 			class = 0x0083;
 			style = WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_BORDER |
 				LBS_NOINTEGRALHEIGHT | WS_VSCROLL |
@@ -1364,7 +1303,7 @@ static mpdm_t win32_drv_form(mpdm_t a)
 
 	GlobalFree(hgbl);
 
-	return(n ? form_values : NULL);
+	return n ? form_values : NULL;
 }
 
 
@@ -1392,15 +1331,13 @@ static mpdm_t open_or_save(int o, mpdm_t a)
 	ofn.lpstrDefExt = "";
 /*	ofn.lpstrDefExt=(def==NULL ? "" : def);*/
 
-	if(o)
-	{
+	if (o) {
 		ofn.Flags = OFN_PATHMUSTEXIST|OFN_HIDEREADONLY|
 			OFN_NOCHANGEDIR|OFN_FILEMUSTEXIST;
 
 		r = GetOpenFileName(&ofn);
 	}
-	else
-	{
+	else {
 		ofn.Flags = OFN_HIDEREADONLY;
 
 		r = GetSaveFileName(&ofn);
@@ -1408,24 +1345,24 @@ static mpdm_t open_or_save(int o, mpdm_t a)
 
 	free(ptr);
 
-	if(r)
-		return(MPDM_MBS(buf));
+	if (r)
+		return MPDM_MBS(buf);
 
-	return(NULL);
+	return NULL;
 }
 
 
 static mpdm_t win32_drv_openfile(mpdm_t a)
 /* openfile driver function */
 {
-	return(open_or_save(1, a));
+	return open_or_save(1, a);
 }
 
 
 static mpdm_t win32_drv_savefile(mpdm_t a)
 /* savefile driver function */
 {
-	return(open_or_save(0, a));
+	return open_or_save(0, a);
 }
 
 
@@ -1435,7 +1372,7 @@ static mpdm_t win32_drv_update_ui(mpdm_t a)
 	build_colors();
 	build_menu();
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -1446,17 +1383,17 @@ static mpdm_t win32_drv_timer(mpdm_t a)
 	mpdm_t r;
 
 	/* previously defined one? remove */
-	if(timer_func != NULL)
+	if (timer_func != NULL)
 		KillTimer(hwnd, 1);
 
 	/* if msecs and func are set, program timer */
-	if(msecs > 0 && func != NULL)
+	if (msecs > 0 && func != NULL)
 		SetTimer(hwnd, 1, msecs, NULL);
 
 	r = mpdm_unref(timer_func);
 	timer_func = mpdm_ref(func);
 
-	return(r);
+	return r;
 }
 
 
@@ -1466,7 +1403,7 @@ static mpdm_t win32_drv_busy(mpdm_t a)
 
 	SetCursor(LoadCursor(NULL, onoff ? IDC_WAIT : IDC_ARROW));
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -1548,11 +1485,11 @@ static mpdm_t win32_drv_startup(mpdm_t a)
 	ShowWindow(hwstatus, SW_SHOW);
 	UpdateWindow(hwstatus);
 
-	if((v = mpdm_hget_s(mp, L"config")) != NULL &&
+	if ((v = mpdm_hget_s(mp, L"config")) != NULL &&
 		mpdm_ival(mpdm_hget_s(v, L"maximize")) > 0)
 		SendMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -1564,7 +1501,7 @@ int win32_drv_detect(int * argc, char *** argv)
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"win32"));
 	mpdm_hset_s(drv, L"startup", MPDM_X(win32_drv_startup));
 
-	return(1);
+	return 1;
 }
 
 #endif /* CONFOPT_WIN32 */
