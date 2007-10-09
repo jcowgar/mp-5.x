@@ -263,10 +263,19 @@ sub mp.replace_1(doc, this, that)
 sub mp.replace(doc, this, that)
 /* replaces 'this' with 'that', may be globally */
 {
+	local cnt = 0;
+
 	while (mp.replace_1(doc, this, that)) {
+		cnt++;
+
 		if (!mp.config.global_replace)
 			break;
 	}
+
+	mp.message = {
+		'timeout' => time() + 4,
+		'string'  => sprintf(L("%d replaces"), cnt)
+	};
 }
 
 
