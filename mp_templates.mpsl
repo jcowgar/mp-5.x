@@ -32,11 +32,11 @@ mp.actions['insert_template']	 = sub(d) {
 	local l, t;
 
 	/* no local templates? do nothing */
-	if((l = mp.long_op(mp.read_templates_file)) == NULL)
+	if ((l = mp.long_op(mp.read_templates_file)) == NULL)
 		return;
 
 	/* select one */
-	if((t = mp.form( [
+	if ((t = mp.form( [
 		{ 'label'	=> L("Template to insert:"),
 		  'type'	=> 'list',
 		  'list'	=> l }
@@ -68,8 +68,8 @@ sub mp.read_templates_file()
 	local f, l, k, v, n;
 
 	/* doesn't exist? just return */
-	if((f = open(HOMEDIR ~ "/.mp_templates", "r")) == NULL)
-		return(NULL);
+	if ((f = open(HOMEDIR ~ "/.mp_templates", "r")) == NULL)
+		return NULL;
 
 	k = NULL;
 	v = NULL;
@@ -78,13 +78,10 @@ sub mp.read_templates_file()
 	/* reset */
 	mp.templates = {};
 
-	while(l = read(f))
-	{
-		if(regex("/^%%/", l))
-		{
+	while (l = read(f)) {
+		if (regex("/^%%/", l)) {
 			/* new template: store previous, if any */
-			if(k && v)
-			{
+			if (k && v) {
 				push(n, k);
 				mp.templates[k] = v;
 			}
@@ -93,16 +90,14 @@ sub mp.read_templates_file()
 			k = sregex("/^%%/", mp.chomp(l), NULL);
 			v = NULL;
 		}
-		else
-		{
+		else {
 			/* add to v */
 			v = v ~ l;
 		}
 	}
 
 	/* store last value */
-	if(k && v)
-	{
+	if (k && v) {
 		push(n, k);
 		mp.templates[k] = v;
 	}
@@ -110,5 +105,5 @@ sub mp.read_templates_file()
 	close(f);
 
 	/* returns keys(mp.templates), but in its original order */
-	return(n);
+	return n;
 }

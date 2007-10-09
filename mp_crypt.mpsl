@@ -34,12 +34,10 @@ mp.actions['set_password'] = sub(d) {
 		]
 	);
 
-	if(r != NULL)
-	{
-		if(r[0] ne r[1])
+	if (r != NULL) {
+		if (r[0] ne r[1])
 			mp.drv.alert(L("Passwords don't match."));
-		else
-		{
+		else {
 			d.password = r[0];
 			d.txt.mod = 1;
 		}
@@ -69,7 +67,7 @@ sub mp.arcfour_byte()
 	/* swap */
 	local t = S[i]; S[i] = S[j]; S[j] = t;
 
-	return(S[(S[i] + S[j]) & 0xff]);
+	return S[(S[i] + S[j]) & 0xff];
 }
 
 
@@ -77,7 +75,8 @@ sub mp.arcfour_init(key)
 /* initializes an ARCFOUR cypher */
 {
 	/* no key? nothing to do */
-	if(key == NULL) return;
+	if (key == NULL)
+		return;
 
 	/* split as an array of characters */
 	local k = split(NULL, key);
@@ -92,8 +91,7 @@ sub mp.arcfour_init(key)
 	local j = 0;
 
 	/* scramble */
-	foreach(i, [ 0 .. 255 ])
-	{
+	foreach (i, [ 0 .. 255 ]) {
 		local t = mp.arcfour.S[i];
 
 		j = (j + t + ord(k[i % size(k)])) & 0xff;
@@ -103,7 +101,7 @@ sub mp.arcfour_init(key)
 	}
 
 	/* discard 256 bytes (as recommended in many sources) */
-	foreach(i, [ 0 .. 255 ])
+	foreach (i, [ 0 .. 255 ])
 		mp.arcfour_byte();
 }
 
@@ -120,14 +118,12 @@ sub mp.crypt1_load(fd, password)
 	/* init */
 	mp.arcfour_init(password);
 
-	while((c = getchar(fd)) != NULL)
-	{
+	while ((c = getchar(fd)) != NULL) {
 		/* decrypt byte and concat */
 		c = chr(ord(c) ^ mp.arcfour_byte());
 		l = l ~ c;
 
-		if(c eq "\n")
-		{
+		if (c eq "\n") {
 			/* end of line; chomp l and push it */
 			push(lines, mp.chomp(l));
 			l = '';
@@ -136,7 +132,7 @@ sub mp.crypt1_load(fd, password)
 
 	push(lines, mp.chomp(l));
 
-	return(lines);
+	return lines;
 }
 
 
@@ -155,22 +151,22 @@ sub mp.crypt1_save(fd, lines, password)
 	mp.arcfour_init(password);
 
 	/* loop the lines */
-	foreach(local l, lines)
-	{
+	foreach (local l, lines) {
 		/* write a line separator if it's not the first line */
-		if(nl) l = mp.config.eol ~ l;
+		if (nl)
+			l = mp.config.eol ~ l;
 
 		/* split by chars */
 		local lc = split(NULL, l);
 
 		/* write each char xoring with next crypto-byte */
-		foreach(local c, lc)
+		foreach (local c, lc)
 			putchar(fd, chr(ord(c) ^ mp.arcfour_byte()));
 
 		nl++;
 	}
 
-	return(nl);
+	return nl;
 }
 
 
@@ -178,10 +174,10 @@ sub mp.crypt1_detect(fd)
 /* detects if fd is an mpcrypt1-type file */
 {
 	/* is it mpcrypt1\n followed by a 0? */
-	if(read(fd) eq "mpcrypt1\n" && ord(getchar(fd)) == 0)
-		return(1);
+	if (read(fd) eq "mpcrypt1\n" && ord(getchar(fd)) == 0)
+		return 1;
 
 	/* no; rewind file and say it */
 	fseek(fd, 0, 0);
-	return(0);
+	return 0;
 }

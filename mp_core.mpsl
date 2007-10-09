@@ -174,13 +174,13 @@ sub mp.active()
 	local d;
 
 	/* empty document list? create a new, empty one */
-	if(size(mp.docs) == 0)
+	if (size(mp.docs) == 0)
 		mp.new();
 
 	/* get active document */
 	d = mp.docs[mp.active_i];
 
-	return(d);
+	return d;
 }
 
 
@@ -191,7 +191,7 @@ sub mp.process_action(a)
 
 	d = mp.active();
 
-	if((f = mp.actions[a]) != NULL)
+	if ((f = mp.actions[a]) != NULL)
 		f(d);
 	else {
 		mp.message = {
@@ -208,7 +208,7 @@ sub mp.process_event(k)
 	local d, a;
 
 	/* empty document list? do nothing */
-	if(size(mp.docs) == 0)
+	if (size(mp.docs) == 0)
 		return;
 
 	d = mp.active();
@@ -269,7 +269,7 @@ sub mp.build_status_line()
 		"%%"	=>	"%"			/* escaped % */
 	};
 
-	return(sregex("/%./g", mp.config.status_format, f));
+	return sregex("/%./g", mp.config.status_format, f);
 }
 
 
@@ -291,18 +291,21 @@ sub mp.long_op(func, a1, a2, a3)
 	r = func(a1, a2, a3);
 	mp.busy(0);
 
-	return(r);
+	return r;
 }
 
 
 sub mp.get_history(key)
 /* returns a history for the specified key */
 {
-	if(key == NULL) return(NULL);
-	if(mp.history == NULL) mp.history = {};
-	if(mp.history[key] == NULL) mp.history[key] = [];
+	if (key == NULL)
+		return NULL;
+	if (mp.history == NULL)
+		mp.history = {};
+	if (mp.history[key] == NULL)
+		mp.history[key] = [];
 
-	return(mp.history[key]);
+	return mp.history[key];
 }
 
 
@@ -312,30 +315,28 @@ sub mp.menu_label(action)
 	local l;
 
 	/* if action is '-', it's a menu separator */
-	if(action eq '-') return(NULL);
+	if (action eq '-')
+		return NULL;
 
 	/* no recognized action? return */
-	if(!exists(mp.actions, action))
-		return(action ~ "?");
+	if (!exists(mp.actions, action))
+		return action ~ "?";
 
 	/* get the translated description */
 	l = L(mp.actdesc[action]) || action;
 
 	/* is there a keycode that generates this action? */
-	foreach(local i, sort(keys(mp.keycodes)))
-	{
-		if(mp.keycodes[i] eq action)
-		{
+	foreach (local i, sort(keys(mp.keycodes))) {
+		if (mp.keycodes[i] eq action) {
 			/* avoid mouse and window pseudo-keycodes */
-			if(!regex("/window/", i) && !regex("/mouse/", i))
-			{
+			if (!regex("/window/", i) && !regex("/mouse/", i)) {
 				l = l ~ ' [' ~ i ~ ']';
 				break;
 			}
 		}
 	}
 
-	return(l);
+	return l;
 }
 
 
@@ -349,31 +350,27 @@ sub mp.process_cmdline()
 	/* skip ARGV[0] */
 	shift(ARGV);
 
-	while(o = shift(ARGV))
-	{
-		if(o eq '-e')
-		{
+	while (o = shift(ARGV)) {
+		if (o eq '-e') {
 			/* execute code */
 			eval(shift(ARGV));
 
-			if(ERROR != NULL)
+			if (ERROR != NULL)
 				print(ERROR, "\n");
 		}
 		else
-		if(o eq '-f')
-		{
+		if (o eq '-f') {
 			/* execute script */
 			eval(sprintf("load('%s');", shift(ARGV)));
 
-			if(ERROR != NULL)
+			if (ERROR != NULL)
 				print(ERROR, "\n");
 		}
 		else
-		if(o eq '-t')
+		if (o eq '-t')
 			mp.open_tag(shift(ARGV));
 		else
-		if(regex('/^\+/', o))
-		{
+		if (regex('/^\+/', o)) {
 			/* move to line */
 			line = o - 1;
 		}
@@ -393,7 +390,7 @@ sub mp.process_cmdline()
 	mp.active();
 
 	/* if there is a line defined, move there */
-	if(line != NULL)
+	if (line != NULL)
 		mp.set_y(mp.active(), line);
 }
 
@@ -402,7 +399,7 @@ sub mp.load_profile()
 /* loads ~/.mp.mpsl */
 {
 	/* if /etc/mp.mpsl exists, execute it */
-	if(stat('/etc/mp.mpsl') != NULL) {
+	if (stat('/etc/mp.mpsl') != NULL) {
 		eval( sub {
 			local INC = [ '/etc' ];
 			load('mp.mpsl');
@@ -410,8 +407,7 @@ sub mp.load_profile()
 	}
 
 	/* if ~/.mp.mpsl exists, execute it */
-	if(stat(HOMEDIR ~ '.mp.mpsl') != NULL)
-	{
+	if (stat(HOMEDIR ~ '.mp.mpsl') != NULL) {
 		eval( sub {
 			local INC = [ HOMEDIR ];
 			load(".mp.mpsl");

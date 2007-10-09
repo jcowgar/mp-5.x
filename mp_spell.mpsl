@@ -48,17 +48,16 @@ sub mp.open_ispell_pipe
 	local p, l;
 
 	/* open the pipe */
-	if((p = popen(mp.config.ispell_cmd, "r+")) == NULL)
-		return(NULL);
+	if ((p = popen(mp.config.ispell_cmd, "r+")) == NULL)
+		return NULL;
 
 	/* read the first line */
 	l = read(p);
 
 	/* check for the signature */
-	if(! regex('/^@\(#\) International Ispell/', l))
-	{
+	if (! regex('/^@\(#\) International Ispell/', l)) {
 		pclose(p);
-		return(NULL);
+		return NULL;
 	}
 
 	/* it works; set the word color function */
@@ -72,7 +71,7 @@ sub mp.open_ispell_pipe
 sub mp.close_ispell_pipe
 /* closes the pipe to ispell */
 {
-	if(mp.ispell_pipe == NULL)
+	if (mp.ispell_pipe == NULL)
 		return;
 
 	/* close and delete */
@@ -80,9 +79,8 @@ sub mp.close_ispell_pipe
 	mp.ispell_pipe = NULL;
 
 	/* delete all words marked as misspelled from the word cache */
-	foreach(local w, keys(mp.word_color))
-	{
-		if(mp.word_color[w] == mp.colors.spell.attr)
+	foreach (local w, keys(mp.word_color)) {
+		if (mp.word_color[w] == mp.colors.spell.attr)
 			hdel(mp.word_color, w);
 	}
 
@@ -99,42 +97,41 @@ sub mp.ispell_word_color_func(w)
 	a = -1;
 
 	/* attributes must exist before entering here */
-	if(mp.colors.spell.attr == NULL)
-		return(-1);
+	if (mp.colors.spell.attr == NULL)
+		return -1;
 
 	/* write the word */
 	write(mp.ispell_pipe, w ~ "\n");
 
 	/* wait for the response */
-	if((l = read(mp.ispell_pipe)) == NULL)
+	if ((l = read(mp.ispell_pipe)) == NULL)
 		mp.close_ispell_pipe();
-	else
-	{
+	else {
 		local t = l;
 
 		/* drop all lines until an empty one */
-		while(t ne "\n")
+		while (t ne "\n")
 			t = read(mp.ispell_pipe);
 
 		/* take first char of the response */
 		l = regex('/^./', l);
 
 		/* if it's not a '*' nor a '+', it's misspelled */
-		if(l ne '*' && l ne '+')
+		if (l ne '*' && l ne '+')
 			a = mp.colors.spell.attr;
 	}
 
 	/* store the attribute in the cache */
 	mp.word_color[w] = a;
 
-	return(a);
+	return a;
 }
 
 
 sub mp.ispell(b)
 /* sets or unsets spell checking (-1, toggle) */
 {
-	if(b == -1)
+	if (b == -1)
 		b = mp.ispell_pipe == NULL && 1 || 0;
 
 	b && mp.open_ispell_pipe() || mp.close_ispell_pipe();

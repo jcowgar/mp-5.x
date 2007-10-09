@@ -47,8 +47,7 @@ mp.actions['goto']		= sub (d) {
 		  'history'	=> 'goto' }
 		]);
 
-	if(y != NULL && y[0] >= 1)
-	{
+	if (y != NULL && y[0] >= 1) {
 		d.txt.x = 0;
 		mp.set_y(d, y[0] - 1);
 	}
@@ -93,7 +92,8 @@ mp.actions['document_list'] = sub (d) {
 		} ]
 	);
 
-	if(r[0] != NULL) mp.active_i = r[0];
+	if (r[0] != NULL)
+		mp.active_i = r[0];
 };
 
 /* default key bindings */
@@ -142,12 +142,10 @@ mp.actdesc['document_list']		= LL("Document list");
 sub mp.move(doc, func)
 /* wrapper for movement functions, with possible shift selection */
 {
-	if(func != NULL)
-	{
-		if(mp.shift_pressed)
-		{
+	if (func != NULL) {
+		if (mp.shift_pressed) {
 			/* shift pressed? move selecting */
-			if(doc.txt.mark == NULL)
+			if (doc.txt.mark == NULL)
 				mp.mark(doc);
 
 			func(doc);
@@ -165,13 +163,12 @@ sub mp.split_by_words(s)
 	local l = [];
 	local w, c;
 
-	while((w = regex(mp.word_regex, s, c[0] + c[1])) != NULL)
-	{
+	while ((w = regex(mp.word_regex, s, c[0] + c[1])) != NULL) {
 		push(l, w);
 		c = regex();
 	}
 
-	return(l);
+	return l;
 }
 
 
@@ -188,10 +185,10 @@ sub mp.split_line_by_words(doc, r)
 	p = -1;
 
 	/* if no special-purpose regex set, take global one */
-	if(r == NULL) r = mp.word_regex;
+	if (r == NULL)
+		r = mp.word_regex;
 
-	while((w = regex(r, l, c[0] + c[1])) != NULL)
-	{
+	while ((w = regex(r, l, c[0] + c[1])) != NULL) {
 		/* store the word */
 		push(ol, w);
 
@@ -202,17 +199,18 @@ sub mp.split_line_by_words(doc, r)
 		push(oc, c[0]);
 
 		/* if matching coords are between the cursor, store it */
-		if(c[0] <= txt.x && c[0] + c[1] >= txt.x)
+		if (c[0] <= txt.x && c[0] + c[1] >= txt.x)
 			p = size(ol) - 1;
 	}
 
 	/* it txt.x is still further than the last match, it means
 	   that the 'current' position is beyond the last word */
-	if(txt.x > c[0] + c[1]) p = size(ol);
+	if (txt.x > c[0] + c[1])
+		p = size(ol);
 
 	/* return the list of words, the list of
 	   coordinates and the current one */
-	return( [ ol, oc, p ]);
+	return [ ol, oc, p ];
 }
 
 
@@ -222,9 +220,10 @@ sub mp.get_word(doc, r)
 	local l = mp.split_line_by_words(doc, r);
 
 	/* no word over cursor? */
-	if(l[2] == -1) return(NULL);
+	if (l[2] == -1)
+		return NULL;
 
-	return(l[0][l[2]]);
+	return l[0][l[2]];
 }
 
 
@@ -235,8 +234,7 @@ sub mp.get_range(doc, bx, by, ex, ey)
 
 	local r = [];
 
-	if(by == ey)
-	{
+	if (by == ey) {
 		local w;
 
 		/* block is just one line; take the inside
@@ -246,8 +244,7 @@ sub mp.get_range(doc, bx, by, ex, ey)
 
 		push(r, w[1]);
 	}
-	else
-	{
+	else {
 		local w, n;
 
 		/* block has more than one line */
@@ -260,7 +257,7 @@ sub mp.get_range(doc, bx, by, ex, ey)
 		n++;
 
 		/* take the central lines */
-		while(n < ey)
+		while (n < ey)
 			push(r, txt.lines[n++]);
 
 		/* take the last line */
@@ -268,7 +265,7 @@ sub mp.get_range(doc, bx, by, ex, ey)
 		push(r, w[1]);
 	}
 
-	return(r);
+	return r;
 }
 
 
@@ -277,11 +274,9 @@ sub mp.set_x(doc, x)
 {
 	local txt = doc.txt;
 
-	if(x < 0)
-	{
+	if (x < 0) {
 		/* cursor moved left of the bol; effective cursor up + eol */
-		if(txt.y > 0)
-		{
+		if (txt.y > 0) {
 			/* one line up */
 			txt.y--;
 
@@ -289,13 +284,10 @@ sub mp.set_x(doc, x)
 			txt.x = size(txt.lines[txt.y]);
 		}
 	}
-	else
-	{
+	else {
 		/* test if moved beyond end of line */
-		if(x > size(txt.lines[txt.y]))
-		{
-			if(txt.y < size(txt.lines) - 1)
-			{
+		if (x > size(txt.lines[txt.y])) {
+			if (txt.y < size(txt.lines) - 1) {
 				/* cursor moved right of eol;
 				   effective cursor down + bol */
 				txt.x = 0;
@@ -318,8 +310,10 @@ sub mp.set_y(doc, y)
 	vx = mp.x2vx(txt.lines[txt.y], txt.x);
 
 	/* set boundaries */
-	if(y < 0) y = 0;
-	if(y >= size(txt.lines)) y = size(txt.lines) - 1;
+	if (y < 0)
+		y = 0;
+	if (y >= size(txt.lines))
+		y = size(txt.lines) - 1;
 
 	/* move there */
 	txt.y = y;
@@ -361,10 +355,11 @@ sub mp.move_left(doc)
 /* moves one char left */
 {
 	/* return 0 if on BOF */
-	if(doc.txt.x + doc.txt.y == 0) return(0);
+	if (doc.txt.x + doc.txt.y == 0)
+		return 0;
 
 	mp.set_x(doc, doc.txt.x - 1);
-	return(1);
+	return 1;
 }
 
 
@@ -410,20 +405,17 @@ sub mp.move_word_left(doc)
 {
 	local txt = doc.txt;
 
-	while(1)
-	{
+	while (1) {
 		/* split by words */
 		local l = mp.split_line_by_words(doc);
 
 		/* get current word */
 		local i = l[2];
 
-		if(i >= 0)
-		{
+		if (i >= 0) {
 			/* if it's not at the beginning of a word,
 			   move there and go */
-			if(i < size(l[1]) && txt.x != l[1][i])
-			{
+			if (i < size(l[1]) && txt.x != l[1][i]) {
 				txt.x = l[1][i];
 				break;
 			}
@@ -432,15 +424,15 @@ sub mp.move_word_left(doc)
 			i = l[2] - 1;
 
 			/* if that position exists, move there */
-			if(i >= 0)
-			{
+			if (i >= 0) {
 				txt.x = l[1][i];
 				break;
 			}
 		}
 
 		/* no lines up? exit */
-		if(txt.y == 0) break;
+		if (txt.y == 0)
+			break;
 
 		txt.y--;
 		txt.x = size(txt.lines[txt.y]);
@@ -453,8 +445,7 @@ sub mp.move_word_right(doc)
 {
 	local txt = doc.txt;
 
-	while(txt.y < size(txt.lines) - 1)
-	{
+	while (txt.y < size(txt.lines) - 1) {
 		/* split by words */
 		local l = mp.split_line_by_words(doc);
 
@@ -462,8 +453,7 @@ sub mp.move_word_right(doc)
 		local i = l[2] + 1;
 
 		/* if that position exists, move there */
-		if(i < size(l[1]))
-		{
+		if (i < size(l[1])) {
 			txt.x = l[1][i];
 			break;
 		}

@@ -30,8 +30,7 @@
 mp.actions['new']	= sub (d) {
 	d = mp.find_file_by_name(L("<unnamed>"));
 
-	if(d != -1)
-	{
+	if (d != -1) {
 		mp.active_i = d;
 		d = mp.active();
 	}
@@ -46,13 +45,13 @@ mp.actions['save_as']	= sub (d) {
 
 	local t;
 
-	if((t = mp.savefile(L("Save file as:"))) == NULL)
+	if ((t = mp.savefile(L("Save file as:"))) == NULL)
 		return;
 
 	/* store new name */
 	d.name = t;
 
-	if(mp.long_op(mp.save, d) == -1)
+	if (mp.long_op(mp.save, d) == -1)
 		mp.alert(sprintf(L("Error saving file: %s"), ERRNO));
 	else
 		mp.detect_syntax(d);
@@ -61,23 +60,24 @@ mp.actions['save_as']	= sub (d) {
 mp.actions['save']	= sub (d) {
 
 	/* name is <unnamed> or something similar; ask for one */
-	if(regex("/^<.+>$/", d.name))
+	if (regex("/^<.+>$/", d.name))
 		mp.actions.save_as(d);
 	else
-	if(mp.long_op(mp.save, d) == -1)
+	if (mp.long_op(mp.save, d) == -1)
 		mp.alert(sprintf(L("Error saving file: %s"), ERRNO));
 };
 
 mp.actions['close']	= sub (d) {
 
-	if(d.txt.mod)
-	{
+	if (d.txt.mod) {
 		local r;
 		r = mp.confirm(L("File has changed. Save changes?"));
 
 		/* cancel? don't close */
-		if(r == 0) return;
-		if(r == 1) mp.actions.save(d);
+		if (r == 0)
+			return;
+		if (r == 1)
+			mp.actions.save(d);
 	}
 
 	mp.close();
@@ -98,8 +98,8 @@ mp.actions['open']	= sub (d) {
 
 	local n;
 
-	if((n = mp.openfile(L("File to open:"))) != NULL && n ne "")
-		if(mp.long_op(mp.open, n) == NULL && ERRNO != NULL)
+	if ((n = mp.openfile(L("File to open:"))) != NULL && n ne "")
+		if (mp.long_op(mp.open, n) == NULL && ERRNO != NULL)
 			mp.alert(sprintf("Error opening '%s': %s", n, ERRNO));
 };
 
@@ -107,17 +107,17 @@ mp.actions['revert']	= sub (d) {
 	/* save current name */
 	local p = d.name;
 
-	if(d.txt.mod)
-	{
+	if (d.txt.mod) {
 		local r;
 		r = mp.confirm(L("File has changed. Are you sure?"));
 
 		/* cancel? don't close */
-		if(r == 0 || r == 2) return;
+		if (r == 0 || r == 2)
+			return;
 	}
 
 	mp.close();
-	if(mp.long_op(mp.open, p) == NULL && ERRNO != NULL)
+	if (mp.long_op(mp.open, p) == NULL && ERRNO != NULL)
 		mp.alert(sprintf("Error opening '%s': %s", p, ERRNO));
 };
 
@@ -129,7 +129,7 @@ mp.actions['open_config_file']	= sub (d) {
 mp.actions['sync'] = sub (d) {
 
 	/* save all modified documents */
-	foreach(local d, grep(sub (e) { e.txt.mod; }, mp.docs))
+	foreach (local d, grep(sub (e) { e.txt.mod; }, mp.docs))
 		mp.actions.save(d);
 };
 
@@ -141,21 +141,18 @@ mp.actions['exec_command']	= sub (d) {
 		  'history' => 'system' }
 		]);
 
-	if(t != NULL)
-	{
+	if (t != NULL) {
 		local cmd = t[0];
 
 		/* does it start with a pipe? */
-		if(regex('/^\|/', cmd))
-		{
+		if (regex('/^\|/', cmd)) {
 			local p;
 
 			/* yes; current document should be fed to it */
 			cmd = sregex('/^\|/', cmd, NULL);
 
-			if((p = popen(cmd, "w")) != NULL)
-			{
-				foreach(local l, mp.get_active_area(d))
+			if ((p = popen(cmd, "w")) != NULL) {
+				foreach (local l, mp.get_active_area(d))
 					write(p, l ~ mp.config.eol);
 
 				pclose(p);
@@ -164,18 +161,16 @@ mp.actions['exec_command']	= sub (d) {
 				mp.drv.alert(
 					sprintf(L("Error writing to command '%s'"), cmd));
 		}
-		else
-		{
+		else {
 			/* no; execute command and insert into cursor */
 			local p;
 
-			if((p = popen(cmd, "r")) != NULL)
-			{
+			if ((p = popen(cmd, "r")) != NULL) {
 				local l;
 
 				mp.store_undo(d);
 
-				while((l = read(p)) != NULL)
+				while ((l = read(p)) != NULL)
 					mp.insert(d, l);
 
 				pclose(p);
@@ -199,10 +194,11 @@ mp.actions['close_all'] = sub {
 
 		/* if the size of the list hasn't changed,
 		   action was cancelled, so don't exit */
-		if(s == size(mp.docs)) return (0);
+		if (s == size(mp.docs))
+			return 0;
 	}
 
-	return (1);
+	return 1;
 };
 
 /* default key bindings */
@@ -250,8 +246,7 @@ sub mp.open_file_for_reading(filename)
 	/* clear previous errors */
 	ERRNO = NULL;
 
-	if((f = open(filename, "rb")) == NULL)
-	{
+	if ((f = open(filename, "rb")) == NULL) {
 		/* save ERRNO */
 		local e = ERRNO;
 
@@ -259,7 +254,7 @@ sub mp.open_file_for_reading(filename)
 		   exists and can't be open; this is an error.
 		   otherwise, it's a non-existent file, so not
 		   an error for a text editor */
-		if(stat(filename) != NULL)
+		if (stat(filename) != NULL)
 			ERRNO = e;
 		else {
 			ERRNO = NULL;
@@ -271,7 +266,7 @@ sub mp.open_file_for_reading(filename)
 		}
 	}
 
-	return(f);
+	return f;
 }
 
 
@@ -283,26 +278,24 @@ sub mp.save(doc)
 	local nl = 0;
 
 	/* if unlink before write is desired, do it */
-	if(mp.config.unlink && (s = stat(doc.name)) != NULL)
+	if (mp.config.unlink && (s = stat(doc.name)) != NULL)
 		unlink(doc.name);
 
-	if((f = open(doc.name, "wb")) == NULL)
-	{
+	if ((f = open(doc.name, "wb")) == NULL) {
 		/* can't write? delete name */
 		doc.name = L("<unnamed>");
-		return(-1);
+		return -1;
 	}
 
 	/* if the document has a password, save it encrypted */
-	if(doc.password)
+	if (doc.password)
 		nl = mp.crypt1_save(f, doc.txt.lines, doc.password);
-	else
-	{
+	else {
 		/* save as a plain text file */
-		foreach(local l, doc.txt.lines)
-		{
+		foreach (local l, doc.txt.lines) {
 			/* write a line separator if it's not the first line */
-			if(nl) write(f, mp.config.eol);
+			if (nl)
+				write(f, mp.config.eol);
 
 			write(f, l);
 			nl++;
@@ -314,13 +307,12 @@ sub mp.save(doc)
 	doc.txt.mod = 0;
 
 	/* set back the permissions and ownership, if available */
-	if(s != NULL)
-	{
+	if (s != NULL) {
 		chmod(doc.name, s[2]);
 		chown(doc.name, s[4], s[5]);
 	}
 
-	return(nl);
+	return nl;
 }
 
 
@@ -353,14 +345,14 @@ sub mp.new(filename, lines)
 	/* autodetect syntax */
 	mp.detect_syntax(doc);
 
-	return(doc);
+	return doc;
 }
 
 
 sub mp.next()
 /* rotates through the document list */
 {
-	if(++mp.active_i == size(mp.docs))
+	if (++mp.active_i == size(mp.docs))
 		mp.active_i = 0;
 }
 
@@ -368,7 +360,7 @@ sub mp.next()
 sub mp.prev()
 /* rotates through the document list, backwards */
 {
-	if(--mp.active_i == -1)
+	if (--mp.active_i == -1)
 		mp.active_i = size(mp.docs) - 1;
 }
 
@@ -382,7 +374,7 @@ sub mp.close()
 	adel(mp.docs, mp.active_i);
 
 	/* rotate if it was the last one */
-	if(mp.active_i == size(mp.docs))
+	if (mp.active_i == size(mp.docs))
 		mp.active_i = 0;
 }
 
@@ -400,42 +392,37 @@ sub mp.open(filename)
 	local d = mp.find_file_by_name(filename);
 
 	/* looks first if the file is already open */
-	if(d != -1)
-	{
+	if (d != -1) {
 		mp.active_i = d;
 		d = mp.active();
 	}
-	else
-	{
+	else {
 		local f, l, p;
 
-		if((f = mp.open_file_for_reading(filename)) == NULL)
-		{
-			if(ERRNO != NULL)
-				return(NULL);
+		if ((f = mp.open_file_for_reading(filename)) == NULL) {
+			if (ERRNO != NULL)
+				return NULL;
 
 			/* file doesn't exist: new document */
 		}
-		else
-		{
-			if(mp.crypt1_detect(f))
-			{
+		else {
+			if (mp.crypt1_detect(f)) {
 				/* password needed; ask for it */
-				if((p = mp.form( [
+				if ((p = mp.form( [
 					{ 'label'	=> L("Password:"),
 					  'type'	=> 'password' }
-					])) == NULL)
-				{
+					])) == NULL) {
 					/* cancel? fail, but not on error */
 					ERRNO = NULL;
-					return(NULL);
+					return NULL;
 				}
 
 				/* get the password */
 				p = p[0];
 
 				/* an empty password is equal to cancellation */
-				if(p eq '') return(NULL);
+				if (p eq '')
+					return NULL;
 
 				/* and load the file */
 				l = mp.crypt1_load(f, p);
@@ -449,8 +436,9 @@ sub mp.open(filename)
 		d = mp.new(filename, l);
 
 		/* does it have a password? store it */
-		if(p != NULL) d.password = p;
+		if (p != NULL)
+			d.password = p;
 	}
 
-	return(d);
+	return d;
 }

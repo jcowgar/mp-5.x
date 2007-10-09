@@ -35,10 +35,10 @@ mp.actions['help']	=	sub (d) {
 
 	/* if there is a word at the cursor position,
 	   try searching for help */
-	if((w = mp.get_word(d, r)) != NULL)
+	if ((w = mp.get_word(d, r)) != NULL)
 		h = mp.help(d, w);
 
-	if(h == NULL)
+	if (h == NULL)
 		mp.alert(sprintf(L("No help for '%s'."), w));
 	else
 		mp.new(sprintf(L("<help on '%s'>"), w), h);
@@ -196,7 +196,7 @@ mp.syntax.perl = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang' for Perl? */
-		return(regex('/^#!/usr/bin/(env )?perl/', f));
+		return regex('/^#!/usr/bin/(env )?perl/', f);
 	}
 };
 
@@ -275,8 +275,8 @@ mp.syntax.sh = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang' for usual shells? */
-		return(regex('/^#!/bin/(sh|bash|csh|dash|ksh)/', f) ||
-		       regex('/^#!/usr/bin/make -f/', f));
+		return regex('/^#!/bin/(sh|bash|csh|dash|ksh)/', f) ||
+		       regex('/^#!/usr/bin/make -f/', f);
 	}
 
 };
@@ -418,7 +418,7 @@ mp.syntax.python = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang'? */
-		return(regex('/^#!/usr/bin/(env )?python/', f));
+		return regex('/^#!/usr/bin/(env )?python/', f);
 	}
 };
 
@@ -455,7 +455,7 @@ mp.syntax.ruby = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang'? */
-		return(regex('/^#!/usr/bin/(env )?ruby/', f));
+		return regex('/^#!/usr/bin/(env )?ruby/', f);
 	}
 };
 
@@ -515,7 +515,7 @@ mp.syntax.xml = {
 		/* take the first line */
 		local f = d.txt.lines[0];
 
-		return(regex('/<\?xml/', f));
+		return regex('/<\?xml/', f);
 	}
 };
 
@@ -528,15 +528,12 @@ sub mp.detect_syntax(doc)
 	doc.syntax = NULL;
 
 	/* loops the syntax highlight definitions */
-	foreach(n, keys(mp.syntax))
-	{
+	foreach (n, keys(mp.syntax)) {
 		local s = mp.syntax[n];
 
 		/* test the extensions */
-		foreach(local ext, s.filenames)
-		{
-			if(regex(ext, doc.name))
-			{
+		foreach (local ext, s.filenames) {
+			if (regex(ext, doc.name)) {
 				doc.syntax = s;
 				return;
 			}
@@ -544,12 +541,10 @@ sub mp.detect_syntax(doc)
 	}
 
 	/* not by extension? try the 'detect' subroutine */
-	foreach(n, keys(mp.syntax))
-	{
+	foreach (n, keys(mp.syntax)) {
 		local s = mp.syntax[n];
 
-		if(is_exec(s.detect) && s.detect(doc))
-		{
+		if (is_exec(s.detect) && s.detect(doc)) {
 			doc.syntax = s;
 			return;
 		}
@@ -561,31 +556,29 @@ sub mp.help(doc, word)
 {
 	local h;
 
-	foreach(local c, doc.syntax.help)
-	{
+	foreach (local c, doc.syntax.help) {
 		local f;
 
 		/* format the command */
 		c = sprintf(c, word);
 
 		/* pipe from it */
-		if((f = popen(c, "r")) != NULL)
-		{
+		if ((f = popen(c, "r")) != NULL) {
 			local l;
 			h = [];
 
-			while((l = read(f)) != NULL)
+			while ((l = read(f)) != NULL)
 				push(h, mp.chomp(l));
 
 			/* fails? */
-			if(pclose(f) != 0)
+			if (pclose(f) != 0)
 				h = NULL;
 		}
 
 		/* is there already help? don't look for more */
-		if(h != NULL)
+		if (h != NULL)
 			break;
 	}
 
-	return(h);
+	return h;
 }

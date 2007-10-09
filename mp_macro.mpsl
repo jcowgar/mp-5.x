@@ -63,8 +63,7 @@ sub mp.process_event_and_record(k)
 sub mp.record_macro
 /* start recording a macro */
 {
-	if(mp.macro.process_event == NULL)
-	{
+	if (mp.macro.process_event == NULL) {
 		/* if still not recording, store the real mp.process_event()
 		   function and replace it by ours */
 		mp.macro.process_event = mp.process_event;
@@ -73,8 +72,7 @@ sub mp.record_macro
 		/* reset keycode list */
 		mp.macro.keycodes = [];
 	}
-	else
-	{
+	else {
 		/* unpatch mp.process_event() */
 		mp.process_event = mp.macro.process_event;
 		mp.macro.process_event = NULL;
@@ -89,10 +87,10 @@ sub mp.play_macro
 /* play a macro */
 {
 	/* if it's recording, stop now */
-	if(mp.macro.process_event != NULL)
+	if (mp.macro.process_event != NULL)
 		mp.record_macro();
 
 	/* process all stored keycodes */
-	foreach(local k, mp.macro.keycodes)
+	foreach (local k, mp.macro.keycodes)
 		mp.process_event(k);
 }

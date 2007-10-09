@@ -56,7 +56,7 @@ mp.actions['cut_mark']	= sub (d) {
 mp.actions['mouse_drag_mark'] = sub (d) {
 
 	/* no selection yet? move to initial click and mark */
-	if(d.txt.mark == NULL)
+	if (d.txt.mark == NULL)
 		mp.mark(d);
 
 	/* move to drag position */
@@ -97,27 +97,23 @@ sub mp.mark(doc)
 {
 	local txt = doc.txt;
 
-	if(txt.mark == NULL)
-	{
+	if (txt.mark == NULL) {
 		/* no mark; create one */
 		txt.mark = {};
 		txt.mark.ax = txt.mark.bx = txt.mark.ex = txt.x;
 		txt.mark.ay = txt.mark.by = txt.mark.ey = txt.y;
 	}
-	else
-	{
+	else {
 		/* mark exists; extend current one */
-		if(txt.y < txt.mark.ay ||
-			(txt.y == txt.mark.ay && txt.x < txt.mark.ax))
-		{
+		if (txt.y < txt.mark.ay ||
+			(txt.y == txt.mark.ay && txt.x < txt.mark.ax)) {
 			/* move the beginning of the block */
 			txt.mark.bx = txt.x;
 			txt.mark.by = txt.y;
 			txt.mark.ex = txt.mark.ax;
 			txt.mark.ey = txt.mark.ay;
 		}
-		else
-		{
+		else {
 			/* move the end of the block */
 			txt.mark.ex = txt.x;
 			txt.mark.ey = txt.y;
@@ -133,17 +129,17 @@ sub mp.get_active_area(doc)
 {
 	local m;
 
-	if((m = doc.txt.mark) == NULL)
-		return(doc.txt.lines);
+	if ((m = doc.txt.mark) == NULL)
+		return doc.txt.lines;
 	else
-		return(mp.get_range(doc, m.bx, m.by, m.ex, m.ey));
+		return mp.get_range(doc, m.bx, m.by, m.ex, m.ey);
 }
 
 
 sub mp.copy(doc)
 /* copies the mark to the clipboard */
 {
-	if(doc.txt.mark)
+	if (doc.txt.mark)
 		mp.clipboard = mp.get_active_area(doc);
 }
 
@@ -154,7 +150,8 @@ sub mp.delete_mark(doc)
 	local txt = doc.txt;
 
 	/* no mark? done */
-	if(txt.mark == NULL) return;
+	if (txt.mark == NULL)
+		return;
 
 	/* deletes the range */
 	mp.delete_range(doc,

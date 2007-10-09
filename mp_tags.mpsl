@@ -42,7 +42,7 @@ mp.actions['find_tag']	= sub(d) {
 		  'value'	=> tag }
 		]);
 
-	if(r != NULL)
+	if (r != NULL)
 		mp.open_tag(r[0]);
 };
 
@@ -52,15 +52,15 @@ mp.actions['complete'] = sub(d) {
 
 	mp.busy(1);
 
-	foreach(local l, d.txt.lines)
-		foreach(local w, mp.split_by_words(l))
+	foreach (local l, d.txt.lines)
+		foreach (local w, mp.split_by_words(l))
 			words[w]++;
 
 	mp.busy(0);
 
 	/* if the current word happens only one time, delete it */
 	local w = mp.get_word(d);
-	if(words[w] == 1)
+	if (words[w] == 1)
 		hdel(words, w);
 
 	mp.complete(d, keys(words));
@@ -70,7 +70,7 @@ mp.actions['complete_symbol'] = sub(d) {
 
 	mp.long_op(mp.load_tags, 1);
 
-	if(!mp.complete(d, keys(mp.tags), L("Select symbol:")))
+	if (!mp.complete(d, keys(mp.tags), L("Select symbol:")))
 		mp.alert(L("No matching symbol found."));
 };
 
@@ -92,10 +92,9 @@ sub mp.load_tags(force)
 {
 	local f, a;
 
-	if((f = open("tags", "r")) == NULL)
-	{
+	if ((f = open("tags", "r")) == NULL) {
 		/* if force is set, execute the ctags command */
-		if(!force || (f = popen(mp.config.ctags_cmd, "r")) == NULL)
+		if (!force || (f = popen(mp.config.ctags_cmd, "r")) == NULL)
 			return;
 
 		/* read (and discard) a line from it */
@@ -103,12 +102,12 @@ sub mp.load_tags(force)
 		pclose(f);
 
 		/* try again */
-		if((f = open("tags", "r")) == NULL)
+		if ((f = open("tags", "r")) == NULL)
 			return;
 	}
 
 	/* deletes all currently stored tags from the word/color cache */
-	foreach(local l, keys(mp.tags))
+	foreach (local l, keys(mp.tags))
 		hdel(mp.word_color, l);
 
 	/* reset current tags */
@@ -117,8 +116,7 @@ sub mp.load_tags(force)
 	/* get the attribute for tags */
 	a = mp.colors.tag.attr;
 
-	while((l = read(f)))
-	{
+	while ((l = read(f))) {
 		local t = split("\t", l);
 		local l, r;
 
@@ -159,17 +157,15 @@ sub mp.open_tag(tag)
 
 	/* greps all tags containing the tag, and returns the
 	   values from mp.tags */
-	if((t = map(mp.tags, grep('/' ~ tag ~ '/', keys(mp.tags)))) == NULL)
-	{
+	if ((t = map(mp.tags, grep('/' ~ tag ~ '/', keys(mp.tags)))) == NULL) {
 		mp.alert(L("Tag not found."));
 		return;
 	}
 
 	/* only one? get the first one */
-	if(size(t) == 1)
+	if (size(t) == 1)
 		a = 0;
-	else
-	{
+	else {
 		/* build a list to ask the user */
 		local l = map(sub(e) { e.label; }, t);
 
@@ -179,7 +175,8 @@ sub mp.open_tag(tag)
 			  'list'	=> l }
 			]);
 
-		if(r == NULL) return;
+		if (r == NULL)
+			return;
 		a = r[0];
 	}
 
@@ -190,7 +187,7 @@ sub mp.open_tag(tag)
 
 	/* move up and search */
 	mp.move_bof(doc);
-	return(mp.long_op(mp.search, doc, tag.regex));
+	return mp.long_op(mp.search, doc, tag.regex);
 }
 
 
@@ -201,13 +198,12 @@ sub mp.complete(d, list, label)
 	local word = mp.get_word(d);
 
 	/* takes all list elements starting with word */
-	if((l = sort(grep('/^' ~ word ~ '/', list))) == NULL)
-		return(0);
+	if ((l = sort(grep('/^' ~ word ~ '/', list))) == NULL)
+		return 0;
 
-	if(size(l) == 1)
+	if (size(l) == 1)
 		a = 0;
-	else
-	{
+	else {
 		/* more than one; ask user */
 		local r = mp.form( [
 			{ 'label'	=> label || L("Select:"),
@@ -215,7 +211,8 @@ sub mp.complete(d, list, label)
 			  'list'	=> l }
 			]);
 
-		if(r == NULL) return;
+		if (r == NULL)
+			return;
 		a = r[0];
 	}
 
@@ -235,5 +232,5 @@ sub mp.complete(d, list, label)
 
 	d.txt.mod++;
 
-	return(1);
+	return 1;
 }

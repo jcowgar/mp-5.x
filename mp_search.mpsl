@@ -40,8 +40,7 @@ mp.actions['seek'] 	= sub (d) {
 		  'value'	=> mp.config.case_sensitive_search }
 	] );
 
-	if(t != NULL)
-	{
+	if (t != NULL) {
 		mp.config.case_sensitive_search = t[1];
 
 		mp.long_op(mp.search, d, mp.backslash_codes(t[0])) ||
@@ -74,8 +73,7 @@ mp.actions['replace']	= sub (d) {
 		  'value'	=> mp.config.global_replace }
 	] );
 
-	if(r != NULL)
-	{
+	if (r != NULL) {
 		mp.config.case_sensitive_search = r[2];
 		mp.config.global_replace = r[3];
 
@@ -98,18 +96,16 @@ mp.actions['grep']	= sub (d) {
 		  'history'	=> 'grep'}
 	] );
 
-	if(r != NULL && r[0] ne '')
-	{
+	if (r != NULL && r[0] ne '') {
 		local i = 0;
 
-		if((r = mp.long_op(mp.grep, '/' ~ r[0] ~ '/', r[1])) == NULL)
+		if ((r = mp.long_op(mp.grep, '/' ~ r[0] ~ '/', r[1])) == NULL)
 			mp.alert(L("File(s) not found."));
 
-		if(size(r) == 0)
+		if (size(r) == 0)
 			mp.alert(L("Text not found."));
 		else
-		if(size(r) > 1)
-		{
+		if (size(r) > 1) {
 			/* more than one; ask for it */
 			local l = mp.form( [
 				{ 'label'	=> L("Grep"),
@@ -119,15 +115,14 @@ mp.actions['grep']	= sub (d) {
 				 }
 				]);
 
-			if(l == NULL)
+			if (l == NULL)
 				return;
 
 			/* get index of the desired item */
 			i = l[0];
 		}
 
-		if(size(r))
-		{
+		if (size(r)) {
 			/* now open the document and move there */
 			d = mp.long_op(mp.open, r[i][0]);
 			d.txt.x = 0;
@@ -163,10 +158,10 @@ sub mp.prefix_regex(str)
 	str = '/' ~ str ~ '/';
 
 	/* add optional case insensitivity flag */
-	if(! mp.config.case_sensitive_search)
+	if (! mp.config.case_sensitive_search)
 		str = str ~ 'i';
 
-	return(str);
+	return str;
 }
 
 
@@ -175,13 +170,13 @@ sub mp.search_dir(doc, str, dir)
 {
 	local txt, x, y, r;
 
-	if(str == NULL)
+	if (str == NULL)
 		str = mp.last_search;
 	else
 		mp.last_search = str;
 
-	if(str == NULL)
-		return(NULL);
+	if (str == NULL)
+		return NULL;
 
 	str = mp.prefix_regex(str);
 
@@ -189,26 +184,22 @@ sub mp.search_dir(doc, str, dir)
 	x = txt.x;
 	y = txt.y;
 
-	if(dir == -1)
-	{
+	if (dir == -1) {
 		local l;
 		str = str ~ 'l';
 
 		/* search backwards */
-		if(txt.x)
-		{
+		if (txt.x) {
 			l = splice(txt.lines[y], NULL, 0, txt.x - 1);
 			l = l[1];
 		}
 
-		while(regex(str, l, 0) == NULL && y > 0)
+		while (regex(str, l, 0) == NULL && y > 0)
 			l = txt.lines[--y];
 	}
-	else
-	{
+	else {
 		/* search forward */
-		while(regex(str, txt.lines[y], x) == NULL && y < size(txt.lines))
-		{
+		while (regex(str, txt.lines[y], x) == NULL && y < size(txt.lines)) {
 			x = 0; y++;
 		}
 	}
@@ -216,18 +207,17 @@ sub mp.search_dir(doc, str, dir)
 	/* get last coords */
 	r = regex();
 
-	if(r)
-	{
+	if (r) {
 		mp.set_y(doc, y);
 		mp.set_x(doc, r[0] + r[1]);
 
 		/* set always to the same line */
-		if(mp.config.move_seek_to_line != NULL &&
+		if (mp.config.move_seek_to_line != NULL &&
 		   (doc.txt.vy = doc.txt.y - mp.config.move_seek_to_line) < 0)
 			doc.txt.vy = 0;
 	}
 
-	return(r);
+	return r;
 }
 
 
@@ -250,8 +240,7 @@ sub mp.replace_1(doc, this, that)
 {
 	local c;
 
-	if((c = mp.search(doc, this)) != NULL)
-	{
+	if ((c = mp.search(doc, this)) != NULL) {
 		local txt, l;
 
 		txt = doc.txt;
@@ -267,16 +256,16 @@ sub mp.replace_1(doc, this, that)
 		txt.mod++;
 	}
 
-	return(c);
+	return c;
 }
 
 
 sub mp.replace(doc, this, that)
 /* replaces 'this' with 'that', may be globally */
 {
-	while(mp.replace_1(doc, this, that))
-	{
-		if(!mp.config.global_replace) break;
+	while (mp.replace_1(doc, this, that)) {
+		if (!mp.config.global_replace)
+			break;
 	}
 }
 
@@ -309,30 +298,28 @@ sub mp.grep(rx, spec)
 	local r, all;
 
 	/* if spec is empty, set as NULL (meaning "glob everything") */
-	if(spec eq '') spec = NULL;
+	if (spec eq '')
+		spec = NULL;
 
 	all = glob(spec);
 
 	/* spec globs to NULL or empty; abort */
-	if(size(all) == 0) { return(NULL); }
+	if (size(all) == 0)
+		return NULL;
 
 	r = [];
 
-	foreach(local fn, all)
-	{
+	foreach (local fn, all) {
 		local f;
 
-		if((f = open(fn, "r")) != NULL)
-		{
+		if ((f = open(fn, "r")) != NULL) {
 			local l, n;
 
 			/* file open; now grep */
-			while(l = read(f))
-			{
+			while (l = read(f)) {
 				l = mp.chomp(l);
 
-				if(regex(rx, l))
-				{
+				if (regex(rx, l)) {
 					/* found; store line, filename and linenum */
 					push(r, [ fn, n, l ]);
 				}
@@ -344,5 +331,5 @@ sub mp.grep(rx, spec)
 		}
 	}
 
-	return(r);
+	return r;
 }

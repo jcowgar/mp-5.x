@@ -64,15 +64,14 @@ sub mp.tui.readline(prompt, history, default, flags)
 
 	i = 0;
 
-	while(1)
-	{
+	while (1) {
 		local k, s;
 
 		/* builds the string */
 		s = regex(v, r) || '';
 
 		/* if it's a password, change everything to asterisks */
-		if(flags.password)
+		if (flags.password)
 			s = sregex('/./g', s, flags.password);
 
 		/* draws the string */
@@ -81,29 +80,42 @@ sub mp.tui.readline(prompt, history, default, flags)
 
 		k = mp.tui.getkey();
 
-		if(k eq 'enter') break;
+		if (k eq 'enter')
+			break;
 		else
-		if(k eq 'escape') { r = NULL; break; }
+		if (k eq 'escape') {
+			r = NULL;
+			break;
+		}
 		else
-		if(k eq 'backspace') r = sregex('/.$/', r);
+		if (k eq 'backspace')
+			r = sregex('/.$/', r);
 		else
-		if(k eq 'ctrl-u') r = '';
+		if (k eq 'ctrl-u')
+			r = '';
 		else
-		if(k eq 'space') r = r ~ ' ';
+		if (k eq 'space')
+			r = r ~ ' ';
 		else
-		if(k eq 'cursor-up' && size(h)) { i--; r = h[i % size(h)]; }
+		if (k eq 'cursor-up' && size(h)) {
+			i--;
+			r = h[i % size(h)];
+		}
 		else
-		if(k eq 'cursor-down' && size(h)) { i++; r = h[i % size(h)]; }
+		if (k eq 'cursor-down' && size(h)) {
+			i++;
+			r = h[i % size(h)];
+		}
 		else
-		if(size(k) == 1)
+		if (size(k) == 1)
 			r = r ~ k;
 	}
 
 	/* if a string was accepted, store in the history */
-	if(h != NULL && size(r) && h[-1] ne r)
+	if (h != NULL && size(r) && h[-1] ne r)
 		push(h, r);
 
-	return(r);
+	return r;
 }
 
 
@@ -121,32 +133,36 @@ sub mp.tui.list(prompt, data, pos)
 	/* clipping regex */
 	r = '/^.{1,' ~ (mp.window.tx) ~ '}/';
 
-	if(pos == NULL) pos = 0;
+	if (pos == NULL)
+		pos = 0;
 
-	while(1)
-	{
+	while (1) {
 		local k, n;
 
 		/* limits for pos */
-		if(pos < 0) pos = 0;
-		if(pos >= size(data)) pos = size(data) - 1;
+		if (pos < 0)
+			pos = 0;
+		if (pos >= size(data))
+			pos = size(data) - 1;
 
 		/* limits for vy */
-		if(pos < vy) vy = pos;
-		if(vy + ty <= pos) vy = pos - ty + 1;
+		if (pos < vy)
+			vy = pos;
+		if (vy + ty <= pos)
+			vy = pos - ty + 1;
 
 		/* draw all the lines */
 		n = 0;
-		while(n < ty)
-		{
+		while (n < ty) {
 			local l = data[n + vy];
 
 			/* no more data? */
-			if(l == NULL) break;
+			if (l == NULL)
+				break;
 
 			mp.tui.move(0, n + 1, 1);
 
-			if(n + vy == pos)
+			if (n + vy == pos)
 				mp.tui.attr(mp.colors.cursor.attr);
 			else
 				mp.tui.attr(mp.colors.normal.attr);
@@ -158,32 +174,41 @@ sub mp.tui.list(prompt, data, pos)
 		}
 
 		/* clean the rest of lines */
-		while(n < ty)
-		{
+		while (n < ty) {
 			mp.tui.move(0, n + 1, 1);
 			n++;
 		}
 
 		k = mp.tui.getkey();
 
-		if(k eq 'cursor-up') pos--;
+		if (k eq 'cursor-up')
+			pos--;
 		else
-		if(k eq 'cursor-down') pos++;
+		if (k eq 'cursor-down')
+			pos++;
 		else
-		if(k eq 'page-up') pos -= ty;
+		if (k eq 'page-up')
+			pos -= ty;
 		else
-		if(k eq 'page-down') pos += ty;
+		if (k eq 'page-down')
+			pos += ty;
 		else
-		if(k eq 'home') pos = 0;
+		if (k eq 'home')
+			pos = 0;
 		else
-		if(k eq 'end') pos = size(data) - 1;
+		if (k eq 'end')
+			pos = size(data) - 1;
 		else
-		if(k eq 'enter') break;
+		if (k eq 'enter')
+			break;
 		else
-		if(k eq 'escape') { pos = NULL; break; }
+		if (k eq 'escape') {
+			pos = NULL;
+			break;
+		}
 	}
 
-	return(pos);
+	return pos;
 }
 
 
@@ -193,7 +218,7 @@ sub mp.drv.alert(msg)
 {
 	mp.tui.prompt(msg ~ L(" [ENTER]"));
 
-	while(mp.tui.getkey() ne 'enter');
+	while (mp.tui.getkey() ne 'enter');
 }
 
 
@@ -216,17 +241,20 @@ sub mp.drv.confirm(msg, def)
 
 	mp.tui.prompt(msg);
 
-	while(ret == NULL)
-	{
+	while (ret == NULL) {
 		local k = mp.tui.getkey();
 
-		if (regex('/^' ~ y ~ '$/i', k)) ret = 1;
-		if (regex('/^' ~ n ~ '$/i', k)) ret = 2;
-		if (k eq 'escape') ret = 0;
-		if (k eq 'enter') ret = (def && 1 || 2);
+		if (regex('/^' ~ y ~ '$/i', k))
+			ret = 1;
+		if (regex('/^' ~ n ~ '$/i', k))
+			ret = 2;
+		if (k eq 'escape')
+			ret = 0;
+		if (k eq 'enter')
+			ret = (def && 1 || 2);
 	}
 
-	return(ret);
+	return ret;
 }
 
 sub mp.drv.openfile(prompt)
@@ -245,31 +273,28 @@ sub mp.drv.form(widgets)
 {
 	local r = [];
 
-	foreach(local w, widgets)
-	{
+	foreach (local w, widgets) {
 		local r1 = NULL;
 
-		if(w.type eq 'text')
+		if (w.type eq 'text')
 			r1 = mp.tui.readline(w.label, w.history, w.value);
 		else
-		if(w.type eq 'password')
+		if (w.type eq 'password')
 			r1 = mp.tui.readline(w.label, NULL, NULL,
 				{ 'password' => '*' });
 		else
-		if(w.type eq 'checkbox')
-		{
+		if (w.type eq 'checkbox') {
 			/* return value conversion */
 			local c = [ NULL, 1, 0 ];
 
 			r1 = c[mp.drv.confirm(w.label, w.value)];
 		}
 		else
-		if(w.type eq 'list')
+		if (w.type eq 'list')
 			r1 = mp.tui.list(w.label, w.list, w.value);
 
 		/* cancellation? */
-		if(r1 == NULL)
-		{
+		if (r1 == NULL) {
 			r = NULL;
 			break;
 		}
@@ -278,7 +303,7 @@ sub mp.drv.form(widgets)
 		push(r, r1);
 	}
 
-	return(r);
+	return r;
 }
 
 
@@ -288,21 +313,21 @@ sub mp.drv.menu()
 	local action = NULL;
 	local key = NULL;
 
-	while(action == NULL && key ne 'escape')
-	{
+	while (action == NULL && key ne 'escape') {
 		local pos, mo, my;
 		local n = 0;
 
 		/* wrap */
-		if(mx < 0) mx = size(mp.menu) - 1;
-		if(mx >= size(mp.menu)) mx = 0;
+		if (mx < 0)
+			mx = size(mp.menu) - 1;
+		if (mx >= size(mp.menu))
+			mx = 0;
 
 		/* draw the menu bar */
 		mp.tui.attr(mp.colors.menu.attr);
 		mp.tui.move(0, 0, 1);
 
-		while(n < size(mp.menu))
-		{
+		while (n < size(mp.menu)) {
 			/* get the label */
 			local l = L(mp.menu[n][0]);
 
@@ -312,8 +337,7 @@ sub mp.drv.menu()
 			mp.tui.attr(mp.colors.menu.attr);
 			mp.tui.addstr('   ');
 
-			if(n == mx)
-			{
+			if (n == mx) {
 				pos = mp.tui.getxy();
 				mp.tui.attr(mp.colors.cursor.attr);
 			}
@@ -329,17 +353,16 @@ sub mp.drv.menu()
 		/* calculate panel optimal dimensions */
 		pos[2] = 0;
 
-		foreach(n, mo)
-		{
+		foreach (n, mo) {
 			local l = mp.menu_label(n);
 
-			if(size(l) > pos[2])
+			if (size(l) > pos[2])
 				pos[2] = size(l);
 		}
 
 		/* if the panel will surpass the right margin,
 		   move to the left */
-		if(pos[0] + pos[2] > mp.window.tx)
+		if (pos[0] + pos[2] > mp.window.tx)
 			pos[0] = pos[2] - mp.window.tx;
 
 		mp.tui.refresh();
@@ -348,22 +371,19 @@ sub mp.drv.menu()
 
 		my = 0;
 
-		while(key ne 'escape')
-		{
+		while (key ne 'escape') {
 			/* draw the options */
 			n = 0;
-			while(n < size(mo))
-			{
+			while (n < size(mo)) {
 				local l = mp.menu_label(mo[n]);
 
 				/* set color */
-				if(n == my)
+				if (n == my)
 					mp.tui.attr(mp.colors.cursor.attr);
 				else
 					mp.tui.attr(mp.colors.menu.attr);
 
-				if(l != NULL)
-				{
+				if (l != NULL) {
 					mp.tui.move(1, 1 + n);
 					mp.tui.addstr(sprintf("%-" ~ pos[2] ~ "s", l));
 				}
@@ -378,35 +398,42 @@ sub mp.drv.menu()
 
 			key = mp.tui.getkey();
 
-			if(key eq 'cursor-up')
-			{
+			if (key eq 'cursor-up') {
 				/* move up avoiding separators */
-				while(1)
-				{
-					if(--my < 0)
+				while (1) {
+					if (--my < 0)
 						my = size(mo) - 1;
 
-					if(mo[my] ne '-') break;
+					if (mo[my] ne '-')
+						break;
 				}
 			}
 			else
-			if(key eq 'cursor-down')
-			{
+			if (key eq 'cursor-down') {
 				/* move down avoiding separators */
-				while(1)
-				{
-					if(++my >= size(mo))
+				while (1) {
+					if (++my >= size(mo))
 						my = 0;
 
-					if(mo[my] ne '-') break;
+					if (mo[my] ne '-')
+						break;
 				}
 			}
 			else
-			if(key eq 'cursor-right') { mx++; break; }
+			if (key eq 'cursor-right') {
+				mx++;
+				break;
+			}
 			else
-			if(key eq 'cursor-left') { mx--; break; }
+			if (key eq 'cursor-left') {
+				mx--;
+				break;
+			}
 			else
-			if(key eq 'enter') { action = mo[my]; break; }
+			if (key eq 'enter') {
+				action = mo[my];
+				break;
+			}
 		}
 
 		mp.tui.closepanel();
@@ -414,10 +441,10 @@ sub mp.drv.menu()
 
 	mp.tui.attr(mp.color.normal.attr);
 
-	if(action != NULL)
+	if (action != NULL)
 		mp.process_action(action);
 
-	return(NULL);
+	return NULL;
 }
 
 

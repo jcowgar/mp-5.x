@@ -38,7 +38,7 @@ sub mp.process_keyseq(key)
 {
 	local k;
 
-	if(mp.keyseq.ptr == NULL)
+	if (mp.keyseq.ptr == NULL)
 		mp.keyseq.ptr = mp.keyseq.store;
 
 	/* store the key in the temporal queue */
@@ -47,8 +47,7 @@ sub mp.process_keyseq(key)
 	/* get the key in the current pointer */
 	k = mp.keyseq.ptr[key];
 
-	if(k == NULL)
-	{
+	if (k == NULL) {
 		/* no hash for key? string not found;
 		   return back all the stored keys
 		   and restart over */
@@ -58,14 +57,12 @@ sub mp.process_keyseq(key)
 		mp.keyseq.ptr = NULL;
 	}
 	else
-	if(is_hash(k))
-	{
+	if (is_hash(k)) {
 		/* is the value itself a hash? keep searching */
 		mp.keyseq.ptr = k;
 		key = NULL;
 	}
-	else
-	{
+	else {
 		/* value is scalar; it's the keycode, so
 		   return it and restart over */
 		key = k;
@@ -74,7 +71,7 @@ sub mp.process_keyseq(key)
 		mp.keyseq.ptr = NULL;
 	}
 
-	return(key);
+	return key;
 }
 
 
@@ -86,9 +83,9 @@ sub mp.add_keyseq(seq, keycode)
 
 	/* split by character and store as a chain of hashes
 	   with the keycode as the final, scalar value */
-	foreach(local k, l)
-	{
-		if(! p[k]) p[k] = {};
+	foreach (local k, l) {
+		if (! p[k])
+			p[k] = {};
 		p = p[k];
 	}
 

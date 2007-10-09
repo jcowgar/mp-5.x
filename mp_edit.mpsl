@@ -49,8 +49,7 @@ mp.actions['word_wrap_paragraph'] = sub (d) {
 
 	if(mp.config.word_wrap == 0)
 		mp.alert(L("Word wrapping must be set"));
-	else
-	{
+	else {
 		mp.store_undo(d);
 		mp.word_wrap_paragraph(d);
 	}
@@ -74,8 +73,7 @@ mp.actions['line_options']	= sub (d) {
 		  'type'	=> 'text' }
 	] );
 
-	if(t != NULL)
-	{
+	if (t != NULL) {
 		mp.config.word_wrap = t[0];
 		mp.config.auto_indent = t[1];
 		mp.config.eol = mp.backslash_codes(t[2], 0);
@@ -94,8 +92,7 @@ mp.actions['tab_options']	= sub (d) {
 		  'value'	=> mp.config.tabs_as_spaces }
 	] );
 
-	if(t != NULL)
-	{
+	if (t != NULL) {
 		mp.config.tab_size = t[0];
 		mp.config.tabs_as_spaces = t[1];
 	}
@@ -139,7 +136,8 @@ sub mp.break_line(doc, col)
 	local c, w;
 
 	/* if col is NULL, set it to be the x cursor */
-	if(col == NULL) col = txt.x;
+	if (col == NULL)
+		col = txt.x;
 
 	/* gets line where cursor is */
 	c = txt.lines[txt.y];
@@ -160,8 +158,7 @@ sub mp.break_line(doc, col)
 	txt.x -= col;
 
 	/* if autoindenting... */
-	if(mp.config.auto_indent)
-	{
+	if (mp.config.auto_indent) {
 		/* extract leading blanks in the original line
 		   to prepend them to the line to be inserted */
 		local i = regex("/^[ \t]*[-\+\*]?[ \t]+/", c, 0);
@@ -191,8 +188,7 @@ sub mp.join_line(doc)
 {
 	local txt = doc.txt;
 
-	if(txt.y < size(txt.lines))
-	{
+	if (txt.y < size(txt.lines)) {
 		/* concats current line with the next one */
 		txt.lines[txt.y] = txt.lines[txt.y] ~ txt.lines[txt.y + 1];
 
@@ -214,16 +210,15 @@ sub mp.delete_line(doc)
 	vx = mp.x2vx(txt.lines[txt.y], txt.x);
 
 	/* if it's the only line, just replace it */
-	if(size(txt.lines) == 1)
+	if (size(txt.lines) == 1)
 		txt.lines[0] = '';
-	else
-	{
+	else {
 		/* destroy the line */
 		adel(txt.lines, txt.y);
 	}
 
 	/* fix if it was the last line */
-	if(txt.y >= size(txt.lines))
+	if (txt.y >= size(txt.lines))
 		txt.y = size(txt.lines) - 1;
 
 	/* move to previous x position */
@@ -239,10 +234,9 @@ sub mp.delete_char(doc)
 	local txt = doc.txt;
 
 	/* is it over the end of line? */
-	if(txt.x == size(txt.lines[txt.y]))
+	if (txt.x == size(txt.lines[txt.y]))
 		mp.join_line(doc);
-	else
-	{
+	else {
 		local w;
 
 		w = splice(txt.lines[txt.y], NULL, txt.x, 1);
@@ -262,8 +256,7 @@ sub mp.delete_range(doc, bx, by, ex, ey)
 	txt.x = bx;
 	txt.y = by;
 
-	if(by == ey)
-	{
+	if (by == ey) {
 		local w;
 
 		/* block is just one line; delete the middle part */
@@ -271,8 +264,7 @@ sub mp.delete_range(doc, bx, by, ex, ey)
 
 		txt.lines[by] = w[0];
 	}
-	else
-	{
+	else {
 		local w;
 
 		/* block has more than one line */
@@ -321,18 +313,18 @@ sub mp.insert(doc, a)
 	local s;
 
 	/* if a is not an array, split it */
-	if(!is_array(a))
+	if (!is_array(a))
 		a = split("\n", a);
 
 	/* empty array? return */
-	if((s = size(a)) == 0) return;
+	if ((s = size(a)) == 0)
+		return;
 
 	/* paste first line into current position */
 	mp.insert_string(doc, a[0]);
 
 	/* more than just one line? */
-	if(s > 1)
-	{
+	if (s > 1) {
 		/* break current line in two */
 		mp.break_line(doc);
 
@@ -341,15 +333,14 @@ sub mp.insert(doc, a)
 	}
 
 	/* more than two lines? */
-	if(s > 2)
-	{
+	if (s > 2) {
 		local n = 1;
 
 		/* open room */
 		expand(txt.lines, txt.y, s - 2);
 
 		/* transfer middle lines */
-		while(n < s - 1)
+		while (n < s - 1)
 			txt.lines[txt.y++] = a[n++];
 	}
 }
@@ -360,14 +351,14 @@ sub mp.wrap_words(doc)
 {
 	local txt = doc.txt;
 
-	if(mp.config.word_wrap == 0) return;
+	if (mp.config.word_wrap == 0)
+		return;
 
 	/* take the column where the cursor is */
 	local c = mp.x2vx(txt.lines[txt.y], txt.x);
 
-	if(c >= mp.config.word_wrap &&
-		regex("/^.{1," ~ mp.config.word_wrap ~ "}\s/", txt.lines[txt.y]))
-	{
+	if (c >= mp.config.word_wrap &&
+		regex("/^.{1," ~ mp.config.word_wrap ~ "}\s/", txt.lines[txt.y])) {
 		local w;
 
 		/* take the coordinates */
@@ -395,8 +386,7 @@ sub mp.insert_space(doc)
 sub mp.insert_tab(doc)
 /* inserts a tab */
 {
-	if(mp.config.tabs_as_spaces)
-	{
+	if (mp.config.tabs_as_spaces) {
 		/* number of spaces to insert */
 		local n = mp.config.tab_size -
 			((doc.txt.x) % mp.config.tab_size);
@@ -448,8 +438,7 @@ sub mp.undo(doc)
 {
 	local txt;
 
-	if(txt = pop(doc.undo))
-	{
+	if (txt = pop(doc.undo)) {
 		queue(doc.redo, clone(doc.txt), mp.config.undo_levels);
 		doc.txt = txt;
 	}
@@ -461,8 +450,7 @@ sub mp.redo(doc)
 {
 	local txt;
 
-	if(txt = pop(doc.redo))
-	{
+	if (txt = pop(doc.redo)) {
 		queue(doc.undo, clone(doc.txt), mp.config.undo_levels);
 		doc.txt = txt;
 	}
@@ -476,8 +464,7 @@ sub mp.join_paragraph(doc)
 	local txt = doc.txt;
 	local l;
 
-	while((l = txt.lines[txt.y + 1]) && size(l))
-	{
+	while ((l = txt.lines[txt.y + 1]) && size(l)) {
 		/* delete all leading blanks in the next line */
 		txt.lines[txt.y + 1] = sregex("/^[ \t]+/", txt.lines[txt.y + 1]);
 
@@ -496,15 +483,14 @@ sub mp.word_wrap_paragraph(doc)
 {
 	local txt = doc.txt;
 
-	if(mp.config.word_wrap == 0)
+	if (mp.config.word_wrap == 0)
 		return;
 
 	mp.join_paragraph(doc);
 
 	mp.move_eol(doc);
 
-	while(size(txt.lines[txt.y]) > mp.config.word_wrap)
-	{
+	while (size(txt.lines[txt.y]) > mp.config.word_wrap) {
 		mp.insert_space(doc);
 		mp.move_left(doc);
 		mp.delete_char(doc);

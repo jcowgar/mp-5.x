@@ -48,7 +48,7 @@ mp.actdesc['save_session'] = LL("Save session");
 sub mp.session_file()
 /* returns the appropriate session saving file */
 {
-	return ((mp.config.local_sessions && './' || HOMEDIR) ~ '.mp_session');
+	return (mp.config.local_sessions && './' || HOMEDIR) ~ '.mp_session';
 }
 
 
@@ -62,10 +62,10 @@ sub mp.save_session()
 	
 	/* no named files? exit doing nothing */
 	if (grep(sub (e) { e.name ne L("<unnamed>"); }, mp.docs) == NULL)
-		return (-1);
+		return -1;
 
 	if ((fh = open(mp.session_file(), "w")) == NULL) {
-		return (-2);
+		return -2;
 	}
 	
 	foreach (local doc, mp.docs) {
@@ -80,7 +80,7 @@ sub mp.save_session()
 	
 	close(fh);
 
-	return (0);
+	return 0;
 }
 
 
@@ -93,12 +93,12 @@ sub mp.load_session()
 	/* check to see if a session file can actually be opened before closing
 	   all the editing windows */
 	if ((fh = open(mp.session_file(), "r")) == NULL) {
-		return (-1);
+		return -1;
 	}
 
 	if (!mp.actions.close_all()) {
 		close(fh);
-		return (-2);
+		return -2;
 	}
 
 	local active = -1;
@@ -124,5 +124,5 @@ sub mp.load_session()
 	
 	close(fh);
 
-	return (0);
+	return 0;
 }

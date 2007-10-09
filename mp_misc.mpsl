@@ -34,17 +34,15 @@ mp.actions['eval']	= sub (d) {
 		  'history' => 'eval' }
 		]);
 
-	if(t != NULL)
-	{
+	if (t != NULL) {
 		t = eval(t[0]);
 
-		if(ERROR != NULL)
-		{
+		if (ERROR != NULL) {
 			mp.alert(L("Error: ") ~ ERROR);
 			ERROR = NULL;
 		}
 		else
-		if(t != NULL)
+		if (t != NULL)
 			mp.alert(L("Exit value:\n") ~ t);
 	}
 };
@@ -52,19 +50,17 @@ mp.actions['eval']	= sub (d) {
 mp.actions['eval_doc']	= sub (d) {
 	local t = join("\n", d.txt.lines);
 
-	if(t != NULL)
-	{
+	if (t != NULL) {
 		t = eval(t);
 
-		if(ERROR != NULL)
-		{
+		if (ERROR != NULL) {
 			mp.alert(L("Error: ") ~ ERROR);
 
 			/* try to move the cursor to the line
 			   where the error was */
 			local l;
 
-			if((l = regex( [ '/, line /', '/[0-9]+/' ], ERROR)) != NULL)
+			if ((l = regex( [ '/, line /', '/[0-9]+/' ], ERROR)) != NULL)
 				mp.set_y(d, l[1]);
 
 			ERROR = NULL;
@@ -79,8 +75,8 @@ mp.actions['encoding']	= sub (d) {
 		  'history' => 'encoding' }
 		]);
 
-	if(t != NULL)
-		if(encoding(t[0]) == -1)
+	if (t != NULL)
+		if (encoding(t[0]) == -1)
 			mp.alert(L("Invalid encoding ") ~ t[0]);
 };
 
@@ -92,8 +88,7 @@ mp.actions['zoom_in'] 	= sub (d) {
 
 mp.actions['zoom_out'] 	= sub (d) {
 
-	if(mp.config.font_size > 4)
-	{
+	if (mp.config.font_size > 4) {
 		mp.config.font_size--;
 		mp.update_ui();
 	}
@@ -104,7 +99,7 @@ mp.actions['word_count'] = sub (d) {
 	local a = mp.get_active_area(d);
 
 	mp.busy(1);
-	foreach(local l, a)
+	foreach (local l, a)
 		w += size(mp.split_by_words(l));
 	mp.busy(0);
 
@@ -139,8 +134,7 @@ mp.actions['about'] = sub (d) {
 
 	d = mp.find_file_by_name("<about>");
 
-	if(d != -1)
-	{
+	if (d != -1) {
 		mp.active_i = d;
 		d = mp.active();
 	}
