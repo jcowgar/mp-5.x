@@ -17,6 +17,9 @@ Release Critical Bugs
  * 1236: Calling with -t doesn't draw the screen if only one
    tag is found.
  * 1240: Fix the -f (execute script) command-line argument.
+ * 1243: The new drw_search_hit() function should pass the
+   mp.last_search value through mp.prefix_regex() (or
+   mp.last_search stored as a regex).
 
 Open Bugs
 ---------
