@@ -91,8 +91,8 @@ mp.colors = {
 	'spell' => {		'text'	=> [ 'red', 'default' ],
 				'gui'	=> [ 0xff8888, 0xffffff ],
 				'flags'	=> [ 'bright', 'underline' ] },
-	'search' => {		'text'	=> [ 'black', 'cyan' ],
-				'gui'	=> [ 0x000000, 0xffff00 ] }
+	'search' => {		'text'	=> [ 'black', 'green' ],
+				'gui'	=> [ 0x000000, 0x00cc77 ] }
 };
 
 /* hash of specially coloured words */
