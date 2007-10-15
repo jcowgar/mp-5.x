@@ -172,13 +172,13 @@ sub mp.search_dir(doc, str, dir)
 
 	if (str == NULL)
 		str = mp.last_search;
-	else
+	else {
+		str = mp.prefix_regex(str);
 		mp.last_search = str;
+	}
 
 	if (str == NULL)
 		return NULL;
-
-	str = mp.prefix_regex(str);
 
 	txt = doc.txt;
 	x = txt.x;
