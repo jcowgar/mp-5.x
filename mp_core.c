@@ -457,6 +457,21 @@ static void drw_selection(void)
 }
 
 
+static void drw_search_hit(void)
+/* colorize the search hit, if any */
+{
+	mpdm_t v;
+
+	if ((v = mpdm_hget_s(mp, L"last_search")) != NULL) {
+		mpdm_t l = mpdm_ref(MPDM_A(0));
+
+		mpdm_aset(l, v, 0);
+		drw_multiline_regex(l, drw_get_attr(L"search"));
+		mpdm_unref(l);
+	}
+}
+
+
 static void drw_cursor(void)
 /* fill the attribute for the cursor */
 {
@@ -709,6 +724,9 @@ static mpdm_t drw_draw(mpdm_t doc, int optimize)
 
 	/* now set the marked block (if any) */
 	drw_selection();
+
+	/* colorize the search hit */
+	drw_search_hit();
 
 	/* the cursor */
 	drw_cursor();
