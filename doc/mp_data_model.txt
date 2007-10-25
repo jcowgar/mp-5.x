@@ -1,0 +1,56 @@
+Minimum Profit Data Model
+=========================
+
+ Angel Ortega <angel@triptico.com>
+
+This document describes all the data structures that build the Minimum
+Profit Text Editor, with examples showing how to change or update its
+behaviour.
+
+Documents
+---------
+
+The document list
+-----------------
+
+Configuration data
+------------------
+
+Information for this structure can be found in the included document
+./mp_configuration.html (Minimum Profit Configuration Directives).
+
+Color definitions
+-----------------
+
+Color names
+~~~~~~~~~~~
+
+Colors
+~~~~~~
+
+Syntax Highlighting
+-------------------
+
+Keystrokes
+----------
+
+Actions
+-------
+
+Action descriptions
+~~~~~~~~~~~~~~~~~~~
+
+The menu
+--------
+
+Message notification
+--------------------
+
+The clipboard
+-------------
+
+Drivers
+-------
+
+----
+Angel Ortega <angel@triptico.com>
