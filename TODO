@@ -17,6 +17,7 @@ Release Critical Bugs
  * 1236: Calling with -t doesn't draw the screen if only one
    tag is found.
  * 1240: Fix the -f (execute script) command-line argument.
+ * 1244: Document the data model.
 
 Open Bugs
 ---------
