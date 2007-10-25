@@ -8,7 +8,7 @@ PROJ=mp
 #	RELEASE_NOTES
 
 DOCS=doc/index.html doc/mp_cookbook.html doc/mp_internals.html \
-	doc/mp_configuration.html \
+	doc/mp_configuration.html doc/mp_data_model.html \
 	AUTHORS README README.mingw32 RELEASE_NOTES
 
 OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
@@ -67,6 +67,9 @@ doc/mp_internals.html: doc/mp_internals.txt
 	-grutatxt -i $< -o $@
 
 doc/mp_configuration.html: doc/mp_configuration.txt
+	-grutatxt -i $< -o $@
+
+doc/mp_data_model.html: doc/mp_data_model.txt
 	-grutatxt -i $< -o $@
 
 docs: $(DOCS)
