@@ -20,6 +20,7 @@ Release Critical Bugs
  * 1244: Document the data model.
  * 1245: The record macro function, when called from the menu,
    drops the last keystroke.
+ * 1246: An empty search hangs.
 
 Open Bugs
 ---------
