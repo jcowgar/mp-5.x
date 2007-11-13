@@ -154,6 +154,9 @@ mp.actdesc['grep']		= LL("Grep (find inside) files...");
 sub mp.prefix_regex(str)
 /* set str to be a valid regex */
 {
+	if (!str)
+		return NULL;
+
 	/* surround with / for the regex */
 	str = '/' ~ str ~ '/';
 
