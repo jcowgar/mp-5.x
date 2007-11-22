@@ -917,7 +917,16 @@ static mpdm_t win32_drv_main_loop(mpdm_t a)
 
 static mpdm_t win32_drv_shutdown(mpdm_t a)
 {
+	mpdm_t v;
+
 	SendMessage(hwnd, WM_CLOSE, 0, 0);
+
+	if ((v = mpdm_hget_s(mp, L"exit_message")) != NULL) {
+		char * ptr = mpdm_wcstombs(mpdm_string(v), NULL);
+		MessageBox(NULL, ptr, "mp " VERSION, MB_ICONWARNING|MB_OK);
+		free(ptr);
+	}
+
 	return NULL;
 }
 

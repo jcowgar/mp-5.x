@@ -1588,6 +1588,13 @@ static mpdm_t gtk_drv_main_loop(mpdm_t a)
 static mpdm_t gtk_drv_shutdown(mpdm_t a)
 /* shutdown */
 {
+	mpdm_t v;
+
+	if ((v = mpdm_hget_s(mp, L"exit_message")) != NULL) {
+		mpdm_write_wcs(stdout, mpdm_string(v));
+		printf("\n");
+	}
+
 	return NULL;
 }
 
