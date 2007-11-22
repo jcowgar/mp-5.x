@@ -277,5 +277,7 @@ Closed
  * 1246: An empty search hangs (Tue, 13 Nov 2007 13:13:02 +0100).
  * 1245: The record macro function, when called from the menu,
    drops the last keystroke (Thu, 22 Nov 2007 14:39:50 +0100).
+ * 1247: The menu doesn't move on the Curses version
+   (Thu, 22 Nov 2007 14:53:49 +0100).
 
 Email bugs to angel@triptico.com

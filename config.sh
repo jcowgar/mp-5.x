@@ -191,7 +191,8 @@ if [ "$WITHOUT_CURSES" != "1" ] ; then
 	# test now for wget_wch() existence
 	echo -n "Testing for wget_wch()... "
 
-	echo "#include <curses.h>" > .tmp.c
+	echo "#include <wchar.h>" > .tmp.c
+	echo "#include <curses.h>" >> .tmp.c
 	echo "int main(void) { wchar_t c[2]; initscr(); wget_wch(stdscr, c); endwin(); return 0; }" >> .tmp.c
 
 	$CC $TMP_CFLAGS .tmp.c $TMP_LDFLAGS -o .tmp.o 2>> .config.log
