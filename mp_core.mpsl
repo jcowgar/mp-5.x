@@ -353,6 +353,12 @@ sub mp.process_cmdline()
 	shift(ARGV);
 
 	while (o = shift(ARGV)) {
+		if (o eq '-h' || o eq '--help') {
+			mp.exit_message = 'FIXME: Add help message';
+			mp.exit();
+			return;
+		}
+		else
 		if (o eq '-e') {
 			/* execute code */
 			eval(shift(ARGV));
