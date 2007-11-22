@@ -78,10 +78,10 @@ sub mp.record_macro
 		mp.macro.process_event = NULL;
 
 		/* drop the last keycode (that triggered mp.record_macro()) */
-		pop(mp.macro.keycodes);
+		if (mp.keycodes[mp.macro.keycodes[-1]] eq 'record_macro')
+			pop(mp.macro.keycodes);
 	}
 }
-
 
 sub mp.play_macro
 /* play a macro */
