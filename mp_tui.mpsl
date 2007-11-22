@@ -362,8 +362,8 @@ sub mp.drv.menu()
 
 		/* if the panel will surpass the right margin,
 		   move to the left */
-		if (pos[0] + pos[2] > mp.window.tx)
-			pos[0] = pos[2] - mp.window.tx;
+		if (pos[0] + pos[2] > mp.window.tx - 2)
+			pos[0] = mp.window.tx - pos[2] - 2;
 
 		mp.tui.refresh();
 		mp.tui.attr(mp.colors.menu.attr);

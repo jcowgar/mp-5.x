@@ -4,7 +4,6 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1195: The curses menu crashes if it doesn't fit on the screen.
  * 1205: Copy & paste from two different instances of MP (GTK)
    seem to fail (copying or pasting from other applications seem
    to work).
@@ -279,5 +278,7 @@ Closed
    drops the last keystroke (Thu, 22 Nov 2007 14:39:50 +0100).
  * 1247: The menu doesn't move on the Curses version
    (Thu, 22 Nov 2007 14:53:49 +0100).
+ * 1195: The curses menu crashes if it doesn't fit on the screen
+   (Thu, 22 Nov 2007 15:10:52 +0100).
 
 Email bugs to angel@triptico.com
