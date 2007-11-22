@@ -294,7 +294,9 @@ sub mp.seek_prev_or_next_char(doc, func)
 	mp.move_right(doc);
 
 	/* search for it (mp.search() or mp.search_back()) */
+	local t = mp.last_search;
 	func(doc, '\' ~ w[1]);
+	mp.last_search = t;
 
 	/* move back */
 	mp.move_left(doc);
