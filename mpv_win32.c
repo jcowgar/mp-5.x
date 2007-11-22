@@ -904,11 +904,13 @@ static mpdm_t win32_drv_main_loop(mpdm_t a)
 {
 	MSG msg;
 
-	mp_active();
+	if (!mp_exit_requested) {
+		mp_active();
 
-	while (GetMessage(&msg, NULL, 0, 0)) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		while (GetMessage(&msg, NULL, 0, 0)) {
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 	}
 
 	return NULL;
