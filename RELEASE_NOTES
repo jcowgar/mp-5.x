@@ -5,6 +5,11 @@ Minimum Profit 5.x Release Notes
 ---------
 
  * The search hit is highlighted.
+ * When invoked from the menu, the 'record_macro' action dropped
+   the last key (bug #1245).
+ * A Curses configuration detection has been fixed that made
+   some things behave strangely, as the drop-down menu not
+   responding under some terminal configurations (bug #1247).
 
 5.0.0-rc3
 ---------
