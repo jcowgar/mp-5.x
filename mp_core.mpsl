@@ -385,9 +385,6 @@ sub mp.process_cmdline()
 		if (o eq '-e') {
 			/* execute code */
 			eval(shift(ARGV));
-
-			if (ERROR != NULL)
-				print(ERROR, "\n");
 		}
 		else
 		if (o eq '-f') {
@@ -401,9 +398,6 @@ sub mp.process_cmdline()
 				eval(join("\n", mp.active.txt.lines));
 				mp.close();
 			}
-
-			if (ERROR != NULL)
-				print(ERROR, "\n");
 		}
 		else
 		if (o eq '-t')
@@ -415,6 +409,13 @@ sub mp.process_cmdline()
 		}
 		else
 			mp.open(o);
+	}
+
+	if (ERROR) {
+		mp.exit_message = ERROR ~ "\n";
+		ERROR = NULL;
+		mp.exit();
+		return;
 	}
 
 	/* if no files are loaded, try a session */
