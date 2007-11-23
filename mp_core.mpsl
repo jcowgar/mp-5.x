@@ -394,9 +394,10 @@ sub mp.process_cmdline()
 			/* execute script */
 			local s = shift(ARGV);
 
-			if (!mp.open(s))
+			if (stat(s) == NULL)
 				ERROR = sprintf(L("Cannot open '%s'"), s);
 			else {
+				mp.open(s);
 				eval(join("\n", mp.active.txt.lines));
 				mp.close();
 			}
