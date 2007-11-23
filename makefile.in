@@ -46,7 +46,7 @@ wmp.exe: $(OBJS) mp_res.o $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 	$(CC) $(CFLAGS) $(OBJS) mp_res.o `cat config.ldflags` -o $@
 
 clean:
-	rm -f $(APPNAME) $(LIB) $(OBJS) *.o tags *.tar.gz *.exe *.zip .installer.c
+	rm -f $(APPNAME) $(LIB) $(OBJS) *.o tags *.tar.gz *.exe *.zip .installer.c *.1
 	(cd $(MPDM) ; make clean)
 	(cd $(MPSL) ; make clean)
 
@@ -79,9 +79,9 @@ doc/mp_man.html: doc/mp_man.txt
 mp-5.1: doc/mp_man.txt
 	grutatxt -m man -t "Minimum Profit" < doc/mp_man.txt > mp-5.1
 
-docs: $(DOCS)
+docs: $(DOCS) mp-5.1
 
-distcopy: distclean docs mp-5.1
+distcopy: distclean docs
 	mkdir -p $(DIST_TARGET) ; \
 	tar cf - * | (cd $(DIST_TARGET) ; tar xf -) ; \
 	(cd $(MPDM) ; $(MAKE) distcopy DIST_TARGET=$(DIST_TARGET)/mpdm ) ; \
