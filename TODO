@@ -14,7 +14,6 @@ Release Critical Bugs
  * 1230: Action 'eval_doc' seems to fail forever after an error.
  * 1236: Calling with -t doesn't draw the screen if only one
    tag is found.
- * 1240: Fix the -f (execute script) command-line argument.
  * 1244: Document the data model.
 
 Open Bugs
@@ -281,5 +280,7 @@ Closed
    (Thu, 22 Nov 2007 15:10:52 +0100).
  * 1222: Add --help info
    (Fri, 23 Nov 2007 13:22:05 +0100).
+ * 1240: Fix the -f (execute script) command-line argument
+   (Fri, 23 Nov 2007 13:33:11 +0100).
 
 Email bugs to angel@triptico.com

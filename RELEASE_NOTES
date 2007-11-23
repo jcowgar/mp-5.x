@@ -12,6 +12,8 @@ Minimum Profit 5.x Release Notes
    responding under some terminal configurations (bug #1247).
  * The Curses menu no longer crashes if it doesn't fit on
    the screen (bug #1195).
+ * The -f (execute script) command line argument really works
+   (bug #1240).
 
 5.0.0-rc3
 ---------

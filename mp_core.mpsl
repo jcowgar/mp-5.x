@@ -392,7 +392,14 @@ sub mp.process_cmdline()
 		else
 		if (o eq '-f') {
 			/* execute script */
-			eval(sprintf("load('%s');", shift(ARGV)));
+			local s = shift(ARGV);
+
+			if (!mp.open(s))
+				ERROR = sprintf(L("Cannot open '%s'"), s);
+			else {
+				eval(join("\n", mp.active.txt.lines));
+				mp.close();
+			}
 
 			if (ERROR != NULL)
 				print(ERROR, "\n");
