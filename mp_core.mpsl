@@ -342,6 +342,29 @@ sub mp.menu_label(action)
 }
 
 
+sub mp.usage()
+/* set mp.exit_message with an usage message (--help) */
+{
+	mp.exit_message = 
+	sprintf(L(
+		"Minimum Profit %s - Programmer Text Editor\n"\
+		"Copyright (C) Angel Ortega <angel@triptico.com>\n"\
+		"This software is covered by the GPL license. NO WARRANTY.\n"\
+		"\n"\
+		"Usage: mp-5 [options] [files...]\n"\
+		"\n"\
+		"Options:\n"\
+		"\n"\
+		" -t {tag}           Edits the file where tag is defined\n"\
+		" -e {mpsl_code}     Executes MPSL code\n"\
+		" -f {mpsl_script}   Executes MPSL script file\n"\
+		" +NNN               Moves to line number NNN of last file\n"\
+		"\n"\
+		"Homepage: http://www.triptico.com/software/mp.html\n"
+	), mp.VERSION);
+}
+
+
 sub mp.process_cmdline()
 /* process the command line arguments (ARGV) */
 {
@@ -354,7 +377,7 @@ sub mp.process_cmdline()
 
 	while (o = shift(ARGV)) {
 		if (o eq '-h' || o eq '--help') {
-			mp.exit_message = 'FIXME: Add help message';
+			mp.usage();
 			mp.exit();
 			return;
 		}
