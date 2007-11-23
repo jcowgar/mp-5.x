@@ -32,8 +32,9 @@ Open Bugs
    monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
  * 1233: Document all MPSL code using mp_doccer (at least, the
    interface functions).
- * 1242: There cannot be two tags with the same name, as now they are
+ * 1242: There cannot be two tags with the same name, as they are
    stored as hash keys.
+ * 1248: No localisation on Win32.
 
 Pending Enhancements
 --------------------
