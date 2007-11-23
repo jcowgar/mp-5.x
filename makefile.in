@@ -9,6 +9,7 @@ PROJ=mp
 
 DOCS=doc/index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
+	doc/mp_man.html \
 	AUTHORS README README.mingw32 RELEASE_NOTES
 
 OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
@@ -72,9 +73,15 @@ doc/mp_configuration.html: doc/mp_configuration.txt
 doc/mp_data_model.html: doc/mp_data_model.txt
 	-grutatxt -i $< -o $@
 
+doc/mp_man.html: doc/mp_man.txt
+	grutatxt -dl -t "Minimum Profit Man Page" -i $< -o $@
+
+mp-5.1: doc/mp_man.txt
+	grutatxt -m man -t "Minimum Profit" < doc/mp_man.txt > mp-5.1
+
 docs: $(DOCS)
 
-distcopy: distclean docs
+distcopy: distclean docs mp-5.1
 	mkdir -p $(DIST_TARGET) ; \
 	tar cf - * | (cd $(DIST_TARGET) ; tar xf -) ; \
 	(cd $(MPDM) ; $(MAKE) distcopy DIST_TARGET=$(DIST_TARGET)/mpdm ) ; \
@@ -107,10 +114,8 @@ install: $(INSTALL_MSG) installdoc install-mo
 	install $(APPNAME) $(PREFIX)/bin/$(APPNAME)
 	./mkinstalldirs $(PREFIX)/share/$(APPNAME)
 	install -m 644 mp_*.mpsl $(PREFIX)/share/$(APPNAME)
-#	install -m 644 mpsl/doc/* $(PREFIX)/share/doc/$(APPNAME)
-#	install -m 644 mpdm/doc/* $(PREFIX)/share/doc/$(APPNAME)
-#	./mkinstalldirs $(PREFIX)/share/man/man1
-#	install -m 644 mp.1 $(PREFIX)/share/man/man1/$(APPNAME).1
+	./mkinstalldirs $(PREFIX)/share/man/man1
+	install -m 644 mp-5.1 $(PREFIX)/share/man/man1/$(APPNAME).1
 
 installdoc:
 	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)

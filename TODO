@@ -8,7 +8,6 @@ Release Critical Bugs
    seem to fail (copying or pasting from other applications seem
    to work).
  * 1218: Create or adapt The README file.
- * 1219: Update the man page.
  * 1227: The length of an open combobox (at least under XP)
    is ridiculous.
  * 1230: Action 'eval_doc' seems to fail forever after an error.
@@ -283,5 +282,6 @@ Closed
    (Fri, 23 Nov 2007 13:22:05 +0100).
  * 1240: Fix the -f (execute script) command-line argument
    (Fri, 23 Nov 2007 13:33:11 +0100).
+ * 1219: Update the man page (Fri, 23 Nov 2007 14:16:54 +0100).
 
 Email bugs to angel@triptico.com
