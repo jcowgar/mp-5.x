@@ -1,6 +1,6 @@
 # -*- Mode: sh
 
-all: $(APPNAME) docs
+all: $(APPNAME) docs build-mo
 
 PROJ=mp
 #DOCS=AUTHORS README COPYING mprc.sample mprc-win32.sample \
@@ -140,9 +140,9 @@ update-po:
 	msgfmt -o $@ $<
 
 build-mo:
-	for a in po/*.po ; do \
-		B=`basename $$a .po` ; \
-		msgfmt -o po/$$B.mo $$a ; \
+	for i in po/*.po ; do \
+		B=`basename $$i .po` ; o=po/$$B.mo ; \
+		if [ $$i -nt $$o ] ; then msgfmt -o $$o $$i ; fi ; \
 	done
 
 install-mo: build-mo
