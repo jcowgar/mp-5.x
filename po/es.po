@@ -1179,6 +1179,21 @@ msgstr "Guardar sesión"
 msgid "Unknown action '%s'"
 msgstr "Acción '%s' desconocida"
 
+#: mp_edit.mpsl:420
+#, c-format
+msgid "Unbound keystroke '%s'"
+msgstr "Tecla '%s' sin asociar"
+
+#: mp_file.mpsl:264
+#, c-format
+msgid "New file '%s'"
+msgstr "Nuevo archivo '%s'"
+
+#: mp_search.mpsl:280
+#, c-format
+msgid "%d replaces"
+msgstr "%d reemplazos"
+
 #: mp_core.mpsl:350
 #, c-format
 msgid ""
@@ -1196,6 +1211,7 @@ msgid ""
 " +NNN               Moves to line number NNN of last file\n"
 "\n"
 "Homepage: http://www.triptico.com/software/mp.html\n"
+"Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 "Minimum Profit %s - Editor de Texto para Programadores\n"
 "Copyright (C) Angel Ortega <angel@triptico.com>\n"
@@ -1211,18 +1227,9 @@ msgstr ""
 " +NNN               Avanza hasta la línea NNN del último fichero\n"
 "\n"
 "Página web: http://www.triptico.com/software/mp.html\n"
+"Lista de distribución: mp-subscribe@lists.triptico.com\n"
 
-#: mp_edit.mpsl:420
+#: mp_core.mpsl:396
 #, c-format
-msgid "Unbound keystroke '%s'"
-msgstr "Tecla '%s' sin asociar"
-
-#: mp_file.mpsl:264
-#, c-format
-msgid "New file '%s'"
-msgstr "Nuevo archivo '%s'"
-
-#: mp_search.mpsl:280
-#, c-format
-msgid "%d replaces"
-msgstr "%d reemplazos"
+msgid "Cannot open '%s'"
+msgstr "Imposible abrir '%s'"

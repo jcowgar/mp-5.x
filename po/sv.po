@@ -1039,6 +1039,21 @@ msgstr ""
 msgid "Unknown action '%s'"
 msgstr ""
 
+#: mp_edit.mpsl:420
+#, c-format
+msgid "Unbound keystroke '%s'"
+msgstr ""
+
+#: mp_file.mpsl:264
+#, c-format
+msgid "New file '%s'"
+msgstr ""
+
+#: mp_search.mpsl:280
+#, c-format
+msgid "%d replaces"
+msgstr ""
+
 #: mp_core.mpsl:350
 #, c-format
 msgid ""
@@ -1056,19 +1071,10 @@ msgid ""
 " +NNN               Moves to line number NNN of last file\n"
 "\n"
 "Homepage: http://www.triptico.com/software/mp.html\n"
+"Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_edit.mpsl:420
+#: mp_core.mpsl:396
 #, c-format
-msgid "Unbound keystroke '%s'"
-msgstr ""
-
-#: mp_file.mpsl:264
-#, c-format
-msgid "New file '%s'"
-msgstr ""
-
-#: mp_search.mpsl:280
-#, c-format
-msgid "%d replaces"
+msgid "Cannot open '%s'"
 msgstr ""
