@@ -19,32 +19,119 @@ Configuration data
 Information for this structure can be found in the included document
 ./mp_configuration.html (Minimum Profit Configuration Directives).
 
-Color definitions
------------------
-
-Color names
-~~~~~~~~~~~
-
 Colors
-~~~~~~
+------
+
+Colors are defined in the `mp.colors' hash. The keys contain the name of
+the color in a syntax highlighting context (i.e. `comments' for the text
+inside source code comments, `quotes' for the text inside quotes, and so
+on), and the values are hashes containing the definition for that color in
+the different driver types. For now, only `gui' and `text' drivers exist,
+with another special key, `flags'.
+
+The color keys are:
+
+ * cursor: The color of the cursor.
+ * selection: The color of the selected block.
+ * comments: Text inside programming language comments.
+ * quotes: Text between quotes.
+ * matching: The color of the matching brace (if the cursor is over one).
+ * word1: 1st definition for special words (i.e. tokens).
+ * word2: 2nd definiton for special words (i.e. variables).
+ * tag: Color for tags (symbol names).
+ * spell: Color for mis-spelled words (if spelling is on).
+ * search: Color for the last matched string in searches.
+ * normal: Text outside any other context, or the base color if no syntax
+   highlight is selected.
+
+For each key, the value is a hash containing the following keys:
+
+ * text: a two element array containing the color names for background
+   and foreground. These strings match the colors in Curses terminal modes
+   and must be one of `black', `red', `green', `yellow', `blue',
+   `magenta', `cyan' and `white'. Another special value, `default', skips
+   setting a color.
+ * gui: A two element array containing the RGB color for background and
+   foreground. It's handy to set this values as hexadecimal numbers,
+   having 0x000000 for black and 0xffffff for white.
+ * flags: This is an optional array containing keywords for special
+   effects in colors. Acceptable values are `reverse', `bright' and
+   `underline'.
 
 Syntax Highlighting
 -------------------
 
-Keystrokes
-----------
+Keycodes
+--------
+
+Keycodes are defined in the `mp.keycodes' hash. Each key contain the name
+of the keycode, as `ctrl-f' or 'f3'. The value can be an executable value,
+that will be directly executed, a string containing the name of an action,
+or a hash containing more keycodes for multiple key sequences ala Emacs.
+
+Examples:
+
+	/* bind ctrl-f to the 'seek' action */
+	mp.keycodes['ctrl-f'] = 'seek';
+	
+	/* bind F5 to an anonymouse subroutine */
+	mp.keycodes['f5'] = sub (d) {
+		mp.insert(d, "<form action = 'post'></form>");
+	};
+	
+	/* bind Ctrl-x Ctrl-f to 'open', and
+	   Ctrl-x Ctrl-s to 'save' */
+	mp.keycodes['ctrl-x'] = {
+		'ctrl-f'	=> 'open',
+		'ctrl-s'	=> 'save'
+	};
 
 Actions
 -------
 
+Actions are defined in the `mp.actions' hash. Each key contain the name of
+the action, as `seek' or `move_up'. Each value contain an executable
+value that accepts a document as the only argument.
+
+	mp.actions['sync'] = sub (d) {
+		/* save all modified documents */
+		foreach (local d, grep(sub (e) { e.txt.mod; }, mp.docs))
+			mp.actions.save(d);
+	};
+
 Action descriptions
 ~~~~~~~~~~~~~~~~~~~
+
+Action descriptions are strings stored in the `mp.actdesc' hash. Each key
+contain the name of the action and each value the translatable string for
+human consuming.
+
+Examples:
+
+	mp.actdesc['seek']		= LL("Search text...");
+	mp.actdesc['seek_next'] 	= LL("Search next");
+	mp.actdesc['sync']		= LL("Save modified texts");
 
 The menu
 --------
 
 Message notification
 --------------------
+
+If a non-obstrusive message must be notified to the user, the `mp.message'
+can be set and the message will be shown in the status line until a
+specified time is reached. This structure is a hash containing:
+
+ * string: The string to be shown in the status line.
+ * timeout: The time when the string will stop being showed.
+
+Example:
+
+	/* show a message for 4 seconds */
+	mp.message = {
+		'string'	=> "Unknown keystroke",
+		'timeout'	=> time() + 4
+	};
 
 The clipboard
 -------------
