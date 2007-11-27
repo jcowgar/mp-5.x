@@ -8,6 +8,7 @@ General Documentation
  * ./mp_configuration.html (Minimum Profit Configuration Directives).
  * ./mp_cookbook.html (Minimum Profit Cookbook).
  * ./mp_internals.html (Internals). Implementation details.
+ * ./mp_man.html (Manual Page).
 
 Minimum Profit Scripting Language
 ---------------------------------
