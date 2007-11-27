@@ -29,8 +29,8 @@ document are the following:
 The `txt' component contains the current state of the document:
 
  * lines: The array of lines that form the document (the document itself).
- * y: The Y position (line, from 0 to size(txt.lines)).
- * x: The X position (column, from 0 to size(txt.lines[txt.y])).
+ * y: The Y position (line, from 0 to size(txt.lines) - 1).
+ * x: The X position (column, from 0 to size(txt.lines[txt.y]) - 1).
  * mod: A modifier flag. If it's nonzero, the document has non-saved
    changes.
  * vx: The first column that is visible on screen.
@@ -42,12 +42,13 @@ The document list
 The list of open documents in stored in the `mp.docs' array. The subscript
 to the active one (the one returned by mp.active()) is stored in the
 `mp.active_i' variable. Setting this value effectively changes the active
-document (obviously, in the 0 .. size(mp.docs()) range).
+document (obviously, in the 0 .. size(mp.docs()) - 1 range).
 
 Configuration data
 ------------------
 
-Information for this structure can be found in the included document
+The configuration is stored in the `mp.config' hash. Information about this
+structure can be found in the included document
 ./mp_configuration.html (Minimum Profit Configuration Directives).
 
 Colors
@@ -92,13 +93,58 @@ For each key, the value is a hash containing the following keys:
 Syntax Highlighting
 -------------------
 
+The syntax highlight definitions are stored in the `mp.syntax' hash. Each
+key is the name of the syntax highlight (for example, `html'), and they
+value is the definition hash. This definition set can be assigned to a
+document `syntax' key and will be immediately applied.
+
+The keys in the definition hash are:
+
+ * id: The same as the key, as `perl' or `html'.
+ * name: A human-consuming name, that will be shown in the status line
+   (for example, "C / C++" or "Shell script").
+ * filenames: An array of regular expressions to be applied to the
+   document name for syntax detection.
+ * help: An array of system commands to be executed when the help system
+   is invoked by pressing `f1' over a word in a document. It must contain
+   a %s as a placeholder of the word (for example, "man %s" or
+   "perldoc -f %s").
+ * defs: An array of definitions.
+ * detect: An optional subroutine that accepts a document as the only
+   argument and that must return a boolean value. This subroutine will be
+   called when auto-detecting the syntax highlight.
+
+The syntax highlight definitions is a list containing color names (keys to
+the `mp.colors' hash) and an array. The array can contain single strings
+of regular expressions (matching string will have the color set), or an
+array of two regular expressions (setting the start and the end of the
+block to be coloured).
+
+This is a snippet for the `comments' definition in the C language syntax
+highlight. The first definition is a two array of regular expressions,
+matching the start (/*) and the end (*/) of a C style comment; all text
+between these marks will be coloured as a comment. The following one, a
+single string, is a regular expression that matches from two slashes to the
+end of the line:
+
+	/* more code above... */
+	'comments',	[
+		[ '|/\*|', '|\*/|' ],	/* C style */
+		'|//.*$|m',		/* C++ style */
+	]
+
+See the `mp_syntax.mpsl' for details and examples.
+
 Keycodes
 --------
 
 Keycodes are defined in the `mp.keycodes' hash. Each key contain the name
-of the keycode, as `ctrl-f' or `f3'. The value can be an executable value,
-that will be directly executed, a string containing the name of an action,
-or a hash containing more keycodes for multiple key sequences ala Emacs.
+of the keycode, as `ctrl-f' or `f3'. The value can be an executable value
+(that will be directly executed with the current document as only
+argument), a string containing the name of an action (that must be a key to
+the `mp.actions' hash), or another hash, that will contain itself keycodes
+as keys and executable values or action names as values (this mechanism can
+be nested ad infinitum), to implement keystroke chains in the Emacs style.
 
 Examples:
 
@@ -135,7 +181,7 @@ Action descriptions
 
 Action descriptions are strings stored in the `mp.actdesc' hash. Each key
 contain the name of the action and each value the translatable string for
-human consuming.
+human consuming and will be used in the menu.
 
 Examples:
 
@@ -145,6 +191,12 @@ Examples:
 
 The menu
 --------
+
+The menu is stored in the `mp.menu' structure. The menu is an array of
+dropdown menu definitions. Each dropdown menu is a two-element array
+containing a string for the label (File, Edit, etc.) and another array of
+action names (keys to `mp.actions'). See the `mp_core.mpsl' source file
+where it's defined.
 
 Message notification
 --------------------
@@ -167,8 +219,8 @@ Example:
 The clipboard
 -------------
 
-Drivers
--------
+The clipboard is stored in the `mp.clipboard' array, and it's a simple
+array of lines. Each copy and paste operation manipulates this.
 
 ----
 Angel Ortega <angel@triptico.com>
