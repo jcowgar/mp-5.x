@@ -76,10 +76,10 @@ doc/mp_data_model.html: doc/mp_data_model.txt
 doc/mp_man.html: doc/mp_man.txt
 	grutatxt -dl -t "Minimum Profit Man Page" -i $< -o $@
 
-mp-5.1: doc/mp_man.txt
-	grutatxt -m man -t "Minimum Profit" < doc/mp_man.txt > mp-5.1
+$(APPNAME).1: doc/mp_man.txt
+	grutatxt -m man -t "Minimum Profit" < doc/mp_man.txt > $(APPNAME).1
 
-docs: $(DOCS) mp-5.1
+docs: $(DOCS) $(APPNAME).1
 
 distcopy: distclean docs
 	mkdir -p $(DIST_TARGET) ; \
@@ -115,7 +115,7 @@ install: $(INSTALL_MSG) installdoc install-mo
 	./mkinstalldirs $(PREFIX)/share/$(APPNAME)
 	install -m 644 mp_*.mpsl $(PREFIX)/share/$(APPNAME)
 	./mkinstalldirs $(PREFIX)/share/man/man1
-	install -m 644 mp-5.1 $(PREFIX)/share/man/man1/$(APPNAME).1
+	install -m 644 $(APPNAME).1 $(PREFIX)/share/man/man1/$(APPNAME).1
 
 installdoc:
 	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
