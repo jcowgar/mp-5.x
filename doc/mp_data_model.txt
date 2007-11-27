@@ -10,8 +10,39 @@ behaviour.
 Documents
 ---------
 
+Each open document is a hash, containing all the information about it,
+including its text, position, name and the list of changes. A new document
+is created by calling mp.new() or mp.open(). The keys stored in each
+document are the following:
+
+ * name: The name of the document (<unnamed> for unnamed documents).
+ * syntax: The optional syntax highlight definition that applies to it
+   (may be NULL or undefined).
+ * txt: The _state_ of the document (see below).
+ * undo: A list of different values of `txt'. Every time the _state_
+   changes by a user modification (keystrokes, etc.), the previous value
+   is pushed here. Every time the 'undo' action is executed, the last
+   value is popped from here and stored in the `txt' key and the
+   `redo' list.
+ * redo: A list of values popped from the `undo' key.
+
+The `txt' component contains the current state of the document:
+
+ * lines: The array of lines that form the document (the document itself).
+ * y: The Y position (line, from 0 to size(txt.lines)).
+ * x: The X position (column, from 0 to size(txt.lines[txt.y])).
+ * mod: A modifier flag. If it's nonzero, the document has non-saved
+   changes.
+ * vx: The first column that is visible on screen.
+ * vy: The first line that is visible on screen.
+
 The document list
 -----------------
+
+The list of open documents in stored in the `mp.docs' array. The subscript
+to the active one (the one returned by mp.active()) is stored in the
+`mp.active_i' variable. Setting this value effectively changes the active
+document (obviously, in the 0 .. size(mp.docs()) range).
 
 Configuration data
 ------------------
@@ -27,7 +58,7 @@ the color in a syntax highlighting context (i.e. `comments' for the text
 inside source code comments, `quotes' for the text inside quotes, and so
 on), and the values are hashes containing the definition for that color in
 the different driver types. For now, only `gui' and `text' drivers exist,
-with another special key, `flags'.
+with another special key, `flags', for special effects.
 
 The color keys are:
 
@@ -56,7 +87,7 @@ For each key, the value is a hash containing the following keys:
    having 0x000000 for black and 0xffffff for white.
  * flags: This is an optional array containing keywords for special
    effects in colors. Acceptable values are `reverse', `bright' and
-   `underline'.
+   `underline' (not all drivers accept all these keywords).
 
 Syntax Highlighting
 -------------------
@@ -65,7 +96,7 @@ Keycodes
 --------
 
 Keycodes are defined in the `mp.keycodes' hash. Each key contain the name
-of the keycode, as `ctrl-f' or 'f3'. The value can be an executable value,
+of the keycode, as `ctrl-f' or `f3'. The value can be an executable value,
 that will be directly executed, a string containing the name of an action,
 or a hash containing more keycodes for multiple key sequences ala Emacs.
 
@@ -74,7 +105,7 @@ Examples:
 	/* bind ctrl-f to the 'seek' action */
 	mp.keycodes['ctrl-f'] = 'seek';
 	
-	/* bind F5 to an anonymouse subroutine */
+	/* bind F5 to an anonymous subroutine */
 	mp.keycodes['f5'] = sub (d) {
 		mp.insert(d, "<form action = 'post'></form>");
 	};
@@ -108,9 +139,9 @@ human consuming.
 
 Examples:
 
-	mp.actdesc['seek']		= LL("Search text...");
-	mp.actdesc['seek_next'] 	= LL("Search next");
-	mp.actdesc['sync']		= LL("Save modified texts");
+	mp.actdesc['seek']	= LL("Search text...");
+	mp.actdesc['seek_next']	= LL("Search next");
+	mp.actdesc['sync']	= LL("Save modified texts");
 
 The menu
 --------
