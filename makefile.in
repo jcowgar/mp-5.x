@@ -7,7 +7,7 @@ PROJ=mp
 #	README.IRIX README.solaris README.mingw32 README.zaurus \
 #	RELEASE_NOTES
 
-DOCS=doc/index.html doc/mp_cookbook.html doc/mp_internals.html \
+DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
 	doc/mp_man.html \
 	AUTHORS README README.mingw32 RELEASE_NOTES
@@ -58,7 +58,7 @@ realdistclean: distclean
 	(cd $(MPDM) ; make distclean)
 	(cd $(MPSL) ; make distclean)
 
-doc/index.html: doc/index.txt
+doc/mp_index.html: doc/mp_index.txt
 	-grutatxt -i $< -o $@
 
 doc/mp_cookbook.html: doc/mp_cookbook.txt
