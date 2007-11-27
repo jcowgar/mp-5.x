@@ -4,18 +4,6 @@ Minimum Profit cookbook
  Angel Ortega <angel@triptico.com>
 
 This document includes some recipes for the Minimum Profit text editor.
-These recipes are focused mainly on executing snippets of the Minimum
-Profit Scripting Language (MPSL), which is covered in more detail in the
-following manuals:
-
- * ./mpsl_overview.html (Overview). Introduction to the MPSL language.
- * Quick reference as ./mpsl_quickref.txt (text) or ./mpsl_quickref.ps (PostScript).
-
-Other MPSL documentation of interest:
-
- * ./mpsl_internals.html (Internals). Notes about this particular
-   MPSL implementation.
- * ./mpsl_api.html (C API). Reference for using MPSL from inside C programs.
 
 Executing MPSL code
 -------------------
