@@ -3,7 +3,7 @@ Minimum Profit Data Model
 
  Angel Ortega <angel@triptico.com>
 
-This document describes all the data structures that build the Minimum
+This document describes all the MPSL data structures that build the Minimum
 Profit Text Editor, with examples showing how to change or update its
 behaviour.
 
@@ -17,12 +17,12 @@ document are the following:
 
  * name: The name of the document (<unnamed> for unnamed documents).
  * syntax: The optional syntax highlight definition that applies to it
-   (may be NULL or undefined).
+   (a value in the `mp.syntax' hash, may be NULL or undefined).
  * txt: The _state_ of the document (see below).
- * undo: A list of different values of `txt'. Every time the _state_
-   changes by a user modification (keystrokes, etc.), the previous value
-   is pushed here. Every time the 'undo' action is executed, the last
-   value is popped from here and stored in the `txt' key and the
+ * undo: A list of different values of `txt'. Every time the user changes
+   a document (inserting or deleting text, etc.), the previous value of
+   `txt' is pushed here. Every time the 'undo' action is executed, the
+   last value is popped from here and stored in the `txt' key and the
    `redo' list.
  * redo: A list of values popped from the `undo' key.
 
@@ -31,10 +31,9 @@ The `txt' component contains the current state of the document:
  * lines: The array of lines that form the document (the document itself).
  * y: The Y position (line, from 0 to size(txt.lines) - 1).
  * x: The X position (column, from 0 to size(txt.lines[txt.y]) - 1).
- * mod: A modifier flag. If it's nonzero, the document has non-saved
-   changes.
- * vx: The first column that is visible on screen.
- * vy: The first line that is visible on screen.
+ * mod: A modifier flag. If it's nonzero, the document has unsaved changes.
+ * vx: The first column (from 0) that is visible on screen.
+ * vy: The first line (from 0) that is visible on screen.
 
 The document list
 -----------------
