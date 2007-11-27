@@ -4,7 +4,6 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1218: Create or adapt The README file.
  * 1244: Document the data model.
 
 Open Bugs
@@ -283,5 +282,7 @@ Closed
  * 1240: Fix the -f (execute script) command-line argument
    (Fri, 23 Nov 2007 13:33:11 +0100).
  * 1219: Update the man page (Fri, 23 Nov 2007 14:16:54 +0100).
+ * 1218: Create or adapt The README file
+   (Tue, 27 Nov 2007 13:29:10 +0100).
 
 Email bugs to angel@triptico.com
