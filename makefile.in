@@ -122,6 +122,7 @@ installdoc:
 	( cd $(MPDM); $(MAKE) installdoc )
 	( cd $(MPSL); $(MAKE) installdoc )
 	-install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
+	-install -m 644 doc/mp_index.html $(PREFIX)/share/doc/$(APPNAME)/index.html
 
 uninstall:
 	rm -f $(PREFIX)/bin/$(APPNAME)
