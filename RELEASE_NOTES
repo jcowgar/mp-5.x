@@ -14,6 +14,7 @@ Minimum Profit 5.x Release Notes
    the screen (bug #1195).
  * The -f (execute script) command line argument really works
    (bug #1240).
+ * New manual page (bug #1219) and README files (bug #1218).
 
 5.0.0-rc3
 ---------
