@@ -1224,3 +1224,8 @@ msgstr ""
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
+
+#: mp_core.mpsl:475
+#, c-format
+msgid "WARNING: %s version found is %s, but %s is needed"
+msgstr ""

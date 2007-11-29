@@ -472,9 +472,8 @@ sub mp.assert_version(found, minimal, package)
 {
 	if (cmp(mp.normalize_version(found),
 		mp.normalize_version(minimal)) < 0) {
-		mp.alert(L(
-			sprintf("WARNING: %s version found is %s, but %s is needed",
-				package, found, minimal)));
+		mp.alert(sprintf(L("WARNING: %s version found is %s, but %s is needed"),
+				package, found, minimal));
 	}
 }
 
