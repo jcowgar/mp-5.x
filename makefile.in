@@ -124,9 +124,11 @@ installdoc:
 	-install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
 	-install -m 644 doc/mp_index.html $(PREFIX)/share/doc/$(APPNAME)/index.html
 
-uninstall:
+uninstall: uninstall-mo
 	rm -f $(PREFIX)/bin/$(APPNAME)
 	rm -rf $(PREFIX)/share/$(APPNAME)
+	rm -rf $(PREFIX)/share/doc/$(APPNAME)
+	rm -f $(PREFIX)/share/man/man1/$(APPNAME).1
 
 po/minimum-profit.pot:
 	xgettext -o $@ --language=C --keyword=L --keyword=LL mp*.c *.mpsl
@@ -151,6 +153,12 @@ install-mo: build-mo
 		B=`basename $$a .mo` ; \
 		./mkinstalldirs $(PREFIX)/share/locale/$$B/LC_MESSAGES ; \
 		install -m 644 $$a $(PREFIX)/share/locale/$$B/LC_MESSAGES/minimum-profit.mo ; \
+	done
+
+uninstall-mo:
+	for a in po/*.mo ; do \
+		B=`basename $$a .mo` ; \
+		rm -f $(PREFIX)/share/locale/$$B/LC_MESSAGES/minimum-profit.mo ; \
 	done
 
 deb:
