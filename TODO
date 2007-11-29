@@ -4,7 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1244: Document the data model.
+None!
 
 Open Bugs
 ---------
@@ -284,5 +284,7 @@ Closed
  * 1219: Update the man page (Fri, 23 Nov 2007 14:16:54 +0100).
  * 1218: Create or adapt The README file
    (Tue, 27 Nov 2007 13:29:10 +0100).
+ * 1244: Document the data model
+   (Thu, 29 Nov 2007 07:31:47 +0100).
 
 Email bugs to angel@triptico.com
