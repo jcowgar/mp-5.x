@@ -9,7 +9,7 @@ PROJ=mp
 
 DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
-	doc/mp_man.html \
+	doc/mp_man.html doc/mp_interactive_dialog_boxes.html \
 	AUTHORS README README.mingw32 RELEASE_NOTES
 
 OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
@@ -71,6 +71,9 @@ doc/mp_configuration.html: doc/mp_configuration.txt
 	-grutatxt -i $< -o $@
 
 doc/mp_data_model.html: doc/mp_data_model.txt
+	-grutatxt -i $< -o $@
+
+doc/mp_interactive_dialog_boxes.html: doc/mp_interactive_dialog_boxes.txt
 	-grutatxt -i $< -o $@
 
 doc/mp_man.html: doc/mp_man.txt
