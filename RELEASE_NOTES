@@ -15,6 +15,9 @@ Minimum Profit 5.x Release Notes
  * The -f (execute script) command line argument really works
    (bug #1240).
  * New manual page (bug #1219) and README files (bug #1218).
+ * Updated documents, 'MPSL Overview' and 'Minimum Profit Cookbook'.
+ * New documents, 'Minimum Profit Data Model' and 'Creating interactive
+   dialog boxes'.
 
 5.0.0-rc3
 ---------
