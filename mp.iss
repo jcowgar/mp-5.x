@@ -14,9 +14,10 @@ SolidCompression=yes
 [Files]
 Source: "wmp.exe"; DestDir: "{app}"
 Source: "mp_*.mpsl"; DestDir: "{app}"
-Source: "doc\*.*"; DestDir: "{app}\doc"
+Source: "doc\*.html"; DestDir: "{app}\doc"
 Source: "README" ; DestDir: "{app}\doc"
 Source: "AUTHORS" ; DestDir: "{app}\doc"
+Source: "COPYING" ; DestDir: "{app}\doc"
 Source: "RELEASE_NOTES" ; DestDir: "{app}\doc"
 
 [Icons]
