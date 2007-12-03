@@ -114,7 +114,7 @@ win32dist: wmp.exe
 	rm -rf win32
 
 innosetup: wmp.exe
-	wine /home/angel/.wine/fake_windows/Program\ Files/Inno\ Setup\ 5/ISCC.exe /O. /Fmp-$(VERSION) mp.iss
+	wine ~/.wine/fake_windows/Program\ Files/Inno\ Setup\ 5/ISCC.exe /O. /Fmp-$(VERSION) mp.iss
 
 install: $(INSTALL_MSG) installdoc install-mo
 	install $(APPNAME) $(PREFIX)/bin/$(APPNAME)
