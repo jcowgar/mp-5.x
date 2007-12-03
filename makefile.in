@@ -3,19 +3,13 @@
 all: $(APPNAME) docs build-mo
 
 PROJ=mp
-#DOCS=AUTHORS README COPYING mprc.sample mprc-win32.sample \
-#	README.IRIX README.solaris README.mingw32 README.zaurus \
-#	RELEASE_NOTES
 
 DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
 	doc/mp_man.html doc/mp_interactive_dialog_boxes.html \
-	AUTHORS README README.mingw32 RELEASE_NOTES
+	AUTHORS README COPYING README.mingw32 RELEASE_NOTES
 
 OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
-#OBJS=mp_core.o mp_synhi.o mp_iface.o gnu_regex.o mp_tags.o mp_wordp.o \
-#	mp_lang.o mp_conf.o mp_func.o mp_video.o $(LANG_MSG_O) \
-#	mpv_unix_common.o mpv_curses.o mpv_gtk.o mpv_win32.o
 
 DIST_TARGET=/tmp/$(PROJ)-$(VERSION)
 
