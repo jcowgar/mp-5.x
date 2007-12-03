@@ -4,6 +4,7 @@
 AppName=Minimum Profit
 AppVerName=Minimum Profit version 5.x
 DefaultDirName={pf}\mp-5
+UsePreviousAppDir=no
 DefaultGroupName=Minimum Profit
 UninstallDisplayIcon={app}\wmp.exe
 Compression=lzma
