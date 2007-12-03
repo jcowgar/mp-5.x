@@ -14,7 +14,9 @@ SolidCompression=yes
 Source: "wmp.exe"; DestDir: "{app}"
 Source: "mp_*.mpsl"; DestDir: "{app}"
 Source: "doc\*.*"; DestDir: "{app}\doc"
-;Source: "Readme.txt"; DestDir: "{app}"; Flags: isreadme
+Source: "README" ; DestDir: "{app}\doc"
+Source: "AUTHORS" ; DestDir: "{app}\doc"
+Source: "RELEASE_NOTES" ; DestDir: "{app}\doc"
 
 [Icons]
 Name: "{group}\Minimum Profit"; Filename: "{app}\wmp.exe"
