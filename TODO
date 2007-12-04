@@ -33,6 +33,7 @@ Open Bugs
  * 1242: There cannot be two tags with the same name, as they are
    stored as hash keys.
  * 1248: No localisation on Win32.
+ * 1249: Change TUI dialogs to be really dialogs.
 
 Pending Enhancements
 --------------------
