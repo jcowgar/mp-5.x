@@ -6,5 +6,7 @@ config.ldflags
 doc/*.html
 makefile.opts
 mp-5
+mp-5.1
 po/*.mo
+po/minimum-profit.pot
 *.[oa]
