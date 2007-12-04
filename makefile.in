@@ -7,7 +7,8 @@ PROJ=mp
 DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
 	doc/mp_man.html doc/mp_interactive_dialog_boxes.html \
-	AUTHORS README COPYING README.mingw32 RELEASE_NOTES
+	AUTHORS README COPYING README.mingw32 RELEASE_NOTES \
+	mp_templates.sample
 
 OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
 

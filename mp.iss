@@ -19,6 +19,7 @@ Source: "README" ; DestDir: "{app}\doc"
 Source: "AUTHORS" ; DestDir: "{app}\doc"
 Source: "COPYING" ; DestDir: "{app}\doc"
 Source: "RELEASE_NOTES" ; DestDir: "{app}\doc"
+Source: "mp_templates.sample" ; DestDir: "{app}\doc"
 
 [Icons]
 Name: "{group}\Minimum Profit"; Filename: "{app}\wmp.exe"
