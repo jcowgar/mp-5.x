@@ -287,5 +287,7 @@ Closed
    (Tue, 27 Nov 2007 13:29:10 +0100).
  * 1244: Document the data model
    (Thu, 29 Nov 2007 07:31:47 +0100).
+ * 1250: Autoindent should be disabled while pasting
+   (Fri, 07 Dec 2007 08:14:25 +0100).
 
 Email bugs to angel@triptico.com

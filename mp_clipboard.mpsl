@@ -172,7 +172,10 @@ sub mp.cut(doc)
 sub mp.paste(doc)
 /* pastes from the clipboard into a text */
 {
+	local t = mp.config.auto_indent;
+	mp.config.auto_indent = 0;
+
 	mp.insert(doc, mp.clipboard);
+
+	mp.config.auto_indent = t;
 }
-
-
