@@ -53,22 +53,9 @@ realdistclean: distclean
 	(cd $(MPDM) ; make distclean)
 	(cd $(MPSL) ; make distclean)
 
-doc/mp_index.html: doc/mp_index.txt
-	-grutatxt -i $< -o $@
+.SUFFIXES: .html .txt
 
-doc/mp_cookbook.html: doc/mp_cookbook.txt
-	-grutatxt -i $< -o $@
-
-doc/mp_internals.html: doc/mp_internals.txt
-	-grutatxt -i $< -o $@
-
-doc/mp_configuration.html: doc/mp_configuration.txt
-	-grutatxt -i $< -o $@
-
-doc/mp_data_model.html: doc/mp_data_model.txt
-	-grutatxt -i $< -o $@
-
-doc/mp_interactive_dialog_boxes.html: doc/mp_interactive_dialog_boxes.txt
+.txt.html:
 	-grutatxt -i $< -o $@
 
 doc/mp_man.html: doc/mp_man.txt
