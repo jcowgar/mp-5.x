@@ -40,9 +40,10 @@ sub mp.tui.prompt(prompt)
 	/* delete all possible newlines */
 	prompt = sregex("/\n/g", prompt, ' ');
 
-	mp.tui.attr(mp.colors.normal.attr);
+	mp.tui.attr(mp.colors.menu.attr);
 	mp.tui.move(0, mp.window.ty - 1, 1);
 	mp.tui.addstr(prompt);
+	mp.tui.attr(mp.colors.normal.attr);
 	mp.tui.refresh();
 }
 
@@ -124,8 +125,10 @@ sub mp.tui.list(prompt, data, pos)
 {
 	local vy, ty, r;
 
+	mp.tui.attr(mp.colors.menu.attr);
 	mp.tui.move(0, 0, 1);
 	mp.tui.addstr(prompt);
+	mp.tui.attr(mp.colors.normal.attr);
 
 	vy = 0;
 	ty = mp.window.ty - 1;
