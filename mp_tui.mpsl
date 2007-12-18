@@ -152,6 +152,21 @@ sub mp.tui.readline(prompt, history, default, flags)
 			x = size(r);
 		}
 		else
+		if (k eq 'tab' && flags.file) {
+			local l = glob(r ~ '*.*');
+
+			if (size(l)) {
+				local p = mp.tui.list('', l, 0);
+
+				if (p == NULL)
+					r = NULL;
+				else
+					r = l[p];
+
+				break;
+			}
+		}
+		else
 		if (size(k) == 1) {
 			r = splice(r, k, x, 0);
 			r = r[0];
@@ -310,13 +325,13 @@ sub mp.drv.confirm(msg, def)
 
 sub mp.drv.openfile(prompt)
 {
-	mp.tui.readline(prompt, 'openfile');
+	mp.tui.readline(prompt, 'openfile', NULL, { 'file' => 1 } );
 }
 
 
 sub mp.drv.savefile(prompt)
 {
-	mp.tui.readline(prompt, 'savefile');
+	mp.tui.readline(prompt, 'savefile', NULL, { 'file' => 1 } );
 }
 
 

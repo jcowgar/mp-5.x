@@ -5,8 +5,9 @@ Minimum Profit 5.x Release Notes
 -----
 
  * New document 'Minimum Profit Function Reference'.
- * TUI (Text User Interface) Improvements; real editing in
-   readline, fixed ugliness in lists.
+ * TUI (Text User Interface) Improvements, as real editing in readline,
+   file expansion pressing 'tab' in open / save file prompts, fixed
+   ugliness in lists.
 
 5.0.0
 -----
