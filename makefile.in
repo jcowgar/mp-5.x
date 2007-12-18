@@ -7,6 +7,7 @@ PROJ=mp
 DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
 	doc/mp_man.html doc/mp_interactive_dialog_boxes.html \
+	doc/mp_function_reference.html \
 	AUTHORS README COPYING README.mingw32 RELEASE_NOTES \
 	mp_templates.sample
 
@@ -53,10 +54,13 @@ realdistclean: distclean
 	(cd $(MPDM) ; make distclean)
 	(cd $(MPSL) ; make distclean)
 
-.SUFFIXES: .html .txt
+.SUFFIXES: .html .txt .rhtml
 
 .txt.html:
 	-grutatxt -i $< -o $@
+
+.rhtml.html:
+	cp $< $@
 
 doc/mp_man.html: doc/mp_man.txt
 	grutatxt -dl -t "Minimum Profit Man Page" -i $< -o $@
