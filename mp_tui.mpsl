@@ -51,7 +51,7 @@ sub mp.tui.prompt(prompt)
 sub mp.tui.readline(prompt, history, default, flags)
 /* the readline function, with special functionality in 'flags' */
 {
-	local c, r, h, i, v, x;
+	local c, r, h, i, x;
 
 	mp.tui.prompt(prompt ~ ' ');
 	c = mp.tui.getxy();
@@ -63,8 +63,23 @@ sub mp.tui.readline(prompt, history, default, flags)
 	i = 0;
 	x = size(r);
 
+	/* store in c[2] the usable size */
+	push(c, mp.window.tx - c[0]);
+
 	while (1) {
 		local s = r;
+		local v = 0;
+
+		/* is the string bigger than the usable size? */
+		if (size(r) >= c[2]) {
+			/* if x is beyond the usable size,
+			   cut from the start */
+			if (x >= c[2])
+				v = x - c[2] + 1;
+
+			s = splice(s, NULL, v, c[2]);
+			s = s[1];
+		}
 
 		/* if it's a password, change everything to asterisks */
 		if (flags.password)
@@ -73,7 +88,7 @@ sub mp.tui.readline(prompt, history, default, flags)
 		/* draws the string */
 		mp.tui.move(c[0], c[1], 1);
 		mp.tui.addstr(s);
-		mp.tui.move(c[0] + x, c[1]);
+		mp.tui.move(c[0] + x - v, c[1]);
 
 		local k = mp.tui.getkey();
 
