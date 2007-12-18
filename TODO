@@ -289,5 +289,8 @@ Closed
    (Thu, 29 Nov 2007 07:31:47 +0100).
  * 1250: Autoindent should be disabled while pasting
    (Fri, 07 Dec 2007 08:14:25 +0100).
+ * 1251: In TUI's list, when the cursor is on the last element, the
+   rest of the screen is drawn in cursor color
+   (Tue, 18 Dec 2007 11:14:19 +0100).
 
 Email bugs to angel@triptico.com
