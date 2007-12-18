@@ -51,7 +51,7 @@ sub mp.tui.prompt(prompt)
 sub mp.tui.readline(prompt, history, default, flags)
 /* the readline function, with special functionality in 'flags' */
 {
-	local c, r, h, i, v;
+	local c, r, h, i, v, x;
 
 	mp.tui.prompt(prompt ~ ' ');
 	c = mp.tui.getxy();
@@ -60,16 +60,11 @@ sub mp.tui.readline(prompt, history, default, flags)
 	/* get the history stack */
 	h = mp.get_history(history);
 
-	/* create the clipping regular expression */
-	v = '/.{1,' ~ (mp.window.tx - c[0] - 1) ~ '}$/';
-
 	i = 0;
+	x = size(r);
 
 	while (1) {
-		local k, s;
-
-		/* builds the string */
-		s = regex(v, r) || '';
+		local s = r;
 
 		/* if it's a password, change everything to asterisks */
 		if (flags.password)
@@ -78,8 +73,12 @@ sub mp.tui.readline(prompt, history, default, flags)
 		/* draws the string */
 		mp.tui.move(c[0], c[1], 1);
 		mp.tui.addstr(s);
+		mp.tui.move(c[0] + x, c[1]);
 
-		k = mp.tui.getkey();
+		local k = mp.tui.getkey();
+
+		if (k eq 'space')
+			k = ' ';
 
 		if (k eq 'enter')
 			break;
@@ -89,27 +88,47 @@ sub mp.tui.readline(prompt, history, default, flags)
 			break;
 		}
 		else
-		if (k eq 'backspace')
-			r = sregex('/.$/', r);
+		if (k eq 'backspace' && x > 0) {
+			x--;
+			r = splice(r, NULL, x, 1);
+			r = r[0];
+		}
 		else
-		if (k eq 'ctrl-u')
+		if (k eq 'ctrl-u') {
+			x = 0;
 			r = '';
+		}
 		else
-		if (k eq 'space')
-			r = r ~ ' ';
+		if (k eq 'ctrl-k') {
+			r = splice(r, NULL, x, -1);
+			r = r[0];
+		}
 		else
 		if (k eq 'cursor-up' && size(h)) {
 			i--;
 			r = h[i % size(h)];
+			x = size(r);
 		}
 		else
 		if (k eq 'cursor-down' && size(h)) {
 			i++;
 			r = h[i % size(h)];
+			x = size(r);
 		}
 		else
-		if (size(k) == 1)
-			r = r ~ k;
+		if (k eq 'cursor-left' && x > 0) {
+			x--;
+		}
+		else
+		if (k eq 'cursor-right' && x < size(r)) {
+			x++;
+		}
+		else
+		if (size(k) == 1) {
+			r = splice(r, k, x, 0);
+			r = r[0];
+			x++;
+		}
 	}
 
 	/* if a string was accepted, store in the history */
