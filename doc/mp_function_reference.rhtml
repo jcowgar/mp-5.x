@@ -1,0 +1,1131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.2  (Linux)">
+	<META NAME="CREATED" CONTENT="20071206;23050600">
+	<META NAME="CHANGEDBY" CONTENT="Lee Page">
+	<META NAME="CHANGED" CONTENT="20071216;14101300">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { size: 8.5in 11in; margin: 0.79in }
+		P { margin-bottom: 0.08in }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P>Clipboard (mp_clipboard.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.unmark(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Unmarks the block.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.mark(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Marks the start or end of the block.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.get_active_area(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Returns the active area:  the selection, or the full document.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.copy(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Copies the mark to the clipboard.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.delete_mark(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Deletes current selection.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.cut(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Cut (copy + delete) selected mark.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.paste(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Pastes from the clipboard to the cursor position.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Core (mp_core.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.active()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Returns the active document.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.process_action(a)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Processes an action.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.process_event(k)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Processes a key event.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.build_status_line()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Returns the string to be drawn in the status line.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.backslash_codes(s, d)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Encodes (d == 0) or decodes (d == 1) backslash codes.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.long_op(func, a1, a2, a3)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Executes a potentially long function (sets as busy).</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.get_history(key)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Returns a history for the specified key.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.menu_label(action)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Returns a label for the menu for an action.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.usage()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Set mp.exit_message with a usage message (--help).</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.process_cmdline()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Process the command line arguments (ARGV).</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.load_profile()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Loads ~/.mp.mpsl.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.normalize_version(vs)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Converts a version string to something usable with cmp().</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.assert_version(found, minimal, package)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Asserts that 'found' version of 'package' is at least
+			'minimal', or generate a warning otherwise.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.test_versions()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Tests component versions.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Crypt (mp_crypt.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.arcfour_byte()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Gets next ARCFOUR byte next char is chr(ord(getchar(l)) ^
+			mp.arcfour_byte()).</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.arcfour_init(key)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Initializes an ARCFOUR cypher.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.crypt1_load(fd, password)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Loads a crypt1 encrypted file into lines.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.crypt1_save(fd, lines, password)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Saves the lines as a crypt1 encrypted file.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.crypt1_detect(fd)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Detects if fd is an mpcrypt1-type file.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Editor Actions (mp_drv.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.menu()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.clip_to_sys()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.sys_to_clip()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.update_ui()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.timer(msecs,func)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.busy(onoff)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.update_ui()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.alert(msg)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.confirm(msg)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.openfile(prompt)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.savefile(prompt)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.form(widgets)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.timer(msecs,func)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.busy(onoff)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<PRE></PRE>
+		</TD>
+	</TR>
+</TABLE>
+<P>Editor (mp_edit.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.break_line(doc, col)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Breaks current line in two (inserts a newline).</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.join_line(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Joins the current line with the next one.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.delete_line(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Deletes the current line.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.delete_char(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Deletes the current char.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.delete_range(doc, bx, by, ex, ey)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Deletes a range of characters from a document.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.insert_string(doc, str)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Inserts a string into the cursor position.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.insert(doc, a)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Inserts an array of text into a document.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.wrap_words(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Do word wrapping.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.insert_space(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Inserts a space, taking word wrapping into account.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.insert_tab(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Inserts a tab.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.insert_newline(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Inserts a newline.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.insert_keystroke(doc, key)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Inserts from a keystroke (with undo).</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.store_undo(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Stores the current txt in the undo queue.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.undo(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Undoes the last operation.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.redo(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Redoes the last operation undone.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.join_paragraph(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Joins the current paragraph into just one line.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.word_wrap_paragraph(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Word wraps current paragraph.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>File (mp_file.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.chomp(str)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Chomps the end of file (should this be:  end of line?) chars
+			from a string.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.open_file_for_reading(filename)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P STYLE="margin-bottom: 0in">The three-state file opening of text
+			editors: open if possible,</P>
+			<P>   fail on errors, create new if non-existent.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.save(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Saves a file.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.new(filename, lines)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Creates a new document.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.next()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Rotates through the document list.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.prev()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Rotates through the document list, backwards.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.close()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Closes the active document.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.find_file_by_name(filename)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Finds an open file by its name.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.open(filename)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Opens a new document (uses UI).</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Keys (mp_keyseq.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.pending_key()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.process_keyseq(key)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.add_keyseq(seq, keycode)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Macros (mp_macro.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.process_event_and_record(k)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Patched version of mp.process_event().</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.record_macro</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Start recording a macro.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.play_macro</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Play a macro.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Misc. (mp_misc.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.dump(v)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Overrides the MPSL dump() function, dumping into the active
+			text document.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Movement (mp_move.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move(doc, func)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Wrapper for movement functions, with possible shift selection.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.split_by_words(s)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Splits a string by words.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.split_line_by_words(doc, r)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Splits current line by words and returns a three element array
+			containing the list of words, the list of offsets and the current
+			position.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.get_word(doc, r)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Returns the word under the cursor.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.get_range(doc, bx, by, ex, ey)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Gets a range or characters from a document.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.set_x(doc, x)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Sets the x position.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.set_y(doc, y)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Sets the y position.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_up(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves one line up.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_down(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves one line down.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_pgup(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves one page up.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_pgdn(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves one page down.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_left(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves one char left.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_right(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves one char right.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_bol(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves to the beginning of the line.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_eol(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves to the end of the line.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_bof(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves to the beginning of the file.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_eof(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves to the end of the file.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_word_left(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves a word to the left.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_word_right(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves a word to the right.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_to_coords_xy(doc, x, y)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Move the cursor to the character on the visual coords x and y.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Search (mp_search.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.prefix_regex(str)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Set str to be a valid regex.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.search_dir(doc, str, dir)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Search str and put the current position there, with direction.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.search(doc, str)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Search str and put the current position there, downwards.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.search_back(doc, str)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Search str and put the current position there, backwards.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.replace_1(doc, this, that)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Searches 'this' and replaces it with 'that', once.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.replace(doc, this, that)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Replaces 'this' with 'that', may be globally.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.seek_prev_or_next_char(doc, func)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Moves to next or previous occurrence of current char.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.grep(rx, spec)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Greps str in the files in spec. Returns NULL if no file matched
+			the glob() (or glob() is unsupported), an empty list if the string
+			was not found or an array with the matches, that are three-element
+			arrays with the file name, the line number and the line that
+			matched.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Sessions (mp_session.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.session_file()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Returns the appropriate session saving file.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.save_session()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Saves currently open files as a session. Returns: -1, nothing
+			to save;   -2, error saving; or 0, session correctly saved.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.load_session()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Loads a session. Returns: -1, no session, -2, user cancellation
+			on closing currently open documents and 0, ok.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Spell (mp_ispell.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.open_ispell_pipe</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Opens the pipe to ispell.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.close_ispell_pipe</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Closes the pipe to ispell.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.ispell_word_color_func(w)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>mp.word_color_func() for ispell.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.ispell(b)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Sets or unsets spell checking (-1, toggle).</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Syntax Highlighting (mp_syntax.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.syn_token_list(l)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Initializes the language syntax highlighting lists.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.detect_syntax(doc)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Tries to detect the syntax of a document.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.help(doc, word)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Tags (mp_tags.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.load_tags(force)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Load a 'tags' file.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.open_tag(tag)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Opens a tag (uses GUI).</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.complete(d, list, label)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Completes the current word given a list (uses GUI).</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>Templates (mp_templates.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.read_templates_file()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Reads the $HOME/.mp_templates file into mp.templates.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>TUI (mp_tui.mpsl)</P>
+<TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=254>
+	<COL WIDTH=393>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.tui.prompt(prompt)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Draw a prompt on screen.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.tui.readline(prompt, history, default, flags)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>The readline function, with special functionality in 'flags'.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.tui.list(prompt, data, pos)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P>Select from a list.  Returns the index into data that was
+			selected.</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.alert(msg)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.confirm(msg, def)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.openfile(prompt)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.savefile(prompt)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.form(widgets)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.menu()</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=254>
+			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.drv.busy(onoff)</FONT></PRE>
+		</TD>
+		<TD WIDTH=393>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<PRE></PRE>
+</BODY>
+</HTML>
