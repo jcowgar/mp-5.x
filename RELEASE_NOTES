@@ -1,8 +1,15 @@
 Minimum Profit 5.x Release Notes
 ================================
 
-5.0.0-rc4
----------
+5.0.1
+-----
+
+ * New document 'Minimum Profit Function Reference'.
+ * TUI (Text User Interface) Improvements; real editing in
+   readline, fixed ugliness in lists.
+
+5.0.0
+-----
 
  * The search hit is highlighted.
  * When invoked from the menu, the 'record_macro' action dropped
