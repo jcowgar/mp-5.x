@@ -64,7 +64,7 @@ sub mp.tui.readline(prompt, history, default, flags)
 	x = size(r);
 
 	/* store in c[2] the usable size */
-	push(c, mp.window.tx - c[0]);
+	push(c, mp.window.tx - c[0] - 1);
 
 	while (1) {
 		local s = r;
@@ -75,7 +75,7 @@ sub mp.tui.readline(prompt, history, default, flags)
 			/* if x is beyond the usable size,
 			   cut from the start */
 			if (x >= c[2])
-				v = x - c[2] + 1;
+				v = x - c[2];
 
 			s = splice(s, NULL, v, c[2]);
 			s = s[1];
