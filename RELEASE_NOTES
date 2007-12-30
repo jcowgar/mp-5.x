@@ -4,10 +4,10 @@ Minimum Profit 5.x Release Notes
 5.0.1
 -----
 
- * New document 'Minimum Profit Function Reference'.
- * TUI (Text User Interface) Improvements, as real editing in readline,
-   file expansion pressing 'tab' in open / save file prompts, fixed
-   ugliness in lists.
+ * Improved line edition in the Curses interface (full edition plus file
+   expansion using the 'tab' key in open / save file prompts).
+ * Auto-indenting is temporarily disabled while pasting (bug #1250).
+ * New document 'Minimum Profit Function Reference' (contributed by Lee Page).
 
 5.0.0
 -----
