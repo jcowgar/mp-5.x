@@ -6,21 +6,61 @@
 	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.2  (Linux)">
 	<META NAME="CREATED" CONTENT="20071206;23050600">
 	<META NAME="CHANGEDBY" CONTENT="Lee Page">
-	<META NAME="CHANGED" CONTENT="20071216;14101300">
+	<META NAME="CHANGED" CONTENT="20071231;15203900">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 8.5in 11in; margin: 0.79in }
 		P { margin-bottom: 0.08in }
+		H1 { margin-bottom: 0.08in; color: #0000aa; font-family: "trebuchet ms", "arial" }
+		H2 { margin-bottom: 0.08in }
+		H2.western { font-family: "Nimbus Sans L", sans-serif; font-size: 14pt; font-style: italic }
+		H2.cjk { font-size: 14pt; font-style: italic }
+		H2.ctl { font-size: 14pt; font-style: italic }
 	-->
 	</STYLE>
 </HEAD>
 <BODY LANG="en-US" DIR="LTR">
-<h1>Minimum Profit Function Reference</h1>
-<p>
-<pre>
- Lee Page &lt;lrpage@mindspring.com&gt;
-</pre>
-<P>Clipboard (mp_clipboard.mpsl)</P>
+<H1>Minimum Profit Function Reference</H1>
+<P> Lee Page &lt;lrpage AT mindspring POINT com&gt;</P>
+<P><BR><BR>
+</P>
+<TABLE WIDTH=100% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+	<COL WIDTH=128*>
+	<COL WIDTH=128*>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<UL>
+				<LI><P ALIGN=LEFT><A HREF="#Clipboard">Clipboard
+				(mp_clipboard.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Core">Core (mp_core.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Crypt">Crypt (mp_crypt.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Editor Action">Editor Actions
+				(mp_drv.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Editor">Editor (mp_edit.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#File">File (mp_file.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Keys">Keys (mp_keyseq.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Macros">Macros (mp_macro.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Misc">Misc. (mp_misc.mpsl)</A></P>
+			</UL>
+		</TD>
+		<TD WIDTH=50%>
+			<UL>
+				<LI><P ALIGN=LEFT><A HREF="#Movement">Movement (mp_move.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Search">Search (mp_search.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Sessions">Sessions (mp_session.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Spell">Spell (mp_ispell.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Syntax Highlighting">Syntax
+				Highlighting (mp_syntax.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Tags">Tags (mp_tags.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#Templates">Templates
+				(mp_templates.mpsl)</A></P>
+				<LI><P ALIGN=LEFT><A HREF="#TUI">TUI (mp_tui.mpsl)</A></P>
+			</UL>
+		</TD>
+	</TR>
+</TABLE>
+<H2 CLASS="western"><A NAME="Clipboard"></A>Clipboard
+(mp_clipboard.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -81,7 +121,7 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>Core (mp_core.mpsl)</P>
+<H2 CLASS="western"><A NAME="Core"></A>Core (mp_core.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -170,7 +210,7 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.load_profile()</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Loads ~/.mp.mpsl.</P>
+			<P>Loads <FONT FACE="Courier, monospace">~/.mp.mpsl</FONT>.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
@@ -178,7 +218,7 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.normalize_version(vs)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Converts a version string to something usable with cmp().</P>
+			<P>Converts a version string to something usable with <FONT FACE="Courier, monospace">cmp()</FONT>.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
@@ -199,7 +239,7 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>Crypt (mp_crypt.mpsl)</P>
+<H2 CLASS="western"><A NAME="Crypt"></A>Crypt (mp_crypt.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -208,8 +248,8 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.arcfour_byte()</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Gets next ARCFOUR byte next char is chr(ord(getchar(l)) ^
-			mp.arcfour_byte()).</P>
+			<P>Gets next ARCFOUR byte next char is <FONT FACE="Courier, monospace">chr(ord(getchar(l))
+			^ mp.arcfour_byte())</FONT>.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
@@ -245,7 +285,8 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>Editor Actions (mp_drv.mpsl)</P>
+<H2 CLASS="western"><A NAME="Editor Action"></A>Editor Actions
+(mp_drv.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -362,7 +403,7 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>Editor (mp_edit.mpsl)</P>
+<H2 CLASS="western"><A NAME="Editor"></A>Editor (mp_edit.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -411,7 +452,9 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.insert_string(doc, str)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Inserts a string into the cursor position.</P>
+			<P>Inserts a string into the cursor position.  Note:  newlines are
+			not allowed.  You must call <FONT FACE="Courier, monospace">mp.insert_newline()</FONT>
+			to manually insert a newline.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
@@ -503,7 +546,7 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>File (mp_file.mpsl)</P>
+<H2 CLASS="western"><A NAME="File"></A>File (mp_file.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -521,9 +564,10 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.open_file_for_reading(filename)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P STYLE="margin-bottom: 0in">The three-state file opening of text
-			editors: open if possible,</P>
-			<P>   fail on errors, create new if non-existent.</P>
+			<P>The three-state file opening of text editors: open if possible,
+			fail on errors, create new if non-existent.  Note:  this is a
+			low-level interface.  You probably want to use
+			<FONT FACE="Courier, monospace"><FONT SIZE=3>mp.open(&nbsp;filename&nbsp;)</FONT></FONT>.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
@@ -571,7 +615,8 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.find_file_by_name(filename)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Finds an open file by its name.</P>
+			<P>Finds an open file by its name, returns the index to the file
+			in the document array.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
@@ -579,11 +624,14 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.open(filename)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Opens a new document (uses UI).</P>
+			<P>Opens a new document (uses UI).  This interface checks to make
+			sure the file isn't already open, as well as checking to see if
+			the file is encrypted.  Will prompt for a password if it is
+			encrypted.</P>
 		</TD>
 	</TR>
 </TABLE>
-<P>Keys (mp_keyseq.mpsl)</P>
+<H2 CLASS="western"><A NAME="Keys"></A>Keys (mp_keyseq.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -615,7 +663,7 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>Macros (mp_macro.mpsl)</P>
+<H2 CLASS="western"><A NAME="Macros"></A>Macros (mp_macro.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -624,7 +672,7 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.process_event_and_record(k)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Patched version of mp.process_event().</P>
+			<P>Patched version of <FONT FACE="Courier, monospace">mp.process_event()</FONT>.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
@@ -644,7 +692,7 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>Misc. (mp_misc.mpsl)</P>
+<H2 CLASS="western"><A NAME="Misc"></A>Misc. (mp_misc.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -653,12 +701,12 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.dump(v)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Overrides the MPSL dump() function, dumping into the active
-			text document.</P>
+			<P>Overrides the MPSL <FONT FACE="Courier, monospace">dump()</FONT>
+			function, dumping into the active text document.</P>
 		</TD>
 	</TR>
 </TABLE>
-<P>Movement (mp_move.mpsl)</P>
+<H2 CLASS="western"><A NAME="Movement"></A>Movement (mp_move.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -821,11 +869,13 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.move_to_coords_xy(doc, x, y)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Move the cursor to the character on the visual coords x and y.</P>
+			<P>Move the cursor to the character on the visual coords x and y. 
+			See also:  <FONT FACE="Courier, monospace">mp.set_x(&nbsp;doc,&nbsp;x&nbsp;),
+			mp.set_y(&nbsp;doc,&nbsp;y&nbsp;)</FONT>.</P>
 		</TD>
 	</TR>
 </TABLE>
-<P>Search (mp_search.mpsl)</P>
+<H2 CLASS="western"><A NAME="Search"></A>Search (mp_search.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -891,14 +941,14 @@
 		</TD>
 		<TD WIDTH=393>
 			<P>Greps str in the files in spec. Returns NULL if no file matched
-			the glob() (or glob() is unsupported), an empty list if the string
-			was not found or an array with the matches, that are three-element
-			arrays with the file name, the line number and the line that
-			matched.</P>
+			the <FONT FACE="Courier, monospace">glob()</FONT> (or <FONT FACE="Courier, monospace">glob()</FONT>
+			is unsupported), an empty list if the string was not found or an
+			array with the matches, that are three-element arrays with the
+			file name, the line number and the line that matched.</P>
 		</TD>
 	</TR>
 </TABLE>
-<P>Sessions (mp_session.mpsl)</P>
+<H2 CLASS="western"><A NAME="Sessions"></A>Sessions (mp_session.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -929,7 +979,7 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>Spell (mp_ispell.mpsl)</P>
+<H2 CLASS="western"><A NAME="Spell"></A>Spell (mp_ispell.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -954,7 +1004,8 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.ispell_word_color_func(w)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>mp.word_color_func() for ispell.</P>
+			<P><FONT FACE="Courier, monospace">mp.word_color_func()</FONT> for
+			ispell.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
@@ -966,7 +1017,8 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>Syntax Highlighting (mp_syntax.mpsl)</P>
+<H2 CLASS="western"><A NAME="Syntax Highlighting"></A>Syntax
+Highlighting (mp_syntax.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -996,7 +1048,7 @@
 		</TD>
 	</TR>
 </TABLE>
-<P>Tags (mp_tags.mpsl)</P>
+<H2 CLASS="western"><A NAME="Tags"></A>Tags (mp_tags.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -1013,7 +1065,7 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.open_tag(tag)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Opens a tag (uses GUI).</P>
+			<P>Opens a tag (interactive).</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
@@ -1021,11 +1073,12 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.complete(d, list, label)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Completes the current word given a list (uses GUI).</P>
+			<P>Completes the current word given a list (interactive).</P>
 		</TD>
 	</TR>
 </TABLE>
-<P>Templates (mp_templates.mpsl)</P>
+<H2 CLASS="western"><A NAME="Templates"></A>Templates
+(mp_templates.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -1034,11 +1087,12 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.read_templates_file()</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>Reads the $HOME/.mp_templates file into mp.templates.</P>
+			<P>Reads the <FONT FACE="Courier, monospace">$HOME/.mp_templates</FONT>
+			file into mp.templates.</P>
 		</TD>
 	</TR>
 </TABLE>
-<P>TUI (mp_tui.mpsl)</P>
+<H2 CLASS="western"><A NAME="TUI"></A>TUI (mp_tui.mpsl)</H2>
 <TABLE WIDTH=665 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
 	<COL WIDTH=254>
 	<COL WIDTH=393>
@@ -1055,7 +1109,8 @@
 			<PRE><FONT SIZE=2 STYLE="font-size: 9pt">mp.tui.readline(prompt, history, default, flags)</FONT></PRE>
 		</TD>
 		<TD WIDTH=393>
-			<P>The readline function, with special functionality in 'flags'.</P>
+			<P>The readline function, with special functionality in 'flags'. 
+			Returns the string typed in.</P>
 		</TD>
 	</TR>
 	<TR VALIGN=TOP>
