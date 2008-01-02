@@ -57,13 +57,13 @@ realdistclean: distclean
 .SUFFIXES: .html .txt .rhtml
 
 .txt.html:
-	-grutatxt -i $< -o $@
+	$(GRUTATXT) < $< > $@
 
 .rhtml.html:
 	cp $< $@
 
 doc/mp_man.html: doc/mp_man.txt
-	grutatxt -dl -t "Minimum Profit Man Page" -i $< -o $@
+	$(GRUTATXT) -dl -t "Minimum Profit Man Page" < $< > $@
 
 doc/mp_api.html: *.mpsl
 	-mp_doccer *.mpsl -o doc/mp_api -f html1 \
@@ -71,7 +71,7 @@ doc/mp_api.html: *.mpsl
 		-a 'Angel Ortega - angel@triptico.com'
 
 $(APPNAME).1: doc/mp_man.txt
-	grutatxt -m man -t "Minimum Profit" < doc/mp_man.txt > $(APPNAME).1
+	$(GRUTATXT) -m man -t "Minimum Profit" < doc/mp_man.txt > $(APPNAME).1
 
 docs: $(DOCS) $(APPNAME).1
 
