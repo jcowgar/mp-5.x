@@ -255,6 +255,7 @@ echo "#define CONFOPT_UNIX_LIKE 1" >> config.h
 echo "#endif" >> config.h
 
 grep GRUTATXT $MPDM/makefile.opts >> makefile.opts
+grep MP_DOCCER $MPDM/makefile.opts >> makefile.opts
 echo "VERSION=$VERSION" >> makefile.opts
 echo "WINDRES=$WINDRES" >> makefile.opts
 echo "PREFIX=\$(DESTDIR)$PREFIX" >> makefile.opts
