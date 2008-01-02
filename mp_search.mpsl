@@ -323,7 +323,7 @@ sub mp.grep(rx, spec)
 
 	r = [];
 
-	foreach (local fn, all) {
+	foreach (fn, all) {
 		local f;
 
 		if ((f = open(fn, "r")) != NULL) {

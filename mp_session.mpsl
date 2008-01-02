@@ -68,7 +68,7 @@ sub mp.save_session()
 		return -2;
 	}
 	
-	foreach (local doc, mp.docs) {
+	foreach (doc, mp.docs) {
 		if (doc.name ne L("<unnamed>"))
 			write (fh,
 				sprintf("%s\t%i\t%i\t%s\n",

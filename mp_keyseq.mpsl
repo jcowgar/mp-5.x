@@ -83,7 +83,7 @@ sub mp.add_keyseq(seq, keycode)
 
 	/* split by character and store as a chain of hashes
 	   with the keycode as the final, scalar value */
-	foreach (local k, l) {
+	foreach (k, l) {
 		if (! p[k])
 			p[k] = {};
 		p = p[k];

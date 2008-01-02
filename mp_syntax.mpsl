@@ -523,8 +523,6 @@ mp.syntax.xml = {
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
-	local n;
-
 	doc.syntax = NULL;
 
 	/* loops the syntax highlight definitions */
@@ -532,7 +530,7 @@ sub mp.detect_syntax(doc)
 		local s = mp.syntax[n];
 
 		/* test the extensions */
-		foreach (local ext, s.filenames) {
+		foreach (ext, s.filenames) {
 			if (regex(ext, doc.name)) {
 				doc.syntax = s;
 				return;
@@ -556,7 +554,7 @@ sub mp.help(doc, word)
 {
 	local h;
 
-	foreach (local c, doc.syntax.help) {
+	foreach (c, doc.syntax.help) {
 		local f;
 
 		/* format the command */

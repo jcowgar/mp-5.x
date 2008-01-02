@@ -91,6 +91,6 @@ sub mp.play_macro
 		mp.record_macro();
 
 	/* process all stored keycodes */
-	foreach (local k, mp.macro.keycodes)
+	foreach (k, mp.macro.keycodes)
 		mp.process_event(k);
 }

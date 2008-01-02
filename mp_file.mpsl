@@ -129,7 +129,7 @@ mp.actions['open_config_file']	= sub (d) {
 mp.actions['sync'] = sub (d) {
 
 	/* save all modified documents */
-	foreach (local d, grep(sub (e) { e.txt.mod; }, mp.docs))
+	foreach (d, grep(sub (e) { e.txt.mod; }, mp.docs))
 		mp.actions.save(d);
 };
 
@@ -152,7 +152,7 @@ mp.actions['exec_command']	= sub (d) {
 			cmd = sregex('/^\|/', cmd, NULL);
 
 			if ((p = popen(cmd, "w")) != NULL) {
-				foreach (local l, mp.get_active_area(d))
+				foreach (l, mp.get_active_area(d))
 					write(p, l ~ mp.config.eol);
 
 				pclose(p);
@@ -292,7 +292,7 @@ sub mp.save(doc)
 		nl = mp.crypt1_save(f, doc.txt.lines, doc.password);
 	else {
 		/* save as a plain text file */
-		foreach (local l, doc.txt.lines) {
+		foreach (l, doc.txt.lines) {
 			/* write a line separator if it's not the first line */
 			if (nl)
 				write(f, mp.config.eol);

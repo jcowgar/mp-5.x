@@ -339,7 +339,7 @@ sub mp.drv.form(widgets)
 {
 	local r = [];
 
-	foreach (local w, widgets) {
+	foreach (w, widgets) {
 		local r1 = NULL;
 
 		if (w.type eq 'text')
@@ -419,8 +419,8 @@ sub mp.drv.menu()
 		/* calculate panel optimal dimensions */
 		pos[2] = 0;
 
-		foreach (n, mo) {
-			local l = mp.menu_label(n);
+		foreach (i, mo) {
+			local l = mp.menu_label(i);
 
 			if (size(l) > pos[2])
 				pos[2] = size(l);

@@ -99,7 +99,7 @@ mp.actions['word_count'] = sub (d) {
 	local a = mp.get_active_area(d);
 
 	mp.busy(1);
-	foreach (local l, a)
+	foreach (l, a)
 		w += size(mp.split_by_words(l));
 	mp.busy(0);
 

@@ -79,7 +79,7 @@ sub mp.close_ispell_pipe
 	mp.ispell_pipe = NULL;
 
 	/* delete all words marked as misspelled from the word cache */
-	foreach (local w, keys(mp.word_color)) {
+	foreach (w, keys(mp.word_color)) {
 		if (mp.word_color[w] == mp.colors.spell.attr)
 			hdel(mp.word_color, w);
 	}

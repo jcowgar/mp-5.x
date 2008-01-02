@@ -328,7 +328,7 @@ sub mp.menu_label(action)
 	l = L(mp.actdesc[action]) || action;
 
 	/* is there a keycode that generates this action? */
-	foreach (local i, sort(keys(mp.keycodes))) {
+	foreach (i, sort(keys(mp.keycodes))) {
 		if (mp.keycodes[i] eq action) {
 			/* avoid mouse and window pseudo-keycodes */
 			if (!regex("/window/", i) && !regex("/mouse/", i)) {
@@ -484,7 +484,7 @@ sub mp.test_versions()
 	local mpdm = MPDM();
 
 	mp.assert_version(mpdm.version, '1.0.1', 'MPDM');
-	mp.assert_version(MPSL.VERSION, '1.0.1', 'MPSL');
+	mp.assert_version(MPSL.VERSION, '1.0.4', 'MPSL');
 }
 
 

@@ -87,7 +87,6 @@ sub mp.arcfour_init(key)
 	mp.arcfour.i = 0;
 	mp.arcfour.j = 0;
 
-	local i;
 	local j = 0;
 
 	/* scramble */
@@ -151,7 +150,7 @@ sub mp.crypt1_save(fd, lines, password)
 	mp.arcfour_init(password);
 
 	/* loop the lines */
-	foreach (local l, lines) {
+	foreach (l, lines) {
 		/* write a line separator if it's not the first line */
 		if (nl)
 			l = mp.config.eol ~ l;
@@ -160,7 +159,7 @@ sub mp.crypt1_save(fd, lines, password)
 		local lc = split(NULL, l);
 
 		/* write each char xoring with next crypto-byte */
-		foreach (local c, lc)
+		foreach (c, lc)
 			putchar(fd, chr(ord(c) ^ mp.arcfour_byte()));
 
 		nl++;
