@@ -222,6 +222,7 @@ mp.actdesc['open'] 	= LL("Open...");
 mp.actdesc['exit'] 	= LL("Exit");
 mp.actdesc['close'] 	= LL("Close");
 mp.actdesc['revert']	= LL("Revert");
+mp.actdesc['close_all']	= LL("Close all");
 
 mp.actdesc['open_config_file']		= LL("Edit configuration file");
 mp.actdesc['open_templates_file']	= LL("Edit templates file");

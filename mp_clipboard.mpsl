@@ -76,11 +76,12 @@ mp.keycodes['ctrl-x']		= "cut_mark";
 mp.keycodes['mouse-drag']	= "mouse_drag_mark";
 
 /* action descriptions */
-mp.actdesc['unmark']	= LL("Unmark block");
-mp.actdesc['mark']	= LL("Mark beginning/end of block");
-mp.actdesc['copy_mark']	= LL("Copy block");
-mp.actdesc['paste_mark']= LL("Paste block");
-mp.actdesc['cut_mark']	= LL("Cut block");
+mp.actdesc['unmark']		= LL("Unmark block");
+mp.actdesc['mark']		= LL("Mark beginning/end of block");
+mp.actdesc['copy_mark']		= LL("Copy block");
+mp.actdesc['paste_mark']	= LL("Paste block");
+mp.actdesc['cut_mark']		= LL("Cut block");
+mp.actdesc['mouse_drag_mark']	= LL("Mark using mouse dragging");
 
 /* code */
 
