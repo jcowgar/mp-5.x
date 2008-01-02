@@ -129,8 +129,16 @@ mp.actdesc['tab_options']	= LL("Tab options...");
 
 /* code */
 
+/**
+ * mp.break_line - Breaks current line in two (inserts a newline).
+ * @doc: the document
+ * @col: column where the newline will be inserted 
+ *
+ * Breaks current line in two by inserting a newline character in between.
+ * If @col is not NULL, the newline will be inserted in that column; otherwise,
+ * the current x position will be used.
+ */
 sub mp.break_line(doc, col)
-/* breaks current line in two (inserts a newline) */
 {
 	local txt = doc.txt;
 	local c, w;
