@@ -78,7 +78,7 @@ sub save_ref_document(file, r, hash, prefix)
 	write(f, r.header);
 	write(f, "\n");
 
-	foreach (local k, sort(keys(hash))) {
+	foreach (k, sort(keys(hash))) {
 
 		k = prefix ~ '.' ~ k;
 

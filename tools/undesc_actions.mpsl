@@ -1,9 +1,6 @@
 /* Prints all actions without description (C) Angel Ortega 2006 */
 
-local a;
-
-foreach(a, keys(mp.actions))
-{
-	if(!exists(mp.actdesc, a))
+foreach(a, keys(mp.actions)) {
+	if (!exists(mp.actdesc, a))
 		print("mp.actdesc['", a, "'] = LL('');\n");
 }
