@@ -7,7 +7,7 @@ PROJ=mp
 DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
 	doc/mp_man.html doc/mp_interactive_dialog_boxes.html \
-	doc/mp_function_reference.html \
+	doc/mp_function_reference.html doc/mp_api.html \
 	AUTHORS README COPYING README.mingw32 RELEASE_NOTES \
 	mp_templates.sample
 
@@ -64,6 +64,11 @@ realdistclean: distclean
 
 doc/mp_man.html: doc/mp_man.txt
 	grutatxt -dl -t "Minimum Profit Man Page" -i $< -o $@
+
+doc/mp_api.html: *.mpsl
+	-mp_doccer *.mpsl -o doc/mp_api -f html1 \
+		-t "Minimum Profit API ($(VERSION))" \
+		-a 'Angel Ortega - angel@triptico.com'
 
 $(APPNAME).1: doc/mp_man.txt
 	grutatxt -m man -t "Minimum Profit" < doc/mp_man.txt > $(APPNAME).1
