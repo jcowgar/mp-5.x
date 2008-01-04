@@ -51,8 +51,8 @@ distclean: clean
 		makefile.opts Makefile po/minimum-profit.pot
 
 realdistclean: distclean
-	(cd $(MPDM) ; make distclean)
-	(cd $(MPSL) ; make distclean)
+	(cd $(MPDM) ; make realdistclean)
+	(cd $(MPSL) ; make realdistclean)
 
 .SUFFIXES: .html .txt .rhtml
 
