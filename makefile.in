@@ -4,12 +4,12 @@ all: $(APPNAME) docs build-mo
 
 PROJ=mp
 
-DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
+ADD_DOCS=AUTHORS README COPYING README.mingw32 RELEASE_NOTES \
+	mp_templates.sample doc/mp_function_reference.html
+GRUTATXT_DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
-	doc/mp_man.html doc/mp_interactive_dialog_boxes.html \
-	doc/mp_function_reference.html doc/mp_api.html \
-	AUTHORS README COPYING README.mingw32 RELEASE_NOTES \
-	mp_templates.sample
+	doc/mp_man.html doc/mp_interactive_dialog_boxes.html $(APPNAME).1
+MP_DOCCER_DOCS=doc/mp_api.html
 
 OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
 
@@ -57,23 +57,23 @@ realdistclean: distclean
 .SUFFIXES: .html .txt .rhtml
 
 .txt.html:
-	$(GRUTATXT) < $< > $@
+	grutatxt < $< > $@
 
 .rhtml.html:
 	cp $< $@
 
 doc/mp_man.html: doc/mp_man.txt
-	$(GRUTATXT) -dl -t "Minimum Profit Man Page" < $< > $@
+	grutatxt -dl -t "Minimum Profit Man Page" < $< > $@
 
 doc/mp_api.html: *.mpsl
-	$(MP_DOCCER) *.mpsl -o doc/mp_api -f html1 \
+	mp_doccer *.mpsl -o doc/mp_api -f html1 \
 		-t "Minimum Profit API ($(VERSION))" \
 		-a 'Angel Ortega - angel@triptico.com'
 
 $(APPNAME).1: doc/mp_man.txt
-	$(GRUTATXT) -m man -t "Minimum Profit" < doc/mp_man.txt > $(APPNAME).1
+	grutatxt -m man -t "Minimum Profit" < doc/mp_man.txt > $(APPNAME).1
 
-docs: $(DOCS) $(APPNAME).1
+docs: $(DOCS)
 
 distcopy: distclean docs
 	mkdir -p $(DIST_TARGET) ; \
@@ -112,7 +112,7 @@ install: $(INSTALL_MSG) installdoc install-mo
 	./mkinstalldirs $(PREFIX)/share/$(APPNAME)
 	install -m 644 mp_*.mpsl $(PREFIX)/share/$(APPNAME)
 	./mkinstalldirs $(PREFIX)/share/man/man1
-	install -m 644 $(APPNAME).1 $(PREFIX)/share/man/man1/$(APPNAME).1
+	[ -f $(APPNAME).1 ] && install -m 644 $(APPNAME).1 $(PREFIX)/share/man/man1/$(APPNAME).1 || true
 
 installdoc:
 	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
