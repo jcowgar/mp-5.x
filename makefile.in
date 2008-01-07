@@ -50,6 +50,9 @@ distclean: clean
 	rm -f config.h config.cflags config.ldflags \
 		makefile.opts Makefile po/minimum-profit.pot
 
+docsclean:
+	rm -f doc/*.html
+
 realdistclean: distclean
 	(cd $(MPDM) ; make realdistclean)
 	(cd $(MPSL) ; make realdistclean)
@@ -118,8 +121,9 @@ installdoc:
 	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
 	( cd $(MPDM); $(MAKE) installdoc )
 	( cd $(MPSL); $(MAKE) installdoc )
-	-install -m 644 $(DOCS) $(PREFIX)/share/doc/$(APPNAME)
-	-install -m 644 doc/mp_index.html $(PREFIX)/share/doc/$(APPNAME)/index.html
+	install -m 644 doc/* $(PREFIX)/share/doc/$(APPNAME)
+	install -m 644 $(ADD_DOCS) $(PREFIX)/share/doc/$(APPNAME)
+	[-f doc/mp_index.html ] && install -m 644 doc/mp_index.html $(PREFIX)/share/doc/$(APPNAME)/index.html || true
 
 uninstall: uninstall-mo
 	rm -f $(PREFIX)/bin/$(APPNAME)
