@@ -105,7 +105,7 @@ static mpdm_t timer_func = NULL;
 
 #define LL(m) (m)
 
-static char * wcs_to_utf8(wchar_t * wptr)
+static char * wcs_to_utf8(const wchar_t * wptr)
 /* converts a wcs to utf-8 */
 {
 	char * ptr;
@@ -114,7 +114,7 @@ static char * wcs_to_utf8(wchar_t * wptr)
 	i = wcslen(wptr);
 
 	/* do the conversion */
-	ptr = g_convert((gchar *) wptr, (i + 1) * sizeof(wchar_t),
+	ptr = g_convert((const gchar *) wptr, (i + 1) * sizeof(wchar_t),
 		"UTF-8", "WCHAR_T", NULL, &o, NULL);
 
 	return ptr;
@@ -182,7 +182,7 @@ static void build_fonts(void)
 {
 	char tmp[128];
 	int font_size = 12;
-	char * font_face = "Mono";
+	const char * font_face = "Mono";
 	mpdm_t c;
 
 	if(font != NULL)
@@ -418,7 +418,7 @@ static void draw_filetabs(void)
 			GtkWidget * p;
 			GtkWidget * f;
 			char * ptr;
-			wchar_t * wptr;
+			const wchar_t * wptr;
 			mpdm_t v = mpdm_aget(names, n);
 
 			/* move to the filename if path included */

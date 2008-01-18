@@ -118,7 +118,7 @@ static int drw_wcwidth(int x, wchar_t c)
 int drw_vx2x(mpdm_t str, int vx)
 /* returns the character in str that is on column vx */
 {
-	wchar_t *ptr = str->data;
+	const wchar_t *ptr = str->data;
 	int n, x;
 
 	for (n = x = 0; n < vx && ptr[x] != L'\0'; x++)
@@ -131,7 +131,7 @@ int drw_vx2x(mpdm_t str, int vx)
 int drw_x2vx(mpdm_t str, int x)
 /* returns the column where the character at offset x seems to be */
 {
-	wchar_t *ptr = str->data;
+	const wchar_t *ptr = str->data;
 	int n, vx;
 
 	for (n = vx = 0; n < x && ptr[n] != L'\0'; n++)
@@ -874,7 +874,7 @@ mpdm_t mp_plain_load(mpdm_t args)
 	int chomped = 1;
 
 	while ((v = mpdm_read(f)) != NULL) {
-		wchar_t *ptr = v->data;
+		const wchar_t *ptr = v->data;
 		int size = v->size;
 
 		/* chomp */
