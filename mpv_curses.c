@@ -256,6 +256,7 @@ static mpdm_t nc_getkey(mpdm_t args)
 		case L'\r':
 		case KEY_ENTER:		f = L"enter"; break;
 		case L'\t':		f = L"tab"; break;
+		case KEY_BTAB:		f = L"shift-tab"; break;
 		case L' ':		f = L"space"; break;
 		case KEY_F(1):		f = L"f1"; break;
 		case KEY_F(2):		f = L"f2"; break;
