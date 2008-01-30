@@ -970,7 +970,7 @@ static gint selection_clear_event(GtkWidget * widget,
 
 
 static void selection_get(GtkWidget * widget,
-	GtkSelectionData * sel, guint info, guint tm, gpointer data)
+	GtkSelectionData * sel, guint info, guint tm)
 /* 'selection_get' handler */
 {
 	mpdm_t d;
