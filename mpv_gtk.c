@@ -995,7 +995,7 @@ static void selection_get(GtkWidget * widget,
 
 
 static void selection_received(GtkWidget * widget,
-	GtkSelectionData * sel, guint tm, gpointer data)
+	GtkSelectionData * sel, gpointer data)
 /* 'selection_received' handler */
 {
 	mpdm_t d;
