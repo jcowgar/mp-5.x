@@ -1031,7 +1031,7 @@ static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
 	if (!got_selection) {
 		/* triggers a selection capture */
 		if (gtk_selection_convert(area, GDK_SELECTION_PRIMARY,
-			gdk_atom_intern("STRING", FALSE),
+			gdk_atom_intern("UTF8_STRING", FALSE),
 			GDK_CURRENT_TIME)) {
 
 			/* processes the pending events
