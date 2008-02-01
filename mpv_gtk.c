@@ -1008,10 +1008,12 @@ static void selection_received(GtkWidget * widget,
 
 		/* split and set as the clipboard */
 		mpdm_hset_s(mp, L"clipboard", mpdm_split(MPDM_LS(L"\n"), d));
-	}
 
-	/* wait no more for the selection */
-	wait_for_selection = 0;
+		/* wait no more for the selection */
+		wait_for_selection = 0;
+	}
+	else
+		wait_for_selection = -1;
 }
 
 
@@ -1029,17 +1031,26 @@ static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
 /* driver-dependent system to mp clipboard */
 {
 	if (!got_selection) {
-		/* triggers a selection capture */
-		if (gtk_selection_convert(area, GDK_SELECTION_PRIMARY,
-			gdk_atom_intern("UTF8_STRING", FALSE),
-			GDK_CURRENT_TIME)) {
+		int n;
+		char * formats[] = { "UTF8_STRING", "STRING", NULL };
 
-			/* processes the pending events
-			   (i.e., the 'selection_received' handler) */
-			wait_for_selection = 1;
+		for(n = 0; formats[n] != NULL; n++) {
 
-			while(wait_for_selection)
-				gtk_main_iteration();
+			/* triggers a selection capture */
+			if (gtk_selection_convert(area, GDK_SELECTION_PRIMARY,
+				gdk_atom_intern(formats[n], FALSE),
+				GDK_CURRENT_TIME)) {
+
+				/* processes the pending events
+				   (i.e., the 'selection_received' handler) */
+				wait_for_selection = 1;
+
+				while(wait_for_selection == 1)
+					gtk_main_iteration();
+
+				if (!wait_for_selection)
+					break;
+			}
 		}
 	}
 
