@@ -39,7 +39,6 @@ gettext_domain('minimum-profit', APPDIR ~ 'locale');
 /* configuration */
 
 mp.config = {};
-mp.config.eol = "\n";
 mp.config.undo_levels = 100;
 mp.config.word_wrap = 0;
 mp.config.auto_indent = 0;
@@ -50,6 +49,12 @@ mp.config.unlink = 1;
 mp.config.case_sensitive_search = 1;
 mp.config.global_replace = 0;
 mp.config.preread_lines = 60;
+
+/* default end of line, system dependent */
+if (mp.drv.id eq 'win32')
+	mp.config.eol = "\r\n";
+else
+	mp.config.eol = "\n";
 
 /* a regex for selection words */
 mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';
