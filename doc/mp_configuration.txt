@@ -79,6 +79,12 @@ Set to 1 to store session information in the currently working directory
 instead of in the home directory (default: 0, save sessions in the
 home directory).
 
+mp.config.mark_eol
+------------------
+
+If set to 1, end-of-line characters are marked with a special character,
+instead of being invisible (default: 0, don't mark).
+
 mp.config.maximize
 ------------------
 
