@@ -17,27 +17,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: mp_conf.c:134 mp_core.mpsl:122 mp_core.mpsl:121 mp_core.mpsl:125
-#: mp_core.mpsl:124
+#: mp_core.mpsl:124 mp_core.mpsl:130
 msgid "&File"
 msgstr "&Файл"
 
 #: mp_conf.c:136 mp_core.mpsl:131 mp_core.mpsl:130 mp_core.mpsl:135
-#: mp_core.mpsl:134
+#: mp_core.mpsl:134 mp_core.mpsl:140
 msgid "&Edit"
 msgstr "&Правка"
 
 #: mp_conf.c:141 mp_core.mpsl:140 mp_core.mpsl:141 mp_core.mpsl:146
-#: mp_core.mpsl:145
+#: mp_core.mpsl:145 mp_core.mpsl:151
 msgid "&Search"
 msgstr "&Поиск"
 
 #: mp_conf.c:143 mp_core.mpsl:146 mp_core.mpsl:147 mp_core.mpsl:152
-#: mp_core.mpsl:151
+#: mp_core.mpsl:151 mp_core.mpsl:157
 msgid "&Go to"
 msgstr "&Переход"
 
 #: mp_conf.c:146 mp_core.mpsl:154 mp_core.mpsl:155 mp_core.mpsl:160
-#: mp_core.mpsl:159
+#: mp_core.mpsl:159 mp_core.mpsl:165
 msgid "&Options"
 msgstr "&Параметры"
 
@@ -70,6 +70,7 @@ msgstr ""
 
 #: mp_func.c:481 mp_iface.c:649 mp_crypt.mpsl:32 mp_file.mpsl:319
 #: mp_file.mpsl:393 mp_file.mpsl:405 mp_file.mpsl:411 mp_file.mpsl:412
+#: mp_file.mpsl:413
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -105,7 +106,7 @@ msgstr "Перейти на строку:"
 #: mp_file.mpsl:187 mp_file.mpsl:236 mp_file.mpsl:261 mp_file.mpsl:310
 #: mp_file.mpsl:31 mp_file.mpsl:272 mp_file.mpsl:321 mp_file.mpsl:278
 #: mp_file.mpsl:327 mp_session.mpsl:40 mp_file.mpsl:286 mp_file.mpsl:333
-#: mp_session.mpsl:64 mp_session.mpsl:72
+#: mp_session.mpsl:64 mp_session.mpsl:72 mp_file.mpsl:287 mp_file.mpsl:334
 msgid "<unnamed>"
 msgstr "<безымянный>"
 
@@ -242,7 +243,7 @@ msgstr ""
 msgid " [Y/N]"
 msgstr ""
 
-#: mpv_curses.c:931 mp_tui.mpsl:194 mp_tui.mpsl:219
+#: mpv_curses.c:931 mp_tui.mpsl:194 mp_tui.mpsl:219 mp_tui.mpsl:285
 msgid " [ENTER]"
 msgstr " [ВВОД]"
 
@@ -297,22 +298,24 @@ msgstr ""
 "                         "
 
 #: mpv_gtk.c:624 mpv_gtk.c:1288 mp_tui.mpsl:206 mpv_gtk.c:1300 mpv_gtk.c:1301
-#: mpv_gtk.c:1270 mp_tui.mpsl:231
+#: mpv_gtk.c:1270 mp_tui.mpsl:231 mpv_gtk.c:1281 mp_tui.mpsl:297
 msgid "Yes"
 msgstr "Да"
 
 #: mpv_gtk.c:630 mpv_gtk.c:1289 mp_tui.mpsl:207 mpv_gtk.c:1301 mpv_gtk.c:1302
-#: mpv_gtk.c:1271 mp_tui.mpsl:232
+#: mpv_gtk.c:1271 mp_tui.mpsl:232 mpv_gtk.c:1282 mp_tui.mpsl:298
 msgid "No"
 msgstr "Нет"
 
 #: mpv_gtk.c:767 mpv_gtk.c:919 mpv_gtk.c:1247 mpv_gtk.c:1481 mpv_gtk.c:1259
 #: mpv_gtk.c:1493 mpv_gtk.c:1260 mpv_gtk.c:1494 mpv_gtk.c:1229 mpv_gtk.c:1451
+#: mpv_gtk.c:1240 mpv_gtk.c:1462
 msgid "OK"
 msgstr "ОК"
 
 #: mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:1290 mpv_gtk.c:1482 mpv_gtk.c:1302
 #: mpv_gtk.c:1494 mpv_gtk.c:1303 mpv_gtk.c:1495 mpv_gtk.c:1272 mpv_gtk.c:1452
+#: mpv_gtk.c:1283 mpv_gtk.c:1463
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -441,7 +444,7 @@ msgid "Suspend application"
 msgstr "Приостановить приложение"
 
 #: mp_func_i.h:55 mp_file.mpsl:134 mp_file.mpsl:207 mp_file.mpsl:218
-#: mp_file.mpsl:224 mp_file.mpsl:228
+#: mp_file.mpsl:224 mp_file.mpsl:228 mp_file.mpsl:229
 msgid "Save modified texts"
 msgstr "Сохранить измененные тексты"
 
@@ -633,7 +636,7 @@ msgid "Insert new line below cursor"
 msgstr "Вставить новую строку от курсора"
 
 #: mp_func_i.h:239 mp_edit.mpsl:71 mp_edit.mpsl:122 mp_edit.mpsl:123
-#: mp_edit.mpsl:120
+#: mp_edit.mpsl:120 mp_edit.mpsl:124
 msgid "Insert tab"
 msgstr "Вставить символ табуляции"
 
@@ -642,7 +645,7 @@ msgid "Help for word under cursor"
 msgstr "Справка о слове под курсором"
 
 #: mp_func_i.h:247 mp_edit.mpsl:68 mp_edit.mpsl:119 mp_edit.mpsl:120
-#: mp_edit.mpsl:117
+#: mp_edit.mpsl:117 mp_edit.mpsl:121
 msgid "Insert line"
 msgstr "Вставить строку"
 
@@ -675,7 +678,7 @@ msgid "Flip word case"
 msgstr "Заменить начертание слова"
 
 #: mp_func_i.h:279 mp_file.mpsl:208 mp_file.mpsl:219 mp_file.mpsl:225
-#: mp_file.mpsl:229
+#: mp_file.mpsl:229 mp_file.mpsl:230
 msgid "Run system command..."
 msgstr "Выполнить системную команду..."
 
@@ -688,12 +691,12 @@ msgid "Document list"
 msgstr "Список документов"
 
 #: mp_func_i.h:291 mp_file.mpsl:132 mp_file.mpsl:205 mp_file.mpsl:216
-#: mp_file.mpsl:222 mp_file.mpsl:226
+#: mp_file.mpsl:222 mp_file.mpsl:226 mp_file.mpsl:227
 msgid "Edit configuration file"
 msgstr "Редактировать конфигурационный файл"
 
 #: mp_func_i.h:295 mp_file.mpsl:133 mp_file.mpsl:206 mp_file.mpsl:217
-#: mp_file.mpsl:223 mp_file.mpsl:227
+#: mp_file.mpsl:223 mp_file.mpsl:227 mp_file.mpsl:228
 msgid "Edit templates file"
 msgstr "Редактировать файл шаблонов"
 
@@ -715,7 +718,7 @@ msgid "Delete char to the left of cursor"
 msgstr "Удалить символ слева от курсора"
 
 #: mp_func_i.h:315 mp_edit.mpsl:69 mp_edit.mpsl:120 mp_edit.mpsl:121
-#: mp_edit.mpsl:118
+#: mp_edit.mpsl:118 mp_edit.mpsl:122
 msgid "Delete line"
 msgstr "Удалить строку"
 
@@ -766,26 +769,32 @@ msgid "Word wrapping must be set"
 msgstr ""
 
 #: mp_edit.mpsl:70 mp_edit.mpsl:121 mp_edit.mpsl:122 mp_edit.mpsl:119
+#: mp_edit.mpsl:123
 msgid "Insert space"
 msgstr ""
 
 #: mp_edit.mpsl:72 mp_edit.mpsl:123 mp_edit.mpsl:124 mp_edit.mpsl:121
+#: mp_edit.mpsl:125
 msgid "Delete character"
 msgstr ""
 
 #: mp_edit.mpsl:73 mp_edit.mpsl:124 mp_edit.mpsl:125 mp_edit.mpsl:122
+#: mp_edit.mpsl:126
 msgid "Delete character to the left"
 msgstr ""
 
 #: mp_edit.mpsl:74 mp_edit.mpsl:125 mp_edit.mpsl:126 mp_edit.mpsl:123
+#: mp_edit.mpsl:127
 msgid "Undo"
 msgstr ""
 
 #: mp_edit.mpsl:75 mp_edit.mpsl:126 mp_edit.mpsl:128 mp_edit.mpsl:125
+#: mp_edit.mpsl:129
 msgid "Join a paragraph in one line"
 msgstr ""
 
 #: mp_edit.mpsl:76 mp_edit.mpsl:127 mp_edit.mpsl:129 mp_edit.mpsl:126
+#: mp_edit.mpsl:130
 msgid "Word-wrap a paragraph"
 msgstr ""
 
@@ -901,19 +910,19 @@ msgstr ""
 msgid "Line termination"
 msgstr ""
 
-#: mp_edit.mpsl:87 mp_edit.mpsl:88 mp_edit.mpsl:86
+#: mp_edit.mpsl:87 mp_edit.mpsl:88 mp_edit.mpsl:86 mp_edit.mpsl:90
 msgid "Tab size"
 msgstr ""
 
-#: mp_edit.mpsl:91 mp_edit.mpsl:92 mp_edit.mpsl:90
+#: mp_edit.mpsl:91 mp_edit.mpsl:92 mp_edit.mpsl:90 mp_edit.mpsl:94
 msgid "Convert tabs to spaces"
 msgstr ""
 
-#: mp_edit.mpsl:128 mp_edit.mpsl:130 mp_edit.mpsl:127
+#: mp_edit.mpsl:128 mp_edit.mpsl:130 mp_edit.mpsl:127 mp_edit.mpsl:131
 msgid "Line options..."
 msgstr ""
 
-#: mp_edit.mpsl:129 mp_edit.mpsl:131 mp_edit.mpsl:128
+#: mp_edit.mpsl:129 mp_edit.mpsl:131 mp_edit.mpsl:128 mp_edit.mpsl:132
 msgid "Tab options..."
 msgstr ""
 
@@ -964,7 +973,7 @@ msgstr ""
 msgid "Toggle spellchecking"
 msgstr ""
 
-#: mp_tui.mpsl:417 mp_tui.mpsl:426 mp_tui.mpsl:453
+#: mp_tui.mpsl:417 mp_tui.mpsl:426 mp_tui.mpsl:453 mp_tui.mpsl:519
 msgid "Please, wait..."
 msgstr ""
 
@@ -1001,7 +1010,7 @@ msgstr ""
 msgid "Error writing to command '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:127 mp_edit.mpsl:124
+#: mp_edit.mpsl:127 mp_edit.mpsl:124 mp_edit.mpsl:128
 msgid "Redo"
 msgstr ""
 
@@ -1029,17 +1038,17 @@ msgstr ""
 msgid "Save session"
 msgstr ""
 
-#: mp_core.mpsl:201
+#: mp_core.mpsl:201 mp_core.mpsl:207
 #, c-format
 msgid "Unknown action '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:420
+#: mp_edit.mpsl:420 mp_edit.mpsl:432
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:264
+#: mp_file.mpsl:264 mp_file.mpsl:265
 #, c-format
 msgid "New file '%s'"
 msgstr ""
@@ -1049,7 +1058,7 @@ msgstr ""
 msgid "%d replaces"
 msgstr ""
 
-#: mp_core.mpsl:350
+#: mp_core.mpsl:350 mp_core.mpsl:356
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1069,12 +1078,24 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_core.mpsl:396
+#: mp_core.mpsl:396 mp_core.mpsl:402
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
-#: mp_core.mpsl:475
+#: mp_core.mpsl:475 mp_core.mpsl:481
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
+msgstr ""
+
+#: mp_clipboard.mpsl:84
+msgid "Mark using mouse dragging"
+msgstr ""
+
+#: mp_edit.mpsl:74
+msgid "Mark end of lines"
+msgstr ""
+
+#: mp_file.mpsl:225
+msgid "Close all"
 msgstr ""
