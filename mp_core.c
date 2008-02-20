@@ -66,6 +66,7 @@ struct drw_1_info {
 	int tab_size;		/* tabulator size */
 	int mod;		/* modify count */
 	int preread_lines;	/* lines to pre-read (for synhi blocks) */
+	int mark_eol;		/* mark end of lines */
 };
 
 struct drw_1_info drw_1;
@@ -218,6 +219,7 @@ static int drw_prepare(mpdm_t doc)
 	drw_1.tab_size = mpdm_ival(mpdm_hget_s(config, L"tab_size"));
 	drw_1.mod = mpdm_ival(mpdm_hget_s(txt, L"mod"));
 	drw_1.preread_lines = mpdm_ival(mpdm_hget_s(config, L"preread_lines"));
+	drw_1.mark_eol = mpdm_ival(mpdm_hget_s(config, L"mark_eol"));
 
 	/* adjust the visual y coordinate */
 	if (drw_adjust_y(y, &drw_1.vy, drw_1.ty))
@@ -612,9 +614,13 @@ static mpdm_t drw_line(int line)
 			/* size is 1, unless it's a tab */
 			n = c == L'\t' ? t : 1;
 
-			/* fill EOLs and tabs with spaces */
-			if (c == L'\0' || c == L'\n' || c == L'\t')
+			/* fill tabs with spaces */
+			if (c == L'\0' || c == L'\t')
 				c = L' ';
+
+			/* fill EOLs with special marks or spaces */
+			if (c == L'\n')
+				c = drw_1.mark_eol ? L'\xb6' : L' ';
 
 			/* if next char will not fit, use a space */
 			if (m + t > drw_1.vx + drw_1.tx)
