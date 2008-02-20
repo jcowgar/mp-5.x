@@ -70,13 +70,17 @@ mp.actions['line_options']	= sub (d) {
 		  'value'	=> mp.config.auto_indent },
 		{ 'label'	=> L("Line termination") ~ ':',
 		  'value'	=> lt,
-		  'type'	=> 'text' }
+		  'type'	=> 'text' },
+		{ 'label'	=> L("Mark end of lines") ~ ':',
+		  'value'	=> mp.config.mark_eol,
+		  'type'	=> 'checkbox' }
 	] );
 
 	if (t != NULL) {
 		mp.config.word_wrap = t[0];
 		mp.config.auto_indent = t[1];
 		mp.config.eol = mp.backslash_codes(t[2], 0);
+		mp.config.mark_eol = t[3];
 	}
 };
 
