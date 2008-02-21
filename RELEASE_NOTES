@@ -6,6 +6,8 @@ Minimum Profit 5.x Release Notes
 
  * New option to mark end of line characters, with its associated
    configuration directive (mp.config.mark_eol).
+ * The end of line string (mp.config.eol) is now system-dependent (so,
+   on win32, it's set by default to \r\n).
  * Fixed some redrawing issues.
 
 5.0.1
