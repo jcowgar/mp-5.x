@@ -57,8 +57,9 @@ struct drw_1_info {
 	mpdm_t word_color_func;	/* word color function (just for detection) */
 	int normal_attr;	/* normal attr */
 	int cursor_attr;	/* cursor attr */
-	int n_lines;		/* total number of lines */
+	int n_lines;		/* number of processed lines */
 	int p_lines;		/* number of prereaded lines */
+	int t_lines;		/* total lines in document */
 	int vx;			/* first visible column */
 	int vy;			/* first visible line */
 	int tx;			/* horizontal window size */
@@ -220,6 +221,7 @@ static int drw_prepare(mpdm_t doc)
 	drw_1.mod = mpdm_ival(mpdm_hget_s(txt, L"mod"));
 	drw_1.preread_lines = mpdm_ival(mpdm_hget_s(config, L"preread_lines"));
 	drw_1.mark_eol = mpdm_ival(mpdm_hget_s(config, L"mark_eol"));
+	drw_1.t_lines = mpdm_size(lines);
 
 	/* adjust the visual y coordinate */
 	if (drw_adjust_y(y, &drw_1.vy, drw_1.ty))
