@@ -6,6 +6,7 @@ Minimum Profit 5.x Release Notes
 
  * New option to mark end of line characters, with its associated
    configuration directive (mp.config.mark_eol).
+ * Fixed some redrawing issues.
 
 5.0.1
 -----
