@@ -4,7 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1252: Ctrl-keys on GTK fail when caps enabled.
+None!
 
 Open Bugs
 ---------
@@ -292,5 +292,7 @@ Closed
  * 1251: In TUI's list, when the cursor is on the last element, the
    rest of the screen is drawn in cursor color
    (Tue, 18 Dec 2007 11:14:19 +0100).
+ * 1252: Ctrl-keys on GTK fail when caps enabled
+   (Fri, 22 Feb 2008 07:57:40 +0100).
 
 Email bugs to angel@triptico.com

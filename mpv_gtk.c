@@ -754,33 +754,39 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		case GDK_F12:		ptr = L"ctrl-f12"; break;
 		case GDK_KP_Enter:
 		case GDK_Return:	ptr = L"ctrl-enter"; break;
+		}
 
-		case 'a':		ptr = L"ctrl-a"; break;
-		case 'b':		ptr = L"ctrl-b"; break;
-		case 'c':		ptr = L"ctrl-c"; break;
-		case 'd':		ptr = L"ctrl-d"; break;
-		case 'e':		ptr = L"ctrl-e"; break;
-		case 'f':		ptr = L"ctrl-f"; break;
-		case 'g':		ptr = L"ctrl-g"; break;
-		case 'h':		ptr = L"ctrl-h"; break;
-		case 'i':		ptr = L"ctrl-i"; break;
-		case 'j':		ptr = L"ctrl-j"; break;
-		case 'k':		ptr = L"ctrl-k"; break;
-		case 'l':		ptr = L"ctrl-l"; break;
-		case 'm':		ptr = L"ctrl-m"; break;
-		case 'n':		ptr = L"ctrl-n"; break;
-		case 'o':		ptr = L"ctrl-o"; break;
-		case 'p':		ptr = L"ctrl-p"; break;
-		case 'q':		ptr = L"ctrl-q"; break;
-		case 'r':		ptr = L"ctrl-r"; break;
-		case 's':		ptr = L"ctrl-s"; break;
-		case 't':		ptr = L"ctrl-t"; break;
-		case 'u':		ptr = L"ctrl-u"; break;
-		case 'v':		ptr = L"ctrl-v"; break;
-		case 'w':		ptr = L"ctrl-w"; break;
-		case 'x':		ptr = L"ctrl-x"; break;
-		case 'y':		ptr = L"ctrl-y"; break;
-		case 'z':		ptr = L"ctrl-z"; break;
+		if (ptr == NULL) {
+			char c = event->keyval & 0xdf;
+
+			switch (c) {
+			case 'A':		ptr = L"ctrl-a"; break;
+			case 'B':		ptr = L"ctrl-b"; break;
+			case 'C':		ptr = L"ctrl-c"; break;
+			case 'D':		ptr = L"ctrl-d"; break;
+			case 'E':		ptr = L"ctrl-e"; break;
+			case 'F':		ptr = L"ctrl-f"; break;
+			case 'G':		ptr = L"ctrl-g"; break;
+			case 'H':		ptr = L"ctrl-h"; break;
+			case 'I':		ptr = L"ctrl-i"; break;
+			case 'J':		ptr = L"ctrl-j"; break;
+			case 'K':		ptr = L"ctrl-k"; break;
+			case 'L':		ptr = L"ctrl-l"; break;
+			case 'M':		ptr = L"ctrl-m"; break;
+			case 'N':		ptr = L"ctrl-n"; break;
+			case 'O':		ptr = L"ctrl-o"; break;
+			case 'P':		ptr = L"ctrl-p"; break;
+			case 'Q':		ptr = L"ctrl-q"; break;
+			case 'R':		ptr = L"ctrl-r"; break;
+			case 'S':		ptr = L"ctrl-s"; break;
+			case 'T':		ptr = L"ctrl-t"; break;
+			case 'U':		ptr = L"ctrl-u"; break;
+			case 'V':		ptr = L"ctrl-v"; break;
+			case 'W':		ptr = L"ctrl-w"; break;
+			case 'X':		ptr = L"ctrl-x"; break;
+			case 'Y':		ptr = L"ctrl-y"; break;
+			case 'Z':		ptr = L"ctrl-z"; break;
+			}
 		}
 	}
 	else {
