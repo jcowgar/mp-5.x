@@ -35,7 +35,12 @@ mp.actions['eval']	= sub (d) {
 		]);
 
 	if (t != NULL) {
-		t = eval(t[0]);
+		t = t[0];
+
+		if (! regex('/;\s*$/', t))
+			t = t ~ ';';
+
+		t = eval(t);
 
 		if (ERROR != NULL) {
 			mp.alert(L("Error: ") ~ ERROR);
