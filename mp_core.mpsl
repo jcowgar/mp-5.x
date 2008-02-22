@@ -391,7 +391,12 @@ sub mp.process_cmdline()
 		else
 		if (o eq '-e') {
 			/* execute code */
-			eval(shift(ARGV));
+			local c = shift(ARGV);
+
+			if (! regex('/;\s*$/', c))
+				c = c ~ ';';
+
+			eval(c);
 		}
 		else
 		if (o eq '-f') {
