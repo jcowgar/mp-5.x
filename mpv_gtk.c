@@ -1595,8 +1595,11 @@ static mpdm_t gtk_drv_busy(mpdm_t a)
 static mpdm_t gtk_drv_main_loop(mpdm_t a)
 /* main loop */
 {
-	if (!mp_exit_requested)
+	if (!mp_exit_requested) {
+		gtk_drv_paint(mp_active(), 0);
+
 		gtk_main();
+	}
 
 	return NULL;
 }

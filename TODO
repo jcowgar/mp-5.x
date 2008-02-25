@@ -28,8 +28,6 @@ Open Bugs
  * 1230: Action 'eval_doc' seems to fail forever after an error.
  * 1233: Document all MPSL code using mp_doccer (at least, the
    interface functions).
- * 1236: Calling with -t doesn't draw the screen if only one
-   tag is found.
  * 1242: There cannot be two tags with the same name, as they are
    stored as hash keys.
  * 1248: No localisation on Win32.
@@ -294,5 +292,7 @@ Closed
    (Tue, 18 Dec 2007 11:14:19 +0100).
  * 1252: Ctrl-keys on GTK fail when caps enabled
    (Fri, 22 Feb 2008 07:57:40 +0100).
+ * 1236: Calling with -t doesn't draw the screen if only one
+   tag is found (Mon, 25 Feb 2008 15:17:43 +0100).
 
 Email bugs to angel@triptico.com
