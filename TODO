@@ -20,9 +20,6 @@ Open Bugs
    margin detection and mouse positioning doesn't work. To workaround
    this, set mp.config.font_face (in the config file) to an existing
    monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
- * 1205: Copy & paste from two different instances of MP (GTK)
-   seem to fail (copying or pasting from other applications seem
-   to work).
  * 1227: The length of an open combobox (at least under XP)
    is ridiculous.
  * 1230: Action 'eval_doc' seems to fail forever after an error.
@@ -294,5 +291,8 @@ Closed
    (Fri, 22 Feb 2008 07:57:40 +0100).
  * 1236: Calling with -t doesn't draw the screen if only one
    tag is found (Mon, 25 Feb 2008 15:17:43 +0100).
+ * 1205: Copy & paste from two different instances of MP (GTK)
+   seem to fail (copying or pasting from other applications seem
+   to work) (Tue, 26 Feb 2008 07:28:50 +0100).
 
 Email bugs to angel@triptico.com

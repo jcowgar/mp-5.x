@@ -8,7 +8,9 @@ Minimum Profit 5.x Release Notes
    configuration directive (mp.config.mark_eol).
  * The end of line string (mp.config.eol) is now system-dependent (so,
    on win32, it's set by default to \r\n).
- * Fixed some redrawing issues.
+ * Copy and paste on GTK has been fixed (this was bug #1205).
+ * Fixed some redrawing issues (bug #1236 and others).
+ * Ctrl-keys no longer fail on GTK (bug #1252).
 
 5.0.1
 -----
