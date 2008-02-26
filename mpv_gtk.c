@@ -97,6 +97,9 @@ static int mouse_down = 0;
 /* timer function */
 static mpdm_t timer_func = NULL;
 
+/* maximize wanted? */
+static int maximize = 0;
+
 /*******************
 	Code
 ********************/
@@ -572,6 +575,11 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 	GdkRectangle gr;
 	mpdm_t d = NULL;
 	int n, m;
+
+	if (maximize) {
+		gtk_window_maximize(GTK_WINDOW(window));
+		maximize = 1;
+	}
 
 	/* no gc? create it */
 	if (gc == NULL)
@@ -1788,7 +1796,7 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 
 	if ((v = mpdm_hget_s(mp, L"config")) != NULL &&
 		mpdm_ival(mpdm_hget_s(v, L"maximize")) > 0)
-		gtk_window_maximize(GTK_WINDOW(window));
+		maximize = 1;
 
 	return NULL;
 }
