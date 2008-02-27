@@ -514,6 +514,7 @@ load("mp_misc.mpsl");
 load("mp_crypt.mpsl");
 load("mp_keyseq.mpsl");
 load("mp_session.mpsl");
+load("mp_build.mpsl");
 
 /** MAIN **/
 

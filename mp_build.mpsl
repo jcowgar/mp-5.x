@@ -1,0 +1,143 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    A simple IDE-like build system.
+
+    Copyright (C) 1991-2008 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+/* editor actions */
+
+mp.actions['build']	= sub(doc) {
+
+	local t, target;
+
+	if ((t = mp.build_get_targets()) == NULL) {
+		mp.alert(L("No Makefile targets found."));
+		return;
+	}
+
+	/* more than one target? ask user to pick one */
+	if (size(t) > 1) {
+		local r = mp.form( [
+			{ 'label'	=> L("Makefile target") ~ ':',
+			  'type'	=> 'list',
+			  'list'	=> t }
+			]);
+
+		if (r == NULL)
+			return;
+
+		if (r[0] == 0)
+			target = '';
+		else
+			target = t[r[0]];
+	}
+
+	local err = mp.long_op(mp.build_execute, target);
+
+	if (size(err) == 0)
+		mp.alert(L("No errors nor warnings found."));
+	else {
+		local r = mp.form( [
+			{ 'label'	=> L("Errors and Warnings") ~ ':',
+			  'type'	=> 'list',
+			  'list'	=> err }
+			]);
+
+		if (r == NULL)
+			return;
+
+		/* pick file and line number */
+		r = regex( [ '/[^:]+/', '/:/', '/[0-9]+/' ], err[r[0]]);
+
+		doc = mp.open(r[0]);
+		doc.txt.y = r[2] - 1;
+	}
+};
+
+
+/* Default key bindings */
+
+mp.keycodes['f2'] = "build";
+
+/* action descriptions */
+
+mp.actdesc['build'] = LL("Build...");
+
+/* code */
+
+sub mp.build_get_targets
+{
+	local r, f;
+
+	if ((f = open('Makefile', 'r')) != NULL)
+	{
+		local l;
+
+		r = [ '<default>' ];
+
+		while (l = read(f)) {
+			local t;
+
+			if (t = regex('/^\w+:/', l))
+				push(r, sregex('/:/', t, ''));
+		}
+
+		close(f);
+	}
+
+	return r;
+}
+
+
+sub mp.build_execute(target)
+{
+	local err = [];
+
+	/* save active document and open make log */
+	local a = mp.active_i;
+	local log = mp.open('<make output>');
+
+	/* pipe through make */
+	local p;
+	if ((p = popen('make ' ~ target, 'r')) != NULL) {
+		local l;
+
+		while (l = read(p)) {
+			if (regex('/(error|warning):/', l))
+				push(err, mp.chomp(l));
+
+			mp.insert(log, l);
+		}
+
+		pclose(p);
+
+		log.txt.mod = 0;
+	}
+
+	/* restore active document */
+	mp.active_i = a;
+
+	return err;
+}
+
