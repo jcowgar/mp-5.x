@@ -4,7 +4,7 @@ all: $(APPNAME) docs build-mo
 
 PROJ=mp
 
-ADD_DOCS=AUTHORS README COPYING README.mingw32 RELEASE_NOTES \
+ADD_DOCS=AUTHORS README COPYING RELEASE_NOTES \
 	mp_templates.sample doc/mp_function_reference.html
 GRUTATXT_DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
