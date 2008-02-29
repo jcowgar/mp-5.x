@@ -23,6 +23,11 @@ while [ $# -gt 0 ] ; do
 	--without-win32)	WITHOUT_WIN32=1 ;;
 	--help)			CONFIG_HELP=1 ;;
 
+	--mingw32)		CC=i586-mingw32msvc-cc
+				WINDRES=i586-mingw32msvc-windres
+				AR=i586-mingw32msvc-ar
+				;;
+
 	--debian)		BUILD_FOR_DEBIAN=1
 				PREFIX=/usr
 				APPNAME=mped
@@ -49,11 +54,13 @@ if [ "$CONFIG_HELP" = "1" ] ; then
 	echo "--without-iconv       Disable iconv usage."
 	echo "--without-wcwidth     Disable system wcwidth() (use workaround)."
 	echo "--with-null-hash      Tell MPDM to use a NULL hashing function."
+	echo "--mingw32             Build using the mingw32 compiler."
 	echo "--debian              Build for Debian ('make deb')."
 
 	echo
 	echo "Environment variables:"
 	echo "CC                    C Compiler."
+	echo "AR                    Library Archiver."
 	echo "CFLAGS                Compile flags (i.e., -O3)."
 	echo "WINDRES               MS Windows resource compiler."
 
