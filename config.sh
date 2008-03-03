@@ -246,6 +246,7 @@ else
 	grep CONFOPT_WIN32 ${MPDM}/config.h >/dev/null
 
 	if [ $? = 0 ] ; then
+		echo "-mwindows -lcomctl32" >> config.ldflags
 		echo "#define CONFOPT_WIN32 1" >> config.h
 		echo "OK"
 		DRIVERS="win32 $DRIVERS"
