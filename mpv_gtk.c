@@ -718,6 +718,13 @@ static void destroy(GtkWidget * w, gpointer data)
 }
 
 
+static gint key_release_event(GtkWidget * widget, GdkEventKey * event, gpointer data)
+/* 'key_release_event' handler */
+{
+	return 0;
+}
+
+
 static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer data)
 /* 'key_press_event' handler */
 {
@@ -1707,6 +1714,9 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 
 	gtk_signal_connect(GTK_OBJECT(window),"key_press_event",
 		(GtkSignalFunc) key_press_event, NULL);
+
+	gtk_signal_connect(GTK_OBJECT(window),"key_release_event",
+		(GtkSignalFunc) key_release_event, NULL);
 
 	gtk_signal_connect(GTK_OBJECT(area),"button_press_event",
 		(GtkSignalFunc) button_press_event, NULL);
