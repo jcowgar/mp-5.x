@@ -726,9 +726,9 @@ static gint key_release_event(GtkWidget * widget, GdkEventKey * event, gpointer 
 /* 'key_release_event' handler */
 {
 	if (delayed_redraw) {
+		delayed_redraw = keypress_accum = 0;
+
 		gtk_drv_paint(mp_active(), 0);
-		delayed_redraw = 0;
-		keypress_accum = 0;
 	}
 
 	return 0;
@@ -865,22 +865,16 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 	if (mp_exit_requested)
 		gtk_main_quit();
 
-	/* FIXME: experimental */
-
 	/* keypress flood contention */
-	if (event->time - last_keypress_time < 50) {
-		last_keypress_time = event->time;
+	if (event->time - last_keypress_time < 50 && ++keypress_accum > 10)
+		delayed_redraw = 1;
 
-		if (++keypress_accum > 10 && keypress_accum % 7 != 0) {
-			delayed_redraw = 1;
-			return 0;
-		}
+	if (keypress_accum % 7 == 0 || !delayed_redraw) {
+		gtk_drv_paint(mp_active(), 1);
+		delayed_redraw = 0;
 	}
 
 	last_keypress_time = event->time;
-
-	gtk_drv_paint(mp_active(), 1);
-	delayed_redraw = 0;
 
 	return 0;
 }
