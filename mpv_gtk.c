@@ -580,10 +580,8 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 	mpdm_t d = NULL;
 	int n, m;
 
-	if (maximize) {
+	if (maximize)
 		gtk_window_maximize(GTK_WINDOW(window));
-		maximize = 1;
-	}
 
 	/* no gc? create it */
 	if (gc == NULL)
