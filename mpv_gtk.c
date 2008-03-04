@@ -100,6 +100,10 @@ static mpdm_t timer_func = NULL;
 /* maximize wanted? */
 static int maximize = 0;
 
+/* keypress throttle control */
+static int keypress_throttle = 0;
+
+
 /*******************
 	Code
 ********************/
@@ -718,16 +722,11 @@ static void destroy(GtkWidget * w, gpointer data)
 }
 
 
-static guint32 last_keypress_time = 0;
-static int keypress_accum = 0;
-static int delayed_redraw = 0;
-
 static gint key_release_event(GtkWidget * widget, GdkEventKey * event, gpointer data)
 /* 'key_release_event' handler */
 {
-	if (delayed_redraw) {
-		delayed_redraw = keypress_accum = 0;
-
+	if (keypress_throttle) {
+		keypress_throttle = 0;
 		gtk_drv_paint(mp_active(), 0);
 	}
 
@@ -738,6 +737,7 @@ static gint key_release_event(GtkWidget * widget, GdkEventKey * event, gpointer 
 static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer data)
 /* 'key_press_event' handler */
 {
+	static guint32 last_keypress_time = 0;
 	wchar_t * ptr = NULL;
 
 	gtk_im_context_filter_keypress(im, event);
@@ -866,13 +866,11 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		gtk_main_quit();
 
 	/* keypress flood contention */
-	if (event->time - last_keypress_time < 50 && ++keypress_accum > 10)
-		delayed_redraw = 1;
+	if (event->time - last_keypress_time < 50)
+		keypress_throttle++;
 
-	if (keypress_accum % 7 == 0 || !delayed_redraw) {
+	if (keypress_throttle < 7 || keypress_throttle % 7 == 0)
 		gtk_drv_paint(mp_active(), 1);
-		delayed_redraw = 0;
-	}
 
 	last_keypress_time = event->time;
 
