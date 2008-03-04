@@ -723,20 +723,24 @@ static void destroy(GtkWidget * w, gpointer data)
 static gint key_release_event(GtkWidget * widget, GdkEventKey * event, gpointer data)
 /* 'key_release_event' handler */
 {
-	if (keypress_throttle) {
-		keypress_throttle = 0;
+	if (keypress_throttle > 1)
 		gtk_drv_paint(mp_active(), 0);
-	}
+
+	keypress_throttle = 0;
 
 	return 0;
 }
 
 
+#define KEYPRESS_SPEED_STEP	10
+#define KEYPRESS_MAX_SPEED	7
+
 static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer data)
 /* 'key_press_event' handler */
 {
-	static guint32 last_keypress_time = 0;
+	static int seq = 0;
 	wchar_t * ptr = NULL;
+	int speed;
 
 	gtk_im_context_filter_keypress(im, event);
 
@@ -864,13 +868,11 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		gtk_main_quit();
 
 	/* keypress flood contention */
-	if (event->time - last_keypress_time < 50)
-		keypress_throttle++;
+	if ((speed = 1 + (++keypress_throttle / KEYPRESS_SPEED_STEP)) > KEYPRESS_MAX_SPEED)
+		speed = KEYPRESS_MAX_SPEED;
 
-	if (keypress_throttle < 7 || keypress_throttle % 7 == 0)
+	if (++seq % speed == 0)
 		gtk_drv_paint(mp_active(), 1);
-
-	last_keypress_time = event->time;
 
 	return 0;
 }
