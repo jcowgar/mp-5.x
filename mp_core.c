@@ -788,6 +788,38 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 }
 
 
+#define THR_SPEED_STEP	10
+#define THR_MAX_SPEED	7
+
+int mp_keypress_throttle(int keydown)
+/* processes key acceleration and throttle */
+{
+	static int keydowns = 0;
+	static int seq = 0;
+	int redraw = 0;
+
+	if (keydown) {
+		int speed;
+
+		/* as keydowns accumulate, speed increases, which is the number
+		   of cycles the redraw will be skipped (up to a maximum) */
+		if ((speed = 1 + (++keydowns / THR_SPEED_STEP)) > THR_MAX_SPEED)
+			speed = THR_MAX_SPEED;
+
+		if (++seq % speed == 0)
+			redraw = 1;
+	}
+	else {
+		if (keydowns > 1)
+			redraw = 1;
+
+		keydowns = 0;
+	}
+
+	return redraw;
+}
+
+
 mpdm_t mp_active(void)
 /* interface to mp.active() */
 {
