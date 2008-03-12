@@ -1,0 +1,11 @@
+Minimum Profit Action Reference
+===============================
+
+ Angel Ortega <angel@triptico.com>
+
+Minimum Profit _actions_ are editor commands that can be directly
+bound to the menu or a key.
+
+
+----
+Angel Ortega <angel@triptico.com>

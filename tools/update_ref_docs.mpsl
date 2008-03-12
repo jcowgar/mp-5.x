@@ -67,7 +67,7 @@ sub load_ref_document(file)
 }
 
 
-sub save_ref_document(file, r, hash, prefix)
+sub save_ref_document(file, r, hash, prefix, def)
 /* saves a parsed document filling empty entries from hash */
 {
 	local f;
@@ -80,13 +80,14 @@ sub save_ref_document(file, r, hash, prefix)
 
 	foreach (k, sort(keys(hash))) {
 
-		k = prefix ~ '.' ~ k;
+		if (prefix)
+			k = prefix ~ '.' ~ k;
 
 		write(f, k ~ "\n");
 		write(f, sregex('/./g', k, '-'));
 		write(f, "\n");
 
-		write(f, r.data[k] || "\nTo be written.\n");
+		write(f, r.data[k] || def[k] || "\nTo be written.\n");
 		write(f, "\n");
 	}
 
@@ -97,14 +98,15 @@ sub save_ref_document(file, r, hash, prefix)
 }
 
 
-sub update_ref_document(file, hash, prefix)
+sub update_ref_document(file, hash, prefix, def)
 {
 	local r;
 
 	if (r = load_ref_document(file))
-		save_ref_document(file, r, hash, prefix);
+		save_ref_document(file, r, hash, prefix, def);
 }
 
 /*****************/
 
 update_ref_document('doc/mp_configuration.txt', mp.config, 'mp.config');
+update_ref_document('doc/mp_actions.txt', mp.actdesc, NULL, mp.actdesc);
