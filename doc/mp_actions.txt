@@ -38,10 +38,20 @@ complete
 
 _Complete..._ (`ctrl-u')
 
+Takes the (probably partial) word under the cursor and searches for words in
+the current document that start with it. If more than one is found, a list dialog
+is shown to make a selection. The word will be replaced with the selected one.
+
 complete_symbol
 ---------------
 
 _Symbol completion..._
+
+Uses a similar approach than the `complete' action, but using the current _tags_
+file as the completion list. If no _tags_ file exist in the working directory,
+the *ctags* program is invoked to build it.
+
+For other uses of the _tags_ file, see `find_tag'.
 
 copy_mark
 ---------
@@ -118,6 +128,11 @@ exec_command
 
 _Run system command..._
 
+Shows a dialog asking for a system command to execute. If the command is
+preceded by the pipe symbol (|), the active document will be fed as the
+standard input of the command; otherwise, the standard output of the command
+will be inserted in the cursor position.
+
 exit
 ----
 
@@ -129,6 +144,17 @@ find_tag
 --------
 
 _Search tag..._ (`ctrl-t')
+
+Shows a dialog asking for a tag to search. The _tags_ file will be read from
+the working directory and the tag searched there; all symbols starting with it
+will be shown in a list dialog. When selecting a tag from that list, the file
+containing it will be open and the cursor moved to where the tag is.
+This is a useful way of finding where a function or variable is defined.
+
+If no _tags_ file exist in the working directory, the *ctags* program is
+invoked to build it.
+
+For other uses of the _tags_ file, see `complete_symbol'.
 
 goto
 ----
@@ -143,10 +169,20 @@ grep
 
 _Grep (find inside) files..._
 
+Shows a dialog asking for a string to be searched, and an optional spec of
+files to search the string in. If no spec is given, all files in the working
+directory are scanned. Then, a list dialog box will be shown to pick the
+wanted instance.
+
+This is a useful way of find where a function or variable is used.
+
 help
 ----
 
 _Help on word over cursor_ (`f1')
+
+Picks the word under the cursor and asks the underlying system for help
+about that term.
 
 insert_line
 -----------
@@ -179,6 +215,9 @@ join_paragraph
 --------------
 
 _Join a paragraph in one line_ (`f6')
+
+Joins the text from the cursor position to the next empty line as one
+paragraph.
 
 line_options
 ------------
@@ -347,6 +386,9 @@ _Open..._ (`ctrl-o')
 
 Shows a dialog to open a file. Its behaviour and look are system-dependent.
 
+If the document to be opened is password-protected, a dialog asking for the
+password will also appear.
+
 open_config_file
 ----------------
 
@@ -410,6 +452,8 @@ save
 
 _Save..._ (`ctrl-s')
 
+Saves the active document. If it's unnamed, `save_as' is called instead.
+
 save_as
 -------
 
@@ -468,6 +512,12 @@ set_password
 
 _Password protect..._
 
+Shows a dialog asking (twice) for a password to protect the active document with
+when it's saved. From that moment on, each time the document is tried to open
+the password will be asked for.
+
+Minimum Profit encrypts documents using a variant of the ARCFOUR algorithm.
+
 sync
 ----
 
@@ -480,10 +530,15 @@ tab_options
 
 _Tab options..._
 
+Shows a dialog asking for tabulator configuration options, like tab size,
+convert to spaces, etc.
+
 toggle_spellcheck
 -----------------
 
 _Toggle spellchecking_
+
+toggles spellchecking. When active, misspelled words will be shown underlined.
 
 undo
 ----
@@ -504,10 +559,16 @@ word_count
 
 _Count words_
 
+Counts the number of words and lines in the active document.
+
 word_wrap_paragraph
 -------------------
 
 _Word-wrap a paragraph_ (`f4')
+
+Rebuilds the text from the cursor position to the following empty
+line using the wordwrapping setup. Wordwrapping must be set (see
+`line_options').
 
 zoom_in
 -------
