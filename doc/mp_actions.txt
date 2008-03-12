@@ -21,10 +21,15 @@ close
 
 Close
 
+Closes the current document. If it has unsaved modifications, a dialog
+is shown to ask the user if it must be saved.
+
 close_all
 ---------
 
 Close all
+
+Closes all open documents.
 
 complete
 --------
@@ -41,25 +46,35 @@ copy_mark
 
 Copy block
 
+Copies the selected block to the clipboard.
+
 cut_mark
 --------
 
 Cut block
+
+Cuts the selected block to the clipboard.
 
 delete
 ------
 
 Delete character
 
+Deletes the character over the cursor.
+
 delete_left
 -----------
 
 Delete character to the left
 
+Deletes the character to the left of the cursor (the usual _backspace_ operation).
+
 delete_line
 -----------
 
 Delete line
+
+Deletes the line under the cursor.
 
 document_list
 -------------
@@ -90,6 +105,8 @@ exit
 ----
 
 Exit
+
+Exits the editor, closing all documents first.
 
 find_tag
 --------
@@ -381,10 +398,14 @@ zoom_in
 
 Bigger font
 
+Selects a bigger font on screen (for GUIs only).
+
 zoom_out
 --------
 
 Smaller font
+
+Selects a smaller font on screen (for GUIs only).
 
 
 ----
