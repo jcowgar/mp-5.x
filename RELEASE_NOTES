@@ -11,6 +11,7 @@ Minimum Profit 5.x Release Notes
  * Copy and paste on GTK has been fixed (this was bug #1205).
  * Fixed some redrawing issues (bug #1236 and others).
  * Ctrl-keys no longer fail on GTK (bug #1252).
+ * New document 'Minimum Profit Action Reference'.
 
 5.0.1
 -----
