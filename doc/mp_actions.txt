@@ -21,10 +21,15 @@ close
 
 _Close_ (`ctrl-w')
 
+Closes the active document. If there are unsaved changes, a confirmation dialog
+is shown.
+
 close_all
 ---------
 
 _Close all_
+
+Closes all open documents.
 
 complete
 --------
@@ -41,25 +46,35 @@ copy_mark
 
 _Copy block_ (`ctrl-c')
 
+Copies the currently selected block to the clipboard.
+
 cut_mark
 --------
 
 _Cut block_ (`ctrl-x')
+
+Copies the currently selected block to the clipboard and deletes the block.
 
 delete
 ------
 
 _Delete character_ (`delete')
 
+Delete the character over the cursor.
+
 delete_left
 -----------
 
 _Delete character to the left_ (`backspace')
 
+Deletes the character to the left of the cursor.
+
 delete_line
 -----------
 
 _Delete line_ (`ctrl-y')
+
+Deletes the line under the cursor.
 
 document_list
 -------------
@@ -89,7 +104,9 @@ _Run system command..._
 exit
 ----
 
-_Exit_ (`close-window')
+_Exit_ (`ctrl-q')
+
+Closes all documents and exists Minimum Profit.
 
 find_tag
 --------
@@ -116,15 +133,22 @@ insert_line
 
 _Insert line_ (`enter')
 
+Inserts a new line. If the cursor is in the middle of a line,
+it's split in two.
+
 insert_space
 ------------
 
 _Insert space_ (`space')
 
+Inserts a space, triggering word wrapping, if active.
+
 insert_tab
 ----------
 
 _Insert tab_ (`tab')
+
+Inserts a tabulator, triggering word wrapping, if active.
 
 insert_template
 ---------------
@@ -156,6 +180,8 @@ menu
 
 _Menu_ (`ctrl-a')
 
+Calls the menu.
+
 mouse_drag_mark
 ---------------
 
@@ -166,30 +192,43 @@ move_bof
 
 _Beginning of document_ (`ctrl-home')
 
+Moves the cursor to the beginning of the document (first line, first column).
+
 move_bol
 --------
 
 _Beginning of line_ (`home')
+
+Moves the cursor to the beginning of the current line (first column).
 
 move_down
 ---------
 
 _Line down_ (`cursor-down')
 
+Moves the cursor to the next line.
+
 move_eof
 --------
 
 _End of document_ (`ctrl-end')
+
+Moves the cursor to the last line of the document.
 
 move_eol
 --------
 
 _End of line_ (`end')
 
+Moves the cursor to the end of the current line.
+
 move_left
 ---------
 
 _Character left_ (`cursor-left')
+
+Moves the cursor one character to the left. If it's in the beginning of
+a line, moves to the last character of the previous line.
 
 move_mouse_wheel_down
 ---------------------
@@ -206,15 +245,22 @@ move_pgdn
 
 _Page down_ (`page-down')
 
+Moves the cursor a page down.
+
 move_pgup
 ---------
 
 _Page up_ (`page-up')
 
+Moves the cursor a page up.
+
 move_right
 ----------
 
 _Character right_ (`cursor-right')
+
+Moves the cursor one character to the right. If it's over the end of
+the line, moves to the first character of the next line.
 
 move_to_mouse_position
 ----------------------
@@ -226,25 +272,36 @@ move_up
 
 _Line up_ (`cursor-up')
 
+Moves the cursor to the previous line.
+
 move_word_left
 --------------
 
 _Word left_ (`ctrl-cursor-left')
+
+Moves the cursor to the beginning of the previous word.
 
 move_word_right
 ---------------
 
 _Word right_ (`ctrl-cursor-right')
 
+Moves the cursor to the beginning of the next word.
+
 new
 ---
 
 _New_
 
+Creates a new unnamed document.
+
 next
 ----
 
 _Next_ (`ctrl-n')
+
+Select the next document as the active one. The list of documents
+is circular; if the active one is the last, the first one is selected.
 
 open
 ----
@@ -266,6 +323,8 @@ paste_mark
 
 _Paste block_ (`ctrl-v')
 
+Pastes the text in the clipboard into the cursor position.
+
 play_macro
 ----------
 
@@ -276,15 +335,20 @@ prev
 
 _Previous_
 
+Select the previous document as the active one. The list of documents
+is circular; if the active one is the first, the last one is selected.
+
 record_macro
 ------------
 
-_Record macro_ (`f10')
+_Record macro_ (`f10', `ctrl-f10')
 
 redo
 ----
 
 _Redo_
+
+Redoes the previously undone operation, if any.
 
 replace
 -------
@@ -295,6 +359,8 @@ revert
 ------
 
 _Revert_
+
+Reverts the active document to the state on disk.
 
 save
 ----
@@ -346,6 +412,8 @@ sync
 
 _Save modified texts_
 
+Saves all texts with pending modifications.
+
 tab_options
 -----------
 
@@ -361,10 +429,14 @@ undo
 
 _Undo_ (`ctrl-z')
 
+Undoes the last operation.
+
 unmark
 ------
 
 _Unmark block_ (`f8')
+
+Unmarks the selected block.
 
 word_count
 ----------
@@ -381,11 +453,14 @@ zoom_in
 
 _Bigger font_ (`f12')
 
+Selects a bigger font (only for GUIs).
+
 zoom_out
 --------
 
 _Smaller font_ (`f11')
 
+Selects a smaller font (only for GUIs).
 
 ----
 Angel Ortega <angel@triptico.com>
