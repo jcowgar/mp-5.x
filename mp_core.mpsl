@@ -235,6 +235,11 @@ sub mp.process_event(k)
 			if (is_exec(a))
 				a(d);
 			else
+			/* if it's an array, sequentially process it */
+			if (is_array(a))
+				foreach(l, a)
+					mp.process_action(l);
+			else
 				mp.process_action(a);
 
 			mp.keycodes_t = NULL;
