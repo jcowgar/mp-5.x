@@ -235,7 +235,7 @@ sub mp.process_event(k)
 			if (is_exec(a))
 				a(d);
 			else
-			/* if it's an array, sequentially process it */
+			/* if it's an array, process it sequentially */
 			if (is_array(a))
 				foreach(l, a)
 					mp.process_action(l);
