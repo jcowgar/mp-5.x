@@ -83,20 +83,35 @@ document_list
 
 _Document list_
 
+Shows a dialog with the list of currently open documents. The list cursor will
+be over the active one and the documents with pending modifications will be
+prefixed with an asterisk. Selecting a different one will make it become the
+active.
+
 encoding
 --------
 
 _Set charset encoding..._
+
+Shows a dialog asking for a string describing the charset encoding that will
+be used when saving or opening new documents. Valid ones are `UTF-8',
+`ISO8859-1', etc. The acceptable values are system-dependent (but `UTF-8' is
+always available). If an empty string is entered, the current locale will be
+used.
 
 eval
 ----
 
 _Execute MPSL code..._ (`escape')
 
+Shows a dialog asking for a string of MPSL code that will be executed.
+
 eval_doc
 --------
 
 _Execute document as MPSL_
+
+Executes the active document as MPSL code.
 
 exec_command
 ------------
@@ -119,6 +134,9 @@ goto
 ----
 
 _Go to line..._ (`ctrl-g')
+
+Shows a dialog asking for a line number. If accepted, the current document
+cursor will move to that line (if existent).
 
 grep
 ----
@@ -167,15 +185,22 @@ line_options
 
 _Line options..._
 
+Shows a dialog asking for line configuration options, like word wrapping,
+end of line string, etc.
+
 load_session
 ------------
 
 _Load session_
 
+Loads a session, previously saved by `save_session'.
+
 mark
 ----
 
 _Mark beginning/end of block_ (`f9')
+
+Marks the beginning or the end of the block.
 
 menu
 ----
@@ -188,6 +213,9 @@ mouse_drag_mark
 ---------------
 
 _Mark using mouse dragging_ (`mouse-drag')
+
+This action is called by the underlying driver when the mouse is used to drag
+over text. It must not be called nor bound to a key.
 
 move_bof
 --------
@@ -235,12 +263,16 @@ a line, moves to the last character of the previous line.
 move_mouse_wheel_down
 ---------------------
 
-_Mouse wheel up_ (`mouse-wheel-down')
+_Mouse wheel down_ (`mouse-wheel-down')
+
+Moves the cursor four lines down.
 
 move_mouse_wheel_up
 -------------------
 
-_Mouse wheel down_ (`mouse-wheel-up')
+_Mouse wheel up_ (`mouse-wheel-up')
+
+Moves the cursor four lines up.
 
 move_pgdn
 ---------
@@ -267,7 +299,10 @@ the line, moves to the first character of the next line.
 move_to_mouse_position
 ----------------------
 
-_Move cursor to mouse click_ (`mouse-middle-button')
+_Move cursor to mouse click_ (`mouse_left_button', `mouse_right_button', `mouse-middle-button')
+
+Moves the cursor to where the mouse is. This action is called by the
+underlying system and must not be directly called nor bound to a key.
 
 move_up
 -------
@@ -310,10 +345,14 @@ open
 
 _Open..._ (`ctrl-o')
 
+Shows a dialog to open a file. Its behaviour and look are system-dependent.
+
 open_config_file
 ----------------
 
 _Edit configuration file_
+
+Opens the user configuration file for editing. It doesn't have to exist.
 
 open_templates_file
 -------------------
@@ -357,6 +396,8 @@ replace
 
 _Replace..._ (`ctrl-r')
 
+Shows the search and replace dialog box.
+
 revert
 ------
 
@@ -374,35 +415,53 @@ save_as
 
 _Save as..._
 
+Shows a dialog asking for a file name to save the current document as.
+Its behaviour and look are system-dependent.
+
 save_session
 ------------
 
 _Save session_
+
+Saves all documents and its positions as a session to be later loaded
+by `load_session'.
 
 seek
 ----
 
 _Search text..._ (`ctrl-f')
 
+Shows the search text dialog.
+
 seek_next
 ---------
 
 _Search next_ (`f3')
+
+Searches the next occurrence of the string entered by the `seek' action.
 
 seek_next_char
 --------------
 
 _Move to next instance of current char_ (`ctrl-page-down')
 
+Searches for the next occurrence of the char under the cursor. This is
+useful, for instance, to jump to the next paren or brace.
+
 seek_prev
 ---------
 
 _Search previous_ (`ctrl-f3')
 
+Same as `seek_next', but searching backwards.
+
 seek_prev_char
 --------------
 
 _Move to previous instance of current char_ (`ctrl-page-up')
+
+Searches for the previous occurrence of the char under the cursor. This is
+useful, for instance, to jump to the previous paren or brace.
 
 set_password
 ------------
