@@ -109,4 +109,20 @@ sub update_ref_document(file, hash, prefix, def)
 /*****************/
 
 update_ref_document('doc/mp_configuration.txt', mp.config, 'mp.config');
-update_ref_document('doc/mp_actions.txt', mp.actdesc, NULL, mp.actdesc);
+
+local kc = {};
+
+foreach (k, keys(mp.keycodes))
+	kc[mp.keycodes[k]] = k;
+
+local def = {};
+
+/* fill now the default descriptions */
+foreach (k, keys(mp.actdesc)) {
+	def[k] = '_' ~ mp.actdesc[k] ~ '_';
+
+	if (kc[k])
+		def[k] = def[k] ~ " (`" ~ kc[k] ~ "')";
+}
+
+update_ref_document('doc/mp_actions.txt', mp.actdesc, NULL, def);

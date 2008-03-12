@@ -9,403 +9,382 @@ bound to the menu or a key.
 about
 -----
 
-About...
+_About..._
 
 build
 -----
 
-Build...
+_Build..._ (`f2')
 
 close
 -----
 
-Close
-
-Closes the current document. If it has unsaved modifications, a dialog
-is shown to ask the user if it must be saved.
+_Close_ (`ctrl-w')
 
 close_all
 ---------
 
-Close all
-
-Closes all open documents.
+_Close all_
 
 complete
 --------
 
-Complete...
+_Complete..._ (`ctrl-u')
 
 complete_symbol
 ---------------
 
-Symbol completion...
+_Symbol completion..._
 
 copy_mark
 ---------
 
-Copy block
-
-Copies the selected block to the clipboard.
+_Copy block_ (`ctrl-c')
 
 cut_mark
 --------
 
-Cut block
-
-Cuts the selected block to the clipboard.
+_Cut block_ (`ctrl-x')
 
 delete
 ------
 
-Delete character
-
-Deletes the character over the cursor.
+_Delete character_ (`delete')
 
 delete_left
 -----------
 
-Delete character to the left
-
-Deletes the character to the left of the cursor (the usual _backspace_ operation).
+_Delete character to the left_ (`backspace')
 
 delete_line
 -----------
 
-Delete line
-
-Deletes the line under the cursor.
+_Delete line_ (`ctrl-y')
 
 document_list
 -------------
 
-Document list
+_Document list_
 
 encoding
 --------
 
-Set charset encoding...
+_Set charset encoding..._
 
 eval
 ----
 
-Execute MPSL code...
+_Execute MPSL code..._ (`escape')
 
 eval_doc
 --------
 
-Execute document as MPSL
+_Execute document as MPSL_
 
 exec_command
 ------------
 
-Run system command...
+_Run system command..._
 
 exit
 ----
 
-Exit
-
-Exits the editor, closing all documents first.
+_Exit_ (`close-window')
 
 find_tag
 --------
 
-Search tag...
+_Search tag..._ (`ctrl-t')
 
 goto
 ----
 
-Go to line...
+_Go to line..._ (`ctrl-g')
 
 grep
 ----
 
-Grep (find inside) files...
+_Grep (find inside) files..._
 
 help
 ----
 
-Help on word over cursor
+_Help on word over cursor_ (`f1')
 
 insert_line
 -----------
 
-Insert line
+_Insert line_ (`enter')
 
 insert_space
 ------------
 
-Insert space
+_Insert space_ (`space')
 
 insert_tab
 ----------
 
-Insert tab
+_Insert tab_ (`tab')
 
 insert_template
 ---------------
 
-Insert template...
+_Insert template..._
 
 join_paragraph
 --------------
 
-Join a paragraph in one line
+_Join a paragraph in one line_ (`f6')
 
 line_options
 ------------
 
-Line options...
+_Line options..._
 
 load_session
 ------------
 
-Load session
+_Load session_
 
 mark
 ----
 
-Mark beginning/end of block
+_Mark beginning/end of block_ (`f9')
 
 menu
 ----
 
-Menu
+_Menu_ (`ctrl-a')
 
 mouse_drag_mark
 ---------------
 
-Mark using mouse dragging
+_Mark using mouse dragging_ (`mouse-drag')
 
 move_bof
 --------
 
-Beginning of document
+_Beginning of document_ (`ctrl-home')
 
 move_bol
 --------
 
-Beginning of line
+_Beginning of line_ (`home')
 
 move_down
 ---------
 
-Line down
+_Line down_ (`cursor-down')
 
 move_eof
 --------
 
-End of document
+_End of document_ (`ctrl-end')
 
 move_eol
 --------
 
-End of line
+_End of line_ (`end')
 
 move_left
 ---------
 
-Character left
+_Character left_ (`cursor-left')
 
 move_mouse_wheel_down
 ---------------------
 
-Mouse wheel up
+_Mouse wheel up_ (`mouse-wheel-down')
 
 move_mouse_wheel_up
 -------------------
 
-Mouse wheel down
+_Mouse wheel down_ (`mouse-wheel-up')
 
 move_pgdn
 ---------
 
-Page down
+_Page down_ (`page-down')
 
 move_pgup
 ---------
 
-Page up
+_Page up_ (`page-up')
 
 move_right
 ----------
 
-Character right
+_Character right_ (`cursor-right')
 
 move_to_mouse_position
 ----------------------
 
-Move cursor to mouse click
+_Move cursor to mouse click_ (`mouse-middle-button')
 
 move_up
 -------
 
-Line up
+_Line up_ (`cursor-up')
 
 move_word_left
 --------------
 
-Word left
+_Word left_ (`ctrl-cursor-left')
 
 move_word_right
 ---------------
 
-Word right
+_Word right_ (`ctrl-cursor-right')
 
 new
 ---
 
-New
+_New_
 
 next
 ----
 
-Next
+_Next_ (`ctrl-n')
 
 open
 ----
 
-Open...
+_Open..._ (`ctrl-o')
 
 open_config_file
 ----------------
 
-Edit configuration file
+_Edit configuration file_
 
 open_templates_file
 -------------------
 
-Edit templates file
+_Edit templates file_
 
 paste_mark
 ----------
 
-Paste block
+_Paste block_ (`ctrl-v')
 
 play_macro
 ----------
 
-Play macro
+_Play macro_ (`f7')
 
 prev
 ----
 
-Previous
+_Previous_
 
 record_macro
 ------------
 
-Record macro
+_Record macro_ (`f10')
 
 redo
 ----
 
-Redo
+_Redo_
 
 replace
 -------
 
-Replace...
+_Replace..._ (`ctrl-r')
 
 revert
 ------
 
-Revert
+_Revert_
 
 save
 ----
 
-Save...
+_Save..._ (`ctrl-s')
 
 save_as
 -------
 
-Save as...
+_Save as..._
 
 save_session
 ------------
 
-Save session
+_Save session_
 
 seek
 ----
 
-Search text...
+_Search text..._ (`ctrl-f')
 
 seek_next
 ---------
 
-Search next
+_Search next_ (`f3')
 
 seek_next_char
 --------------
 
-Move to next instance of current char
+_Move to next instance of current char_ (`ctrl-page-down')
 
 seek_prev
 ---------
 
-Search previous
+_Search previous_ (`ctrl-f3')
 
 seek_prev_char
 --------------
 
-Move to previous instance of current char
+_Move to previous instance of current char_ (`ctrl-page-up')
 
 set_password
 ------------
 
-Password protect...
+_Password protect..._
 
 sync
 ----
 
-Save modified texts
+_Save modified texts_
 
 tab_options
 -----------
 
-Tab options...
+_Tab options..._
 
 toggle_spellcheck
 -----------------
 
-Toggle spellchecking
+_Toggle spellchecking_
 
 undo
 ----
 
-Undo
+_Undo_ (`ctrl-z')
 
 unmark
 ------
 
-Unmark block
+_Unmark block_ (`f8')
 
 word_count
 ----------
 
-Count words
+_Count words_
 
 word_wrap_paragraph
 -------------------
 
-Word-wrap a paragraph
+_Word-wrap a paragraph_ (`f4')
 
 zoom_in
 -------
 
-Bigger font
-
-Selects a bigger font on screen (for GUIs only).
+_Bigger font_ (`f12')
 
 zoom_out
 --------
 
-Smaller font
-
-Selects a smaller font on screen (for GUIs only).
+_Smaller font_ (`f11')
 
 
 ----
