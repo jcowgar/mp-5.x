@@ -45,7 +45,7 @@ sub load_ref_document(file)
 			}
 			else {
 				/* there is a previous one; store */
-				r.data[k] = b;
+				r.data[k] = sregex("/^\n/", sregex("/\n$/", b));
 			}
 
 			k = p;
@@ -85,10 +85,10 @@ sub save_ref_document(file, r, hash, prefix, def)
 
 		write(f, k ~ "\n");
 		write(f, sregex('/./g', k, '-'));
-		write(f, "\n");
+		write(f, "\n\n");
 
-		write(f, r.data[k] || def[k] || "\nTo be written.\n");
-		write(f, "\n");
+		write(f, r.data[k] || def[k] || "To be written.");
+		write(f, "\n\n");
 	}
 
 	write(f, "\n");

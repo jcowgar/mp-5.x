@@ -6,6 +6,386 @@ Minimum Profit Action Reference
 Minimum Profit _actions_ are editor commands that can be directly
 bound to the menu or a key.
 
+about
+-----
+
+About...
+
+build
+-----
+
+Build...
+
+close
+-----
+
+Close
+
+close_all
+---------
+
+Close all
+
+complete
+--------
+
+Complete...
+
+complete_symbol
+---------------
+
+Symbol completion...
+
+copy_mark
+---------
+
+Copy block
+
+cut_mark
+--------
+
+Cut block
+
+delete
+------
+
+Delete character
+
+delete_left
+-----------
+
+Delete character to the left
+
+delete_line
+-----------
+
+Delete line
+
+document_list
+-------------
+
+Document list
+
+encoding
+--------
+
+Set charset encoding...
+
+eval
+----
+
+Execute MPSL code...
+
+eval_doc
+--------
+
+Execute document as MPSL
+
+exec_command
+------------
+
+Run system command...
+
+exit
+----
+
+Exit
+
+find_tag
+--------
+
+Search tag...
+
+goto
+----
+
+Go to line...
+
+grep
+----
+
+Grep (find inside) files...
+
+help
+----
+
+Help on word over cursor
+
+insert_line
+-----------
+
+Insert line
+
+insert_space
+------------
+
+Insert space
+
+insert_tab
+----------
+
+Insert tab
+
+insert_template
+---------------
+
+Insert template...
+
+join_paragraph
+--------------
+
+Join a paragraph in one line
+
+line_options
+------------
+
+Line options...
+
+load_session
+------------
+
+Load session
+
+mark
+----
+
+Mark beginning/end of block
+
+menu
+----
+
+Menu
+
+mouse_drag_mark
+---------------
+
+Mark using mouse dragging
+
+move_bof
+--------
+
+Beginning of document
+
+move_bol
+--------
+
+Beginning of line
+
+move_down
+---------
+
+Line down
+
+move_eof
+--------
+
+End of document
+
+move_eol
+--------
+
+End of line
+
+move_left
+---------
+
+Character left
+
+move_mouse_wheel_down
+---------------------
+
+Mouse wheel up
+
+move_mouse_wheel_up
+-------------------
+
+Mouse wheel down
+
+move_pgdn
+---------
+
+Page down
+
+move_pgup
+---------
+
+Page up
+
+move_right
+----------
+
+Character right
+
+move_to_mouse_position
+----------------------
+
+Move cursor to mouse click
+
+move_up
+-------
+
+Line up
+
+move_word_left
+--------------
+
+Word left
+
+move_word_right
+---------------
+
+Word right
+
+new
+---
+
+New
+
+next
+----
+
+Next
+
+open
+----
+
+Open...
+
+open_config_file
+----------------
+
+Edit configuration file
+
+open_templates_file
+-------------------
+
+Edit templates file
+
+paste_mark
+----------
+
+Paste block
+
+play_macro
+----------
+
+Play macro
+
+prev
+----
+
+Previous
+
+record_macro
+------------
+
+Record macro
+
+redo
+----
+
+Redo
+
+replace
+-------
+
+Replace...
+
+revert
+------
+
+Revert
+
+save
+----
+
+Save...
+
+save_as
+-------
+
+Save as...
+
+save_session
+------------
+
+Save session
+
+seek
+----
+
+Search text...
+
+seek_next
+---------
+
+Search next
+
+seek_next_char
+--------------
+
+Move to next instance of current char
+
+seek_prev
+---------
+
+Search previous
+
+seek_prev_char
+--------------
+
+Move to previous instance of current char
+
+set_password
+------------
+
+Password protect...
+
+sync
+----
+
+Save modified texts
+
+tab_options
+-----------
+
+Tab options...
+
+toggle_spellcheck
+-----------------
+
+Toggle spellchecking
+
+undo
+----
+
+Undo
+
+unmark
+------
+
+Unmark block
+
+word_count
+----------
+
+Count words
+
+word_wrap_paragraph
+-------------------
+
+Word-wrap a paragraph
+
+zoom_in
+-------
+
+Bigger font
+
+zoom_out
+--------
+
+Smaller font
+
 
 ----
 Angel Ortega <angel@triptico.com>

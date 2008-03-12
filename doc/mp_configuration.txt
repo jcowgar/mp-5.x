@@ -159,5 +159,6 @@ mp.config.word_wrap
 
 The column where word wrapping occurs (default: 0, no word wrapping).
 
+
 ----
 Angel Ortega <angel@triptico.com>
