@@ -11,10 +11,12 @@ about
 
 _About..._
 
+Shows the "About Minimum Profit" information.
+
 build
 -----
 
-_Build..._ (`f2')
+_Build project..._ (`f2')
 
 close
 -----

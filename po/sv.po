@@ -302,25 +302,27 @@ msgstr ""
 
 #: mpv_gtk.c:624 mpv_gtk.c:631 mpv_gtk.c:1288 mp_tui.mpsl:206 mpv_gtk.c:1300
 #: mpv_gtk.c:1301 mpv_gtk.c:1270 mp_tui.mpsl:231 mpv_gtk.c:1281
-#: mp_tui.mpsl:297
+#: mp_tui.mpsl:297 mpv_gtk.c:1305
 msgid "Yes"
 msgstr "Ja"
 
 #: mpv_gtk.c:630 mpv_gtk.c:637 mpv_gtk.c:1289 mp_tui.mpsl:207 mpv_gtk.c:1301
 #: mpv_gtk.c:1302 mpv_gtk.c:1271 mp_tui.mpsl:232 mpv_gtk.c:1282
-#: mp_tui.mpsl:298
+#: mp_tui.mpsl:298 mpv_gtk.c:1306
 msgid "No"
 msgstr "Nej"
 
 #: mpv_gtk.c:767 mpv_gtk.c:919 mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:1247
 #: mpv_gtk.c:1481 mpv_gtk.c:1259 mpv_gtk.c:1493 mpv_gtk.c:1260 mpv_gtk.c:1494
-#: mpv_gtk.c:1229 mpv_gtk.c:1451 mpv_gtk.c:1240 mpv_gtk.c:1462
+#: mpv_gtk.c:1229 mpv_gtk.c:1451 mpv_gtk.c:1240 mpv_gtk.c:1462 mpv_gtk.c:1264
+#: mpv_gtk.c:1486
 msgid "OK"
 msgstr "OK"
 
 #: mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:781 mpv_gtk.c:933 mpv_gtk.c:1290
 #: mpv_gtk.c:1482 mpv_gtk.c:1302 mpv_gtk.c:1494 mpv_gtk.c:1303 mpv_gtk.c:1495
-#: mpv_gtk.c:1272 mpv_gtk.c:1452 mpv_gtk.c:1283 mpv_gtk.c:1463
+#: mpv_gtk.c:1272 mpv_gtk.c:1452 mpv_gtk.c:1283 mpv_gtk.c:1463 mpv_gtk.c:1307
+#: mpv_gtk.c:1487
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -738,7 +740,7 @@ msgstr "Kopiera block"
 msgid "Cut block"
 msgstr "Klipp ut block"
 
-#: mp_func_i.h:331 mp_misc.mpsl:167 mp_misc.mpsl:161
+#: mp_func_i.h:331 mp_misc.mpsl:167 mp_misc.mpsl:161 mp_misc.mpsl:166
 msgid "About..."
 msgstr "Om..."
 
@@ -821,26 +823,31 @@ msgid "Code to execute:"
 msgstr ""
 
 #: mp_misc.mpsl:43 mp_misc.mpsl:61 mp_misc.mpsl:41 mp_misc.mpsl:57
+#: mp_misc.mpsl:46 mp_misc.mpsl:62
 msgid "Error: "
 msgstr ""
 
-#: mp_misc.mpsl:48 mp_misc.mpsl:46
+#: mp_misc.mpsl:48 mp_misc.mpsl:46 mp_misc.mpsl:51
 msgid "Exit value:\n"
 msgstr ""
 
 #: mp_misc.mpsl:103 mp_misc.mpsl:124 mp_misc.mpsl:161 mp_misc.mpsl:155
+#: mp_misc.mpsl:160
 msgid "Execute MPSL code..."
 msgstr ""
 
 #: mp_misc.mpsl:104 mp_misc.mpsl:125 mp_misc.mpsl:162 mp_misc.mpsl:156
+#: mp_misc.mpsl:161
 msgid "Execute document as MPSL"
 msgstr ""
 
 #: mp_misc.mpsl:105 mp_misc.mpsl:127 mp_misc.mpsl:164 mp_misc.mpsl:158
+#: mp_misc.mpsl:163
 msgid "Bigger font"
 msgstr ""
 
 #: mp_misc.mpsl:106 mp_misc.mpsl:128 mp_misc.mpsl:165 mp_misc.mpsl:159
+#: mp_misc.mpsl:164
 msgid "Smaller font"
 msgstr ""
 
@@ -952,11 +959,11 @@ msgstr ""
 msgid "Revert"
 msgstr ""
 
-#: mp_misc.mpsl:77 mp_misc.mpsl:73
+#: mp_misc.mpsl:77 mp_misc.mpsl:73 mp_misc.mpsl:78
 msgid "Encoding (utf-8, iso8859-1, etc.; empty, current locale)"
 msgstr ""
 
-#: mp_misc.mpsl:84 mp_misc.mpsl:80
+#: mp_misc.mpsl:84 mp_misc.mpsl:80 mp_misc.mpsl:85
 msgid "Invalid encoding "
 msgstr ""
 
@@ -965,11 +972,11 @@ msgstr ""
 msgid "Lines: %d Words: %d"
 msgstr ""
 
-#: mp_misc.mpsl:126 mp_misc.mpsl:163 mp_misc.mpsl:157
+#: mp_misc.mpsl:126 mp_misc.mpsl:163 mp_misc.mpsl:157 mp_misc.mpsl:162
 msgid "Set charset encoding..."
 msgstr ""
 
-#: mp_misc.mpsl:129 mp_misc.mpsl:166 mp_misc.mpsl:160
+#: mp_misc.mpsl:129 mp_misc.mpsl:166 mp_misc.mpsl:160 mp_misc.mpsl:165
 msgid "Count words"
 msgstr ""
 
@@ -1062,7 +1069,7 @@ msgstr ""
 msgid "%d replaces"
 msgstr ""
 
-#: mp_core.mpsl:350 mp_core.mpsl:356
+#: mp_core.mpsl:350 mp_core.mpsl:356 mp_core.mpsl:361
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1082,12 +1089,12 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_core.mpsl:396 mp_core.mpsl:402
+#: mp_core.mpsl:396 mp_core.mpsl:402 mp_core.mpsl:412
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
-#: mp_core.mpsl:475 mp_core.mpsl:481
+#: mp_core.mpsl:475 mp_core.mpsl:481 mp_core.mpsl:491
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
@@ -1102,4 +1109,24 @@ msgstr ""
 
 #: mp_file.mpsl:225
 msgid "Close all"
+msgstr ""
+
+#: mp_build.mpsl:35
+msgid "No Makefile targets found."
+msgstr ""
+
+#: mp_build.mpsl:42
+msgid "Makefile target"
+msgstr ""
+
+#: mp_build.mpsl:59
+msgid "No errors nor warnings found."
+msgstr ""
+
+#: mp_build.mpsl:62
+msgid "Errors and Warnings"
+msgstr ""
+
+#: mp_build.mpsl:85
+msgid "Build project..."
 msgstr ""

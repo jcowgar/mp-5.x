@@ -82,7 +82,7 @@ mp.keycodes['f2'] = "build";
 
 /* action descriptions */
 
-mp.actdesc['build'] = LL("Build...");
+mp.actdesc['build'] = LL("Build project...");
 
 /* code */
 
