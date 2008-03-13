@@ -12,6 +12,8 @@ Minimum Profit 5.x Release Notes
  * Fixed some redrawing issues (bug #1236 and others).
  * Ctrl-keys no longer fail on GTK (bug #1252).
  * New document 'Minimum Profit Action Reference'.
+ * New action 'build', for building Makefile-based projects. See the
+   action reference for details.
 
 5.0.1
 -----

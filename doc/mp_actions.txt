@@ -16,9 +16,13 @@ Shows the "About Minimum Profit" information.
 build
 -----
 
-_Build..._ (`f2')
+_Build project..._ (`f2')
 
-To be written.
+Invokes the building of a Make project. If the `Makefile' file exists in the
+working directory, all targets are extracted from it and shown in a list dialog
+for the user to select one. The selected one will be called as the only argument
+for the `make' program and its output read. All warnings and errors will be
+catched and shown in another list dialog to be edited and fixed.
 
 close
 -----
@@ -213,7 +217,8 @@ insert_template
 
 _Insert template..._
 
-To be written.
+Shows a list dialog with the names of the templates for the user to
+select one, that will be inserted in the cursor position.
 
 join_paragraph
 --------------
@@ -405,7 +410,9 @@ open_templates_file
 
 _Edit templates file_
 
-To be written.
+Opens the templates file for edition. Templates defined here can be later
+inserted by calling `insert_template'. See the `mp_templates.sample' file
+included in the documentation for an example of the accepted format.
 
 paste_mark
 ----------
@@ -419,7 +426,8 @@ play_macro
 
 _Play macro_ (`f7')
 
-To be written.
+Replays all keystrokes recorded during the previous _learning mode_,
+activated by a call to `record_macro'.
 
 prev
 ----
@@ -434,7 +442,8 @@ record_macro
 
 _Record macro_ (`f10')
 
-To be written.
+Toggles _learning mode_. When active, all keystrokes are recorded to
+further execute them by a call to `play_macro'.
 
 redo
 ----

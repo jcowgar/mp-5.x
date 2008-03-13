@@ -4,7 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1253: Document the 'build' action.
+None!
 
 Open Bugs
 ---------
@@ -294,5 +294,6 @@ Closed
  * 1205: Copy & paste from two different instances of MP (GTK)
    seem to fail (copying or pasting from other applications seem
    to work) (Tue, 26 Feb 2008 07:28:50 +0100).
+ * 1253: Document the 'build' action (Thu, 13 Mar 2008 07:50:28 +0100).
 
 Email bugs to angel@triptico.com
