@@ -54,9 +54,11 @@ distclean: clean
 docsclean:
 	rm -f doc/*.html
 
-realdistclean: distclean
-	(cd $(MPDM) ; make realdistclean)
-	(cd $(MPSL) ; make realdistclean)
+realclean: distclean
+	(cd $(MPDM) ; make realclean)
+	(cd $(MPSL) ; make realclean)
+
+realdistclean: realclean
 
 .SUFFIXES: .html .txt .rhtml
 
