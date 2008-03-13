@@ -16,7 +16,9 @@ Shows the "About Minimum Profit" information.
 build
 -----
 
-_Build project..._ (`f2')
+_Build..._ (`f2')
+
+To be written.
 
 close
 -----
@@ -211,6 +213,8 @@ insert_template
 
 _Insert template..._
 
+To be written.
+
 join_paragraph
 --------------
 
@@ -401,6 +405,8 @@ open_templates_file
 
 _Edit templates file_
 
+To be written.
+
 paste_mark
 ----------
 
@@ -413,6 +419,8 @@ play_macro
 
 _Play macro_ (`f7')
 
+To be written.
+
 prev
 ----
 
@@ -424,7 +432,9 @@ is circular; if the active one is the first, the last one is selected.
 record_macro
 ------------
 
-_Record macro_ (`f10', `ctrl-f10')
+_Record macro_ (`f10')
+
+To be written.
 
 redo
 ----
@@ -583,6 +593,7 @@ zoom_out
 _Smaller font_ (`f11')
 
 Selects a smaller font (only for GUIs).
+
 
 ----
 Angel Ortega <angel@triptico.com>

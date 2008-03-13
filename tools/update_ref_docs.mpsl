@@ -119,10 +119,16 @@ local def = {};
 
 /* fill now the default descriptions */
 foreach (k, keys(mp.actdesc)) {
-	def[k] = '_' ~ mp.actdesc[k] ~ '_';
+	local l;
+
+	l = '_' ~ mp.actdesc[k] ~ '_';
 
 	if (kc[k])
-		def[k] = def[k] ~ " (`" ~ kc[k] ~ "')";
+		l = l ~ " (`" ~ kc[k] ~ "')";
+
+	l = l ~ "\n\nTo be written.";
+
+	def[k] = l;
 }
 
 update_ref_document('doc/mp_actions.txt', mp.actdesc, NULL, def);
