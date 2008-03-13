@@ -1165,9 +1165,9 @@ static void form_select_row(GtkCList * list, gint row,
 	gint column, GdkEventButton * event, gpointer data)
 /* 'select_row' handler (for gtk_drv_form) */
 {
-	int n = (int) data;
+	long n = (long) data;
 
-	mpdm_aset(form_values, MPDM_I(row), n);
+	mpdm_aset(form_values, MPDM_I(row), (int) n);
 }
 
 
@@ -1423,6 +1423,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 			GtkWidget * list;
 			mpdm_t l;
 			int i;
+			long ln;
 
 			if ((i = 450 / mpdm_size(form_args)) < 100)
 				i = 100;
@@ -1470,8 +1471,9 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 
 			/* connects the signal, storing the
 			   widget number in the 'gpointer' */
+			ln = n;
 			gtk_signal_connect(GTK_OBJECT(list), "select-row",
-				GTK_SIGNAL_FUNC(form_select_row), (gpointer) n);
+				GTK_SIGNAL_FUNC(form_select_row), (gpointer) ln);
                 }
 
 		if (widget != NULL) {
