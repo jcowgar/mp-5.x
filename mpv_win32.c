@@ -556,7 +556,9 @@ static void win32_vkey(int c)
 		mp_process_event(MPDM_S(ptr));
 		is_wm_keydown = 1;
 		mp_active();
-		redraw();
+
+		if (mp_keypress_throttle(1))
+			redraw();
 	}
 }
 
@@ -692,6 +694,10 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 	case WM_KEYUP:
 
 		is_wm_keydown = 0;
+
+		if (mp_keypress_throttle(0))
+			redraw();
+
 		return 0;
 
 	case WM_KEYDOWN:
