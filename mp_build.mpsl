@@ -144,7 +144,7 @@ sub mp.build_execute(target)
 
 		/* set the last search regex to match file:line strings,
 		   so that calling seek-next and seek-prev moves there */
-		mp.last_search = '/^[a-z\.\_]+:[0-9]+/';
+		mp.last_search = '/^[a-z\.\_]+:[0-9]+:/';
 	}
 
 	/* restore active document */
