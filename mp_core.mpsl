@@ -129,6 +129,7 @@ mp.menu = [
 	[
 		LL("&File"),
 		[ 'new', 'open', 'save', 'save_as', 'close', 'revert',
+			'open_under_cursor',
 			'-', 'set_password',
 			'-', 'open_config_file',
 			'-', 'sync',
