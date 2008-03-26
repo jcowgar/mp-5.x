@@ -414,6 +414,15 @@ Opens the templates file for edition. Templates defined here can be later
 inserted by calling `insert_template'. See the `mp_templates.sample' file
 included in the documentation for an example of the accepted format.
 
+open_under_cursor
+-----------------
+
+_Open file under cursor_ (`ctrl-enter')
+
+Picks the word in the current document under the cursor, accepts it as
+a document name and tries to open it. If it's in the format string:number,
+is accepted as a file name and a line number.
+
 paste_mark
 ----------
 
