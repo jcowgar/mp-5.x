@@ -188,6 +188,17 @@ sub mp.active()
 	/* get active document */
 	d = mp.docs[mp.active_i];
 
+	/* if it's read only but has modifications, revert them */
+	if (d.read_only && size(d.undo)) {
+		while (size(d.undo))
+			mp.undo(d);
+
+		mp.message = {
+			'timeout'	=> time() + 2,
+			'string'	=> '*' ~ L("Read-only document") ~ '*'
+		};
+	}
+
 	return d;
 }
 

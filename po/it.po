@@ -260,7 +260,7 @@ msgstr "No"
 #: mpv_gtk.c:890 mpv_gtk.c:748 mpv_gtk.c:893 mpv_gtk.c:767 mpv_gtk.c:919
 #: mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:1247 mpv_gtk.c:1481 mpv_gtk.c:1259
 #: mpv_gtk.c:1493 mpv_gtk.c:1260 mpv_gtk.c:1494 mpv_gtk.c:1229 mpv_gtk.c:1451
-#: mpv_gtk.c:1240 mpv_gtk.c:1462 mpv_gtk.c:1264 mpv_gtk.c:1486
+#: mpv_gtk.c:1240 mpv_gtk.c:1462 mpv_gtk.c:1264 mpv_gtk.c:1486 mpv_gtk.c:1488
 msgid "OK"
 msgstr "OK"
 
@@ -268,7 +268,7 @@ msgstr "OK"
 #: mpv_gtk.c:897 mpv_gtk.c:755 mpv_gtk.c:900 mpv_gtk.c:774 mpv_gtk.c:926
 #: mpv_gtk.c:781 mpv_gtk.c:933 mpv_gtk.c:1290 mpv_gtk.c:1482 mpv_gtk.c:1302
 #: mpv_gtk.c:1494 mpv_gtk.c:1303 mpv_gtk.c:1495 mpv_gtk.c:1272 mpv_gtk.c:1452
-#: mpv_gtk.c:1283 mpv_gtk.c:1463 mpv_gtk.c:1307 mpv_gtk.c:1487
+#: mpv_gtk.c:1283 mpv_gtk.c:1463 mpv_gtk.c:1307 mpv_gtk.c:1487 mpv_gtk.c:1489
 msgid "Cancel"
 msgstr "Cancellare"
 
@@ -1198,12 +1198,12 @@ msgstr ""
 msgid "Save session"
 msgstr ""
 
-#: mp_core.mpsl:201 mp_core.mpsl:207
+#: mp_core.mpsl:201 mp_core.mpsl:207 mp_core.mpsl:217
 #, c-format
 msgid "Unknown action '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:420 mp_edit.mpsl:432
+#: mp_edit.mpsl:420 mp_edit.mpsl:432 mp_edit.mpsl:433
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr ""
@@ -1218,7 +1218,7 @@ msgstr ""
 msgid "%d replaces"
 msgstr ""
 
-#: mp_core.mpsl:350 mp_core.mpsl:356 mp_core.mpsl:361
+#: mp_core.mpsl:350 mp_core.mpsl:356 mp_core.mpsl:361 mp_core.mpsl:371
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1238,12 +1238,12 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_core.mpsl:396 mp_core.mpsl:402 mp_core.mpsl:412
+#: mp_core.mpsl:396 mp_core.mpsl:402 mp_core.mpsl:412 mp_core.mpsl:422
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
-#: mp_core.mpsl:475 mp_core.mpsl:481 mp_core.mpsl:491
+#: mp_core.mpsl:475 mp_core.mpsl:481 mp_core.mpsl:491 mp_core.mpsl:501
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
@@ -1278,4 +1278,8 @@ msgstr ""
 
 #: mp_build.mpsl:85
 msgid "Build project..."
+msgstr ""
+
+#: mp_core.mpsl:197
+msgid "Read-only document"
 msgstr ""

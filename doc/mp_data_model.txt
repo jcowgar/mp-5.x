@@ -34,6 +34,8 @@ The `txt' component contains the current state of the document:
  * mod: A modifier flag. If it's nonzero, the document has unsaved changes.
  * vx: The first column (from 0) that is visible on screen.
  * vy: The first line (from 0) that is visible on screen.
+ * read_only: If set to nonzero, the document is read-only and cannot
+   be modified.
 
 The document list
 -----------------
