@@ -212,7 +212,7 @@ mp.actions['open_under_cursor'] = sub (d) {
 		local n = mp.open(w[0]);
 
 		/* now move to the line */
-		mp.set_y(n, w[1]);
+		mp.set_y(n, w[1] - 1);
 	}
 	else
 	if ((w = mp.get_word(d, '/[a-z\.\_0-9\/-]+/i')) != NULL) {
