@@ -422,9 +422,9 @@ sub mp.insert_keystroke(doc, key)
 /* inserts from a keystroke (with undo) */
 {
 	if (size(key) == 1) {
-		mp.insert(doc, key);
-
 		mp.store_undo(doc);
+
+		mp.insert(doc, key);
 	}
 	else
 	if (key != NULL) {
