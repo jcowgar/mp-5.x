@@ -145,6 +145,8 @@ mp.actions['about'] = sub (d) {
 	}
 	else
 		d = mp.new("<about>", split("\n", msg));
+
+	d.read_only = 1;
 };
 
 /* default key bindings */
@@ -175,4 +177,5 @@ sub dump(v)
 	mp.move_eof(d);
 	mp.insert(d, dumper(v));
 	d.txt.mod = 0;
+	d.read_only = 1;
 }

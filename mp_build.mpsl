@@ -133,6 +133,7 @@ sub mp.build_execute(target)
 		pclose(p);
 
 		log.txt.mod = 0;
+		log.read_only = 1;
 	}
 
 	/* restore active document */
