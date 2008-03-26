@@ -5,7 +5,7 @@
 
     File manipulation.
 
-    Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2008 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -201,6 +201,25 @@ mp.actions['close_all'] = sub {
 	return 1;
 };
 
+mp.actions['open_under_cursor'] = sub (d) {
+	local w;
+
+	/* is the word under cursor file:line: ? */
+	if ((w = mp.get_word(d, '/[a-z\.\_0-9\/-]+:[0-9]+: ?/i')) != NULL) {
+		w = split(':', w);
+
+		/* open the file */
+		local n = mp.open(w[0]);
+
+		/* now move to the line */
+		mp.set_y(n, w[1]);
+	}
+	else
+	if ((w = mp.get_word(d, '/[a-z\.\_0-9\/-]+/i')) != NULL) {
+		mp.open(w);
+	}
+};
+
 /* default key bindings */
 
 mp.keycodes['ctrl-n']		= 'next';
@@ -208,6 +227,7 @@ mp.keycodes['ctrl-o']		= 'open';
 mp.keycodes['ctrl-q']		= 'exit';
 mp.keycodes['ctrl-s']		= 'save';
 mp.keycodes['ctrl-w']		= 'close';
+mp.keycodes['ctrl-enter']	= 'open_under_cursor';
 
 mp.keycodes['close-window'] 	= 'exit';
 
@@ -228,6 +248,7 @@ mp.actdesc['open_config_file']		= LL("Edit configuration file");
 mp.actdesc['open_templates_file']	= LL("Edit templates file");
 mp.actdesc['sync']			= LL("Save modified texts");
 mp.actdesc['exec_command']		= LL("Run system command...");
+mp.actdesc['open_under_cursor']		= LL("Open file under cursor");
 
 /* code */
 

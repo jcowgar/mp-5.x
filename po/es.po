@@ -18,6 +18,7 @@ msgstr ""
 #: mp_func.c:474 mp_iface.c:623 mp_func.c:477 mp_iface.c:608 mp_func.c:481
 #: mp_iface.c:651 mp_crypt.mpsl:32 mp_file.mpsl:319 mp_file.mpsl:393
 #: mp_file.mpsl:405 mp_file.mpsl:411 mp_file.mpsl:412 mp_file.mpsl:413
+#: mp_file.mpsl:434
 msgid "Password:"
 msgstr "Palabra clave:"
 
@@ -64,7 +65,7 @@ msgstr "Número de línea:"
 #: mp_file.mpsl:310 mp_file.mpsl:31 mp_file.mpsl:272 mp_file.mpsl:321
 #: mp_file.mpsl:278 mp_file.mpsl:327 mp_session.mpsl:40 mp_file.mpsl:286
 #: mp_file.mpsl:333 mp_session.mpsl:64 mp_session.mpsl:72 mp_file.mpsl:287
-#: mp_file.mpsl:334
+#: mp_file.mpsl:334 mp_file.mpsl:308 mp_file.mpsl:355
 msgid "<unnamed>"
 msgstr "<sin nombre>"
 
@@ -509,20 +510,20 @@ msgstr "Reemplazar en todos..."
 #: mp_func.c:319 mp_func.c:328 mp_func.c:335 mp_func.c:498 mp_func_i.h:119
 #: mp_func_i.h:123 mp_func_i.h:135 mp_func_i.h:139 mp_func_i.h:127
 #: mp_file.mpsl:126 mp_file.mpsl:198 mp_file.mpsl:209 mp_file.mpsl:215
-#: mp_file.mpsl:219
+#: mp_file.mpsl:219 mp_file.mpsl:239
 msgid "Next"
 msgstr "Siguiente"
 
 #: mp_func.c:320 mp_func.c:329 mp_func.c:336 mp_func.c:499 mp_func_i.h:131
 #: mp_func_i.h:135 mp_func_i.h:143 mp_file.mpsl:123 mp_file.mpsl:195
-#: mp_file.mpsl:206 mp_file.mpsl:212 mp_file.mpsl:216
+#: mp_file.mpsl:206 mp_file.mpsl:212 mp_file.mpsl:216 mp_file.mpsl:236
 msgid "New"
 msgstr "Nuevo"
 
 #: mp_func.c:321 mp_func.c:330 mp_func.c:337 mp_func.c:500 mp_func_i.h:159
 #: mp_func_i.h:163 mp_func_i.h:123 mp_func_i.h:127 mp_func_i.h:131
 #: mp_file.mpsl:128 mp_file.mpsl:200 mp_file.mpsl:211 mp_file.mpsl:217
-#: mp_file.mpsl:221
+#: mp_file.mpsl:221 mp_file.mpsl:241
 msgid "Open..."
 msgstr "Abrir..."
 
@@ -533,25 +534,26 @@ msgstr "Reabrir..."
 
 #: mp_func.c:323 mp_func.c:332 mp_func.c:339 mp_func.c:502 mp_func_i.h:83
 #: mp_func_i.h:95 mp_func_i.h:99 mp_file.mpsl:124 mp_file.mpsl:196
-#: mp_file.mpsl:207 mp_file.mpsl:213 mp_file.mpsl:217
+#: mp_file.mpsl:207 mp_file.mpsl:213 mp_file.mpsl:217 mp_file.mpsl:237
 msgid "Save..."
 msgstr "Guardar..."
 
 #: mp_func.c:324 mp_func.c:333 mp_func.c:340 mp_func.c:503 mp_func_i.h:163
 #: mp_func_i.h:83 mp_func_i.h:87 mp_file.mpsl:125 mp_file.mpsl:197
-#: mp_file.mpsl:208 mp_file.mpsl:214 mp_file.mpsl:218
+#: mp_file.mpsl:208 mp_file.mpsl:214 mp_file.mpsl:218 mp_file.mpsl:238
 msgid "Save as..."
 msgstr "Guardar cómo..."
 
 #: mp_func.c:325 mp_func.c:334 mp_func.c:341 mp_func.c:504 mp_func_i.h:315
 #: mp_func_i.h:319 mp_func_i.h:323 mp_func_i.h:327 mp_func_i.h:335
 #: mp_file.mpsl:130 mp_file.mpsl:202 mp_file.mpsl:213 mp_file.mpsl:219
-#: mp_file.mpsl:223
+#: mp_file.mpsl:223 mp_file.mpsl:243
 msgid "Close"
 msgstr "Cerrar"
 
 #: mp_func.c:326 mp_func.c:335 mp_func.c:342 mp_func.c:505 mp_func_i.h:103
 #: mp_func_i.h:107 mp_func_i.h:163 mp_func_i.h:167 mp_func_i.h:171
+#: mp_file.mpsl:251
 msgid "Open file under cursor"
 msgstr "Abrir fichero bajo el cursor"
 
@@ -601,6 +603,7 @@ msgstr "Ayuda para la palabra en el cursor"
 #: mp_func.c:337 mp_func.c:346 mp_func.c:353 mp_func.c:516 mp_func_i.h:267
 #: mp_func_i.h:271 mp_func_i.h:275 mp_func_i.h:279 mp_file.mpsl:208
 #: mp_file.mpsl:219 mp_file.mpsl:225 mp_file.mpsl:229 mp_file.mpsl:230
+#: mp_file.mpsl:250
 msgid "Run system command..."
 msgstr "Ejecutar comando del sistema..."
 
@@ -630,14 +633,14 @@ msgstr "Completar tag..."
 #: mp_func.c:342 mp_func.c:351 mp_func.c:358 mp_func.c:521 mp_func_i.h:263
 #: mp_func_i.h:267 mp_func_i.h:271 mp_func_i.h:275 mp_func_i.h:295
 #: mp_file.mpsl:133 mp_file.mpsl:206 mp_file.mpsl:217 mp_file.mpsl:223
-#: mp_file.mpsl:227 mp_file.mpsl:228
+#: mp_file.mpsl:227 mp_file.mpsl:228 mp_file.mpsl:248
 msgid "Edit templates file"
 msgstr "Editar fichero de moldes"
 
 #: mp_func.c:343 mp_func.c:352 mp_func.c:359 mp_func.c:522 mp_func_i.h:279
 #: mp_func_i.h:283 mp_func_i.h:287 mp_func_i.h:291 mp_file.mpsl:132
 #: mp_file.mpsl:205 mp_file.mpsl:216 mp_file.mpsl:222 mp_file.mpsl:226
-#: mp_file.mpsl:227
+#: mp_file.mpsl:227 mp_file.mpsl:247
 msgid "Edit configuration file"
 msgstr "Editar fichero de configuración"
 
@@ -659,14 +662,14 @@ msgstr "Menú"
 
 #: mp_func.c:347 mp_func.c:356 mp_func.c:363 mp_func.c:526 mp_func_i.h:311
 #: mp_func_i.h:315 mp_func_i.h:319 mp_func_i.h:323 mp_func_i.h:331
-#: mp_misc.mpsl:167 mp_misc.mpsl:161 mp_misc.mpsl:166
+#: mp_misc.mpsl:167 mp_misc.mpsl:161 mp_misc.mpsl:166 mp_misc.mpsl:165
 msgid "About..."
 msgstr "Acerca de..."
 
 #: mp_func.c:348 mp_func.c:357 mp_func.c:364 mp_func.c:527 mp_func_i.h:251
 #: mp_func_i.h:255 mp_func_i.h:259 mp_func_i.h:263 mp_func_i.h:299
 #: mp_file.mpsl:129 mp_file.mpsl:201 mp_file.mpsl:212 mp_file.mpsl:218
-#: mp_file.mpsl:222
+#: mp_file.mpsl:222 mp_file.mpsl:242
 msgid "Exit"
 msgstr "Salir"
 
@@ -698,6 +701,7 @@ msgstr "Ejecutar función del editor..."
 #: mp_func.c:354 mp_func.c:363 mp_func.c:370 mp_func.c:533 mp_func_i.h:39
 #: mp_func_i.h:51 mp_func_i.h:55 mp_file.mpsl:134 mp_file.mpsl:207
 #: mp_file.mpsl:218 mp_file.mpsl:224 mp_file.mpsl:228 mp_file.mpsl:229
+#: mp_file.mpsl:249
 msgid "Save modified texts"
 msgstr "Guardar textos modificados"
 
@@ -834,7 +838,7 @@ msgid "Mark column #80"
 msgstr "Marcar columna nº 80"
 
 #: mp_func_i.h:115 mp_func_i.h:119 mp_file.mpsl:127 mp_file.mpsl:199
-#: mp_file.mpsl:210 mp_file.mpsl:216 mp_file.mpsl:220
+#: mp_file.mpsl:210 mp_file.mpsl:216 mp_file.mpsl:220 mp_file.mpsl:240
 msgid "Previous"
 msgstr "Anterior"
 
@@ -984,22 +988,22 @@ msgid "Exit value:\n"
 msgstr "Valor de salida:\n"
 
 #: mp_misc.mpsl:103 mp_misc.mpsl:124 mp_misc.mpsl:161 mp_misc.mpsl:155
-#: mp_misc.mpsl:160
+#: mp_misc.mpsl:160 mp_misc.mpsl:159
 msgid "Execute MPSL code..."
 msgstr "Executar código MPSL..."
 
 #: mp_misc.mpsl:104 mp_misc.mpsl:125 mp_misc.mpsl:162 mp_misc.mpsl:156
-#: mp_misc.mpsl:161
+#: mp_misc.mpsl:161 mp_misc.mpsl:160
 msgid "Execute document as MPSL"
 msgstr "Ejecutar documento como MPSL"
 
 #: mp_misc.mpsl:105 mp_misc.mpsl:127 mp_misc.mpsl:164 mp_misc.mpsl:158
-#: mp_misc.mpsl:163
+#: mp_misc.mpsl:163 mp_misc.mpsl:162
 msgid "Bigger font"
 msgstr "Tipo de letra más grande"
 
 #: mp_misc.mpsl:106 mp_misc.mpsl:128 mp_misc.mpsl:165 mp_misc.mpsl:159
-#: mp_misc.mpsl:164
+#: mp_misc.mpsl:164 mp_misc.mpsl:163
 msgid "Smaller font"
 msgstr "Tipo de letra más pequeño"
 
@@ -1099,6 +1103,7 @@ msgid "Error reading from command '%s'"
 msgstr "Error leyendo desde el comando '%s'"
 
 #: mp_file.mpsl:203 mp_file.mpsl:214 mp_file.mpsl:220 mp_file.mpsl:224
+#: mp_file.mpsl:244
 msgid "Revert"
 msgstr "Revertir"
 
@@ -1116,10 +1121,12 @@ msgid "Lines: %d Words: %d"
 msgstr "Lineas: %d Palabras: %d"
 
 #: mp_misc.mpsl:126 mp_misc.mpsl:163 mp_misc.mpsl:157 mp_misc.mpsl:162
+#: mp_misc.mpsl:161
 msgid "Set charset encoding..."
 msgstr "Codificación..."
 
 #: mp_misc.mpsl:129 mp_misc.mpsl:166 mp_misc.mpsl:160 mp_misc.mpsl:165
+#: mp_misc.mpsl:164
 msgid "Count words"
 msgstr "Contar palabras"
 
@@ -1192,7 +1199,7 @@ msgstr "Cargar sesión"
 msgid "Save session"
 msgstr "Guardar sesión"
 
-#: mp_core.mpsl:201 mp_core.mpsl:207 mp_core.mpsl:217
+#: mp_core.mpsl:201 mp_core.mpsl:207 mp_core.mpsl:217 mp_core.mpsl:218
 #, c-format
 msgid "Unknown action '%s'"
 msgstr "Acción '%s' desconocida"
@@ -1202,7 +1209,7 @@ msgstr "Acción '%s' desconocida"
 msgid "Unbound keystroke '%s'"
 msgstr "Tecla '%s' sin asociar"
 
-#: mp_file.mpsl:264 mp_file.mpsl:265
+#: mp_file.mpsl:264 mp_file.mpsl:265 mp_file.mpsl:286
 #, c-format
 msgid "New file '%s'"
 msgstr "Nuevo archivo '%s'"
@@ -1213,6 +1220,7 @@ msgid "%d replaces"
 msgstr "%d reemplazos"
 
 #: mp_core.mpsl:350 mp_core.mpsl:356 mp_core.mpsl:361 mp_core.mpsl:371
+#: mp_core.mpsl:372
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1248,11 +1256,13 @@ msgstr ""
 "Lista de distribución: mp-subscribe@lists.triptico.com\n"
 
 #: mp_core.mpsl:396 mp_core.mpsl:402 mp_core.mpsl:412 mp_core.mpsl:422
+#: mp_core.mpsl:423
 #, c-format
 msgid "Cannot open '%s'"
 msgstr "Imposible abrir '%s'"
 
 #: mp_core.mpsl:475 mp_core.mpsl:481 mp_core.mpsl:491 mp_core.mpsl:501
+#: mp_core.mpsl:502
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr "ADVERTENCIA: La versión de %s es la %s, pero se necesita la %s"
@@ -1265,7 +1275,7 @@ msgstr "Marcar arrastrando el ratón"
 msgid "Mark end of lines"
 msgstr "Marcar fines de línea"
 
-#: mp_file.mpsl:225
+#: mp_file.mpsl:225 mp_file.mpsl:245
 msgid "Close all"
 msgstr "Cerrar todo"
 
@@ -1289,6 +1299,6 @@ msgstr ""
 msgid "Build project..."
 msgstr ""
 
-#: mp_core.mpsl:197
+#: mp_core.mpsl:197 mp_core.mpsl:198
 msgid "Read-only document"
 msgstr "Documento de sólo lectura"

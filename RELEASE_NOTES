@@ -1,6 +1,14 @@
 Minimum Profit 5.x Release Notes
 ================================
 
+5.0.3
+-----
+
+ * New action 'open_under_cursor', that picks the word in the
+   current document under the cursor, accepts it as a document
+   name and tries to open it. If it's in the format string:number,
+   is accepted as a file name and a line number.
+
 5.0.2
 -----
 
