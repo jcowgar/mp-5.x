@@ -137,16 +137,13 @@ mp.actions['about'] = sub (d) {
 	local mpdm = MPDM();
 	msg = sprintf(msg, mp.VERSION, mpdm.version, MPSL.VERSION);
 
-	d = mp.find_file_by_name("<about>");
+	d = mp.open("<about>");
 
-	if (d != -1) {
-		mp.active_i = d;
-		d = mp.active();
+	if (size(d.txt.lines) == 1) {
+		mp.insert(d, msg);
+		d.txt.mod = 0;
+		d.read_only = 1;
 	}
-	else
-		d = mp.new("<about>", split("\n", msg));
-
-	d.read_only = 1;
 };
 
 /* default key bindings */
