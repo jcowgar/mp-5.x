@@ -519,6 +519,14 @@ mp.syntax.xml = {
 	}
 };
 
+mp.syntax.make_output = {
+	'id'		=>	'make_output',
+	'name'		=>	'Make output',
+	'defs'		=>	[
+		'word1',	[ "/^.*warning:.*$/m" ],
+		'word2',	[ "/^.*error:.*$/m" ]
+	]
+};
 
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */

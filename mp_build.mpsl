@@ -137,6 +137,10 @@ sub mp.build_execute(target)
 
 		log.txt.mod = 0;
 		log.read_only = 1;
+
+		log.syntax = mp.syntax.make_output;
+
+		mp.move_bof(log);
 	}
 
 	/* restore active document */
