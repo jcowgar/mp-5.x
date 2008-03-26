@@ -118,6 +118,9 @@ sub mp.build_execute(target)
 	local a = mp.active_i;
 	local log = mp.open('<make output>');
 
+	log.txt.lines = [];
+	log.txt.y = 0;
+
 	/* pipe through make */
 	local p;
 	if ((p = popen('make ' ~ target, 'r')) != NULL) {
