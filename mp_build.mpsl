@@ -53,26 +53,7 @@ mp.actions['build']	= sub(doc) {
 			target = t[r[0]];
 	}
 
-	local err = mp.long_op(mp.build_execute, target);
-
-	if (size(err) == 0)
-		mp.alert(L("No errors nor warnings found."));
-	else {
-		local r = mp.form( [
-			{ 'label'	=> L("Errors and Warnings") ~ ':',
-			  'type'	=> 'list',
-			  'list'	=> err }
-			]);
-
-		if (r == NULL)
-			return;
-
-		/* pick file and line number */
-		r = regex( [ '/[^:]+/', '/:/', '/[0-9]+/' ], err[r[0]]);
-
-		doc = mp.open(r[0]);
-		doc.txt.y = r[2] - 1;
-	}
+	mp.long_op(mp.build_execute, target);
 };
 
 
@@ -111,8 +92,6 @@ sub mp.build_get_targets
 
 sub mp.build_execute(target)
 {
-	local err = [];
-
 	local log = mp.open('<make output>');
 
 	log.txt.lines = [];
@@ -123,12 +102,8 @@ sub mp.build_execute(target)
 	if ((p = popen('make ' ~ target, 'r')) != NULL) {
 		local l;
 
-		while (l = read(p)) {
-			if (regex('/(error|warning):/', l))
-				push(err, mp.chomp(l));
-
+		while (l = read(p))
 			mp.insert(log, l);
-		}
 
 		pclose(p);
 
@@ -143,7 +118,4 @@ sub mp.build_execute(target)
 		   so that calling seek-next and seek-prev moves there */
 		mp.last_search = '/^[a-z\.\_0-9\/-]+:[0-9]+:/';
 	}
-
-	return err;
 }
-
