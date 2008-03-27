@@ -90,8 +90,7 @@ sub mp.build_get_targets
 {
 	local r, f;
 
-	if ((f = open('Makefile', 'r')) != NULL)
-	{
+	if ((f = open('Makefile', 'r')) != NULL) {
 		local l;
 
 		r = [ '<default>' ];
@@ -114,8 +113,6 @@ sub mp.build_execute(target)
 {
 	local err = [];
 
-	/* save active document and open make log */
-	local a = mp.active_i;
 	local log = mp.open('<make output>');
 
 	log.txt.lines = [];
@@ -146,9 +143,6 @@ sub mp.build_execute(target)
 		   so that calling seek-next and seek-prev moves there */
 		mp.last_search = '/^[a-z\.\_0-9\/-]+:[0-9]+:/';
 	}
-
-	/* restore active document */
-	mp.active_i = a;
 
 	return err;
 }
