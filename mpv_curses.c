@@ -250,6 +250,7 @@ static mpdm_t nc_getkey(mpdm_t args)
 		case KEY_END:		f = L"end"; break;
 		case KEY_IC:		f = L"insert"; break;
 		case KEY_DC:		f = L"delete"; break;
+		case KEY_LL:		f = L"ctrl-end"; break;
 		case 0x7f:
 		case KEY_BACKSPACE:
 		case L'\b':		f = L"backspace"; break;
