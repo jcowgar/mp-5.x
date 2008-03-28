@@ -5,7 +5,7 @@
 
     Search and replace.
 
-    Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2008 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -97,37 +97,27 @@ mp.actions['grep']	= sub (d) {
 	] );
 
 	if (r != NULL && r[0] ne '') {
-		local i = 0;
+
+		local t = '<grep ' ~ r[0] ~ ' ' ~ r[1] ~ '>';
 
 		if ((r = mp.long_op(mp.grep, '/' ~ r[0] ~ '/', r[1])) == NULL)
 			mp.alert(L("File(s) not found."));
 
 		if (size(r) == 0)
 			mp.alert(L("Text not found."));
-		else
-		if (size(r) > 1) {
-			/* more than one; ask for it */
-			local l = mp.form( [
-				{ 'label'	=> L("Grep"),
-				  'type'	=> 'list',
-				  'list'	=> map(sub (e) {
-					sprintf("%s:%d: %s", e[0], e[1] + 1, e[2]); }, r)
-				 }
-				]);
 
-			if (l == NULL)
-				return;
+		local l = mp.open(t);
 
-			/* get index of the desired item */
-			i = l[0];
-		}
+		l.txt.lines = [];
+		mp.move_bof(l);
 
-		if (size(r)) {
-			/* now open the document and move there */
-			d = mp.long_op(mp.open, r[i][0]);
-			d.txt.x = 0;
-			mp.set_y(d, r[i][1]);
-		}
+		foreach (e, r)
+			mp.insert(l, sprintf("%s:%d: %s\n", e[0], e[1] + 1, e[2]));
+
+		mp.move_bof(l);
+
+		l.txt.mod = 0;
+		l.read_only = 1;
 	}
 };
 
