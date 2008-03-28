@@ -412,6 +412,7 @@ static void draw_filetabs(void)
 
 	/* is the list different from the previous one? */
 	if (mpdm_cmp(names, last) != 0) {
+
 		/* delete the current tabs */
 		for (n = 0; n < mpdm_size(last); n++)
 			gtk_notebook_remove_page(
@@ -422,14 +423,15 @@ static void draw_filetabs(void)
 			GtkWidget * p;
 			GtkWidget * f;
 			char * ptr;
-			const wchar_t * wptr;
+			wchar_t tmp[128] = L"...";
 			mpdm_t v = mpdm_aget(names, n);
+			const wchar_t * wptr = v->data;
 
-			/* move to the filename if path included */
-			if ((wptr = wcsrchr(v->data, L'/')) == NULL)
-				wptr = v->data;
-			else
-				wptr++;
+			/* shorten the name, if too long */
+			if (wcslen(wptr) > 24) {
+				wcscat(tmp, wptr + wcslen(wptr) - 24);
+				wptr = tmp;
+			}
 
 			if ((ptr = wcs_to_utf8(wptr)) != NULL) {
 				p = gtk_label_new(ptr);
