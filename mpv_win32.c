@@ -314,14 +314,15 @@ static void draw_filetabs(void)
 		for (n = 0; n < mpdm_size(names); n++) {
 			TCITEM ti;
 			char * ptr;
-			wchar_t * wptr;
+			wchar_t tmp[128] = L"...";
 			mpdm_t v = mpdm_aget(names, n);
+			const wchar_t * wptr = v->data;
 
-			/* move to the filename if path included */
-			if ((wptr = wcsrchr(v->data, L'\\')) == NULL)
-				wptr = v->data;
-			else
-				wptr++;
+			/* shorten the name, if too long */
+			if (wcslen(wptr) > 24) {
+				wcscat(tmp, wptr + wcslen(wptr) - 24);
+				wptr = tmp;
+			}
 
 			/* convert to mbs */
 			ptr = mpdm_wcstombs(wptr, NULL);
