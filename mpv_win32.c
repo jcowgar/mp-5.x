@@ -141,7 +141,7 @@ static void build_fonts(HDC hdc)
 
 		if ((v = mpdm_hget_s(c, L"font_face")) != NULL) {
 			v = MPDM_2MBS(v->data);
-			font_face = v->data;
+			font_face = (char *)v->data;
 		}
 		else
 			mpdm_hset_s(c, L"font_face", MPDM_MBS(font_face));
