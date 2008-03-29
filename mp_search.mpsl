@@ -102,22 +102,24 @@ mp.actions['grep']	= sub (d) {
 
 		if ((r = mp.long_op(mp.grep, '/' ~ r[0] ~ '/', r[1])) == NULL)
 			mp.alert(L("File(s) not found."));
-
+		else
 		if (size(r) == 0)
 			mp.alert(L("Text not found."));
+		else {
+			local l = mp.open(t);
 
-		local l = mp.open(t);
+			l.txt.lines = [];
+			mp.move_bof(l);
 
-		l.txt.lines = [];
-		mp.move_bof(l);
+			foreach (e, r)
+				mp.insert(l, sprintf("%s:%d: %s\n",
+						e[0], e[1] + 1, e[2]));
 
-		foreach (e, r)
-			mp.insert(l, sprintf("%s:%d: %s\n", e[0], e[1] + 1, e[2]));
+			mp.move_bof(l);
 
-		mp.move_bof(l);
-
-		l.txt.mod = 0;
-		l.read_only = 1;
+			l.txt.mod = 0;
+			l.read_only = 1;
+		}
 	}
 };
 
