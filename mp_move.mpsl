@@ -160,15 +160,7 @@ sub mp.move(doc, func)
 sub mp.split_by_words(s)
 /* splits a string by words */
 {
-	local l = [];
-	local w, c;
-
-	while ((w = regex(mp.word_regex, s, c[0] + c[1])) != NULL) {
-		push(l, w);
-		c = regex();
-	}
-
-	return l;
+	return regex(mp.word_regex ~ 'g', s);
 }
 
 
