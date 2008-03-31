@@ -294,18 +294,13 @@ static void draw_filetabs(void)
 /* draws the filetabs */
 {
 	static mpdm_t last = NULL;
-	mpdm_t docs, names;
+	mpdm_t names;
 	int n;
 
 	if (hwtabs == NULL)
 		return;
 
-	docs = mpdm_hget_s(mp, L"docs");
-	names = MPDM_A(mpdm_size(docs));
-
-	/* gets a list with the names of the documents */
-	for (n = 0; n < mpdm_size(docs); n++)
-		mpdm_aset(names, mpdm_hget_s(mpdm_aget(docs, n), L"name"), n);
+	names = mp_get_doc_names();
 
 	/* is the list different from the previous one? */
 	if (mpdm_cmp(names, last) != 0) {
@@ -314,18 +309,10 @@ static void draw_filetabs(void)
 		for (n = 0; n < mpdm_size(names); n++) {
 			TCITEM ti;
 			char * ptr;
-			wchar_t tmp[128] = L"...";
 			mpdm_t v = mpdm_aget(names, n);
-			const wchar_t * wptr = v->data;
-
-			/* shorten the name, if too long */
-			if (wcslen(wptr) > 24) {
-				wcscat(tmp, wptr + wcslen(wptr) - 24);
-				wptr = tmp;
-			}
 
 			/* convert to mbs */
-			ptr = mpdm_wcstombs(wptr, NULL);
+			ptr = mpdm_wcstombs(v->data, NULL);
 
 			ti.mask = TCIF_TEXT;
 			ti.pszText = ptr;

@@ -396,15 +396,10 @@ static void draw_filetabs(void)
 /* draws the filetabs */
 {
 	static mpdm_t last = NULL;
-	mpdm_t docs, names;
+	mpdm_t names;
 	int n;
 
-	docs = mpdm_hget_s(mp, L"docs");
-	names = MPDM_A(mpdm_size(docs));
-
-	/* gets a list with the names of the documents */
-	for (n = 0; n < mpdm_size(docs); n++)
-		mpdm_aset(names, mpdm_hget_s(mpdm_aget(docs, n), L"name"), n);
+	names = mp_get_doc_names();
 
 	/* disconnect redraw signal to avoid infinite loops */
 	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
@@ -423,17 +418,9 @@ static void draw_filetabs(void)
 			GtkWidget * p;
 			GtkWidget * f;
 			char * ptr;
-			wchar_t tmp[128] = L"...";
 			mpdm_t v = mpdm_aget(names, n);
-			const wchar_t * wptr = v->data;
 
-			/* shorten the name, if too long */
-			if (wcslen(wptr) > 24) {
-				wcscat(tmp, wptr + wcslen(wptr) - 24);
-				wptr = tmp;
-			}
-
-			if ((ptr = wcs_to_utf8(wptr)) != NULL) {
+			if ((ptr = wcs_to_utf8(v->data)) != NULL) {
 				p = gtk_label_new(ptr);
 				gtk_widget_show(p);
 
