@@ -16,8 +16,6 @@ is created by calling mp.new() or mp.open(). The keys stored in each
 document are the following:
 
  * name: The name of the document (<unnamed> for unnamed documents).
- * vname: The name of the document, probably shortened, to be shown
-   in tabs and similar (the _visual_ name).
  * syntax: The optional syntax highlight definition that applies to it
    (a value in the `mp.syntax' hash, may be NULL or undefined).
  * txt: The _state_ of the document (see below).

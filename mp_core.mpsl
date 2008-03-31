@@ -365,6 +365,16 @@ sub mp.menu_label(action)
 }
 
 
+sub mp.get_doc_names()
+/* returns an array with the names of the documents */
+{
+	return map(sub(e) {
+			local v = regex('/.{24}$/', e.name);
+			return v && '...' ~ v || e.name;
+		}, mp.docs);
+}
+
+
 sub mp.usage()
 /* set mp.exit_message with an usage message (--help) */
 {

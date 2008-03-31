@@ -463,12 +463,6 @@ sub mp.open(filename)
 
 		d = mp.new(filename, l);
 
-		/* create the 'visual' name */
-		if (d.vname = regex('/.{24}$/', d.name))
-			d.vname = '...' ~ d.vname;
-		else
-			d.vname = d.name;
-
 		/* does it have a password? store it */
 		if (p != NULL)
 			d.password = p;
