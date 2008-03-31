@@ -862,6 +862,13 @@ mpdm_t mp_get_history(mpdm_t key)
 }
 
 
+mpdm_t mp_get_doc_names(void)
+/* interface to mp.get_doc_names() */
+{
+	return mpdm_exec(mpdm_hget_s(mp, L"get_doc_names"), NULL);
+}
+
+
 mpdm_t mp_menu_label(mpdm_t action)
 /* interface to mp.menu_label() */
 {

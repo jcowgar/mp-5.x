@@ -34,6 +34,7 @@ mpdm_t mp_set_y(mpdm_t doc, int y);
 mpdm_t mp_build_status_line(void);
 mpdm_t mp_get_history(mpdm_t key);
 mpdm_t mp_menu_label(mpdm_t action);
+mpdm_t mp_get_doc_names(void);
 mpdm_t mp_pending_key(void);
 mpdm_t mp_process_keyseq(mpdm_t key);
 int mp_keypress_throttle(int keydown);
