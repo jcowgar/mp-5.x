@@ -457,6 +457,10 @@ sub mp.open(filename)
 
 		d = mp.new(filename, l);
 
+		/* if stat() returns a canonicalized file name, use it */
+		if ((l = stat(filename)) && l[13] != NULL)
+			d.name = l[13];
+
 		/* does it have a password? store it */
 		if (p != NULL)
 			d.password = p;
