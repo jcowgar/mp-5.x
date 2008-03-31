@@ -411,6 +411,12 @@ sub mp.find_file_by_name(filename)
 sub mp.open(filename)
 /* opens a new document (uses UI) */
 {
+	local s = stat(filename);
+
+	/* canonicalize first, if possible */
+	if (s != NULL && s[13] != NULL)
+		filename = s[13];
+
 	local d = mp.find_file_by_name(filename);
 
 	/* looks first if the file is already open */
@@ -456,10 +462,6 @@ sub mp.open(filename)
 		}
 
 		d = mp.new(filename, l);
-
-		/* if stat() returns a canonicalized file name, use it */
-		if ((l = stat(filename)) && l[13] != NULL)
-			d.name = l[13];
 
 		/* does it have a password? store it */
 		if (p != NULL)
