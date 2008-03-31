@@ -110,8 +110,8 @@ sub mp.load_session()
 		if (stat(data[0]) != NULL) {
 			doc = mp.open(data[0]);
 			
-			doc.txt.x = data[1];
-			doc.txt.y = data[2];
+			mp.set_y(doc, data[2]);
+			mp.set_x(doc, data[1]);
 
 			/* if it has the 'a' flag, set as active */
 			if (regex('/a/', data[3]))
