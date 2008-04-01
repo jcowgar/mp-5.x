@@ -486,11 +486,21 @@ sub mp.load_profile()
 	}
 
 	/* if ~/.mp.mpsl exists, execute it */
-	if (stat(HOMEDIR ~ '.mp.mpsl') != NULL) {
+	if (ERROR == NULL && stat(HOMEDIR ~ '.mp.mpsl') != NULL) {
 		eval( sub {
 			local INC = [ HOMEDIR ];
 			load(".mp.mpsl");
 		});
+	}
+
+	/* errors? show in a message */
+	if (ERROR != NULL) {
+		mp.message = {
+			'timeout'	=> time() + 20,
+			'string'	=> ERROR
+		};
+
+		ERROR = NULL;
 	}
 }
 
