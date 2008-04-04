@@ -102,8 +102,8 @@ mp.syntax.c = {
 		],
 		'quotes',	[
 			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 			"/\b[0-9[:upper:]_]+\b/"		/* all-caps words */
@@ -125,8 +125,8 @@ mp.syntax.rc = {
 		'word2',	[ ],
 		'quotes',	[
 			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 			"/\b[0-9[:upper:]_]+\b/"		/* all-caps words */
@@ -168,8 +168,8 @@ mp.syntax.perl = {
 		],
 		'quotes',	[
 			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
@@ -219,16 +219,14 @@ mp.syntax.mpsl = {
 		],
 		'quotes',	[
 			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 			"/\b[0-9[:upper:]_]+\b/"		/* all-caps words */
 		],
 		'comments',	[
-			[ '|/\*|', '|\*/|' ],			/* C-like */
-			'|//.*$|m',				/* C++ */
-			'/^\s*#[a-z]+/m'			/* CPP directives */
+			[ '|/\*|', '|\*/|' ]			/* C-like */
 		]
 	]
 };
@@ -260,8 +258,8 @@ mp.syntax.sh = {
 				"/\b[0-9[:upper:]_]+\b/"	/* all-caps words */
 		],
 		'quotes',	[
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 			"/\([A-Za-z0-9_]+\)/",			/* parens */
@@ -320,8 +318,8 @@ mp.syntax.html = {
 				"media" ])
 		],
 		'quotes',	[
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/"	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/"		/* single-quoted strings */
 		],
 		'comments',	[
 				[ '/<!--/', '/-->/' ]
@@ -338,8 +336,8 @@ mp.syntax.conf = {
 		'word1',	[ '/^\[.+\]$/m' ],
 		'word2',	[ "/^[^:=\n]+[:=]/m" ],
 		'quotes',	[
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i"			/* hex numbers */
 		],
@@ -373,8 +371,8 @@ mp.syntax.php = {
 		],
 		'word2',	[ '/\$\w+/', '/[-=<>:\?\+\*\!\%&\|]+/' ],
 		'quotes',	[
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
@@ -404,8 +402,8 @@ mp.syntax.python = {
 		],
 		'word2',	[ '/global/', '/\$\w+/', '/[-=<>:\?\+\*\!\%&\|{}]+/' ],
 		'quotes',	[
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
@@ -441,8 +439,8 @@ mp.syntax.ruby = {
 		],
 		'word2',	[ '/[-=<>:\?\+\*\!\%&\|{}]+/', '/=(begin|end)/' ],
 		'quotes',	[
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/",	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
@@ -491,7 +489,7 @@ mp.syntax.po = {
 		'word2',	[ '/^msgstr/m' ],
 		'comments',	[ "/#.*$/m" ],
 		'quotes',	[
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/"	/* double-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/"	/* double-quoted strings */
 		]
 	]
 };
@@ -504,8 +502,8 @@ mp.syntax.xml = {
 		'word1',	[ '/<[^>]+>/' ],
 		'word2',	[ '/<\?[^\?]+\?>/' ],
 		'quotes',	[
-			"/\"([^\"\\\n]*(\\.[^\"\\\n]*)*)\"/",	/* double-quoted strings */
-			"/'([^'\\\n]*(\\.[^'\\\n]*)*)'/"	/* single-quoted strings */
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/"		/* single-quoted strings */
 		],
 		'comments',	[
 				[ '/<!--/', '/-->/' ]
