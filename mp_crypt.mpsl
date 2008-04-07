@@ -176,7 +176,6 @@ sub mp.crypt1_detect(fd)
 	if (read(fd) eq "mpcrypt1\n" && ord(getchar(fd)) == 0)
 		return 1;
 
-	/* no; rewind file and say it */
-	fseek(fd, 0, 0);
+	/* no; file must be reopen */
 	return 0;
 }

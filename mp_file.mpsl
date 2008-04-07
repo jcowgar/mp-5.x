@@ -455,8 +455,15 @@ sub mp.open(filename)
 				/* and load the file */
 				l = mp.crypt1_load(f, p);
 			}
-			else
+			else {
+				/* close file (needed for rewinding AND
+				   possible encoding autodetection) */
+				close(f);
+
+				/* reopen and read */
+				f = mp.open_file_for_reading(filename);
 				l = mp.plain_load(f);
+			}
 
 			close(f);
 		}
