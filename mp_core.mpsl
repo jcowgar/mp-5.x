@@ -303,7 +303,7 @@ sub mp.backslash_codes(s, d)
    (like \n, \r, etc.) */
 {
 	d &&	sregex("/[\r\n\t]/g", s, { "\r" => '\r', "\n" => '\n', "\t" => '\t'}) ||
-		sregex("/\\[rnt]/g", s, { '\r' => "\r", '\n' => "\n", '\t' => "\t"});
+		sregex("/\\\\[rnt]/g", s, { '\r' => "\r", '\n' => "\n", '\t' => "\t"});
 }
 
 
