@@ -6,6 +6,7 @@ Release Critical Bugs
 
  * 1255: Document change in 'grep'.
  * 1256: Document change in 'build'.
+ * 1257: Document new builtin encoders.
 
 Open Bugs
 ---------
