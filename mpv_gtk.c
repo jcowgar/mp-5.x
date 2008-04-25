@@ -125,7 +125,7 @@ static char * wcs_to_utf8(const wchar_t * wptr)
 }
 
 
-static wchar_t * utf8_to_wcs(char * ptr)
+static wchar_t * utf8_to_wcs(const char * ptr)
 /* converts utf-8 to wcs */
 {
 	wchar_t * wptr;
@@ -1136,7 +1136,7 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 
 			if ((ptr = gtk_file_selection_get_filename(
 				GTK_FILE_SELECTION(widget))) != NULL &&
-			   (wptr = utf8_to_wcs((char *) ptr)) != NULL) {
+			   (wptr = utf8_to_wcs(ptr)) != NULL) {
 				v = MPDM_S(wptr);
 				g_free(wptr);
 			}
