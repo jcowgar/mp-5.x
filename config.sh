@@ -26,6 +26,7 @@ while [ $# -gt 0 ] ; do
 	--mingw32)		CC=i586-mingw32msvc-cc
 				WINDRES=i586-mingw32msvc-windres
 				AR=i586-mingw32msvc-ar
+				CFLAGS="-O3 $CFLAGS"
 				;;
 
 	--debian)		BUILD_FOR_DEBIAN=1
