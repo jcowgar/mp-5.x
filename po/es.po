@@ -1113,7 +1113,7 @@ msgstr "Codificación (utf-8, iso8859-1, etc.; vacío, local)"
 
 #: mp_misc.mpsl:84 mp_misc.mpsl:80 mp_misc.mpsl:85
 msgid "Invalid encoding "
-msgstr "Codificación no válida"
+msgstr "Codificación no válida "
 
 #: mp_misc.mpsl:111 mp_misc.mpsl:106
 #, c-format
