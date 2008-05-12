@@ -259,39 +259,6 @@ sub mp.chomp(str)
 }
 
 
-sub mp.open_file_for_reading(filename)
-/* the three-state file opening of text editors: open if possible,
-   fail on errors, create new if non-existent */
-{
-	local f;
-
-	/* clear previous errors */
-	ERRNO = NULL;
-
-	if ((f = open(filename, "rb")) == NULL) {
-		/* save ERRNO */
-		local e = ERRNO;
-
-		/* if a stat() can be done, it means the file
-		   exists and can't be open; this is an error.
-		   otherwise, it's a non-existent file, so not
-		   an error for a text editor */
-		if (stat(filename) != NULL)
-			ERRNO = e;
-		else {
-			ERRNO = NULL;
-
-			mp.message = {
-				'timeout' => time() + 2,
-				'string'  => sprintf(L("New file '%s'"), filename)
-			};
-		}
-	}
-
-	return f;
-}
-
-
 sub mp.save(doc)
 /* saves a file */
 {
@@ -411,10 +378,19 @@ sub mp.find_file_by_name(filename)
 sub mp.open(filename)
 /* opens a new document (uses UI) */
 {
-	local s = stat(filename);
+	local s;
 
-	/* canonicalize first, if possible */
-	if (s != NULL && s[13] != NULL)
+	if ((s = stat(filename)) == NULL) {
+		mp.message = {
+			'timeout' => time() + 2,
+			'string'  => sprintf(L("New file '%s'"), filename)
+		};
+
+		return mp.new(filename);
+	}
+
+	/* canonicalize, if possible */
+	if (s[13] != NULL)
 		filename = s[13];
 
 	local d = mp.find_file_by_name(filename);
@@ -425,23 +401,20 @@ sub mp.open(filename)
 		d = mp.active();
 	}
 	else {
-		local f, l, p;
+		local f;
 
-		if ((f = mp.open_file_for_reading(filename)) == NULL) {
-			if (ERRNO != NULL)
-				return NULL;
-
-			/* file doesn't exist: new document */
-		}
+		if ((f = open(filename, "rb")) == NULL)
+			return NULL;
 		else {
 			if (mp.crypt1_detect(f)) {
 				/* password needed; ask for it */
+				local p;
+
 				if ((p = mp.form( [
 					{ 'label'	=> L("Password:"),
 					  'type'	=> 'password' }
 					])) == NULL) {
 					/* cancel? fail, but not on error */
-					ERRNO = NULL;
 					return NULL;
 				}
 
@@ -453,7 +426,8 @@ sub mp.open(filename)
 					return NULL;
 
 				/* and load the file */
-				l = mp.crypt1_load(f, p);
+				d = mp.new(filename, mp.crypt1_load(f, p));
+				d.password = p;
 			}
 			else {
 				/* close file (needed for rewinding AND
@@ -461,18 +435,12 @@ sub mp.open(filename)
 				close(f);
 
 				/* reopen and read */
-				f = mp.open_file_for_reading(filename);
-				l = mp.plain_load(f);
+				f = open(filename, "rb");
+				d = mp.new(filename, mp.plain_load(f));
 			}
 
 			close(f);
 		}
-
-		d = mp.new(filename, l);
-
-		/* does it have a password? store it */
-		if (p != NULL)
-			d.password = p;
 	}
 
 	return d;
