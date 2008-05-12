@@ -380,6 +380,12 @@ sub mp.open(filename)
 {
 	local s;
 
+	/* looks first if the file is already open */
+	if ((s = mp.find_file_by_name(filename)) != -1) {
+		mp.active_i = s;
+		return mp.active();
+	}
+
 	if ((s = stat(filename)) == NULL) {
 		mp.message = {
 			'timeout' => time() + 2,
@@ -393,54 +399,45 @@ sub mp.open(filename)
 	if (s[13] != NULL)
 		filename = s[13];
 
-	local d = mp.find_file_by_name(filename);
+	local d, f;
 
-	/* looks first if the file is already open */
-	if (d != -1) {
-		mp.active_i = d;
-		d = mp.active();
-	}
+	if ((f = open(filename, "rb")) == NULL)
+		return NULL;
 	else {
-		local f;
+		if (mp.crypt1_detect(f)) {
+			/* password needed; ask for it */
+			local p;
 
-		if ((f = open(filename, "rb")) == NULL)
-			return NULL;
-		else {
-			if (mp.crypt1_detect(f)) {
-				/* password needed; ask for it */
-				local p;
-
-				if ((p = mp.form( [
-					{ 'label'	=> L("Password:"),
-					  'type'	=> 'password' }
-					])) == NULL) {
-					/* cancel? fail, but not on error */
-					return NULL;
-				}
-
-				/* get the password */
-				p = p[0];
-
-				/* an empty password is equal to cancellation */
-				if (p eq '')
-					return NULL;
-
-				/* and load the file */
-				d = mp.new(filename, mp.crypt1_load(f, p));
-				d.password = p;
-			}
-			else {
-				/* close file (needed for rewinding AND
-				   possible encoding autodetection) */
-				close(f);
-
-				/* reopen and read */
-				f = open(filename, "rb");
-				d = mp.new(filename, mp.plain_load(f));
+			if ((p = mp.form( [
+				{ 'label'	=> L("Password:"),
+				  'type'	=> 'password' }
+				])) == NULL) {
+				/* cancel? fail, but not on error */
+				return NULL;
 			}
 
-			close(f);
+			/* get the password */
+			p = p[0];
+
+			/* an empty password is equal to cancellation */
+			if (p eq '')
+				return NULL;
+
+			/* and load the file */
+			d = mp.new(filename, mp.crypt1_load(f, p));
+			d.password = p;
 		}
+		else {
+			/* close file (needed for rewinding AND
+			   possible encoding autodetection) */
+			close(f);
+
+			/* reopen and read */
+			f = open(filename, "rb");
+			d = mp.new(filename, mp.plain_load(f));
+		}
+
+		close(f);
 	}
 
 	return d;
