@@ -57,7 +57,7 @@ sub mp.tui.readline(prompt, history, default, flags)
 {
 	local c, r, h, i, x;
 
-	mp.tui.prompt(prompt ~ ' ');
+	mp.tui.prompt(prompt ~ ' ', flags.y);
 	c = mp.tui.getxy();
 	r = default || '';
 
