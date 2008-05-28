@@ -282,17 +282,7 @@ sub mp.tui.list(prompt, data, pos)
 }
 
 
-/* interface */
-
-sub mp.drv.alert(msg)
-{
-	mp.tui.prompt(msg ~ L(" [ENTER]"));
-
-	while (mp.tui.getkey() ne 'enter');
-}
-
-
-sub mp.drv.confirm(msg, def)
+sub mp.tui.confirm(msg, def, ypos)
 {
 	local y, n;
 	local ret = NULL;
@@ -309,7 +299,7 @@ sub mp.drv.confirm(msg, def)
 		msg = msg ~ ' [' ~ (def && y || n) ~ ']';
 	}
 
-	mp.tui.prompt(msg);
+	mp.tui.prompt(msg, ypos);
 
 	while (ret == NULL) {
 		local k = mp.tui.getkey();
@@ -327,6 +317,16 @@ sub mp.drv.confirm(msg, def)
 	return ret;
 }
 
+/* interface */
+
+sub mp.drv.alert(msg)
+{
+	mp.tui.prompt(msg ~ L(" [ENTER]"));
+
+	while (mp.tui.getkey() ne 'enter');
+}
+
+
 sub mp.drv.openfile(prompt)
 {
 	mp.tui.readline(prompt, 'openfile', NULL, { 'file' => 1 } );
@@ -336,6 +336,12 @@ sub mp.drv.openfile(prompt)
 sub mp.drv.savefile(prompt)
 {
 	mp.tui.readline(prompt, 'savefile', NULL, { 'file' => 1 } );
+}
+
+
+sub mp.drv.confirm(msg, def)
+{
+	mp.tui.confirm(msg, def);
 }
 
 
@@ -359,7 +365,7 @@ sub mp.drv.form(widgets)
 			/* return value conversion */
 			local c = [ NULL, 1, 0 ];
 
-			r1 = c[mp.drv.confirm(w.label, w.value)];
+			r1 = c[mp.tui.confirm(w.label, w.value, y)];
 		}
 		else
 		if (w.type eq 'list')
