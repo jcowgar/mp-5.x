@@ -348,8 +348,18 @@ sub mp.drv.confirm(msg, def)
 sub mp.drv.form(widgets)
 {
 	local r = [];
-	local y = mp.window.ty - size(widgets);
+	local pos = mp.window.ty - size(widgets);
+	local y = pos;
 
+	/* print first all prompts */
+	foreach (w, widgets) {
+		if (w.type ne 'list')
+			mp.tui.prompt(w.label, y++);
+	}
+
+	y = pos;
+
+	/* now iterate widgets */
 	foreach (w, widgets) {
 		local r1 = NULL;
 
