@@ -34,14 +34,18 @@ mp.colors.menu = { 'text' => [ 'white', 'blue' ], 'flags' => [ 'bright' ] };
 
 /* code */
 
-sub mp.tui.prompt(prompt)
+sub mp.tui.prompt(prompt, y)
 /* draw a prompt on screen */
 {
+	/* no y? default to last line */
+	if (y == NULL)
+		y = mp.window.ty - 1;
+
 	/* delete all possible newlines */
 	prompt = sregex("/\n/g", prompt, ' ');
 
 	mp.tui.attr(mp.colors.menu.attr);
-	mp.tui.move(0, mp.window.ty - 1, 1);
+	mp.tui.move(0, y, 1);
 	mp.tui.addstr(prompt);
 	mp.tui.attr(mp.colors.normal.attr);
 	mp.tui.refresh();
