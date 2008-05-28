@@ -342,16 +342,18 @@ sub mp.drv.savefile(prompt)
 sub mp.drv.form(widgets)
 {
 	local r = [];
+	local y = mp.window.ty - size(widgets);
 
 	foreach (w, widgets) {
 		local r1 = NULL;
 
 		if (w.type eq 'text')
-			r1 = mp.tui.readline(w.label, w.history, w.value);
+			r1 = mp.tui.readline(w.label, w.history, w.value,
+				{ 'y' => y } );
 		else
 		if (w.type eq 'password')
 			r1 = mp.tui.readline(w.label, NULL, NULL,
-				{ 'password' => '*' });
+				{ 'password' => '*', 'y' => y });
 		else
 		if (w.type eq 'checkbox') {
 			/* return value conversion */
@@ -371,6 +373,7 @@ sub mp.drv.form(widgets)
 
 		/* store value */
 		push(r, r1);
+		y++;
 	}
 
 	return r;
