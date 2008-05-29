@@ -396,8 +396,15 @@ sub mp.open(filename)
 	}
 
 	/* canonicalize, if possible */
-	if (s[13] != NULL)
+	if (s[13] != NULL) {
 		filename = s[13];
+
+		/* look again for this filename in the open files */
+		if ((s = mp.find_file_by_name(filename)) != -1) {
+			mp.active_i = s;
+			return mp.active();
+		}
+	}
 
 	local d, f;
 
