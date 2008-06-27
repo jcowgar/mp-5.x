@@ -196,7 +196,7 @@ mp.syntax.perl = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang' for Perl? */
-		return regex('/^#!/usr/bin/(env )?perl/', f);
+		return regex('/^#!\s*/usr/bin/(env )?perl/', f);
 	}
 };
 
@@ -273,8 +273,8 @@ mp.syntax.sh = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang' for usual shells? */
-		return regex('/^#!/bin/(sh|bash|csh|dash|ksh)/', f) ||
-		       regex('/^#!/usr/bin/make -f/', f);
+		return regex('/^#!\s*/bin/(sh|bash|csh|dash|ksh)/', f) ||
+		       regex('/^#!\s*/usr/bin/make -f/', f);
 	}
 
 };
@@ -416,7 +416,7 @@ mp.syntax.python = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang'? */
-		return regex('/^#!/usr/bin/(env )?python/', f);
+		return regex('/^#!\s*/usr/bin/(env )?python/', f);
 	}
 };
 
@@ -453,7 +453,7 @@ mp.syntax.ruby = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang'? */
-		return regex('/^#!/usr/bin/(env )?ruby/', f);
+		return regex('/^#!\s*/usr/bin/(env )?ruby/', f);
 	}
 };
 
