@@ -4,10 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1255: Document change in 'grep'.
- * 1256: Document change in 'build'.
- * 1257: Document new builtin encoders.
- * 1258: Document change in curses dialogs.
+None!
 
 Open Bugs
 ---------
@@ -300,5 +297,9 @@ Closed
  * 1253: Document the 'build' action (Thu, 13 Mar 2008 07:50:28 +0100).
  * 1254: Sessions don't set the y position of files correctly
    (Mon, 31 Mar 2008 17:30:18 +0200).
+ * 1255: Document change in 'grep' (Tue, 01 Jul 2008 08:05:11 +0200).
+ * 1256: Document change in 'build' (Tue, 01 Jul 2008 08:05:11 +0200).
+ * 1257: Document new builtin encoders (Tue, 01 Jul 2008 08:05:11 +0200).
+ * 1258: Document change in curses dialogs (Tue, 01 Jul 2008 08:05:11 +0200).
 
 Email bugs to angel@triptico.com

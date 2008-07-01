@@ -21,8 +21,10 @@ _Build project..._ (`f2')
 Invokes the building of a Make project. If the `Makefile' file exists in the
 working directory, all targets are extracted from it and shown in a list dialog
 for the user to select one. The selected one will be called as the only argument
-for the `make' program and its output read. All warnings and errors will be
-catched and shown in another list dialog to be edited and fixed.
+for the `make' program and its output read. All output will be catched and shown
+in a read-only document. Compiler errors and warnings will be highlighted and
+can be navigated by using the `seek_next' and `seek_prev' actions (keys `f3' and
+`ctrl-f3'). The `open_under_cursor' action can be used to edit each error or warning.
 
 close
 -----
@@ -110,10 +112,28 @@ encoding
 _Set charset encoding..._
 
 Shows a dialog asking for a string describing the charset encoding that will
-be used when saving or opening new documents. Valid ones are `UTF-8',
-`ISO8859-1', etc. The acceptable values are system-dependent (but `UTF-8' is
-always available). If an empty string is entered, the current locale will be
-used.
+be used when saving or opening new documents. If an empty string is entered,
+the current locale will be used. the following set of character encodings are
+always available:
+
+ * utf8.
+   Aliases are utf-8, UTF8 and UTF-8.
+ * iso8859-1.
+   Aliases are iso-8859-1, ISO-8859-1, ISO8859-1, latin1, latin-1, LATIN1 and LATIN-1.
+ * utf16 (with endianness detection on input and local endianness on output).
+   Aliases are utf-16, UTF16, UTF-16, ucs-2, UCS2, UCS-2.
+ * utf16be (big endian).
+   Aliases are utf-16be, UTF16BE, UTF-16BE, ucs2be, UCS2BE, ucs-2be and UCS-2BE.
+ * utf16le (little endian).
+   Aliases are utf-16le, UTF16LE, UTF-16LE, ucs2le, UCS2LE, ucs-2le and UCS-2LE.
+ * utf32 (with endianness detection on input and local endianness on output).
+   Aliases are utf-32, UTF32, UTF-32, ucs-4, ucs4, UCS-4 and UCS4.
+ * utf32be (big endian).
+   Aliases are utf-32be, UTF32BE, UTF-32BE, ucs4be, UCS4BE, ucs-4be and UCS-4BE.
+ * utf32le (little endian).
+   Aliases are utf-42le, UTF42LE, UTF-42LE, ucs4le, UCS4LE, ucs-4le and UCS-4LE.
+
+If the 'iconv' library is available, there can be many more encodings.
 
 eval
 ----
@@ -177,10 +197,10 @@ _Grep (find inside) files..._
 
 Shows a dialog asking for a string to be searched, and an optional spec of
 files to search the string in. If no spec is given, all files in the working
-directory are scanned. Then, a list dialog box will be shown to pick the
-wanted instance.
+directory are scanned. Matches are shown in a read-only document, and each
+match can be directly open by using the 'open_under_cursor' action.
 
-This is a useful way of find where a function or variable is used.
+This is a useful way to find where a function or variable is used.
 
 help
 ----

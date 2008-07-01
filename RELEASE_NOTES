@@ -7,7 +7,24 @@ Minimum Profit 5.x Release Notes
  * New action 'open_under_cursor', that picks the word in the
    current document under the cursor, accepts it as a document
    name and tries to open it. If it's in the format string:number,
-   is accepted as a file name and a line number.
+   is accepted as a file name and a line number. It's bound by
+   default to 'ctrl-enter' ('alt-enter' under Curses).
+ * The 'grep' action bevahaviour has changed; instead of in a form,
+   matches are shown in a read-only document that is only closed
+   explicitly. Each change can be moved to by using the new
+   'open_under_cursor' ('ctrl-enter' or 'alt-enter') action shown above.
+ * In a similar way, the 'build' action also shows its output in a
+   read-only document instead of a form that is not automatically closed,
+   making the browsing and editing of compilation errors more useful.
+ * Forms in the Curses driver have changed their look. All fields in a
+   form are shown simultaneously on screen. This is one step to close
+   bug #1249.
+ * A set of character encoding converters have been natively implemented,
+   improving those platforms where the 'iconv' library is not available
+   (i.e. Windows and old Unix systems). The available encodings can be
+   shown by executing
+
+	dump(EMBEDDED_ENCODINGS);
 
 5.0.2
 -----
