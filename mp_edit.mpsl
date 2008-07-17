@@ -259,7 +259,7 @@ sub mp.delete_char(doc)
 }
 
 
-sub mp.delete_range(doc, bx, by, ex, ey)
+sub mp.delete_range(doc, bx, by, ex, ey, v)
 /* deletes a range of characters from a document */
 {
 	local txt = doc.txt;
@@ -277,24 +277,38 @@ sub mp.delete_range(doc, bx, by, ex, ey)
 		txt.lines[by] = w[0];
 	}
 	else {
+		/* block has more than one line */
 		local w;
 
-		/* block has more than one line */
+		if(v == 0)
+		{
+			/* delete using normal selection block */
 
-		/* delete from the beginning to the end of the first line */
-		w = splice(txt.lines[by], NULL, bx, -1);
-		txt.lines[by] = w[0];
+			/* delete from the beginning to the end of the first line */
+			w = splice(txt.lines[by], NULL, bx, -1);
+			txt.lines[by] = w[0];
 
-		/* delete from the beginning of the last line to
-		   the end of the block */
-		w = splice(txt.lines[ey], NULL, 0, ex);
-		txt.lines[ey] = w[0];
+			/* delete from the beginning of the last line to
+			   the end of the block */
+			w = splice(txt.lines[ey], NULL, 0, ex);
+			txt.lines[ey] = w[0];
 
-		/* collapse the lines in between */
-		collapse(txt.lines, by + 1, ey - by - 1);
+			/* collapse the lines in between */
+			collapse(txt.lines, by + 1, ey - by - 1);
 
-		/* finally join both lines */
-		mp.join_line(doc);
+			/* finally join both lines */
+			mp.join_line(doc);
+		}
+		else
+		{
+			/* delete using vertical selection block */
+			while(by <= ey)
+			{
+				w = splice(txt.lines[by], NULL, bx, ex - bx);
+				txt.lines[by] = w[0];
+				by++;
+			}
+		}
 	}
 
 	txt.mod++;

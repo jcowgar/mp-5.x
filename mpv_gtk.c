@@ -1032,6 +1032,7 @@ static void selection_received(GtkWidget * widget,
 
 		/* split and set as the clipboard */
 		mpdm_hset_s(mp, L"clipboard", mpdm_split(MPDM_LS(L"\n"), d));
+		mpdm_hset_s(mp, L"clipboard_vertical", MPDM_I(0));
 
 		/* wait no more for the selection */
 		wait_for_selection = 0;
