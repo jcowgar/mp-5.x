@@ -250,8 +250,7 @@ sub mp.get_range(doc, bx, by, ex, ey, v)
 		/* block has more than one line */
 
 		n = by;
-		if(v == 0)
-		{
+		if (v == 0) {
 			/* use normal selection block */
 
 			/* take from the beginning to the end of the first line */
@@ -268,19 +267,17 @@ sub mp.get_range(doc, bx, by, ex, ey, v)
 			w = splice(txt.lines[n], NULL, 0, ex);
 			push(r, w[1]);
 		}
-		else
-		{
+		else {
 			/* use vertical selection block */
-			while (n <= ey)
-			{
+			while (n <= ey) {
 				w = splice(txt.lines[n++], NULL, bx, ex - bx + 1);
 				local l = w[1];
 				local p = ex - bx - size(l);
+
 				/* pad out to end of block line */
 				while (p-- >= 0)
-				{					
 					l = l ~ " ";
-				}
+
 				push(r, l);
 			}
 		}

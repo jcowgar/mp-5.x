@@ -280,8 +280,7 @@ sub mp.delete_range(doc, bx, by, ex, ey, v)
 		/* block has more than one line */
 		local w;
 
-		if(v == 0)
-		{
+		if (v == 0) {
 			/* delete using normal selection block */
 
 			/* delete from the beginning to the end of the first line */
@@ -299,11 +298,9 @@ sub mp.delete_range(doc, bx, by, ex, ey, v)
 			/* finally join both lines */
 			mp.join_line(doc);
 		}
-		else
-		{
+		else {
 			/* delete using vertical selection block */
-			while(by <= ey)
-			{
+			while (by <= ey) {
 				w = splice(txt.lines[by], NULL, bx, ex - bx);
 				txt.lines[by] = w[0];
 				by++;

@@ -463,28 +463,25 @@ static void drw_selection(void)
 	drw_2.mark_o_attr = malloc(eo - so + 1);
 	memcpy(drw_2.mark_o_attr, &drw_2.attrs[so], eo - so + 1);
 
-	if(vertical == 0)
-	{
+	if (vertical == 0) {
 		/* normal selection */
 		drw_fill_attr(drw_get_attr(L"selection"), so, eo - so);
 	}
-	else
-	{
+	else {
 		/* vertical selection */
 		mby = by <  drw_1.vy ? drw_1.vy : by;
 		mey = ey >= drw_1.vy + drw_1.ty ? drw_1.vy + drw_1.ty : ey;
 		line_offset = drw_line_offset(mby);
 		attr = drw_get_attr(L"selection");
-		for(y = mby; y <= mey; y++)
-		{
+		for (y = mby; y <= mey; y++) {
 			next_line_offset = drw_line_offset(y+1);
 			len = next_line_offset - line_offset - 1;
 			so = bx > len ? -1 : bx;
 			eo = ex > len ? len : ex;
-			if(so >= 0 && eo >= so)
-			{
+
+			if (so >= 0 && eo >= so)
 				drw_fill_attr(attr, line_offset+ so, eo - so + 1);
-			}
+
 			line_offset = next_line_offset;
 		}
 	}	

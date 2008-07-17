@@ -112,8 +112,7 @@ sub mp.mark(doc)
 	}
 	else {
 		/* mark exists; extend current one */
-		if (txt.mark.vertical == 0)
-		{
+		if (txt.mark.vertical == 0) {
 			/* normal selection */
 			if (txt.y < txt.mark.ay ||
 				(txt.y == txt.mark.ay && txt.x < txt.mark.ax)) {
@@ -135,16 +134,14 @@ sub mp.mark(doc)
 			/* vertical selection */
 			txt.mark.by = txt.mark.ay;
 			txt.mark.ey = txt.y;
-			if (txt.y < txt.mark.ay)
-			{
+			if (txt.y < txt.mark.ay) {
 				txt.mark.by = txt.y;
 				txt.mark.ey = txt.mark.ay;
 			}
 
 			txt.mark.bx = txt.mark.ax;
 			txt.mark.ex = txt.x;
-			if (txt.x < txt.mark.ax)
-			{
+			if (txt.x < txt.mark.ax) {
 				txt.mark.bx = txt.x;
 				txt.mark.ex = txt.mark.ax;
 			}
@@ -176,8 +173,7 @@ sub mp.get_active_area(doc)
 sub mp.copy(doc)
 /* copies the mark to the clipboard */
 {
-	if (doc.txt.mark)
-	{
+	if (doc.txt.mark) {
 		mp.clipboard = mp.get_active_area(doc);
 		mp.clipboard_vertical = doc.txt.mark.vertical;
 	}
@@ -214,27 +210,23 @@ sub mp.paste(doc)
 {
 	local t = mp.config.auto_indent;
 	mp.config.auto_indent = 0;
-	if(mp.clipboard_vertical == 0)
-	{
+	if (mp.clipboard_vertical == 0) {
 		/* normal selction in clipboard */
 		mp.insert(doc, mp.clipboard);
 	}
-	else
-	{
+	else {
 		/* vertical selection in clipboard */
 		local txt = doc.txt;
 		local s = size(mp.clipboard);
 		local i = 0;
 		local w;
 		local e;
-		while(i < s)
-		{
+		while (i < s) {
 			/* pad out to current x position */
 			e = txt.x - size(txt.lines[txt.y]);
+
 			while(e-- > 0)
-			{
 				txt.lines[txt.y] = txt.lines[txt.y] ~ " ";
-			}
 			
 			/* insert this line of the clipboard */
 			w = splice(txt.lines[txt.y], mp.clipboard[i++], txt.x, 0);
