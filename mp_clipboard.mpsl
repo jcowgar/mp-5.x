@@ -27,8 +27,10 @@
 
 /* editor actions */
 
+
 mp.actions['unmark']	= sub (d) { mp.unmark(d); };
 mp.actions['mark']	= sub (d) { mp.mark(d); };
+mp.actions['mark_vertical'] = sub (d) { mp.mark_vertical(d); };
 mp.actions['copy_mark']	= sub (d) {
 					mp.busy(1);
 					mp.copy(d);
@@ -70,6 +72,7 @@ mp.actions['mouse_drag_mark'] = sub (d) {
 
 mp.keycodes['f8']		= "unmark";
 mp.keycodes['f9']		= "mark";
+mp.keycodes['ctrl-b']		= "mark_vertical";
 mp.keycodes['ctrl-c']		= "copy_mark";
 mp.keycodes['ctrl-v']		= "paste_mark";
 mp.keycodes['ctrl-x']		= "cut_mark";
@@ -78,12 +81,14 @@ mp.keycodes['mouse-drag']	= "mouse_drag_mark";
 /* action descriptions */
 mp.actdesc['unmark']		= LL("Unmark block");
 mp.actdesc['mark']		= LL("Mark beginning/end of block");
+mp.actdesc['mark_vertical']	= LL("Mark vertical block");
 mp.actdesc['copy_mark']		= LL("Copy block");
 mp.actdesc['paste_mark']	= LL("Paste block");
 mp.actdesc['cut_mark']		= LL("Cut block");
 mp.actdesc['mouse_drag_mark']	= LL("Mark using mouse dragging");
 
 /* code */
+
 
 sub mp.unmark(doc)
 /* unmarks the block */
@@ -103,25 +108,53 @@ sub mp.mark(doc)
 		txt.mark = {};
 		txt.mark.ax = txt.mark.bx = txt.mark.ex = txt.x;
 		txt.mark.ay = txt.mark.by = txt.mark.ey = txt.y;
+		txt.mark.vertical = 0;		
 	}
 	else {
 		/* mark exists; extend current one */
-		if (txt.y < txt.mark.ay ||
-			(txt.y == txt.mark.ay && txt.x < txt.mark.ax)) {
-			/* move the beginning of the block */
-			txt.mark.bx = txt.x;
-			txt.mark.by = txt.y;
-			txt.mark.ex = txt.mark.ax;
-			txt.mark.ey = txt.mark.ay;
+		if (txt.mark.vertical == 0) {
+			/* normal selection */
+			if (txt.y < txt.mark.ay ||
+				(txt.y == txt.mark.ay && txt.x < txt.mark.ax)) {
+				/* move the beginning of the block */
+				txt.mark.bx = txt.x;
+				txt.mark.by = txt.y;
+				txt.mark.ex = txt.mark.ax;
+				txt.mark.ey = txt.mark.ay;
+			}
+			else {
+				/* move the end of the block */
+				txt.mark.ex = txt.x;
+				txt.mark.ey = txt.y;
+				txt.mark.bx = txt.mark.ax;
+				txt.mark.by = txt.mark.ay;
+			}
 		}
 		else {
-			/* move the end of the block */
-			txt.mark.ex = txt.x;
-			txt.mark.ey = txt.y;
-			txt.mark.bx = txt.mark.ax;
+			/* vertical selection */
 			txt.mark.by = txt.mark.ay;
+			txt.mark.ey = txt.y;
+			if (txt.y < txt.mark.ay) {
+				txt.mark.by = txt.y;
+				txt.mark.ey = txt.mark.ay;
+			}
+
+			txt.mark.bx = txt.mark.ax;
+			txt.mark.ex = txt.x;
+			if (txt.x < txt.mark.ax) {
+				txt.mark.bx = txt.x;
+				txt.mark.ex = txt.mark.ax;
+			}
 		}
 	}
+}
+
+
+sub mp.mark_vertical(doc)
+/* start vertical block selection */
+{
+	mp.mark(doc);
+	doc.txt.mark.vertical = 1;
 }
 
 
@@ -133,15 +166,17 @@ sub mp.get_active_area(doc)
 	if ((m = doc.txt.mark) == NULL)
 		return doc.txt.lines;
 	else
-		return mp.get_range(doc, m.bx, m.by, m.ex, m.ey);
+		return mp.get_range(doc, m.bx, m.by, m.ex, m.ey, m.vertical);
 }
 
 
 sub mp.copy(doc)
 /* copies the mark to the clipboard */
 {
-	if (doc.txt.mark)
+	if (doc.txt.mark) {
 		mp.clipboard = mp.get_active_area(doc);
+		mp.clipboard_vertical = doc.txt.mark.vertical;
+	}
 }
 
 
@@ -156,7 +191,7 @@ sub mp.delete_mark(doc)
 
 	/* deletes the range */
 	mp.delete_range(doc,
-		txt.mark.bx, txt.mark.by, txt.mark.ex, txt.mark.ey);
+		txt.mark.bx, txt.mark.by, txt.mark.ex, txt.mark.ey, txt.mark.vertical);
 
 	mp.unmark(doc);
 }
@@ -175,8 +210,30 @@ sub mp.paste(doc)
 {
 	local t = mp.config.auto_indent;
 	mp.config.auto_indent = 0;
+	if (mp.clipboard_vertical == 0) {
+		/* normal selction in clipboard */
+		mp.insert(doc, mp.clipboard);
+	}
+	else {
+		/* vertical selection in clipboard */
+		local txt = doc.txt;
+		local s = size(mp.clipboard);
+		local i = 0;
+		local w;
+		local e;
+		while (i < s) {
+			/* pad out to current x position */
+			e = txt.x - size(txt.lines[txt.y]);
 
-	mp.insert(doc, mp.clipboard);
-
+			while(e-- > 0)
+				txt.lines[txt.y] = txt.lines[txt.y] ~ " ";
+			
+			/* insert this line of the clipboard */
+			w = splice(txt.lines[txt.y], mp.clipboard[i++], txt.x, 0);
+			txt.lines[txt.y++] = w[0];
+		}
+		txt.y--;
+		txt.mod++;
+	}
 	mp.config.auto_indent = t;
 }

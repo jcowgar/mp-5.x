@@ -219,7 +219,7 @@ sub mp.get_word(doc, r)
 }
 
 
-sub mp.get_range(doc, bx, by, ex, ey)
+sub mp.get_range(doc, bx, by, ex, ey, v)
 /* gets a range or characters from a document */
 {
 	local txt = doc.txt;
@@ -241,20 +241,38 @@ sub mp.get_range(doc, bx, by, ex, ey)
 
 		/* block has more than one line */
 
-		/* take from the beginning to the end of the first line */
 		n = by;
-		w = splice(txt.lines[n], NULL, bx, -1);
+		if (v == 0) {
+			/* use normal selection block */
 
-		push(r, w[1]);
-		n++;
+			/* take from the beginning to the end of the first line */
+			w = splice(txt.lines[n], NULL, bx, -1);
 
-		/* take the central lines */
-		while (n < ey)
-			push(r, txt.lines[n++]);
+			push(r, w[1]);
+			n++;
 
-		/* take the last line */
-		w = splice(txt.lines[n], NULL, 0, ex);
-		push(r, w[1]);
+			/* take the central lines */
+			while (n < ey)
+				push(r, txt.lines[n++]);
+
+			/* take the last line */
+			w = splice(txt.lines[n], NULL, 0, ex);
+			push(r, w[1]);
+		}
+		else {
+			/* use vertical selection block */
+			while (n <= ey) {
+				w = splice(txt.lines[n++], NULL, bx, ex - bx + 1);
+				local l = w[1];
+				local p = ex - bx - size(l);
+
+				/* pad out to end of block line */
+				while (p-- >= 0)
+					l = l ~ " ";
+
+				push(r, l);
+			}
+		}
 	}
 
 	return r;
