@@ -34,7 +34,7 @@ dep:
 	gcc -MM *.c `cat config.cflags` > makefile.depend
 
 $(APPNAME): $(OBJS) $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
-	$(CC) $(CFLAGS) $(OBJS) `cat config.ldflags` -o $@
+	$(CCLINK) $(CFLAGS) $(OBJS) `cat config.ldflags` -o $@
 
 mp_res.o: mp_res.rc
 	$(WINDRES) mp_res.rc mp_res.o

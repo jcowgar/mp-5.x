@@ -93,6 +93,10 @@ fi
 
 echo "CFLAGS=$CFLAGS" >> makefile.opts
 
+if [ "$CCLINK" = "" ] ; then
+	CCLINK=$CC
+fi
+
 # Add CFLAGS to CC
 CC="$CC $CFLAGS"
 
@@ -273,6 +277,7 @@ echo "WINDRES=$WINDRES" >> makefile.opts
 echo "PREFIX=\$(DESTDIR)$PREFIX" >> makefile.opts
 echo "APPNAME=$APPNAME" >> makefile.opts
 echo "DRV_OBJS=$DRV_OBJS" >> makefile.opts
+echo "CCLINK=$CCLINK" >> makefile.opts
 echo >> makefile.opts
 
 cat makefile.opts makefile.in makefile.depend > Makefile
