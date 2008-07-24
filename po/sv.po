@@ -23,22 +23,22 @@ msgid "&File"
 msgstr "&Arkiv"
 
 #: mp_conf.c:136 mp_core.mpsl:131 mp_core.mpsl:130 mp_core.mpsl:135
-#: mp_core.mpsl:134 mp_core.mpsl:140
+#: mp_core.mpsl:134 mp_core.mpsl:140 mp_core.mpsl:141
 msgid "&Edit"
 msgstr "&Redigera"
 
 #: mp_conf.c:141 mp_core.mpsl:140 mp_core.mpsl:141 mp_core.mpsl:146
-#: mp_core.mpsl:145 mp_core.mpsl:151
+#: mp_core.mpsl:145 mp_core.mpsl:151 mp_core.mpsl:152
 msgid "&Search"
 msgstr "&Sök"
 
 #: mp_conf.c:143 mp_core.mpsl:146 mp_core.mpsl:147 mp_core.mpsl:152
-#: mp_core.mpsl:151 mp_core.mpsl:157
+#: mp_core.mpsl:151 mp_core.mpsl:157 mp_core.mpsl:158
 msgid "&Go to"
 msgstr "&Gå till"
 
 #: mp_conf.c:146 mp_core.mpsl:154 mp_core.mpsl:155 mp_core.mpsl:160
-#: mp_core.mpsl:159 mp_core.mpsl:165
+#: mp_core.mpsl:159 mp_core.mpsl:165 mp_core.mpsl:166
 msgid "&Options"
 msgstr "&Alternativ"
 
@@ -75,7 +75,7 @@ msgstr ""
 
 #: mp_func.c:481 mp_iface.c:649 mp_iface.c:651 mp_crypt.mpsl:32
 #: mp_file.mpsl:319 mp_file.mpsl:393 mp_file.mpsl:405 mp_file.mpsl:411
-#: mp_file.mpsl:412 mp_file.mpsl:413 mp_file.mpsl:434
+#: mp_file.mpsl:412 mp_file.mpsl:413 mp_file.mpsl:434 mp_file.mpsl:419
 msgid "Password:"
 msgstr "Lösenord:"
 
@@ -113,7 +113,7 @@ msgstr "Rad att gå till:"
 #: mp_file.mpsl:31 mp_file.mpsl:272 mp_file.mpsl:321 mp_file.mpsl:278
 #: mp_file.mpsl:327 mp_session.mpsl:40 mp_file.mpsl:286 mp_file.mpsl:333
 #: mp_session.mpsl:64 mp_session.mpsl:72 mp_file.mpsl:287 mp_file.mpsl:334
-#: mp_file.mpsl:308 mp_file.mpsl:355
+#: mp_file.mpsl:308 mp_file.mpsl:355 mp_file.mpsl:275 mp_file.mpsl:322
 msgid "<unnamed>"
 msgstr "<icke namngiven>"
 
@@ -174,6 +174,7 @@ msgstr "Söktext:"
 #: mp_search.mpsl:46 mp_search.mpsl:51 mp_search.mpsl:55 mp_search.mpsl:106
 #: mp_search.mpsl:48 mp_search.mpsl:53 mp_search.mpsl:57 mp_search.mpsl:108
 #: mp_search.mpsl:109 mp_search.mpsl:47 mp_search.mpsl:52 mp_search.mpsl:56
+#: mp_search.mpsl:107
 msgid "Text not found."
 msgstr "Texten hittades inte."
 
@@ -250,6 +251,7 @@ msgid " [Y/N]"
 msgstr "[J/N]"
 
 #: mpv_curses.c:931 mp_tui.mpsl:194 mp_tui.mpsl:219 mp_tui.mpsl:285
+#: mp_tui.mpsl:324
 msgid " [ENTER]"
 msgstr "[RETUR]"
 
@@ -303,27 +305,27 @@ msgstr ""
 
 #: mpv_gtk.c:624 mpv_gtk.c:631 mpv_gtk.c:1288 mp_tui.mpsl:206 mpv_gtk.c:1300
 #: mpv_gtk.c:1301 mpv_gtk.c:1270 mp_tui.mpsl:231 mpv_gtk.c:1281
-#: mp_tui.mpsl:297 mpv_gtk.c:1305
+#: mp_tui.mpsl:297 mpv_gtk.c:1305 mpv_gtk.c:1295 mp_tui.mpsl:291
 msgid "Yes"
 msgstr "Ja"
 
 #: mpv_gtk.c:630 mpv_gtk.c:637 mpv_gtk.c:1289 mp_tui.mpsl:207 mpv_gtk.c:1301
 #: mpv_gtk.c:1302 mpv_gtk.c:1271 mp_tui.mpsl:232 mpv_gtk.c:1282
-#: mp_tui.mpsl:298 mpv_gtk.c:1306
+#: mp_tui.mpsl:298 mpv_gtk.c:1306 mpv_gtk.c:1296 mp_tui.mpsl:292
 msgid "No"
 msgstr "Nej"
 
 #: mpv_gtk.c:767 mpv_gtk.c:919 mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:1247
 #: mpv_gtk.c:1481 mpv_gtk.c:1259 mpv_gtk.c:1493 mpv_gtk.c:1260 mpv_gtk.c:1494
 #: mpv_gtk.c:1229 mpv_gtk.c:1451 mpv_gtk.c:1240 mpv_gtk.c:1462 mpv_gtk.c:1264
-#: mpv_gtk.c:1486 mpv_gtk.c:1488
+#: mpv_gtk.c:1486 mpv_gtk.c:1488 mpv_gtk.c:1254 mpv_gtk.c:1478
 msgid "OK"
 msgstr "OK"
 
 #: mpv_gtk.c:774 mpv_gtk.c:926 mpv_gtk.c:781 mpv_gtk.c:933 mpv_gtk.c:1290
 #: mpv_gtk.c:1482 mpv_gtk.c:1302 mpv_gtk.c:1494 mpv_gtk.c:1303 mpv_gtk.c:1495
 #: mpv_gtk.c:1272 mpv_gtk.c:1452 mpv_gtk.c:1283 mpv_gtk.c:1463 mpv_gtk.c:1307
-#: mpv_gtk.c:1487 mpv_gtk.c:1489
+#: mpv_gtk.c:1487 mpv_gtk.c:1489 mpv_gtk.c:1297 mpv_gtk.c:1479
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -406,6 +408,7 @@ msgid "Mark spelling errors"
 msgstr "Markera stavfel"
 
 #: mp_func_i.h:11 mp_clipboard.mpsl:73 mp_clipboard.mpsl:79
+#: mp_clipboard.mpsl:82
 msgid "Unmark block"
 msgstr "Avmarkera block"
 
@@ -464,7 +467,7 @@ msgid "Show clipboard"
 msgstr "Visa klippbord"
 
 #: mp_func_i.h:67 mp_search.mpsl:147 mp_search.mpsl:149 mp_search.mpsl:150
-#: mp_search.mpsl:145
+#: mp_search.mpsl:145 mp_search.mpsl:137
 msgid "Search next"
 msgstr "Sök nästa"
 
@@ -490,7 +493,7 @@ msgid "Save as..."
 msgstr "Spara som..."
 
 #: mp_func_i.h:91 mp_search.mpsl:149 mp_search.mpsl:151 mp_search.mpsl:152
-#: mp_search.mpsl:147
+#: mp_search.mpsl:147 mp_search.mpsl:139
 msgid "Replace..."
 msgstr "Ersätt..."
 
@@ -512,6 +515,7 @@ msgid "Reformat paragraph with word wrapping"
 msgstr "Formatera om paragraf med radbrytningar"
 
 #: mp_func_i.h:111 mp_clipboard.mpsl:76 mp_clipboard.mpsl:82
+#: mp_clipboard.mpsl:86
 msgid "Paste block"
 msgstr "Klistra in block"
 
@@ -564,7 +568,7 @@ msgid "Page up"
 msgstr "Sida upp"
 
 #: mp_func_i.h:159 mp_search.mpsl:151 mp_search.mpsl:153 mp_search.mpsl:154
-#: mp_search.mpsl:149
+#: mp_search.mpsl:149 mp_search.mpsl:141
 msgid "Move to previous instance of current char"
 msgstr "Flytta till föregående förekomst av aktuellt tecken"
 
@@ -577,12 +581,12 @@ msgid "Open file under cursor"
 msgstr "Öppna fil vid markör"
 
 #: mp_func_i.h:175 mp_search.mpsl:146 mp_search.mpsl:148 mp_search.mpsl:149
-#: mp_search.mpsl:144
+#: mp_search.mpsl:144 mp_search.mpsl:136
 msgid "Search text..."
 msgstr "Sök text..."
 
 #: mp_func_i.h:179 mp_search.mpsl:150 mp_search.mpsl:152 mp_search.mpsl:153
-#: mp_search.mpsl:148
+#: mp_search.mpsl:148 mp_search.mpsl:140
 msgid "Move to next instance of current char"
 msgstr "Flytta till nästa förekomst av aktuellt tecken"
 
@@ -665,6 +669,7 @@ msgid "Insert template..."
 msgstr "Infoga mall..."
 
 #: mp_func_i.h:259 mp_clipboard.mpsl:74 mp_clipboard.mpsl:80
+#: mp_clipboard.mpsl:83
 msgid "Mark beginning/end of block"
 msgstr "Markera början/slutet av blocket"
 
@@ -734,10 +739,12 @@ msgid "Delete all whitespace after cursor"
 msgstr "Radera alla blanktecken efter markören"
 
 #: mp_func_i.h:323 mp_clipboard.mpsl:75 mp_clipboard.mpsl:81
+#: mp_clipboard.mpsl:85
 msgid "Copy block"
 msgstr "Kopiera block"
 
 #: mp_func_i.h:327 mp_clipboard.mpsl:77 mp_clipboard.mpsl:83
+#: mp_clipboard.mpsl:87
 msgid "Cut block"
 msgstr "Klipp ut block"
 
@@ -764,7 +771,7 @@ msgid "Delete to the end of word"
 msgstr "Radera till ordets slut"
 
 #: mp_func_i.h:351 mp_search.mpsl:152 mp_search.mpsl:154 mp_search.mpsl:155
-#: mp_search.mpsl:150
+#: mp_search.mpsl:150 mp_search.mpsl:142
 msgid "Grep (find inside) files..."
 msgstr "Grep (leta i) filer..."
 
@@ -869,7 +876,7 @@ msgstr ""
 msgid "Global replace:"
 msgstr ""
 
-#: mp_search.mpsl:103 mp_search.mpsl:105 mp_search.mpsl:106
+#: mp_search.mpsl:103 mp_search.mpsl:105 mp_search.mpsl:106 mp_search.mpsl:104
 msgid "File(s) not found."
 msgstr ""
 
@@ -878,6 +885,7 @@ msgid "Grep"
 msgstr ""
 
 #: mp_search.mpsl:148 mp_search.mpsl:150 mp_search.mpsl:151 mp_search.mpsl:146
+#: mp_search.mpsl:138
 msgid "Search previous"
 msgstr ""
 
@@ -990,6 +998,7 @@ msgid "Toggle spellchecking"
 msgstr ""
 
 #: mp_tui.mpsl:417 mp_tui.mpsl:426 mp_tui.mpsl:453 mp_tui.mpsl:519
+#: mp_tui.mpsl:542
 msgid "Please, wait..."
 msgstr ""
 
@@ -1055,27 +1064,28 @@ msgid "Save session"
 msgstr ""
 
 #: mp_core.mpsl:201 mp_core.mpsl:207 mp_core.mpsl:217 mp_core.mpsl:218
+#: mp_core.mpsl:219
 #, c-format
 msgid "Unknown action '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:420 mp_edit.mpsl:432 mp_edit.mpsl:433
+#: mp_edit.mpsl:420 mp_edit.mpsl:432 mp_edit.mpsl:433 mp_edit.mpsl:444
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:264 mp_file.mpsl:265 mp_file.mpsl:286
+#: mp_file.mpsl:264 mp_file.mpsl:265 mp_file.mpsl:286 mp_file.mpsl:392
 #, c-format
 msgid "New file '%s'"
 msgstr ""
 
-#: mp_search.mpsl:280
+#: mp_search.mpsl:280 mp_search.mpsl:272
 #, c-format
 msgid "%d replaces"
 msgstr ""
 
 #: mp_core.mpsl:350 mp_core.mpsl:356 mp_core.mpsl:361 mp_core.mpsl:371
-#: mp_core.mpsl:372
+#: mp_core.mpsl:372 mp_core.mpsl:383
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1096,18 +1106,18 @@ msgid ""
 msgstr ""
 
 #: mp_core.mpsl:396 mp_core.mpsl:402 mp_core.mpsl:412 mp_core.mpsl:422
-#: mp_core.mpsl:423
+#: mp_core.mpsl:423 mp_core.mpsl:434
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
 #: mp_core.mpsl:475 mp_core.mpsl:481 mp_core.mpsl:491 mp_core.mpsl:501
-#: mp_core.mpsl:502
+#: mp_core.mpsl:502 mp_core.mpsl:523
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
 
-#: mp_clipboard.mpsl:84
+#: mp_clipboard.mpsl:84 mp_clipboard.mpsl:88
 msgid "Mark using mouse dragging"
 msgstr ""
 
@@ -1135,10 +1145,14 @@ msgstr ""
 msgid "Errors and Warnings"
 msgstr ""
 
-#: mp_build.mpsl:85
+#: mp_build.mpsl:85 mp_build.mpsl:66
 msgid "Build project..."
 msgstr ""
 
-#: mp_core.mpsl:197 mp_core.mpsl:198
+#: mp_core.mpsl:197 mp_core.mpsl:198 mp_core.mpsl:199
 msgid "Read-only document"
+msgstr ""
+
+#: mp_clipboard.mpsl:84
+msgid "Mark vertical block"
 msgstr ""
