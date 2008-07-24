@@ -3,6 +3,7 @@
 # Minimum Profit autoconfiguration script
 
 DRIVERS=""
+DRV_OBJS=""
 APPNAME="mp-5"
 
 # gets program version
@@ -175,6 +176,7 @@ else
 		echo $TMP_LDFLAGS >> config.ldflags
 		echo "OK (ncursesw)"
 		DRIVERS="ncursesw $DRIVERS"
+		DRV_OBJS="mpv_curses.o $DRV_OBJS"
 	else
 		echo "No"
 		WITHOUT_CURSES=1
@@ -233,6 +235,7 @@ else
 		echo "$TMP_LDFLAGS " >> config.ldflags
 		echo "OK (2.0)"
 		DRIVERS="gtk $DRIVERS"
+		DRV_OBJS="mpv_gtk.o $DRV_OBJS"
 	else
 		echo "No"
 		WITHOUT_GTK=1
@@ -251,6 +254,7 @@ else
 		echo "#define CONFOPT_WIN32 1" >> config.h
 		echo "OK"
 		DRIVERS="win32 $DRIVERS"
+		DRV_OBJS="mpv_win32.o $DRV_OBJS"
 		WITHOUT_UNIX_GLOB=1
 		APPNAME=wmp.exe
 	else
@@ -268,6 +272,7 @@ echo "VERSION=$VERSION" >> makefile.opts
 echo "WINDRES=$WINDRES" >> makefile.opts
 echo "PREFIX=\$(DESTDIR)$PREFIX" >> makefile.opts
 echo "APPNAME=$APPNAME" >> makefile.opts
+echo "DRV_OBJS=$DRV_OBJS" >> makefile.opts
 echo >> makefile.opts
 
 cat makefile.opts makefile.in makefile.depend > Makefile

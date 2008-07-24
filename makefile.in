@@ -12,7 +12,7 @@ GRUTATXT_DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_actions.html $(APPNAME).1
 MP_DOCCER_DOCS=doc/mp_api.html
 
-OBJS=mp_core.o mpv_curses.o mpv_gtk.o mpv_win32.o
+OBJS=mp_core.o $(DRV_OBJS)
 
 DIST_TARGET=/tmp/$(PROJ)-$(VERSION)
 
