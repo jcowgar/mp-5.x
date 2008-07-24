@@ -526,6 +526,38 @@ mp.syntax.make_output = {
 	]
 };
 
+mp.syntax.euphoria = {
+	'id'		=>	'euphoria',
+	'name'		=>	'euphoria',
+	'filenames'	=>	[ '/\.e$/', '/\.eu$/', '/\.ew$/', '/\.ed$/',
+				'/\.ex$/', '/\.exw$/', '/\.exu$/' ],
+	'defs'		=>	[
+		'word1',	[
+			mp.syn_token_list( [
+				"as", "and", "break", "by", "case", "constant", "continue", "do", "end",
+				"else", "elsif", "elsifdef",
+				"exit", "entry", "enum", "export", "for", "function", "global", "include",
+				"if", "ifdef", "label",
+				"not", "or", "procedure", "return", "retry", "switch", "then", "type",
+				"to", "while", "with", "without", "xor"
+			] )
+		],
+		'word2',	[
+			mp.syn_token_list( [
+				"atom", "integer", "sequence", "object"
+			] )
+		],
+		'quotes',	[
+			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",    /* double-quoted strings */
+			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",        /* single-quoted strings */
+			"/\b-?#[0-9A-F]+\b/",                /* hex numbers */
+			"/\b-?[0-9]+\b/",                /* numbers */
+			"/\b[0-9[:upper:]_]+\b/"            /* all-caps words */
+		],
+		'comments',		[ "/--.*$/m" ]
+	]
+};
+
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
 {
