@@ -102,15 +102,29 @@ static mpdm_t kde4_drv_confirm(mpdm_t a)
 }
 
 
+static mpdm_t kde4_drv_main_loop(mpdm_t a)
+{
+	app->exec();
+
+	return NULL;
+}
+
+
+static mpdm_t kde4_drv_shutdown(mpdm_t a)
+{
+	return NULL;
+}
+
+
 static void register_functions(void)
 {
 	mpdm_t drv;
 
 	drv = mpdm_hget_s(mp, L"drv");
-/*	mpdm_hset_s(drv, L"main_loop", MPDM_X(kde4_drv_main_loop));
+	mpdm_hset_s(drv, L"main_loop", MPDM_X(kde4_drv_main_loop));
 	mpdm_hset_s(drv, L"shutdown", MPDM_X(kde4_drv_shutdown));
 
-	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(kde4_drv_clip_to_sys));
+/*	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(kde4_drv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(kde4_drv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(kde4_drv_update_ui));
 	mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));
