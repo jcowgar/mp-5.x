@@ -283,7 +283,7 @@ else
 		echo -I`kde4-config --install include`KDE >> config.cflags
 
 		pkg-config --libs QtCore >> config.ldflags
-		echo -L`kde4-config --install lib` -lkdeui -lkdecore >> config.ldflags
+		echo -L`kde4-config --install lib` -lkfile -lkdeui -lkdecore >> config.ldflags
 
 		echo "#define CONFOPT_KDE4 1" >> config.h
 		echo "OK"

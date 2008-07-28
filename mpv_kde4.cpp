@@ -31,6 +31,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 
 #include <stdio.h>
 #include <wchar.h>
+#include <unistd.h>
 #include "mpdm.h"
 #include "mpsl.h"
 #include "mp.h"
@@ -40,6 +41,8 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KCmdLineArgs>
 
 #include <KMessageBox>
+#include <KFileDialog>
+#include <KUrl>
 
 /*******************
 	Data
@@ -55,12 +58,10 @@ KApplication *app;
 static mpdm_t kde4_drv_alert(mpdm_t a)
 /* alert driver function */
 {
-	wchar_t *wptr;
 	char *cptr;
 
 	/* 1# arg: prompt */
-	wptr = mpdm_string(mpdm_aget(a, 0));
-	cptr = mpdm_wcstombs(wptr, NULL);
+	cptr = mpdm_wcstombs(mpdm_string(mpdm_aget(a, 0)), NULL);
 
 	KMessageBox::information(0, i18n(cptr), i18n("mp" VERSION));
 
@@ -72,13 +73,11 @@ static mpdm_t kde4_drv_alert(mpdm_t a)
 static mpdm_t kde4_drv_confirm(mpdm_t a)
 /* confirm driver function */
 {
-	wchar_t *wptr;
 	char *cptr;
 	int r;
 
 	/* 1# arg: prompt */
-	wptr = mpdm_string(mpdm_aget(a, 0));
-	cptr = mpdm_wcstombs(wptr, NULL);
+	cptr = mpdm_wcstombs(mpdm_string(mpdm_aget(a, 0)), NULL);
 
 	r = KMessageBox::questionYesNoCancel(0, i18n(cptr), i18n("mp" VERSION));
 
@@ -99,6 +98,25 @@ static mpdm_t kde4_drv_confirm(mpdm_t a)
 	free(cptr);
 
 	return MPDM_I(r);
+}
+
+
+static mpdm_t kde4_drv_openfile(mpdm_t a)
+{
+	char *cptr;
+	QString r;
+	char tmp[128];
+
+	getcwd(tmp, sizeof(tmp));
+
+	/* 1# arg: prompt */
+	cptr = mpdm_wcstombs(mpdm_string(mpdm_aget(a, 0)), NULL);
+
+	r = KFileDialog::getOpenFileName(KUrl::fromPath(tmp), "*", 0, i18n(cptr));
+
+	free(cptr);
+
+	return NULL;
 }
 
 
@@ -132,8 +150,8 @@ static void register_functions(void)
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(kde4_drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(kde4_drv_confirm));
-/*	mpdm_hset_s(drv, L"openfile", MPDM_X(kde4_drv_openfile));
-	mpdm_hset_s(drv, L"savefile", MPDM_X(kde4_drv_savefile));
+	mpdm_hset_s(drv, L"openfile", MPDM_X(kde4_drv_openfile));
+/*	mpdm_hset_s(drv, L"savefile", MPDM_X(kde4_drv_savefile));
 	mpdm_hset_s(drv, L"form", MPDM_X(kde4_drv_form));*/
 }
 
