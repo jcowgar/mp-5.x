@@ -36,6 +36,9 @@ dep:
 $(APPNAME): $(OBJS) $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 	$(CCLINK) $(CFLAGS) $(OBJS) `cat config.ldflags` -o $@
 
+mpv_kde4.o: mpv_kde4.cpp
+	$(CPP) $(CFLAGS) -I. `cat config.cflags` -c $<
+
 mp_res.o: mp_res.rc
 	$(WINDRES) mp_res.rc mp_res.o
 

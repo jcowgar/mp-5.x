@@ -22,6 +22,7 @@ while [ $# -gt 0 ] ; do
 	--without-curses)	WITHOUT_CURSES=1 ;;
 	--without-gtk)		WITHOUT_GTK=1 ;;
 	--without-win32)	WITHOUT_WIN32=1 ;;
+	--without-kde4)		WITHOUT_KDE4=1 ;;
 	--help)			CONFIG_HELP=1 ;;
 
 	--mingw32)		CC=i586-mingw32msvc-cc
@@ -49,6 +50,7 @@ if [ "$CONFIG_HELP" = "1" ] ; then
 	echo "--without-curses      Disable curses (text) interface detection."
 	echo "--without-gtk         Disable GTK interface detection."
 	echo "--without-win32       Disable win32 interface detection."
+	echo "--without-kde4        Disable KDE4 interface detection."
 	echo "--without-unix-glob   Disable glob.h usage (use workaround)."
 	echo "--with-included-regex Use included regex code (gnu_regex.c)."
 	echo "--with-pcre           Enable PCRE library detection."
@@ -84,7 +86,14 @@ if [ "$CC" = "" ] ; then
 	which gcc > /dev/null && CC=gcc
 fi
 
+if [ "$CPP" = "" ] ; then
+	CPP=c++
+	# if CC is unset, try if gcc is available
+	which g++ > /dev/null && CPP=g++
+fi
+
 echo "CC=$CC" >> makefile.opts
+echo "CPP=$CPP" >> makefile.opts
 
 # set cflags
 if [ "$CFLAGS" = "" -a "$CC" = "gcc" ] ; then
@@ -92,10 +101,6 @@ if [ "$CFLAGS" = "" -a "$CC" = "gcc" ] ; then
 fi
 
 echo "CFLAGS=$CFLAGS" >> makefile.opts
-
-if [ "$CCLINK" = "" ] ; then
-	CCLINK=$CC
-fi
 
 # Add CFLAGS to CC
 CC="$CC $CFLAGS"
@@ -264,6 +269,37 @@ else
 	else
 		echo "No"
 	fi
+fi
+
+# KDE4
+
+echo -n "Testing for KDE4... "
+if [ "$WITHOUT_KDE4" = "1" ] ; then
+	echo "Disabled by user"
+else
+	if which kde4-config > /dev/null
+	then
+		pkg-config --cflags QtCore >> config.cflags
+		echo -I`kde4-config --install include`KDE >> config.cflags
+
+		pkg-config --libs QtCore >> config.ldflags
+		echo -L`kde4-config --install lib` -lkdeui -lkdecore >> config.ldflags
+
+		echo "#define CONFOPT_KDE4 1" >> config.h
+		echo "OK"
+
+		DRIVERS="kde4 $DRIVERS"
+		DRV_OBJS="mpv_kde4.o $DRV_OBJS"
+		if [ "$CCLINK" = "" ] ; then
+			CCLINK="g++"
+		fi
+	else
+		echo "No"
+	fi
+fi
+
+if [ "$CCLINK" = "" ] ; then
+	CCLINK=$CC
 fi
 
 echo >> config.h
