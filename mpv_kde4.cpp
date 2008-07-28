@@ -214,6 +214,7 @@ static mpdm_t kde4_drv_startup(mpdm_t a)
 extern "C" int kde4_drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
+	KCmdLineOptions opts;
 
 	KAboutData aboutData(
 		"mp", 0,
@@ -227,6 +228,14 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv)
 	);
 
 	KCmdLineArgs::init(*argc, *argv, &aboutData);
+
+	/* command line options should be inserted here (I don't like this) */
+	opts.add("t {tag}", ki18n("Edits the file where tag is defined"));
+	opts.add("e {mpsl_code}", ki18n("Executes MPSL code"));
+	opts.add("f {mpsl_script}", ki18n("Executes MPSL script file"));
+	opts.add(" +NNN", ki18n("Moves to line number NNN of last file"));
+	opts.add("+[file(s)]", ki18n("Documents to open"));
+	KCmdLineArgs::addCmdLineOptions(opts);
 
 	app = new KApplication();
 
