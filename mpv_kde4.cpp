@@ -38,14 +38,75 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KAboutData>
 #include <KCmdLineArgs>
 
+#include <KMessageBox>
+
+/*******************
+	Data
+********************/
+
+/* global data */
+KApplication *app;
+
+/*******************
+	Code
+********************/
+
+static mpdm_t kde4_drv_confirm(mpdm_t a)
+/* confirm driver function */
+{
+	int r;
+
+	r = KMessageBox::questionYesNoCancel(0, i18n("kde4 tests"), i18n("mp" VERSION));
+
+	switch (r) {
+	case KMessageBox::Yes:
+		r = 1;
+		break;
+
+	case KMessageBox::No:
+		r = 2;
+		break;
+
+	case KMessageBox::Cancel:
+		r = 0;
+		break;
+	}
+
+	return MPDM_I(r);
+}
+
+
+static mpdm_t kde4_drv_startup(mpdm_t a)
+/* driver initialization */
+{
+	return NULL;
+}
+
+
 extern "C" int kde4_drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
 
+	KAboutData aboutData(
+		"mp", 0,
+		ki18n("Minimum Profit"), VERSION,
+		ki18n("A programmer's text editor"),
+		KAboutData::License_GPL,
+		ki18n("Copyright (c) 1991-2008 Angel Ortega"),
+		ki18n(""),
+		"http://triptico.com",
+		"angel@triptico.com"
+	);
+
+	KCmdLineArgs::init(*argc, *argv, &aboutData);
+
+	app = new KApplication();
+
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"kde4"));
-/*	mpdm_hset_s(drv, L"startup", MPDM_X(gtk_drv_startup));*/
+	mpdm_hset_s(drv, L"startup", MPDM_X(kde4_drv_startup));
+
+	mpdm_hset_s(mp, L"kde4_confirm", MPDM_X(kde4_drv_confirm));
 
 	return 0;
 }
-
