@@ -55,6 +55,26 @@ KApplication *app;
 	Code
 ********************/
 
+static mpdm_t qstring_to_str(QString s)
+/* converts a QString to an MPDM string */
+{
+	mpdm_t r = NULL;
+
+	if (s != NULL) {
+		wchar_t *wptr;
+		int t = s.size();
+
+		r = MPDM_NS(NULL, t + 1);
+		wptr = (wchar_t *)r->data;
+
+		s.toWCharArray(wptr);
+		wptr[t] = L'\0';
+	}
+
+	return r;
+}
+
+
 static mpdm_t kde4_drv_alert(mpdm_t a)
 /* alert driver function */
 {
@@ -116,7 +136,26 @@ static mpdm_t kde4_drv_openfile(mpdm_t a)
 
 	free(cptr);
 
-	return NULL;
+	return qstring_to_str(r);
+}
+
+
+static mpdm_t kde4_drv_savefile(mpdm_t a)
+{
+	char *cptr;
+	QString r;
+	char tmp[128];
+
+	getcwd(tmp, sizeof(tmp));
+
+	/* 1# arg: prompt */
+	cptr = mpdm_wcstombs(mpdm_string(mpdm_aget(a, 0)), NULL);
+
+	r = KFileDialog::getSaveFileName(KUrl::fromPath(tmp), "*", 0, i18n(cptr));
+
+	free(cptr);
+
+	return qstring_to_str(r);
 }
 
 
@@ -151,8 +190,8 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"alert", MPDM_X(kde4_drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(kde4_drv_confirm));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(kde4_drv_openfile));
-/*	mpdm_hset_s(drv, L"savefile", MPDM_X(kde4_drv_savefile));
-	mpdm_hset_s(drv, L"form", MPDM_X(kde4_drv_form));*/
+	mpdm_hset_s(drv, L"savefile", MPDM_X(kde4_drv_savefile));
+/*	mpdm_hset_s(drv, L"form", MPDM_X(kde4_drv_form));*/
 }
 
 
