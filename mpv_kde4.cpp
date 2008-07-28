@@ -30,6 +30,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include "config.h"
 
 #include <stdio.h>
+#include <wchar.h>
 #include "mpdm.h"
 #include "mpsl.h"
 #include "mp.h"
@@ -54,7 +55,16 @@ KApplication *app;
 static mpdm_t kde4_drv_alert(mpdm_t a)
 /* alert driver function */
 {
-	KMessageBox::information(0, i18n("kde4 tests"), i18n("mp" VERSION));
+	wchar_t *wptr;
+	char *cptr;
+
+	/* 1# arg: prompt */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+	cptr = mpdm_wcstombs(wptr, NULL);
+
+	KMessageBox::information(0, i18n(cptr), i18n("mp" VERSION));
+
+	free(cptr);
 
 	return NULL;
 }
@@ -62,9 +72,15 @@ static mpdm_t kde4_drv_alert(mpdm_t a)
 static mpdm_t kde4_drv_confirm(mpdm_t a)
 /* confirm driver function */
 {
+	wchar_t *wptr;
+	char *cptr;
 	int r;
 
-	r = KMessageBox::questionYesNoCancel(0, i18n("kde4 tests"), i18n("mp" VERSION));
+	/* 1# arg: prompt */
+	wptr = mpdm_string(mpdm_aget(a, 0));
+	cptr = mpdm_wcstombs(wptr, NULL);
+
+	r = KMessageBox::questionYesNoCancel(0, i18n(cptr), i18n("mp" VERSION));
 
 	switch (r) {
 	case KMessageBox::Yes:
@@ -79,6 +95,8 @@ static mpdm_t kde4_drv_confirm(mpdm_t a)
 		r = 0;
 		break;
 	}
+
+	free(cptr);
 
 	return MPDM_I(r);
 }
