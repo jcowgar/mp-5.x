@@ -22,6 +22,10 @@
 
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern int mp_exit_requested;
 extern mpdm_t mp;
 
@@ -38,3 +42,7 @@ mpdm_t mp_get_doc_names(void);
 mpdm_t mp_pending_key(void);
 mpdm_t mp_process_keyseq(mpdm_t key);
 int mp_keypress_throttle(int keydown);
+
+#ifdef __cplusplus
+}
+#endif
