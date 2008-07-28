@@ -40,6 +40,10 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KAboutData>
 #include <KCmdLineArgs>
 
+#include <KMainWindow>
+#include <KMenuBar>
+#include <KStatusBar>
+
 #include <KMessageBox>
 #include <KFileDialog>
 #include <KUrl>
@@ -50,6 +54,9 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 
 /* global data */
 KApplication *app;
+KMainWindow *window;
+KMenuBar *menubar;
+KStatusBar *statusbar;
 
 /*******************
 	Code
@@ -72,6 +79,47 @@ static mpdm_t qstring_to_str(QString s)
 	}
 
 	return r;
+}
+
+
+static void build_menu(void)
+{
+	int n;
+	mpdm_t m;
+
+	/* gets the current menu */
+	if ((m = mpdm_hget_s(mp, L"menu")) == NULL)
+		return;
+
+	menubar->clear();
+
+	for (n = 0; n < mpdm_size(m); n++) {
+		char *ptr;
+		mpdm_t mi;
+		mpdm_t v;
+		int i;
+
+		/* get the label and the items */
+		mi = mpdm_aget(m, n);
+		v = mpdm_aget(mi, 0);
+
+		if ((ptr = mpdm_wcstombs(mpdm_string(mpdm_gettext(v)), NULL)) == NULL)
+			continue;
+
+		menubar->addMenu(ptr);
+
+		free(ptr);
+	}
+
+	menubar->show();
+}
+
+
+static mpdm_t kde4_drv_update_ui(mpdm_t a)
+{
+	build_menu();
+
+	return NULL;
 }
 
 
@@ -189,9 +237,9 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"shutdown", MPDM_X(kde4_drv_shutdown));
 
 /*	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(kde4_drv_clip_to_sys));
-	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(kde4_drv_sys_to_clip));
+	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(kde4_drv_sys_to_clip));*/
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(kde4_drv_update_ui));
-	mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));
+/*	mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));
 	mpdm_hset_s(drv, L"busy", MPDM_X(kde4_drv_busy));*/
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(kde4_drv_alert));
@@ -206,6 +254,14 @@ static mpdm_t kde4_drv_startup(mpdm_t a)
 /* driver initialization */
 {
 	register_functions();
+
+	window = new KMainWindow();
+	menubar = window->menuBar();
+	statusbar = window->statusBar();
+
+	window->show();
+
+	kde4_drv_update_ui(NULL);
 
 	return NULL;
 }
@@ -237,6 +293,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv)
 	opts.add("+[file(s)]", ki18n("Documents to open"));
 	KCmdLineArgs::addCmdLineOptions(opts);
 
+	/* this is where it crashes if no X server */
 	app = new KApplication();
 
 	drv = mpdm_hget_s(mp, L"drv");
