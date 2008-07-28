@@ -51,6 +51,14 @@ KApplication *app;
 	Code
 ********************/
 
+static mpdm_t kde4_drv_alert(mpdm_t a)
+/* alert driver function */
+{
+	KMessageBox::information(0, i18n("kde4 tests"), i18n("mp" VERSION));
+
+	return NULL;
+}
+
 static mpdm_t kde4_drv_confirm(mpdm_t a)
 /* confirm driver function */
 {
@@ -76,9 +84,33 @@ static mpdm_t kde4_drv_confirm(mpdm_t a)
 }
 
 
+static void register_functions(void)
+{
+	mpdm_t drv;
+
+	drv = mpdm_hget_s(mp, L"drv");
+/*	mpdm_hset_s(drv, L"main_loop", MPDM_X(kde4_drv_main_loop));
+	mpdm_hset_s(drv, L"shutdown", MPDM_X(kde4_drv_shutdown));
+
+	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(kde4_drv_clip_to_sys));
+	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(kde4_drv_sys_to_clip));
+	mpdm_hset_s(drv, L"update_ui", MPDM_X(kde4_drv_update_ui));
+	mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));
+	mpdm_hset_s(drv, L"busy", MPDM_X(kde4_drv_busy));*/
+
+	mpdm_hset_s(drv, L"alert", MPDM_X(kde4_drv_alert));
+	mpdm_hset_s(drv, L"confirm", MPDM_X(kde4_drv_confirm));
+/*	mpdm_hset_s(drv, L"openfile", MPDM_X(kde4_drv_openfile));
+	mpdm_hset_s(drv, L"savefile", MPDM_X(kde4_drv_savefile));
+	mpdm_hset_s(drv, L"form", MPDM_X(kde4_drv_form));*/
+}
+
+
 static mpdm_t kde4_drv_startup(mpdm_t a)
 /* driver initialization */
 {
+	register_functions();
+
 	return NULL;
 }
 
@@ -106,7 +138,9 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv)
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"kde4"));
 	mpdm_hset_s(drv, L"startup", MPDM_X(kde4_drv_startup));
 
-	mpdm_hset_s(mp, L"kde4_confirm", MPDM_X(kde4_drv_confirm));
+	/* ... */
+	kde4_drv_startup(NULL);
+	mpdm_hset_s(mp, L"kde4", mpdm_clone(drv));
 
 	return 0;
 }
