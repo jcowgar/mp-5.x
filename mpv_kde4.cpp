@@ -54,19 +54,12 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 
 class MPWindow : public KMainWindow
 {
-  public:
-    MPWindow(QWidget *parent=0);
+	public:
+		MPWindow(QWidget *parent=0);
                
 /*  private:
     KTextEdit* textArea;*/
 };
-
-MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
-{
-/*  textArea = new KTextEdit();
-  setCentralWidget(textArea);
-  setupGUI();*/
-}
 
 /* global data */
 KApplication *app;
@@ -128,6 +121,15 @@ static void build_menu(void)
 	}
 
 	menubar->show();
+}
+
+
+MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
+{
+	menubar = this->menuBar();
+	statusbar = this->statusBar();
+
+	build_menu();
 }
 
 
@@ -272,12 +274,7 @@ static mpdm_t kde4_drv_startup(mpdm_t a)
 	register_functions();
 
 	window = new MPWindow();
-	menubar = window->menuBar();
-	statusbar = window->statusBar();
-
 	window->show();
-
-	kde4_drv_update_ui(NULL);
 
 	return NULL;
 }
@@ -316,9 +313,5 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv)
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"kde4"));
 	mpdm_hset_s(drv, L"startup", MPDM_X(kde4_drv_startup));
 
-	/* ... */
-	kde4_drv_startup(NULL);
-	mpdm_hset_s(mp, L"kde4", mpdm_clone(drv));
-
-	return 0;
+	return 1;
 }
