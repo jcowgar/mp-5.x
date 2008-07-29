@@ -52,9 +52,25 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 	Data
 ********************/
 
+class MPWindow : public KMainWindow
+{
+  public:
+    MPWindow(QWidget *parent=0);
+               
+/*  private:
+    KTextEdit* textArea;*/
+};
+
+MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
+{
+/*  textArea = new KTextEdit();
+  setCentralWidget(textArea);
+  setupGUI();*/
+}
+
 /* global data */
 KApplication *app;
-KMainWindow *window;
+MPWindow *window;
 KMenuBar *menubar;
 KStatusBar *statusbar;
 
@@ -255,7 +271,7 @@ static mpdm_t kde4_drv_startup(mpdm_t a)
 {
 	register_functions();
 
-	window = new KMainWindow();
+	window = new MPWindow();
 	menubar = window->menuBar();
 	statusbar = window->statusBar();
 
