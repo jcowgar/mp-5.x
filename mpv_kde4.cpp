@@ -138,6 +138,8 @@ static void draw_status(void)
 
 MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 {
+	this->setAutoSaveSettings(QLatin1String("Minimum Profit"), true);
+
 	menubar = this->menuBar();
 
 	statusbar = this->statusBar();
