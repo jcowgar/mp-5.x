@@ -179,39 +179,100 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 {
 	mpdm_t k = NULL;
 	wchar_t *ptr = NULL;
-	QString t = event->text();
 
-	switch (event->key()) {
-	case Qt::Key_Up:		ptr = L"cursor-up"; break;
-	case Qt::Key_Down:		ptr = L"cursor-down"; break;
-	case Qt::Key_Left:		ptr = L"cursor-left"; break;
-	case Qt::Key_Right:		ptr = L"cursor-right"; break;
-	case Qt::Key_PageUp:		ptr = L"page-up"; break;
-	case Qt::Key_PageDown:		ptr = L"page-down"; break;
-	case Qt::Key_Home:		ptr = L"home"; break;
-	case Qt::Key_End:		ptr = L"end"; break;
-	case Qt::Key_Space:		ptr = L"space"; break;
-	case Qt::Key_F1:		ptr = L"f1"; break;
-	case Qt::Key_F2:		ptr = L"f2"; break;
-	case Qt::Key_F3:		ptr = L"f3"; break;
-	case Qt::Key_F4:		ptr = L"f4"; break;
-	case Qt::Key_F5:		ptr = L"f5"; break;
-	case Qt::Key_F6:		ptr = L"f6"; break;
-	case Qt::Key_F7:		ptr = L"f7"; break;
-	case Qt::Key_F8:		ptr = L"f8"; break;
-	case Qt::Key_F9:		ptr = L"f9"; break;
-	case Qt::Key_F10:		ptr = L"f10"; break;
-	case Qt::Key_F11:		ptr = L"f11"; break;
-	case Qt::Key_F12:		ptr = L"f12"; break;
-	case Qt::Key_Insert:		ptr = L"insert"; break;
-	case Qt::Key_Backspace:		ptr = L"backspace"; break;
-	case Qt::Key_Delete:		ptr = L"delete"; break;
-	case Qt::Key_Return:
-	case Qt::Key_Enter:		ptr = L"enter"; break;
-	case Qt::Key_Escape:		ptr = L"escape"; break;
+	/* set mp.shift_pressed */
+	if (event->modifiers() & Qt::ShiftModifier)
+		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
 
-	default:
-		break;
+	if (event->modifiers() & Qt::ControlModifier) {
+		switch (event->key()) {
+		case Qt::Key_Up:		ptr = L"ctrl-cursor-up"; break;
+		case Qt::Key_Down:		ptr = L"ctrl-cursor-down"; break;
+		case Qt::Key_Left:		ptr = L"ctrl-cursor-left"; break;
+		case Qt::Key_Right:		ptr = L"ctrl-cursor-right"; break;
+		case Qt::Key_PageUp:		ptr = L"ctrl-page-up"; break;
+		case Qt::Key_PageDown:		ptr = L"ctrl-page-down"; break;
+		case Qt::Key_Home:		ptr = L"ctrl-home"; break;
+		case Qt::Key_End:		ptr = L"ctrl-end"; break;
+		case Qt::Key_Space:		ptr = L"ctrl-space"; break;
+		case Qt::Key_F1:		ptr = L"ctrl-f1"; break;
+		case Qt::Key_F2:		ptr = L"ctrl-f2"; break;
+		case Qt::Key_F3:		ptr = L"ctrl-f3"; break;
+		case Qt::Key_F4:		ptr = L"ctrl-f4"; break;
+		case Qt::Key_F5:		ptr = L"ctrl-f5"; break;
+		case Qt::Key_F6:		ptr = L"ctrl-f6"; break;
+		case Qt::Key_F7:		ptr = L"ctrl-f7"; break;
+		case Qt::Key_F8:		ptr = L"ctrl-f8"; break;
+		case Qt::Key_F9:		ptr = L"ctrl-f9"; break;
+		case Qt::Key_F10:		ptr = L"ctrl-f10"; break;
+		case Qt::Key_F11:		ptr = L"ctrl-f11"; break;
+		case Qt::Key_F12:		ptr = L"ctrl-f12"; break;
+		case 'A':			ptr = L"ctrl-a"; break;
+		case 'B':			ptr = L"ctrl-b"; break;
+		case 'C':			ptr = L"ctrl-c"; break;
+		case 'D':			ptr = L"ctrl-d"; break;
+		case 'E':			ptr = L"ctrl-e"; break;
+		case 'F':			ptr = L"ctrl-f"; break;
+		case 'G':			ptr = L"ctrl-g"; break;
+		case 'H':			ptr = L"ctrl-h"; break;
+		case 'I':			ptr = L"ctrl-i"; break;
+		case 'J':			ptr = L"ctrl-j"; break;
+		case 'K':			ptr = L"ctrl-k"; break;
+		case 'L':			ptr = L"ctrl-l"; break;
+		case 'M':			ptr = L"ctrl-m"; break;
+		case 'N':			ptr = L"ctrl-n"; break;
+		case 'O':			ptr = L"ctrl-o"; break;
+		case 'P':			ptr = L"ctrl-p"; break;
+		case 'Q':			ptr = L"ctrl-q"; break;
+		case 'R':			ptr = L"ctrl-r"; break;
+		case 'S':			ptr = L"ctrl-s"; break;
+		case 'T':			ptr = L"ctrl-t"; break;
+		case 'U':			ptr = L"ctrl-u"; break;
+		case 'V':			ptr = L"ctrl-v"; break;
+		case 'W':			ptr = L"ctrl-w"; break;
+		case 'X':			ptr = L"ctrl-x"; break;
+		case 'Y':			ptr = L"ctrl-y"; break;
+		case 'Z':			ptr = L"ctrl-z"; break;
+		case Qt::Key_Return:
+		case Qt::Key_Enter:		ptr = L"ctrl-enter"; break;
+
+		default:
+			break;
+		}
+	}
+	else {
+		switch (event->key()) {
+		case Qt::Key_Up:		ptr = L"cursor-up"; break;
+		case Qt::Key_Down:		ptr = L"cursor-down"; break;
+		case Qt::Key_Left:		ptr = L"cursor-left"; break;
+		case Qt::Key_Right:		ptr = L"cursor-right"; break;
+		case Qt::Key_PageUp:		ptr = L"page-up"; break;
+		case Qt::Key_PageDown:		ptr = L"page-down"; break;
+		case Qt::Key_Home:		ptr = L"home"; break;
+		case Qt::Key_End:		ptr = L"end"; break;
+		case Qt::Key_Space:		ptr = L"space"; break;
+		case Qt::Key_F1:		ptr = L"f1"; break;
+		case Qt::Key_F2:		ptr = L"f2"; break;
+		case Qt::Key_F3:		ptr = L"f3"; break;
+		case Qt::Key_F4:		ptr = L"f4"; break;
+		case Qt::Key_F5:		ptr = L"f5"; break;
+		case Qt::Key_F6:		ptr = L"f6"; break;
+		case Qt::Key_F7:		ptr = L"f7"; break;
+		case Qt::Key_F8:		ptr = L"f8"; break;
+		case Qt::Key_F9:		ptr = L"f9"; break;
+		case Qt::Key_F10:		ptr = L"f10"; break;
+		case Qt::Key_F11:		ptr = L"f11"; break;
+		case Qt::Key_F12:		ptr = L"f12"; break;
+		case Qt::Key_Insert:		ptr = L"insert"; break;
+		case Qt::Key_Backspace:		ptr = L"backspace"; break;
+		case Qt::Key_Delete:		ptr = L"delete"; break;
+		case Qt::Key_Return:
+		case Qt::Key_Enter:		ptr = L"enter"; break;
+		case Qt::Key_Escape:		ptr = L"escape"; break;
+
+		default:
+			break;
+		}
 	}
 
 	if (ptr == NULL)
