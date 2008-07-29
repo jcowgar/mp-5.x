@@ -61,6 +61,7 @@ class MPWindow : public KMainWindow
 		bool queryExit(void);
 /*		bool event(QEvent *event);*/
 		void keyPressEvent(QKeyEvent *event);
+		void keyReleaseEvent(QKeyEvent *event);
 /*  private:
     KTextEdit* textArea;*/
 };
@@ -137,6 +138,12 @@ static void draw_status(void)
 }
 
 
+void kde4_drv_paint(mpdm_t doc, int optimize)
+{
+	draw_status();
+}
+
+
 /* class methods */
 
 MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
@@ -173,6 +180,13 @@ bool MPWindow::queryExit(void)
 
 	return false;
 }*/
+
+
+void MPWindow::keyReleaseEvent(QKeyEvent *event)
+{
+	if (!event->isAutoRepeat() && mp_keypress_throttle(0))
+		kde4_drv_paint(mp_active(), 0);
+}
 
 
 void MPWindow::keyPressEvent(QKeyEvent *event)
@@ -283,9 +297,8 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 	if (k != NULL)
 		mp_process_event(k);
 
-	draw_status();
-/*	if (mp_keypress_throttle(1))
-		gtk_drv_paint(mp_active(), 1);*/
+	if (mp_keypress_throttle(1))
+		kde4_drv_paint(mp_active(), 1);
 }
 
 
