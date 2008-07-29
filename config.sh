@@ -303,9 +303,6 @@ if [ "$CCLINK" = "" ] ; then
 fi
 
 echo >> config.h
-echo "#if defined(CONFOPT_CURSES) || defined(CONFOPT_GTK)" >> config.h
-echo "#define CONFOPT_UNIX_LIKE 1" >> config.h
-echo "#endif" >> config.h
 
 grep DOCS $MPDM/makefile.opts >> makefile.opts
 echo "VERSION=$VERSION" >> makefile.opts
