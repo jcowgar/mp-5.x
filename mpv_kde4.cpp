@@ -36,6 +36,8 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include "mpsl.h"
 #include "mp.h"
 
+#include <QtGui/QKeyEvent>
+
 #include <KApplication>
 #include <KAboutData>
 #include <KCmdLineArgs>
@@ -56,7 +58,9 @@ class MPWindow : public KMainWindow
 {
 	public:
 		MPWindow(QWidget *parent=0);
-		bool queryExit(void);               
+		bool queryExit(void);
+/*		bool event(QEvent *event);*/
+		void keyPressEvent(QKeyEvent *event);
 /*  private:
     KTextEdit* textArea;*/
 };
@@ -77,11 +81,10 @@ static mpdm_t qstring_to_str(QString s)
 	mpdm_t r = NULL;
 
 	if (s != NULL) {
-		wchar_t *wptr;
 		int t = s.size();
+		wchar_t *wptr = (wchar_t *)malloc((t + 1) * sizeof(wchar_t));
 
-		r = MPDM_NS(NULL, t + 1);
-		wptr = (wchar_t *)r->data;
+		r = MPDM_ENS(wptr, t);
 
 		s.toWCharArray(wptr);
 		wptr[t] = L'\0';
@@ -154,6 +157,74 @@ bool MPWindow::queryExit(void)
 	mp_process_event(MPDM_LS(L"close-window"));
 
 	return mp_exit_requested ? true : false;
+}
+
+
+/*bool MPWindow::event(QEvent *event)
+{
+	switch (event->type()) {
+	case QEvent::KeyPress:
+		printf("keypress\n");
+		break;
+
+	default:
+		break;
+	}
+
+	return false;
+}*/
+
+
+void MPWindow::keyPressEvent(QKeyEvent *event)
+{
+	mpdm_t k = NULL;
+	wchar_t *ptr = NULL;
+	QString t = event->text();
+
+	switch (event->key()) {
+	case Qt::Key_Up:		ptr = L"cursor-up"; break;
+	case Qt::Key_Down:		ptr = L"cursor-down"; break;
+	case Qt::Key_Left:		ptr = L"cursor-left"; break;
+	case Qt::Key_Right:		ptr = L"cursor-right"; break;
+	case Qt::Key_PageUp:		ptr = L"page-up"; break;
+	case Qt::Key_PageDown:		ptr = L"page-down"; break;
+	case Qt::Key_Home:		ptr = L"home"; break;
+	case Qt::Key_End:		ptr = L"end"; break;
+	case Qt::Key_Space:		ptr = L"space"; break;
+	case Qt::Key_F1:		ptr = L"f1"; break;
+	case Qt::Key_F2:		ptr = L"f2"; break;
+	case Qt::Key_F3:		ptr = L"f3"; break;
+	case Qt::Key_F4:		ptr = L"f4"; break;
+	case Qt::Key_F5:		ptr = L"f5"; break;
+	case Qt::Key_F6:		ptr = L"f6"; break;
+	case Qt::Key_F7:		ptr = L"f7"; break;
+	case Qt::Key_F8:		ptr = L"f8"; break;
+	case Qt::Key_F9:		ptr = L"f9"; break;
+	case Qt::Key_F10:		ptr = L"f10"; break;
+	case Qt::Key_F11:		ptr = L"f11"; break;
+	case Qt::Key_F12:		ptr = L"f12"; break;
+	case Qt::Key_Insert:		ptr = L"insert"; break;
+	case Qt::Key_Backspace:		ptr = L"backspace"; break;
+	case Qt::Key_Delete:		ptr = L"delete"; break;
+	case Qt::Key_Return:
+	case Qt::Key_Enter:		ptr = L"enter"; break;
+	case Qt::Key_Escape:		ptr = L"escape"; break;
+
+	default:
+		break;
+	}
+
+	if (ptr == NULL)
+		k = qstring_to_str(event->text());
+	else
+		k = MPDM_S(ptr);
+
+	if (k != NULL)
+		mp_process_event(k);
+
+	draw_status();
+/*	if (mp_keypress_throttle(1))
+		gtk_drv_paint(mp_active(), 1);*/
 }
 
 
