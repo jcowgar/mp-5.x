@@ -59,7 +59,7 @@ class MPWindow : public KMainWindow
 	public:
 		MPWindow(QWidget *parent=0);
 		bool queryExit(void);
-/*		bool event(QEvent *event);*/
+		bool event(QEvent *event);
 		void keyPressEvent(QKeyEvent *event);
 		void keyReleaseEvent(QKeyEvent *event);
 /*  private:
@@ -167,19 +167,16 @@ bool MPWindow::queryExit(void)
 }
 
 
-/*bool MPWindow::event(QEvent *event)
+bool MPWindow::event(QEvent *event)
 {
-	switch (event->type()) {
-	case QEvent::KeyPress:
-		printf("keypress\n");
-		break;
+	/* special events */
 
-	default:
-		break;
-	}
+/*	if (event->type() == QEvent::KeyPress) {
+		QKeyEvent *ke = (QKeyEvent *)event;
+	}*/
 
-	return false;
-}*/
+	return QWidget::event(event);
+}
 
 
 void MPWindow::keyReleaseEvent(QKeyEvent *event)
