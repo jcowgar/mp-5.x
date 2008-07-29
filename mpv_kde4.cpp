@@ -124,14 +124,30 @@ static void build_menu(void)
 }
 
 
+static void draw_status(void)
+{
+	char *ptr;
+
+	ptr = mpdm_wcstombs(mpdm_string(mp_build_status_line()), NULL);
+	statusbar->changeItem(ptr, 0);
+	free(ptr);
+}
+
+
+/* class methods */
+
 MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 {
 	menubar = this->menuBar();
+
 	statusbar = this->statusBar();
+	statusbar->insertItem("mp " VERSION, 0);
 
 	build_menu();
 }
 
+
+/* driver functions */
 
 static mpdm_t kde4_drv_update_ui(mpdm_t a)
 {
