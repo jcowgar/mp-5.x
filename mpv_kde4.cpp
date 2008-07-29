@@ -56,7 +56,7 @@ class MPWindow : public KMainWindow
 {
 	public:
 		MPWindow(QWidget *parent=0);
-               
+		bool queryExit(void);               
 /*  private:
     KTextEdit* textArea;*/
 };
@@ -146,6 +146,14 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	statusbar->insertItem("mp " VERSION, 0);
 
 	build_menu();
+}
+
+
+bool MPWindow::queryExit(void)
+{
+	mp_process_event(MPDM_LS(L"close-window"));
+
+	return mp_exit_requested ? true : false;
 }
 
 
