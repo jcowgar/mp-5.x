@@ -46,6 +46,9 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KMenuBar>
 #include <KStatusBar>
 
+/* for testing only */
+#include <KArrowButton>
+
 #include <KMessageBox>
 #include <KFileDialog>
 #include <KUrl>
@@ -151,11 +154,13 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	this->setAutoSaveSettings(QLatin1String("Minimum Profit"), true);
 
 	menubar = this->menuBar();
+	build_menu();
 
 	statusbar = this->statusBar();
 	statusbar->insertItem("mp " VERSION, 0);
 
-	build_menu();
+	/* main area */
+	setCentralWidget(new KArrowButton());
 }
 
 
