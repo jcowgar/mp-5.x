@@ -207,7 +207,7 @@ void MPArea::paintEvent(QPaintEvent *)
 	mpdm_t w, v;
 	int n, m, y;
 
-	QPainter painter(area);
+	QPainter painter(this);
 
 /*	if (papers == NULL)
 		build_colors();*/
@@ -220,7 +220,7 @@ void MPArea::paintEvent(QPaintEvent *)
 	mpdm_hset_s(w, L"ty", MPDM_I(this->height() / h));
 
 	w = mp_draw(mp_active(), 0);
-	y = 16;
+	y = menubar->height();
 
 	painter.setBackgroundMode(Qt::OpaqueMode);
 	painter.setBackground(QBrush(QColor::fromRgbF(1,1,1,1)));
