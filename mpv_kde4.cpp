@@ -106,6 +106,17 @@ static mpdm_t qstring_to_str(QString s)
 }
 
 
+QString str_to_qstring(mpdm_t s)
+/* converts an MPDM string to a QString */
+{
+	char *ptr = mpdm_wcstombs(mpdm_string(s), NULL);
+	QString qs(ptr);
+	free(ptr);
+
+	return qs;
+}
+
+
 QBrush *papers = NULL;
 int normal_attr = 0;
 
@@ -162,7 +173,6 @@ static void build_menu(void)
 	menubar->clear();
 
 	for (n = 0; n < mpdm_size(m); n++) {
-		char *ptr;
 		mpdm_t mi;
 		mpdm_t v;
 		int i;
@@ -171,12 +181,8 @@ static void build_menu(void)
 		mi = mpdm_aget(m, n);
 		v = mpdm_aget(mi, 0);
 
-		if ((ptr = mpdm_wcstombs(mpdm_string(mpdm_gettext(v)), NULL)) == NULL)
-			continue;
-
-		menubar->addMenu(ptr);
-
-		free(ptr);
+		QString qs = str_to_qstring(mpdm_gettext(v));
+		menubar->addMenu(qs);
 	}
 
 	menubar->show();
@@ -185,11 +191,8 @@ static void build_menu(void)
 
 static void draw_status(void)
 {
-	char *ptr;
-
-	ptr = mpdm_wcstombs(mpdm_string(mp_build_status_line()), NULL);
-	statusbar->changeItem(ptr, 0);
-	free(ptr);
+	QString qs = str_to_qstring(mp_build_status_line());
+	statusbar->changeItem(qs, 0);
 }
 
 
@@ -430,14 +433,9 @@ static mpdm_t kde4_drv_update_ui(mpdm_t a)
 static mpdm_t kde4_drv_alert(mpdm_t a)
 /* alert driver function */
 {
-	char *cptr;
-
 	/* 1# arg: prompt */
-	cptr = mpdm_wcstombs(mpdm_string(mpdm_aget(a, 0)), NULL);
-
-	KMessageBox::information(0, i18n(cptr), i18n("mp" VERSION));
-
-	free(cptr);
+	KMessageBox::information(0, str_to_qstring(mpdm_aget(a, 0)),
+		i18n("mp " VERSION));
 
 	return NULL;
 }
@@ -445,13 +443,11 @@ static mpdm_t kde4_drv_alert(mpdm_t a)
 static mpdm_t kde4_drv_confirm(mpdm_t a)
 /* confirm driver function */
 {
-	char *cptr;
 	int r;
 
 	/* 1# arg: prompt */
-	cptr = mpdm_wcstombs(mpdm_string(mpdm_aget(a, 0)), NULL);
-
-	r = KMessageBox::questionYesNoCancel(0, i18n(cptr), i18n("mp" VERSION));
+	r = KMessageBox::questionYesNoCancel(0,
+		str_to_qstring(mpdm_aget(a, 0)), i18n("mp" VERSION));
 
 	switch (r) {
 	case KMessageBox::Yes:
@@ -467,26 +463,20 @@ static mpdm_t kde4_drv_confirm(mpdm_t a)
 		break;
 	}
 
-	free(cptr);
-
 	return MPDM_I(r);
 }
 
 
 static mpdm_t kde4_drv_openfile(mpdm_t a)
 {
-	char *cptr;
 	QString r;
 	char tmp[128];
 
 	getcwd(tmp, sizeof(tmp));
 
 	/* 1# arg: prompt */
-	cptr = mpdm_wcstombs(mpdm_string(mpdm_aget(a, 0)), NULL);
-
-	r = KFileDialog::getOpenFileName(KUrl::fromPath(tmp), "*", 0, i18n(cptr));
-
-	free(cptr);
+	r = KFileDialog::getOpenFileName(KUrl::fromPath(tmp), "*", 0,
+		str_to_qstring(mpdm_aget(a, 0)));
 
 	return qstring_to_str(r);
 }
@@ -494,18 +484,14 @@ static mpdm_t kde4_drv_openfile(mpdm_t a)
 
 static mpdm_t kde4_drv_savefile(mpdm_t a)
 {
-	char *cptr;
 	QString r;
 	char tmp[128];
 
 	getcwd(tmp, sizeof(tmp));
 
 	/* 1# arg: prompt */
-	cptr = mpdm_wcstombs(mpdm_string(mpdm_aget(a, 0)), NULL);
-
-	r = KFileDialog::getSaveFileName(KUrl::fromPath(tmp), "*", 0, i18n(cptr));
-
-	free(cptr);
+	r = KFileDialog::getSaveFileName(KUrl::fromPath(tmp), "*", 0,
+		str_to_qstring(mpdm_aget(a, 0)));
 
 	return qstring_to_str(r);
 }
