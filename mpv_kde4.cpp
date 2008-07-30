@@ -202,8 +202,8 @@ MPArea::MPArea(QWidget *parent) : QWidget(parent)
 
 void MPArea::paintEvent(QPaintEvent *) 
 { 
-	int h = fontMetrics().height();
-	mpdm_t w;
+	int h = (fontMetrics().height() * 5) / 4;
+	mpdm_t w, v;
 	int n, m, y;
 
 	QPainter painter(area);
