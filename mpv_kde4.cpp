@@ -37,6 +37,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include "mp.h"
 
 #include <QtGui/QKeyEvent>
+#include <QtGui/QPainter>
 
 #include <KApplication>
 #include <KAboutData>
@@ -45,9 +46,6 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KMainWindow>
 #include <KMenuBar>
 #include <KStatusBar>
-
-/* for testing only */
-#include <KArrowButton>
 
 #include <KMessageBox>
 #include <KFileDialog>
@@ -60,7 +58,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 class MPWindow : public KMainWindow
 {
 	public:
-		MPWindow(QWidget *parent=0);
+		MPWindow(QWidget *parent = 0);
 		bool queryExit(void);
 		bool event(QEvent *event);
 		void keyPressEvent(QKeyEvent *event);
@@ -69,9 +67,19 @@ class MPWindow : public KMainWindow
     KTextEdit* textArea;*/
 };
 
+class MPArea : public QWidget
+{
+	public:
+		MPArea(QWidget *parent = 0);
+
+	protected:
+		void paintEvent(QPaintEvent *event);
+};
+
 /* global data */
 KApplication *app;
 MPWindow *window;
+MPArea *area;
 KMenuBar *menubar;
 KStatusBar *statusbar;
 
@@ -141,13 +149,65 @@ static void draw_status(void)
 }
 
 
-void kde4_drv_paint(mpdm_t doc, int optimize)
+/* MPArea class methods */
+
+MPArea::MPArea(QWidget *parent) : QWidget(parent)
 {
+}
+
+
+void MPArea::paintEvent(QPaintEvent *) 
+{ 
+	int h = fontMetrics().height();
+	mpdm_t w;
+	int n, m, y;
+
+	/* calculate window size */
+	w = mpdm_hget_s(mp, L"window");
+	mpdm_hset_s(w, L"tx", MPDM_I(this->width() / fontMetrics().width("M")));
+	mpdm_hset_s(w, L"ty", MPDM_I(this->height() / h));
+
+	QPainter painter(area);
+
+/*	painter.drawText(0, y, QString("MUAUHAHA"));
+	painter.drawText(0, y + fontMetrics().height(), QString("123"));
+*/
+	w = mp_draw(mp_active(), 0);
+	y = 16;
+
+	for (n = 0; n < mpdm_size(w); n++) {
+		mpdm_t l = mpdm_aget(w, n);
+		int x = 0;
+
+		if (l == NULL)
+			continue;
+
+		for (m = 0; m < mpdm_size(l); m++) {
+			int attr;
+			mpdm_t s;
+			char *ptr;
+
+			/* get the attribute and the string */
+			attr = mpdm_ival(mpdm_aget(l, m++));
+			s = mpdm_aget(l, m);
+
+			ptr = mpdm_wcstombs(mpdm_string(s), NULL);
+
+			painter.drawText(x, y, QString(ptr));
+
+			x += fontMetrics().width(ptr);
+
+			free(ptr);
+		}
+
+		y += h;
+	}
+
 	draw_status();
 }
 
 
-/* class methods */
+/* MPWindow class methods */
 
 MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 {
@@ -160,7 +220,8 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	statusbar->insertItem("mp " VERSION, 0);
 
 	/* main area */
-	setCentralWidget(new KArrowButton());
+	area = new MPArea(this);
+	setCentralWidget(area);
 }
 
 
@@ -187,7 +248,7 @@ bool MPWindow::event(QEvent *event)
 void MPWindow::keyReleaseEvent(QKeyEvent *event)
 {
 	if (!event->isAutoRepeat() && mp_keypress_throttle(0))
-		kde4_drv_paint(mp_active(), 0);
+		area->update();
 }
 
 
@@ -300,7 +361,7 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 		mp_process_event(k);
 
 	if (mp_keypress_throttle(1))
-		kde4_drv_paint(mp_active(), 1);
+		area->update();
 }
 
 
