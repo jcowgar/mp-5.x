@@ -206,15 +206,17 @@ void MPArea::paintEvent(QPaintEvent *)
 	mpdm_t w;
 	int n, m, y;
 
+	QPainter painter(area);
+
 /*	if (papers == NULL)
 		build_colors();*/
+
+	painter.setFont(QFont(QString("Mono"), 14));
 
 	/* calculate window size */
 	w = mpdm_hget_s(mp, L"window");
 	mpdm_hset_s(w, L"tx", MPDM_I(this->width() / fontMetrics().width("M")));
 	mpdm_hset_s(w, L"ty", MPDM_I(this->height() / h));
-
-	QPainter painter(area);
 
 	w = mp_draw(mp_active(), 0);
 	y = 16;
