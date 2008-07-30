@@ -181,8 +181,7 @@ static void build_menu(void)
 		mi = mpdm_aget(m, n);
 		v = mpdm_aget(mi, 0);
 
-		QString qs = str_to_qstring(mpdm_gettext(v));
-		menubar->addMenu(qs);
+		menubar->addMenu(str_to_qstring(mpdm_gettext(v)));
 	}
 
 	menubar->show();
@@ -191,8 +190,7 @@ static void build_menu(void)
 
 static void draw_status(void)
 {
-	QString qs = str_to_qstring(mp_build_status_line());
-	statusbar->changeItem(qs, 0);
+	statusbar->changeItem(str_to_qstring(mp_build_status_line()), 0);
 }
 
 
