@@ -106,6 +106,50 @@ static mpdm_t qstring_to_str(QString s)
 }
 
 
+QBrush *papers = NULL;
+int normal_attr = 0;
+
+static void build_colors(void)
+/* builds the colors */
+{
+	mpdm_t colors;
+	mpdm_t l;
+	mpdm_t c;
+	int n, s;
+
+	/* gets the color definitions and attribute names */
+	colors = mpdm_hget_s(mp, L"colors");
+	l = mpdm_keys(colors);
+	s = mpdm_size(l);
+
+	/* redim the structures */
+//	inks = realloc(inks, sizeof(GdkColor) * s);
+	papers = (QBrush *)realloc(papers, sizeof(QBrush) * s);
+
+	/* loop the colors */
+	for (n = 0; n < s && (c = mpdm_aget(l, n)) != NULL; n++) {
+		int rgb;
+		mpdm_t d = mpdm_hget(colors, c);
+		mpdm_t v = mpdm_hget_s(d, L"gui");
+
+		/* store the 'normal' attribute */
+		if (wcscmp(mpdm_string(c), L"normal") == 0)
+			normal_attr = n;
+
+		/* store the attr */
+		mpdm_hset_s(d, L"attr", MPDM_I(n));
+
+		rgb = mpdm_ival(mpdm_aget(v, 1));
+
+		papers[n] = QBrush(QColor::fromRgbF(
+			(float) ((rgb & 0x00ff0000) >> 16)	/ 256.0,
+			(float) ((rgb & 0x0000ff00) >> 8)	/ 256.0,
+			(float) ((rgb & 0x000000ff))		/ 256.0,
+			1));
+	}
+}
+
+
 static void build_menu(void)
 {
 	int n;
@@ -162,6 +206,9 @@ void MPArea::paintEvent(QPaintEvent *)
 	mpdm_t w;
 	int n, m, y;
 
+/*	if (papers == NULL)
+		build_colors();*/
+
 	/* calculate window size */
 	w = mpdm_hget_s(mp, L"window");
 	mpdm_hset_s(w, L"tx", MPDM_I(this->width() / fontMetrics().width("M")));
@@ -169,11 +216,14 @@ void MPArea::paintEvent(QPaintEvent *)
 
 	QPainter painter(area);
 
-/*	painter.drawText(0, y, QString("MUAUHAHA"));
-	painter.drawText(0, y + fontMetrics().height(), QString("123"));
-*/
 	w = mp_draw(mp_active(), 0);
 	y = 16;
+
+	painter.setBackgroundMode(Qt::OpaqueMode);
+	painter.setBackground(QBrush(QColor::fromRgbF(1,1,1,1)));
+
+	painter.setBrush(QBrush(QColor::fromRgbF(1,1,1,1)));
+	painter.drawRect(0, 0, this->width(), this->height());
 
 	for (n = 0; n < mpdm_size(w); n++) {
 		mpdm_t l = mpdm_aget(w, n);
