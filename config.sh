@@ -15,6 +15,9 @@ PREFIX=/usr/local
 # store command line args for configuring the libraries
 CONF_ARGS="$*"
 
+# experimental features
+WITHOUT_KDE4=1
+
 # parse arguments
 while [ $# -gt 0 ] ; do
 
@@ -22,6 +25,7 @@ while [ $# -gt 0 ] ; do
 	--without-curses)	WITHOUT_CURSES=1 ;;
 	--without-gtk)		WITHOUT_GTK=1 ;;
 	--without-win32)	WITHOUT_WIN32=1 ;;
+	--with-kde4)		WITHOUT_KDE4=0 ;;
 	--without-kde4)		WITHOUT_KDE4=1 ;;
 	--help)			CONFIG_HELP=1 ;;
 
