@@ -63,8 +63,6 @@ class MPWindow : public KMainWindow
 		bool event(QEvent *event);
 		void keyPressEvent(QKeyEvent *event);
 		void keyReleaseEvent(QKeyEvent *event);
-/*  private:
-    KTextEdit* textArea;*/
 };
 
 class MPArea : public QWidget
@@ -117,7 +115,9 @@ QString str_to_qstring(mpdm_t s)
 }
 
 
-QBrush *papers = NULL;
+#define MAX_COLORS 1000
+QPen inks[MAX_COLORS];
+QBrush papers[MAX_COLORS];
 int normal_attr = 0;
 
 static void build_colors(void)
@@ -133,13 +133,9 @@ static void build_colors(void)
 	l = mpdm_keys(colors);
 	s = mpdm_size(l);
 
-	/* redim the structures */
-//	inks = realloc(inks, sizeof(GdkColor) * s);
-	papers = (QBrush *)realloc(papers, sizeof(QBrush) * s);
-
 	/* loop the colors */
 	for (n = 0; n < s && (c = mpdm_aget(l, n)) != NULL; n++) {
-		int rgb;
+		int rgbi, rgbp;
 		mpdm_t d = mpdm_hget(colors, c);
 		mpdm_t v = mpdm_hget_s(d, L"gui");
 
@@ -150,12 +146,28 @@ static void build_colors(void)
 		/* store the attr */
 		mpdm_hset_s(d, L"attr", MPDM_I(n));
 
-		rgb = mpdm_ival(mpdm_aget(v, 1));
+		rgbi = mpdm_ival(mpdm_aget(v, 0));
+		rgbp = mpdm_ival(mpdm_aget(v, 1));
+
+		/* flags */
+		v = mpdm_hget_s(d, L"flags");
+
+		if (mpdm_seek_s(v, L"reverse", 1) != -1) {
+			int t = rgbi;
+			rgbi = rgbp;
+			rgbp = t;
+		}
+
+		inks[n] = QPen(QColor::fromRgbF(
+			(float) ((rgbi & 0x00ff0000) >> 16)	/ 256.0,
+			(float) ((rgbi & 0x0000ff00) >> 8)	/ 256.0,
+			(float) ((rgbi & 0x000000ff))		/ 256.0,
+			1));
 
 		papers[n] = QBrush(QColor::fromRgbF(
-			(float) ((rgb & 0x00ff0000) >> 16)	/ 256.0,
-			(float) ((rgb & 0x0000ff00) >> 8)	/ 256.0,
-			(float) ((rgb & 0x000000ff))		/ 256.0,
+			(float) ((rgbp & 0x00ff0000) >> 16)	/ 256.0,
+			(float) ((rgbp & 0x0000ff00) >> 8)	/ 256.0,
+			(float) ((rgbp & 0x000000ff))		/ 256.0,
 			1));
 	}
 }
@@ -242,9 +254,6 @@ void MPArea::paintEvent(QPaintEvent *)
 
 	QPainter painter(this);
 
-/*	if (papers == NULL)
-		build_colors();*/
-
 	painter.setFont(build_font(0));
 	h = painter.fontMetrics().height();
 
@@ -257,9 +266,8 @@ void MPArea::paintEvent(QPaintEvent *)
 	y = menubar->height();
 
 	painter.setBackgroundMode(Qt::OpaqueMode);
-	painter.setBackground(QBrush(QColor::fromRgbF(1,1,1,1)));
 
-	painter.setBrush(QBrush(QColor::fromRgbF(1,1,1,1)));
+	painter.setBrush(papers[normal_attr]);
 	painter.drawRect(0, 0, this->width(), this->height());
 
 	for (n = 0; n < mpdm_size(w); n++) {
@@ -277,6 +285,9 @@ void MPArea::paintEvent(QPaintEvent *)
 			/* get the attribute and the string */
 			attr = mpdm_ival(mpdm_aget(l, m++));
 			s = mpdm_aget(l, m);
+
+			painter.setPen(inks[attr]);
+			painter.setBackground(papers[attr]);
 
 			ptr = mpdm_wcstombs(mpdm_string(s), NULL);
 
@@ -457,6 +468,7 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 static mpdm_t kde4_drv_update_ui(mpdm_t a)
 {
 	build_font(1);
+	build_colors();
 	build_menu();
 
 	return NULL;
@@ -579,6 +591,7 @@ static mpdm_t kde4_drv_startup(mpdm_t a)
 	register_functions();
 
 	build_font(1);
+	build_colors();
 
 	window = new MPWindow();
 	window->show();
