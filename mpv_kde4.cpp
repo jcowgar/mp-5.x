@@ -108,7 +108,7 @@ QString str_to_qstring(mpdm_t s)
 /* converts an MPDM string to a QString */
 {
 	char *ptr = mpdm_wcstombs(mpdm_string(s), NULL);
-	QString qs(ptr);
+	QString qs = QString::fromUtf8(ptr);
 	free(ptr);
 
 	return qs;
@@ -280,7 +280,6 @@ void MPArea::paintEvent(QPaintEvent *)
 		for (m = 0; m < mpdm_size(l); m++) {
 			int attr;
 			mpdm_t s;
-			char *ptr;
 
 			/* get the attribute and the string */
 			attr = mpdm_ival(mpdm_aget(l, m++));
@@ -289,13 +288,11 @@ void MPArea::paintEvent(QPaintEvent *)
 			painter.setPen(inks[attr]);
 			painter.setBackground(papers[attr]);
 
-			ptr = mpdm_wcstombs(mpdm_string(s), NULL);
+			QString qs = str_to_qstring(s);
 
-			painter.drawText(x, y, QString(ptr));
+			painter.drawText(x, y, qs);
 
-			x += painter.fontMetrics().width(ptr);
-
-			free(ptr);
+			x += painter.fontMetrics().width(qs);
 		}
 
 		y += h;
