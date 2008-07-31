@@ -282,7 +282,7 @@ void MPArea::paintEvent(QPaintEvent *)
 
 			painter.drawText(x, y, QString(ptr));
 
-			x += fontMetrics().width(ptr);
+			x += painter.fontMetrics().width(ptr);
 
 			free(ptr);
 		}
