@@ -161,7 +161,41 @@ static void build_colors(void)
 }
 
 
+static QFont build_font(int rebuild)
+/* (re)builds the font */
+{
+	static QFont font;
+
+	if (rebuild) {
+		mpdm_t c;
+		char * font_face = (char *)"Mono";
+		int font_size = 12;
+
+		if ((c = mpdm_hget_s(mp, L"config")) != NULL) {
+			mpdm_t v;
+
+			if ((v = mpdm_hget_s(c, L"font_size")) != NULL)
+				font_size = mpdm_ival(v);
+			else
+				mpdm_hset_s(c, L"font_size", MPDM_I(font_size));
+
+			if ((v = mpdm_hget_s(c, L"font_face")) != NULL) {
+				v = MPDM_2MBS((wchar_t *)v->data);
+				font_face = (char *)v->data;
+			}
+			else
+				mpdm_hset_s(c, L"font_face", MPDM_MBS(font_face));
+		}
+
+		font = QFont(QString(font_face), font_size);
+	}
+
+	return font;
+}
+
+
 static void build_menu(void)
+/* builds the menu */
 {
 	int n;
 	mpdm_t m;
@@ -203,16 +237,16 @@ MPArea::MPArea(QWidget *parent) : QWidget(parent)
 
 void MPArea::paintEvent(QPaintEvent *) 
 { 
-	int h = (fontMetrics().height() * 5) / 4;
-	mpdm_t w, v;
-	int n, m, y;
+	mpdm_t w;
+	int h, n, m, y;
 
 	QPainter painter(this);
 
 /*	if (papers == NULL)
 		build_colors();*/
 
-	painter.setFont(QFont(QString("Mono"), 14));
+	painter.setFont(build_font(0));
+	h = (fontMetrics().height() * 5) / 4;
 
 	/* calculate window size */
 	w = mpdm_hget_s(mp, L"window");
@@ -422,6 +456,7 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 
 static mpdm_t kde4_drv_update_ui(mpdm_t a)
 {
+	build_font(1);
 	build_menu();
 
 	return NULL;
@@ -542,6 +577,8 @@ static mpdm_t kde4_drv_startup(mpdm_t a)
 /* driver initialization */
 {
 	register_functions();
+
+	build_font(1);
 
 	window = new MPWindow();
 	window->show();
