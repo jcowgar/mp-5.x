@@ -246,11 +246,11 @@ void MPArea::paintEvent(QPaintEvent *)
 		build_colors();*/
 
 	painter.setFont(build_font(0));
-	h = (fontMetrics().height() * 5) / 4;
+	h = painter.fontMetrics().height();
 
 	/* calculate window size */
 	w = mpdm_hget_s(mp, L"window");
-	mpdm_hset_s(w, L"tx", MPDM_I(this->width() / fontMetrics().width("M")));
+	mpdm_hset_s(w, L"tx", MPDM_I(this->width() / painter.fontMetrics().width("M")));
 	mpdm_hset_s(w, L"ty", MPDM_I(this->height() / h));
 
 	w = mp_draw(mp_active(), 0);
