@@ -65,6 +65,7 @@ class MPWindow : public KMainWindow
 		void keyReleaseEvent(QKeyEvent *event);
 		void mousePressEvent(QMouseEvent *event);
 		void mouseReleaseEvent(QMouseEvent *event);
+		void mouseMoveEvent(QMouseEvent *event);
 		void wheelEvent(QWheelEvent *event);
 };
 
@@ -495,6 +496,32 @@ void MPWindow::mousePressEvent(QMouseEvent *event)
 void MPWindow::mouseReleaseEvent(QMouseEvent *event)
 {
 	mouse_down = 0;
+}
+
+
+void MPWindow::mouseMoveEvent(QMouseEvent *event)
+{
+	static int ox = 0;
+	static int oy = 0;
+
+	if (mouse_down) {
+		int x, y;
+
+		QPoint pos = event->pos();
+
+		/* mouse dragging */
+		x = (pos.x()) / font_width;
+		y = (pos.y() - menubar->height()) / font_height;
+
+		if (ox != x && oy != y) {
+			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
+			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
+
+			mp_process_event(MPDM_LS(L"mouse-drag"));
+
+			area->update();
+		}
+	}
 }
 
 
