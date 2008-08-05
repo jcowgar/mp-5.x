@@ -63,6 +63,9 @@ class MPWindow : public KMainWindow
 		bool event(QEvent *event);
 		void keyPressEvent(QKeyEvent *event);
 		void keyReleaseEvent(QKeyEvent *event);
+		void mousePressEvent(QMouseEvent *event);
+		void mouseReleaseEvent(QMouseEvent *event);
+		void wheelEvent(QWheelEvent *event);
 };
 
 class MPArea : public QWidget
@@ -80,6 +83,10 @@ MPWindow *window;
 MPArea *area;
 KMenuBar *menubar;
 KStatusBar *statusbar;
+
+static int font_width = -1;
+static int font_height = -1;
+static int mouse_down = 0;
 
 /*******************
 	Code
@@ -247,17 +254,19 @@ MPArea::MPArea(QWidget *parent) : QWidget(parent)
 void MPArea::paintEvent(QPaintEvent *) 
 { 
 	mpdm_t w;
-	int h, n, m, y;
+	int n, m, y;
 
 	QPainter painter(this);
 
 	painter.setFont(build_font(0));
-	h = painter.fontMetrics().height();
+
+	font_width = painter.fontMetrics().width("M");
+	font_height = painter.fontMetrics().height();
 
 	/* calculate window size */
 	w = mpdm_hget_s(mp, L"window");
-	mpdm_hset_s(w, L"tx", MPDM_I(this->width() / painter.fontMetrics().width("M")));
-	mpdm_hset_s(w, L"ty", MPDM_I(this->height() / h));
+	mpdm_hset_s(w, L"tx", MPDM_I(this->width() / font_width));
+	mpdm_hset_s(w, L"ty", MPDM_I(this->height() / font_height));
 
 	w = mp_draw(mp_active(), 0);
 	y = menubar->height();
@@ -292,7 +301,7 @@ void MPArea::paintEvent(QPaintEvent *)
 			x += painter.fontMetrics().width(qs);
 		}
 
-		y += h;
+		y += font_height;
 	}
 
 	draw_status();
@@ -454,6 +463,49 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 
 	if (mp_keypress_throttle(1))
 		area->update();
+}
+
+
+void MPWindow::mousePressEvent(QMouseEvent *event)
+{
+	wchar_t *ptr = NULL;
+
+	mouse_down = 1;
+
+	QPoint pos = event->pos();
+
+	mpdm_hset_s(mp, L"mouse_x", MPDM_I(pos.x() / font_width));
+	mpdm_hset_s(mp, L"mouse_y", MPDM_I((pos.y() - menubar->height()) / font_height));
+
+	switch (event->button()) {
+	case Qt::LeftButton: ptr = (wchar_t *)L"mouse-left-button"; break;
+	case Qt::MidButton: ptr = (wchar_t *)L"mouse-middle-button"; break;
+	case Qt::RightButton: ptr = (wchar_t *)L"mouse-right-button"; break;
+	default:
+		break;
+	}
+
+	if (ptr != NULL)
+		mp_process_event(MPDM_S(ptr));
+
+	area->update();
+}
+
+
+void MPWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+	mouse_down = 0;
+}
+
+
+void MPWindow::wheelEvent(QWheelEvent *event)
+{
+	if (event->delta() > 0)
+		mp_process_event(MPDM_S(L"mouse-wheel-up"));
+	else
+		mp_process_event(MPDM_S(L"mouse-wheel-down"));
+
+	area->update();
 }
 
 
