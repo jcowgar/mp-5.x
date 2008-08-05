@@ -218,15 +218,12 @@ static void build_menu(void)
 {
 	int n;
 	mpdm_t m;
-	mpdm_t desc;
 
 	/* gets the current menu */
 	if ((m = mpdm_hget_s(mp, L"menu")) == NULL)
 		return;
 
 	menubar->clear();
-
-	desc = mpdm_hget_s(mp, L"actdesc");
 
 	for (n = 0; n < mpdm_size(m); n++) {
 		mpdm_t mi;
@@ -252,7 +249,7 @@ static void build_menu(void)
 				menu->addSeparator();
 			else
 				menu->addAction(str_to_qstring(
-					mpdm_hget(desc, w)));
+					mp_menu_label(w)));
 		}
 
 		menubar->addMenu(menu);
