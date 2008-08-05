@@ -351,6 +351,8 @@ bool MPWindow::queryExit(void)
 {
 	mp_process_event(MPDM_LS(L"close-window"));
 
+	this->saveAutoSaveSettings();
+
 	return mp_exit_requested ? true : false;
 }
 
