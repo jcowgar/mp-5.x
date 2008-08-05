@@ -333,8 +333,6 @@ void MPArea::paintEvent(QPaintEvent *)
 
 MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 {
-	this->setAutoSaveSettings(QLatin1String("Minimum Profit"), true);
-
 	menubar = this->menuBar();
 	build_menu();
 
@@ -344,6 +342,8 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	/* main area */
 	area = new MPArea(this);
 	setCentralWidget(area);
+
+	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
 }
 
 
