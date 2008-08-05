@@ -225,15 +225,12 @@ static void build_menu(void)
 /* builds the menu */
 {
 	int n;
-	mpdm_t desc, m;
+	mpdm_t m;
 	int win32_menu_id = 1000;
 
 	/* gets the current menu */
 	if ((m = mpdm_hget_s(mp, L"menu")) == NULL)
 		return;
-
-	/* get the action descriptions */
-	desc = mpdm_hget_s(mp, L"actdesc");
 
 	if (menu != NULL)
 		DestroyMenu(menu);

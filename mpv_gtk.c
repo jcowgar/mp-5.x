@@ -295,11 +295,7 @@ static void build_submenu(GtkWidget * menu, mpdm_t labels)
 /* build a submenu */
 {
 	int n;
-	mpdm_t desc;
 	GtkWidget * menu_item;
-
-	/* get the action descriptions */
-	desc = mpdm_hget_s(mp, L"actdesc");
 
 	for (n = 0; n < mpdm_size(labels); n++) {
 		/* get the action */
