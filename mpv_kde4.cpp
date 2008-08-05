@@ -38,6 +38,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
+#include <QtGui/QMenu>
 
 #include <KApplication>
 #include <KAboutData>
@@ -46,6 +47,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KMainWindow>
 #include <KMenuBar>
 #include <KStatusBar>
+#include <KMenu>
 
 #include <KMessageBox>
 #include <KFileDialog>
@@ -216,6 +218,7 @@ static void build_menu(void)
 {
 	int n;
 	mpdm_t m;
+	mpdm_t desc;
 
 	/* gets the current menu */
 	if ((m = mpdm_hget_s(mp, L"menu")) == NULL)
@@ -223,16 +226,36 @@ static void build_menu(void)
 
 	menubar->clear();
 
+	desc = mpdm_hget_s(mp, L"actdesc");
+
 	for (n = 0; n < mpdm_size(m); n++) {
 		mpdm_t mi;
 		mpdm_t v;
 		int i;
 
-		/* get the label and the items */
+		/* get the label */
 		mi = mpdm_aget(m, n);
 		v = mpdm_aget(mi, 0);
 
-		menubar->addMenu(str_to_qstring(mpdm_gettext(v)));
+		KMenu *menu = new KMenu(str_to_qstring(mpdm_gettext(v)));
+
+		/* get the items */
+		v = mpdm_aget(mi, 1);
+
+		for (i = 0; i < mpdm_size(v); i++) {
+			wchar_t *wptr;
+			mpdm_t w = mpdm_aget(v, i);
+
+			wptr = mpdm_string(w);
+
+			if (*wptr == L'-')
+				menu->addSeparator();
+			else
+				menu->addAction(str_to_qstring(
+					mpdm_hget(desc, w)));
+		}
+
+		menubar->addMenu(menu);
 	}
 
 	menubar->show();
