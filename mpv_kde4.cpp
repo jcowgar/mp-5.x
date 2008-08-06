@@ -486,6 +486,13 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 
 	if (mp_keypress_throttle(1))
 		area->update();
+
+	/* there should be a better way of telling app->exec()
+	   to terminate, but I don't know how */
+	if (mp_exit_requested) {
+		this->saveAutoSaveSettings();
+		exit(0);
+	}
 }
 
 
