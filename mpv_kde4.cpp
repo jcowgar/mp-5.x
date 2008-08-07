@@ -49,6 +49,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KStatusBar>
 #include <KMenu>
 
+#include <KDialog>
 #include <KMessageBox>
 #include <KFileDialog>
 #include <KUrl>
@@ -644,6 +645,17 @@ static mpdm_t kde4_drv_savefile(mpdm_t a)
 }
 
 
+static mpdm_t kde4_drv_form(mpdm_t a)
+{
+	KDialog *dialog = new KDialog(window);
+	dialog->setButtons(KDialog::Ok | KDialog::Cancel);
+
+	dialog->show();
+
+	return NULL;
+}
+
+
 static mpdm_t kde4_drv_main_loop(mpdm_t a)
 {
 	app->exec();
@@ -683,7 +695,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"confirm", MPDM_X(kde4_drv_confirm));
 	mpdm_hset_s(drv, L"openfile", MPDM_X(kde4_drv_openfile));
 	mpdm_hset_s(drv, L"savefile", MPDM_X(kde4_drv_savefile));
-/*	mpdm_hset_s(drv, L"form", MPDM_X(kde4_drv_form));*/
+	mpdm_hset_s(drv, L"form", MPDM_X(kde4_drv_form));
 }
 
 
