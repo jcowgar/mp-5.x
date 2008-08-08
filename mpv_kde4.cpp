@@ -690,6 +690,8 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 			QComboBox *ql = new QComboBox();
 
 			ql->setEditable(true);
+			ql->setMinimumContentsLength(30);
+			ql->setMaxVisibleItems(8);
 
 			if (t != NULL)
 				ql->setEditText(str_to_qstring(t));
