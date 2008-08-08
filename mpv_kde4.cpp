@@ -730,6 +730,9 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 
 			qlist[n] = ql;
 		}
+
+		if (n == 0)
+			qlist[n]->setFocus(Qt::OtherFocusReason);
 	}
 
 	n = dialog->exec();
