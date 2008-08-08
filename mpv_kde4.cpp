@@ -45,6 +45,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <QtGui/QLineEdit>
 #include <QtGui/QCheckBox>
 #include <QtGui/QListWidget>
+#include <QtGui/QScrollBar>
 
 #include <KApplication>
 #include <KAboutData>
@@ -96,6 +97,7 @@ MPWindow *window;
 MPArea *area;
 KMenuBar *menubar;
 KStatusBar *statusbar;
+QScrollBar *scrollbar;
 
 static int font_width = -1;
 static int font_height = -1;
@@ -349,9 +351,13 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	statusbar = this->statusBar();
 	statusbar->insertItem("mp " VERSION, 0);
 
+	KHBox *hb = new KHBox(this);
+
 	/* main area */
-	area = new MPArea(this);
-	setCentralWidget(area);
+	area = new MPArea(hb);
+	scrollbar = new QScrollBar(hb);
+
+	setCentralWidget(hb);
 
 	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
 }
