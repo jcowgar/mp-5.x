@@ -271,6 +271,21 @@ static void build_menu(void)
 }
 
 
+static void draw_scrollbar(void)
+{
+	mpdm_t txt = mpdm_hget_s(mp_active(), L"txt");
+	mpdm_t lines = mpdm_hget_s(txt, L"lines");
+	mpdm_t y = mpdm_hget_s(txt, L"y");
+	mpdm_t window = mpdm_hget_s(mp, L"window");
+	mpdm_t ty = mpdm_hget_s(window, L"ty");
+
+	scrollbar->setMinimum(0);
+	scrollbar->setMaximum(mpdm_size(lines) - 1);
+	scrollbar->setValue(mpdm_ival(y));
+	scrollbar->setPageStep(mpdm_ival(ty));
+}
+
+
 static void draw_status(void)
 {
 	statusbar->changeItem(str_to_qstring(mp_build_status_line()), 0);
@@ -337,6 +352,7 @@ void MPArea::paintEvent(QPaintEvent *)
 		y += font_height;
 	}
 
+	draw_scrollbar();
 	draw_status();
 }
 
