@@ -40,7 +40,6 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <QtGui/QPainter>
 #include <QtGui/QMenu>
 
-#include <QtGui/QGridLayout>
 #include <QtGui/QLabel>
 #include <QtGui/QComboBox>
 #include <QtGui/QLineEdit>
@@ -55,6 +54,9 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KMenuBar>
 #include <KStatusBar>
 #include <KMenu>
+
+#include <KVBox>
+#include <KHBox>
 
 #include <KDialog>
 #include <KMessageBox>
@@ -667,27 +669,26 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 
 	widget_list = mpdm_aget(a, 0);
 
-	QGridLayout *g = new QGridLayout();
-//	dialog->setMainWidget((QWidget *)g);
-	dialog->setLayout(g);
+	KVBox *vb = new KVBox(dialog);
+	dialog->setMainWidget(vb);
 
 	for (n = 0; n < mpdm_size(widget_list); n++) {
 		mpdm_t w = mpdm_aget(widget_list, n);
 		wchar_t *type;
 		mpdm_t t;
+		KHBox *hb = new KHBox(vb);
 
 		type = mpdm_string(mpdm_hget_s(w, L"type"));
 
 		if ((t = mpdm_hget_s(w, L"label")) != NULL) {
-			QLabel *ql = new QLabel(str_to_qstring(mpdm_gettext(t)));
-
-			g->addWidget(ql, n, 0);
+			QLabel *ql = new QLabel(hb);
+			ql->setText(str_to_qstring(mpdm_gettext(t)));
 		}
 
 		t = mpdm_hget_s(w, L"value");
 
 		if (wcscmp(type, L"text") == 0) {
-			QComboBox *ql = new QComboBox();
+			QComboBox *ql = new QComboBox(hb);
 
 			ql->setEditable(true);
 			ql->setMinimumContentsLength(30);
@@ -700,7 +701,7 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 		}
 		else
 		if (wcscmp(type, L"password") == 0) {
-			QLineEdit *ql = new QLineEdit();
+			QLineEdit *ql = new QLineEdit(hb);
 
 			ql->setEchoMode(QLineEdit::Password);
 
@@ -708,7 +709,7 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 		}
 		else
 		if (wcscmp(type, L"checkbox") == 0) {
-			QCheckBox *qc = new QCheckBox();
+			QCheckBox *qc = new QCheckBox(hb);
 
 			if (mpdm_ival(t))
 				qc->setCheckState(Qt::Checked);
@@ -718,7 +719,7 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 		else
 		if (wcscmp(type, L"list") == 0) {
 			int i;
-			QListWidget *ql = new QListWidget();
+			QListWidget *ql = new QListWidget(hb);
 
 			mpdm_t l = mpdm_hget_s(w, L"list");
 
@@ -729,8 +730,6 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 
 			qlist[n] = ql;
 		}
-
-		g->addWidget(qlist[n], n, 1);
 	}
 
 	n = dialog->exec();
