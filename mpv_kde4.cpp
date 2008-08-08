@@ -40,6 +40,12 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <QtGui/QPainter>
 #include <QtGui/QMenu>
 
+#include <QtGui/QGridLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
+#include <QtGui/QCheckBox>
+#include <QtGui/QListWidget>
+
 #include <KApplication>
 #include <KAboutData>
 #include <KCmdLineArgs>
@@ -649,19 +655,85 @@ mpdm_t form_values = NULL;
 
 static mpdm_t kde4_drv_form(mpdm_t a)
 {
-	int r;
+	int n;
+	mpdm_t widget_list;
 
 	KDialog *dialog = new KDialog(window);
 
 	dialog->setModal(true);
 	dialog->setButtons(KDialog::Ok | KDialog::Cancel);
 
+	widget_list = mpdm_aget(a, 0);
+
 	mpdm_unref(form_values);
-	form_values = mpdm_ref(MPDM_A(mpdm_size(mpdm_aget(a, 0))));
+	form_values = mpdm_ref(MPDM_A(mpdm_size(widget_list)));
 
-	r = dialog->exec();
+	QGridLayout *g = new QGridLayout();
+//	dialog->setMainWidget((QWidget *)g);
+	dialog->setLayout(g);
 
-	return r ? form_values : NULL;
+	for (n = 0; n < mpdm_size(widget_list); n++) {
+		QWidget *qw;
+		mpdm_t w = mpdm_aget(widget_list, n);
+		wchar_t *type;
+		mpdm_t t;
+
+		type = mpdm_string(mpdm_hget_s(w, L"type"));
+
+		if ((t = mpdm_hget_s(w, L"label")) != NULL) {
+			QLabel *ql = new QLabel(str_to_qstring(mpdm_gettext(t)));
+
+			g->addWidget(ql, n, 0);
+		}
+
+		t = mpdm_hget_s(w, L"value");
+
+		if (wcscmp(type, L"text") == 0) {
+			QLineEdit *ql = new QLineEdit();
+
+			if (t != NULL)
+				ql->setText(str_to_qstring(t));
+
+			qw = ql;
+		}
+		else
+		if (wcscmp(type, L"password") == 0) {
+			QLineEdit *ql = new QLineEdit();
+
+			ql->setEchoMode(QLineEdit::Password);
+
+			qw = ql;
+		}
+		else
+		if (wcscmp(type, L"checkbox") == 0) {
+			QCheckBox *qc = new QCheckBox();
+
+			if (mpdm_ival(t))
+				qc->setCheckState(Qt::Checked);
+
+			qw = qc;
+		}
+		else
+		if (wcscmp(type, L"list") == 0) {
+			int i;
+			QListWidget *ql = new QListWidget();
+
+			mpdm_t l = mpdm_hget_s(w, L"list");
+
+			for (i = 0; i < mpdm_size(l); i++)
+				ql->addItem(str_to_qstring(mpdm_aget(l, i)));
+
+			ql->setCurrentRow(mpdm_ival(t));
+
+			qw = ql;
+		}
+
+		g->addWidget(qw, n, 1);
+	}
+
+	n = dialog->exec();
+
+	return n ? form_values : NULL;
 }
 
 
