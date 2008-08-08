@@ -657,6 +657,7 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 {
 	int n;
 	mpdm_t widget_list;
+	QWidget *qlist[100];
 
 	KDialog *dialog = new KDialog(window);
 
@@ -665,15 +666,11 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 
 	widget_list = mpdm_aget(a, 0);
 
-	mpdm_unref(form_values);
-	form_values = mpdm_ref(MPDM_A(mpdm_size(widget_list)));
-
 	QGridLayout *g = new QGridLayout();
 //	dialog->setMainWidget((QWidget *)g);
 	dialog->setLayout(g);
 
 	for (n = 0; n < mpdm_size(widget_list); n++) {
-		QWidget *qw;
 		mpdm_t w = mpdm_aget(widget_list, n);
 		wchar_t *type;
 		mpdm_t t;
@@ -694,7 +691,7 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 			if (t != NULL)
 				ql->setText(str_to_qstring(t));
 
-			qw = ql;
+			qlist[n] = ql;
 		}
 		else
 		if (wcscmp(type, L"password") == 0) {
@@ -702,7 +699,7 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 
 			ql->setEchoMode(QLineEdit::Password);
 
-			qw = ql;
+			qlist[n] = ql;
 		}
 		else
 		if (wcscmp(type, L"checkbox") == 0) {
@@ -711,7 +708,7 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 			if (mpdm_ival(t))
 				qc->setCheckState(Qt::Checked);
 
-			qw = qc;
+			qlist[n] = qc;
 		}
 		else
 		if (wcscmp(type, L"list") == 0) {
@@ -725,15 +722,53 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 
 			ql->setCurrentRow(mpdm_ival(t));
 
-			qw = ql;
+			qlist[n] = ql;
 		}
 
-		g->addWidget(qw, n, 1);
+		g->addWidget(qlist[n], n, 1);
 	}
 
 	n = dialog->exec();
 
-	return n ? form_values : NULL;
+	mpdm_unref(form_values);
+	form_values = NULL;
+
+	if (!n)
+		return NULL;
+
+	form_values = mpdm_ref(MPDM_A(mpdm_size(widget_list)));
+
+	/* fill form_values */
+	for (n = 0; n < mpdm_size(widget_list); n++) {
+		mpdm_t w = mpdm_aget(widget_list, n);
+		mpdm_t v = NULL;
+		wchar_t *type;
+
+		type = mpdm_string(mpdm_hget_s(w, L"type"));
+
+		if (wcscmp(type, L"text") == 0 ||
+		    wcscmp(type, L"password") == 0) {
+			QLineEdit *ql = (QLineEdit *)qlist[n];
+
+			v = qstring_to_str(ql->text());
+		}
+		else
+		if (wcscmp(type, L"checkbox") == 0) {
+			QCheckBox *qb = (QCheckBox *)qlist[n];
+
+			v = MPDM_I(qb->checkState() == Qt::Checked);
+		}
+		else
+		if (wcscmp(type, L"list") == 0) {
+			QListWidget *ql = (QListWidget *)qlist[n];
+
+			v = MPDM_I(ql->currentRow());
+		}
+
+		mpdm_aset(form_values, v, n);
+	}
+
+	return form_values;
 }
 
 
