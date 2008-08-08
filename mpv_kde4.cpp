@@ -645,14 +645,23 @@ static mpdm_t kde4_drv_savefile(mpdm_t a)
 }
 
 
+mpdm_t form_values = NULL;
+
 static mpdm_t kde4_drv_form(mpdm_t a)
 {
+	int r;
+
 	KDialog *dialog = new KDialog(window);
+
+	dialog->setModal(true);
 	dialog->setButtons(KDialog::Ok | KDialog::Cancel);
 
-	dialog->show();
+	mpdm_unref(form_values);
+	form_values = mpdm_ref(MPDM_A(mpdm_size(mpdm_aget(a, 0))));
 
-	return NULL;
+	r = dialog->exec();
+
+	return r ? form_values : NULL;
 }
 
 
