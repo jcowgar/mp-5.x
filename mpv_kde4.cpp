@@ -107,6 +107,7 @@ QScrollBar *scrollbar;
 static int font_width = -1;
 static int font_height = -1;
 static int mouse_down = 0;
+static int key_down = 0;
 
 /*******************
 	Code
@@ -278,16 +279,18 @@ static void build_menu(void)
 
 static void draw_scrollbar(void)
 {
-	mpdm_t txt = mpdm_hget_s(mp_active(), L"txt");
-	mpdm_t lines = mpdm_hget_s(txt, L"lines");
-	mpdm_t y = mpdm_hget_s(txt, L"y");
-	mpdm_t window = mpdm_hget_s(mp, L"window");
-	mpdm_t ty = mpdm_hget_s(window, L"ty");
+	if (!key_down) {
+		mpdm_t txt = mpdm_hget_s(mp_active(), L"txt");
+		mpdm_t lines = mpdm_hget_s(txt, L"lines");
+		mpdm_t y = mpdm_hget_s(txt, L"y");
+		mpdm_t window = mpdm_hget_s(mp, L"window");
+		mpdm_t ty = mpdm_hget_s(window, L"ty");
 
-	scrollbar->setMinimum(0);
-	scrollbar->setMaximum(mpdm_size(lines) - 1);
-	scrollbar->setValue(mpdm_ival(y));
-	scrollbar->setPageStep(mpdm_ival(ty));
+		scrollbar->setMinimum(0);
+		scrollbar->setMaximum(mpdm_size(lines) - 1);
+		scrollbar->setValue(mpdm_ival(y));
+		scrollbar->setPageStep(mpdm_ival(ty));
+	}
 }
 
 
@@ -418,8 +421,12 @@ bool MPWindow::event(QEvent *event)
 
 void MPWindow::keyReleaseEvent(QKeyEvent *event)
 {
-	if (!event->isAutoRepeat() && mp_keypress_throttle(0))
-		area->update();
+	if (!event->isAutoRepeat()) {
+		key_down = 0;
+
+		if (mp_keypress_throttle(0))
+			area->update();
+	}
 }
 
 
@@ -427,6 +434,8 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 {
 	mpdm_t k = NULL;
 	wchar_t *ptr = NULL;
+
+	key_down = 1;
 
 	/* set mp.shift_pressed */
 	if (event->modifiers() & Qt::ShiftModifier)
