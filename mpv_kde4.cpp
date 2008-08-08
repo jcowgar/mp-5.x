@@ -84,11 +84,16 @@ class MPWindow : public KMainWindow
 
 class MPArea : public QWidget
 {
+	Q_OBJECT
+
 	public:
 		MPArea(QWidget *parent = 0);
 
 	protected:
 		void paintEvent(QPaintEvent *event);
+
+	public slots:
+		void set_from_scrollbar(int);
 };
 
 /* global data */
@@ -357,6 +362,13 @@ void MPArea::paintEvent(QPaintEvent *)
 }
 
 
+void MPArea::set_from_scrollbar(int value)
+{
+	mp_set_y(mp_active(), value);
+	area->update();
+}
+
+
 /* MPWindow class methods */
 
 MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
@@ -374,6 +386,9 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	scrollbar = new QScrollBar(hb);
 
 	setCentralWidget(hb);
+
+	connect(scrollbar, SIGNAL(valueChanged(int)),
+		area, SLOT(set_from_scrollbar(int)));
 
 	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
 }
@@ -899,3 +914,5 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv)
 
 	return 1;
 }
+
+#include "mpv_kde4.moc"
