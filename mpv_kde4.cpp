@@ -42,6 +42,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 
 #include <QtGui/QGridLayout>
 #include <QtGui/QLabel>
+#include <QtGui/QComboBox>
 #include <QtGui/QLineEdit>
 #include <QtGui/QCheckBox>
 #include <QtGui/QListWidget>
@@ -686,10 +687,12 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 		t = mpdm_hget_s(w, L"value");
 
 		if (wcscmp(type, L"text") == 0) {
-			QLineEdit *ql = new QLineEdit();
+			QComboBox *ql = new QComboBox();
+
+			ql->setEditable(true);
 
 			if (t != NULL)
-				ql->setText(str_to_qstring(t));
+				ql->setEditText(str_to_qstring(t));
 
 			qlist[n] = ql;
 		}
@@ -746,8 +749,13 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 
 		type = mpdm_string(mpdm_hget_s(w, L"type"));
 
-		if (wcscmp(type, L"text") == 0 ||
-		    wcscmp(type, L"password") == 0) {
+		if (wcscmp(type, L"text") == 0) {
+			QComboBox *ql = (QComboBox *)qlist[n];
+
+			v = qstring_to_str(ql->currentText());
+		}
+		else
+		if (wcscmp(type, L"password") == 0) {
 			QLineEdit *ql = (QLineEdit *)qlist[n];
 
 			v = qstring_to_str(ql->text());
