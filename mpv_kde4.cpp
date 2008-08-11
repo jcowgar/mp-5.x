@@ -89,6 +89,7 @@ class MPArea : public QWidget
 
 	public:
 		MPArea(QWidget *parent = 0);
+		void inputMethodEvent(QInputMethodEvent *event);
 
 	protected:
 		void paintEvent(QPaintEvent *event);
@@ -603,6 +604,15 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 		this->saveAutoSaveSettings();
 		exit(0);
 	}
+}
+
+
+void MPArea::inputMethodEvent(QInputMethodEvent *event)
+{
+	QString s = event->commitString();
+
+	mp_process_event(qstring_to_str(s));
+	area->update();
 }
 
 
