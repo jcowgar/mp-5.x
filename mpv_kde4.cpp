@@ -97,6 +97,7 @@ class MPArea : public QWidget
 	public slots:
 		void from_scrollbar(int);
 		void from_filetabs(int);
+		void from_menu(QAction *);
 };
 
 /* global data */
@@ -487,6 +488,12 @@ void MPArea::from_filetabs(int value)
 }
 
 
+void MPArea::from_menu(QAction *action)
+{
+	mpdm_dump(qstring_to_str(action->text()));
+}
+
+
 /* MPWindow methods */
 
 MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
@@ -515,6 +522,9 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 
 	connect(file_tabs, SIGNAL(currentChanged(int)),
 		area, SLOT(from_filetabs(int)));
+
+	connect(menubar, SIGNAL(triggered(QAction *)),
+		area, SLOT(from_menu(QAction *)));
 
 	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
 }
