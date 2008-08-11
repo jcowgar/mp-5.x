@@ -406,9 +406,11 @@ void MPArea::from_scrollbar(int value)
 
 void MPArea::from_filetabs(int value)
 {
-	/* sets the active one */
-	mpdm_hset_s(mp, L"active_i", MPDM_I(value));
-	area->update();
+	if (value > 0) {
+		/* sets the active one */
+		mpdm_hset_s(mp, L"active_i", MPDM_I(value));
+		area->update();
+	}
 }
 
 
