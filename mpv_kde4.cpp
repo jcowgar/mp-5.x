@@ -513,12 +513,14 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	KVBox *vb = new KVBox(this);
 
 	file_tabs = new KTabBar(vb);
+	file_tabs->setFocusPolicy(Qt::NoFocus);
 
 	KHBox *hb = new KHBox(vb);
 
 	/* main area */
 	area = new MPArea(hb);
 	scrollbar = new QScrollBar(hb);
+	scrollbar->setFocusPolicy(Qt::NoFocus);
 
 	setCentralWidget(vb);
 
