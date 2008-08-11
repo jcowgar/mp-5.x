@@ -94,7 +94,8 @@ class MPArea : public QWidget
 		void paintEvent(QPaintEvent *event);
 
 	public slots:
-		void set_from_scrollbar(int);
+		void from_scrollbar(int);
+		void from_filetabs(int);
 };
 
 /* global data */
@@ -396,9 +397,17 @@ void MPArea::paintEvent(QPaintEvent *)
 }
 
 
-void MPArea::set_from_scrollbar(int value)
+void MPArea::from_scrollbar(int value)
 {
 	mp_set_y(mp_active(), value);
+	area->update();
+}
+
+
+void MPArea::from_filetabs(int value)
+{
+	/* sets the active one */
+	mpdm_hset_s(mp, L"active_i", MPDM_I(value));
 	area->update();
 }
 
@@ -427,7 +436,10 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	setCentralWidget(vb);
 
 	connect(scrollbar, SIGNAL(valueChanged(int)),
-		area, SLOT(set_from_scrollbar(int)));
+		area, SLOT(from_scrollbar(int)));
+
+	connect(file_tabs, SIGNAL(currentChanged(int)),
+		area, SLOT(from_filetabs(int)));
 
 	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
 }
