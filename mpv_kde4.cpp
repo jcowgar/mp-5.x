@@ -495,7 +495,16 @@ void MPArea::from_filetabs(int value)
 
 void MPArea::from_menu(QAction *action)
 {
-	mpdm_dump(qstring_to_str(action->text()));
+	mpdm_t label = qstring_to_str(action->text());
+	label = mpdm_sregex(MPDM_LS(L"/&/"), label, NULL, 0);
+
+	mpdm_t a = mpdm_hget_s(mp, L"actions_by_menu_label");
+
+	mp_process_action(mpdm_hget(a, label));
+	area->update();
+
+	if (mp_exit_requested)
+		exit(0);
 }
 
 
