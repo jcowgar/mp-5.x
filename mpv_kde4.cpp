@@ -55,6 +55,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KMenuBar>
 #include <KStatusBar>
 #include <KMenu>
+#include <KTabBar>
 
 #include <KVBox>
 #include <KHBox>
@@ -103,6 +104,7 @@ MPArea *area;
 KMenuBar *menubar;
 KStatusBar *statusbar;
 QScrollBar *scrollbar;
+KTabBar *file_tabs;
 
 static int font_width = -1;
 static int font_height = -1;
@@ -300,6 +302,34 @@ static void draw_status(void)
 }
 
 
+static void draw_filetabs(void)
+{
+	static mpdm_t last = NULL;
+	mpdm_t names;
+	int n;
+
+	names = mp_get_doc_names();
+
+	/* is the list different from the previous one? */
+	if (mpdm_cmp(names, last) != 0) {
+
+		while (file_tabs->count())
+			file_tabs->removeTab(0);
+
+		/* create the new ones */
+		for (n = 0; n < mpdm_size(names); n++)
+			file_tabs->addTab(str_to_qstring(mpdm_aget(names, n)));
+
+		/* store for the next time */
+		mpdm_unref(last);
+		last = mpdm_ref(names);
+	}
+
+	/* set the active one */
+	file_tabs->setCurrentIndex(mpdm_ival(mpdm_hget_s(mp, L"active_i")));
+}
+
+
 /* MPArea class methods */
 
 MPArea::MPArea(QWidget *parent) : QWidget(parent)
@@ -360,6 +390,7 @@ void MPArea::paintEvent(QPaintEvent *)
 		y += font_height;
 	}
 
+	draw_filetabs();
 	draw_scrollbar();
 	draw_status();
 }
@@ -382,13 +413,18 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	statusbar = this->statusBar();
 	statusbar->insertItem("mp " VERSION, 0);
 
-	KHBox *hb = new KHBox(this);
+	/* the full container */
+	KVBox *vb = new KVBox(this);
+
+	file_tabs = new KTabBar(vb);
+
+	KHBox *hb = new KHBox(vb);
 
 	/* main area */
 	area = new MPArea(hb);
 	scrollbar = new QScrollBar(hb);
 
-	setCentralWidget(hb);
+	setCentralWidget(vb);
 
 	connect(scrollbar, SIGNAL(valueChanged(int)),
 		area, SLOT(set_from_scrollbar(int)));
