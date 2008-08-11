@@ -77,9 +77,6 @@ class MPWindow : public KMainWindow
 		bool event(QEvent *event);
 		void keyPressEvent(QKeyEvent *event);
 		void keyReleaseEvent(QKeyEvent *event);
-		void mousePressEvent(QMouseEvent *event);
-		void mouseReleaseEvent(QMouseEvent *event);
-		void mouseMoveEvent(QMouseEvent *event);
 		void wheelEvent(QWheelEvent *event);
 };
 
@@ -90,6 +87,9 @@ class MPArea : public QWidget
 	public:
 		MPArea(QWidget *parent = 0);
 		void inputMethodEvent(QInputMethodEvent *event);
+		void mousePressEvent(QMouseEvent *event);
+		void mouseReleaseEvent(QMouseEvent *event);
+		void mouseMoveEvent(QMouseEvent *event);
 
 	protected:
 		void paintEvent(QPaintEvent *event);
@@ -410,6 +410,64 @@ void MPArea::inputMethodEvent(QInputMethodEvent *event)
 }
 
 
+void MPArea::mousePressEvent(QMouseEvent *event)
+{
+	wchar_t *ptr = NULL;
+
+	mouse_down = 1;
+
+	QPoint pos = event->pos();
+
+	mpdm_hset_s(mp, L"mouse_x", MPDM_I(pos.x() / font_width));
+	mpdm_hset_s(mp, L"mouse_y", MPDM_I(pos.y() / font_height));
+
+	switch (event->button()) {
+	case Qt::LeftButton: ptr = (wchar_t *)L"mouse-left-button"; break;
+	case Qt::MidButton: ptr = (wchar_t *)L"mouse-middle-button"; break;
+	case Qt::RightButton: ptr = (wchar_t *)L"mouse-right-button"; break;
+	default:
+		break;
+	}
+
+	if (ptr != NULL)
+		mp_process_event(MPDM_S(ptr));
+
+	area->update();
+}
+
+
+void MPArea::mouseReleaseEvent(QMouseEvent *event)
+{
+	mouse_down = 0;
+}
+
+
+void MPArea::mouseMoveEvent(QMouseEvent *event)
+{
+	static int ox = 0;
+	static int oy = 0;
+
+	if (mouse_down) {
+		int x, y;
+
+		QPoint pos = event->pos();
+
+		/* mouse dragging */
+		x = pos.x() / font_width;
+		y = pos.y() / font_height;
+
+		if (ox != x && oy != y) {
+			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
+			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
+
+			mp_process_event(MPDM_LS(L"mouse-drag"));
+
+			area->update();
+		}
+	}
+}
+
+
 /* MPArea slots */
 
 void MPArea::from_scrollbar(int value)
@@ -613,64 +671,6 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 	if (mp_exit_requested) {
 		this->saveAutoSaveSettings();
 		exit(0);
-	}
-}
-
-
-void MPWindow::mousePressEvent(QMouseEvent *event)
-{
-	wchar_t *ptr = NULL;
-
-	mouse_down = 1;
-
-	QPoint pos = event->pos();
-
-	mpdm_hset_s(mp, L"mouse_x", MPDM_I(pos.x() / font_width));
-	mpdm_hset_s(mp, L"mouse_y", MPDM_I((pos.y() - menubar->height()) / font_height));
-
-	switch (event->button()) {
-	case Qt::LeftButton: ptr = (wchar_t *)L"mouse-left-button"; break;
-	case Qt::MidButton: ptr = (wchar_t *)L"mouse-middle-button"; break;
-	case Qt::RightButton: ptr = (wchar_t *)L"mouse-right-button"; break;
-	default:
-		break;
-	}
-
-	if (ptr != NULL)
-		mp_process_event(MPDM_S(ptr));
-
-	area->update();
-}
-
-
-void MPWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-	mouse_down = 0;
-}
-
-
-void MPWindow::mouseMoveEvent(QMouseEvent *event)
-{
-	static int ox = 0;
-	static int oy = 0;
-
-	if (mouse_down) {
-		int x, y;
-
-		QPoint pos = event->pos();
-
-		/* mouse dragging */
-		x = (pos.x()) / font_width;
-		y = (pos.y() - menubar->height()) / font_height;
-
-		if (ox != x && oy != y) {
-			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
-			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
-
-			mp_process_event(MPDM_LS(L"mouse-drag"));
-
-			area->update();
-		}
 	}
 }
 
