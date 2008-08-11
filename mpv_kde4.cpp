@@ -911,6 +911,16 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 }
 
 
+static mpdm_t kde4_drv_busy(mpdm_t a)
+{
+	int onoff = mpdm_ival(mpdm_aget(a, 0));
+
+	window->setCursor(onoff ? Qt::WaitCursor : Qt::ArrowCursor);
+
+	return NULL;
+}
+
+
 static mpdm_t kde4_drv_main_loop(mpdm_t a)
 {
 	app->exec();
@@ -943,8 +953,8 @@ static void register_functions(void)
 /*	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(kde4_drv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(kde4_drv_sys_to_clip));*/
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(kde4_drv_update_ui));
-/*	mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));
-	mpdm_hset_s(drv, L"busy", MPDM_X(kde4_drv_busy));*/
+/*	mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));*/
+	mpdm_hset_s(drv, L"busy", MPDM_X(kde4_drv_busy));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(kde4_drv_alert));
 	mpdm_hset_s(drv, L"confirm", MPDM_X(kde4_drv_confirm));
