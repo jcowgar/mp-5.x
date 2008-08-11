@@ -90,6 +90,7 @@ class MPArea : public QWidget
 		void mousePressEvent(QMouseEvent *event);
 		void mouseReleaseEvent(QMouseEvent *event);
 		void mouseMoveEvent(QMouseEvent *event);
+		bool event(QEvent *event);
 
 	protected:
 		void paintEvent(QPaintEvent *event);
@@ -343,6 +344,23 @@ MPArea::MPArea(QWidget *parent) : QWidget(parent)
 	setAttribute(Qt::WA_InputMethodEnabled, true);
 }
 
+
+bool MPArea::event(QEvent *event)
+{
+	/* special tab processing */
+	if (event->type() == QEvent::KeyPress) {
+		QKeyEvent *ke = (QKeyEvent *)event;
+
+		if (ke->key() == Qt::Key_Tab) {
+			mp_process_event(MPDM_LS(L"tab"));
+			area->update();
+			return true;
+		}
+	}
+
+	/* keep normal processing */
+	return QWidget::event(event);
+}
 
 void MPArea::paintEvent(QPaintEvent *) 
 { 
