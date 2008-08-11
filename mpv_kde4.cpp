@@ -304,20 +304,20 @@ static void draw_status(void)
 	statusbar->changeItem(str_to_qstring(mp_build_status_line()), 0);
 }
 
-static int ignore_tab_clicks = 0;
-
 static void draw_filetabs(void)
 {
 	static mpdm_t last = NULL;
 	mpdm_t names;
-	int n;
+	int n, i;
 
 	names = mp_get_doc_names();
 
+	/* get mp.active_i now, because it can be changed
+	   from the signal handler */
+	i = mpdm_ival(mpdm_hget_s(mp, L"active_i"));
+
 	/* is the list different from the previous one? */
 	if (mpdm_cmp(names, last) != 0) {
-
-		ignore_tab_clicks = 1;
 
 		while (file_tabs->count())
 			file_tabs->removeTab(0);
@@ -329,12 +329,10 @@ static void draw_filetabs(void)
 		/* store for the next time */
 		mpdm_unref(last);
 		last = mpdm_ref(names);
-
-		ignore_tab_clicks = 0;
 	}
 
 	/* set the active one */
-	file_tabs->setCurrentIndex(mpdm_ival(mpdm_hget_s(mp, L"active_i")));
+	file_tabs->setCurrentIndex(i);
 }
 
 
@@ -485,7 +483,7 @@ void MPArea::from_scrollbar(int value)
 
 void MPArea::from_filetabs(int value)
 {
-	if (!ignore_tab_clicks && value >= 0) {
+	if (value >= 0) {
 		/* sets the active one */
 		mpdm_hset_s(mp, L"active_i", MPDM_I(value));
 		area->update();
