@@ -500,9 +500,6 @@ void MPArea::from_menu(QAction *action)
 
 	mp_process_action(mpdm_hget(a, label));
 	area->update();
-
-	if (mp_exit_requested)
-		exit(0);
 }
 
 
@@ -556,13 +553,15 @@ bool MPWindow::queryExit(void)
 
 bool MPWindow::event(QEvent *event)
 {
-	/* special events */
+	/* do the processing */
+	bool r = QWidget::event(event);
 
-/*	if (event->type() == QEvent::KeyPress) {
-		QKeyEvent *ke = (QKeyEvent *)event;
-	}*/
+	if (mp_exit_requested) {
+		this->saveAutoSaveSettings();
+		exit(0);
+	}
 
-	return QWidget::event(event);
+	return r;
 }
 
 
@@ -689,13 +688,6 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 
 	if (mp_keypress_throttle(1))
 		area->update();
-
-	/* there should be a better way of telling app->exec()
-	   to terminate, but I don't know how */
-	if (mp_exit_requested) {
-		this->saveAutoSaveSettings();
-		exit(0);
-	}
 }
 
 
