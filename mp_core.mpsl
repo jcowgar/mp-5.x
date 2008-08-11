@@ -173,6 +173,8 @@ mp.menu = [
 	]
 ];
 
+mp.actions_by_menu_label = {};
+
 /*******************
 	Code
 ********************/
@@ -360,6 +362,8 @@ sub mp.menu_label(action)
 			}
 		}
 	}
+
+	mp.actions_by_menu_label[l] = action;
 
 	return l;
 }
