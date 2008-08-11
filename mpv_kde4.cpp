@@ -394,6 +394,8 @@ void MPArea::paintEvent(QPaintEvent *)
 	draw_filetabs();
 	draw_scrollbar();
 	draw_status();
+
+	area->setFocus(Qt::OtherFocusReason);
 }
 
 
@@ -484,6 +486,8 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 {
 	mpdm_t k = NULL;
 	wchar_t *ptr = NULL;
+
+//	setAttribute(Qt::WA_KeyCompression);
 
 	key_down = 1;
 
