@@ -335,6 +335,8 @@ static void draw_filetabs(void)
 
 MPArea::MPArea(QWidget *parent) : QWidget(parent)
 {
+	setAttribute(Qt::WA_InputMethodEnabled, true);
+//	setAttribute(Qt::WA_KeyCompression, true);
 }
 
 
@@ -486,8 +488,6 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 {
 	mpdm_t k = NULL;
 	wchar_t *ptr = NULL;
-
-//	setAttribute(Qt::WA_KeyCompression);
 
 	key_down = 1;
 
