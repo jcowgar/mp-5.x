@@ -332,12 +332,11 @@ static void draw_filetabs(void)
 }
 
 
-/* MPArea class methods */
+/* MPArea methods */
 
 MPArea::MPArea(QWidget *parent) : QWidget(parent)
 {
 	setAttribute(Qt::WA_InputMethodEnabled, true);
-//	setAttribute(Qt::WA_KeyCompression, true);
 }
 
 
@@ -402,6 +401,17 @@ void MPArea::paintEvent(QPaintEvent *)
 }
 
 
+void MPArea::inputMethodEvent(QInputMethodEvent *event)
+{
+	QString s = event->commitString();
+
+	mp_process_event(qstring_to_str(s));
+	area->update();
+}
+
+
+/* MPArea slots */
+
 void MPArea::from_scrollbar(int value)
 {
 	mp_set_y(mp_active(), value);
@@ -419,16 +429,7 @@ void MPArea::from_filetabs(int value)
 }
 
 
-void MPArea::inputMethodEvent(QInputMethodEvent *event)
-{
-	QString s = event->commitString();
-
-	mp_process_event(qstring_to_str(s));
-	area->update();
-}
-
-
-/* MPWindow class methods */
+/* MPWindow methods */
 
 MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 {
