@@ -2,4 +2,4 @@ mp_core.o: mp_core.c config.h $(MPDM)/mpdm.h $(MPSL)/mpsl.h mp.h
 mpv_curses.o: mpv_curses.c config.h $(MPDM)/mpdm.h $(MPSL)/mpsl.h mp.h
 mpv_gtk.o: mpv_gtk.c config.h $(MPDM)/mpdm.h $(MPSL)/mpsl.h mp.h mp.xpm
 mpv_win32.o: mpv_win32.c config.h $(MPDM)/mpdm.h $(MPSL)/mpsl.h mp.h
-mpv_kde4.o: mpv_kde4.cpp config.h $(MPDM)/mpdm.h $(MPSL)/mpsl.h mp.h
+mpv_kde4.o: mpv_kde4.cpp config.h $(MPDM)/mpdm.h $(MPSL)/mpsl.h mp.h mp.xpm

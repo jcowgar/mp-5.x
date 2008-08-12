@@ -66,6 +66,8 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KFileDialog>
 #include <KUrl>
 
+#include "mp.xpm"
+
 /*******************
 	Data
 ********************/
@@ -692,6 +694,8 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 
 	connect(menubar, SIGNAL(triggered(QAction *)),
 		area, SLOT(from_menu(QAction *)));
+
+	this->setWindowIcon(QIcon(QPixmap(mp_xpm)));
 
 	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
 }
