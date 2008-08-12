@@ -46,6 +46,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <QtGui/QCheckBox>
 #include <QtGui/QListWidget>
 #include <QtGui/QScrollBar>
+#include <QtGui/QClipboard>
 
 #include <KApplication>
 #include <KAboutData>
@@ -960,6 +961,36 @@ static mpdm_t kde4_drv_shutdown(mpdm_t a)
 }
 
 
+static mpdm_t kde4_drv_clip_to_sys(mpdm_t a)
+{
+	mpdm_t v;
+
+	QClipboard *qc = QApplication::clipboard();
+
+	/* gets the clipboard and joins */
+	v = mpdm_hget_s(mp, L"clipboard");
+	v = mpdm_join(MPDM_LS(L"\n"), v);
+
+	qc->setText(str_to_qstring(v), QClipboard::Selection);
+
+	return NULL;
+}
+
+
+static mpdm_t kde4_drv_sys_to_clip(mpdm_t a)
+{
+	QClipboard *qc = QApplication::clipboard();
+	QString qs = qc->text(QClipboard::Selection);
+
+	/* split and set as the clipboard */
+	mpdm_hset_s(mp, L"clipboard", mpdm_split(MPDM_LS(L"\n"), 
+		qstring_to_str(qs)));
+	mpdm_hset_s(mp, L"clipboard_vertical", MPDM_I(0));
+
+	return NULL;
+}
+
+
 static void register_functions(void)
 {
 	mpdm_t drv;
@@ -968,8 +999,8 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"main_loop", MPDM_X(kde4_drv_main_loop));
 	mpdm_hset_s(drv, L"shutdown", MPDM_X(kde4_drv_shutdown));
 
-/*	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(kde4_drv_clip_to_sys));
-	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(kde4_drv_sys_to_clip));*/
+	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(kde4_drv_clip_to_sys));
+	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(kde4_drv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(kde4_drv_update_ui));
 /*	mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));*/
 	mpdm_hset_s(drv, L"busy", MPDM_X(kde4_drv_busy));
