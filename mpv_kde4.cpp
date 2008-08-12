@@ -76,9 +76,6 @@ class MPWindow : public KMainWindow
 		MPWindow(QWidget *parent = 0);
 		bool queryExit(void);
 		bool event(QEvent *event);
-		void keyPressEvent(QKeyEvent *event);
-		void keyReleaseEvent(QKeyEvent *event);
-		void wheelEvent(QWheelEvent *event);
 };
 
 class MPArea : public QWidget
@@ -88,9 +85,12 @@ class MPArea : public QWidget
 	public:
 		MPArea(QWidget *parent = 0);
 		void inputMethodEvent(QInputMethodEvent *event);
+		void keyPressEvent(QKeyEvent *event);
+		void keyReleaseEvent(QKeyEvent *event);
 		void mousePressEvent(QMouseEvent *event);
 		void mouseReleaseEvent(QMouseEvent *event);
 		void mouseMoveEvent(QMouseEvent *event);
+		void wheelEvent(QWheelEvent *event);
 		bool event(QEvent *event);
 
 	protected:
@@ -433,158 +433,7 @@ void MPArea::inputMethodEvent(QInputMethodEvent *event)
 }
 
 
-void MPArea::mousePressEvent(QMouseEvent *event)
-{
-	wchar_t *ptr = NULL;
-
-	mouse_down = 1;
-
-	QPoint pos = event->pos();
-
-	mpdm_hset_s(mp, L"mouse_x", MPDM_I(pos.x() / font_width));
-	mpdm_hset_s(mp, L"mouse_y", MPDM_I(pos.y() / font_height));
-
-	switch (event->button()) {
-	case Qt::LeftButton: ptr = (wchar_t *)L"mouse-left-button"; break;
-	case Qt::MidButton: ptr = (wchar_t *)L"mouse-middle-button"; break;
-	case Qt::RightButton: ptr = (wchar_t *)L"mouse-right-button"; break;
-	default:
-		break;
-	}
-
-	if (ptr != NULL)
-		mp_process_event(MPDM_S(ptr));
-
-	area->update();
-}
-
-
-void MPArea::mouseReleaseEvent(QMouseEvent *event)
-{
-	mouse_down = 0;
-}
-
-
-void MPArea::mouseMoveEvent(QMouseEvent *event)
-{
-	static int ox = 0;
-	static int oy = 0;
-
-	if (mouse_down) {
-		int x, y;
-
-		QPoint pos = event->pos();
-
-		/* mouse dragging */
-		x = pos.x() / font_width;
-		y = pos.y() / font_height;
-
-		if (ox != x && oy != y) {
-			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
-			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
-
-			mp_process_event(MPDM_LS(L"mouse-drag"));
-
-			area->update();
-		}
-	}
-}
-
-
-/* MPArea slots */
-
-void MPArea::from_scrollbar(int value)
-{
-	mp_set_y(mp_active(), value);
-	area->update();
-}
-
-
-void MPArea::from_filetabs(int value)
-{
-	if (value >= 0) {
-		/* sets the active one */
-		mpdm_hset_s(mp, L"active_i", MPDM_I(value));
-		area->update();
-	}
-}
-
-
-void MPArea::from_menu(QAction *action)
-{
-	mpdm_t label = qstring_to_str(action->text());
-	label = mpdm_sregex(MPDM_LS(L"/&/"), label, NULL, 0);
-
-	mpdm_t a = mpdm_hget_s(mp, L"actions_by_menu_label");
-
-	mp_process_action(mpdm_hget(a, label));
-	area->update();
-}
-
-
-/* MPWindow methods */
-
-MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
-{
-	menubar = this->menuBar();
-	build_menu();
-
-	statusbar = this->statusBar();
-	statusbar->insertItem("mp " VERSION, 0);
-
-	/* the full container */
-	KVBox *vb = new KVBox(this);
-
-	file_tabs = new KTabBar(vb);
-	file_tabs->setFocusPolicy(Qt::NoFocus);
-
-	KHBox *hb = new KHBox(vb);
-
-	/* main area */
-	area = new MPArea(hb);
-	scrollbar = new QScrollBar(hb);
-	scrollbar->setFocusPolicy(Qt::NoFocus);
-
-	setCentralWidget(vb);
-
-	connect(scrollbar, SIGNAL(valueChanged(int)),
-		area, SLOT(from_scrollbar(int)));
-
-	connect(file_tabs, SIGNAL(currentChanged(int)),
-		area, SLOT(from_filetabs(int)));
-
-	connect(menubar, SIGNAL(triggered(QAction *)),
-		area, SLOT(from_menu(QAction *)));
-
-	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
-}
-
-
-bool MPWindow::queryExit(void)
-{
-	mp_process_event(MPDM_LS(L"close-window"));
-
-	this->saveAutoSaveSettings();
-
-	return mp_exit_requested ? true : false;
-}
-
-
-bool MPWindow::event(QEvent *event)
-{
-	/* do the processing */
-	bool r = QWidget::event(event);
-
-	if (mp_exit_requested) {
-		this->saveAutoSaveSettings();
-		exit(0);
-	}
-
-	return r;
-}
-
-
-void MPWindow::keyReleaseEvent(QKeyEvent *event)
+void MPArea::keyReleaseEvent(QKeyEvent *event)
 {
 	if (!event->isAutoRepeat()) {
 		key_down = 0;
@@ -595,7 +444,7 @@ void MPWindow::keyReleaseEvent(QKeyEvent *event)
 }
 
 
-void MPWindow::keyPressEvent(QKeyEvent *event)
+void MPArea::keyPressEvent(QKeyEvent *event)
 {
 	mpdm_t k = NULL;
 	wchar_t *ptr = NULL;
@@ -710,7 +559,65 @@ void MPWindow::keyPressEvent(QKeyEvent *event)
 }
 
 
-void MPWindow::wheelEvent(QWheelEvent *event)
+void MPArea::mousePressEvent(QMouseEvent *event)
+{
+	wchar_t *ptr = NULL;
+
+	mouse_down = 1;
+
+	QPoint pos = event->pos();
+
+	mpdm_hset_s(mp, L"mouse_x", MPDM_I(pos.x() / font_width));
+	mpdm_hset_s(mp, L"mouse_y", MPDM_I(pos.y() / font_height));
+
+	switch (event->button()) {
+	case Qt::LeftButton: ptr = (wchar_t *)L"mouse-left-button"; break;
+	case Qt::MidButton: ptr = (wchar_t *)L"mouse-middle-button"; break;
+	case Qt::RightButton: ptr = (wchar_t *)L"mouse-right-button"; break;
+	default:
+		break;
+	}
+
+	if (ptr != NULL)
+		mp_process_event(MPDM_S(ptr));
+
+	area->update();
+}
+
+
+void MPArea::mouseReleaseEvent(QMouseEvent *event)
+{
+	mouse_down = 0;
+}
+
+
+void MPArea::mouseMoveEvent(QMouseEvent *event)
+{
+	static int ox = 0;
+	static int oy = 0;
+
+	if (mouse_down) {
+		int x, y;
+
+		QPoint pos = event->pos();
+
+		/* mouse dragging */
+		x = pos.x() / font_width;
+		y = pos.y() / font_height;
+
+		if (ox != x && oy != y) {
+			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
+			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
+
+			mp_process_event(MPDM_LS(L"mouse-drag"));
+
+			area->update();
+		}
+	}
+}
+
+
+void MPArea::wheelEvent(QWheelEvent *event)
 {
 	if (event->delta() > 0)
 		mp_process_event(MPDM_S(L"mouse-wheel-up"));
@@ -718,6 +625,99 @@ void MPWindow::wheelEvent(QWheelEvent *event)
 		mp_process_event(MPDM_S(L"mouse-wheel-down"));
 
 	area->update();
+}
+
+
+/* MPArea slots */
+
+void MPArea::from_scrollbar(int value)
+{
+	mp_set_y(mp_active(), value);
+	area->update();
+}
+
+
+void MPArea::from_filetabs(int value)
+{
+	if (value >= 0) {
+		/* sets the active one */
+		mpdm_hset_s(mp, L"active_i", MPDM_I(value));
+		area->update();
+	}
+}
+
+
+void MPArea::from_menu(QAction *action)
+{
+	mpdm_t label = qstring_to_str(action->text());
+	label = mpdm_sregex(MPDM_LS(L"/&/"), label, NULL, 0);
+
+	mpdm_t a = mpdm_hget_s(mp, L"actions_by_menu_label");
+
+	mp_process_action(mpdm_hget(a, label));
+	area->update();
+}
+
+
+/* MPWindow methods */
+
+MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
+{
+	menubar = this->menuBar();
+	build_menu();
+
+	statusbar = this->statusBar();
+	statusbar->insertItem("mp " VERSION, 0);
+
+	/* the full container */
+	KVBox *vb = new KVBox(this);
+
+	file_tabs = new KTabBar(vb);
+	file_tabs->setFocusPolicy(Qt::NoFocus);
+
+	KHBox *hb = new KHBox(vb);
+
+	/* main area */
+	area = new MPArea(hb);
+	scrollbar = new QScrollBar(hb);
+	scrollbar->setFocusPolicy(Qt::NoFocus);
+
+	setCentralWidget(vb);
+
+	connect(scrollbar, SIGNAL(valueChanged(int)),
+		area, SLOT(from_scrollbar(int)));
+
+	connect(file_tabs, SIGNAL(currentChanged(int)),
+		area, SLOT(from_filetabs(int)));
+
+	connect(menubar, SIGNAL(triggered(QAction *)),
+		area, SLOT(from_menu(QAction *)));
+
+	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
+}
+
+
+bool MPWindow::queryExit(void)
+{
+	mp_process_event(MPDM_LS(L"close-window"));
+
+	this->saveAutoSaveSettings();
+
+	return mp_exit_requested ? true : false;
+}
+
+
+bool MPWindow::event(QEvent *event)
+{
+	/* do the processing */
+	bool r = QWidget::event(event);
+
+	if (mp_exit_requested) {
+		this->saveAutoSaveSettings();
+		exit(0);
+	}
+
+	return r;
 }
 
 
