@@ -270,6 +270,14 @@ _Mark beginning/end of block_ (`f9')
 
 Marks the beginning or the end of the block.
 
+mark_vertical
+-------------
+
+_Mark vertical block_ (`ctrl-b')
+
+Marks the beginning or the end of a vertical (also known as
+rectangular) block.
+
 menu
 ----
 
