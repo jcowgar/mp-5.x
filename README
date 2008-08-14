@@ -2,7 +2,7 @@ Minimum Profit README
 =====================
 
  Minimum Profit - Programmer Text Editor
- Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+ Copyright (C) 1991-2008 Angel Ortega <angel@triptico.com>
  Home Page: http://www.triptico.com/software/mp.html
  Mailing List: mp-subscribe@lists.triptico.com
 
@@ -27,7 +27,7 @@ are the following:
  - Understandable interface: drop-down menus, reasonable default key bindings.
  - Configurable keys, menus and colors.
  - Text templates can be easily defined / accessed.
- - Multiplatform: Console/curses, GTK+, MS Windows.
+ - Multiplatform: Console/curses, KDE4, GTK+, MS Windows.
  - Automatic indentation, word wrapping, internal _grep_, learning /
    repeating functions.
  - Spellchecking support (via the ispell package).

@@ -1,9 +1,10 @@
 Minimum Profit 5.x Release Notes
 ================================
 
-5.0.4
------
+5.1.0-rc1
+---------
 
+ * KDE4 support.
  * Rectangular block copy/paste support.
  * New syntax highlight for the Euphoria language.
 
