@@ -10,6 +10,7 @@ Release Critical Bugs
  * 1262: Add text underlining to KDE4.
  * 1263: Add history to form() text fields in KDE4.
  * 1264: Avoid exiting if no xserver can be connected to in KDE4.
+ * 1265: Fix localisation / gettext when KDE4 support is compiled.
 
 Open Bugs
 ---------
