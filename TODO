@@ -7,7 +7,6 @@ Release Critical Bugs
  * 1259: Apply Jeremy's indent_block().
  * 1260: Apply Jeremy's outdent_block().
  * 1261: Apply Jeremy's function_list().
- * 1262: Add text underlining to KDE4.
  * 1263: Add history to form() text fields in KDE4.
  * 1264: Avoid exiting if no xserver can be connected to in KDE4.
  * 1265: Fix localisation / gettext when KDE4 support is compiled.
@@ -307,5 +306,6 @@ Closed
  * 1256: Document change in 'build' (Tue, 01 Jul 2008 08:05:11 +0200).
  * 1257: Document new builtin encoders (Tue, 01 Jul 2008 08:05:11 +0200).
  * 1258: Document change in curses dialogs (Tue, 01 Jul 2008 08:05:11 +0200).
+ * 1262: Add text underlining to KDE4 (Sun, 31 Aug 2008 16:10:35 +0200).
 
 Email bugs to angel@triptico.com

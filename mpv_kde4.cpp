@@ -152,7 +152,7 @@ QString str_to_qstring(mpdm_t s)
 #define MAX_COLORS 1000
 QPen inks[MAX_COLORS];
 QBrush papers[MAX_COLORS];
-int underlines[MAX_COLORS];
+bool underlines[MAX_COLORS];
 int normal_attr = 0;
 
 static void build_colors(void)
@@ -193,7 +193,7 @@ static void build_colors(void)
 			rgbp = t;
 		}
 
-		underlines[n] = mpdm_seek_s(v, L"underline", 1) != -1;
+		underlines[n] = mpdm_seek_s(v, L"underline", 1) != -1 ? true : false;
 
 		inks[n] = QPen(QColor::fromRgbF(
 			(float) ((rgbi & 0x00ff0000) >> 16)	/ 256.0,
@@ -373,10 +373,12 @@ void MPArea::paintEvent(QPaintEvent *)
 	mpdm_t w;
 	int n, m, y;
 	QFont font;
+	bool underline = false;
 
 	QPainter painter(this);
 
 	font = build_font(0);
+	font.setUnderline(false);
 	painter.setFont(font);
 
 	font_width = painter.fontMetrics().width("M");
@@ -414,6 +416,12 @@ void MPArea::paintEvent(QPaintEvent *)
 			painter.setBackground(papers[attr]);
 
 			QString qs = str_to_qstring(s);
+
+			if (underline != underlines[attr]) {
+				underline = underlines[attr];
+				font.setUnderline(underline);
+				painter.setFont(font);
+			}
 
 			painter.drawText(x, y, qs);
 
