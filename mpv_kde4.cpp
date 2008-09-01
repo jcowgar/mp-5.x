@@ -817,13 +817,12 @@ static mpdm_t kde4_drv_savefile(mpdm_t a)
 }
 
 
-mpdm_t form_values = NULL;
-
 static mpdm_t kde4_drv_form(mpdm_t a)
 {
 	int n;
 	mpdm_t widget_list;
 	QWidget *qlist[100];
+	mpdm_t r;
 
 	KDialog *dialog = new KDialog(window);
 
@@ -900,15 +899,12 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 
 	n = dialog->exec();
 
-	mpdm_unref(form_values);
-	form_values = NULL;
-
 	if (!n)
 		return NULL;
 
-	form_values = mpdm_ref(MPDM_A(mpdm_size(widget_list)));
+	r = MPDM_A(mpdm_size(widget_list));
 
-	/* fill form_values */
+	/* fill the return values */
 	for (n = 0; n < mpdm_size(widget_list); n++) {
 		mpdm_t w = mpdm_aget(widget_list, n);
 		mpdm_t v = NULL;
@@ -940,10 +936,10 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 			v = MPDM_I(ql->currentRow());
 		}
 
-		mpdm_aset(form_values, v, n);
+		mpdm_aset(r, v, n);
 	}
 
-	return form_values;
+	return r;
 }
 
 
