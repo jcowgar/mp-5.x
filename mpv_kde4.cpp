@@ -850,6 +850,7 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 		t = mpdm_hget_s(w, L"value");
 
 		if (wcscmp(type, L"text") == 0) {
+			mpdm_t h;
 			QComboBox *ql = new QComboBox(hb);
 
 			ql->setEditable(true);
@@ -860,6 +861,16 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 				ql->setEditText(str_to_qstring(t));
 
 			qlist[n] = ql;
+
+			if ((h = mpdm_hget_s(w, L"history")) != NULL) {
+				int i;
+
+				/* has history; fill it */
+				h = mp_get_history(h);
+
+				for (i = mpdm_size(h) - 1; i >= 0; i--)
+					ql->addItem(str_to_qstring(mpdm_aget(h, i)));
+			}
 		}
 		else
 		if (wcscmp(type, L"password") == 0) {
@@ -913,9 +924,19 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 		type = mpdm_string(mpdm_hget_s(w, L"type"));
 
 		if (wcscmp(type, L"text") == 0) {
+			mpdm_t h;
 			QComboBox *ql = (QComboBox *)qlist[n];
 
 			v = qstring_to_str(ql->currentText());
+
+			/* if it has history, add to it */
+			if ((h = mpdm_hget_s(w, L"history")) != NULL &&
+				v != NULL && mpdm_cmp(v, MPDM_LS(L"")) != 0) {
+				h = mp_get_history(h);
+
+				if (mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
+					mpdm_push(h, v);
+			}
 		}
 		else
 		if (wcscmp(type, L"password") == 0) {
