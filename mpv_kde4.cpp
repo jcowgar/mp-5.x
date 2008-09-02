@@ -1061,11 +1061,17 @@ static mpdm_t kde4_drv_startup(mpdm_t a)
 	return NULL;
 }
 
+extern "C" Display *XOpenDisplay(char *);
 
 extern "C" int kde4_drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
 	KCmdLineOptions opts;
+	Display *x11_display;
+
+	/* try connecting directly to the Xserver */
+	if ((x11_display = XOpenDisplay((char *)NULL)) == NULL)
+		return 0;
 
 	KAboutData aboutData(
 		"mp", 0,
@@ -1089,7 +1095,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv)
 	KCmdLineArgs::addCmdLineOptions(opts);
 
 	/* this is where it crashes if no X server */
-	app = new KApplication();
+	app = new KApplication(x11_display);
 
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"kde4"));
