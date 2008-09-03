@@ -231,22 +231,35 @@ if [ "$WITHOUT_KDE4" = "1" ] ; then
 else
 	if which kde4-config > /dev/null
 	then
-		pkg-config --cflags QtCore >> config.cflags
-		echo -I`kde4-config --install include`KDE >> config.cflags
+		TMP_CFLAGS=$(pkg-config --cflags QtCore)
+		TMP_CFLAGS="$TMP_CFLAGS -I`kde4-config --install include`KDE"
 
-		pkg-config --libs QtCore >> config.ldflags
-		echo -L`kde4-config --install lib` -lkfile -lkdeui -lkdecore >> config.ldflags
+		TMP_LDFLAGS=$(pkg-config --libs QtCore)
+		TMP_LDFLAGS="$TMP_LDFLAGS -L`kde4-config --install lib` -lkfile -lkdeui -lkdecore"
 
-		echo "#define CONFOPT_KDE4 1" >> config.h
-		echo "OK"
+		echo "#include <KApplication>" > .tmp.cpp
+		echo "int main(void) { new KApplication() ; return 0; } " >> .tmp.cpp
 
-		DRIVERS="kde4 $DRIVERS"
-		DRV_OBJS="mpv_kde4.o $DRV_OBJS"
-		if [ "$CCLINK" = "" ] ; then
-			CCLINK="g++"
+		echo "$CPP $TMP_CFLAGS .tmp.cpp $TMP_LDFLAGS -o .tmp.o" >> .config.log
+		$CPP $TMP_CFLAGS .tmp.cpp $TMP_LDFLAGS -o .tmp.o 2>> .config.log
+
+		if [ $? = 0 ] ; then
+			echo $TMP_CFLAGS >> config.cflags
+			echo $TMP_LDFLAGS >> config.ldflags
+
+			echo "#define CONFOPT_KDE4 1" >> config.h
+			echo "OK"
+
+			DRIVERS="kde4 $DRIVERS"
+			DRV_OBJS="mpv_kde4.o $DRV_OBJS"
+			if [ "$CCLINK" = "" ] ; then
+				CCLINK="g++"
+			fi
+
+			WITHOUT_GTK=1
+		else
+			echo "No"
 		fi
-
-		WITHOUT_GTK=1
 	else
 		echo "No"
 	fi
@@ -346,6 +359,6 @@ echo >> config.h
 echo $TRY_DRIVERS '0)' >> config.h
 
 # cleanup
-rm -f .tmp.c .tmp.o
+rm -f .tmp.c .tmp.cpp .tmp.o
 
 exit 0
