@@ -166,6 +166,30 @@ fi
 cat $MPSL/config.ldflags >> config.ldflags
 echo "MPSL=$MPSL" >> makefile.opts
 
+# Win32
+
+echo -n "Testing for win32... "
+if [ "$WITHOUT_WIN32" = "1" ] ; then
+	echo "Disabled"
+else
+	grep CONFOPT_WIN32 ${MPDM}/config.h >/dev/null
+
+	if [ $? = 0 ] ; then
+		echo "-mwindows -lcomctl32" >> config.ldflags
+		echo "#define CONFOPT_WIN32 1" >> config.h
+		echo "OK"
+		DRIVERS="win32 $DRIVERS"
+		DRV_OBJS="mpv_win32.o $DRV_OBJS"
+		WITHOUT_UNIX_GLOB=1
+		WITHOUT_KDE4=1
+		WITHOUT_GTK=1
+		WITHOUT_CURSES=1
+		APPNAME=wmp.exe
+	else
+		echo "No"
+	fi
+fi
+
 # test for curses / ncurses library
 echo -n "Testing for ncursesw... "
 
@@ -287,27 +311,6 @@ else
 		echo "OK (2.0)"
 		DRIVERS="gtk $DRIVERS"
 		DRV_OBJS="mpv_gtk.o $DRV_OBJS"
-	else
-		echo "No"
-		WITHOUT_GTK=1
-	fi
-fi
-
-# Win32
-echo -n "Testing for win32... "
-if [ "$WITHOUT_WIN32" = "1" ] ; then
-	echo "Disabled"
-else
-	grep CONFOPT_WIN32 ${MPDM}/config.h >/dev/null
-
-	if [ $? = 0 ] ; then
-		echo "-mwindows -lcomctl32" >> config.ldflags
-		echo "#define CONFOPT_WIN32 1" >> config.h
-		echo "OK"
-		DRIVERS="win32 $DRIVERS"
-		DRV_OBJS="mpv_win32.o $DRV_OBJS"
-		WITHOUT_UNIX_GLOB=1
-		APPNAME=wmp.exe
 	else
 		echo "No"
 	fi
