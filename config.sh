@@ -245,6 +245,8 @@ else
 		if [ "$CCLINK" = "" ] ; then
 			CCLINK="g++"
 		fi
+
+		WITHOUT_GTK=1
 	else
 		echo "No"
 	fi
