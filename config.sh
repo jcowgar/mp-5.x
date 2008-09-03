@@ -223,6 +223,33 @@ if [ "$WITHOUT_CURSES" != "1" ] ; then
 	fi
 fi
 
+# KDE4
+
+echo -n "Testing for KDE4... "
+if [ "$WITHOUT_KDE4" = "1" ] ; then
+	echo "Disabled by user"
+else
+	if which kde4-config > /dev/null
+	then
+		pkg-config --cflags QtCore >> config.cflags
+		echo -I`kde4-config --install include`KDE >> config.cflags
+
+		pkg-config --libs QtCore >> config.ldflags
+		echo -L`kde4-config --install lib` -lkfile -lkdeui -lkdecore >> config.ldflags
+
+		echo "#define CONFOPT_KDE4 1" >> config.h
+		echo "OK"
+
+		DRIVERS="kde4 $DRIVERS"
+		DRV_OBJS="mpv_kde4.o $DRV_OBJS"
+		if [ "$CCLINK" = "" ] ; then
+			CCLINK="g++"
+		fi
+	else
+		echo "No"
+	fi
+fi
+
 # GTK
 echo -n "Testing for GTK... "
 
@@ -266,33 +293,6 @@ else
 		DRV_OBJS="mpv_win32.o $DRV_OBJS"
 		WITHOUT_UNIX_GLOB=1
 		APPNAME=wmp.exe
-	else
-		echo "No"
-	fi
-fi
-
-# KDE4
-
-echo -n "Testing for KDE4... "
-if [ "$WITHOUT_KDE4" = "1" ] ; then
-	echo "Disabled by user"
-else
-	if which kde4-config > /dev/null
-	then
-		pkg-config --cflags QtCore >> config.cflags
-		echo -I`kde4-config --install include`KDE >> config.cflags
-
-		pkg-config --libs QtCore >> config.ldflags
-		echo -L`kde4-config --install lib` -lkfile -lkdeui -lkdecore >> config.ldflags
-
-		echo "#define CONFOPT_KDE4 1" >> config.h
-		echo "OK"
-
-		DRIVERS="kde4 $DRIVERS"
-		DRV_OBJS="mpv_kde4.o $DRV_OBJS"
-		if [ "$CCLINK" = "" ] ; then
-			CCLINK="g++"
-		fi
 	else
 		echo "No"
 	fi
