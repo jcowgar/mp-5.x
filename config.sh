@@ -170,7 +170,7 @@ echo "MPSL=$MPSL" >> makefile.opts
 echo -n "Testing for ncursesw... "
 
 if [ "$WITHOUT_CURSES" = "1" ] ; then
-	echo "Disabled by user"
+	echo "Disabled"
 else
 	echo "#include <curses.h>" > .tmp.c
 	echo "int main(void) { initscr(); endwin(); return 0; }" >> .tmp.c
@@ -227,7 +227,7 @@ fi
 
 echo -n "Testing for KDE4... "
 if [ "$WITHOUT_KDE4" = "1" ] ; then
-	echo "Disabled by user"
+	echo "Disabled"
 else
 	if which kde4-config > /dev/null
 	then
@@ -254,7 +254,7 @@ fi
 echo -n "Testing for GTK... "
 
 if [ "$WITHOUT_GTK" = "1" ] ; then
-	echo "Disabled by user"
+	echo "Disabled"
 else
 	echo "#include <gtk/gtk.h>" > .tmp.c
 	echo "#include <gdk/gdkkeysyms.h>" >> .tmp.c
@@ -281,7 +281,7 @@ fi
 # Win32
 echo -n "Testing for win32... "
 if [ "$WITHOUT_WIN32" = "1" ] ; then
-	echo "Disabled by user"
+	echo "Disabled"
 else
 	grep CONFOPT_WIN32 ${MPDM}/config.h >/dev/null
 
