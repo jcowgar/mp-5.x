@@ -377,11 +377,11 @@ sub mp.trim_with_ellipsis(str, max)
 }
 
 
-sub mp.get_doc_names()
+sub mp.get_doc_names(max)
 /* returns an array with the trimmed names of the documents */
 {
 	map(sub(e) {
-		(e.txt.mod && '* ' || '') ~ mp.trim_with_ellipsis(e.name, 24);
+		(e.txt.mod && '* ' || '') ~ mp.trim_with_ellipsis(e.name, (max || 24));
 	}, mp.docs);
 }
 
