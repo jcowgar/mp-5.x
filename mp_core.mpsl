@@ -369,13 +369,18 @@ sub mp.menu_label(action)
 }
 
 
-sub mp.get_doc_names()
-/* returns an array with the names of the documents */
+sub mp.trim_with_ellipsis(str, max)
+/* trims the string to the last max characters, adding ellipsis if done */
 {
-	return map(sub(e) {
-			local v = regex('/.{24}$/', e.name);
-			return v && '...' ~ v || e.name;
-		}, mp.docs);
+	local v = regex('/.{' ~ max ~ '}$/', str);
+	return v && '...' ~ v || str;
+}
+
+
+sub mp.get_doc_names()
+/* returns an array with the trimmed names of the documents */
+{
+	map(sub(e) { mp.trim_with_ellipsis(e.name, 24); }, mp.docs);
 }
 
 
