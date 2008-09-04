@@ -85,7 +85,7 @@ mp.actions['document_list'] = sub (d) {
 	local r = mp.form( [
 		{ 'label'	=>	L("Document list"),
 		  'type'	=>	'list',
-		  'list'	=>	mp.get_doc_names(),
+		  'list'	=>	mp.get_doc_names(60),
 		  'value'	=>	mp.active_i
 		} ]
 	);
