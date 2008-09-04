@@ -85,12 +85,7 @@ mp.actions['document_list'] = sub (d) {
 	local r = mp.form( [
 		{ 'label'	=>	L("Document list"),
 		  'type'	=>	'list',
-		  'list'	=>	map( sub(e) {
-			sprintf('%s %s',
-				(e.txt.mod && '*' || ' '),
-				mp.trim_with_ellipsis(e.name, 24)
-				);
-			}, mp.docs),
+		  'list'	=>	mp.get_doc_names(),
 		  'value'	=>	mp.active_i
 		} ]
 	);
