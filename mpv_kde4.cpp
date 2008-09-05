@@ -893,7 +893,7 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 		if (wcscmp(type, L"list") == 0) {
 			int i;
 			QListWidget *ql = new QListWidget(hb);
-			ql->setMinimumWidth(350);
+			ql->setMinimumWidth(480);
 
 			mpdm_t l = mpdm_hget_s(w, L"list");
 
