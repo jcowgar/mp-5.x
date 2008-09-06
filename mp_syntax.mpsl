@@ -40,8 +40,12 @@ mp.actions['help']	=	sub (d) {
 
 	if (h == NULL)
 		mp.alert(sprintf(L("No help for '%s'."), w));
-	else
-		mp.new(sprintf(L("<help on '%s'>"), w), h);
+	else {
+		local d;
+
+		d = mp.new(sprintf(L("<help on '%s'>"), w), h);
+		d.read_only = 1;
+	}
 };
 
 /* default key bindings */
