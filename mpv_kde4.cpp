@@ -658,7 +658,14 @@ void MPArea::wheelEvent(QWheelEvent *event)
 void MPArea::from_scrollbar(int value)
 {
 	if (!ignore_scrollbar_signal) {
-		mp_set_y(mp_active(), value);
+		mpdm_t v = mp_active();
+
+		mp_set_y(v, value);
+
+		/* set the vy to the same value */
+		v = mpdm_hget_s(v, L"txt");
+		mpdm_hset_s(v, L"vy", MPDM_I(value));
+
 		area->update();
 	}
 }
