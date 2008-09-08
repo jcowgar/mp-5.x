@@ -293,19 +293,23 @@ static int ignore_scrollbar_signal = 0;
 
 static void draw_scrollbar(void)
 {
-	if (!key_down) {
-		mpdm_t txt = mpdm_hget_s(mp_active(), L"txt");
-		mpdm_t lines = mpdm_hget_s(txt, L"lines");
-		mpdm_t vy = mpdm_hget_s(txt, L"vy");
-		mpdm_t window = mpdm_hget_s(mp, L"window");
-		mpdm_t ty = mpdm_hget_s(window, L"ty");
+	static int ol = -1;
+	static int ovy = -1;
+	static int oty = -1;
+	mpdm_t txt = mpdm_hget_s(mp_active(), L"txt");
+	mpdm_t window = mpdm_hget_s(mp, L"window");
+	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
+	int ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
+	int l = mpdm_size(mpdm_hget_s(txt, L"lines")) - ty;
+
+	if (ol != l || ovy != vy || oty != ty) {
 
 		ignore_scrollbar_signal = 1;
 
 		scrollbar->setMinimum(0);
-		scrollbar->setMaximum(mpdm_size(lines) - 1);
-		scrollbar->setValue(mpdm_ival(vy));
-		scrollbar->setPageStep(mpdm_ival(ty));
+		scrollbar->setMaximum(ol = l);
+		scrollbar->setValue(ovy = vy);
+		scrollbar->setPageStep(oty = ty);
 
 		ignore_scrollbar_signal = 0;
 	}
