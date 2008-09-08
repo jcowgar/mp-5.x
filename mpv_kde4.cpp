@@ -289,6 +289,8 @@ static void build_menu(void)
 }
 
 
+static int ignore_scrollbar_signal = 0;
+
 static void draw_scrollbar(void)
 {
 	if (!key_down) {
@@ -298,10 +300,14 @@ static void draw_scrollbar(void)
 		mpdm_t window = mpdm_hget_s(mp, L"window");
 		mpdm_t ty = mpdm_hget_s(window, L"ty");
 
+		ignore_scrollbar_signal = 1;
+
 		scrollbar->setMinimum(0);
 		scrollbar->setMaximum(mpdm_size(lines) - 1);
 		scrollbar->setValue(mpdm_ival(vy));
 		scrollbar->setPageStep(mpdm_ival(ty));
+
+		ignore_scrollbar_signal = 0;
 	}
 }
 
@@ -647,8 +653,10 @@ void MPArea::wheelEvent(QWheelEvent *event)
 
 void MPArea::from_scrollbar(int value)
 {
-	mp_set_y(mp_active(), value);
-	area->update();
+	if (!ignore_scrollbar_signal) {
+		mp_set_y(mp_active(), value);
+		area->update();
+	}
 }
 
 
