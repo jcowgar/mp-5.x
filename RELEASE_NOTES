@@ -1,6 +1,13 @@
 Minimum Profit 5.x Release Notes
 ================================
 
+5.1.0-rc2
+---------
+
+ * Underlined text works.
+ * Text fields in forms now have history.
+ * If no xserver can be contacted, fall back to the curses interface.
+
 5.1.0-rc1
 ---------
 
