@@ -4,9 +4,6 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1259: Apply Jeremy's indent_block().
- * 1260: Apply Jeremy's outdent_block().
- * 1261: Apply Jeremy's function_list().
  * 1265: Fix localisation / gettext when KDE4 support is compiled.
 
 Open Bugs
@@ -32,6 +29,9 @@ Open Bugs
    stored as hash keys.
  * 1248: No localisation on Win32.
  * 1249: Change TUI dialogs to be really dialogs.
+ * 1259: Apply Jeremy's indent_block().
+ * 1260: Apply Jeremy's outdent_block().
+ * 1261: Apply Jeremy's function_list().
 
 Pending Enhancements
 --------------------
