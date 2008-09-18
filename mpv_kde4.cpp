@@ -400,7 +400,7 @@ void MPArea::paintEvent(QPaintEvent *)
 	mpdm_hset_s(w, L"ty", MPDM_I(this->height() / font_height));
 
 	w = mp_draw(mp_active(), 0);
-	y = menubar->height();
+	y = painter.fontMetrics().ascent();
 
 	painter.setBackgroundMode(Qt::OpaqueMode);
 
