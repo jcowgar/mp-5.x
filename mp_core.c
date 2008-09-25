@@ -55,6 +55,7 @@ struct drw_1_info {
 	mpdm_t syntax;		/* syntax highlight information */
 	mpdm_t colors;		/* color definitions (for attributes) */
 	mpdm_t word_color_func;	/* word color function (just for detection) */
+	mpdm_t last_search;	/* last search regex */
 	int normal_attr;	/* normal attr */
 	int cursor_attr;	/* cursor attr */
 	int n_lines;		/* number of processed lines */
@@ -252,6 +253,9 @@ static int drw_prepare(mpdm_t doc)
 
 	drw_2.x = x;
 	drw_2.y = y;
+
+	/* last search regex */
+	drw_1.last_search = mpdm_hget_s(mp, L"last_search");
 
 	/* compare drw_1 with drw_1_o; if they are the same,
 	   no more expensive calculations on drw_2 are needed */
@@ -491,12 +495,10 @@ static void drw_selection(void)
 static void drw_search_hit(void)
 /* colorize the search hit, if any */
 {
-	mpdm_t v;
-
-	if ((v = mpdm_hget_s(mp, L"last_search")) != NULL) {
+	if (drw_1.last_search != NULL) {
 		mpdm_t l = mpdm_ref(MPDM_A(0));
 
-		mpdm_aset(l, v, 0);
+		mpdm_aset(l, drw_1.last_search, 0);
 		drw_multiline_regex(l, drw_get_attr(L"search"));
 		mpdm_unref(l);
 	}
