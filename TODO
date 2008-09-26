@@ -49,6 +49,8 @@ Pending Enhancements
    different.
  * 1225: Add a regex (or similar) filter for lines. Lines matching it
    (or not) won't appear on screen.
+ * 1266: Add a new tab style, in which the next tab column is taken from
+   the previous line.
 
 Closed
 ------
