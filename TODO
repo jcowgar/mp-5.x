@@ -4,7 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1265: Fix localisation / gettext when KDE4 support is compiled.
+None!
 
 Open Bugs
 ---------
@@ -32,6 +32,7 @@ Open Bugs
  * 1259: Apply Jeremy's indent_block().
  * 1260: Apply Jeremy's outdent_block().
  * 1261: Apply Jeremy's function_list().
+ * 1265: Fix localisation / gettext when KDE4 support is compiled.
 
 Pending Enhancements
 --------------------
