@@ -17,7 +17,8 @@ foreach(pofile, files) {
 
 	if ((f = open(pofile, "r")) != NULL) {
 
-		local l, k, v;
+		local l, k;
+		local v = [];
 		local h = {};
 
 		/* strip language name */
@@ -30,23 +31,22 @@ foreach(pofile, files) {
 
 			local s = regex([ '/^(msgid|msgstr)*/', '/\s*\".*\"$/' ], l);
 
-			print(s[0], "\n");
 			if (s[0] eq 'msgid') {
 				if (k) {
 					h[k] = v;
 					k = NULL;
 				}
 
-				v = s[1];
+				v = [ s[1] ];
 			}
 			else
 			if (s[0] eq 'msgstr') {
 				k = v;
-				v = s[1];
+				v = [ s[1] ];
 			}
 			else
 			if (s[1]) {
-				v = v ~ s[1];
+				push(v, s[1]);
 			}
 		}
 
