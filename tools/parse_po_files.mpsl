@@ -6,34 +6,63 @@
 
 */
 
-/* files */
-local files = glob('po/*.po');
+sub convert_po_line(line)
+{
+	line = sregex('/^\s*"/', line);
+	line = sregex('/"$/', line);
 
-/* only UTF-8 po files are supported */
-encoding('UTF-8');
+	line = split(NULL, line);
 
-foreach(pofile, files) {
+	line = join('',
+			map(sub (e) {
+				(ord(e) > 127) &&
+				sprintf("\\x{%04x}", ord(e)) ||
+				e ;
+			},
+			line
+		)
+	);
+
+	return line;
+}
+
+
+sub parse_po_file(pofile, lang)
+{
 	local f;
+	local r = [];
+
+	/* only UTF-8 po files are supported */
+	encoding('UTF-8');
 
 	if ((f = open(pofile, "r")) != NULL) {
 
 		local l, k;
 		local v = [];
-		local h = {};
 
-		/* strip language name */
-		local lang = regex([ '/\//', '/\w+/', '/\.po$/' ], pofile);
-		lang = lang[1];
+		push(r, "__I18N__ = {");
 
 		while ((l = read(f)) != NULL) {
 
 			l = mp.chomp(l);
 
 			local s = regex([ '/^(msgid|msgstr)*/', '/\s*\".*\"$/' ], l);
+			s[1] = convert_po_line(s[1]);
 
 			if (s[0] eq 'msgid') {
 				if (k) {
-					h[k] = v;
+					k = grep(sub (e) { e != NULL; }, k);
+					v = grep(sub (e) { e != NULL; }, v);
+
+					if (size(k) && size(v)) {
+						push(r, "\t\"" ~
+							join('', k) ~
+							"\" => \"" ~
+							join('', v) ~
+							"\","
+						);
+					}
+
 					k = NULL;
 				}
 
@@ -50,10 +79,13 @@ foreach(pofile, files) {
 			}
 		}
 
-		close(f);
-		dump(h);
-	}
-}
+		push(r, "\t\"LANG\" => \"" ~ lang ~ "\"\n};");
 
-/* back to default encoding */
-encoding();
+		close(f);
+	}
+
+	/* back to default encoding */
+	encoding();
+
+	return join("\n", r);
+}
