@@ -27,7 +27,7 @@ sub convert_po_line(line)
 }
 
 
-sub parse_po_file(pofile, lang)
+sub parse_po_file(pofile)
 {
 	local f;
 	local r = [];
@@ -40,6 +40,7 @@ sub parse_po_file(pofile, lang)
 		local l, k;
 		local v = [];
 
+		push(r, "/* Don't touch this - change the .po file instead */");
 		push(r, "__I18N__ = {");
 
 		while ((l = read(f)) != NULL) {
@@ -79,7 +80,7 @@ sub parse_po_file(pofile, lang)
 			}
 		}
 
-		push(r, "\t\"LANG\" => \"" ~ lang ~ "\"\n};");
+		push(r, "\t\"-\" => \"-\"\n};");
 
 		close(f);
 	}
