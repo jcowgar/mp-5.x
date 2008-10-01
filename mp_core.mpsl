@@ -33,9 +33,6 @@ L = gettext;
 /* LL(x) is the same as x */
 sub LL(x) { x; }
 
-/* set gettext() domain */
-gettext_domain('minimum-profit', APPDIR ~ 'locale');
-
 /* configuration */
 
 mp.config = {};
@@ -516,6 +513,14 @@ sub mp.load_profile()
 }
 
 
+sub mp.setup_language()
+/* sets up the language */
+{
+	/* set gettext() domain */
+	gettext_domain('minimum-profit', APPDIR ~ 'locale');
+}
+
+
 sub mp.normalize_version(vs)
 /* converts a version string to something usable with cmp() */
 {
@@ -567,6 +572,7 @@ load("mp_build.mpsl");
 /** MAIN **/
 
 mp.load_profile();
+mp.setup_language();
 mp.drv.startup();
 mp.process_cmdline();
 mp.test_versions();
