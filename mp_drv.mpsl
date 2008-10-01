@@ -55,6 +55,3 @@ sub mp.savefile(prompt)			{ mp.drv.savefile(prompt); }
 sub mp.form(widgets)			{ mp.drv.form(widgets); }
 sub mp.timer(msecs,func)		{ mp.drv.timer(msecs,func); }
 sub mp.busy(onoff)			{ mp.drv.busy(onoff); }
-
-/* set the menu key hint */
-mp.menu_key_hint = 'ctrl-a: ' ~ L("Menu");

@@ -339,10 +339,14 @@ static void draw_status(void)
 	nc_addwstr(t);
 
 	/* draw the menu key hint, right-aligned */
-	if ((t = mpdm_hget_s(mp, L"menu_key_hint")) != NULL) {
-		wmove(cw, LINES - 1, COLS - mpdm_size(t));
-		nc_addwstr(t);
+	if ((t = mpdm_hget_s(mp, L"menu_key_hint")) == NULL) {
+		t = MPDM_LS(L"ctrl-a: ");
+		t = mpdm_strcat(t, mpdm_gettext(MPDM_LS(L"Menu")));
+		mpdm_hset_s(mp, L"menu_key_hint", t);
 	}
+
+	wmove(cw, LINES - 1, COLS - mpdm_size(t));
+	nc_addwstr(t);
 }
 
 
