@@ -66,6 +66,7 @@ mp.status_line_info = {
 	'%s'	=>	sub { mp.active.syntax.name; },
 	'%t'	=>	sub { mp.tags[mp.get_word(mp.active())].label; },
 	'%n'	=>	sub { mp.active.name; },
+	'%w'	=>	sub { mp.word_count(mp.active()); },
 	'%%'	=>	'%'
 };
 

@@ -5,6 +5,9 @@ Minimum Profit 5.x Release Notes
 -----
 
  * Improved translations (EXPAND THIS).
+ * The status line format string can also include the %w token
+   to show the number of words in the current document or selection
+   (can be slow).
 
 5.1.0
 -----
