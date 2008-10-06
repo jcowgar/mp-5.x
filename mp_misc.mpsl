@@ -100,15 +100,12 @@ mp.actions['zoom_out'] 	= sub (d) {
 };
 
 mp.actions['word_count'] = sub (d) {
-	local w = 0;
-	local a = mp.get_active_area(d);
 
 	mp.busy(1);
-	foreach (l, a)
-		w += size(mp.split_by_words(l));
+	local c = mp.word_count(d);
 	mp.busy(0);
 
-	mp.alert(sprintf(L("Lines: %d Words: %d"), size(a), w));
+	mp.alert(sprintf(L("Lines: %d Words: %d"), size(d.txt.lines), c));
 };
 
 mp.actions['about'] = sub (d) {
@@ -175,4 +172,16 @@ sub dump(v)
 	mp.insert(d, dumper(v));
 	d.txt.mod = 0;
 	d.read_only = 1;
+}
+
+
+sub mp.word_count(doc)
+/* counts the number of words in doc */
+{
+	local w = 0;
+
+	foreach (l, mp.get_active_area(doc))
+		w += size(mp.split_by_words(l));
+
+	return w;
 }
