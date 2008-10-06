@@ -39,7 +39,6 @@ mp.config = {};
 mp.config.undo_levels = 100;
 mp.config.word_wrap = 0;
 mp.config.auto_indent = 0;
-mp.config.status_format = "%m%n %x,%y [%l] %R%O %s %t";
 mp.config.tab_size = 8;
 mp.config.tabs_as_spaces = 0;
 mp.config.unlink = 1;
@@ -53,6 +52,22 @@ if (mp.drv.id eq 'win32')
 	mp.config.eol = "\r\n";
 else
 	mp.config.eol = "\n";
+
+/* status line */
+mp.config.status_format = "%m%n %x,%y [%l] %R%O %s %t";
+mp.status_line_info = {
+	'%V'	=>	mp.VERSION,
+	'%m'	=>	sub { mp.active.txt.mod && '*' || ''; },
+	'%x'	=>	sub { mp.active.txt.x + 1; },
+	'%y'	=>	sub { mp.active.txt.y + 1; },
+	'%l'	=>	sub { size(mp.active.txt.lines); },
+	'%R'	=>	sub { mp.macro.process_event && 'R' || ''; },
+	'%O'	=>	'',
+	'%s'	=>	sub { mp.active.syntax.name; },
+	'%t'	=>	sub { mp.tags[mp.get_word(mp.active())].label; },
+	'%n'	=>	sub { mp.active.name; },
+	'%%'	=>	'%'
+};
 
 /* a regex for selection words */
 mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';
@@ -276,24 +291,7 @@ sub mp.build_status_line()
 		mp.message = NULL;
 	}
 
-	local d = mp.active();
-	local w = mp.get_word(d);
-	local t = mp.tags[w].label;
-	local f = {
-		"%V"	=>	mp.VERSION,		/* version */
-		"%m"	=>	d.txt.mod && '*' || '',	/* modify flag */
-		"%x"	=>	d.txt.x + 1,		/* x coord */
-		"%y"	=>	d.txt.y + 1,		/* y coord */
-		"%l"	=>	size(d.txt.lines),	/* # of lines */
-		"%R"	=>	mp.macro.process_event && 'R' || '', /* recording flag */
-		"%O"	=>	"",			/* overwrite mode */
-		"%s"	=>	d.syntax.name,		/* synhi mode */
-		"%t"	=>	t,			/* tag target */
-		"%n"	=>	d.name,			/* document name */
-		"%%"	=>	"%"			/* escaped % */
-	};
-
-	return sregex("/%./g", mp.config.status_format, f);
+	return sregex("/%./g", mp.config.status_format, mp.status_line_info);
 }
 
 
