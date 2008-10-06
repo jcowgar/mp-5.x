@@ -105,7 +105,8 @@ mp.actions['word_count'] = sub (d) {
 	local c = mp.word_count(d);
 	mp.busy(0);
 
-	mp.alert(sprintf(L("Lines: %d Words: %d"), size(d.txt.lines), c));
+	mp.alert(sprintf(L("Lines: %d Words: %d"),
+		size(mp.get_active_area(d)), c));
 };
 
 mp.actions['about'] = sub (d) {
