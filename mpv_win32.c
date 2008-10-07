@@ -245,7 +245,7 @@ static void build_menu(void)
 
 		/* get the label and the items */
 		mi = mpdm_aget(m, n);
-		v = mpdm_aget(mi, 0);
+		v = mpdm_gettext(mpdm_aget(mi, 0));
 		l = mpdm_aget(mi, 1);
 
 		/* create the submenus */
