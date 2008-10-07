@@ -40,7 +40,7 @@ sub parse_po_file(pofile)
 		local l, k;
 		local v = [];
 
-		push(r, "/* Don't touch this - change the .po file instead */");
+		push(r, "/* Built by po2mpsl - Don't modify, change the .po file instead */");
 		push(r, "__I18N__ = {");
 
 		while ((l = read(f)) != NULL) {
@@ -55,7 +55,7 @@ sub parse_po_file(pofile)
 					k = grep(sub (e) { e != NULL; }, k);
 					v = grep(sub (e) { e != NULL; }, v);
 
-					if (size(k) && size(v)) {
+					if (size(v)) {
 						push(r, "\t\"" ~
 							join('', k) ~
 							"\" => \"" ~
@@ -89,4 +89,18 @@ sub parse_po_file(pofile)
 	encoding();
 
 	return join("\n", r);
+}
+
+/* main */
+
+foreach (f, glob('po/*.po')) { /**/
+	local output = parse_po_file(f);
+
+	/* strip extension and path */
+	f = shift(split('.po', f));
+	f = pop(split('/', f));
+
+	local o = open('lang/' ~ f ~ '.mpsl', 'w');
+	write(o, output);
+	close(o);
 }
