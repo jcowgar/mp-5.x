@@ -526,7 +526,7 @@ sub mp.setup_language()
 		push(v, shift(split('_', v[-1])));	/* es */
 
 		foreach (l, v) {
-			eval('load("mp_lang_' ~ l ~ '.mpsl");');
+			eval('load("lang/' ~ l ~ '.mpsl");');
 
 			if (ERROR == NULL)
 				break;
