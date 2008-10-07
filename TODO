@@ -27,12 +27,10 @@ Open Bugs
    interface functions).
  * 1242: There cannot be two tags with the same name, as they are
    stored as hash keys.
- * 1248: No localisation on Win32.
  * 1249: Change TUI dialogs to be really dialogs.
  * 1259: Apply Jeremy's indent_block().
  * 1260: Apply Jeremy's outdent_block().
  * 1261: Apply Jeremy's function_list().
- * 1265: Fix localisation / gettext when KDE4 support is compiled.
 
 Pending Enhancements
 --------------------
@@ -312,5 +310,9 @@ Closed
    (Mon, 01 Sep 2008 12:37:01 +0200).
  * 1264: Avoid exiting if no xserver can be connected to in KDE4
    (Tue, 02 Sep 2008 12:25:01 +0200).
+ * 1248: No localisation on Win32
+   (Tue, 07 Oct 2008 13:39:49 +0200).
+ * 1265: Fix localisation / gettext when KDE4 support is compiled
+   (Tue, 07 Oct 2008 13:39:36 +0200).
 
 Email bugs to angel@triptico.com

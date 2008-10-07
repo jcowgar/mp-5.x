@@ -4,7 +4,9 @@ Minimum Profit 5.x Release Notes
 5.1.1
 -----
 
- * Improved translations (EXPAND THIS).
+ * Internationalization works in all platforms (including KDE4,
+   were it was faulty, and win32, where it was non-existent since
+   the 3.x series).
  * The status line format string can also include the %w token
    to show the number of words in the current document or selection
    (can be slow).
