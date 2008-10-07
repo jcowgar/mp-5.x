@@ -14,6 +14,7 @@ SolidCompression=yes
 [Files]
 Source: "wmp.exe"; DestDir: "{app}"
 Source: "mp_*.mpsl"; DestDir: "{app}"
+Source: "lang\*.mpsl"; DestDir: "{app}\lang"
 Source: "doc\*.html"; DestDir: "{app}\doc"
 Source: "README" ; DestDir: "{app}\doc"
 Source: "AUTHORS" ; DestDir: "{app}\doc"
