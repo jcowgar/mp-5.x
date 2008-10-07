@@ -521,7 +521,7 @@ sub mp.setup_language()
 	/* test if gettext() can do a basic translation */
 	if (gettext('&File') eq '&File' && ENV.LANG) {
 		/* no; try alternatives using the LANG variable */
-		local v = [ ENV.LANG ];			/* es_ES.UTF-8 */
+		local v = [ sregex('!/!g', ENV.LANG) ];	/* es_ES.UTF-8 */
 		push(v, shift(split('.', v[-1])));	/* es_ES */
 		push(v, shift(split('_', v[-1])));	/* es */
 
