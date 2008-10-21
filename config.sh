@@ -92,8 +92,12 @@ if [ "$CPP" = "" ] ; then
 	which g++ > /dev/null && CPP=g++
 fi
 
+MOC="moc"
+which moc-qt4 > /dev/null && MOC=moc-qt4
+
 echo "CC=$CC" >> makefile.opts
 echo "CPP=$CPP" >> makefile.opts
+echo "MOC=$MOC" >> makefile.opts
 
 # set cflags
 if [ "$CFLAGS" = "" -a "$CC" = "gcc" ] ; then
