@@ -163,7 +163,7 @@ sub mp.prefix_regex(str)
 sub mp.search_dir(doc, str, dir)
 /* search str and put the current position there, with direction */
 {
-	local txt, x, y, r, l, last_y;
+	local txt, x, y, r, l, last_x, last_y;
 
 	if (str == NULL)
 		str = mp.last_search;
@@ -178,6 +178,7 @@ sub mp.search_dir(doc, str, dir)
 	txt = doc.txt;
 	x = txt.x;
 	y = txt.y;
+	last_x = 0;
 
 	if (dir == -1) {
 		/* search backwards */
@@ -187,11 +188,13 @@ sub mp.search_dir(doc, str, dir)
 		/* if there is a marked block, limit search to it */
 		if (txt.mark) {
 			if (y >= txt.mark.ey) {
-				x = txt.mark.ex;
+				if (x > txt.mark.ex)
+					x = txt.mark.ex;
+
 				y = txt.mark.ey;
 			}
 
-			last_y = txt.mark.by - 1;
+			last_y = txt.mark.by;
 		}
 
 		if (x) {
@@ -207,11 +210,13 @@ sub mp.search_dir(doc, str, dir)
 		/* if there is a marked block, limit search to it */
 		if (txt.mark) {
 			if (y <= txt.mark.by) {
-				x = txt.mark.bx;
+				if (x < txt.mark.bx)
+					x = txt.mark.bx;
+
 				y = txt.mark.by;
 			}
 
-			last_y = txt.mark.ey + 1;
+			last_y = txt.mark.ey;
 		}
 
 		l = txt.lines[y];
