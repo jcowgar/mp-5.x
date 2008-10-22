@@ -187,6 +187,9 @@ sub mp.search_dir(doc, str, dir)
 
 		/* if there is a marked block, limit search to it */
 		if (txt.mark) {
+			if (y < txt.mark.by)
+				return NULL;
+
 			if (y >= txt.mark.ey) {
 				if (x > txt.mark.ex)
 					x = txt.mark.ex;
@@ -209,6 +212,9 @@ sub mp.search_dir(doc, str, dir)
 
 		/* if there is a marked block, limit search to it */
 		if (txt.mark) {
+			if (y > txt.mark.ey)
+				return NULL;
+
 			if (y <= txt.mark.by) {
 				if (x < txt.mark.bx)
 					x = txt.mark.bx;
