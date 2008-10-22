@@ -163,7 +163,7 @@ sub mp.prefix_regex(str)
 sub mp.search_dir(doc, str, dir)
 /* search str and put the current position there, with direction */
 {
-	local txt, x, y, r;
+	local txt, x, y, r, l, last_y;
 
 	if (str == NULL)
 		str = mp.last_search;
@@ -180,23 +180,27 @@ sub mp.search_dir(doc, str, dir)
 	y = txt.y;
 
 	if (dir == -1) {
-		local l;
-		str = str ~ 'l';
-
 		/* search backwards */
-		if (txt.x) {
-			l = splice(txt.lines[y], NULL, 0, txt.x - 1);
-			l = l[1];
-		}
+		str = str ~ 'l';
+		last_y = 0;
 
-		while (regex(str, l, 0) == NULL && y > 0)
-			l = txt.lines[--y];
+		if (x) {
+			l = splice(txt.lines[y], NULL, 0, x - 1);
+			l = l[1];
+			x = 0;
+		}
 	}
 	else {
 		/* search forward */
-		while (regex(str, txt.lines[y], x) == NULL && y < size(txt.lines)) {
-			x = 0; y++;
-		}
+		last_y = size(txt.lines);
+		l = txt.lines[y];
+	}
+
+	/* do the search */
+	while (regex(str, l, x) == NULL && y != last_y) {
+		x = 0;
+		y += dir;
+		l = txt.lines[y];
 	}
 
 	/* get last coords */
