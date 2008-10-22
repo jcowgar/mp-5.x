@@ -184,6 +184,16 @@ sub mp.search_dir(doc, str, dir)
 		str = str ~ 'l';
 		last_y = 0;
 
+		/* if there is a marked block, limit search to it */
+		if (txt.mark) {
+			if (y >= txt.mark.ey) {
+				x = txt.mark.ex;
+				y = txt.mark.ey;
+			}
+
+			last_y = txt.mark.by - 1;
+		}
+
 		if (x) {
 			l = splice(txt.lines[y], NULL, 0, x - 1);
 			l = l[1];
@@ -193,6 +203,17 @@ sub mp.search_dir(doc, str, dir)
 	else {
 		/* search forward */
 		last_y = size(txt.lines);
+
+		/* if there is a marked block, limit search to it */
+		if (txt.mark) {
+			if (y <= txt.mark.by) {
+				x = txt.mark.bx;
+				y = txt.mark.by;
+			}
+
+			last_y = txt.mark.ey + 1;
+		}
+
 		l = txt.lines[y];
 	}
 
