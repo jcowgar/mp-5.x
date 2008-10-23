@@ -246,7 +246,7 @@ sub mp.get_range(doc, bx, by, ex, ey, v)
 			/* take from the beginning to the end of the first line */
 			w = splice(txt.lines[n], NULL, bx, -1);
 
-			push(r, w[1]);
+			push(r, w[1] || '');
 			n++;
 
 			/* take the central lines */
@@ -255,7 +255,7 @@ sub mp.get_range(doc, bx, by, ex, ey, v)
 
 			/* take the last line */
 			w = splice(txt.lines[n], NULL, 0, ex);
-			push(r, w[1]);
+			push(r, w[1] || '');
 		}
 		else {
 			/* use vertical selection block */
