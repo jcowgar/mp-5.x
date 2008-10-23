@@ -182,7 +182,7 @@ sub mp.search_dir(doc, str, dir)
 		/* search backwards */
 		str = str ~ 'l';
 
-		ex = txt.x;
+		ex = txt.x && txt.x - 1 || 0;
 		ey = txt.y;
 
 		if (txt.mark) {
