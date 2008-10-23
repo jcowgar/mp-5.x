@@ -163,7 +163,8 @@ sub mp.prefix_regex(str)
 sub mp.search_dir(doc, str, dir)
 /* search str and put the current position there, with direction */
 {
-	local txt, x, y, r, l, last_x, last_y;
+	local txt, r, l, lines;
+	local bx, by, ex, ey;
 
 	if (str == NULL)
 		str = mp.last_search;
@@ -176,71 +177,69 @@ sub mp.search_dir(doc, str, dir)
 		return NULL;
 
 	txt = doc.txt;
-	x = txt.x;
-	y = txt.y;
-	last_x = 0;
 
 	if (dir == -1) {
 		/* search backwards */
 		str = str ~ 'l';
-		last_y = 0;
 
-		/* if there is a marked block, limit search to it */
+		ex = txt.x;
+		ey = txt.y;
+
 		if (txt.mark) {
-			if (y < txt.mark.by)
-				return NULL;
+			if (ey >= txt.mark.ey) {
+				ey = txt.mark.ey;
 
-			if (y >= txt.mark.ey) {
-				if (x > txt.mark.ex)
-					x = txt.mark.ex;
-
-				y = txt.mark.ey;
+				if (ex > txt.mark.ex)
+					ex = txt.mark.ex;
 			}
 
-			last_y = txt.mark.by;
+			bx = txt.mark.bx;
+			by = txt.mark.by;
 		}
-
-		if (x) {
-			l = splice(txt.lines[y], NULL, 0, x - 1);
-			l = l[1];
-			x = 0;
+		else {
+			bx = 0;
+			by = 0;
 		}
 	}
 	else {
 		/* search forward */
-		last_y = size(txt.lines);
+		bx = txt.x;
+		by = txt.y;
 
-		/* if there is a marked block, limit search to it */
 		if (txt.mark) {
-			if (y > txt.mark.ey)
-				return NULL;
+			if (by <= txt.mark.by) {
+				by = txt.mark.by;
 
-			if (y <= txt.mark.by) {
-				if (x < txt.mark.bx)
-					x = txt.mark.bx;
-
-				y = txt.mark.by;
+				if (bx < txt.mark.bx)
+					bx = txt.mark.bx;
 			}
 
-			last_y = txt.mark.ey;
+			ex = txt.mark.ex;
+			ey = txt.mark.ey;
 		}
-
-		l = txt.lines[y];
+		else {
+			ex = size(txt.lines[-1]);
+			ey = size(txt.lines);
+		}
 	}
+
+	lines = mp.get_range(doc, bx, by, ex, ey, 0);
 
 	/* do the search */
-	while (regex(str, l, x) == NULL && y != last_y) {
-		x = 0;
-		y += dir;
-		l = txt.lines[y];
-	}
+	local n = (dir == -1) && (size(lines) - 1) || 0;
+	while ((l = lines[n]) != NULL && regex(str, l) == NULL)
+		n += dir;
 
-	/* get last coords */
 	r = regex();
 
 	if (r) {
-		mp.set_y(doc, y);
-		mp.set_x(doc, r[0] + r[1]);
+		local x = r[0] + r[1];
+
+		if (n == 0)
+			x += bx;
+
+		mp.set_y(doc, by + n);
+		mp.set_x(doc, x);
 
 		/* set always to the same line */
 		if (mp.config.move_seek_to_line != NULL &&
