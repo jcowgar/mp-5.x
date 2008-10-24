@@ -233,13 +233,8 @@ sub mp.search_dir(doc, str, dir)
 	r = regex();
 
 	if (r) {
-		local x = r[0] + r[1];
-
-		if (n == 0)
-			x += bx;
-
 		mp.set_y(doc, by + n);
-		mp.set_x(doc, x);
+		mp.set_x(doc, r[0] + r[1] + (n == 0 && bx));
 
 		/* set always to the same line */
 		if (mp.config.move_seek_to_line != NULL &&
