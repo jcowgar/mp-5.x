@@ -14,6 +14,8 @@ Minimum Profit 5.x Release Notes
 5.1.0
 -----
 
+Fixes to the KDE4 driver:
+
  * Underlined text works.
  * Text fields in forms now have history.
  * If no xserver can be contacted, fall back to the curses interface.

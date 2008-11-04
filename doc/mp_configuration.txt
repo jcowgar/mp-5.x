@@ -110,6 +110,8 @@ The status format string to be shown in the status line. By default it's
 "%m%n %x,%y [%l] %R%O %s %t", where each percent-value means:
 
  +----+---------------------------------------------------------+
+ |Tag | Description                                             |
+ +----+---------------------------------------------------------+
  | %V | Current MP version                                      |
  +----+---------------------------------------------------------+
  | %m | Modify flag (asterisk or the empty string)              |
