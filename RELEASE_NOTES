@@ -10,6 +10,7 @@ Minimum Profit Release Notes
  * The status line format string can also include the %w token
    to show the number of words in the current document or selection
    (can be slow).
+ * Search and replace is now limited to the selected block, if any.
 
 5.1.0
 -----
