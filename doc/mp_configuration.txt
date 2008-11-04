@@ -1,8 +1,6 @@
 Minimum Profit Configuration Directives
 =======================================
 
- Angel Ortega <angel@triptico.com>
-
 The following configuration values can be set in the configuration files,
 executed from the command line or from the `Execute MPSL code...' option in
 the `Edit' menu. So, for example, if you always want automatic indentation,

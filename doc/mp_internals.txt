@@ -1,8 +1,6 @@
 Minimum Profit internals
 ========================
 
- Angel Ortega <angel@triptico.com>
-
 This document describes some internal details of the mp implementation.
 
 The drawing process
@@ -100,4 +98,4 @@ Or, as MPSL code,
  ];
 
 ----
-Angel Ortega <angel@triptico.com> - $Date$
+Angel Ortega <angel@triptico.com>

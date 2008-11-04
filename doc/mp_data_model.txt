@@ -1,8 +1,6 @@
 Minimum Profit Data Model
 =========================
 
- Angel Ortega <angel@triptico.com>
-
 This document describes all the MPSL data structures that build the Minimum
 Profit Text Editor, with examples showing how to change or update its
 behaviour.

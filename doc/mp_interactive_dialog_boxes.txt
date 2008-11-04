@@ -1,8 +1,6 @@
 Creating interactive dialog boxes
 =================================
 
- Angel Ortega <angel@triptico.com>
-
 This document is a reference to the mp.form() function and associated
 tools that ease interaction with the user from inside the Minimum Profit
 Text Editor.

@@ -1,8 +1,6 @@
 Minimum Profit cookbook
 =======================
 
- Angel Ortega <angel@triptico.com>
-
 This document includes some recipes for the Minimum Profit text editor.
 
 Executing MPSL code
