@@ -1,5 +1,5 @@
-Minimum Profit 5.x Release Notes
-================================
+Minimum Profit Release Notes
+============================
 
 5.1.1
 -----
@@ -30,16 +30,16 @@ Fixes to the KDE4 driver:
 5.0.3
 -----
 
- * New action 'open_under_cursor', that picks the word in the
+ * New action `open_under_cursor', that picks the word in the
    current document under the cursor, accepts it as a document
    name and tries to open it. If it's in the format string:number,
    is accepted as a file name and a line number. It's bound by
-   default to 'ctrl-enter' ('alt-enter' under Curses).
- * The 'grep' action bevahaviour has changed; instead of in a form,
+   default to `ctrl-enter' (`alt-enter' under Curses).
+ * The `grep' action bevahaviour has changed; instead of in a form,
    matches are shown in a read-only document that is only closed
    explicitly. Each change can be moved to by using the new
-   'open_under_cursor' ('ctrl-enter' or 'alt-enter') action shown above.
- * In a similar way, the 'build' action also shows its output in a
+   `open_under_cursor' (`ctrl-enter' or `alt-enter') action shown above.
+ * In a similar way, the `build' action also shows its output in a
    read-only document instead of a form that is not automatically closed,
    making the browsing and editing of compilation errors more useful.
  * Forms in the Curses driver have changed their look. All fields in a
@@ -62,23 +62,23 @@ Fixes to the KDE4 driver:
  * Copy and paste on GTK has been fixed (this was bug #1205).
  * Fixed some redrawing issues (bug #1236 and others).
  * Ctrl-keys no longer fail on GTK (bug #1252).
- * New document 'Minimum Profit Action Reference'.
- * New action 'build', for building Makefile-based projects. See the
+ * New document _Minimum Profit Action Reference_.
+ * New action `build', for building Makefile-based projects. See the
    action reference for details.
 
 5.0.1
 -----
 
  * Improved line edition in the Curses interface (full edition plus file
-   expansion using the 'tab' key in open / save file prompts).
+   expansion using the `tab' key in open / save file prompts).
  * Auto-indenting is temporarily disabled while pasting (bug #1250).
- * New document 'Minimum Profit Function Reference' (contributed by Lee Page).
+ * New document _Minimum Profit Function Reference_ (contributed by Lee Page).
 
 5.0.0
 -----
 
  * The search hit is highlighted.
- * When invoked from the menu, the 'record_macro' action dropped
+ * When invoked from the menu, the `record_macro' action dropped
    the last key (bug #1245).
  * A Curses configuration detection has been fixed that made
    some things behave strangely, as the drop-down menu not
@@ -88,23 +88,23 @@ Fixes to the KDE4 driver:
  * The -f (execute script) command line argument really works
    (bug #1240).
  * New manual page (bug #1219) and README files (bug #1218).
- * Updated documents, 'MPSL Overview' and 'Minimum Profit Cookbook'.
- * New documents, 'Minimum Profit Data Model' and 'Creating interactive
-   dialog boxes'.
+ * Updated documents, _MPSL Overview_ and _Minimum Profit Cookbook_.
+ * New documents, _Minimum Profit Data Model_ and
+   _Creating interactive dialog boxes_.
 
 5.0.0-rc3
 ---------
 
  * New session support. All open documents and its current position
-   can be stored / retrieved with the new 'save_session' and
-   'load_session' actions. Two new configuration flags has
-   been added: mp.config.auto_sessions, to automatically load / save
-   sessions, and mp.config.local_sessions, to save sessions in the
+   can be stored / retrieved with the new `save_session' and
+   `load_session' actions. Two new configuration flags has
+   been added: `mp.config.auto_sessions', to automatically load / save
+   sessions, and `mp.config.local_sessions', to save sessions in the
    currently active directory instead of in the home directory.
  * Multiple key sequences for invoking actions (ala Emacs) are
    now possible. To create them, just assign a hash to a keycode
    instead of an action. For example, to assign the key sequence
-   Ctrl-x Ctrl-f to 'open' and Ctrl-x Ctrl-s to 'save', you can use
+   Ctrl-x Ctrl-f to `open' and Ctrl-x Ctrl-s to `save', you can use
 
 	mp.keycodes['ctrl-x'] = {
 		'ctrl-f'	=> 'open',
@@ -113,16 +113,16 @@ Fixes to the KDE4 driver:
 
  * In the curses version, confirmations now have default values
    (shown in brackets), activated with the ENTER key.
- * New action 'close_all', that closes all documents.
+ * New action `close_all', that closes all documents.
 
 5.0.0-rc2
 ---------
 
- * New 'complete' action, that asks for completion on the current
+ * New `complete' action, that asks for completion on the current
    word using any of the words found in the same document.
- * New 'redo' action, to revert undo operations.
+ * New `redo' action, to revert undo operations.
  * The global configuration file `/etc/mp.mpsl' is also executed.
- * In the 'replace' action, the substitution string can contain
+ * In the `replace' action, the substitution string can contain
    the special character &, that will be replaced by the matched
    string (as in the `sed' command line tool).
 
@@ -137,9 +137,9 @@ Fixes to the KDE4 driver:
 
 	mp.add_keyseq("[6;5~", 'ctrl-page-down');
 
- * A new 'system_command' action, to pipe from and to system commands
+ * A new `system_command' action, to pipe from and to system commands
    (Closed bug #1120).
- * A new 'word_count' action, to count the number of lines and words
+ * A new `word_count' action, to count the number of lines and words
    in a document (or in the selected block).
  * Incorrect word wrapping has been fixed (Closed bug #1137).
  * Search and replace expand backslashed characters like \n and \t
@@ -161,9 +161,9 @@ Fixes to the KDE4 driver:
  * Selection can be done by pressing shift + any movement key (Closed bug #1182).
  * Dialog boxes work under Windows 98 (Closed bugs #1196, #1197).
  * Block selection can be done by dragging the mouse (Closed bugs #1200, #1201).
- * New 'grep' functionality (Closed bug #1116).
- * New action 'sync' (save all modified documents, closed bug #1206).
- * New action 'document_list' (show a box with all open documents, allowing
+ * New `grep' functionality (Closed bug #1116).
+ * New action `sync' (save all modified documents, closed bug #1206).
+ * New action `document_list' (show a box with all open documents, allowing
    the selection of the active one; closed bug #1211).
  * Translations ported from mp 3.x (closed bug #1169).
  * Most syntax highlight definitions ported from mp 3.x (closed bug #1168).
@@ -174,7 +174,7 @@ Fixes to the KDE4 driver:
  * The menu in the Curses interface has been (finally) implemented.
  * Interfaces have changed internally; a new driver function, mp.drv.form()
    serves as a dialog box generic generator, resulting in more useful queries
-   for data (for example, all data required for a 'replace' operation is
+   for data (for example, all data required for a `replace' operation is
    queried in only one dialog box). The Curses implementation, though
    functional, is still just a wrapper to the old interface functions
    and fields are queried one-by-one (which is annoying). This is an example
@@ -216,7 +216,7 @@ Fixes to the KDE4 driver:
  * Case sensitivity in searches can be controlled with the new
    config flag mp.config.case_sensitive_search.
  * Replace (and global replace by use of the new config flag
-   'mp.config.global_replace') works.
+   `mp.config.global_replace') works.
 
 4.99.11
 -------
@@ -232,20 +232,18 @@ Fixes to the KDE4 driver:
 4.99.10
 -------
 
- * A big advance in the Curses interface: Alerts, confirmations, and open
+ * A big advance in the Curses interface; alerts, confirmations, and open
    file, save file, search and generic prompts are working. Still lacking
    the selection lists (as the rest of interfaces) and the menu.
- * Improved menus: if an invalid action is added to a menu, it's shown
+ * Improved menus; if an invalid action is added to a menu, it's shown
    followed by a ?; if a key is bound to that action, it's shown between
    square brackets.
  * For systems lacking iconv support (MS Windows), a crappy, ad-hoc utf-8
-   converter has been added. This means that hitting 'escape' and typing
-
-	encoding('utf-8');
-
-   makes reading and writing utf-8 encoded files possible on every system.
- * New action 'join_paragraph', to join current paragraph all in one line.
- * New action 'word_wrap_paragraph', that re-word-wraps current paragraph.
+   converter has been added. This means that hitting `escape' and typing
+   `encoding('utf-8');' makes reading and writing utf-8 encoded files
+   possible on every system.
+ * New action `join_paragraph', to join current paragraph all in one line.
+ * New action `word_wrap_paragraph', that re-word-wraps current paragraph.
    Word wrapping must be set ('mp.config.word_wrap = number;') for this to
    work.
 
@@ -254,17 +252,17 @@ Fixes to the KDE4 driver:
 
  * The GTK and win32 drivers now include a native open/save file dialog.
  * Interactive help (help for the word under the cursor, triggered by
-   pressing 'f1') works.
+   pressing `f1') works.
  * The menu in GTK and win32 works.
  * New icon!
  * Some bugs that caused random crashes has been fixed.
- * New action 'exec-doc', that executes the active open document as
+ * New action `exec-doc', that executes the active open document as
    MPSL code.
 
 4.99.8
 ------
 
- * New configuration option mp.config.tabs_as_spaces, to store tabs
+ * New configuration option `mp.config.tabs_as_spaces', to store tabs
    as spaces.
  * Each syntax highlight definition can contain an optional function
    called detect() that receives the document as argument and can be used
@@ -275,7 +273,7 @@ Fixes to the KDE4 driver:
  * Move word left works.
  * Opening an already open file makes it the active one instead of
    re-opening it.
- * The 'execute code' action has been remapped from ctrl-f1 to escape.
+ * The `execute code' action has been remapped from `ctrl-f1' to escape.
  * Spellchecking via ispell works (though it's SLOW!). Activate it by
    hitting escape and typing:
 
@@ -283,30 +281,30 @@ Fixes to the KDE4 driver:
 
  * By default, files are now unlinked before (re)written. File permissions
    and ownership are restored if available. This behaviour can be disabled
-   by setting mp.config.unlink to 0.
+   by setting `mp.config.unlink' to zero.
  * The GTK driver drawing code has been optimized, so it's much more
    responsive now.
 
 4.99.7
 ------
 
- * The 'modified' flag of documents is maintained, so now closing files
+ * The `modified' flag of documents is maintained, so now closing files
    with pending modifications ask for confirmation. Also, the %m status
    line directive works (marking modified files with an asterisk).
  * Flex and bison are no longer needed to build.
- * The 'close window' button in GUIs (win32 and GTK) now generate the
-   special keycode 'close-window'.
- * The 'exit' action now closes all open documents, asking for saving
+ * The `close window' button in GUIs (win32 and GTK) now generate the
+   special keycode `close-window'.
+ * The `exit' action now closes all open documents, asking for saving
    confirmation on those modified.
- * Temporary versions of the 'open' ans 'save' actions (using
+ * Temporary versions of the `open' ans `save' actions (using
    mp.drv.readline() instead of an ad-hoc open file dialog) have
    been implemented.
  * The GUI interfaces now can have their font preferences configured
    by using mp.config.font_face and mp.config.font_size.
- * The actions 'zoom-in' and 'zoom-out' (font size rescaling, bound to
-   F11/F12 and ctrl-kp-minus/ctrl-kp-plus) have been implemented.
- * New mouse-related actions: move-to-mouse-position, move-mouse-wheel-up
-   and move-mouse-wheel-down.
+ * The actions `zoom-in' and `zoom-out' (font size rescaling, bound to
+   `f11/f12' and `ctrl-kp-minus/ctrl-kp-plus') have been implemented.
+ * New mouse-related actions; `move-to-mouse-position', `move-mouse-wheel-up'
+   and `move-mouse-wheel-down'.
 
 4.99.6
 ------
@@ -334,7 +332,7 @@ What it doesn't work:
  * The dialogs to open or save a file by its name aren't implemented.
    There are workarounds for this: files can be opened from the command
    line and save works correctly if the edited file has a name. Also,
-   files can be opened by hitting ctrl-f1 (execute script code) and
+   files can be opened by hitting `ctrl-f1' (execute script code) and
    typing:
 
 	mp.open("file-to-be-opened");
@@ -359,4 +357,3 @@ which is read on startup.
 
 I have not tried to optimize the internal engine, so it's probably some
 magnitudes slower than the 3.x version.
-
