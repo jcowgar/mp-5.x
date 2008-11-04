@@ -4,7 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1267: Sometimes replace all hangs.
+None!
 
 Open Bugs
 ---------
@@ -314,5 +314,6 @@ Closed
    (Tue, 07 Oct 2008 13:39:49 +0200).
  * 1265: Fix localisation / gettext when KDE4 support is compiled
    (Tue, 07 Oct 2008 13:39:36 +0200).
+ * 1267: Sometimes replace all hangs (Tue, 04 Nov 2008 09:19:50 +0100).
 
 Email bugs to angel@triptico.com
