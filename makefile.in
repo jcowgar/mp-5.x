@@ -80,7 +80,8 @@ doc/mp_man.html: doc/mp_man.txt
 
 doc/mp_api.txt: *.mpsl
 	mp_doccer *.mpsl -o doc/mp_api -f grutatxt \
-		-t "Minimum Profit API ($(VERSION))" \
+		-t "Minimum Profit API" \
+		-b "This reference documents version $(VERSION) of the MPSL API." \
 		-a 'Angel Ortega - angel@triptico.com'
 
 $(APPNAME).1: doc/mp_man.txt
