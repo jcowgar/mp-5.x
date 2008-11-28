@@ -10,7 +10,8 @@ GRUTATXT_DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
 	doc/mp_man.html doc/mp_interactive_dialog_boxes.html \
 	doc/mp_actions.html $(APPNAME).1
-MP_DOCCER_DOCS=doc/mp_api.html
+MP_DOCCER_DOCS=doc/mp_api.txt
+G_AND_MP_DOCS=doc/mp_api.html
 
 OBJS=mp_core.o $(DRV_OBJS)
 
@@ -58,7 +59,7 @@ distclean: clean
 		makefile.opts Makefile po/minimum-profit.pot
 
 docsclean:
-	rm -f doc/*.html
+	rm -f $(MP_DOCCER_DOCS) doc/*.html
 
 realclean: distclean
 	(cd $(MPDM) ; make realclean)
@@ -77,8 +78,8 @@ realdistclean: realclean
 doc/mp_man.html: doc/mp_man.txt
 	grutatxt -dl -t "Minimum Profit Man Page" < $< > $@
 
-doc/mp_api.html: *.mpsl
-	mp_doccer *.mpsl -o doc/mp_api -f html1 \
+doc/mp_api.txt: *.mpsl
+	mp_doccer *.mpsl -o doc/mp_api -f grutatxt \
 		-t "Minimum Profit API ($(VERSION))" \
 		-a 'Angel Ortega - angel@triptico.com'
 
