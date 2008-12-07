@@ -116,6 +116,9 @@ mp.syntax.c = {
 			[ '|/\*|', '|\*/|' ],			/* C-like */
 			'|//.*$|m',				/* C++ */
 			'/^\s*#[a-z]+/m'			/* CPP directives */
+		],
+		'documentation',	[
+			[ "|/\*\*\n|", '|\*/|' ]			/* C-like */
 		]
 	]
 };
@@ -189,11 +192,13 @@ mp.syntax.perl = {
 		/* color curly brackets as word */
 		'word',		[ '/[{}]/' ],
 		'comments',	[
-			"/#.*$/m",				/* Comments */
+			"/#.*$/m"				/* Comments */
+		],
+		'documentation',	[
 			"/__END__\n.*$/",			/* __END__ */
 			[ "/^=(head[1-4]|over|item|back|pod|begin|end|for)/m",
 				"/^=cut$/m" ]			/* POD */
-		]
+		]	
 	],
 	'detect'	=>	sub (d) {
 		/* take the first line */
@@ -231,6 +236,9 @@ mp.syntax.mpsl = {
 		],
 		'comments',	[
 			[ '|/\*|', '|\*/|' ]			/* C-like */
+		],
+		'documentation',	[
+			[ "|/\*\*\n|", '|\*/|' ]		/* C-like */
 		]
 	]
 };
@@ -413,7 +421,8 @@ mp.syntax.python = {
 			"/\b[0-9[:upper:]_]+\b/",		/* all-caps words */
 			[ "/`/", "/`/" ]			/* backticks */
 		],
-		'comments',	[ "/#.*$/m", [ '/""".+[^"]$/m', '/"""$/m' ] ]
+		'comments',		[ "/#.*$/m" ],
+		'documentation',	[ [ '/""".+[^"]$/m', '/"""$/m' ] ]
 	],
 	'detect'	=>	sub (d) {
 		/* take the first line */

@@ -65,6 +65,7 @@ The color keys are:
  * cursor: The color of the cursor.
  * selection: The color of the selected block.
  * comments: Text inside programming language comments.
+ * documentation: Text inside documentation marks.
  * quotes: Text between quotes.
  * matching: The color of the matching brace (if the cursor is over one).
  * word1: 1st definition for special words (i.e. tokens).

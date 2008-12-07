@@ -93,6 +93,8 @@ mp.colors = {
 				'flags'	=> [ 'reverse'] },
 	'comments' => {		'text'	=> [ 'green', 'default' ],
 				'gui'	=> [ 0x00cc77, 0xffffff ] },
+	'documentation' => {	'text'	=> [ 'cyan', 'default' ],
+				'gui'	=> [ 0x8888ff, 0xffffff ] },
 	'quotes' => {		'text'	=> [ 'blue', 'default' ],
 				'gui'	=> [ 0x0000ff, 0xffffff ],
 				'flags'	=> [ 'bright' ] },
