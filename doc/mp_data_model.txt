@@ -29,8 +29,8 @@ document are the following:
 The `txt' component contains the current state of the document:
 
  * lines: The array of lines that form the document (the document itself).
- * y: The Y position (line, from 0 to size(txt.lines) - 1).
- * x: The X position (column, from 0 to size(txt.lines[txt.y]) - 1).
+ * y: The Y position (line, from 0 to `size(txt.lines) - 1').
+ * x: The X position (column, from 0 to `size(txt.lines[txt.y]) - 1').
  * mod: A modifier flag. If it's nonzero, the document has unsaved changes.
  * vx: The first column (from 0) that is visible on screen.
  * vy: The first line (from 0) that is visible on screen.
@@ -41,7 +41,7 @@ The document list
 The list of open documents in stored in the `mp.docs' array. The subscript
 to the active one (the one returned by mp.active()) is stored in the
 `mp.active_i' variable. Setting this value effectively changes the active
-document (obviously, in the 0 .. size(mp.docs()) - 1 range).
+document (obviously, in the 0 .. `size(mp.docs()) - 1' range).
 
 Configuration data
 ------------------
@@ -122,10 +122,9 @@ block to be coloured).
 
 This is a snippet for the `comments' definition in the C language syntax
 highlight. The first definition is a two array of regular expressions,
-matching the start (/*) and the end (*/) of a C style comment; all text
-between these marks will be coloured as a comment. The following one, a
-single string, is a regular expression that matches from two slashes to the
-end of the line:
+matching the start and the end of a C style comment; all text between these
+marks will be coloured as a comment. The following one, a single string, is
+a regular expression that matches from two slashes to the end of the line:
 
 	/* more code above... */
 	'comments',	[
