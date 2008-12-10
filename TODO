@@ -31,6 +31,7 @@ Open Bugs
  * 1259: Apply Jeremy's indent_block().
  * 1260: Apply Jeremy's outdent_block().
  * 1261: Apply Jeremy's function_list().
+ * 1268: Implement mp.timer() in the KDE4 driver.
 
 Pending Enhancements
 --------------------
