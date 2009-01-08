@@ -4,7 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
-None!
+ * 1269: Don't try to search inside the block if it's empty.
 
 Open Bugs
 ---------
