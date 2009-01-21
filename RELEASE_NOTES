@@ -5,6 +5,7 @@ Minimum Profit Release Notes
 -----
 
  * New syntax color for special documentation blocks.
+ * Fix searching into empty selections (this was bug #1269).
 
 5.1.1
 -----
