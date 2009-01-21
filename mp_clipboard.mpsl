@@ -108,7 +108,8 @@ sub mp.mark(doc)
 		txt.mark = {};
 		txt.mark.ax = txt.mark.bx = txt.mark.ex = txt.x;
 		txt.mark.ay = txt.mark.by = txt.mark.ey = txt.y;
-		txt.mark.vertical = 0;		
+		txt.mark.vertical = 0;
+		txt.mark.incomplete = 1;
 	}
 	else {
 		/* mark exists; extend current one */
@@ -146,6 +147,8 @@ sub mp.mark(doc)
 				txt.mark.ex = txt.mark.ax;
 			}
 		}
+
+		txt.mark.incomplete = 0;
 	}
 }
 

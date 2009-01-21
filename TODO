@@ -4,7 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1269: Don't try to search inside the block if it's empty.
+None!
 
 Open Bugs
 ---------
@@ -316,5 +316,7 @@ Closed
  * 1265: Fix localisation / gettext when KDE4 support is compiled
    (Tue, 07 Oct 2008 13:39:36 +0200).
  * 1267: Sometimes replace all hangs (Tue, 04 Nov 2008 09:19:50 +0100).
+ * 1269: Don't try to search inside the block if it's empty
+   (Wed, 21 Jan 2009 10:37:16 +0100).
 
 Email bugs to angel@triptico.com

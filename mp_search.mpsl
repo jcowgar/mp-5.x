@@ -185,7 +185,7 @@ sub mp.search_dir(doc, str, dir)
 		ex = txt.x && txt.x - 1 || 0;
 		ey = txt.y;
 
-		if (txt.mark) {
+		if (txt.mark && !txt.mark.incomplete) {
 			if (ey >= txt.mark.ey) {
 				ey = txt.mark.ey;
 
@@ -206,7 +206,7 @@ sub mp.search_dir(doc, str, dir)
 		bx = txt.x;
 		by = txt.y;
 
-		if (txt.mark) {
+		if (txt.mark && !txt.mark.incomplete) {
 			if (by <= txt.mark.by) {
 				by = txt.mark.by;
 
