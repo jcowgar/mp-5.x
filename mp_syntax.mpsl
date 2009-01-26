@@ -235,7 +235,8 @@ mp.syntax.perl = {
 
 		/* is it a 'she-bang' for Perl? */
 		return regex('/^#!\s*/usr/bin/(env )?perl/', f);
-	}
+	},
+	'section'	=>	'/(^sub \w+|^package)/'
 };
 
 
@@ -317,8 +318,8 @@ mp.syntax.sh = {
 		/* is it a 'she-bang' for usual shells? */
 		return regex('/^#!\s*/bin/(sh|bash|csh|dash|ksh)/', f) ||
 		       regex('/^#!\s*/usr/bin/make -f/', f);
-	}
-
+	},
+	'section'	=>	'/(^\w+\(\))/'
 };
 
 
@@ -460,7 +461,8 @@ mp.syntax.python = {
 
 		/* is it a 'she-bang'? */
 		return regex('/^#!\s*/usr/bin/(env )?python/', f);
-	}
+	},
+	'section'	=>	'/^[ \t]*def/'
 };
 
 mp.syntax.ruby = {
@@ -508,7 +510,8 @@ mp.syntax.diff = {
 		'word1',	[ '/^\+.+$/m' ],
 		'word2',	[ '/^\-.+$/m' ],
 		'quotes',	[ '/^@@.+@@$/m' ]
-	]
+	],
+	'section'	=>	'/^--- '
 };
 
 mp.syntax.commit_msg = {
@@ -598,7 +601,8 @@ mp.syntax.euphoria = {
 			"/\b[0-9[:upper:]_]+\b/"            /* all-caps words */
 		],
 		'comments',		[ "/--.*$/m" ]
-	]
+	],
+	'section'	=>	'/^[ \t]*(global|export)*[ \t]*(function|procedure)/'
 };
 
 
