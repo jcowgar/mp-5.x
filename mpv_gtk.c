@@ -45,11 +45,10 @@
 
 #include "mp.xpm"
 
-/*******************
-	Data
-********************/
+/** data **/
 
 /* global data */
+
 static GtkWidget * window = NULL;
 static GtkWidget * file_tabs = NULL;
 static GtkWidget * area = NULL;
@@ -100,12 +99,9 @@ static mpdm_t timer_func = NULL;
 /* maximize wanted? */
 static int maximize = 0;
 
+/** code **/
 
-/*******************
-	Code
-********************/
-
-/* support functions */
+/** support functions **/
 
 #define LL(m) (m)
 
@@ -276,7 +272,7 @@ static void build_colors(void)
 }
 
 
-/* menu functions */
+/** menu functions **/
 
 static void redraw(void);
 
@@ -374,7 +370,7 @@ static void build_menu(void)
 }
 
 
-/* main area drawing functions */
+/** main area drawing functions **/
 
 static void switch_page(GtkNotebook * notebook, GtkNotebookPage * page,
 	gint pg_num, gpointer data)
@@ -916,7 +912,7 @@ static gint motion_notify_event(GtkWidget *widget, GdkEventMotion * event, gpoin
 }
 
 
-/* clipboard functions */
+/** clipboard functions **/
 
 static void commit(GtkIMContext * i, char * str, gpointer u)
 /* 'commit' handler */
@@ -1068,7 +1064,7 @@ static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
 }
 
 
-/* interface functions */
+/** interface functions **/
 
 static void wait_for_modal_status_change(void)
 /* wait until modal status changes */
@@ -1212,7 +1208,7 @@ static void build_form_data(mpdm_t widget_list)
 }
 
 
-/* dialog functions */
+/** dialog functions **/
 
 #define DIALOG_BUTTON(l,f) do { GtkWidget * btn; \
 	ptr = localize(l); btn = gtk_button_new_with_label(ptr); \

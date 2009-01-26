@@ -68,9 +68,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 
 #include "mp.xpm"
 
-/*******************
-	Data
-********************/
+/** data **/
 
 class MPWindow : public KMainWindow
 {
@@ -118,9 +116,7 @@ static int font_height = -1;
 static int mouse_down = 0;
 static int key_down = 0;
 
-/*******************
-	Code
-********************/
+/** code **/
 
 static mpdm_t qstring_to_str(QString s)
 /* converts a QString to an MPDM string */
@@ -353,7 +349,7 @@ static void draw_filetabs(void)
 }
 
 
-/* MPArea methods */
+/** MPArea methods **/
 
 MPArea::MPArea(QWidget *parent) : QWidget(parent)
 {
@@ -693,7 +689,7 @@ void MPArea::from_menu(QAction *action)
 }
 
 
-/* MPWindow methods */
+/** MPWindow methods **/
 
 MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 {
@@ -757,7 +753,7 @@ bool MPWindow::event(QEvent *event)
 }
 
 
-/* driver functions */
+/** driver functions **/
 
 static mpdm_t kde4_drv_update_ui(mpdm_t a)
 {

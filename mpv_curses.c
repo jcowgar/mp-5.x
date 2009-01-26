@@ -44,9 +44,7 @@
 
 #include "mp.h"
 
-/*******************
-	Data
-********************/
+/** data **/
 
 /* the curses attributes */
 int * nc_attrs = NULL;
@@ -68,9 +66,7 @@ static int last_attr = 0;
 static int timer_msecs = 0;
 static mpdm_t timer_func = NULL;
 
-/*******************
-	Code
-********************/
+/** code **/
 
 static void set_attr(void)
 /* set the current and fill attributes */
@@ -453,6 +449,8 @@ static void build_colors(void)
 }
 
 
+/** driver functions **/
+
 static mpdm_t ncursesw_drv_timer(mpdm_t a)
 {
 	mpdm_t func = mpdm_aget(a, 1);
@@ -497,7 +495,7 @@ static mpdm_t ncursesw_drv_shutdown(mpdm_t a)
 }
 
 
-/* TUI */
+/** TUI **/
 
 static mpdm_t tui_addstr(mpdm_t a)
 /* TUI: add a string */

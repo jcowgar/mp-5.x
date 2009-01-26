@@ -34,9 +34,7 @@
 
 #include "mp.h"
 
-/*******************
-	Data
-********************/
+/** data **/
 
 /* exit requested? */
 int mp_exit_requested = 0;
@@ -44,11 +42,7 @@ int mp_exit_requested = 0;
 /* main namespace */
 mpdm_t mp = NULL;
 
-/*******************
-	Code
-********************/
-
-/* private data for drawing syntax-highlighted text */
+/** private data for drawing syntax-highlighted text **/
 
 struct drw_1_info {
 	mpdm_t txt;		/* the document */
@@ -93,6 +87,7 @@ static struct {
 	char *mark_o_attr;	/* saved attributes for the mark */
 } drw_2;
 
+/** code **/
 
 #define MP_REAL_TAB_SIZE(x) (drw_1.tab_size - ((x) % drw_1.tab_size))
 
@@ -783,6 +778,8 @@ static mpdm_t drw_draw(mpdm_t doc, int optimize)
 	return r;
 }
 
+
+/** interface **/
 
 mpdm_t mp_draw(mpdm_t doc, int optimize)
 /* main generic drawing function: if the document has a 'paint' code,

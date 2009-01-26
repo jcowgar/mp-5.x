@@ -41,9 +41,7 @@
 
 #include "mp.h"
 
-/*******************
-	Data
-********************/
+/** data **/
 
 /* the instance */
 HINSTANCE hinst;
@@ -88,9 +86,7 @@ static int mouse_down = 0;
 /* timer function */
 static mpdm_t timer_func = NULL;
 
-/*******************
-	Code
-********************/
+/** code **/
 
 static void update_window_size(void)
 /* updates the viewport size in characters */
