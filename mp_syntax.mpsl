@@ -25,7 +25,7 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['help']	=	sub (d) {
 	local w, h, r;
@@ -74,12 +74,12 @@ mp.actions['section_list'] = sub (d) {
 	}
 };
 
-/* default key bindings */
+/** default key bindings **/
 
 mp.keycodes['f1']	=	"help";
 mp.keycodes['ctrl-d']	=	"section_list";
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['help']		= LL("Help on word over cursor");
 mp.actdesc['section_list']	= LL("Section list...");
@@ -88,7 +88,7 @@ mp.actdesc['section_list']	= LL("Section list...");
 
 mp.syntax = {};
 
-/* code */
+/** syntax definitions **/
 
 sub mp.syn_token_list(l) { '/\b(' ~ join("|", l) ~ ')\b/'; }
 
@@ -269,7 +269,7 @@ mp.syntax.mpsl = {
 			[ "|/\*\*\n|", '|\*/|' ]		/* C-like */
 		]
 	],
-	'section'	=>	'/^sub \w+/'
+	'section'	=>	'/(^sub \w+|^\/\*\*.*\*\*\/$)/'
 };
 
 mp.syntax.sh = {
@@ -599,6 +599,9 @@ mp.syntax.euphoria = {
 		'comments',		[ "/--.*$/m" ]
 	]
 };
+
+
+/** code **/
 
 sub mp.detect_syntax(doc)
 /* tries to detect the syntax of a document */
