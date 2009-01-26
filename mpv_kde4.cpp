@@ -649,7 +649,7 @@ void MPArea::wheelEvent(QWheelEvent *event)
 }
 
 
-/* MPArea slots */
+/** MPArea slots **/
 
 void MPArea::from_scrollbar(int value)
 {
