@@ -146,7 +146,8 @@ mp.syntax.c = {
 			'/^\s*#[a-z]+/m'			/* CPP directives */
 		],
 		'documentation',	[
-			[ "|/\*\*\n|", '|\*/|' ]			/* C-like */
+			[ "|/\*\*\n|", '|\*/|' ],		/* mp_doccer */
+			'/^/\*\*.*\*\*/$/m'			/* section mark */
 		]
 	],
 	'section'	=>	'/(^\/\*\*.*\*\*\/$|^#pragma mark)/'
@@ -225,6 +226,7 @@ mp.syntax.perl = {
 		],
 		'documentation',	[
 			"/__END__\n.*$/",			/* __END__ */
+			'/^## .*$/m',				/* section mark */
 			[ "/^=(head[1-4]|over|item|back|pod|begin|end|for)/m",
 				"/^=cut$/m" ]			/* POD */
 		]	
