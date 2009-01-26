@@ -52,7 +52,7 @@ mp.actions['section_list'] = sub (d) {
 	local l = mp.section_list(d);
 
 	if (l == NULL)
-		mp.alert(L("No section regular expression for this mode."));
+		mp.alert(L("No detection for sections for this mode."));
 	else {
 		if (size(l) == 0)
 			mp.alert(L("No sections were found in this document."));
