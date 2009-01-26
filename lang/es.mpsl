@@ -221,5 +221,9 @@ __I18N__ = {
 	"Errors and Warnings" => "Errores y advertencias",
 	"Build project..." => "Construir proyecto...",
 	"Read-only document" => "Documento de s\x{00f3}lo lectura",
+	"Mark vertical block" => "Marcar bloque vertical",
+	"No detection for sections for this mode." => "No hay forma de detectar secciones en este modo.",
+	"No sections were found in this document." => "No se encontraron secciones en este documento.",
+	"Section list" => "Lista de secciones",
 	"-" => "-"
 };

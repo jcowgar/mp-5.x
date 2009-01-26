@@ -186,23 +186,23 @@ msgid ""
 "\n"
 msgstr ""
 
-#: mp_core.mpsl:130
+#: mp_core.mpsl:130 mp_core.mpsl:145
 msgid "&File"
 msgstr "&Archivo"
 
-#: mp_core.mpsl:141
+#: mp_core.mpsl:141 mp_core.mpsl:156
 msgid "&Edit"
 msgstr "&Editar"
 
-#: mp_core.mpsl:152
+#: mp_core.mpsl:152 mp_core.mpsl:167
 msgid "&Search"
 msgstr "&Buscar"
 
-#: mp_core.mpsl:158
+#: mp_core.mpsl:158 mp_core.mpsl:173
 msgid "&Go to"
 msgstr "&Ir A"
 
-#: mp_core.mpsl:166
+#: mp_core.mpsl:166 mp_core.mpsl:182
 msgid "&Options"
 msgstr "&Opciones"
 
@@ -414,7 +414,7 @@ msgstr "Tamaño del tabulador..."
 msgid "Menu"
 msgstr "Menú"
 
-#: mp_misc.mpsl:165
+#: mp_misc.mpsl:165 mp_misc.mpsl:163
 msgid "About..."
 msgstr "Acerca de..."
 
@@ -666,19 +666,19 @@ msgstr "Error: "
 msgid "Exit value:\n"
 msgstr "Valor de salida:\n"
 
-#: mp_misc.mpsl:159
+#: mp_misc.mpsl:159 mp_misc.mpsl:157
 msgid "Execute MPSL code..."
 msgstr "Executar código MPSL..."
 
-#: mp_misc.mpsl:160
+#: mp_misc.mpsl:160 mp_misc.mpsl:158
 msgid "Execute document as MPSL"
 msgstr "Ejecutar documento como MPSL"
 
-#: mp_misc.mpsl:162
+#: mp_misc.mpsl:162 mp_misc.mpsl:160
 msgid "Bigger font"
 msgstr "Tipo de letra más grande"
 
-#: mp_misc.mpsl:163
+#: mp_misc.mpsl:163 mp_misc.mpsl:161
 msgid "Smaller font"
 msgstr "Tipo de letra más pequeño"
 
@@ -719,7 +719,7 @@ msgstr "No hay ayuda para '%s'."
 msgid "<help on '%s'>"
 msgstr "<ayuda para '%s'>"
 
-#: mp_syntax.mpsl:57
+#: mp_syntax.mpsl:57 mp_syntax.mpsl:83
 msgid "Help on word over cursor"
 msgstr "Ayuda sobre la tecla bajo el cursor"
 
@@ -788,16 +788,16 @@ msgstr "Codificación (utf-8, iso8859-1, etc.; vacío, local)"
 msgid "Invalid encoding "
 msgstr "Codificación no válida "
 
-#: mp_misc.mpsl:111
+#: mp_misc.mpsl:111 mp_misc.mpsl:108
 #, c-format
 msgid "Lines: %d Words: %d"
 msgstr "Lineas: %d Palabras: %d"
 
-#: mp_misc.mpsl:161
+#: mp_misc.mpsl:161 mp_misc.mpsl:159
 msgid "Set charset encoding..."
 msgstr "Codificación..."
 
-#: mp_misc.mpsl:164
+#: mp_misc.mpsl:164 mp_misc.mpsl:162
 msgid "Count words"
 msgstr "Contar palabras"
 
@@ -809,7 +809,7 @@ msgstr "Conmutar ortografía"
 msgid "Please, wait..."
 msgstr "Por favor, espere..."
 
-#: mp_misc.mpsl:116
+#: mp_misc.mpsl:116 mp_misc.mpsl:114
 #, c-format
 msgid ""
 "\n"
@@ -868,7 +868,7 @@ msgstr "Cargar sesión"
 msgid "Save session"
 msgstr "Guardar sesión"
 
-#: mp_core.mpsl:221
+#: mp_core.mpsl:221 mp_core.mpsl:237
 #, c-format
 msgid "Unknown action '%s'"
 msgstr "Acción '%s' desconocida"
@@ -883,12 +883,12 @@ msgstr "Tecla '%s' sin asociar"
 msgid "New file '%s'"
 msgstr "Nuevo archivo '%s'"
 
-#: mp_search.mpsl:272
+#: mp_search.mpsl:272 mp_search.mpsl:305
 #, c-format
 msgid "%d replaces"
 msgstr "%d reemplazos"
 
-#: mp_core.mpsl:394
+#: mp_core.mpsl:394 mp_core.mpsl:393
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -923,12 +923,12 @@ msgstr ""
 "Página web: http://www.triptico.com/software/mp.html\n"
 "Lista de distribución: mp-subscribe@lists.triptico.com\n"
 
-#: mp_core.mpsl:445
+#: mp_core.mpsl:445 mp_core.mpsl:444
 #, c-format
 msgid "Cannot open '%s'"
 msgstr "Imposible abrir '%s'"
 
-#: mp_core.mpsl:534
+#: mp_core.mpsl:534 mp_core.mpsl:558
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr "ADVERTENCIA: La versión de %s es la %s, pero se necesita la %s"
@@ -963,10 +963,26 @@ msgstr "Errores y advertencias"
 msgid "Build project..."
 msgstr "Construir proyecto..."
 
-#: mp_core.mpsl:201
+#: mp_core.mpsl:201 mp_core.mpsl:217
 msgid "Read-only document"
 msgstr "Documento de sólo lectura"
 
 #: mp_clipboard.mpsl:84
 msgid "Mark vertical block"
 msgstr "Marcar bloque vertical"
+
+#: mp_syntax.mpsl:55
+msgid "No detection for sections for this mode."
+msgstr "No hay forma de detectar secciones en este modo."
+
+#: mp_syntax.mpsl:58
+msgid "No sections were found in this document."
+msgstr "No se encontraron secciones en este documento."
+
+#: mp_syntax.mpsl:62
+msgid "Section list"
+msgstr "Lista de secciones"
+
+#: mp_syntax.mpsl:84
+msgid "Section list..."
+msgstr "Lista de secciones..."

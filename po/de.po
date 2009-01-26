@@ -10,23 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_core.mpsl:130
+#: mp_core.mpsl:130 mp_core.mpsl:145
 msgid "&File"
 msgstr "&Datei"
 
-#: mp_core.mpsl:141
+#: mp_core.mpsl:141 mp_core.mpsl:156
 msgid "&Edit"
 msgstr "&Bearbeiten"
 
-#: mp_core.mpsl:152
+#: mp_core.mpsl:152 mp_core.mpsl:167
 msgid "&Search"
 msgstr "&Suchen"
 
-#: mp_core.mpsl:158
+#: mp_core.mpsl:158 mp_core.mpsl:173
 msgid "&Go to"
 msgstr "&Gehe zu"
 
-#: mp_core.mpsl:166
+#: mp_core.mpsl:166 mp_core.mpsl:182
 msgid "&Options"
 msgstr "&Optionen"
 
@@ -610,7 +610,7 @@ msgstr "Block kopieren"
 msgid "Cut block"
 msgstr "Block ausschneiden+kopieren"
 
-#: mp_misc.mpsl:165
+#: mp_misc.mpsl:165 mp_misc.mpsl:163
 msgid "About..."
 msgstr "Über..."
 
@@ -688,19 +688,19 @@ msgstr ""
 msgid "Exit value:\n"
 msgstr ""
 
-#: mp_misc.mpsl:159
+#: mp_misc.mpsl:159 mp_misc.mpsl:157
 msgid "Execute MPSL code..."
 msgstr ""
 
-#: mp_misc.mpsl:160
+#: mp_misc.mpsl:160 mp_misc.mpsl:158
 msgid "Execute document as MPSL"
 msgstr ""
 
-#: mp_misc.mpsl:162
+#: mp_misc.mpsl:162 mp_misc.mpsl:160
 msgid "Bigger font"
 msgstr ""
 
-#: mp_misc.mpsl:163
+#: mp_misc.mpsl:163 mp_misc.mpsl:161
 msgid "Smaller font"
 msgstr ""
 
@@ -741,7 +741,7 @@ msgstr ""
 msgid "<help on '%s'>"
 msgstr ""
 
-#: mp_syntax.mpsl:57
+#: mp_syntax.mpsl:57 mp_syntax.mpsl:83
 msgid "Help on word over cursor"
 msgstr ""
 
@@ -816,16 +816,16 @@ msgstr ""
 msgid "Invalid encoding "
 msgstr ""
 
-#: mp_misc.mpsl:111
+#: mp_misc.mpsl:111 mp_misc.mpsl:108
 #, c-format
 msgid "Lines: %d Words: %d"
 msgstr ""
 
-#: mp_misc.mpsl:161
+#: mp_misc.mpsl:161 mp_misc.mpsl:159
 msgid "Set charset encoding..."
 msgstr ""
 
-#: mp_misc.mpsl:164
+#: mp_misc.mpsl:164 mp_misc.mpsl:162
 msgid "Count words"
 msgstr ""
 
@@ -837,7 +837,7 @@ msgstr ""
 msgid "Please, wait..."
 msgstr ""
 
-#: mp_misc.mpsl:116
+#: mp_misc.mpsl:116 mp_misc.mpsl:114
 #, c-format
 msgid ""
 "\n"
@@ -896,7 +896,7 @@ msgstr ""
 msgid "Save session"
 msgstr ""
 
-#: mp_core.mpsl:221
+#: mp_core.mpsl:221 mp_core.mpsl:237
 #, c-format
 msgid "Unknown action '%s'"
 msgstr ""
@@ -911,12 +911,12 @@ msgstr ""
 msgid "New file '%s'"
 msgstr ""
 
-#: mp_search.mpsl:272
+#: mp_search.mpsl:272 mp_search.mpsl:305
 #, c-format
 msgid "%d replaces"
 msgstr ""
 
-#: mp_core.mpsl:394
+#: mp_core.mpsl:394 mp_core.mpsl:393
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -936,12 +936,12 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_core.mpsl:445
+#: mp_core.mpsl:445 mp_core.mpsl:444
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
-#: mp_core.mpsl:534
+#: mp_core.mpsl:534 mp_core.mpsl:558
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
@@ -976,10 +976,26 @@ msgstr ""
 msgid "Build project..."
 msgstr ""
 
-#: mp_core.mpsl:201
+#: mp_core.mpsl:201 mp_core.mpsl:217
 msgid "Read-only document"
 msgstr ""
 
 #: mp_clipboard.mpsl:84
 msgid "Mark vertical block"
+msgstr ""
+
+#: mp_syntax.mpsl:55
+msgid "No detection for sections for this mode."
+msgstr ""
+
+#: mp_syntax.mpsl:58
+msgid "No sections were found in this document."
+msgstr ""
+
+#: mp_syntax.mpsl:62
+msgid "Section list"
+msgstr ""
+
+#: mp_syntax.mpsl:84
+msgid "Section list..."
 msgstr ""
