@@ -174,6 +174,7 @@ mp.menu = [
 		[ 'next', 'prev',
 			'move_bof', 'move_eof', 'move_bol', 'move_eol',
 			'goto', 'move_word_right', 'move_word_left',
+			'section_list',
 			'-', 'document_list'
 		]
 	],
