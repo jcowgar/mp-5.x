@@ -270,7 +270,8 @@ mp.syntax.mpsl = {
 			[ '|/\*|', '|\*/|' ]			/* C-like */
 		],
 		'documentation',	[
-			[ "|/\*\*\n|", '|\*/|' ]		/* C-like */
+			[ "|/\*\*\n|", '|\*/|' ],		/* mp_doccer */
+			'/^/\*\*.*\*\*/$/m'			/* section mark */
 		]
 	],
 	'section'	=>	'/(^sub \w+|^\/\*\*.*\*\*\/$)/'
