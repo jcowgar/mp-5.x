@@ -25,7 +25,7 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['build']	= sub(doc) {
 
@@ -57,15 +57,15 @@ mp.actions['build']	= sub(doc) {
 };
 
 
-/* Default key bindings */
+/** Default key bindings **/
 
 mp.keycodes['f2'] = "build";
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['build'] = LL("Build project...");
 
-/* code */
+/** code **/
 
 sub mp.build_get_targets
 {

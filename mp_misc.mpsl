@@ -25,7 +25,7 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['eval']	= sub (d) { 
 	local t = mp.form( [
@@ -144,7 +144,7 @@ mp.actions['about'] = sub (d) {
 	}
 };
 
-/* default key bindings */
+/** default key bindings **/
 
 mp.keycodes['escape']		= 'eval';
 mp.keycodes['f12']		= 'zoom_in';
@@ -152,7 +152,7 @@ mp.keycodes['ctrl-kp-plus' ]	= 'zoom_in';
 mp.keycodes['f11']		= 'zoom_out';
 mp.keycodes['ctrl-kp-minus' ]	= 'zoom_out';
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['eval']		= LL("Execute MPSL code...");
 mp.actdesc['eval_doc']		= LL("Execute document as MPSL");
@@ -162,7 +162,7 @@ mp.actdesc['zoom_out']		= LL("Smaller font");
 mp.actdesc['word_count']	= LL("Count words");
 mp.actdesc['about']		= LL("About...");
 
-/* code */
+/** code **/
 
 sub dump(v)
 /* overwrite of the MPSL dump() function, dumping over a text document */

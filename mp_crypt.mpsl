@@ -25,7 +25,7 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['set_password'] = sub(d) {
 	local r = mp.form( [
@@ -45,9 +45,11 @@ mp.actions['set_password'] = sub(d) {
 };
 
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['set_password'] = LL("Password protect...");
+
+/** code **/
 
 sub mp.arcfour_byte()
 /* gets next ARCFOUR byte */

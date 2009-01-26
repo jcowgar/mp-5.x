@@ -26,7 +26,7 @@
 */
 
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['insert_line']	= sub (d) {
 	mp.store_undo(d);
@@ -102,7 +102,7 @@ mp.actions['tab_options']	= sub (d) {
 	}
 };
 
-/* default key bindings */
+/** default key bindings **/
 
 mp.keycodes['enter']	= "insert_line";
 mp.keycodes['tab']	= "insert_tab";
@@ -116,7 +116,7 @@ mp.keycodes['ctrl-z']	= "undo";
 mp.keycodes['f4']	= "word_wrap_paragraph";
 mp.keycodes['f6']	= "join_paragraph";
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['insert_line']	= LL("Insert line");
 mp.actdesc['delete_line']	= LL("Delete line");
@@ -131,7 +131,7 @@ mp.actdesc['word_wrap_paragraph'] = LL("Word-wrap a paragraph");
 mp.actdesc['line_options']	= LL("Line options...");
 mp.actdesc['tab_options']	= LL("Tab options...");
 
-/* code */
+/** code **/
 
 /**
  * mp.break_line - Breaks current line in two (inserts a newline).
@@ -447,7 +447,7 @@ sub mp.insert_keystroke(doc, key)
 }
 
 
-/* undo */
+/** undo **/
 
 sub mp.store_undo(doc)
 /* stores the current txt in the undo queue */
@@ -480,7 +480,7 @@ sub mp.redo(doc)
 	}
 }
 
-/* paragraphs */
+/** paragraphs **/
 
 sub mp.join_paragraph(doc)
 /* joins current paragraph in just one line */

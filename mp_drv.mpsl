@@ -23,20 +23,20 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['menu']	= sub (d) { mp.drv.menu(); };
 
-/* default key bindings */
+/** default key bindings **/
 
 mp.keycodes['ctrl-a']		= 'menu';
 mp.keycodes['ctrl-space']	= 'menu';
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['menu']	= LL("Menu");
 
-/* default UI functions (dummy) */
+/** default UI functions (dummy) **/
 
 sub mp.drv.menu()			{ return NULL; }
 sub mp.drv.clip_to_sys()		{ return NULL; }
@@ -45,7 +45,7 @@ sub mp.drv.update_ui()			{ return NULL; }
 sub mp.drv.timer(msecs,func)		{ return NULL; }
 sub mp.drv.busy(onoff)			{ return NULL; }
 
-/* driver wrappers */
+/** driver wrappers **/
 
 sub mp.update_ui()			{ mp.drv.update_ui(); }
 sub mp.alert(msg)			{ mp.drv.alert(msg); }

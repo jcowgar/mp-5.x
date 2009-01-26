@@ -25,7 +25,7 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 
 mp.actions['unmark']	= sub (d) { mp.unmark(d); };
@@ -68,7 +68,7 @@ mp.actions['mouse_drag_mark'] = sub (d) {
 	mp.mark(d);
 };
 
-/* default key bindings */
+/** default key bindings **/
 
 mp.keycodes['f8']		= "unmark";
 mp.keycodes['f9']		= "mark";
@@ -78,7 +78,8 @@ mp.keycodes['ctrl-v']		= "paste_mark";
 mp.keycodes['ctrl-x']		= "cut_mark";
 mp.keycodes['mouse-drag']	= "mouse_drag_mark";
 
-/* action descriptions */
+/** action descriptions **/
+
 mp.actdesc['unmark']		= LL("Unmark block");
 mp.actdesc['mark']		= LL("Mark beginning/end of block");
 mp.actdesc['mark_vertical']	= LL("Mark vertical block");
@@ -87,7 +88,7 @@ mp.actdesc['paste_mark']	= LL("Paste block");
 mp.actdesc['cut_mark']		= LL("Cut block");
 mp.actdesc['mouse_drag_mark']	= LL("Mark using mouse dragging");
 
-/* code */
+/** code **/
 
 
 sub mp.unmark(doc)

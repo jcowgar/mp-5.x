@@ -23,9 +23,7 @@
 
 */
 
-/*******************
-	Data
-********************/
+/** global data **/
 
 /* L(x) is the same as gettext(x) */
 L = gettext;
@@ -139,7 +137,8 @@ mp.actdesc = {};
 
 mp.alert_log = [];
 
-/* the menu */
+/** the menu **/
+
 mp.menu = [
 	[
 		LL("&File"),
@@ -191,9 +190,7 @@ mp.menu = [
 
 mp.actions_by_menu_label = {};
 
-/*******************
-	Code
-********************/
+/** code **/
 
 sub mp.active()
 /* returns the active document */
@@ -571,6 +568,8 @@ sub mp.test_versions()
 }
 
 
+/** MAIN **/
+
 load("mp_drv.mpsl");
 load("mp_move.mpsl");
 load("mp_edit.mpsl");
@@ -587,8 +586,6 @@ load("mp_crypt.mpsl");
 load("mp_keyseq.mpsl");
 load("mp_session.mpsl");
 load("mp_build.mpsl");
-
-/** MAIN **/
 
 mp.load_profile();
 mp.setup_language();

@@ -25,18 +25,18 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['record_macro']	= sub (d) { mp.record_macro(); };
 mp.actions['play_macro']	= sub (d) { mp.play_macro(); };
 
-/* default key bindings */
+/** default key bindings **/
 
 mp.keycodes['f10']	= "record_macro";
 mp.keycodes['ctrl-f10']	= "record_macro";
 mp.keycodes['f7']	= "play_macro";
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['record_macro']	= LL("Record macro");
 mp.actdesc['play_macro']	= LL("Play macro");
@@ -47,7 +47,7 @@ mp.macro = {};
 mp.macro.process_event = NULL;
 mp.macro.keycodes = NULL;
 
-/* code */
+/** code **/
 
 sub mp.process_event_and_record(k)
 /* patched version of mp.process_event() */

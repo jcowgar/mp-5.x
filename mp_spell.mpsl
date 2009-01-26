@@ -25,22 +25,22 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['toggle_spellcheck'] = sub(d) { mp.ispell(-1); };
 
-/* default key bindings */
+/** default key bindings **/
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['toggle_spellcheck'] = LL("Toggle spellchecking");
 
-/* data */
+/** data **/
 
 /* spellchecking command */
 mp.config.ispell_cmd = "ispell -a";
 
-/* code */
+/** code **/
 
 sub mp.open_ispell_pipe
 /* opens the pipe to ispell */

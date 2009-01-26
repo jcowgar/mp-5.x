@@ -25,7 +25,7 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['insert_template']	 = sub(d) {
 
@@ -50,17 +50,17 @@ mp.actions['insert_template']	 = sub(d) {
 	mp.insert(d, mp.templates[l[t]]);
 };
 
-/* default key bindings */
+/** default key bindings **/
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['insert_template']	= LL("Insert template...");
 
-/* data */
+/** data **/
 
 mp.templates = {};
 
-/* code */
+/** code **/
 
 sub mp.read_templates_file()
 /* reads the $HOME/.mp_templates file into mp.templates */

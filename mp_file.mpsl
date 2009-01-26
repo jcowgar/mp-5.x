@@ -25,7 +25,7 @@
 
 */
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['new']	= sub (d) {
 	d = mp.find_file_by_name(L("<unnamed>"));
@@ -220,7 +220,7 @@ mp.actions['open_under_cursor'] = sub (d) {
 	}
 };
 
-/* default key bindings */
+/** default key bindings **/
 
 mp.keycodes['ctrl-n']		= 'next';
 mp.keycodes['ctrl-o']		= 'open';
@@ -231,7 +231,7 @@ mp.keycodes['ctrl-enter']	= 'open_under_cursor';
 
 mp.keycodes['close-window'] 	= 'exit';
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['new']	= LL("New");
 mp.actdesc['save']	= LL("Save...");
@@ -250,7 +250,7 @@ mp.actdesc['sync']			= LL("Save modified texts");
 mp.actdesc['exec_command']		= LL("Run system command...");
 mp.actdesc['open_under_cursor']		= LL("Open file under cursor");
 
-/* code */
+/** code **/
 
 sub mp.chomp(str)
 /* chomps the end of file chars from a string */

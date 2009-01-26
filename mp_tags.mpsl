@@ -28,7 +28,7 @@
 /* default ctags command */
 mp.config.ctags_cmd = "ctags *";
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['find_tag']	= sub(d) {
 
@@ -74,18 +74,18 @@ mp.actions['complete_symbol'] = sub(d) {
 		mp.alert(L("No matching symbol found."));
 };
 
-/* Default key bindings */
+/** default key bindings **/
 
 mp.keycodes['ctrl-t']	=	"find_tag";
 mp.keycodes['ctrl-u']	=	"complete";
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['find_tag']		= LL("Search tag...");
 mp.actdesc['complete']		= LL("Complete...");
 mp.actdesc['complete_symbol']	= LL("Symbol completion...");
 
-/* code */
+/** code **/
 
 sub mp.load_tags(force)
 /* load a 'tags' file */

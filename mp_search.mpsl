@@ -28,7 +28,7 @@
 /* successful searches will always be shown in this line */
 mp.config.move_seek_to_line = 5;
 
-/* editor actions */
+/** editor actions **/
 
 mp.actions['seek'] 	= sub (d) {
 	local t = mp.form( [
@@ -123,7 +123,7 @@ mp.actions['grep']	= sub (d) {
 	}
 };
 
-/* default key bindings */
+/** default key bindings **/
 
 mp.keycodes['f3']		= 'seek_next';
 mp.keycodes['ctrl-f3']		= 'seek_prev';
@@ -132,7 +132,8 @@ mp.keycodes['ctrl-r']		= 'replace';
 mp.keycodes['ctrl-page-down']	= 'seek_next_char';
 mp.keycodes['ctrl-page-up']	= 'seek_prev_char';
 
-/* action descriptions */
+/** action descriptions **/
+
 mp.actdesc['seek']		= LL("Search text...");
 mp.actdesc['seek_next'] 	= LL("Search next");
 mp.actdesc['seek_prev'] 	= LL("Search previous");
@@ -141,7 +142,7 @@ mp.actdesc['seek_next_char']	= LL("Move to next instance of current char");
 mp.actdesc['seek_prev_char']	= LL("Move to previous instance of current char");
 mp.actdesc['grep']		= LL("Grep (find inside) files...");
 
-/* code */
+/** code **/
 
 sub mp.prefix_regex(str)
 /* set str to be a valid regex */

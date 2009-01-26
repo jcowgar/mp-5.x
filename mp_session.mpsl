@@ -31,19 +31,19 @@ mp.config.auto_sessions = 0;
 /* local sessions */
 mp.config.local_sessions = 0;
 
-/* session actions */
+/** session actions **/
 
 mp.actions['save_session'] = sub (d) { mp.long_op(mp.save_session); };
 mp.actions['load_session'] = sub (d) { mp.long_op(mp.load_session); };
 
-/* default keybindings */
+/** default keybindings **/
 
-/* action descriptions */
+/** action descriptions **/
 
 mp.actdesc['load_session'] = LL("Load session");
 mp.actdesc['save_session'] = LL("Save session");
 
-/* code */
+/** code **/
 
 sub mp.session_file()
 /* returns the appropriate session saving file */

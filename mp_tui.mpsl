@@ -26,13 +26,14 @@
 */
 
 /* main TUI namspace */
+
 mp.tui = {};
 
-/* colors */
+/** colors **/
 
 mp.colors.menu = { 'text' => [ 'white', 'blue' ], 'flags' => [ 'bright' ] };
 
-/* code */
+/** code **/
 
 sub mp.tui.prompt(prompt, y)
 /* draw a prompt on screen */
@@ -317,7 +318,7 @@ sub mp.tui.confirm(msg, def, ypos)
 	return ret;
 }
 
-/* interface */
+/** interface **/
 
 sub mp.drv.alert(msg)
 {
