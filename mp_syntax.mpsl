@@ -48,13 +48,40 @@ mp.actions['help']	=	sub (d) {
 	}
 };
 
+mp.actions['section_list'] = sub (d) {
+	local l = mp.section_list(d);
+
+	if (l == NULL)
+		mp.alert(L("No section regular expression for this mode."));
+	else {
+		if (size(l) == 0)
+			mp.alert(L("No sections were found in this document."));
+		else {
+			local r = mp.form( [
+			{
+				'label'	=> L("Section list"),
+				'type'	=> 'list',
+				'list'	=> map(sub (e) { e[0]; }, l),
+				'value'	=> 0
+			}
+			]);
+
+			if (r != NULL) {
+				mp.set_y(d, l[r[0]][1]);
+				mp.set_x(d, 0);
+			}
+		}
+	}
+};
+
 /* default key bindings */
 
 mp.keycodes['f1']	=	"help";
 
 /* action descriptions */
 
-mp.actdesc['help'] = LL("Help on word over cursor");
+mp.actdesc['help']		= LL("Help on word over cursor");
+mp.actdesc['section_list']	= LL("Section list...");
 
 /* data */
 
@@ -240,7 +267,8 @@ mp.syntax.mpsl = {
 		'documentation',	[
 			[ "|/\*\*\n|", '|\*/|' ]		/* C-like */
 		]
-	]
+	],
+	'section'	=>	'/^sub \w+/'
 };
 
 mp.syntax.sh = {
@@ -630,4 +658,38 @@ sub mp.help(doc, word)
 	}
 
 	return h;
+}
+
+
+/**
+ * mp.section_list - Returns the list of sections of a document.
+ * @doc: the document
+ *
+ * Applies the `section' regular expression of the document's
+ * syntax definition and returns it as an array of line and
+ * line number pairs.
+ *
+ * If the document has no syntax highlight definition, or it has
+ * one without a `section' regex, NULL is returned. Otherwise,
+ * an array of line, line number pairs is returned (it can be
+ * an empty list if the document has no recognizable sections).
+ */
+sub mp.section_list(doc)
+{
+	local r;
+
+	if (doc.syntax.section) {
+		local n, l;
+
+		r = [];
+
+		while ((l = doc.txt.lines[n]) != NULL) {
+			if (regex(doc.syntax.section, l))
+				push(r, [ l, n ]);
+
+			n++;
+		}
+	}
+
+	return r;
 }
