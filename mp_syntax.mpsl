@@ -148,7 +148,8 @@ mp.syntax.c = {
 		'documentation',	[
 			[ "|/\*\*\n|", '|\*/|' ]			/* C-like */
 		]
-	]
+	],
+	'section'	=>	'/(^\/\*\*.*\*\*\/$|^#pragma mark)/'
 };
 
 mp.syntax.rc = {
