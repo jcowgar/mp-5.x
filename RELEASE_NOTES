@@ -6,6 +6,10 @@ Minimum Profit Release Notes
 
  * New syntax color for special documentation blocks.
  * Fix searching into empty selections (this was bug #1269).
+ * New action `section_list', that shows a list of _sections_
+   in the current document to jump to. Sections are usually
+   function definitions and special marks in programming
+   languages.
 
 5.1.1
 -----
