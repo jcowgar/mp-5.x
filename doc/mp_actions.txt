@@ -524,6 +524,14 @@ _Save session_
 Saves all documents and its positions as a session to be later loaded
 by `load_session'.
 
+section_list
+------------
+
+_Section list..._ (`ctrl-d')
+
+Shows a list with the sections found in the current document. Selecting
+one of them moves the cursor there.
+
 seek
 ----
 
