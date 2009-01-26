@@ -236,7 +236,7 @@ mp.syntax.perl = {
 		/* is it a 'she-bang' for Perl? */
 		return regex('/^#!\s*/usr/bin/(env )?perl/', f);
 	},
-	'section'	=>	'/(^sub \w+|^package)/'
+	'section'	=>	'/(^sub \w+|^package|^## )/'
 };
 
 
