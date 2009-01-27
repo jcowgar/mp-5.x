@@ -113,9 +113,9 @@ The keys in the definition hash are:
  * detect: An optional subroutine that accepts a document as the only
    argument and that must return a boolean value. This subroutine will be
    called when auto-detecting the syntax highlight.
- * section: A regular expression that marks a _section_ inside a
-   document. A section is a special area in the document, as a function
-   definition, for example. Lines matching this regex will be shown
+ * section: An array of regular expressions that defines a _section_ inside
+   a document. A section is a special area in the document, as a function
+   definition, for example. Lines matching this regexes will be shown
    in the `section_list' action form.
 
 The syntax highlight definitions is a list containing color names (keys to

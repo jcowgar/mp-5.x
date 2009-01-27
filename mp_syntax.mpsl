@@ -5,7 +5,7 @@
 
     Syntax highlight definitions.
 
-    Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2009 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -150,7 +150,7 @@ mp.syntax.c = {
 			'/^/\*\*.*\*\*/$/m'			/* section mark */
 		]
 	],
-	'section'	=>	'/(^\/\*\*.*\*\*\/$|^#pragma mark|^\w.*\)$)/'
+	'section'	=>	[ '/(^\/\*\*.*\*\*\/$|^#pragma mark|^\w.*\)$)/' ]
 };
 
 mp.syntax.rc = {
@@ -238,7 +238,7 @@ mp.syntax.perl = {
 		/* is it a 'she-bang' for Perl? */
 		return regex('/^#!\s*/usr/bin/(env )?perl/', f);
 	},
-	'section'	=>	'/(^sub \w+|^package|^## )/'
+	'section'	=>	[ '/(^sub \w+|^package|^## )/' ]
 };
 
 
@@ -274,7 +274,7 @@ mp.syntax.mpsl = {
 			'/^/\*\*.*\*\*/$/m'			/* section mark */
 		]
 	],
-	'section'	=>	'/(^sub \w+|^\/\*\*.*\*\*\/$)/'
+	'section'	=>	[ '/(^sub \w+|^\/\*\*.*\*\*\/$)/' ]
 };
 
 mp.syntax.sh = {
@@ -322,7 +322,7 @@ mp.syntax.sh = {
 		return regex('/^#!\s*/bin/(sh|bash|csh|dash|ksh)/', f) ||
 		       regex('/^#!\s*/usr/bin/make -f/', f);
 	},
-	'section'	=>	'/(^\w+\(\))/'
+	'section'	=>	[ '/(^\w+\(\))/' ]
 };
 
 
@@ -465,7 +465,7 @@ mp.syntax.python = {
 		/* is it a 'she-bang'? */
 		return regex('/^#!\s*/usr/bin/(env )?python/', f);
 	},
-	'section'	=>	'/^[ \t]*def/'
+	'section'	=>	[ '/^[ \t]*def/' ]
 };
 
 mp.syntax.ruby = {
@@ -514,7 +514,7 @@ mp.syntax.diff = {
 		'word2',	[ '/^\-.+$/m' ],
 		'quotes',	[ '/^@@.+@@$/m' ]
 	],
-	'section'	=>	'/^--- '
+	'section'	=>	[ '/^--- ' ]
 };
 
 mp.syntax.commit_msg = {
@@ -605,7 +605,7 @@ mp.syntax.euphoria = {
 		],
 		'comments',		[ "/--.*$/m" ]
 	],
-	'section'	=>	'/^[ \t]*(global|export)*[ \t]*(function|procedure)/'
+	'section'	=>	[ '/^[ \t]*(global|export)*[ \t]*(function|procedure)/' ]
 };
 
 
@@ -677,12 +677,12 @@ sub mp.help(doc, word)
  * mp.section_list - Returns the list of sections of a document.
  * @doc: the document
  *
- * Applies the `section' regular expression of the document's
- * syntax definition and returns it as an array of line and
- * line number pairs.
+ * Applies the `section' array of regular expressions of the
+ * document's syntax definition and returns it as an array of
+ * line and line number pairs.
  *
  * If the document has no syntax highlight definition, or it has
- * one without a `section' regex, NULL is returned. Otherwise,
+ * one without a `section' definition, NULL is returned. Otherwise,
  * an array of line, line number pairs is returned (it can be
  * an empty list if the document has no recognizable sections).
  */
@@ -696,8 +696,12 @@ sub mp.section_list(doc)
 		r = [];
 
 		while ((l = doc.txt.lines[n]) != NULL) {
-			if (regex(doc.syntax.section, l))
-				push(r, [ l, n ]);
+			foreach (ex, doc.syntax.section) {
+				if (regex(ex, l)) {
+					push(r, [ l, n ]);
+					break;
+				}
+			}
 
 			n++;
 		}
