@@ -89,6 +89,49 @@ sub mp.close_ispell_pipe
 }
 
 
+/**
+ * mp.is_word_misspelled - Tests if a word is misspelled
+ * @w: the word
+ *
+ * Tests if a word is misspelled. Returns a negative value if
+ * there was an error when querying the external spelling program,
+ * 1 if the word is misspelled, or 0 if not.
+ */
+sub mp.is_word_misspelled(w)
+{
+	local ret = 0;
+
+	if (mp.ispell_pipe != NULL) {
+		/* write the word */
+		write(mp.ispell_pipe, w ~ "\n");
+
+		/* wait for the response */
+		if ((l = read(mp.ispell_pipe)) == NULL) {
+			mp.close_ispell_pipe();
+			ret = -2;
+		}
+		else {
+			local t = l;
+
+			/* drop all lines until an empty one */
+			while (t ne "\n")
+				t = read(mp.ispell_pipe);
+
+			/* take first char of the response */
+			l = regex('/^./', l);
+
+			/* if it's not a '*' nor a '+', it's misspelled */
+			if (l ne '*' && l ne '+')
+				ret = 1;
+		}
+	}
+	else
+		ret = -1;
+
+	return ret;
+}
+
+
 sub mp.ispell_word_color_func(w)
 /* mp.word_color_func() for ispell */
 {
@@ -97,32 +140,13 @@ sub mp.ispell_word_color_func(w)
 	a = -1;
 
 	/* attributes must exist before entering here */
-	if (mp.colors.spell.attr == NULL)
-		return -1;
-
-	/* write the word */
-	write(mp.ispell_pipe, w ~ "\n");
-
-	/* wait for the response */
-	if ((l = read(mp.ispell_pipe)) == NULL)
-		mp.close_ispell_pipe();
-	else {
-		local t = l;
-
-		/* drop all lines until an empty one */
-		while (t ne "\n")
-			t = read(mp.ispell_pipe);
-
-		/* take first char of the response */
-		l = regex('/^./', l);
-
-		/* if it's not a '*' nor a '+', it's misspelled */
-		if (l ne '*' && l ne '+')
+	if (mp.colors.spell.attr != NULL) {
+		if (mp.is_word_misspelled(w) > 0)
 			a = mp.colors.spell.attr;
-	}
 
-	/* store the attribute in the cache */
-	mp.word_color[w] = a;
+		/* store the attribute in the cache */
+		mp.word_color[w] = a;
+	}
 
 	return a;
 }
