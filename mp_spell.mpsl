@@ -27,13 +27,17 @@
 
 /** editor actions **/
 
-mp.actions['toggle_spellcheck'] = sub(d) { mp.ispell(-1); };
+mp.actions['toggle_spellcheck']	= sub(d) { mp.ispell(-1); };
+mp.actions['seek_misspelled']	= sub(d) { mp.search_misspelled(doc) ||
+		mp.alert(L("Text not found."));
+};
 
 /** default key bindings **/
 
 /** action descriptions **/
 
-mp.actdesc['toggle_spellcheck'] = LL("Toggle spellchecking");
+mp.actdesc['toggle_spellcheck']	= LL("Toggle spellchecking");
+mp.actdesc['seek_misspelled']	= LL("Search misspelled word");
 
 /** data **/
 
