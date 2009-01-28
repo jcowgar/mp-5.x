@@ -4,7 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
-None!
+ * 1270: tools/po2mpsl.mpsl skips the last string.
 
 Open Bugs
 ---------
