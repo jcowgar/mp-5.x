@@ -169,3 +169,46 @@ sub mp.ispell(b)
 	else
 		mp.word_color_func = mp.ispell_word_color_func;
 }
+
+
+/**
+ * mp.search_misspelled - Searches for the next misspelled word
+ * @doc: the document to search
+ *
+ * Searches the document for the next misspelled word. If no
+ * more misspelled words can be found, returns 0; otherwise, 1.
+ */
+sub mp.search_misspelled(doc)
+{
+	local txt = doc.txt;
+	local x = txt.x;
+	local y = txt.y;
+
+	while (y < size(txt.lines)) {
+		local l = txt.lines[y];
+		local w;
+
+		while ((w = regex(mp.word_regex, l, x)) != NULL) {
+			local n = regex();
+			local r = mp.is_word_misspelled(w);
+
+			/* error? fail immediately */
+			if (r < 0)
+				return 0;
+
+			x = n[0] + n[1];
+
+			if (r == 1) {
+				mp.set_y(doc, y);
+				mp.set_x(doc, x);
+				return 1;
+			}
+		}
+
+		x = 0;
+		y++;
+	}
+
+	return 0;
+}
+
