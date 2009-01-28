@@ -73,6 +73,7 @@ msgid "Text to seek:"
 msgstr "Testo da cercare:"
 
 #: mp_search.mpsl:47 mp_search.mpsl:52 mp_search.mpsl:56 mp_search.mpsl:107
+#: mp_spell.mpsl:32
 msgid "Text not found."
 msgstr "Testo non trovato."
 
@@ -126,26 +127,26 @@ msgstr "N"
 msgid " [Y/N]"
 msgstr " [S/N]"
 
-#: mp_tui.mpsl:324
+#: mp_tui.mpsl:324 mp_tui.mpsl:325
 msgid " [ENTER]"
 msgstr " [INVIO]"
 
 msgid "<about Minimum Profit>"
 msgstr "<Circa Minimum Profit>"
 
-#: mpv_gtk.c:1291 mp_tui.mpsl:291
+#: mpv_gtk.c:1291 mp_tui.mpsl:291 mpv_gtk.c:1287 mp_tui.mpsl:292
 msgid "Yes"
 msgstr "Si"
 
-#: mpv_gtk.c:1292 mp_tui.mpsl:292
+#: mpv_gtk.c:1292 mp_tui.mpsl:292 mpv_gtk.c:1288 mp_tui.mpsl:293
 msgid "No"
 msgstr "No"
 
-#: mpv_gtk.c:1250 mpv_gtk.c:1474
+#: mpv_gtk.c:1250 mpv_gtk.c:1474 mpv_gtk.c:1246 mpv_gtk.c:1470
 msgid "OK"
 msgstr "OK"
 
-#: mpv_gtk.c:1293 mpv_gtk.c:1475
+#: mpv_gtk.c:1293 mpv_gtk.c:1475 mpv_gtk.c:1289 mpv_gtk.c:1471
 msgid "Cancel"
 msgstr "Cancellare"
 
@@ -183,23 +184,23 @@ msgid ""
 "\n"
 msgstr ""
 
-#: mp_core.mpsl:130 mp_core.mpsl:145
+#: mp_core.mpsl:130 mp_core.mpsl:145 mp_core.mpsl:144
 msgid "&File"
 msgstr "&Archivio"
 
-#: mp_core.mpsl:141 mp_core.mpsl:156
+#: mp_core.mpsl:141 mp_core.mpsl:156 mp_core.mpsl:155
 msgid "&Edit"
 msgstr "&Edita"
 
-#: mp_core.mpsl:152 mp_core.mpsl:167
+#: mp_core.mpsl:152 mp_core.mpsl:167 mp_core.mpsl:166
 msgid "&Search"
 msgstr "&Cerca"
 
-#: mp_core.mpsl:158 mp_core.mpsl:173
+#: mp_core.mpsl:158 mp_core.mpsl:173 mp_core.mpsl:174
 msgid "&Go to"
 msgstr "&Vai A"
 
-#: mp_core.mpsl:166 mp_core.mpsl:182
+#: mp_core.mpsl:166 mp_core.mpsl:182 mp_core.mpsl:183
 msgid "&Options"
 msgstr "&Opzioni"
 
@@ -279,35 +280,35 @@ msgstr "Elimina il carattere alla sinistra del cursore"
 msgid "Delete line"
 msgstr "Elimina la riga"
 
-#: mp_clipboard.mpsl:83
+#: mp_clipboard.mpsl:83 mp_clipboard.mpsl:84
 msgid "Mark beginning/end of block"
 msgstr "Marca la fine/inizio del blocco"
 
-#: mp_clipboard.mpsl:82
+#: mp_clipboard.mpsl:82 mp_clipboard.mpsl:83
 msgid "Unmark block"
 msgstr "Smarca il blocco"
 
-#: mp_clipboard.mpsl:85
+#: mp_clipboard.mpsl:85 mp_clipboard.mpsl:86
 msgid "Copy block"
 msgstr "Copia il blocco"
 
-#: mp_clipboard.mpsl:86
+#: mp_clipboard.mpsl:86 mp_clipboard.mpsl:87
 msgid "Paste block"
 msgstr "Incolla il blocco"
 
-#: mp_clipboard.mpsl:87
+#: mp_clipboard.mpsl:87 mp_clipboard.mpsl:88
 msgid "Cut block"
 msgstr "Taglia il blocco"
 
-#: mp_search.mpsl:136
+#: mp_search.mpsl:136 mp_search.mpsl:137
 msgid "Search text..."
 msgstr "Cerca testo..."
 
-#: mp_search.mpsl:137
+#: mp_search.mpsl:137 mp_search.mpsl:138
 msgid "Search next"
 msgstr "Cerca successivo"
 
-#: mp_search.mpsl:139
+#: mp_search.mpsl:139 mp_search.mpsl:140
 msgid "Replace..."
 msgstr "Sostituisci..."
 
@@ -443,7 +444,7 @@ msgstr "Esegui funzione dell'editor..."
 msgid "Save modified texts"
 msgstr "Salva il testo modificato"
 
-#: mp_search.mpsl:142
+#: mp_search.mpsl:142 mp_search.mpsl:143
 msgid "Grep (find inside) files..."
 msgstr "Cerca dentro i file..."
 
@@ -514,11 +515,11 @@ msgstr "Alterna inserisci/sovrascrivi"
 msgid "Reformat paragraph with word wrapping"
 msgstr "Riformatta paragrafo con word-wrapping"
 
-#: mp_search.mpsl:141
+#: mp_search.mpsl:141 mp_search.mpsl:142
 msgid "Move to previous instance of current char"
 msgstr "Sposta alla precedente istanza del carattere corrente"
 
-#: mp_search.mpsl:140
+#: mp_search.mpsl:140 mp_search.mpsl:141
 msgid "Move to next instance of current char"
 msgstr "Sposta alla prossima istanza del carattere corrente"
 
@@ -701,7 +702,7 @@ msgstr ""
 msgid "Grep"
 msgstr ""
 
-#: mp_search.mpsl:138
+#: mp_search.mpsl:138 mp_search.mpsl:139
 msgid "Search previous"
 msgstr ""
 
@@ -715,7 +716,7 @@ msgstr ""
 msgid "<help on '%s'>"
 msgstr ""
 
-#: mp_syntax.mpsl:57 mp_syntax.mpsl:83
+#: mp_syntax.mpsl:57 mp_syntax.mpsl:83 mp_syntax.mpsl:84
 msgid "Help on word over cursor"
 msgstr ""
 
@@ -803,11 +804,11 @@ msgstr ""
 msgid "Count words"
 msgstr ""
 
-#: mp_spell.mpsl:36
+#: mp_spell.mpsl:36 mp_spell.mpsl:39
 msgid "Toggle spellchecking"
 msgstr ""
 
-#: mp_tui.mpsl:542
+#: mp_tui.mpsl:542 mp_tui.mpsl:543
 msgid "Please, wait..."
 msgstr ""
 
@@ -870,7 +871,7 @@ msgstr ""
 msgid "Save session"
 msgstr ""
 
-#: mp_core.mpsl:221 mp_core.mpsl:237
+#: mp_core.mpsl:221 mp_core.mpsl:237 mp_core.mpsl:236
 #, c-format
 msgid "Unknown action '%s'"
 msgstr ""
@@ -885,12 +886,12 @@ msgstr ""
 msgid "New file '%s'"
 msgstr ""
 
-#: mp_search.mpsl:272 mp_search.mpsl:305
+#: mp_search.mpsl:272 mp_search.mpsl:305 mp_search.mpsl:306
 #, c-format
 msgid "%d replaces"
 msgstr ""
 
-#: mp_core.mpsl:394 mp_core.mpsl:393
+#: mp_core.mpsl:394 mp_core.mpsl:393 mp_core.mpsl:392
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -910,17 +911,17 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_core.mpsl:445 mp_core.mpsl:444
+#: mp_core.mpsl:445 mp_core.mpsl:444 mp_core.mpsl:443
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
-#: mp_core.mpsl:534 mp_core.mpsl:558
+#: mp_core.mpsl:534 mp_core.mpsl:558 mp_core.mpsl:557
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
 
-#: mp_clipboard.mpsl:88
+#: mp_clipboard.mpsl:88 mp_clipboard.mpsl:89
 msgid "Mark using mouse dragging"
 msgstr ""
 
@@ -950,11 +951,11 @@ msgstr ""
 msgid "Build project..."
 msgstr ""
 
-#: mp_core.mpsl:201 mp_core.mpsl:217
+#: mp_core.mpsl:201 mp_core.mpsl:217 mp_core.mpsl:216
 msgid "Read-only document"
 msgstr ""
 
-#: mp_clipboard.mpsl:84
+#: mp_clipboard.mpsl:84 mp_clipboard.mpsl:85
 msgid "Mark vertical block"
 msgstr ""
 
@@ -970,6 +971,10 @@ msgstr ""
 msgid "Section list"
 msgstr ""
 
-#: mp_syntax.mpsl:84
+#: mp_syntax.mpsl:84 mp_syntax.mpsl:85
 msgid "Section list..."
+msgstr ""
+
+#: mp_spell.mpsl:40
+msgid "Search misspelled word"
 msgstr ""

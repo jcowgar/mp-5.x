@@ -10,23 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_core.mpsl:130 mp_core.mpsl:145
+#: mp_core.mpsl:130 mp_core.mpsl:145 mp_core.mpsl:144
 msgid "&File"
 msgstr "&Файл"
 
-#: mp_core.mpsl:141 mp_core.mpsl:156
+#: mp_core.mpsl:141 mp_core.mpsl:156 mp_core.mpsl:155
 msgid "&Edit"
 msgstr "&Правка"
 
-#: mp_core.mpsl:152 mp_core.mpsl:167
+#: mp_core.mpsl:152 mp_core.mpsl:167 mp_core.mpsl:166
 msgid "&Search"
 msgstr "&Поиск"
 
-#: mp_core.mpsl:158 mp_core.mpsl:173
+#: mp_core.mpsl:158 mp_core.mpsl:173 mp_core.mpsl:174
 msgid "&Go to"
 msgstr "&Переход"
 
-#: mp_core.mpsl:166 mp_core.mpsl:182
+#: mp_core.mpsl:166 mp_core.mpsl:182 mp_core.mpsl:183
 msgid "&Options"
 msgstr "&Параметры"
 
@@ -126,6 +126,7 @@ msgid "Text to seek:"
 msgstr "Искать текст:"
 
 #: mp_search.mpsl:47 mp_search.mpsl:52 mp_search.mpsl:56 mp_search.mpsl:107
+#: mp_spell.mpsl:32
 msgid "Text not found."
 msgstr "Текст не найден."
 
@@ -185,7 +186,7 @@ msgstr ""
 msgid " [Y/N]"
 msgstr ""
 
-#: mp_tui.mpsl:324
+#: mp_tui.mpsl:324 mp_tui.mpsl:325
 msgid " [ENTER]"
 msgstr " [ВВОД]"
 
@@ -237,19 +238,19 @@ msgstr ""
 "  -nt, --no-transparent   Отключить прозрачный режим (eterm, aterm, и.т.п.)\n"
 "                         "
 
-#: mpv_gtk.c:1291 mp_tui.mpsl:291
+#: mpv_gtk.c:1291 mp_tui.mpsl:291 mpv_gtk.c:1287 mp_tui.mpsl:292
 msgid "Yes"
 msgstr "Да"
 
-#: mpv_gtk.c:1292 mp_tui.mpsl:292
+#: mpv_gtk.c:1292 mp_tui.mpsl:292 mpv_gtk.c:1288 mp_tui.mpsl:293
 msgid "No"
 msgstr "Нет"
 
-#: mpv_gtk.c:1250 mpv_gtk.c:1474
+#: mpv_gtk.c:1250 mpv_gtk.c:1474 mpv_gtk.c:1246 mpv_gtk.c:1470
 msgid "OK"
 msgstr "ОК"
 
-#: mpv_gtk.c:1293 mpv_gtk.c:1475
+#: mpv_gtk.c:1293 mpv_gtk.c:1475 mpv_gtk.c:1289 mpv_gtk.c:1471
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -320,7 +321,7 @@ msgstr "Уменьшить размер шрифта"
 msgid "Mark spelling errors"
 msgstr "Помечать ошибки правописания"
 
-#: mp_clipboard.mpsl:82
+#: mp_clipboard.mpsl:82 mp_clipboard.mpsl:83
 msgid "Unmark block"
 msgstr "Снять выделение с блока"
 
@@ -366,7 +367,7 @@ msgstr "Перенос слов..."
 msgid "Show clipboard"
 msgstr "Показать буфер обмена"
 
-#: mp_search.mpsl:137
+#: mp_search.mpsl:137 mp_search.mpsl:138
 msgid "Search next"
 msgstr "Искать дальше"
 
@@ -387,7 +388,7 @@ msgstr "Разрушать жесткие ссылки при записи"
 msgid "Save as..."
 msgstr "Сохранить как..."
 
-#: mp_search.mpsl:139
+#: mp_search.mpsl:139 mp_search.mpsl:140
 msgid "Replace..."
 msgstr "Заменить..."
 
@@ -405,7 +406,7 @@ msgstr "Записать макрос"
 msgid "Reformat paragraph with word wrapping"
 msgstr "Форматировать параграф с переносом строк"
 
-#: mp_clipboard.mpsl:86
+#: mp_clipboard.mpsl:86 mp_clipboard.mpsl:87
 msgid "Paste block"
 msgstr "Вставить блок"
 
@@ -452,7 +453,7 @@ msgstr "Следующая страница"
 msgid "Page up"
 msgstr "Предыдущая страница"
 
-#: mp_search.mpsl:141
+#: mp_search.mpsl:141 mp_search.mpsl:142
 msgid "Move to previous instance of current char"
 msgstr "Перейти назад к такому же символу"
 
@@ -464,11 +465,11 @@ msgstr "Следующий символ"
 msgid "Open file under cursor"
 msgstr "Открыть файл под курсором"
 
-#: mp_search.mpsl:136
+#: mp_search.mpsl:136 mp_search.mpsl:137
 msgid "Search text..."
 msgstr "Искать текст..."
 
-#: mp_search.mpsl:140
+#: mp_search.mpsl:140 mp_search.mpsl:141
 msgid "Move to next instance of current char"
 msgstr "Перейти вперед к такому же символу"
 
@@ -539,7 +540,7 @@ msgstr "Вставить новую строку над курсором"
 msgid "Insert template..."
 msgstr "Вставить шаблон..."
 
-#: mp_clipboard.mpsl:83
+#: mp_clipboard.mpsl:83 mp_clipboard.mpsl:84
 msgid "Mark beginning/end of block"
 msgstr "Пометить начало/конец блока"
 
@@ -596,11 +597,11 @@ msgstr "Удалить строку"
 msgid "Delete all whitespace after cursor"
 msgstr "Удалить все пробелы после курсора"
 
-#: mp_clipboard.mpsl:85
+#: mp_clipboard.mpsl:85 mp_clipboard.mpsl:86
 msgid "Copy block"
 msgstr "Копировать блок"
 
-#: mp_clipboard.mpsl:87
+#: mp_clipboard.mpsl:87 mp_clipboard.mpsl:88
 msgid "Cut block"
 msgstr "Вырезать блок"
 
@@ -621,7 +622,7 @@ msgstr "Удалить символ под курсором"
 msgid "Delete to the end of word"
 msgstr "Удалить до конца слова"
 
-#: mp_search.mpsl:142
+#: mp_search.mpsl:142 mp_search.mpsl:143
 msgid "Grep (find inside) files..."
 msgstr "Поиск (grep) по файлам..."
 
@@ -721,7 +722,7 @@ msgstr ""
 msgid "Grep"
 msgstr ""
 
-#: mp_search.mpsl:138
+#: mp_search.mpsl:138 mp_search.mpsl:139
 msgid "Search previous"
 msgstr ""
 
@@ -735,7 +736,7 @@ msgstr ""
 msgid "<help on '%s'>"
 msgstr ""
 
-#: mp_syntax.mpsl:57 mp_syntax.mpsl:83
+#: mp_syntax.mpsl:57 mp_syntax.mpsl:83 mp_syntax.mpsl:84
 msgid "Help on word over cursor"
 msgstr ""
 
@@ -823,11 +824,11 @@ msgstr ""
 msgid "Count words"
 msgstr ""
 
-#: mp_spell.mpsl:36
+#: mp_spell.mpsl:36 mp_spell.mpsl:39
 msgid "Toggle spellchecking"
 msgstr ""
 
-#: mp_tui.mpsl:542
+#: mp_tui.mpsl:542 mp_tui.mpsl:543
 msgid "Please, wait..."
 msgstr ""
 
@@ -890,7 +891,7 @@ msgstr ""
 msgid "Save session"
 msgstr ""
 
-#: mp_core.mpsl:221 mp_core.mpsl:237
+#: mp_core.mpsl:221 mp_core.mpsl:237 mp_core.mpsl:236
 #, c-format
 msgid "Unknown action '%s'"
 msgstr ""
@@ -905,12 +906,12 @@ msgstr ""
 msgid "New file '%s'"
 msgstr ""
 
-#: mp_search.mpsl:272 mp_search.mpsl:305
+#: mp_search.mpsl:272 mp_search.mpsl:305 mp_search.mpsl:306
 #, c-format
 msgid "%d replaces"
 msgstr ""
 
-#: mp_core.mpsl:394 mp_core.mpsl:393
+#: mp_core.mpsl:394 mp_core.mpsl:393 mp_core.mpsl:392
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -930,17 +931,17 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_core.mpsl:445 mp_core.mpsl:444
+#: mp_core.mpsl:445 mp_core.mpsl:444 mp_core.mpsl:443
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
-#: mp_core.mpsl:534 mp_core.mpsl:558
+#: mp_core.mpsl:534 mp_core.mpsl:558 mp_core.mpsl:557
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
 
-#: mp_clipboard.mpsl:88
+#: mp_clipboard.mpsl:88 mp_clipboard.mpsl:89
 msgid "Mark using mouse dragging"
 msgstr ""
 
@@ -970,11 +971,11 @@ msgstr ""
 msgid "Build project..."
 msgstr ""
 
-#: mp_core.mpsl:201 mp_core.mpsl:217
+#: mp_core.mpsl:201 mp_core.mpsl:217 mp_core.mpsl:216
 msgid "Read-only document"
 msgstr ""
 
-#: mp_clipboard.mpsl:84
+#: mp_clipboard.mpsl:84 mp_clipboard.mpsl:85
 msgid "Mark vertical block"
 msgstr ""
 
@@ -990,6 +991,10 @@ msgstr ""
 msgid "Section list"
 msgstr ""
 
-#: mp_syntax.mpsl:84
+#: mp_syntax.mpsl:84 mp_syntax.mpsl:85
 msgid "Section list..."
+msgstr ""
+
+#: mp_spell.mpsl:40
+msgid "Search misspelled word"
 msgstr ""
