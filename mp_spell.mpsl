@@ -28,7 +28,7 @@
 /** editor actions **/
 
 mp.actions['toggle_spellcheck']	= sub(d) { mp.ispell(-1); };
-mp.actions['seek_misspelled']	= sub(d) { mp.search_misspelled(d) ||
+mp.actions['seek_misspelled']	= sub(d) { mp.long_op(mp.search_misspelled, d) ||
 		mp.alert(L("Text not found."));
 };
 
