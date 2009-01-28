@@ -991,7 +991,3 @@ msgstr "Lista de secciones..."
 #: mp_spell.mpsl:40
 msgid "Search misspelled word"
 msgstr "Siguiente palabra mal escrita"
-
-#: mp_spell.mpsl:40
-msgid "Search misspelled word"
-msgstr "Siguiente palabra mal escrita"
