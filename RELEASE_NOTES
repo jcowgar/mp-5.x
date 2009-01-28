@@ -10,6 +10,8 @@ Minimum Profit Release Notes
    in the current document to jump to. Sections are usually
    function definitions and special marks in programming
    languages.
+ * New action `seek_misspelled', to search the next
+   misspelled word.
 
 5.1.1
 -----
