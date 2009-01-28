@@ -166,6 +166,7 @@ mp.menu = [
 		LL("&Search"),
 		[ 'seek', 'seek_next', 'seek_prev', 'replace', '-',
 			'complete', '-',
+			'seek_misspelled', '-',
 			'find_tag', 'complete_symbol', '-', 'grep'
 		]
 	],
