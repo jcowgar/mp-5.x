@@ -5,7 +5,7 @@
 
     Spellchecking code.
 
-    Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2009 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -60,9 +60,6 @@ sub mp.open_ispell_pipe
 		return NULL;
 	}
 
-	/* it works; set the word color function */
-	mp.word_color_func = mp.ispell_word_color_func;
-
 	/* store the pipe */
 	mp.ispell_pipe = p;
 }
@@ -83,9 +80,6 @@ sub mp.close_ispell_pipe
 		if (mp.word_color[w] == mp.colors.spell.attr)
 			hdel(mp.word_color, w);
 	}
-
-	/* delete the word color function */
-	mp.word_color_func = NULL;
 }
 
 
@@ -99,34 +93,36 @@ sub mp.close_ispell_pipe
  */
 sub mp.is_word_misspelled(w)
 {
+	local l;
 	local ret = 0;
 
-	if (mp.ispell_pipe != NULL) {
-		/* write the word */
-		write(mp.ispell_pipe, w ~ "\n");
-
-		/* wait for the response */
-		if ((l = read(mp.ispell_pipe)) == NULL) {
-			mp.close_ispell_pipe();
-			ret = -2;
-		}
-		else {
-			local t = l;
-
-			/* drop all lines until an empty one */
-			while (t ne "\n")
-				t = read(mp.ispell_pipe);
-
-			/* take first char of the response */
-			l = regex('/^./', l);
-
-			/* if it's not a '*' nor a '+', it's misspelled */
-			if (l ne '*' && l ne '+')
-				ret = 1;
+	if (mp.ispell_pipe == NULL) {
+		if (mp.open_ispell_pipe() == NULL) {
+			return -1;
 		}
 	}
-	else
-		ret = -1;
+
+	/* write the word */
+	write(mp.ispell_pipe, w ~ "\n");
+
+	/* wait for the response */
+	if ((l = read(mp.ispell_pipe)) == NULL) {
+		mp.close_ispell_pipe();
+		ret = -2;
+	}
+
+	local t = l;
+
+	/* drop all lines until an empty one */
+	while (t ne "\n")
+		t = read(mp.ispell_pipe);
+
+	/* take first char of the response */
+	l = regex('/^./', l);
+
+	/* if it's not a '*' nor a '+', it's misspelled */
+	if (l ne '*' && l ne '+')
+		ret = 1;
 
 	return ret;
 }
@@ -141,11 +137,19 @@ sub mp.ispell_word_color_func(w)
 
 	/* attributes must exist before entering here */
 	if (mp.colors.spell.attr != NULL) {
-		if (mp.is_word_misspelled(w) > 0)
-			a = mp.colors.spell.attr;
+		ret = mp.is_word_misspelled(w);
 
-		/* store the attribute in the cache */
-		mp.word_color[w] = a;
+		/* error? disable further misspelling color */
+		if (ret < 0) {
+			mp.word_color_func = NULL;
+		}
+		else {
+			if (ret > 0)
+				a = mp.colors.spell.attr;
+
+			/* store the attribute in the cache */
+			mp.word_color[w] = a;
+		}
 	}
 
 	return a;
@@ -156,7 +160,12 @@ sub mp.ispell(b)
 /* sets or unsets spell checking (-1, toggle) */
 {
 	if (b == -1)
-		b = mp.ispell_pipe == NULL && 1 || 0;
+		b = mp.word_color_func == NULL && 1 || 0;
 
-	b && mp.open_ispell_pipe() || mp.close_ispell_pipe();
+	if (b == 0) {
+		mp.word_color_func = NULL;
+		mp.close_ispell_pipe();
+	}
+	else
+		mp.word_color_func = mp.ispell_word_color_func;
 }
