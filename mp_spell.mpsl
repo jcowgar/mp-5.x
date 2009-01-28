@@ -160,6 +160,15 @@ sub mp.ispell_word_color_func(w)
 }
 
 
+/**
+ * mp.ispell - Changes spelling highlight
+ * @b: boolean value
+ *
+ * Changes the status of the highlighting of misspelled words.
+ * If @b is 0, it's disabled (default value); if it's 1,
+ * misspelled words will be highlighted using a special
+ * attribute color. If @b is -1, the status is toggled.
+ */
 sub mp.ispell(b)
 /* sets or unsets spell checking (-1, toggle) */
 {
@@ -180,7 +189,9 @@ sub mp.ispell(b)
  * @doc: the document to search
  *
  * Searches the document for the next misspelled word. If no
- * more misspelled words can be found, returns 0; otherwise, 1.
+ * more misspelled words can be found, returns 0 and does nothing;
+ * otherwise, the cursor is moved just after that word and
+ * returns 1.
  */
 sub mp.search_misspelled(doc)
 {
