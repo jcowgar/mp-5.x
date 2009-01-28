@@ -212,7 +212,7 @@ sub mp.complete(d, list, label)
 			]);
 
 		if (r == NULL)
-			return;
+			return 1;
 		a = r[0];
 	}
 
