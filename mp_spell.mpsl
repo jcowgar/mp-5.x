@@ -170,7 +170,6 @@ sub mp.ispell_word_color_func(w)
  * attribute color. If @b is -1, the status is toggled.
  */
 sub mp.ispell(b)
-/* sets or unsets spell checking (-1, toggle) */
 {
 	if (b == -1)
 		b = mp.word_color_func == NULL && 1 || 0;
