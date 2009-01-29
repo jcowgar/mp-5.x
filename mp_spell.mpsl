@@ -205,6 +205,9 @@ sub mp.search_misspelled(doc)
 			x = n[0] + n[1];
 
 			if (r == 1) {
+				/* store word for later */
+				mp.last_misspelled_word = w;
+
 				mp.set_y(doc, y);
 				mp.set_x(doc, x);
 				return 1;
