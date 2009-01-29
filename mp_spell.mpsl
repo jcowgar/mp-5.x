@@ -44,6 +44,9 @@ mp.actdesc['seek_misspelled']	= LL("Search misspelled word");
 /* spellchecking command */
 mp.config.ispell_cmd = "ispell -a";
 
+/* the spelling cache */
+mp.spelling_cache = {};
+
 /** code **/
 
 sub mp.open_ispell_pipe
@@ -78,12 +81,6 @@ sub mp.close_ispell_pipe
 	/* close and delete */
 	pclose(mp.ispell_pipe);
 	mp.ispell_pipe = NULL;
-
-	/* delete all words marked as misspelled from the word cache */
-	foreach (w, keys(mp.word_color)) {
-		if (mp.word_color[w] == mp.colors.spell.attr)
-			hdel(mp.word_color, w);
-	}
 }
 
 
@@ -100,6 +97,9 @@ sub mp.is_word_misspelled(w)
 	local l;
 	local ret = 0;
 
+	if (exists(mp.spelling_cache, w))
+		return mp.spelling_cache[w];
+
 	if (mp.ispell_pipe == NULL) {
 		if (mp.open_ispell_pipe() == NULL) {
 			return -1;
@@ -112,7 +112,7 @@ sub mp.is_word_misspelled(w)
 	/* wait for the response */
 	if ((l = read(mp.ispell_pipe)) == NULL) {
 		mp.close_ispell_pipe();
-		ret = -2;
+		return -2;
 	}
 
 	local t = l;
@@ -127,6 +127,8 @@ sub mp.is_word_misspelled(w)
 	/* if it's not a '*' nor a '+', it's misspelled */
 	if (l ne '*' && l ne '+')
 		ret = 1;
+
+	mp.spelling_cache[w] = ret;
 
 	return ret;
 }
@@ -144,16 +146,11 @@ sub mp.ispell_word_color_func(w)
 		ret = mp.is_word_misspelled(w);
 
 		/* error? disable further misspelling color */
-		if (ret < 0) {
+		if (ret < 0)
 			mp.word_color_func = NULL;
-		}
-		else {
-			if (ret > 0)
-				a = mp.colors.spell.attr;
-
-			/* store the attribute in the cache */
-			mp.word_color[w] = a;
-		}
+		else
+		if (ret > 0)
+			a = mp.colors.spell.attr;
 	}
 
 	return a;
@@ -174,12 +171,7 @@ sub mp.ispell(b)
 	if (b == -1)
 		b = mp.word_color_func == NULL && 1 || 0;
 
-	if (b == 0) {
-		mp.word_color_func = NULL;
-		mp.close_ispell_pipe();
-	}
-	else
-		mp.word_color_func = mp.ispell_word_color_func;
+	mp.word_color_func = b && mp.ispell_word_color_func || NULL;
 }
 
 
