@@ -87,7 +87,7 @@ sub mp.close_ispell_pipe
 
 
 /**
- * mp.is_word_misspelled - Tests if a word is misspelled
+ * mp.is_word_misspelled - Tests if a word is misspelled.
  * @w: the word
  *
  * Tests if a word is misspelled. Returns a negative value if
@@ -160,7 +160,7 @@ sub mp.ispell_word_color_func(w)
 
 
 /**
- * mp.ispell - Changes spelling highlight
+ * mp.ispell - Changes spelling highlight.
  * @b: boolean value
  *
  * Changes the status of the highlighting of misspelled words.
@@ -178,7 +178,7 @@ sub mp.ispell(b)
 
 
 /**
- * mp.search_misspelled - Searches for the next misspelled word
+ * mp.search_misspelled - Searches for the next misspelled word.
  * @doc: the document to search
  *
  * Searches the document for the next misspelled word. If no
@@ -225,7 +225,7 @@ sub mp.search_misspelled(doc)
 
 
 /**
- * mp.ignore_last_misspell - Ignores last misspelled word
+ * mp.ignore_last_misspell - Ignores last misspelled word.
  *
  * Ignores the last misspelled word found by mp.search_misspelled()
  * by adding it to a whitelist, so it won't be found again.
