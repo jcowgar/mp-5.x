@@ -227,5 +227,6 @@ __I18N__ = {
 	"Section list" => "Lista de secciones",
 	"Section list..." => "Lista de secciones...",
 	"Search misspelled word" => "Siguiente palabra mal escrita",
+	"Ignore last misspelled word" => "Ignorar \x{00fa}ltima palabra mal escrita",
 	"-" => "-"
 };

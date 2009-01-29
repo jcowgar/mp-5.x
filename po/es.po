@@ -802,7 +802,7 @@ msgstr "Codificación..."
 msgid "Count words"
 msgstr "Contar palabras"
 
-#: mp_spell.mpsl:36 mp_spell.mpsl:39
+#: mp_spell.mpsl:36 mp_spell.mpsl:39 mp_spell.mpsl:40
 msgid "Toggle spellchecking"
 msgstr "Conmutar ortografía"
 
@@ -988,6 +988,10 @@ msgstr "Lista de secciones"
 msgid "Section list..."
 msgstr "Lista de secciones..."
 
-#: mp_spell.mpsl:40
+#: mp_spell.mpsl:40 mp_spell.mpsl:41
 msgid "Search misspelled word"
 msgstr "Siguiente palabra mal escrita"
+
+#: mp_spell.mpsl:42
+msgid "Ignore last misspelled word"
+msgstr "Ignorar última palabra mal escrita"

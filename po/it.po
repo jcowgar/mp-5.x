@@ -804,7 +804,7 @@ msgstr ""
 msgid "Count words"
 msgstr ""
 
-#: mp_spell.mpsl:36 mp_spell.mpsl:39
+#: mp_spell.mpsl:36 mp_spell.mpsl:39 mp_spell.mpsl:40
 msgid "Toggle spellchecking"
 msgstr ""
 
@@ -975,6 +975,10 @@ msgstr ""
 msgid "Section list..."
 msgstr ""
 
-#: mp_spell.mpsl:40
+#: mp_spell.mpsl:40 mp_spell.mpsl:41
 msgid "Search misspelled word"
+msgstr ""
+
+#: mp_spell.mpsl:42
+msgid "Ignore last misspelled word"
 msgstr ""
