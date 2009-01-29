@@ -208,6 +208,14 @@ _Help on word over cursor_ (`f1')
 Picks the word under the cursor and asks the underlying system for help
 about that term.
 
+ignore_last_misspell
+--------------------
+
+_Ignore last misspelled word_
+
+Ignores the last misspelled word found by `seek_misspelled' by adding it
+to a whitelist so it won't be found again.
+
 insert_line
 -----------
 
@@ -538,6 +546,16 @@ seek
 _Search text..._ (`ctrl-f')
 
 Shows the search text dialog.
+
+seek_misspelled
+---------------
+
+_Search misspelled word_
+
+Searches for the next misspelled word in the current document. If one
+is found, the cursor is moved there. If it's a false positive, the
+`ignore_last_misspell' action can be called to add the recently found
+word to a whitelist so it won't be found again.
 
 seek_next
 ---------
