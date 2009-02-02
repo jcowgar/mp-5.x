@@ -79,7 +79,7 @@ sub mp.build_get_targets
 		while (l = read(f)) {
 			local t;
 
-			if (t = regex('/^\w+:/', l))
+			if (t = regex('/^[A-Za-z0-9_\.-]+:/', l))
 				push(r, sregex('/:/', t, ''));
 		}
 
