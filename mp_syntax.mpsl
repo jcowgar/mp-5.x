@@ -322,7 +322,7 @@ mp.syntax.sh = {
 		return regex('/^#!\s*/bin/(sh|bash|csh|dash|ksh)/', f) ||
 		       regex('/^#!\s*/usr/bin/make -f/', f);
 	},
-	'section'	=>	[ '/(^\w+\(\))/' ]
+	'section'	=>	[ '/(^\w+\(\))/', '/:$/m' ]
 };
 
 
