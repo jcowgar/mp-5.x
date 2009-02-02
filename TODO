@@ -30,7 +30,6 @@ Open Bugs
  * 1249: Change TUI dialogs to be really dialogs.
  * 1259: Apply Jeremy's indent_block().
  * 1260: Apply Jeremy's outdent_block().
- * 1261: Apply Jeremy's function_list().
  * 1268: Implement mp.timer() in the KDE4 driver.
 
 Pending Enhancements
@@ -318,5 +317,7 @@ Closed
  * 1267: Sometimes replace all hangs (Tue, 04 Nov 2008 09:19:50 +0100).
  * 1269: Don't try to search inside the block if it's empty
    (Wed, 21 Jan 2009 10:37:16 +0100).
+ * 1261: Apply Jeremy's function_list()
+   (Mon, 02 Feb 2009 16:10:34 +0100).
 
 Email bugs to angel@triptico.com
