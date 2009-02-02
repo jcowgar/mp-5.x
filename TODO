@@ -22,7 +22,7 @@ Open Bugs
    monospaced font, like "DejaVu Mono" or "Bitstream Vera Sans Mono".
  * 1227: The length of an open combobox (at least under XP)
    is ridiculous.
- * 1230: Action 'eval_doc' seems to fail forever after an error.
+ * 1230: Action `eval_doc' seems to fail forever after an error.
  * 1233: Document all MPSL code using mp_doccer (at least, the
    interface functions).
  * 1242: There cannot be two tags with the same name, as they are
@@ -31,6 +31,7 @@ Open Bugs
  * 1259: Apply Jeremy's indent_block().
  * 1260: Apply Jeremy's outdent_block().
  * 1268: Implement mp.timer() in the KDE4 driver.
+ * 1271: Section marks should be multiline.
 
 Pending Enhancements
 --------------------
