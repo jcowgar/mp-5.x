@@ -186,3 +186,40 @@ sub mp.word_count(doc)
 
 	return w;
 }
+
+
+sub mp.repeated_words(doc, num, rx)
+{
+	local q = [];
+	local x = doc.txt.x;
+	local y = doc.txt.y;
+	local l;
+
+	/* no regex? set the default one */
+	if (rx == NULL)
+		rx = '/.{1,4}/';
+
+	while ((l = doc.txt.lines[y]) != NULL && !ret) {
+
+		foreach (w, mp.split_by_words(l)) {
+			/* seek each word in the queue */
+			foreach (qw, q) {
+				/* does the word and any other in
+				   the queue match the regex? */
+				if (regex(rx, w) eq regex(rx, qw)) {
+					/* add both to the word color hash */
+					print(w, " ", qw, "\n");
+					return 1;
+				}
+			}
+
+			/* enqueue word */
+			queue(q, w, num);
+		}
+
+		y++;
+		x = 0;
+	}
+
+	return 0;
+}
