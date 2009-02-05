@@ -35,6 +35,8 @@ mp.actions['ignore_last_misspell'] = sub(d) { mp.ignore_last_misspell(); };
 
 /** default key bindings **/
 
+mp.keycodes['ctrl-f7']	= 'seek_misspelled';
+
 /** action descriptions **/
 
 mp.actdesc['toggle_spellcheck']		= LL("Toggle spellchecking");

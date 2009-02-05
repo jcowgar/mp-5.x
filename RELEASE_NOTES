@@ -11,7 +11,7 @@ Minimum Profit Release Notes
    function definitions and special marks in programming
    languages.
  * New action `seek_misspelled', to search the next
-   misspelled word.
+   misspelled word. It has been assigned to keycode `ctrl-f7'.
  * New action `ignore_last_misspell', to add the last misspelled
    word found by `seek_misspelled' to a whitelist so it won't
    be found again.
