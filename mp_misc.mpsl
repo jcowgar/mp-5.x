@@ -188,6 +188,8 @@ sub mp.word_count(doc)
 }
 
 
+mp.config.repeat_regex = '/^.{1,4}/i';
+
 sub mp.repeated_words(doc, num, rx)
 {
 	local q = [];
@@ -196,25 +198,47 @@ sub mp.repeated_words(doc, num, rx)
 	local l;
 
 	/* no regex? set the default one */
-	if (rx == NULL)
-		rx = '/.{1,4}/';
+	if (!rx)
+		rx = mp.config.repeat_regex;
+
+	if (mp.last_repeated_words) {
+		hdel(mp.word_color, mp.last_repeated_words[0]);
+		hdel(mp.word_color, mp.last_repeated_words[1]);
+	}
 
 	while ((l = doc.txt.lines[y]) != NULL && !ret) {
 
-		foreach (w, mp.split_by_words(l)) {
+		local w;
+
+		while ((w = regex(mp.word_regex, l, x)) != NULL) {
+
+			/* get matching position */
+			local c = regex();
+
 			/* seek each word in the queue */
 			foreach (qw, q) {
 				/* does the word and any other in
 				   the queue match the regex? */
 				if (regex(rx, w) eq regex(rx, qw)) {
 					/* add both to the word color hash */
-					print(w, " ", qw, "\n");
+					mp.word_color[w] =
+					mp.word_color[qw] = mp.colors.spell.attr;
+
+					mp.last_repeated_words = [ w, qw ];
+
+					/* move cursor there */
+					mp.set_y(doc, y);
+					mp.set_x(doc, c[0] + size(w));
+
 					return 1;
 				}
 			}
 
 			/* enqueue word */
 			queue(q, w, num);
+
+			/* move offset to next word */
+			x = c[0] + c[1];
 		}
 
 		y++;
