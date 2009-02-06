@@ -202,7 +202,7 @@ mp.actions_by_menu_label = {};
 sub mp.redraw()
 {
 	/* just increment the redraw trigger */
-	mp.redraw_trigger++;
+	mp.redraw_counter++;
 }
 
 

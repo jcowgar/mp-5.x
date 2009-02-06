@@ -259,6 +259,9 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 							mp.set_y(doc, w1[2]);
 							mp.set_x(doc, w1[1]);
 
+							/* set the first visible line */
+							doc.txt.vy = doc.txt.y;
+
 							/* trigger a redraw */
 							mp.redraw();
 
