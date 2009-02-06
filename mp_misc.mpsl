@@ -188,6 +188,18 @@ sub mp.word_count(doc)
 }
 
 
+/**
+ * mp.repeated_words - Finds words starting or ending the same in a range.
+ * @doc: the document
+ * @num_chars: minimum length for the word to be tested
+ * @max_dist: maximum distance the word must have
+ *
+ * Finds words starting or ending the same to a maximum of @num_chars
+ * and that are less than @max_dist words apart. If a pair of these words
+ * is found, 1 is returned, the cursor positioned over the first one
+ * and both highlighted as spelling errors. Otherwise, 0 is returned
+ * and nothing is done.
+ */
 sub mp.repeated_words(doc, num_chars, max_dist)
 {
 	local q = [];
@@ -226,7 +238,7 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 
 						/* add both to the word color hash */
 						mp.word_color[w] =
-						mp.word_color[qw] = mp.colors.spell.attr;
+						mp.word_color[qw[0]] = mp.colors.spell.attr;
 
 						mp.last_repeated_words = [ w, qw[0] ];
 
