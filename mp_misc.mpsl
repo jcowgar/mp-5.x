@@ -230,7 +230,13 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 			/* does the word measure at lest num_chars? */
 			if (size(w) >= num_chars) {
 				/* enqueue this word, and dequeue another */
-				local w1 = queue(q, [ w, c[0] + size(w), y ], max_dist);
+				local w1 = queue(q, [
+						w,
+						c[0] + size(w),
+						y,
+						regex(s_rx, w),
+						regex(e_rx, w)
+					], max_dist);
 
 				/* a word has been dequeued? */
 				if (w1 != NULL) {
@@ -238,10 +244,7 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 					foreach (w2, q) {
 						/* does the word and any other in
 						   the queue match the regexes? */
-						if (	(regex(s_rx, w1[0]) eq
-							 regex(s_rx, w2[0])) ||
-							(regex(e_rx, w1[0]) eq
-							 regex(e_rx, w2[0]))) {
+						if ((w1[3] eq w2[3]) || (w1[4] eq w2[4])) {
 
 							/* add both to the word color hash */
 							mp.word_color[w1[0]] =
