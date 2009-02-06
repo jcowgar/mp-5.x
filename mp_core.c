@@ -63,6 +63,7 @@ struct drw_1_info {
 	int mod;		/* modify count */
 	int preread_lines;	/* lines to pre-read (for synhi blocks) */
 	int mark_eol;		/* mark end of lines */
+	int redraw;		/* redraw trigger */
 };
 
 struct drw_1_info drw_1;
@@ -251,6 +252,9 @@ static int drw_prepare(mpdm_t doc)
 
 	/* last search regex */
 	drw_1.last_search = mpdm_hget_s(mp, L"last_search");
+
+	/* redraw trigger */
+	drw_1.redraw = mpdm_ival(mpdm_hget_s(mp, L"redraw_counter"));
 
 	/* compare drw_1 with drw_1_o; if they are the same,
 	   no more expensive calculations on drw_2 are needed */

@@ -194,6 +194,18 @@ mp.actions_by_menu_label = {};
 
 /** code **/
 
+/**
+ * mp.redraw - Triggers a redraw on the next cycle.
+ *
+ * Triggers a full document redraw in the next cycle.
+ */
+sub mp.redraw()
+{
+	/* just increment the redraw trigger */
+	mp.redraw_trigger++;
+}
+
+
 sub mp.active()
 /* returns the active document */
 {
