@@ -187,7 +187,7 @@ sub mp.word_count(doc)
 	return w;
 }
 
-
+/* regex to test for word repetitions */
 mp.config.repeat_regex = '/^.{1,4}/i';
 
 sub mp.repeated_words(doc, num, rx)
@@ -201,6 +201,8 @@ sub mp.repeated_words(doc, num, rx)
 	if (!rx)
 		rx = mp.config.repeat_regex;
 
+	/* if there were previous repeated words, no longer
+	   consider them as 'typos' */
 	if (mp.last_repeated_words) {
 		hdel(mp.word_color, mp.last_repeated_words[0]);
 		hdel(mp.word_color, mp.last_repeated_words[1]);
@@ -219,23 +221,26 @@ sub mp.repeated_words(doc, num, rx)
 			foreach (qw, q) {
 				/* does the word and any other in
 				   the queue match the regex? */
-				if (regex(rx, w) eq regex(rx, qw)) {
+				if (regex(rx, w) eq regex(rx, qw[0])) {
 					/* add both to the word color hash */
 					mp.word_color[w] =
 					mp.word_color[qw] = mp.colors.spell.attr;
 
-					mp.last_repeated_words = [ w, qw ];
+					mp.last_repeated_words = [ w, qw[0] ];
 
 					/* move cursor there */
-					mp.set_y(doc, y);
-					mp.set_x(doc, c[0] + size(w));
+					mp.set_y(doc, qw[2]);
+					mp.set_x(doc, qw[1]);
+
+					/* set the first visible line */
+					doc.txt.vy = doc.txt.y;
 
 					return 1;
 				}
 			}
 
 			/* enqueue word */
-			queue(q, w, num);
+			queue(q, [ w, c[0] + size(w), y ], num);
 
 			/* move offset to next word */
 			x = c[0] + c[1];
