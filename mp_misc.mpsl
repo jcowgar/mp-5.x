@@ -187,19 +187,17 @@ sub mp.word_count(doc)
 	return w;
 }
 
-/* regex to test for word repetitions */
-mp.config.repeat_regex = '/^.{1,4}/i';
 
-sub mp.repeated_words(doc, num, rx)
+sub mp.repeated_words(doc, num_chars, max_dist)
 {
 	local q = [];
 	local x = doc.txt.x;
 	local y = doc.txt.y;
 	local l;
 
-	/* no regex? set the default one */
-	if (!rx)
-		rx = mp.config.repeat_regex;
+	/* build regexes */
+	local s_rx = sprintf('/^.{1,%d}/i', num_chars);
+	local e_rx = sprintf('/.{1,%d}$/i', num_chars);
 
 	/* if there were previous repeated words, no longer
 	   consider them as 'typos' */
@@ -217,30 +215,35 @@ sub mp.repeated_words(doc, num, rx)
 			/* get matching position */
 			local c = regex();
 
-			/* seek each word in the queue */
-			foreach (qw, q) {
-				/* does the word and any other in
-				   the queue match the regex? */
-				if (regex(rx, w) eq regex(rx, qw[0])) {
-					/* add both to the word color hash */
-					mp.word_color[w] =
-					mp.word_color[qw] = mp.colors.spell.attr;
+			/* does the word measure at lest num_chars? */
+			if (size(w) >= num_chars) {
+				/* seek each word in the queue */
+				foreach (qw, q) {
+					/* does the word and any other in
+					   the queue match the regexes? */
+					if ((regex(s_rx, w) eq regex(s_rx, qw[0])) ||
+						(regex(e_rx, w) eq regex(e_rx, qw[0]))) {
 
-					mp.last_repeated_words = [ w, qw[0] ];
+						/* add both to the word color hash */
+						mp.word_color[w] =
+						mp.word_color[qw] = mp.colors.spell.attr;
 
-					/* move cursor there */
-					mp.set_y(doc, qw[2]);
-					mp.set_x(doc, qw[1]);
+						mp.last_repeated_words = [ w, qw[0] ];
 
-					/* set the first visible line */
-					doc.txt.vy = doc.txt.y;
+						/* move cursor there */
+						mp.set_y(doc, qw[2]);
+						mp.set_x(doc, qw[1]);
 
-					return 1;
+						/* set the first visible line */
+						doc.txt.vy = doc.txt.y;
+
+						return 1;
+					}
 				}
-			}
 
-			/* enqueue word */
-			queue(q, [ w, c[0] + size(w), y ], num);
+				/* enqueue word */
+				queue(q, [ w, c[0] + size(w), y ], max_dist);
+			}
 
 			/* move offset to next word */
 			x = c[0] + c[1];
