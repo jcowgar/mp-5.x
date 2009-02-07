@@ -101,7 +101,9 @@ sub mp.is_word_misspelled(w)
 	local l;
 	local ret = 0;
 
-	if (exists(mp.spelling_cache, lc(w)))
+/*	w = lc(w);
+*/
+	if (exists(mp.spelling_cache, w))
 		return mp.spelling_cache[w];
 
 	if (mp.ispell_pipe == NULL) {
@@ -132,7 +134,7 @@ sub mp.is_word_misspelled(w)
 	if (l ne '*' && l ne '+')
 		ret = 1;
 
-	mp.spelling_cache[lc(w)] = ret;
+	mp.spelling_cache[w] = ret;
 
 	return ret;
 }
