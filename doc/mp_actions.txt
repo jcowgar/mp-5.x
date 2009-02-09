@@ -495,6 +495,19 @@ _Redo_
 
 Redoes the previously undone operation, if any.
 
+repeated_words
+--------------
+
+_Search repeated words..._
+
+Searches for repeated words. A form is opened asking for a number
+of letters to test and a maximum distance. A searching is done then
+from the cursor position trying to find two words nearer from each
+other up to a maximum of the specified distance and that start or
+end with the same letters. If a pair is found, the words are
+highlighted as spelling errors and the cursor moved over the first
+one. Otherwise, a message marking the end is shown and nothing is done.
+
 replace
 -------
 
