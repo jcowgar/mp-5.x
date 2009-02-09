@@ -498,7 +498,7 @@ Redoes the previously undone operation, if any.
 repeated_words
 --------------
 
-_Search repeated words..._
+_Search repeated words..._ (`ctrl-f4')
 
 Searches for repeated words. A form is opened asking for a number
 of letters to test and a maximum distance. A searching is done then

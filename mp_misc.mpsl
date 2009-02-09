@@ -175,6 +175,7 @@ mp.keycodes['f12']		= 'zoom_in';
 mp.keycodes['ctrl-kp-plus' ]	= 'zoom_in';
 mp.keycodes['f11']		= 'zoom_out';
 mp.keycodes['ctrl-kp-minus' ]	= 'zoom_out';
+mp.keycodes['ctrl-f4']		= 'repeated_words';
 
 /** action descriptions **/
 

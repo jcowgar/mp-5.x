@@ -17,7 +17,7 @@ Minimum Profit Release Notes
    be found again.
  * New action `repeated_words', to search for words starting
    or ending with the same number of letters up to a maximum
-   distance.
+   distance. It has been assigned to keycode `ctrl-f4'.
 
 5.1.1
 -----
