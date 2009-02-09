@@ -15,6 +15,9 @@ Minimum Profit Release Notes
  * New action `ignore_last_misspell', to add the last misspelled
    word found by `seek_misspelled' to a whitelist so it won't
    be found again.
+ * New action `repeated_words', to search for words starting
+   or ending with the same number of letters up to a maximum
+   distance.
 
 5.1.1
 -----

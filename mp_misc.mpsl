@@ -109,6 +109,30 @@ mp.actions['word_count'] = sub (d) {
 		size(mp.get_active_area(d)), c));
 };
 
+
+mp.actions['repeated_words'] = sub (d) {
+	local r = mp.form( [
+		{ 'label'	=> L("Number of letters at the start or end") ~ ':',
+		  'type'	=> 'text',
+		  'value'	=> 4,
+		  'history'	=> 'num_char' },
+		{ 'label'	=> L("Maximum distance") ~ ':',
+		  'type'	=> 'text',
+		  'value'	=> 40,
+		  'history'	=> 'max_dist' }
+		]);
+
+	if (r != NULL) {
+		mp.busy(1);
+		local c = mp.repeated_words(d, r[0], r[1]);
+		mp.busy(0);
+
+		if (!c)
+			mp.alert(L("Text not found."));
+	}
+};
+
+
 mp.actions['about'] = sub (d) {
 	local msg = L(
 	"\nMinimum Profit %s - Programmer Text Editor\n\n"\
@@ -160,6 +184,7 @@ mp.actdesc['encoding']		= LL("Set charset encoding...");
 mp.actdesc['zoom_in']		= LL("Bigger font");
 mp.actdesc['zoom_out']		= LL("Smaller font");
 mp.actdesc['word_count']	= LL("Count words");
+mp.actdesc['repeated_words']	= LL("Search repeated words...");
 mp.actdesc['about']		= LL("About...");
 
 /** code **/

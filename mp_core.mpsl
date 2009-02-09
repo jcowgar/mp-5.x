@@ -155,6 +155,7 @@ mp.menu = [
 		[ 'seek', 'seek_next', 'seek_prev', 'replace', '-',
 			'complete', '-',
 			'seek_misspelled', 'ignore_last_misspell', '-',
+			'repeated_words', '-',
 			'find_tag', 'complete_symbol', '-', 'grep'
 		]
 	],
