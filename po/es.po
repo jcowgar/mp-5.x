@@ -73,7 +73,7 @@ msgid "Text to seek:"
 msgstr "Texto a buscar:"
 
 #: mp_search.mpsl:47 mp_search.mpsl:52 mp_search.mpsl:56 mp_search.mpsl:107
-#: mp_spell.mpsl:32
+#: mp_spell.mpsl:32 mp_misc.mpsl:131
 msgid "Text not found."
 msgstr "Texto no encontrado."
 
@@ -187,23 +187,23 @@ msgid ""
 "\n"
 msgstr ""
 
-#: mp_core.mpsl:130 mp_core.mpsl:145 mp_core.mpsl:144
+#: mp_core.mpsl:130 mp_core.mpsl:145 mp_core.mpsl:144 mp_core.mpsl:132
 msgid "&File"
 msgstr "&Archivo"
 
-#: mp_core.mpsl:141 mp_core.mpsl:156 mp_core.mpsl:155
+#: mp_core.mpsl:141 mp_core.mpsl:156 mp_core.mpsl:155 mp_core.mpsl:143
 msgid "&Edit"
 msgstr "&Editar"
 
-#: mp_core.mpsl:152 mp_core.mpsl:167 mp_core.mpsl:166
+#: mp_core.mpsl:152 mp_core.mpsl:167 mp_core.mpsl:166 mp_core.mpsl:154
 msgid "&Search"
 msgstr "&Buscar"
 
-#: mp_core.mpsl:158 mp_core.mpsl:173 mp_core.mpsl:174
+#: mp_core.mpsl:158 mp_core.mpsl:173 mp_core.mpsl:174 mp_core.mpsl:163
 msgid "&Go to"
 msgstr "&Ir A"
 
-#: mp_core.mpsl:166 mp_core.mpsl:182 mp_core.mpsl:183
+#: mp_core.mpsl:166 mp_core.mpsl:182 mp_core.mpsl:183 mp_core.mpsl:172
 msgid "&Options"
 msgstr "&Opciones"
 
@@ -415,7 +415,7 @@ msgstr "Tamaño del tabulador..."
 msgid "Menu"
 msgstr "Menú"
 
-#: mp_misc.mpsl:165 mp_misc.mpsl:163
+#: mp_misc.mpsl:165 mp_misc.mpsl:163 mp_misc.mpsl:188
 msgid "About..."
 msgstr "Acerca de..."
 
@@ -667,19 +667,19 @@ msgstr "Error: "
 msgid "Exit value:\n"
 msgstr "Valor de salida:\n"
 
-#: mp_misc.mpsl:159 mp_misc.mpsl:157
+#: mp_misc.mpsl:159 mp_misc.mpsl:157 mp_misc.mpsl:181
 msgid "Execute MPSL code..."
 msgstr "Executar código MPSL..."
 
-#: mp_misc.mpsl:160 mp_misc.mpsl:158
+#: mp_misc.mpsl:160 mp_misc.mpsl:158 mp_misc.mpsl:182
 msgid "Execute document as MPSL"
 msgstr "Ejecutar documento como MPSL"
 
-#: mp_misc.mpsl:162 mp_misc.mpsl:160
+#: mp_misc.mpsl:162 mp_misc.mpsl:160 mp_misc.mpsl:184
 msgid "Bigger font"
 msgstr "Tipo de letra más grande"
 
-#: mp_misc.mpsl:163 mp_misc.mpsl:161
+#: mp_misc.mpsl:163 mp_misc.mpsl:161 mp_misc.mpsl:185
 msgid "Smaller font"
 msgstr "Tipo de letra más pequeño"
 
@@ -794,15 +794,15 @@ msgstr "Codificación no válida "
 msgid "Lines: %d Words: %d"
 msgstr "Lineas: %d Palabras: %d"
 
-#: mp_misc.mpsl:161 mp_misc.mpsl:159
+#: mp_misc.mpsl:161 mp_misc.mpsl:159 mp_misc.mpsl:183
 msgid "Set charset encoding..."
 msgstr "Codificación..."
 
-#: mp_misc.mpsl:164 mp_misc.mpsl:162
+#: mp_misc.mpsl:164 mp_misc.mpsl:162 mp_misc.mpsl:186
 msgid "Count words"
 msgstr "Contar palabras"
 
-#: mp_spell.mpsl:36 mp_spell.mpsl:39 mp_spell.mpsl:40
+#: mp_spell.mpsl:36 mp_spell.mpsl:39 mp_spell.mpsl:40 mp_spell.mpsl:42
 msgid "Toggle spellchecking"
 msgstr "Conmutar ortografía"
 
@@ -810,7 +810,7 @@ msgstr "Conmutar ortografía"
 msgid "Please, wait..."
 msgstr "Por favor, espere..."
 
-#: mp_misc.mpsl:116 mp_misc.mpsl:114
+#: mp_misc.mpsl:116 mp_misc.mpsl:114 mp_misc.mpsl:138
 #, c-format
 msgid ""
 "\n"
@@ -988,10 +988,22 @@ msgstr "Lista de secciones"
 msgid "Section list..."
 msgstr "Lista de secciones..."
 
-#: mp_spell.mpsl:40 mp_spell.mpsl:41
+#: mp_spell.mpsl:40 mp_spell.mpsl:41 mp_spell.mpsl:43
 msgid "Search misspelled word"
 msgstr "Siguiente palabra mal escrita"
 
-#: mp_spell.mpsl:42
+#: mp_spell.mpsl:42 mp_spell.mpsl:44
 msgid "Ignore last misspelled word"
 msgstr "Ignorar última palabra mal escrita"
+
+#: mp_misc.mpsl:115
+msgid "Number of letters at the start or end"
+msgstr "Número de letras al principio o final"
+
+#: mp_misc.mpsl:119
+msgid "Maximum distance"
+msgstr "Distancia máxima"
+
+#: mp_misc.mpsl:187
+msgid "Search repeated words..."
+msgstr "Buscar palabras repetidas..."

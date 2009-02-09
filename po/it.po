@@ -73,7 +73,7 @@ msgid "Text to seek:"
 msgstr "Testo da cercare:"
 
 #: mp_search.mpsl:47 mp_search.mpsl:52 mp_search.mpsl:56 mp_search.mpsl:107
-#: mp_spell.mpsl:32
+#: mp_spell.mpsl:32 mp_misc.mpsl:131
 msgid "Text not found."
 msgstr "Testo non trovato."
 
@@ -184,23 +184,23 @@ msgid ""
 "\n"
 msgstr ""
 
-#: mp_core.mpsl:130 mp_core.mpsl:145 mp_core.mpsl:144
+#: mp_core.mpsl:130 mp_core.mpsl:145 mp_core.mpsl:144 mp_core.mpsl:132
 msgid "&File"
 msgstr "&Archivio"
 
-#: mp_core.mpsl:141 mp_core.mpsl:156 mp_core.mpsl:155
+#: mp_core.mpsl:141 mp_core.mpsl:156 mp_core.mpsl:155 mp_core.mpsl:143
 msgid "&Edit"
 msgstr "&Edita"
 
-#: mp_core.mpsl:152 mp_core.mpsl:167 mp_core.mpsl:166
+#: mp_core.mpsl:152 mp_core.mpsl:167 mp_core.mpsl:166 mp_core.mpsl:154
 msgid "&Search"
 msgstr "&Cerca"
 
-#: mp_core.mpsl:158 mp_core.mpsl:173 mp_core.mpsl:174
+#: mp_core.mpsl:158 mp_core.mpsl:173 mp_core.mpsl:174 mp_core.mpsl:163
 msgid "&Go to"
 msgstr "&Vai A"
 
-#: mp_core.mpsl:166 mp_core.mpsl:182 mp_core.mpsl:183
+#: mp_core.mpsl:166 mp_core.mpsl:182 mp_core.mpsl:183 mp_core.mpsl:172
 msgid "&Options"
 msgstr "&Opzioni"
 
@@ -415,7 +415,7 @@ msgstr "Lunghezza del tab..."
 msgid "Menu"
 msgstr "Menu"
 
-#: mp_misc.mpsl:165 mp_misc.mpsl:163
+#: mp_misc.mpsl:165 mp_misc.mpsl:163 mp_misc.mpsl:188
 msgid "About..."
 msgstr "Circa..."
 
@@ -663,19 +663,19 @@ msgstr ""
 msgid "Exit value:\n"
 msgstr ""
 
-#: mp_misc.mpsl:159 mp_misc.mpsl:157
+#: mp_misc.mpsl:159 mp_misc.mpsl:157 mp_misc.mpsl:181
 msgid "Execute MPSL code..."
 msgstr ""
 
-#: mp_misc.mpsl:160 mp_misc.mpsl:158
+#: mp_misc.mpsl:160 mp_misc.mpsl:158 mp_misc.mpsl:182
 msgid "Execute document as MPSL"
 msgstr ""
 
-#: mp_misc.mpsl:162 mp_misc.mpsl:160
+#: mp_misc.mpsl:162 mp_misc.mpsl:160 mp_misc.mpsl:184
 msgid "Bigger font"
 msgstr ""
 
-#: mp_misc.mpsl:163 mp_misc.mpsl:161
+#: mp_misc.mpsl:163 mp_misc.mpsl:161 mp_misc.mpsl:185
 msgid "Smaller font"
 msgstr ""
 
@@ -796,15 +796,15 @@ msgstr ""
 msgid "Lines: %d Words: %d"
 msgstr ""
 
-#: mp_misc.mpsl:161 mp_misc.mpsl:159
+#: mp_misc.mpsl:161 mp_misc.mpsl:159 mp_misc.mpsl:183
 msgid "Set charset encoding..."
 msgstr ""
 
-#: mp_misc.mpsl:164 mp_misc.mpsl:162
+#: mp_misc.mpsl:164 mp_misc.mpsl:162 mp_misc.mpsl:186
 msgid "Count words"
 msgstr ""
 
-#: mp_spell.mpsl:36 mp_spell.mpsl:39 mp_spell.mpsl:40
+#: mp_spell.mpsl:36 mp_spell.mpsl:39 mp_spell.mpsl:40 mp_spell.mpsl:42
 msgid "Toggle spellchecking"
 msgstr ""
 
@@ -812,7 +812,7 @@ msgstr ""
 msgid "Please, wait..."
 msgstr ""
 
-#: mp_misc.mpsl:116 mp_misc.mpsl:114
+#: mp_misc.mpsl:116 mp_misc.mpsl:114 mp_misc.mpsl:138
 #, c-format
 msgid ""
 "\n"
@@ -975,10 +975,22 @@ msgstr ""
 msgid "Section list..."
 msgstr ""
 
-#: mp_spell.mpsl:40 mp_spell.mpsl:41
+#: mp_spell.mpsl:40 mp_spell.mpsl:41 mp_spell.mpsl:43
 msgid "Search misspelled word"
 msgstr ""
 
-#: mp_spell.mpsl:42
+#: mp_spell.mpsl:42 mp_spell.mpsl:44
 msgid "Ignore last misspelled word"
+msgstr ""
+
+#: mp_misc.mpsl:115
+msgid "Number of letters at the start or end"
+msgstr ""
+
+#: mp_misc.mpsl:119
+msgid "Maximum distance"
+msgstr ""
+
+#: mp_misc.mpsl:187
+msgid "Search repeated words..."
 msgstr ""
