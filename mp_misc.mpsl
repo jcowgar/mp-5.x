@@ -260,8 +260,8 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 						w,
 						c[0] + size(w),
 						y,
-						regex(s_rx, w),
-						regex(e_rx, w)
+						lc(regex(s_rx, w)),
+						lc(regex(e_rx, w))
 					], max_dist);
 
 				/* a word has been dequeued? */
