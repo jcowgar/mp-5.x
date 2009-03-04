@@ -114,11 +114,11 @@ mp.actions['config_repeated_words'] = sub (d) {
 	local r = mp.form( [
 		{ 'label'	=> L("Number of letters at the start or end") ~ ':',
 		  'type'	=> 'text',
-		  'value'	=> 4,
+		  'value'	=> mp.config.rw_num_chars,
 		  'history'	=> 'num_char' },
 		{ 'label'	=> L("Maximum distance") ~ ':',
 		  'type'	=> 'text',
-		  'value'	=> 40,
+		  'value'	=> mp.config.rw_max_dist,
 		  'history'	=> 'max_dist' }
 		]);
 
