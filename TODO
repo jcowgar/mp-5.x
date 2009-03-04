@@ -5,6 +5,8 @@ Release Critical Bugs
 ---------------------
 
  * 1270: tools/po2mpsl.mpsl skips the last string.
+ * 1273: mp.repeated_words() leaves the last max_dist words
+   unchecked.
 
 Open Bugs
 ---------
