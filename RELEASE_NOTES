@@ -15,9 +15,11 @@ Minimum Profit Release Notes
  * New action `ignore_last_misspell', to add the last misspelled
    word found by `seek_misspelled' to a whitelist so it won't
    be found again.
- * New action `repeated_words', to search for words starting
+ * New action `seek_repeated_word', to search for words starting
    or ending with the same number of letters up to a maximum
-   distance. It has been assigned to keycode `ctrl-f4'.
+   distance. It's controlled by the new configuration directives
+   `mp.config.rw_num_chars' and `mp.config.rw_max_dist'.
+   It has been assigned to keycode `ctrl-f4'.
  * The action `open_templates_file' has been fixed.
 
 5.1.1
