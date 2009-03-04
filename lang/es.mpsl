@@ -226,9 +226,10 @@ __I18N__ = {
 	"No sections were found in this document." => "No se encontraron secciones en este documento.",
 	"Section list" => "Lista de secciones",
 	"Section list..." => "Lista de secciones...",
-	"Search misspelled word" => "Siguiente palabra mal escrita",
+	"Search misspelled word" => "Buscar palabra mal escrita",
 	"Ignore last misspelled word" => "Ignorar \x{00fa}ltima palabra mal escrita",
 	"Number of letters at the start or end" => "N\x{00fa}mero de letras al principio o final",
 	"Maximum distance" => "Distancia m\x{00e1}xima",
+	"Search repeated words..." => "Buscar palabras repetidas...",
 	"-" => "-"
 };
