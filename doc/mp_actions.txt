@@ -59,6 +59,13 @@ the *ctags* program is invoked to build it.
 
 For other uses of the _tags_ file, see `find_tag'.
 
+config_repeated_words
+---------------------
+
+_Search repeated words..._
+
+To be written.
+
 copy_mark
 ---------
 
@@ -495,19 +502,6 @@ _Redo_
 
 Redoes the previously undone operation, if any.
 
-repeated_words
---------------
-
-_Search repeated words..._ (`ctrl-f4')
-
-Searches for repeated words. A form is opened asking for a number
-of letters to test and a maximum distance. A searching is done then
-from the cursor position trying to find two words nearer from each
-other up to a maximum of the specified distance and that start or
-end with the same letters. If a pair is found, the words are
-highlighted as spelling errors and the cursor moved over the first
-one. Otherwise, a message marking the end is shown and nothing is done.
-
 replace
 -------
 
@@ -599,6 +593,19 @@ _Move to previous instance of current char_ (`ctrl-page-up')
 
 Searches for the previous occurrence of the char under the cursor. This is
 useful, for instance, to jump to the previous paren or brace.
+
+seek_repeated_word
+------------------
+
+_Search repeated word_
+
+Searches for repeated words. Controlled by the configuration directives
+`mp.config.rw_num_chars' and `mp.config.rw_max_dist'. A searching is done
+from the cursor position trying to find two words nearer from each
+other up to a maximum of the specified distance and that start or
+end with the same letters. If a pair is found, the words are
+highlighted as spelling errors and the cursor moved over the first
+one. Otherwise, a message marking the end is shown and nothing is done.
 
 set_password
 ------------
