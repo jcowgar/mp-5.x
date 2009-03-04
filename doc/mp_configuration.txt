@@ -101,6 +101,19 @@ The number of lines to read above the first visible line to calculate
 syntax highlight in blocks (default: 60 lines). There is probably no
 need to change this, unless using very big comment blocks or the like.
 
+mp.config.rw_max_dist
+---------------------
+
+Used by the `seek_repeated_word' action as the maximum distance two
+_similar_ words must be separated apart to be considered a repetition.
+
+mp.config.rw_num_chars
+----------------------
+
+Used by the `seek_repeated_word' action as the number of characters
+(from the start or the end) two words must match to be considered
+_similar_ and taken into account for repetitions.
+
 mp.config.status_format
 -----------------------
 
