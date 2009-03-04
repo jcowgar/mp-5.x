@@ -589,6 +589,7 @@ load("mp_crypt.mpsl");
 load("mp_keyseq.mpsl");
 load("mp_session.mpsl");
 load("mp_build.mpsl");
+load("mp_writing.mpsl");
 
 mp.load_profile();
 mp.setup_language();
