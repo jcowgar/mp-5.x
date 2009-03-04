@@ -133,6 +133,12 @@ mp.actions['repeated_words'] = sub (d) {
 };
 
 
+mp.actions['seek_repeated_word'] = sub (d) {
+	if (!mp.repeated_words(d, mp.config.rw_num_chars, mp.config.rw_distance))
+		mp.alert(L("Text not found."));
+};
+
+
 mp.actions['about'] = sub (d) {
 	local msg = L(
 	"\nMinimum Profit %s - Programmer Text Editor\n\n"\
@@ -186,7 +192,13 @@ mp.actdesc['zoom_in']		= LL("Bigger font");
 mp.actdesc['zoom_out']		= LL("Smaller font");
 mp.actdesc['word_count']	= LL("Count words");
 mp.actdesc['repeated_words']	= LL("Search repeated words...");
+mp.actdesc['seek_repeated_word'] = LL("Search repeated word");
 mp.actdesc['about']		= LL("About...");
+
+/** data **/
+
+mp.config.rw_num_chars	= 4;
+mp.config.rw_distance	= 40;
 
 /** code **/
 

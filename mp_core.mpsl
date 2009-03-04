@@ -3,7 +3,7 @@
     Minimum Profit 5.x
     A Programmer's Text Editor
 
-    Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2009 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -155,7 +155,7 @@ mp.menu = [
 		[ 'seek', 'seek_next', 'seek_prev', 'replace', '-',
 			'complete', '-',
 			'seek_misspelled', 'ignore_last_misspell', '-',
-			'repeated_words', '-',
+			'seek_repeated_word', '-',
 			'find_tag', 'complete_symbol', '-', 'grep'
 		]
 	],
