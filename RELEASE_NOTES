@@ -18,6 +18,7 @@ Minimum Profit Release Notes
  * New action `repeated_words', to search for words starting
    or ending with the same number of letters up to a maximum
    distance. It has been assigned to keycode `ctrl-f4'.
+ * The action `open_templates_file' has been fixed.
 
 5.1.1
 -----
