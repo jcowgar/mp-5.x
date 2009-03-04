@@ -19,7 +19,9 @@ Minimum Profit Release Notes
    or ending with the same number of letters up to a maximum
    distance. It's controlled by the new configuration directives
    `mp.config.rw_num_chars' and `mp.config.rw_max_dist'.
-   It has been assigned to keycode `ctrl-f4'.
+   It has been assigned to keycode `f6' (this keycode was
+   previously assigned to `join_paragraph', which has no
+   keybinding now).
  * The action `open_templates_file' has been fixed.
 
 5.1.1

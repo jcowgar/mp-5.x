@@ -256,7 +256,7 @@ select one, that will be inserted in the cursor position.
 join_paragraph
 --------------
 
-_Join a paragraph in one line_ (`f6')
+_Join a paragraph in one line_
 
 Joins the text from the cursor position to the next empty line as one
 paragraph.
@@ -597,7 +597,7 @@ useful, for instance, to jump to the previous paren or brace.
 seek_repeated_word
 ------------------
 
-_Search repeated word_
+_Search repeated word_ (`f6')
 
 Searches for repeated words. Controlled by the configuration directives
 `mp.config.rw_num_chars' and `mp.config.rw_max_dist'. A searching is done

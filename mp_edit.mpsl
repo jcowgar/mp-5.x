@@ -114,7 +114,6 @@ mp.keycodes['ctrl-m']	= "insert_line";
 mp.keycodes['ctrl-y']	= "delete_line";
 mp.keycodes['ctrl-z']	= "undo";
 mp.keycodes['f4']	= "word_wrap_paragraph";
-mp.keycodes['f6']	= "join_paragraph";
 
 /** action descriptions **/
 
