@@ -50,11 +50,17 @@ mp.actions['insert_template']	 = sub(d) {
 	mp.insert(d, mp.templates[l[t]]);
 };
 
+mp.actions['open_templates_file'] = sub (d) {
+
+	mp.open(HOMEDIR ~ ".mp_templates");
+};
+
 /** default key bindings **/
 
 /** action descriptions **/
 
-mp.actdesc['insert_template']	= LL("Insert template...");
+mp.actdesc['insert_template']		= LL("Insert template...");
+mp.actdesc['open_templates_file']	= LL("Edit templates file");
 
 /** data **/
 

@@ -245,7 +245,6 @@ mp.actdesc['revert']	= LL("Revert");
 mp.actdesc['close_all']	= LL("Close all");
 
 mp.actdesc['open_config_file']		= LL("Edit configuration file");
-mp.actdesc['open_templates_file']	= LL("Edit templates file");
 mp.actdesc['sync']			= LL("Save modified texts");
 mp.actdesc['exec_command']		= LL("Run system command...");
 mp.actdesc['open_under_cursor']		= LL("Open file under cursor");

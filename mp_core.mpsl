@@ -133,7 +133,7 @@ mp.menu = [
 		[ 'new', 'open', 'save', 'save_as', 'close', 'revert',
 			'open_under_cursor',
 			'-', 'set_password',
-			'-', 'open_config_file',
+			'-', 'open_config_file', 'open_templates_file',
 			'-', 'sync',
 			'-', 'save_session', 'load_session',
 			'-', 'exit'

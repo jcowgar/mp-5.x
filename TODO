@@ -320,5 +320,7 @@ Closed
    (Wed, 21 Jan 2009 10:37:16 +0100).
  * 1261: Apply Jeremy's function_list()
    (Mon, 02 Feb 2009 16:10:34 +0100).
+ * 1272: Fix the `open_templates_file' action
+   (Wed, 04 Mar 2009 10:04:59 +0100).
 
 Email bugs to angel@triptico.com
