@@ -105,14 +105,16 @@ mp.config.rw_max_dist
 ---------------------
 
 Used by the `seek_repeated_word' action as the maximum distance two
-_similar_ words must be separated apart to be considered a repetition.
+_similar_ words must be separated apart to be considered a repetition
+(default: 40 words).
 
 mp.config.rw_num_chars
 ----------------------
 
 Used by the `seek_repeated_word' action as the number of characters
 (from the start or the end) two words must match to be considered
-_similar_ and taken into account for repetitions.
+_similar_ and taken into account for repetitions (default: 4
+characters).
 
 mp.config.status_format
 -----------------------
