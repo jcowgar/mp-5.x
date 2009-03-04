@@ -610,6 +610,17 @@ mp.syntax.euphoria = {
 };
 
 
+mp.syntax.mp_templates = {
+	'id'		=> 'mp_templates',
+	'name'		=> 'Minimum Profit template file',
+	'filenames'	=> [ '/\.mp_templates$/' ],
+	'defs'		=> [
+		'documentation',	[ '/^%%.*$/m' ]
+	],
+	'section'	=> [ '/^%%/' ]
+};
+
+
 /** code **/
 
 sub mp.detect_syntax(doc)
