@@ -64,7 +64,7 @@ msgstr ""
 "#\n"
 "\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:419
+#: mp_crypt.mpsl:32 mp_file.mpsl:419 mp_file.mpsl:418
 msgid "Password:"
 msgstr "Passwort:"
 
@@ -92,7 +92,7 @@ msgid "Line to go to:"
 msgstr "Gehe zu Zeile:"
 
 #: mp_file.mpsl:31 mp_file.mpsl:275 mp_file.mpsl:322 mp_session.mpsl:64
-#: mp_session.mpsl:72
+#: mp_session.mpsl:72 mp_file.mpsl:274 mp_file.mpsl:321
 msgid "<unnamed>"
 msgstr "<unbenannt>"
 
@@ -133,7 +133,7 @@ msgid "Text to seek:"
 msgstr "Zu suchender Text:"
 
 #: mp_search.mpsl:47 mp_search.mpsl:52 mp_search.mpsl:56 mp_search.mpsl:107
-#: mp_spell.mpsl:32 mp_misc.mpsl:131
+#: mp_spell.mpsl:32 mp_misc.mpsl:131 mp_misc.mpsl:138
 msgid "Text not found."
 msgstr "Text nicht gefunden!"
 
@@ -363,7 +363,7 @@ msgstr "Zeilen sortieren"
 msgid "Suspend application"
 msgstr "Editor-Schlafmodus"
 
-#: mp_file.mpsl:249
+#: mp_file.mpsl:249 mp_file.mpsl:248
 msgid "Save modified texts"
 msgstr "Alle geänderten Dateien speichern"
 
@@ -467,7 +467,7 @@ msgstr "Zum vorherigen Vorkommen des aktuellen Buchstabens"
 msgid "Character right"
 msgstr "Buchstabe nach rechts"
 
-#: mp_file.mpsl:251
+#: mp_file.mpsl:251 mp_file.mpsl:250
 msgid "Open file under cursor"
 msgstr "Datei über dem Kursor öffnen"
 
@@ -542,7 +542,7 @@ msgstr "Zeile an der Kursorposition einfügen"
 msgid "Insert new line above cursor"
 msgstr "Zeile über dem Kursor einfügen"
 
-#: mp_templates.mpsl:57
+#: mp_templates.mpsl:57 mp_templates.mpsl:62
 msgid "Insert template..."
 msgstr "Vorlage einfügen..."
 
@@ -564,7 +564,7 @@ msgstr "Groß- in Kleinbuchstabe und umgekehrt"
 msgid "Flip word case"
 msgstr "Groß- in Kleinbuchstaben und umgekehrt (Wort)"
 
-#: mp_file.mpsl:250
+#: mp_file.mpsl:250 mp_file.mpsl:249
 msgid "Run system command..."
 msgstr "System-Kommando ausführen"
 
@@ -579,7 +579,7 @@ msgstr "Liste der Dokumente"
 msgid "Edit configuration file"
 msgstr "Konfigurationsdatei bearbeiten"
 
-#: mp_file.mpsl:248
+#: mp_file.mpsl:248 mp_templates.mpsl:63
 msgid "Edit templates file"
 msgstr "Vorlagendatei bearbeiten"
 
@@ -611,7 +611,7 @@ msgstr "Block kopieren"
 msgid "Cut block"
 msgstr "Block ausschneiden+kopieren"
 
-#: mp_misc.mpsl:165 mp_misc.mpsl:163 mp_misc.mpsl:188
+#: mp_misc.mpsl:165 mp_misc.mpsl:163 mp_misc.mpsl:188 mp_misc.mpsl:196
 msgid "About..."
 msgstr "Über..."
 
@@ -689,19 +689,19 @@ msgstr ""
 msgid "Exit value:\n"
 msgstr ""
 
-#: mp_misc.mpsl:159 mp_misc.mpsl:157 mp_misc.mpsl:181
+#: mp_misc.mpsl:159 mp_misc.mpsl:157 mp_misc.mpsl:181 mp_misc.mpsl:188
 msgid "Execute MPSL code..."
 msgstr ""
 
-#: mp_misc.mpsl:160 mp_misc.mpsl:158 mp_misc.mpsl:182
+#: mp_misc.mpsl:160 mp_misc.mpsl:158 mp_misc.mpsl:182 mp_misc.mpsl:189
 msgid "Execute document as MPSL"
 msgstr ""
 
-#: mp_misc.mpsl:162 mp_misc.mpsl:160 mp_misc.mpsl:184
+#: mp_misc.mpsl:162 mp_misc.mpsl:160 mp_misc.mpsl:184 mp_misc.mpsl:191
 msgid "Bigger font"
 msgstr ""
 
-#: mp_misc.mpsl:163 mp_misc.mpsl:161 mp_misc.mpsl:185
+#: mp_misc.mpsl:163 mp_misc.mpsl:161 mp_misc.mpsl:185 mp_misc.mpsl:192
 msgid "Smaller font"
 msgstr ""
 
@@ -822,11 +822,11 @@ msgstr ""
 msgid "Lines: %d Words: %d"
 msgstr ""
 
-#: mp_misc.mpsl:161 mp_misc.mpsl:159 mp_misc.mpsl:183
+#: mp_misc.mpsl:161 mp_misc.mpsl:159 mp_misc.mpsl:183 mp_misc.mpsl:190
 msgid "Set charset encoding..."
 msgstr ""
 
-#: mp_misc.mpsl:164 mp_misc.mpsl:162 mp_misc.mpsl:186
+#: mp_misc.mpsl:164 mp_misc.mpsl:162 mp_misc.mpsl:186 mp_misc.mpsl:193
 msgid "Count words"
 msgstr ""
 
@@ -838,7 +838,7 @@ msgstr ""
 msgid "Please, wait..."
 msgstr ""
 
-#: mp_misc.mpsl:116 mp_misc.mpsl:114 mp_misc.mpsl:138
+#: mp_misc.mpsl:116 mp_misc.mpsl:114 mp_misc.mpsl:138 mp_misc.mpsl:144
 #, c-format
 msgid ""
 "\n"
@@ -907,7 +907,7 @@ msgstr ""
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:392
+#: mp_file.mpsl:392 mp_file.mpsl:391
 #, c-format
 msgid "New file '%s'"
 msgstr ""
@@ -1017,6 +1017,10 @@ msgstr ""
 msgid "Maximum distance"
 msgstr ""
 
-#: mp_misc.mpsl:187
+#: mp_misc.mpsl:187 mp_misc.mpsl:194
 msgid "Search repeated words..."
+msgstr ""
+
+#: mp_misc.mpsl:195
+msgid "Search repeated word"
 msgstr ""

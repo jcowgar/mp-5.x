@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:419
+#: mp_crypt.mpsl:32 mp_file.mpsl:419 mp_file.mpsl:418
 msgid "Password:"
 msgstr ""
 
@@ -35,7 +35,7 @@ msgid "Line to go to:"
 msgstr "Naar regelnummer:"
 
 #: mp_file.mpsl:31 mp_file.mpsl:275 mp_file.mpsl:322 mp_session.mpsl:64
-#: mp_session.mpsl:72
+#: mp_session.mpsl:72 mp_file.mpsl:274 mp_file.mpsl:321
 msgid "<unnamed>"
 msgstr "<nieuw bestand>"
 
@@ -73,7 +73,7 @@ msgid "Text to seek:"
 msgstr "Zoektekst:"
 
 #: mp_search.mpsl:47 mp_search.mpsl:52 mp_search.mpsl:56 mp_search.mpsl:107
-#: mp_spell.mpsl:32 mp_misc.mpsl:131
+#: mp_spell.mpsl:32 mp_misc.mpsl:131 mp_misc.mpsl:138
 msgid "Text not found."
 msgstr "Tekst niet gevonden."
 
@@ -344,7 +344,7 @@ msgstr "Opslaan als..."
 msgid "Close"
 msgstr "Sluiten"
 
-#: mp_file.mpsl:251
+#: mp_file.mpsl:251 mp_file.mpsl:250
 msgid "Open file under cursor"
 msgstr "Open bestand onder de aanwijzer"
 
@@ -380,7 +380,7 @@ msgstr "Geavanceerder zoeken"
 msgid "Help for word under cursor"
 msgstr "Hulp voor woord onder de aanwijzer"
 
-#: mp_file.mpsl:250
+#: mp_file.mpsl:250 mp_file.mpsl:249
 msgid "Run system command..."
 msgstr "Voor systeem commando uit..."
 
@@ -392,14 +392,14 @@ msgstr "Bestand lijst"
 msgid "Search tag..."
 msgstr "Zoek markering..."
 
-#: mp_templates.mpsl:57
+#: mp_templates.mpsl:57 mp_templates.mpsl:62
 msgid "Insert template..."
 msgstr "Voeg template toe..."
 
 msgid "Complete tag..."
 msgstr "Maak markering af..."
 
-#: mp_file.mpsl:248
+#: mp_file.mpsl:248 mp_templates.mpsl:63
 msgid "Edit templates file"
 msgstr "Bewerk templates bestand"
 
@@ -417,7 +417,7 @@ msgstr "Tab grootte..."
 msgid "Menu"
 msgstr "Menu"
 
-#: mp_misc.mpsl:165 mp_misc.mpsl:163 mp_misc.mpsl:188
+#: mp_misc.mpsl:165 mp_misc.mpsl:163 mp_misc.mpsl:188 mp_misc.mpsl:196
 msgid "About..."
 msgstr "Over..."
 
@@ -442,7 +442,7 @@ msgstr "Gebruik muis om aan te wijzen"
 msgid "Execute editor function..."
 msgstr "Voor editor functies uit..."
 
-#: mp_file.mpsl:249
+#: mp_file.mpsl:249 mp_file.mpsl:248
 msgid "Save modified texts"
 msgstr "Bewaar gewijzigde teksten"
 
@@ -665,19 +665,19 @@ msgstr ""
 msgid "Exit value:\n"
 msgstr ""
 
-#: mp_misc.mpsl:159 mp_misc.mpsl:157 mp_misc.mpsl:181
+#: mp_misc.mpsl:159 mp_misc.mpsl:157 mp_misc.mpsl:181 mp_misc.mpsl:188
 msgid "Execute MPSL code..."
 msgstr ""
 
-#: mp_misc.mpsl:160 mp_misc.mpsl:158 mp_misc.mpsl:182
+#: mp_misc.mpsl:160 mp_misc.mpsl:158 mp_misc.mpsl:182 mp_misc.mpsl:189
 msgid "Execute document as MPSL"
 msgstr ""
 
-#: mp_misc.mpsl:162 mp_misc.mpsl:160 mp_misc.mpsl:184
+#: mp_misc.mpsl:162 mp_misc.mpsl:160 mp_misc.mpsl:184 mp_misc.mpsl:191
 msgid "Bigger font"
 msgstr ""
 
-#: mp_misc.mpsl:163 mp_misc.mpsl:161 mp_misc.mpsl:185
+#: mp_misc.mpsl:163 mp_misc.mpsl:161 mp_misc.mpsl:185 mp_misc.mpsl:192
 msgid "Smaller font"
 msgstr ""
 
@@ -798,11 +798,11 @@ msgstr ""
 msgid "Lines: %d Words: %d"
 msgstr ""
 
-#: mp_misc.mpsl:161 mp_misc.mpsl:159 mp_misc.mpsl:183
+#: mp_misc.mpsl:161 mp_misc.mpsl:159 mp_misc.mpsl:183 mp_misc.mpsl:190
 msgid "Set charset encoding..."
 msgstr ""
 
-#: mp_misc.mpsl:164 mp_misc.mpsl:162 mp_misc.mpsl:186
+#: mp_misc.mpsl:164 mp_misc.mpsl:162 mp_misc.mpsl:186 mp_misc.mpsl:193
 msgid "Count words"
 msgstr ""
 
@@ -814,7 +814,7 @@ msgstr ""
 msgid "Please, wait..."
 msgstr ""
 
-#: mp_misc.mpsl:116 mp_misc.mpsl:114 mp_misc.mpsl:138
+#: mp_misc.mpsl:116 mp_misc.mpsl:114 mp_misc.mpsl:138 mp_misc.mpsl:144
 #, c-format
 msgid ""
 "\n"
@@ -883,7 +883,7 @@ msgstr ""
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:392
+#: mp_file.mpsl:392 mp_file.mpsl:391
 #, c-format
 msgid "New file '%s'"
 msgstr ""
@@ -993,6 +993,10 @@ msgstr ""
 msgid "Maximum distance"
 msgstr ""
 
-#: mp_misc.mpsl:187
+#: mp_misc.mpsl:187 mp_misc.mpsl:194
 msgid "Search repeated words..."
+msgstr ""
+
+#: mp_misc.mpsl:195
+msgid "Search repeated word"
 msgstr ""

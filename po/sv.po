@@ -59,7 +59,7 @@ msgstr ""
 "#\n"
 "\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:419
+#: mp_crypt.mpsl:32 mp_file.mpsl:419 mp_file.mpsl:418
 msgid "Password:"
 msgstr "Lösenord:"
 
@@ -87,7 +87,7 @@ msgid "Line to go to:"
 msgstr "Rad att gå till:"
 
 #: mp_file.mpsl:31 mp_file.mpsl:275 mp_file.mpsl:322 mp_session.mpsl:64
-#: mp_session.mpsl:72
+#: mp_session.mpsl:72 mp_file.mpsl:274 mp_file.mpsl:321
 msgid "<unnamed>"
 msgstr "<icke namngiven>"
 
@@ -128,7 +128,7 @@ msgid "Text to seek:"
 msgstr "Söktext:"
 
 #: mp_search.mpsl:47 mp_search.mpsl:52 mp_search.mpsl:56 mp_search.mpsl:107
-#: mp_spell.mpsl:32 mp_misc.mpsl:131
+#: mp_spell.mpsl:32 mp_misc.mpsl:131 mp_misc.mpsl:138
 msgid "Text not found."
 msgstr "Texten hittades inte."
 
@@ -356,7 +356,7 @@ msgstr "Sortera rader"
 msgid "Suspend application"
 msgstr "Suspendera applikation"
 
-#: mp_file.mpsl:249
+#: mp_file.mpsl:249 mp_file.mpsl:248
 msgid "Save modified texts"
 msgstr "Spara modifierade texter"
 
@@ -460,7 +460,7 @@ msgstr "Flytta till föregående förekomst av aktuellt tecken"
 msgid "Character right"
 msgstr "Tecken höger"
 
-#: mp_file.mpsl:251
+#: mp_file.mpsl:251 mp_file.mpsl:250
 msgid "Open file under cursor"
 msgstr "Öppna fil vid markör"
 
@@ -535,7 +535,7 @@ msgstr "Infoga rad"
 msgid "Insert new line above cursor"
 msgstr "Infoga ny rad ovanför markören"
 
-#: mp_templates.mpsl:57
+#: mp_templates.mpsl:57 mp_templates.mpsl:62
 msgid "Insert template..."
 msgstr "Infoga mall..."
 
@@ -557,7 +557,7 @@ msgstr "Växla gemener/versaler om A-Ö eller a-ö"
 msgid "Flip word case"
 msgstr "Växla skiftläge"
 
-#: mp_file.mpsl:250
+#: mp_file.mpsl:250 mp_file.mpsl:249
 msgid "Run system command..."
 msgstr "Kör systemkommando..."
 
@@ -572,7 +572,7 @@ msgstr "Dokumentlista"
 msgid "Edit configuration file"
 msgstr "Redigera konfigurationsfil"
 
-#: mp_file.mpsl:248
+#: mp_file.mpsl:248 mp_templates.mpsl:63
 msgid "Edit templates file"
 msgstr "Redigera mallfil"
 
@@ -604,7 +604,7 @@ msgstr "Kopiera block"
 msgid "Cut block"
 msgstr "Klipp ut block"
 
-#: mp_misc.mpsl:165 mp_misc.mpsl:163 mp_misc.mpsl:188
+#: mp_misc.mpsl:165 mp_misc.mpsl:163 mp_misc.mpsl:188 mp_misc.mpsl:196
 msgid "About..."
 msgstr "Om..."
 
@@ -682,19 +682,19 @@ msgstr ""
 msgid "Exit value:\n"
 msgstr ""
 
-#: mp_misc.mpsl:159 mp_misc.mpsl:157 mp_misc.mpsl:181
+#: mp_misc.mpsl:159 mp_misc.mpsl:157 mp_misc.mpsl:181 mp_misc.mpsl:188
 msgid "Execute MPSL code..."
 msgstr ""
 
-#: mp_misc.mpsl:160 mp_misc.mpsl:158 mp_misc.mpsl:182
+#: mp_misc.mpsl:160 mp_misc.mpsl:158 mp_misc.mpsl:182 mp_misc.mpsl:189
 msgid "Execute document as MPSL"
 msgstr ""
 
-#: mp_misc.mpsl:162 mp_misc.mpsl:160 mp_misc.mpsl:184
+#: mp_misc.mpsl:162 mp_misc.mpsl:160 mp_misc.mpsl:184 mp_misc.mpsl:191
 msgid "Bigger font"
 msgstr ""
 
-#: mp_misc.mpsl:163 mp_misc.mpsl:161 mp_misc.mpsl:185
+#: mp_misc.mpsl:163 mp_misc.mpsl:161 mp_misc.mpsl:185 mp_misc.mpsl:192
 msgid "Smaller font"
 msgstr ""
 
@@ -815,11 +815,11 @@ msgstr ""
 msgid "Lines: %d Words: %d"
 msgstr ""
 
-#: mp_misc.mpsl:161 mp_misc.mpsl:159 mp_misc.mpsl:183
+#: mp_misc.mpsl:161 mp_misc.mpsl:159 mp_misc.mpsl:183 mp_misc.mpsl:190
 msgid "Set charset encoding..."
 msgstr ""
 
-#: mp_misc.mpsl:164 mp_misc.mpsl:162 mp_misc.mpsl:186
+#: mp_misc.mpsl:164 mp_misc.mpsl:162 mp_misc.mpsl:186 mp_misc.mpsl:193
 msgid "Count words"
 msgstr ""
 
@@ -831,7 +831,7 @@ msgstr ""
 msgid "Please, wait..."
 msgstr ""
 
-#: mp_misc.mpsl:116 mp_misc.mpsl:114 mp_misc.mpsl:138
+#: mp_misc.mpsl:116 mp_misc.mpsl:114 mp_misc.mpsl:138 mp_misc.mpsl:144
 #, c-format
 msgid ""
 "\n"
@@ -900,7 +900,7 @@ msgstr ""
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:392
+#: mp_file.mpsl:392 mp_file.mpsl:391
 #, c-format
 msgid "New file '%s'"
 msgstr ""
@@ -1010,6 +1010,10 @@ msgstr ""
 msgid "Maximum distance"
 msgstr ""
 
-#: mp_misc.mpsl:187
+#: mp_misc.mpsl:187 mp_misc.mpsl:194
 msgid "Search repeated words..."
+msgstr ""
+
+#: mp_misc.mpsl:195
+msgid "Search repeated word"
 msgstr ""
