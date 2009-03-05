@@ -58,7 +58,12 @@ mp.actions['config_repeated_words'] = sub (d) {
 
 
 mp.actions['seek_repeated_word'] = sub (d) {
-	if (!mp.repeated_words(d, mp.config.rw_num_chars, mp.config.rw_max_dist))
+
+	mp.busy(1);
+	local c = mp.repeated_words(d, mp.config.rw_num_chars, mp.config.rw_max_dist);
+	mp.busy(0);
+
+	if (!c)
 		mp.alert(L("Text not found."));
 };
 
