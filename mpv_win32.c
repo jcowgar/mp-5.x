@@ -117,7 +117,7 @@ static void build_fonts(HDC hdc)
 {
 	TEXTMETRIC tm;
 	int n;
-	int font_size = 14;
+	int font_size = 10;
 	char * font_face = "Lucida Console";
 	mpdm_t c;
 
