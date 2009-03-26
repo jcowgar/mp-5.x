@@ -346,21 +346,16 @@ sub mp.grep(rx, spec, base, r)
 
 	all = glob(spec, base);
 
-	/* spec globs to NULL or empty; abort */
-	if (size(all) == 0)
-		return NULL;
-
 	if (r == NULL)
 		r = [];
+
+	/* spec globs to NULL or empty; abort */
+	if (size(all) == 0)
+		return r;
 
 	foreach (fn, all) {
 		local f;
 
-		if (regex('@/$@', fn)) {
-			/* directory; search recursively */
-			r = mp.grep(rx, spec, fn, r);
-		}
-		else
 		if ((f = open(fn, "r")) != NULL) {
 			local l, n;
 
@@ -377,6 +372,13 @@ sub mp.grep(rx, spec, base, r)
 			}
 
 			close(f);
+		}
+	}
+
+	/* glob again, trying subdirectories */
+	foreach (fn, glob(NULL, base)) {
+		if (regex('@/$@', fn)) {
+			r = mp.grep(rx, spec, base ~ fn, r);
 		}
 	}
 
