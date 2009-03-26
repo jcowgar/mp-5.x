@@ -332,13 +332,13 @@ sub mp.seek_prev_or_next_char(doc, func)
 }
 
 
-sub mp.grep(rx, spec, base)
+sub mp.grep(rx, spec, base, r)
 /* Greps str in the files in spec. Returns NULL if no file matched the glob()
    (or glob() is unsupported), an empty list if the string was not found or
    an array with the matches, that are three-element arrays with the file name,
    the line number and the line that matched */
 {
-	local r, all;
+	local all;
 
 	/* if spec is empty, set as NULL (meaning "glob everything") */
 	if (spec eq '')
@@ -350,11 +350,17 @@ sub mp.grep(rx, spec, base)
 	if (size(all) == 0)
 		return NULL;
 
-	r = [];
+	if (r == NULL)
+		r = [];
 
 	foreach (fn, all) {
 		local f;
 
+		if (regex('@/$@', fn)) {
+			/* directory; search recursively */
+			r = mp.grep(rx, spec, fn, r);
+		}
+		else
 		if ((f = open(fn, "r")) != NULL) {
 			local l, n;
 
