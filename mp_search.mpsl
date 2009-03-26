@@ -90,17 +90,20 @@ mp.actions['grep']	= sub (d) {
 	local r = mp.form( [
 		{ 'label'	=> L("Text to seek:"),
 		  'type'	=> 'text',
-		  'history'	=> 'search'},
+		  'history'	=> 'search' },
 		{ 'label'	=> L("Files to grep (empty, all):"),
 		  'type'	=> 'text',
-		  'history'	=> 'grep'}
+		  'history'	=> 'grep' },
+		{ 'label'	=> L("Base directory (empty, current):"),
+		  'type'	=> 'text',
+		  'history'	=> 'grep_base' }
 	] );
 
 	if (r != NULL && r[0] ne '') {
 
 		local t = '<grep ' ~ r[0] ~ ' ' ~ r[1] ~ '>';
 
-		if ((r = mp.long_op(mp.grep, '/' ~ r[0] ~ '/', r[1])) == NULL)
+		if ((r = mp.long_op(mp.grep, '/' ~ r[0] ~ '/', r[1], r[2])) == NULL)
 			mp.alert(L("File(s) not found."));
 		else
 		if (size(r) == 0)
@@ -329,7 +332,7 @@ sub mp.seek_prev_or_next_char(doc, func)
 }
 
 
-sub mp.grep(rx, spec)
+sub mp.grep(rx, spec, base)
 /* Greps str in the files in spec. Returns NULL if no file matched the glob()
    (or glob() is unsupported), an empty list if the string was not found or
    an array with the matches, that are three-element arrays with the file name,
@@ -341,7 +344,7 @@ sub mp.grep(rx, spec)
 	if (spec eq '')
 		spec = NULL;
 
-	all = glob(spec);
+	all = glob(spec, base);
 
 	/* spec globs to NULL or empty; abort */
 	if (size(all) == 0)
