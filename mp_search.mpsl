@@ -378,7 +378,7 @@ sub mp.grep(rx, spec, base, r)
 	/* glob again, trying subdirectories */
 	foreach (fn, glob(NULL, base)) {
 		if (regex('@/$@', fn)) {
-			r = mp.grep(rx, spec, base ~ fn, r);
+			r = mp.grep(rx, spec, fn, r);
 		}
 	}
 
