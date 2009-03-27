@@ -207,17 +207,23 @@ mp.actions['open_under_cursor'] = sub (d) {
 	local w;
 
 	/* is the word under cursor file:line: ? */
-	if ((w = mp.get_word(d, '/[a-z\.\_0-9\/-]+:[0-9]+: ?/i')) != NULL) {
+	if ((w = mp.get_word(d, '/[a-z\._0-9\/ :-]+:[0-9]+: ?/i')) != NULL) {
 		w = split(':', w);
 
-		/* open the file */
-		local n = mp.open(w[0]);
+		/* drop garbage */
+		pop(w);
+
+		/* pick the line */
+		local l = pop(w) - 1;
+
+		/* open the file, rejoining with : */
+		local n = mp.open(join(':', w));
 
 		/* now move to the line */
-		mp.set_y(n, w[1] - 1);
+		mp.set_y(n, l);
 	}
 	else
-	if ((w = mp.get_word(d, '/[a-z\.\_0-9\/-]+/i')) != NULL) {
+	if ((w = mp.get_word(d, '/[a-z\._0-9\/ :-]+/i')) != NULL) {
 		mp.open(w);
 	}
 };
