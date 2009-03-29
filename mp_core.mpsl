@@ -308,13 +308,13 @@ sub mp.backslash_codes(s, d)
 }
 
 
-sub mp.long_op(func, a1, a2, a3)
+sub mp.long_op(func, a1, a2, a3, a4)
 /* executes a potentially long function */
 {
 	local r;
 
 	mp.busy(1);
-	r = func(a1, a2, a3);
+	r = func(a1, a2, a3, a4);
 	mp.busy(0);
 
 	return r;
