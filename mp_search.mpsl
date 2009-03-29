@@ -28,6 +28,9 @@
 /* successful searches will always be shown in this line */
 mp.config.move_seek_to_line = 5;
 
+/* grep recursivity */
+mp.config.recursive_grep = 0;
+
 /** editor actions **/
 
 mp.actions['seek'] 	= sub (d) {
@@ -103,6 +106,8 @@ mp.actions['grep']	= sub (d) {
 	] );
 
 	if (r != NULL && r[0] ne '') {
+
+		mp.config.recursive_grep = r[3];
 
 		local t = '<grep ' ~ r[0] ~ ' ' ~ r[1] ~ '>';
 
