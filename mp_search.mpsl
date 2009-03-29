@@ -96,14 +96,18 @@ mp.actions['grep']	= sub (d) {
 		  'history'	=> 'grep' },
 		{ 'label'	=> L("Base directory (empty, current):"),
 		  'type'	=> 'text',
-		  'history'	=> 'grep_base' }
+		  'history'	=> 'grep_base' },
+		{ 'label'	=> L("Recursive?"),
+		  'type'	=> 'checkbox',
+		  'value'	=> mp.config.recursive_grep }
 	] );
 
 	if (r != NULL && r[0] ne '') {
 
 		local t = '<grep ' ~ r[0] ~ ' ' ~ r[1] ~ '>';
 
-		if ((r = mp.long_op(mp.grep, '/' ~ r[0] ~ '/', r[1], r[2])) == NULL)
+		if ((r = mp.long_op(mp.grep, '/' ~ r[0] ~ '/',
+			r[1], r[2], r[3])) == NULL)
 			mp.alert(L("File(s) not found."));
 		else
 		if (size(r) == 0)
@@ -332,7 +336,7 @@ sub mp.seek_prev_or_next_char(doc, func)
 }
 
 
-sub mp.grep(rx, spec, base, r)
+sub mp.grep(rx, spec, base, rec, r)
 /* Greps str in the files in spec. Returns NULL if no file matched the glob()
    (or glob() is unsupported), an empty list if the string was not found or
    an array with the matches, that are three-element arrays with the file name,
@@ -375,10 +379,12 @@ sub mp.grep(rx, spec, base, r)
 		}
 	}
 
-	/* glob again, trying subdirectories */
-	foreach (fn, glob(NULL, base)) {
-		if (regex('@/$@', fn)) {
-			r = mp.grep(rx, spec, fn, r);
+	if (rec) {
+		/* glob again, trying subdirectories */
+		foreach (fn, glob(NULL, base)) {
+			if (regex('@/$@', fn)) {
+				r = mp.grep(rx, spec, fn, rec, r);
+			}
 		}
 	}
 
