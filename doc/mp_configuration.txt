@@ -101,6 +101,11 @@ The number of lines to read above the first visible line to calculate
 syntax highlight in blocks (default: 60 lines). There is probably no
 need to change this, unless using very big comment blocks or the like.
 
+mp.config.recursive_grep
+------------------------
+
+If set, the `grep' action is done recursively (default: 0).
+
 mp.config.rw_max_dist
 ---------------------
 
