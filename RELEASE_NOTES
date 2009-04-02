@@ -4,7 +4,7 @@ Minimum Profit Release Notes
 5.1.2
 -----
 
- * The `grep' action is now recursive.
+ * The `grep' action can now be recursive.
  * New syntax color for special documentation blocks.
  * Fix searching into empty selected blocks (this was bug #1269).
  * New action `section_list', that shows a list of _sections_
