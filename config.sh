@@ -260,7 +260,7 @@ else
 	if which kde4-config > /dev/null
 	then
 		TMP_CFLAGS=$(pkg-config --cflags QtCore)
-		TMP_CFLAGS="$TMP_CFLAGS -I`kde4-config --install include`KDE"
+		TMP_CFLAGS="$TMP_CFLAGS -I`kde4-config --install include` -I`kde4-config --install include`KDE"
 
 		TMP_LDFLAGS=$(pkg-config --libs QtCore)
 		TMP_LDFLAGS="$TMP_LDFLAGS -L`kde4-config --install lib` -lkfile -lkdeui -lkdecore"
