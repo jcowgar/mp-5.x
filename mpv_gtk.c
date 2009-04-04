@@ -1123,17 +1123,6 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 			v = MPDM_I(gtk_toggle_button_get_active(
 				GTK_TOGGLE_BUTTON(widget)));
 		}
-		else
-		if (wcscmp(wptr, L"file") == 0) {
-			const char * ptr;
-
-			if ((ptr = gtk_file_selection_get_filename(
-				GTK_FILE_SELECTION(widget))) != NULL &&
-			   (wptr = utf8_to_wcs(ptr)) != NULL) {
-				v = MPDM_S(wptr);
-				g_free(wptr);
-			}
-		}
 
 		mpdm_aset(form_values, v, n);
 	}
@@ -1488,61 +1477,69 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_openfile(mpdm_t a)
+static mpdm_t run_filechooser(mpdm_t a, gboolean save)
 /* openfile driver function */
 {
 	GtkWidget * dlg;
 	wchar_t * wptr;
 	char * ptr;
 	mpdm_t ret = NULL;
-	mpdm_t l, h;
+	gint response;
 
 	/* 1# arg: prompt */
 	wptr = mpdm_string(mpdm_aget(a, 0));
 
-	if((ptr = wcs_to_utf8(wptr)) == NULL)
+	if ((ptr = wcs_to_utf8(wptr)) == NULL)
 		return(NULL);
 
-	dlg = gtk_file_selection_new(ptr);
+    	if (!save) {
+		dlg = gtk_file_chooser_dialog_new(ptr, GTK_WINDOW(window),
+			GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, 
+			GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	}
+	else {
+		dlg = gtk_file_chooser_dialog_new(ptr, GTK_WINDOW(window),
+			GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, 
+			GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dlg), TRUE);
+	}
 	g_free(ptr);
 
-	/* This is l = [ { 'type' => 'file' } ]; */
-	h = MPDM_H(0);
-	mpdm_hset_s(h, L"type", MPDM_LS(L"file"));
-	l = MPDM_A(1);
-	mpdm_aset(l, h, 0);
+	build_form_data(NULL);
 
-	build_form_data(l);
-	form_widgets[0] = dlg;
-
-	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(dlg)->ok_button),
-		"clicked", GTK_SIGNAL_FUNC(clicked_ok), GTK_OBJECT(dlg));
-
-	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(dlg)->cancel_button),
-		"clicked", GTK_SIGNAL_FUNC(clicked_cancel), GTK_OBJECT(dlg));
-
-	gtk_signal_connect(GTK_OBJECT(dlg), "key_press_event",
-		(GtkSignalFunc) confirm_key_press_event, NULL);
-
-	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
-	gtk_window_set_modal(GTK_WINDOW(dlg),TRUE);
-	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
-
-	gtk_widget_show(dlg);
-
-	wait_for_modal_status_change();
-
-	if (modal_status == 1)
-		ret = mpdm_aget(form_values, 0);
+	gtk_file_chooser_set_local_only(GTK_FILE_CHOOSER(dlg), TRUE);
+	response = gtk_dialog_run(GTK_DIALOG(dlg));
+	
+	if (response == GTK_RESPONSE_OK) {
+		gchar * filename;
+		gchar * utf8name;
+		wchar_t *wfilename;
+		
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dlg));
+		utf8name = g_filename_to_utf8(filename, -1, NULL, NULL, NULL);
+		g_free(filename);
+		wfilename = utf8_to_wcs(utf8name);
+		g_free(utf8name);
+		ret = MPDM_S(wfilename);
+		g_free(wfilename);
+	}
+	gtk_widget_destroy(dlg);
 
 	return ret;
+}
+
+
+static mpdm_t gtk_drv_openfile(mpdm_t a)
+/* openfile driver function */
+{
+	return run_filechooser(a, FALSE);
 }
 
 
 static mpdm_t gtk_drv_savefile(mpdm_t a)
 /* savefile driver function */
 {
-	return gtk_drv_openfile(a);
+	return run_filechooser(a, TRUE);
 }
 
 
