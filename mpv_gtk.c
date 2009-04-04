@@ -1123,22 +1123,25 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 			v = MPDM_I(gtk_toggle_button_get_active(
 				GTK_TOGGLE_BUTTON(widget)));
 		}
+		else
+		if (wcscmp(wptr, L"list") == 0) {
+			GtkWidget * list = gtk_bin_get_child(GTK_BIN(widget));
+			GtkTreeSelection * selection = 
+		        	gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
+			GList * selected = gtk_tree_selection_get_selected_rows(selection, NULL);
+			GtkTreePath * path = selected->data;
+			
+			v = MPDM_I(gtk_tree_path_get_indices(path)[0]);
+			gtk_tree_path_free(path);
+			g_list_free(selected);
+
+		}
 
 		mpdm_aset(form_values, v, n);
 	}
 
 	modal_status = 1;
 	gtk_widget_destroy(GTK_WIDGET(widget));
-}
-
-
-static void form_select_row(GtkCList * list, gint row,
-	gint column, GdkEventButton * event, gpointer data)
-/* 'select_row' handler (for gtk_drv_form) */
-{
-	long n = (long) data;
-
-	mpdm_aset(form_values, MPDM_I(row), (int) n);
 }
 
 
@@ -1392,60 +1395,52 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 		else
 		if (wcscmp(type, L"list") == 0) {
 			GtkWidget * list;
+			GtkListStore * list_store;
+			GtkCellRenderer * renderer;
+			GtkTreeViewColumn * column;
+			GtkTreePath * path;
 			mpdm_t l;
-			int i;
-			long ln;
+			gint i;
 
 			if ((i = 450 / mpdm_size(form_args)) < 100)
 				i = 100;
 
 			widget = gtk_scrolled_window_new(NULL, NULL);
-			gtk_widget_set_usize(widget, 500, i);
+			gtk_widget_set_size_request(widget, 500, i);
 			gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(widget),
 		                GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+			gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(widget),
+		                GTK_SHADOW_IN);
 
-			list = gtk_clist_new(1);
-			gtk_clist_set_selection_mode(GTK_CLIST(list),
-				GTK_SELECTION_BROWSE);
-			gtk_clist_column_titles_hide(GTK_CLIST(list));
+			list_store = gtk_list_store_new(1, G_TYPE_STRING);
+			list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store));
+			gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
+			renderer = gtk_cell_renderer_text_new();
+			column = gtk_tree_view_column_new_with_attributes("", renderer,
+			                                                  "text", 0, NULL);
+			gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
 			gtk_container_add(GTK_CONTAINER(widget), list);
-
-			/* no title for the column */
-			gtk_clist_set_column_title(GTK_CLIST(list), 0, "");
-
-			/* set width to an optimal one */
-			gtk_clist_set_column_auto_resize(GTK_CLIST(list), 0, 1);
 
 			l = mpdm_hget_s(w, L"list");
 
 			for (i = 0; i < mpdm_size(l); i++) {
-				char * args[1];
 				wchar_t * wptr = mpdm_string(mpdm_aget(l, i));
 
 				if ((ptr = wcs_to_utf8(wptr)) != NULL) {
-					args[0] = strdup(ptr);
-					gtk_clist_append(GTK_CLIST(list), args);
-					free(args[0]);
+				    GtkTreeIter iter;
+				    gtk_list_store_append(list_store, &iter);
+				    gtk_list_store_set(list_store, &iter, 0, ptr, -1);
 					g_free(ptr);
 				}
 			}
 
 			/* initial position */
 			i = mpdm_ival(t);
-
-			gtk_clist_select_row(GTK_CLIST(list), i, 0);
-			GTK_CLIST(list)->focus_row = i;
-
-			/* set the default value, in case the signal is
-			   never called because the it was accepted as is */
-			mpdm_aset(form_values, MPDM_I(i), n);
-
-			/* connects the signal, storing the
-			   widget number in the 'gpointer' */
-			ln = n;
-			gtk_signal_connect(GTK_OBJECT(list), "select-row",
-				GTK_SIGNAL_FUNC(form_select_row), (gpointer) ln);
-                }
+			
+			path = gtk_tree_path_new_from_indices(i, -1);
+			gtk_tree_view_set_cursor(GTK_TREE_VIEW(list), path, NULL, FALSE);
+			gtk_tree_path_free(path);
+        }
 
 		if (widget != NULL) {
 			form_widgets[n] = widget;
