@@ -79,8 +79,6 @@ static int got_selection = 0;
 static int wait_for_selection = 0;
 
 /* global modal status */
-static int modal_status = -1;
-
 /* code for the 'normal' attribute */
 static int normal_attr = 0;
 
@@ -1066,16 +1064,6 @@ static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
 
 /** interface functions **/
 
-static void wait_for_modal_status_change(void)
-/* wait until modal status changes */
-{
-	modal_status = -1;
-
-	while (modal_status == -1)
-		gtk_main_iteration();
-}
-
-
 static void clicked_ok(GtkWidget * widget, gpointer data)
 /* 'clicked_on' signal handler (for gtk_drv_form) */
 {
@@ -1139,32 +1127,6 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 
 		mpdm_aset(form_values, v, n);
 	}
-
-	modal_status = 1;
-	gtk_widget_destroy(GTK_WIDGET(widget));
-}
-
-
-static void clicked_cancel(GtkWidget * widget, gpointer data)
-{
-	modal_status = 0;
-	gtk_widget_destroy(GTK_WIDGET(widget));
-}
-
-
-static int confirm_key_press_event(GtkWidget * widget, GdkEventKey * event)
-{
-	if (event->string[0] == '\r') {
-		clicked_ok(widget, NULL);
-		return 1;
-	}
-	else
-	if (event->string[0] == '\e') {
-		clicked_cancel(widget, NULL);
-		return 1;
-	}
-
-	return 0;
 }
 
 
@@ -1269,22 +1231,29 @@ static mpdm_t gtk_drv_confirm(mpdm_t a)
 static mpdm_t gtk_drv_form(mpdm_t a)
 /* 'form' driver function */
 {
-	char * ptr;
 	GtkWidget * dlg;
 	GtkWidget * table;
+	GtkWidget * content_area;
 	int n;
 	mpdm_t ret = NULL;
 
 	/* first argument: list of widgets */
 	build_form_data(mpdm_aget(a, 0));
 
-	dlg = gtk_dialog_new();
-	gtk_window_set_title(GTK_WINDOW(dlg), "mp " VERSION);
-	gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), 5);
+	dlg = gtk_dialog_new_with_buttons("mp " VERSION, GTK_WINDOW(window),
+	                                  GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR,
+	                                  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+	                                  GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(dlg), GTK_RESPONSE_OK);
+	gtk_container_set_border_width(GTK_CONTAINER(dlg), 5);
+	
+	content_area = GTK_DIALOG(dlg)->vbox;
+	gtk_box_set_spacing(GTK_BOX(content_area), 2);
 
-	table = gtk_table_new(mpdm_size(a), 2, 0);
-	gtk_table_set_col_spacing(GTK_TABLE(table), 0, 4);
-	gtk_table_set_row_spacing(GTK_TABLE(table), 0, 4);
+	table = gtk_table_new(mpdm_size(a), 2, FALSE);
+	gtk_container_set_border_width(GTK_CONTAINER(table), 5);
+	gtk_table_set_col_spacings(GTK_TABLE(table), 12);
+	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
 
 	for (n = 0; n < mpdm_size(form_args); n++) {
 		mpdm_t w = mpdm_aget(form_args, n);
@@ -1303,6 +1272,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 			if ((wptr = mpdm_string(mpdm_gettext(t))) != NULL &&
 				(ptr = wcs_to_utf8(wptr)) != NULL) {
 				label = gtk_label_new(ptr);
+				gtk_misc_set_alignment(GTK_MISC(label), 0, .5);
 
 				gtk_table_attach_defaults(GTK_TABLE(table),
 					label, 0, wcscmp(type, L"label") == 0 ? 2 : 1,
@@ -1420,26 +1390,17 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 		}
 	}
 
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->vbox), table, TRUE, TRUE, 0);
-
-	DIALOG_BUTTON(LL("OK"), clicked_ok);
-	DIALOG_BUTTON(LL("Cancel"), clicked_cancel);
-
-	gtk_signal_connect(GTK_OBJECT(dlg),"key_press_event",
-		(GtkSignalFunc) confirm_key_press_event, NULL);
-
-	gtk_window_set_position(GTK_WINDOW(dlg), GTK_WIN_POS_CENTER);
-	gtk_window_set_modal(GTK_WINDOW(dlg), TRUE);
-	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(window));
-
-	gtk_widget_show_all(dlg);
-
-	wait_for_modal_status_change();
-
-	if (modal_status == 1)
+	gtk_widget_show_all(table);
+	
+	gtk_box_pack_start(GTK_BOX(content_area), table, TRUE, TRUE, 0);
+	
+	if (gtk_dialog_run(GTK_DIALOG(dlg)) == GTK_RESPONSE_OK) {
+		clicked_ok(NULL, NULL);
 		ret = form_values;
+	}
+	gtk_widget_destroy(dlg);
 
-	return(ret);
+	return ret;
 }
 
 
