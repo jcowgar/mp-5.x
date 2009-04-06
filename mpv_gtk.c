@@ -1295,6 +1295,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 			gtk_widget_set_usize(widget, 300, -1);
 			gtk_combo_set_use_arrows_always(GTK_COMBO(widget), TRUE);
 			gtk_combo_set_case_sensitive(GTK_COMBO(widget), TRUE);
+			gtk_entry_set_activates_default(GTK_ENTRY(GTK_COMBO(widget)->entry), TRUE);
 
 			if ((h = mpdm_hget_s(w, L"history")) != NULL) {
 				int i;
@@ -1381,6 +1382,9 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 			path = gtk_tree_path_new_from_indices(i, -1);
 			gtk_tree_view_set_cursor(GTK_TREE_VIEW(list), path, NULL, FALSE);
 			gtk_tree_path_free(path);
+			
+			g_signal_connect_swapped(G_OBJECT(list), "row-activated",
+				G_CALLBACK(gtk_window_activate_default), dlg);
         }
 
 		if (widget != NULL) {
