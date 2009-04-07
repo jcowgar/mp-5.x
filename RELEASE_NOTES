@@ -26,6 +26,7 @@ Minimum Profit Release Notes
  * The action `open_templates_file' has been fixed.
  * Several GTK interface updates by fellow developer
    Sebastian Vöcking.
+ * New command line option `-d', to change the working directory.
 
 5.1.1
 -----

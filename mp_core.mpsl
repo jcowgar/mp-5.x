@@ -449,6 +449,9 @@ sub mp.process_cmdline()
 			}
 		}
 		else
+		if (o eq '-d')
+			chdir(shift(ARGV));
+		else
 		if (o eq '-t')
 			mp.open_tag(shift(ARGV));
 		else
@@ -566,8 +569,8 @@ sub mp.test_versions()
 {
 	local mpdm = MPDM();
 
-	mp.assert_version(mpdm.version, '1.0.6', 'MPDM');
-	mp.assert_version(MPSL.VERSION, '1.0.6', 'MPSL');
+	mp.assert_version(mpdm.version, '1.0.7', 'MPDM');
+	mp.assert_version(MPSL.VERSION, '1.0.7', 'MPSL');
 }
 
 
