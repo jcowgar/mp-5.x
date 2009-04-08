@@ -1,0 +1,23 @@
+REGEDIT4
+
+# Useful Windows Shell dropdown menu addons for Minimum Profit
+
+#
+# Add an "Open with MP" entry to files' dropdown menu
+#
+
+[HKEY_CLASSES_ROOT\*\shell\Open with MP]
+@=""
+
+[HKEY_CLASSES_ROOT\*\shell\Open with MP\command]
+@="c:\\Program Files\\mp-5\\wmp.exe %1"
+
+#
+# Add an "Open MP here" entry to directories' dropdown menu
+#
+
+[HKEY_CLASSES_ROOT\Directory\shell\minimum_profit]
+@="Open &MP Here"
+
+[HKEY_CLASSES_ROOT\Directory\shell\minimum_profit\command]
+@="\"C:\\Program Files\\mp-5\\wmp.exe\" \"-d\" \"%1\""
