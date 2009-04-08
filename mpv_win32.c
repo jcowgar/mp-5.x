@@ -1313,6 +1313,7 @@ static mpdm_t open_or_save(int o, mpdm_t a)
 	wchar_t * wptr;
 	char * ptr;
 	char buf[1024] = "";
+	char buf2[1024];
 	int r;
 
 	/* 1# arg: prompt */
@@ -1328,6 +1329,10 @@ static mpdm_t open_or_save(int o, mpdm_t a)
 	ofn.nMaxFile = sizeof(buf);
 	ofn.lpstrTitle = ptr;
 	ofn.lpstrDefExt = "";
+
+	GetCurrentDirectory(sizeof(buf2), buf2);
+	ofn.lpstrInitialDir = buf2;
+
 /*	ofn.lpstrDefExt=(def==NULL ? "" : def);*/
 
 	if (o) {
