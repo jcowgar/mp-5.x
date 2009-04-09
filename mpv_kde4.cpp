@@ -1109,6 +1109,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv)
 	opts.add("t {tag}", ki18n("Edits the file where tag is defined"));
 	opts.add("e {mpsl_code}", ki18n("Executes MPSL code"));
 	opts.add("f {mpsl_script}", ki18n("Executes MPSL script file"));
+	opts.add("d {directory}", ki18n("Sets working directory"));
 	opts.add(" +NNN", ki18n("Moves to line number NNN of last file"));
 	opts.add("+[file(s)]", ki18n("Documents to open"));
 	KCmdLineArgs::addCmdLineOptions(opts);
