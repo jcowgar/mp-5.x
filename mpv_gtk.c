@@ -218,7 +218,7 @@ static void build_color(GdkColor * gdkcolor, int rgb)
 	gdkcolor->blue  = (rgb & 0x000000ff) << 8;
 	gdkcolor->green = (rgb & 0x0000ff00);
 	gdkcolor->red   = (rgb & 0x00ff0000) >> 8;
-	gdk_color_alloc(gdk_colormap_get_system(), gdkcolor);
+	gdk_colormap_alloc_color(gdk_colormap_get_system(), gdkcolor, FALSE, TRUE);
 }
 
 
@@ -308,8 +308,8 @@ static void build_submenu(GtkWidget * menu, mpdm_t labels)
 		}
 
 		gtk_menu_append(GTK_MENU(menu), menu_item);
-		gtk_signal_connect_object(GTK_OBJECT(menu_item), "activate",
-			GTK_SIGNAL_FUNC(menu_item_callback), v);
+		g_signal_connect_swapped(G_OBJECT(menu_item), "activate",
+			G_CALLBACK(menu_item_callback), v);
 		gtk_widget_show(menu_item);
 	}
 }
@@ -392,8 +392,8 @@ static void draw_filetabs(void)
 	names = mp_get_doc_names();
 
 	/* disconnect redraw signal to avoid infinite loops */
-	gtk_signal_disconnect_by_func(GTK_OBJECT(file_tabs),
-		(GtkSignalFunc) switch_page, NULL);
+	g_signal_handlers_disconnect_by_func(G_OBJECT(file_tabs),
+		G_CALLBACK(switch_page), NULL);
 
 	/* is the list different from the previous one? */
 	if (mpdm_cmp(names, last) != 0) {
@@ -434,8 +434,8 @@ static void draw_filetabs(void)
 		mpdm_ival(mpdm_hget_s(mp, L"active_i")));
 
 	/* reconnect signal */
-	gtk_signal_connect(GTK_OBJECT(file_tabs), "switch_page",
-		(GtkSignalFunc) switch_page, NULL);
+	g_signal_connect(G_OBJECT(file_tabs), "switch_page",
+		G_CALLBACK(switch_page), NULL);
 
 	gtk_widget_grab_focus(area);
 }
@@ -528,8 +528,8 @@ static void draw_scrollbar(void)
 		return;
 */
 	/* disconnect to avoid infinite loops */
-	gtk_signal_disconnect_by_func(GTK_OBJECT(adjustment),
-		(GtkSignalFunc) value_changed, NULL);
+	g_signal_handlers_disconnect_by_func(G_OBJECT(adjustment),
+		G_CALLBACK(value_changed), NULL);
 
 	adjustment->step_increment = (gfloat)1;
 	adjustment->upper = (gfloat)(max + size);
@@ -543,9 +543,9 @@ static void draw_scrollbar(void)
 	gtk_adjustment_value_changed(adjustment);
 
 	/* reattach again */
-	gtk_signal_connect(
-		GTK_OBJECT(gtk_range_get_adjustment(GTK_RANGE(scrollbar))),
-		"value_changed", (GtkSignalFunc) value_changed, NULL);
+	g_signal_connect(
+		G_OBJECT(gtk_range_get_adjustment(GTK_RANGE(scrollbar))),
+		"value_changed", G_CALLBACK(value_changed), NULL);
 }
 
 
@@ -1159,8 +1159,8 @@ static void build_form_data(mpdm_t widget_list)
 
 #define DIALOG_BUTTON(l,f) do { GtkWidget * btn; \
 	ptr = localize(l); btn = gtk_button_new_with_label(ptr); \
-	gtk_signal_connect_object(GTK_OBJECT(btn), "clicked", \
-		GTK_SIGNAL_FUNC(f), GTK_OBJECT(dlg)); \
+	g_signal_connect_swapped(G_OBJECT(btn), "clicked", \
+		G_CALLBACK(f), G_OBJECT(dlg)); \
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dlg)->action_area), \
 		btn, TRUE, TRUE, 0); \
 	g_free(ptr); \
@@ -1292,7 +1292,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 			wchar_t * wptr;
 
 			widget = gtk_combo_new();
-			gtk_widget_set_usize(widget, 300, -1);
+			gtk_widget_set_size_request(widget, 300, -1);
 			gtk_combo_set_use_arrows_always(GTK_COMBO(widget), TRUE);
 			gtk_combo_set_case_sensitive(GTK_COMBO(widget), TRUE);
 			gtk_entry_set_activates_default(GTK_ENTRY(GTK_COMBO(widget)->entry), TRUE);
@@ -1324,7 +1324,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 		else
 		if (wcscmp(type, L"password") == 0) {
 			widget = gtk_entry_new();
-			gtk_widget_set_usize(widget, 300, -1);
+			gtk_widget_set_size_request(widget, 300, -1);
 			gtk_entry_set_visibility(GTK_ENTRY(widget), FALSE);
 		}
 		else
@@ -1584,11 +1584,11 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-	gtk_signal_connect(GTK_OBJECT(window), "delete_event",
-		GTK_SIGNAL_FUNC(delete_event), NULL);
+	g_signal_connect(G_OBJECT(window), "delete_event",
+		G_CALLBACK(delete_event), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(window), "destroy",
-		GTK_SIGNAL_FUNC(destroy), NULL);
+	g_signal_connect(G_OBJECT(window), "destroy",
+		G_CALLBACK(destroy), NULL);
 
 	/* file tabs */
 	file_tabs = gtk_notebook_new();
@@ -1611,62 +1611,62 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 	/* the Minimum Profit area */
 	area = gtk_drawing_area_new();
 	gtk_box_pack_start(GTK_BOX(hbox), area, TRUE, TRUE, 0);
-	gtk_widget_set_usize(GTK_WIDGET(area), 600, 400);
+	gtk_widget_set_size_request(GTK_WIDGET(area), 600, 400);
 	gtk_widget_set_events(GTK_WIDGET(area), GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK |
 		GDK_LEAVE_NOTIFY_MASK);
 
 	gtk_widget_set_double_buffered(area, FALSE);
 
-	gtk_signal_connect(GTK_OBJECT(area),"configure_event",
-		(GtkSignalFunc) configure_event, NULL);
+	g_signal_connect(G_OBJECT(area),"configure_event",
+		G_CALLBACK(configure_event), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area),"expose_event",
-		(GtkSignalFunc) expose_event, NULL);
+	g_signal_connect(G_OBJECT(area),"expose_event",
+		G_CALLBACK(expose_event), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area), "realize",
-		(GtkSignalFunc) realize, NULL);
+	g_signal_connect(G_OBJECT(area), "realize",
+		G_CALLBACK(realize), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(window),"key_press_event",
-		(GtkSignalFunc) key_press_event, NULL);
+	g_signal_connect(G_OBJECT(window),"key_press_event",
+		G_CALLBACK(key_press_event), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(window),"key_release_event",
-		(GtkSignalFunc) key_release_event, NULL);
+	g_signal_connect(G_OBJECT(window),"key_release_event",
+		G_CALLBACK(key_release_event), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area),"button_press_event",
-		(GtkSignalFunc) button_press_event, NULL);
+	g_signal_connect(G_OBJECT(area),"button_press_event",
+		G_CALLBACK(button_press_event), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area),"button_release_event",
-		(GtkSignalFunc) button_release_event, NULL);
+	g_signal_connect(G_OBJECT(area),"button_release_event",
+		G_CALLBACK(button_release_event), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area),"motion_notify_event",
-		(GtkSignalFunc) motion_notify_event, NULL);
+	g_signal_connect(G_OBJECT(area),"motion_notify_event",
+		G_CALLBACK(motion_notify_event), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area), "selection_clear_event",
-		(GtkSignalFunc) selection_clear_event, NULL);
+	g_signal_connect(G_OBJECT(area), "selection_clear_event",
+		G_CALLBACK(selection_clear_event), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area), "selection_get",
-		(GtkSignalFunc) selection_get, NULL);
+	g_signal_connect(G_OBJECT(area), "selection_get",
+		G_CALLBACK(selection_get), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area), "selection_received",
-		(GtkSignalFunc) selection_received, NULL);
+	g_signal_connect(G_OBJECT(area), "selection_received",
+		G_CALLBACK(selection_received), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(area), "scroll_event",
-		(GtkSignalFunc) scroll_event, NULL);
+	g_signal_connect(G_OBJECT(area), "scroll_event",
+		G_CALLBACK(scroll_event), NULL);
 
 	gtk_selection_add_target(area, GDK_SELECTION_PRIMARY,
 		GDK_SELECTION_TYPE_STRING, 1);
 
-	gtk_signal_connect(GTK_OBJECT(file_tabs),"switch_page",
-		(GtkSignalFunc) switch_page, NULL);
+	g_signal_connect(G_OBJECT(file_tabs),"switch_page",
+		G_CALLBACK(switch_page), NULL);
 
 	/* the scrollbar */
 	scrollbar = gtk_vscrollbar_new(NULL);
 	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
 
-	gtk_signal_connect(
-		GTK_OBJECT(gtk_range_get_adjustment(GTK_RANGE(scrollbar))),
-		"value_changed", (GtkSignalFunc) value_changed, NULL);
+	g_signal_connect(
+		G_OBJECT(gtk_range_get_adjustment(GTK_RANGE(scrollbar))),
+		"value_changed", G_CALLBACK(value_changed), NULL);
 
 	/* the status bar */
 	status = gtk_label_new("mp " VERSION);
