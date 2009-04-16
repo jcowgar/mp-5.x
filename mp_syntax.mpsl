@@ -119,7 +119,9 @@ mp.syntax.c = {
 				"wcsrchr", "wcsstr", "strdup", "wctomb", "mbtowc",
 				"mbrtowc", "wcrtomb", "open", "close", "read",
 				"write", "pipe", "fork", "dup", "dup2", "wait",
-				"execl", "execlp", "execle", "execv", "execvp"
+				"execl", "execlp", "execle", "execv", "execvp",
+				"class", "template", "new", "delete",
+				"using", "namespace", "try", "catch", "throw"
 				])
 		],
 		'word2',	[
@@ -129,7 +131,9 @@ mp.syntax.c = {
 				"enum", "typedef", "float", "double", "extern",
 				"register", "short", "sizeof", "static", "far",
 				"near", "defined", "va_list", "size_t", "wchar_t",
-				"iconv_t" ]),
+				"iconv_t", "virtual", "friend", "operator",
+				"public", "protected", "private", "slots", "signals"
+				 ]),
 				'/[-=<>:\?\+\*\/\!\%&\|]+/'
 		],
 		'quotes',	[
