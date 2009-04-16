@@ -380,7 +380,7 @@ sub mp.wrap_words(doc)
 	local c = mp.x2vx(txt.lines[txt.y], txt.x);
 
 	if (c >= mp.config.word_wrap &&
-		regex("/^.{1," ~ mp.config.word_wrap ~ "}\s/", txt.lines[txt.y])) {
+		regex("/^.{1," ~ mp.config.word_wrap ~ "}[ \t]/", txt.lines[txt.y])) {
 		local w;
 
 		/* take the coordinates */
@@ -390,7 +390,7 @@ sub mp.wrap_words(doc)
 		mp.break_line(doc, w[1]);
 
 		/* delete the space at the end of the line */
-		txt.lines[txt.y - 1] = sregex("/\s$/", txt.lines[txt.y - 1], NULL);
+		txt.lines[txt.y - 1] = sregex("/[ \t]$/", txt.lines[txt.y - 1], NULL);
 	}
 }
 
