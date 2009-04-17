@@ -24,9 +24,10 @@ Minimum Profit Release Notes
    previously assigned to `join_paragraph', which has no
    keybinding now).
  * The action `open_templates_file' has been fixed.
- * Several GTK interface updates by fellow developer
-   Sebastian Vöcking.
+ * Several GTK interface updates by fellow developer Sebastian Vöcking.
  * New command line option `-d', to change the working directory.
+ * Fixed word wrapping under win32.
+ * Avoid hanging if the external ispell program is broken.
 
 5.1.1
 -----
