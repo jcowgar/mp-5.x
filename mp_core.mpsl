@@ -401,6 +401,7 @@ sub mp.usage()
 		" -t {tag}           Edits the file where tag is defined\n"\
 		" -e {mpsl_code}     Executes MPSL code\n"\
 		" -f {mpsl_script}   Executes MPSL script file\n"\
+		" -d {directory}     Set current directory\n"\
 		" +NNN               Moves to line number NNN of last file\n"\
 		"\n"\
 		"Homepage: http://www.triptico.com/software/mp.html\n"\
