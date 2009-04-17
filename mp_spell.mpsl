@@ -110,6 +110,10 @@ sub mp.is_word_misspelled(w)
 		}
 	}
 
+	/* NULL is never misspelled */
+	if (w == NULL)
+		return 0;
+
 	/* write the word */
 	write(mp.ispell_pipe, w ~ "\n");
 
@@ -175,7 +179,10 @@ sub mp.ispell(b)
 	if (b == -1)
 		b = mp.word_color_func == NULL && 1 || 0;
 
-	mp.word_color_func = b && mp.ispell_word_color_func || NULL;
+	if (b && mp.is_word_misspelled() != -1)
+		mp.word_color_func = mp.ispell_word_color_func;
+	else
+		mp.word_color_func = NULL;
 }
 
 
