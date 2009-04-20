@@ -28,6 +28,7 @@ Minimum Profit Release Notes
  * New command line option `-d', to change the working directory.
  * Fixed word wrapping under win32.
  * Avoid hanging if the external ispell program is broken.
+ * The `dump()' function now dumps its argument as MPSL code.
 
 5.1.1
 -----
