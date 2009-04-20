@@ -494,6 +494,7 @@ static void value_changed(GtkAdjustment * adj, gpointer * data)
 	/* if it's different, set and redraw */
 	if (y != i) {
 		mp_set_y(doc, i);
+		mpdm_hset_s(txt, L"vy", MPDM_I(i));
 		redraw();
 	}
 }
