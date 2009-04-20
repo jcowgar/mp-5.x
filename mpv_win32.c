@@ -339,18 +339,18 @@ static void draw_scrollbar(void)
 
 	/* get the coordinates */
 	v = mpdm_hget_s(d, L"txt");
-	pos = mpdm_ival(mpdm_hget_s(v, L"y"));
+	pos = mpdm_ival(mpdm_hget_s(v, L"vy"));
 	max = mpdm_size(mpdm_hget_s(v, L"lines"));
 
 	v = mpdm_hget_s(mp, L"window");
 	size = mpdm_ival(mpdm_hget_s(v, L"ty"));
 
-	si.cbSize=sizeof(si);
-	si.fMask=SIF_ALL;
-	si.nMin=1;
-	si.nMax=max;
-	si.nPage=size;
-	si.nPos=pos;
+	si.cbSize = sizeof(si);
+	si.fMask = SIF_ALL;
+	si.nMin = 0;
+	si.nMax = max - size;
+	si.nPage = size;
+	si.nPos = pos;
 
 	SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 }
