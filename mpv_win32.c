@@ -611,6 +611,7 @@ static void win32_vscroll(UINT wparam)
 /* scrollbar messages handler */
 {
 	wchar_t * ptr = NULL;
+	mpdm_t txt;
 
 	switch (LOWORD(wparam)) {
 	case SB_PAGEUP:		ptr = L"page-up"; break;
@@ -619,7 +620,10 @@ static void win32_vscroll(UINT wparam)
 	case SB_LINEDOWN:	ptr = L"cursor-down"; break;
 	case SB_THUMBPOSITION:
 	case SB_THUMBTRACK:
+		/* set both y and vy */
+		txt = mpdm_hget_s(mp_active(), L"txt");
 		mp_set_y(mp_active(), HIWORD(wparam));
+		mpdm_hset_s(txt, L"vy", MPDM_I(HIWORD(wparam)));
 		redraw();
 		break;
 	}
