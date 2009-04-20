@@ -514,7 +514,7 @@ static void draw_scrollbar(void)
 
 	/* get the coordinates */
 	v = mpdm_hget_s(d, L"txt");
-	pos = mpdm_ival(mpdm_hget_s(v, L"y"));
+	pos = mpdm_ival(mpdm_hget_s(v, L"vy"));
 	max = mpdm_size(mpdm_hget_s(v, L"lines"));
 
 	v = mpdm_hget_s(mp, L"window");
@@ -533,7 +533,7 @@ static void draw_scrollbar(void)
 		G_CALLBACK(value_changed), NULL);
 
 	adjustment->step_increment = (gfloat)1;
-	adjustment->upper = (gfloat)(max + size);
+	adjustment->upper = (gfloat)max;
 	adjustment->page_size = (gfloat)size;
 	adjustment->page_increment = (gfloat)size;
 	adjustment->value = (gfloat)pos;
