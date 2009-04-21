@@ -209,7 +209,6 @@ __I18N__ = {
 	"Unbound keystroke '%s'" => "Tecla '%s' sin asociar",
 	"New file '%s'" => "Nuevo archivo '%s'",
 	"%d replaces" => "%d reemplazos",
-	"Minimum Profit %s - Programmer Text Editor\nCopyright (C) Angel Ortega <angel@triptico.com>\nThis software is covered by the GPL license. NO WARRANTY.\n\nUsage: mp-5 [options] [files...]\n\nOptions:\n\n -t {tag}           Edits the file where tag is defined\n -e {mpsl_code}     Executes MPSL code\n -f {mpsl_script}   Executes MPSL script file\n +NNN               Moves to line number NNN of last file\n\nHomepage: http://www.triptico.com/software/mp.html\nMailing list: mp-subscribe@lists.triptico.com\n" => "Minimum Profit %s - Editor de Texto para Programadores\nCopyright (C) Angel Ortega <angel@triptico.com>\nEste programa est\x{00e1} cubierto por la licencia GPL. NO HAY GARANT\x{00cd}A.\n\nUso: mp-5 [opciones] [ficheros...]\n\nOpciones:\n\n -t {tag}           Edita el fichero donde est\x{00e1} definido tag\n -e {mpsl_code}     Ejecuta c\x{00f3}digo MPSL\n -f {mpsl_script}   Ejecuta un script MPSL\n +NNN               Avanza hasta la l\x{00ed}nea NNN del \x{00fa}ltimo fichero\n\nP\x{00e1}gina web: http://www.triptico.com/software/mp.html\nLista de distribuci\x{00f3}n: mp-subscribe@lists.triptico.com\n",
 	"Cannot open '%s'" => "Imposible abrir '%s'",
 	"WARNING: %s version found is %s, but %s is needed" => "ADVERTENCIA: La versi\x{00f3}n de %s es la %s, pero se necesita la %s",
 	"Mark using mouse dragging" => "Marcar arrastrando el rat\x{00f3}n",
@@ -232,5 +231,8 @@ __I18N__ = {
 	"Maximum distance" => "Distancia m\x{00e1}xima",
 	"Search repeated words..." => "Buscar palabras repetidas...",
 	"Search repeated word" => "Buscar palabra repetida",
+	"Minimum Profit %s - Programmer Text Editor\nCopyright (C) Angel Ortega <angel@triptico.com>\nThis software is covered by the GPL license. NO WARRANTY.\n\nUsage: mp-5 [options] [files...]\n\nOptions:\n\n -t {tag}           Edits the file where tag is defined\n -e {mpsl_code}     Executes MPSL code\n -f {mpsl_script}   Executes MPSL script file\n -d {directory}     Set current directory\n +NNN               Moves to line number NNN of last file\n\nHomepage: http://www.triptico.com/software/mp.html\nMailing list: mp-subscribe@lists.triptico.com\n" => "Minimum Profit %s - Editor de Texto para Programadores\nCopyright (C) Angel Ortega <angel@triptico.com>\nEste programa est\x{00e1} cubierto por la licencia GPL. NO HAY GARANT\x{00cd}A.\n\nUso: mp-5 [opciones] [ficheros...]\n\nOpciones:\n\n -t {tag}           Edita el fichero donde est\x{00e1} definido tag\n -e {mpsl_code}     Ejecuta c\x{00f3}digo MPSL\n -f {mpsl_script}   Ejecuta un script MPSL\n -d {directory}     Cambiar al directorio\n +NNN               Avanza hasta la l\x{00ed}nea NNN del \x{00fa}ltimo fichero\n\nP\x{00e1}gina web: http://www.triptico.com/software/mp.html\nLista de distribuci\x{00f3}n: mp-subscribe@lists.triptico.com\n",
+	"Base directory (empty, current):" => "Directorio base (vac\x{00ed}o, actual):",
+	"Recursive?" => "\x{00bf}Con recursividad?",
 	"-" => "-"
 };
