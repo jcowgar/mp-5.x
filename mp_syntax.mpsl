@@ -95,8 +95,8 @@ sub mp.syn_token_list(l) { '/\b(' ~ join("|", l) ~ ')\b/'; }
 mp.syntax.c = {
 	'id'		=>	'c',
 	'name'		=>	'C / C++',
-	'filenames'	=>	[ '/\.c$/', '/\.h$/', '/\.l$/', '/\.y$/', '/\.d$/',
-				'/\.cpp$/', '/\.hpp$/', '/\.c++$/', '/\.xpm$/' ],
+	'filenames'	=>	[ '/\.c$/i', '/\.h$/i', '/\.l$/i', '/\.y$/i', '/\.d$/i',
+				'/\.cpp$/i', '/\.hpp$/i', '/\.c++$/i', '/\.xpm$/i' ],
 	'help'		=>	[ "man 2 %s", "man 3 %s" ],
 	'defs'		=>	[
 		'word1',	[
@@ -160,7 +160,7 @@ mp.syntax.c = {
 mp.syntax.rc = {
 	'id'		=>	'rc',
 	'name'		=>	'Resource file',
-	'filenames'	=>	[ '/\.rc$/' ],
+	'filenames'	=>	[ '/\.rc$/i' ],
 	'defs'		=>	[
 		'word1',	[ ],
 		'word2',	[ ],
@@ -183,7 +183,7 @@ mp.syntax.rc = {
 mp.syntax.perl = {
 	'id'		=>	'perl',
 	'name'		=>	'Perl',
-	'filenames'	=>	[ '/\.pl$/i', '/\.pm$/' ],
+	'filenames'	=>	[ '/\.pl$/i', '/\.pm$/i' ],
 	'help'		=>	[ 'perldoc -f %s', 'perldoc %s' ],
 	'help_word_regex' =>	'/[A-Z_][A-Z0-9_:]*/i',
 	'defs'	=>	[
@@ -249,7 +249,7 @@ mp.syntax.perl = {
 mp.syntax.mpsl = {
 	'id'		=>	'mpsl',
 	'name'		=>	'MPSL',
-	'filenames'	=>	[ '/\.mpsl$/' ],
+	'filenames'	=>	[ '/\.mpsl$/i' ],
 	'defs'		=>	[
 		'word1',	[
 				mp.syn_token_list( [
@@ -284,7 +284,7 @@ mp.syntax.mpsl = {
 mp.syntax.sh = {
 	'id'		=>	'sh',
 	'name'		=>	'Shell script',
-	'filenames'	=>	[ '/\.sh$/', '/makefile/i' ],
+	'filenames'	=>	[ '/\.sh$/i', '/makefile/i' ],
 	'defs'		=>	[
 		'word1',	[
 				mp.syn_token_list( [
@@ -333,7 +333,7 @@ mp.syntax.sh = {
 mp.syntax.html = {
 	'id'		=>	'html',
 	'name'		=>	'HTML',
-	'filenames'	=>	[ '/\.html$/', '/\.htm$/' ],
+	'filenames'	=>	[ '/\.html$/i', '/\.htm$/i' ],
 	'defs'		=>	[
 		'word1',	[
 				"/<[\/]?[ \t]*(" ~
@@ -382,7 +382,7 @@ mp.syntax.html = {
 mp.syntax.conf = {
 	'id'		=>	'conf',
 	'name'		=>	'Config file',
-	'filenames'	=>	[ '/\.conf$/', '/\.cfg$/', '/^.*\/?\.[0-9a-z_-]+rc$/' ],
+	'filenames'	=>	[ '/\.conf$/i', '/\.cfg$/i', '/^.*\/?\.[0-9a-z_-]+rc$/i' ],
 	'defs'		=>	[
 		'word1',	[ '/^\[.+\]$/m' ],
 		'word2',	[ "/^[^:=\n]+[:=]/m" ],
@@ -400,7 +400,7 @@ mp.syntax.conf = {
 mp.syntax.php = {
 	'id'		=>	'php',
 	'name'		=>	'PHP',
-	'filenames'	=>	[ '/\.php[345]?$/', '/\.inc$/' ],
+	'filenames'	=>	[ '/\.php[345]?$/i', '/\.inc$/i' ],
 	'defs'		=>	[
 		'word1',	[
 				mp.syn_token_list( [
@@ -439,7 +439,7 @@ mp.syntax.php = {
 mp.syntax.python = {
 	'id'		=>	'python',
 	'name'		=>	'Python',
-	'filenames'	=>	[ '/\.py$/' ],
+	'filenames'	=>	[ '/\.py$/i' ],
 	'defs'		=>	[
 		'word1',	[
 			mp.syn_token_list( [
@@ -476,7 +476,7 @@ mp.syntax.python = {
 mp.syntax.ruby = {
 	'id'		=>	'ruby',
 	'name'		=>	'Ruby',
-	'filenames'	=>	[ '/\.rb$/' ],
+	'filenames'	=>	[ '/\.rb$/i' ],
 	'defs'		=>	[
 		'word1',	[
 			mp.syn_token_list( [
@@ -513,7 +513,7 @@ mp.syntax.ruby = {
 mp.syntax.diff = {
 	'id'		=>	'diff',
 	'name'		=>	'diff',
-	'filenames'	=>	[ '/\.diff$/', '/\.patch$/' ],
+	'filenames'	=>	[ '/\.diff$/i', '/\.patch$/i' ],
 	'defs'		=>	[
 		'word1',	[ '/^\+.+$/m' ],
 		'word2',	[ '/^\-.+$/m' ],
@@ -537,7 +537,7 @@ mp.syntax.commit_msg = {
 mp.syntax.po = {
 	'id'		=>	'po',
 	'name'		=>	'Gettext file',
-	'filenames'	=>	[ '/\.po$/' ],
+	'filenames'	=>	[ '/\.po$/i' ],
 	'defs'		=>	[
 		'word1',	[ '/^msgid/m' ],
 		'word2',	[ '/^msgstr/m' ],
@@ -551,7 +551,7 @@ mp.syntax.po = {
 mp.syntax.xml = {
 	'id'		=>	'xml',
 	'name'		=>	'XML / XGML',
-	'filenames'	=>	[ '/\.xml$/', '/\.sgml$/' ],
+	'filenames'	=>	[ '/\.xml$/i', '/\.sgml$/i' ],
 	'defs'		=>	[
 		'word1',	[ '/<[^>]+>/' ],
 		'word2',	[ '/<\?[^\?]+\?>/' ],
