@@ -1247,6 +1247,7 @@ static mpdm_t win32_drv_form(mpdm_t a)
 		int class;
 		int style;
 		int inc = 1;
+		int sz = 1;
 
 		/* label control */
 		lpw = build_control(lpw, 0, 5 + p * il,
@@ -1259,6 +1260,9 @@ static mpdm_t win32_drv_form(mpdm_t a)
 			class = 0x0085;
 			style = WS_CHILD | WS_VISIBLE | WS_TABSTOP |
 				CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL;
+
+			/* size */
+			sz = 5;
 		}
 		else
 		if (wcscmp(type, L"password") == 0) {
@@ -1283,7 +1287,8 @@ static mpdm_t win32_drv_form(mpdm_t a)
 
 		/* the control */
 		lpw = build_control(lpw, 10 + lbl * 3, 5 + p * il,
-			245 - lbl * 3, inc * il, CTRL_ID + n, class, style);
+			245 - lbl * 3, inc * il * sz, CTRL_ID + n,
+			class, style);
 
 		/* next position */
 		p += inc;
