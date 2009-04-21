@@ -35,7 +35,7 @@ mp.actions['ignore_last_misspell'] = sub(d) { mp.ignore_last_misspell(); };
 
 /** default key bindings **/
 
-mp.keycodes['ctrl-f7']	= 'seek_misspelled';
+mp.keycodes['f5']	= 'seek_misspelled';
 
 /** action descriptions **/
 

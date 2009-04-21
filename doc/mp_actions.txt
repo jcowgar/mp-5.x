@@ -557,7 +557,7 @@ Shows the search text dialog.
 seek_misspelled
 ---------------
 
-_Search misspelled word_ (`ctrl-f7')
+_Search misspelled word_ (`f5')
 
 Searches for the next misspelled word in the current document. If one
 is found, the cursor is moved there. If it's a false positive, the
