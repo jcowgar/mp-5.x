@@ -220,12 +220,7 @@ mp.actions['open_under_cursor'] = sub (d) {
 		local n = mp.open(join(':', w));
 
 		/* now move to the line */
-		mp.set_y(n, l);
-
-		/* set always to the same line */
-		if (mp.config.move_seek_to_line != NULL &&
-		   (n.txt.vy = n.txt.y - mp.config.move_seek_to_line) < 0)
-			n.txt.vy = 0;
+		mp.search_set_y(n, l);
 	}
 	else
 	if ((w = mp.get_word(d, '/[a-z\._0-9\/ :-]+/i')) != NULL) {

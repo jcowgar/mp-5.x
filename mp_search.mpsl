@@ -156,6 +156,23 @@ mp.actdesc['grep']		= LL("Grep (find inside) files...");
 
 /** code **/
 
+/**
+ * mp.search_set_y - Sets the y position after a successful search.
+ *
+ * Sets the y position after a successful search, setting the
+ * visual line to that defined in mp.config.move_seek_to_line.
+ */
+sub mp.search_set_y(doc, y)
+{
+	mp.set_y(doc, y);
+
+	/* set always to the same line */
+	if (mp.config.move_seek_to_line != NULL &&
+	   (doc.txt.vy = doc.txt.y - mp.config.move_seek_to_line) < 0)
+		doc.txt.vy = 0;
+}
+
+
 sub mp.prefix_regex(str)
 /* set str to be a valid regex */
 {
@@ -249,13 +266,8 @@ sub mp.search_dir(doc, str, dir)
 		/* if it was found in the first line, add offset */
 		r[0] += (n == 0 && bx);
 
-		mp.set_y(doc, by + n);
+		mp.search_set_y(doc, by + n);
 		mp.set_x(doc, r[0] + r[1]);
-
-		/* set always to the same line */
-		if (mp.config.move_seek_to_line != NULL &&
-		   (doc.txt.vy = doc.txt.y - mp.config.move_seek_to_line) < 0)
-			doc.txt.vy = 0;
 	}
 
 	return r;
