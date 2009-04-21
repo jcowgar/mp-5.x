@@ -67,7 +67,7 @@ mp.actions['section_list'] = sub (d) {
 			]);
 
 			if (r != NULL) {
-				mp.set_y(d, l[r[0]][1]);
+				mp.search_set_y(d, l[r[0]][1]);
 				mp.set_x(d, 0);
 			}
 		}
