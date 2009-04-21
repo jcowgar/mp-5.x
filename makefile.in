@@ -151,6 +151,7 @@ po/minimum-profit.pot:
 
 update-po:
 	for a in po/*.po ; do \
+		sed -i -e '/^#/d' $$a ; \
 		xgettext --omit-header -j -o $$a --language=C \
 			--keyword=L --keyword=LL mp*.c *.mpsl ; \
 	done
