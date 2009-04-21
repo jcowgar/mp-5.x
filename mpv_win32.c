@@ -348,7 +348,7 @@ static void draw_scrollbar(void)
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = max - size;
+	si.nMax = max;
 	si.nPage = size;
 	si.nPos = pos;
 
