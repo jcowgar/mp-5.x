@@ -53,6 +53,7 @@ HWND hwstatus = NULL;
 
 /* font handlers and metrics */
 HFONT font_normal = NULL;
+HFONT font_underline = NULL;
 int font_width = 0;
 int font_height = 0;
 
@@ -65,8 +66,9 @@ int status_height = 16;
 int is_wm_keydown = 0;
 
 /* colors */
-static COLORREF * inks = NULL;
-static COLORREF * papers = NULL;
+static COLORREF *inks = NULL;
+static COLORREF *papers = NULL;
+int *underlines = NULL;
 HBRUSH bgbrush;
 
 /* code for the 'normal' attribute */
@@ -149,6 +151,9 @@ static void build_fonts(HDC hdc)
 	font_normal = CreateFont(n, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, font_face);
 
+	font_underline = CreateFont(n, 0, 0, 0, 0, 0, 1,
+		0, 0, 0, 0, 0, 0, font_face);
+
 	SelectObject(hdc, font_normal);
 	GetTextMetrics(hdc, &tm);
 
@@ -176,6 +181,7 @@ static void build_colors(void)
 	/* redim the structures */
 	inks = realloc(inks, sizeof(COLORREF) * s);
 	papers = realloc(papers, sizeof(COLORREF) * s);
+	underlines = realloc(underlines, sizeof(int) * s);
 
 	/* loop the colors */
 	for (n = 0; n < s && (c = mpdm_aget(l, n)) != NULL; n++) {
@@ -201,8 +207,9 @@ static void build_colors(void)
 
 		/* flags */
 		v = mpdm_hget_s(d, L"flags");
-/*		underlines[attr] = mpdm_seek_s(v, L"underline", 1) != -1 ? 1 : 0;
-*/
+
+		underlines[n] = mpdm_seek_s(v, L"underline", 1) != -1 ? 1 : 0;
+
 		if (mpdm_seek_s(v, L"reverse", 1) != -1) {
 			COLORREF t;
 
@@ -419,14 +426,10 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 
 			SetTextColor(hdc, inks[attr]);
 			SetBkColor(hdc, papers[attr]);
-/*
-			SelectObject(hdc, color==MP_COLOR_COMMENT ?
-				_font_italic :
-				color==MP_COLOR_LOCAL ? _font_underline :
-				_font_normal);
-*/
-/*			DrawTextW(hdc, (wchar_t *)s->data,
-				-1, &r2, DT_SINGLELINE|DT_NOPREFIX);*/
+
+			SelectObject(hdc, underlines[attr] ?
+				font_underline : font_normal);
+
 			TextOutW(hdc, r2.left, r2.top, s->data, mpdm_size(s));
 			r2.left += mpdm_size(s) * font_width;
 		}

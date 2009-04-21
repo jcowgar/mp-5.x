@@ -16,7 +16,6 @@ Open Bugs
    is resized.
  * 1176: Add interface to set the undo levels.
  * 1189: mp.drv.form() cannot be used from the command line in win32.
- * 1194: Underlined text doesn't work under win32.
  * 1199: On GTK, the default font (Mono 12, seemingly an alias to an
    actual font) doesn't get its width calculated correctly, so right
    margin detection and mouse positioning doesn't work. To workaround
@@ -324,5 +323,7 @@ Closed
    (Wed, 04 Mar 2009 10:04:59 +0100).
  * 1227: The length of an open combobox (at least under XP)
    is ridiculous (Tue, 21 Apr 2009 12:17:22 +0200).
+ * 1194: Underlined text doesn't work under win32
+   (Tue, 21 Apr 2009 12:51:38 +0200).
 
 Email bugs to angel@triptico.com
