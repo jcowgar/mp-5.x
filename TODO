@@ -4,7 +4,6 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1270: tools/po2mpsl.mpsl skips the last string.
  * 1273: mp.repeated_words() leaves the last max_dist words
    unchecked.
 
@@ -325,5 +324,7 @@ Closed
    is ridiculous (Tue, 21 Apr 2009 12:17:22 +0200).
  * 1194: Underlined text doesn't work under win32
    (Tue, 21 Apr 2009 12:51:38 +0200).
+ * 1270: tools/po2mpsl.mpsl skips the last string
+   (Tue, 21 Apr 2009 17:47:42 +0200).
 
 Email bugs to angel@triptico.com

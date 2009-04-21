@@ -231,5 +231,6 @@ __I18N__ = {
 	"Number of letters at the start or end" => "N\x{00fa}mero de letras al principio o final",
 	"Maximum distance" => "Distancia m\x{00e1}xima",
 	"Search repeated words..." => "Buscar palabras repetidas...",
+	"Search repeated word" => "Buscar palabra repetida",
 	"-" => "-"
 };
