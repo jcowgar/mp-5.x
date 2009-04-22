@@ -38,13 +38,13 @@ mp.actions['word_count'] = sub (d) {
 };
 
 
-mp.actions['config_repeated_words'] = sub (d) {
+mp.actions['repeated_words_options'] = sub (d) {
 	local r = mp.form( [
-		{ 'label'	=> L("Number of letters at the start or end") ~ ':',
+		{ 'label'	=> L("Number of letters at the start or end:"),
 		  'type'	=> 'text',
 		  'value'	=> mp.config.rw_num_chars,
 		  'history'	=> 'num_char' },
-		{ 'label'	=> L("Maximum distance") ~ ':',
+		{ 'label'	=> L("Maximum distance between words:"),
 		  'type'	=> 'text',
 		  'value'	=> mp.config.rw_max_dist,
 		  'history'	=> 'max_dist' }
@@ -74,7 +74,7 @@ mp.keycodes['f6']		= 'seek_repeated_word';
 /** action descriptions **/
 
 mp.actdesc['word_count']		= LL("Count words");
-mp.actdesc['config_repeated_words']	= LL("Search repeated words...");
+mp.actdesc['repeated_words_options']	= LL("Repeated words options...");
 mp.actdesc['seek_repeated_word']	= LL("Search repeated word");
 
 /** data **/
