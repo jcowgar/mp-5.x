@@ -30,7 +30,6 @@ Open Bugs
  * 1260: Apply Jeremy's outdent_block().
  * 1268: Implement mp.timer() in the KDE4 driver.
  * 1271: Section marks should be multiline.
- * 1274: Add interface to configure the repeated word detector.
 
 Pending Enhancements
 --------------------
@@ -327,5 +326,7 @@ Closed
    (Tue, 21 Apr 2009 12:51:38 +0200).
  * 1270: tools/po2mpsl.mpsl skips the last string
    (Tue, 21 Apr 2009 17:47:42 +0200).
+ * 1274: Add interface to configure the repeated word detector
+   (Wed, 22 Apr 2009 08:52:43 +0200).
 
 Email bugs to angel@triptico.com
