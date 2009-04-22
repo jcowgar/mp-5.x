@@ -1005,15 +1005,12 @@ msgstr ""
 msgid "Ignore last misspelled word"
 msgstr ""
 
-#: mp_writing.mpsl:43
 msgid "Number of letters at the start or end"
 msgstr ""
 
-#: mp_writing.mpsl:47
 msgid "Maximum distance"
 msgstr ""
 
-#: mp_writing.mpsl:77
 msgid "Search repeated words..."
 msgstr ""
 
@@ -1048,4 +1045,16 @@ msgstr ""
 
 #: mp_search.mpsl:103
 msgid "Recursive?"
+msgstr ""
+
+#: mp_writing.mpsl:43
+msgid "Number of letters at the start or end:"
+msgstr ""
+
+#: mp_writing.mpsl:47
+msgid "Maximum distance between words:"
+msgstr ""
+
+#: mp_writing.mpsl:77
+msgid "Repeated words options..."
 msgstr ""

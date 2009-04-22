@@ -959,15 +959,6 @@ msgstr "Buscar palabra mal escrita"
 msgid "Ignore last misspelled word"
 msgstr "Ignorar última palabra mal escrita"
 
-#: mp_writing.mpsl:43
-msgid "Number of letters at the start or end"
-msgstr "Número de letras al principio o final"
-
-#: mp_writing.mpsl:47
-msgid "Maximum distance"
-msgstr "Distancia máxima"
-
-#: mp_writing.mpsl:77
 msgid "Search repeated words..."
 msgstr "Buscar palabras repetidas..."
 
@@ -1019,3 +1010,15 @@ msgstr "Directorio base (vacío, actual):"
 #: mp_search.mpsl:103
 msgid "Recursive?"
 msgstr "¿Con recursividad?"
+
+#: mp_writing.mpsl:43
+msgid "Number of letters at the start or end:"
+msgstr "Número de letras al principio o final:"
+
+#: mp_writing.mpsl:47
+msgid "Maximum distance between words:"
+msgstr "Distancia máxima entre palabras:"
+
+#: mp_writing.mpsl:77
+msgid "Repeated words options..."
+msgstr "Opciones de palabras repetidas..."
