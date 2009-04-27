@@ -1498,6 +1498,9 @@ static mpdm_t win32_drv_startup(mpdm_t a)
 
 	win32_drv_update_ui(NULL);
 
+	SendMessage(hwstatus, WM_SETFONT, 
+		(WPARAM) GetStockObject(DEFAULT_GUI_FONT), 0);
+
 	ShowWindow(hwstatus, SW_SHOW);
 	UpdateWindow(hwstatus);
 
