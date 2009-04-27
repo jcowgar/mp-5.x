@@ -26,3 +26,10 @@ Source: "mp.reg" ; DestDir: "{app}\doc"
 
 [Icons]
 Name: "{group}\Minimum Profit"; Filename: "{app}\wmp.exe"
+
+[Registry]
+Root: HKCR; Subkey: "*\shell\Open with MP"; ValueType: string;
+Root: HKCR; Subkey: "*\shell\Open with MP\command"; ValueType: string; ValueData: "{app}\wmp.exe %1"
+Root: HKCR; Subkey: "Directory\shell\minimum_profit"; ValueType: string; ValueData: "Open MP Here"
+Root: HKCR; Subkey: "Directory\shell\minimum_profit\command"; ValueType: string; ValueData: "{app}\wmp.exe -d %1"
+
