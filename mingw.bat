@@ -42,7 +42,7 @@ gcc -I../mpdm -c lex.yy.c -o mpsl_l.o
 gcc -I../mpdm -c y.tab.c -o mpsl_y.o
 gcc -I../mpdm -c mpsl_c.c
 gcc -I../mpdm -c mpsl_f.c
-:gcc -I../mpdm -c mpsl_d.c
+gcc -I../mpdm -c mpsl_d.c
 ar rv libmpsl.a mpsl_*.o
 cd ..
 
