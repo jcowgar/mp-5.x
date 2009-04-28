@@ -4,8 +4,7 @@ Minimum Profit 5 TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1273: mp.repeated_words() leaves the last max_dist words
-   unchecked.
+None!
 
 Open Bugs
 ---------
@@ -329,5 +328,7 @@ Closed
    (Tue, 21 Apr 2009 17:47:42 +0200).
  * 1274: Add interface to configure the repeated word detector
    (Wed, 22 Apr 2009 08:52:43 +0200).
+ * 1273: mp.repeated_words() leaves the last max_dist words
+   unchecked (Tue, 28 Apr 2009 11:55:42 +0200).
 
 Email bugs to angel@triptico.com

@@ -126,65 +126,72 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 		hdel(mp.word_color, mp.last_repeated_words[1]);
 	}
 
-	while ((l = doc.txt.lines[y]) != NULL) {
+	while ((l = doc.txt.lines[y]) != NULL || size(q)) {
 
-		local w;
+		local w, w1;
 
-		while ((w = regex(mp.word_regex, l, x)) != NULL) {
+		if (l != NULL) {
+			/* process another word in the line */
+			if ((w = regex(mp.word_regex, l, x)) != NULL) {
+				/* get matching position */
+				local c = regex();
 
-			/* get matching position */
-			local c = regex();
-
-			/* does the word measure at lest num_chars? */
-			if (size(w) >= num_chars) {
-				/* enqueue this word, and dequeue another */
-				local w1 = queue(q, [
+				/* does the word measure at lest num_chars? */
+				if (size(w) >= num_chars) {
+					/* enqueue this word, and dequeue another */
+					w1 = queue(q, [
 						w,
 						c[0] + size(w),
 						y,
 						lc(regex(s_rx, w)),
 						lc(regex(e_rx, w))
 					], max_dist);
+				}
 
-				/* a word has been dequeued? */
-				if (w1 != NULL) {
-					/* seek each word in the queue */
-					foreach (w2, q) {
-						/* does the word and any other in
-						   the queue match the regexes? */
-						if ((w1[3] eq w2[3]) || (w1[4] eq w2[4])) {
+				/* move offset to next word */
+				x = c[0] + c[1];
+			}
+			else {
+				/* try another line */
+				y++;
+				x = 0;
+			}
+		}
+		else
+			/* dequeue */
+			w1 = shift(q);
 
-							/* add both to the word color hash */
-							mp.word_color[w1[0]] =
-							mp.word_color[w2[0]] =
-								mp.colors.spell.attr;
+		/* has a word been dequeued? */
+		if (w1 != NULL) {
+			/* seek each word in the queue */
+			foreach (w2, q) {
+				/* does the word and any other in
+				   the queue match the regexes? */
+				if ((w1[3] eq w2[3]) || (w1[4] eq w2[4])) {
 
-							/* store for later removal */
-							mp.last_repeated_words =
-								[ w1[0], w2[0] ];
+					/* add both to the word color hash */
+					mp.word_color[w1[0]] =
+					mp.word_color[w2[0]] =
+						mp.colors.spell.attr;
 
-							/* move cursor there */
-							mp.set_y(doc, w1[2]);
-							mp.set_x(doc, w1[1]);
+					/* store for later removal */
+					mp.last_repeated_words =
+						[ w1[0], w2[0] ];
 
-							/* set the first visible line */
-							doc.txt.vy = doc.txt.y;
+					/* move cursor there */
+					mp.set_y(doc, w1[2]);
+					mp.set_x(doc, w1[1]);
 
-							/* trigger a redraw */
-							mp.redraw();
+					/* set the first visible line */
+					doc.txt.vy = doc.txt.y;
 
-							return 1;
-						}
-					}
+					/* trigger a redraw */
+					mp.redraw();
+
+					return 1;
 				}
 			}
-
-			/* move offset to next word */
-			x = c[0] + c[1];
 		}
-
-		y++;
-		x = 0;
 	}
 
 	return 0;
