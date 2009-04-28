@@ -68,8 +68,12 @@ mp.status_line_info = {
 	'%%'	=>	'%'
 };
 
-/* a regex for selection words */
-mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';
+/* a regex for selecting words */
+mp.word_regex = "/[[:alnum:]_]+/i";
+
+/* if it does not work (i.e. not GNU regex), fall back */
+if (regex(mp.word_regex, "test") == NULL)
+	mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';
 
 /* document list */
 mp.docs = [];
