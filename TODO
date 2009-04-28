@@ -29,7 +29,6 @@ Open Bugs
  * 1260: Apply Jeremy's outdent_block().
  * 1268: Implement mp.timer() in the KDE4 driver.
  * 1271: Section marks should be multiline.
- * 1275: Add a 'Writing' menu bar.
 
 Pending Enhancements
 --------------------
@@ -49,6 +48,7 @@ Pending Enhancements
    (or not) won't appear on screen.
  * 1266: Add a new tab style, in which the next tab column is taken from
    the previous line.
+ * 1275: Add a 'Writing' menu bar.
 
 Closed
 ------
