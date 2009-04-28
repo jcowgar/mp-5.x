@@ -171,7 +171,8 @@ mp.menu = [
 	[
 		LL("&Options"),
 		[ 'record_macro', 'play_macro', '-',
-			'encoding', 'tab_options', 'line_options', 'toggle_spellcheck', '-',
+			'encoding', 'tab_options', 'line_options', 'repeated_words_options',
+			'toggle_spellcheck', '-',
 			'word_count', '-',
 			'zoom_in', 'zoom_out', '-',
 			'about'
