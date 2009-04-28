@@ -90,7 +90,7 @@ sub mp.word_count(doc)
 	local w = 0;
 
 	foreach (l, mp.get_active_area(doc))
-		w += size(mp.split_by_words(l));
+		w += size(mp.split_by_words(l, "/[^ \t]+/"));
 
 	return w;
 }
