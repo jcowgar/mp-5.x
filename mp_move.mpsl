@@ -155,10 +155,14 @@ sub mp.move(doc, func)
 }
 
 
-sub mp.split_by_words(s)
+sub mp.split_by_words(s, r)
 /* splits a string by words */
 {
-	return regex(mp.word_regex ~ 'g', s);
+	/* if no special-purpose regex set, take global one */
+	if (r == NULL)
+		r = mp.word_regex;
+
+	return regex(r ~ 'g', s);
 }
 
 
