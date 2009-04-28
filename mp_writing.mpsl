@@ -179,11 +179,8 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 						[ w1[0], w2[0] ];
 
 					/* move cursor there */
-					mp.set_y(doc, w1[2]);
+					mp.search_set_y(doc, w1[2]);
 					mp.set_x(doc, w1[1]);
-
-					/* set the first visible line */
-					doc.txt.vy = doc.txt.y;
 
 					/* trigger a redraw */
 					mp.redraw();
