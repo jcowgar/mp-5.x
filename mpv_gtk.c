@@ -1579,11 +1579,18 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 	GtkWidget * hbox;
 	GdkPixmap * pixmap;
 	GdkPixmap * mask;
+	GdkScreen *screen;
 	mpdm_t v;
+	int w, h;
 
 	register_functions();
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+	/* get real screen and pick a usable size for the main area */
+	screen = gtk_window_get_screen(GTK_WINDOW(window));
+	w = (gdk_screen_get_width(screen) * 3) / 4;
+	h = (gdk_screen_get_height(screen) * 2) / 3;
 
 	g_signal_connect(G_OBJECT(window), "delete_event",
 		G_CALLBACK(delete_event), NULL);
@@ -1612,7 +1619,7 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 	/* the Minimum Profit area */
 	area = gtk_drawing_area_new();
 	gtk_box_pack_start(GTK_BOX(hbox), area, TRUE, TRUE, 0);
-	gtk_widget_set_size_request(GTK_WIDGET(area), 600, 400);
+	gtk_widget_set_size_request(GTK_WIDGET(area), w, h);
 	gtk_widget_set_events(GTK_WIDGET(area), GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK |
 		GDK_LEAVE_NOTIFY_MASK);
