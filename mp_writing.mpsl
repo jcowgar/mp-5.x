@@ -126,7 +126,7 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 		hdel(mp.word_color, mp.last_repeated_words[1]);
 	}
 
-	while ((l = doc.txt.lines[y]) != NULL && !ret) {
+	while ((l = doc.txt.lines[y]) != NULL) {
 
 		local w;
 
