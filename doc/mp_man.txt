@@ -1,7 +1,7 @@
 NAME
 ----
 
- Minimum Profit - Programmer text editor
+ mp-5 - Minimum Profit Editor, a text editor for programmers
 
 SYNOPSIS
 --------
@@ -85,7 +85,7 @@ ctags(1).
 
 The Minimum Profit documentation in /usr/share/doc/mp-5.
 
-AUTHORS, TODO, RELEASE_NOTES and README.mingw32.
+AUTHORS, TODO, RELEASE_NOTES and README.
 
 Home page: http://www.triptico.com/software/mp.html
 
