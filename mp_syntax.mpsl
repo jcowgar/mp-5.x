@@ -249,7 +249,7 @@ mp.syntax.perl = {
 mp.syntax.mpsl = {
 	'id'		=>	'mpsl',
 	'name'		=>	'MPSL',
-	'filenames'	=>	[ '/\.mpsl$/i' ],
+	'filenames'	=>	[ '/\.mpsl?$/i' ],
 	'defs'		=>	[
 		'word1',	[
 				mp.syn_token_list( [
