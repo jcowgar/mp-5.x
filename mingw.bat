@@ -14,6 +14,7 @@ echo #define CONFOPT_INCLUDED_REGEX 1 >> mpdm\config.h
 echo #define CONFOPT_UNISTD_H 1 >> mpdm\config.h
 echo #define CONFOPT_SYS_TYPES_H 1 >> mpdm\config.h
 echo #define CONFOPT_SYS_STAT_H 1 >> mpdm\config.h
+echo #define CONFOPT_FULLPATH 1 >> mpdm\config.h
 
 copy mpsl\VERSION mpsl\config.h
 echo #define CONFOPT_PREFIX "/usr/local" >> mpsl\config.h
