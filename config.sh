@@ -200,7 +200,7 @@ echo -n "Testing for ncursesw... "
 if [ "$WITHOUT_CURSES" = "1" ] ; then
 	echo "Disabled"
 else
-	echo "#include <curses.h>" > .tmp.c
+	echo "#include <ncursesw/ncurses.h>" > .tmp.c
 	echo "int main(void) { initscr(); endwin(); return 0; }" >> .tmp.c
 
 	TMP_CFLAGS="-I/usr/local/include"

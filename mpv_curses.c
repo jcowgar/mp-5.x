@@ -4,7 +4,7 @@
 
     Curses driver.
 
-    Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2009 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -30,7 +30,6 @@
 
 #include <stdio.h>
 #include <wchar.h>
-#include <curses.h>
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
@@ -38,6 +37,8 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+
+#include <ncursesw/ncurses.h>
 
 #include "mpdm.h"
 #include "mpsl.h"
