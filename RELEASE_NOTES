@@ -26,7 +26,7 @@ Minimum Profit Release Notes
  * The action `open_templates_file' has been fixed.
  * Several GTK interface updates by fellow developer Sebastian Vöcking.
  * New command line option `-d', to change the working directory.
- * Several fixes to the win32 driver: word wrapping, combobox
+ * Several fixes to the win32 driver; word wrapping, combobox
    drop-down sizes, underlined text.
  * Avoid hanging if the external ispell program is broken.
  * The `dump()' function now dumps its argument as MPSL code.
