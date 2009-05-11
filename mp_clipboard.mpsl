@@ -212,8 +212,12 @@ sub mp.cut(doc)
 sub mp.paste(doc)
 /* pastes from the clipboard into a text */
 {
+	if (size(mp.clipboard) == 0)
+		return;
+
 	local t = mp.config.auto_indent;
 	mp.config.auto_indent = 0;
+
 	if (mp.clipboard_vertical == 0) {
 		/* normal selction in clipboard */
 		mp.insert(doc, mp.clipboard);
