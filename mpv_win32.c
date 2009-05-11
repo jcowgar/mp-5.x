@@ -846,6 +846,10 @@ static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
 
 	/* convert the clipboard to DOS text */
 	d = mpdm_hget_s(mp, L"clipboard");
+
+	if (mpdm_size(d) == 0)
+		return NULL;
+
 	d = mpdm_join(MPDM_LS(L"\r\n"), d);
 	ptr = mpdm_wcstombs(d->data, &s);
 

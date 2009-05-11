@@ -1022,9 +1022,11 @@ static mpdm_t kde4_drv_clip_to_sys(mpdm_t a)
 
 	/* gets the clipboard and joins */
 	v = mpdm_hget_s(mp, L"clipboard");
-	v = mpdm_join(MPDM_LS(L"\n"), v);
 
-	qc->setText(str_to_qstring(v), QClipboard::Selection);
+	if (mpdm_size(v) != 0) {
+		v = mpdm_join(MPDM_LS(L"\n"), v);
+		qc->setText(str_to_qstring(v), QClipboard::Selection);
+	}
 
 	return NULL;
 }

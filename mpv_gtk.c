@@ -986,6 +986,10 @@ static void selection_get(GtkWidget * widget,
 
 	/* gets the clipboard and joins */
 	d = mpdm_hget_s(mp, L"clipboard");
+
+	if (mpdm_size(d) == 0)
+		return;
+
 	d = mpdm_join(MPDM_LS(L"\n"), d);
 
 	/* convert to current locale */
