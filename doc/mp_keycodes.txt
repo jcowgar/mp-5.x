@@ -4,6 +4,8 @@ Minimum Profit Keycodes
 Table with Minimum Profit's keycodes and their default assigned actions.
 
  +---------------------+------------------------+
+ |             Keycode |                 Action |
+ +---------------------+------------------------+
  |           backspace |            delete_left |
  +---------------------+------------------------+
  |        close-window |                   exit |

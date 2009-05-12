@@ -144,6 +144,9 @@ if ((f = open('doc/mp_keycodes.txt', 'w')) != NULL) {
 	local tbl = " +---------------------+------------------------+\n";
 
 	write(f, tbl);
+	write(f, sprintf(" | %19s | %22s |\n", 'Keycode', 'Action'));
+	write(f, tbl);
+
 	foreach(k, sort(keys(mp.keycodes))) {
 		write(f, sprintf(" | %19s | %22s |\n", k, mp.keycodes[k]));
 		write(f, tbl);
