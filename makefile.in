@@ -9,7 +9,7 @@ ADD_DOCS=AUTHORS README COPYING RELEASE_NOTES \
 GRUTATXT_DOCS=doc/mp_index.html doc/mp_cookbook.html doc/mp_internals.html \
 	doc/mp_configuration.html doc/mp_data_model.html \
 	doc/mp_man.html doc/mp_interactive_dialog_boxes.html \
-	doc/mp_actions.html $(APPNAME).1
+	doc/mp_actions.html doc/mp_keycodes.html $(APPNAME).1
 MP_DOCCER_DOCS=doc/mp_api.txt
 G_AND_MP_DOCS=doc/mp_api.html
 
