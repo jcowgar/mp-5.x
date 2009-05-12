@@ -15,6 +15,9 @@ PREFIX=/usr/local
 # store command line args for configuring the libraries
 CONF_ARGS="$*"
 
+# add a default value for WINDRES
+[ -z "$WINDRES" ] && WINDRES="windres"
+
 # parse arguments
 while [ $# -gt 0 ] ; do
 
