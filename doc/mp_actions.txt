@@ -59,13 +59,6 @@ the *ctags* program is invoked to build it.
 
 For other uses of the _tags_ file, see `find_tag'.
 
-config_repeated_words
----------------------
-
-_Search repeated words..._
-
-To be written.
-
 copy_mark
 ---------
 
@@ -501,6 +494,13 @@ redo
 _Redo_
 
 Redoes the previously undone operation, if any.
+
+repeated_words_options
+----------------------
+
+_Repeated words options..._
+
+Sets the options for the `seek_repeated_word' action.
 
 replace
 -------
