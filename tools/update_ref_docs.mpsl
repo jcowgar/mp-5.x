@@ -132,3 +132,24 @@ foreach (k, keys(mp.actdesc)) {
 }
 
 update_ref_document('doc/mp_actions.txt', mp.actdesc, NULL, def);
+
+local f;
+
+if ((f = open('doc/mp_keycodes.txt', 'w')) != NULL) {
+	write(f, "Minimum Profit Keycodes\n");
+	write(f, "=======================\n\n");
+
+	write(f, "Table with Minimum Profit's keycodes and their default assigned actions.\n\n");
+
+	local tbl = " +---------------------+------------------------+\n";
+
+	write(f, tbl);
+	foreach(k, sort(keys(mp.keycodes))) {
+		write(f, sprintf(" | %19s | %22s |\n", k, mp.keycodes[k]));
+		write(f, tbl);
+	}
+
+	write(f, "\n");
+
+	close(f);
+}
