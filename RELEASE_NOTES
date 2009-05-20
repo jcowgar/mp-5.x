@@ -5,6 +5,7 @@ Minimum Profit Release Notes
 -----
 
  * Fixed some clipboard issues and crashes.
+ * win32 executable has been renamed to `mp-5.exe'.
 
 5.1.2
 -----

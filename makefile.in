@@ -46,7 +46,7 @@ mpv_kde4.moc: mpv_kde4.cpp
 mp_res.o: mp_res.rc
 	$(WINDRES) mp_res.rc mp_res.o
 
-wmp.exe: $(OBJS) mp_res.o $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
+mp-5.exe: $(OBJS) mp_res.o $(MPDM)/libmpdm.a $(MPSL)/libmpsl.a
 	$(CC) $(CFLAGS) $(OBJS) mp_res.o `cat config.ldflags` -o $@
 
 clean:
@@ -106,7 +106,7 @@ midnight:
 	(cd /tmp ; tar czf - mp-midnight/* ) > mp-midnight.tar.gz ; \
 	rm -rf /tmp/mp-midnight
 
-win32dist: wmp.exe
+win32dist: mp-5.exe
 	mkdir -p win32
 	mkdir -p win32/doc
 	i586-mingw32msvc-strip $(APPNAME)
@@ -120,7 +120,7 @@ win32dist: wmp.exe
 	mv win32/installer.exe mp-$(VERSION).exe
 	rm -rf win32
 
-innosetup: wmp.exe
+innosetup: mp-5.exe
 	wine ~/.wine/fake_windows/Program\ Files/Inno\ Setup\ 5/ISCC.exe /O. /Fmp-$(VERSION) mp.iss
 
 install: $(INSTALL_MSG) installdoc install-mo

@@ -191,7 +191,7 @@ else
 		WITHOUT_KDE4=1
 		WITHOUT_GTK=1
 		WITHOUT_CURSES=1
-		APPNAME=wmp.exe
+		APPNAME=mp-5.exe
 	else
 		echo "No"
 	fi

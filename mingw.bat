@@ -51,4 +51,4 @@ gcc -Impdm -Impsl -c mp_core.c
 gcc -Impdm -Impsl -c mpv_win32.c
 windres mp_res.rc mp_res.o
 
-gcc mp_core.o mpv_win32.o mp_res.o -Lmpdm -Lmpsl -lmpsl -lmpdm -mwindows -lcomctl32 -o wmp.exe
+gcc mp_core.o mpv_win32.o mp_res.o -Lmpdm -Lmpsl -lmpsl -lmpdm -mwindows -lcomctl32 -o mp-5.exe
