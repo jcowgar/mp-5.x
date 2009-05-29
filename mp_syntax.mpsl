@@ -120,7 +120,7 @@ mp.syntax.c = {
 				"mbrtowc", "wcrtomb", "open", "close", "read",
 				"write", "pipe", "fork", "dup", "dup2", "wait",
 				"execl", "execlp", "execle", "execv", "execvp",
-				"class", "template", "new", "delete",
+				"class", "template", "new", "delete", "emit",
 				"using", "namespace", "try", "catch", "throw"
 				])
 		],
@@ -141,6 +141,7 @@ mp.syntax.c = {
 			"/\"([^\"\\\\\n]*(\\\\.[^\"\\\\\n]*)*)\"/",	/* double-quoted strings */
 			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
+			"/\b[0-9]+e[0-9]+\b/",			/* numbers in exp format */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
 			"/\b[0-9[:upper:]_]+\b/"		/* all-caps words */
 		],
