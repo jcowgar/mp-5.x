@@ -228,6 +228,15 @@ mp.actions['open_under_cursor'] = sub (d) {
 	}
 };
 
+mp.actions['hex_view']	= sub (d) {
+
+	local n;
+
+	if ((n = mp.openfile(L("File to open:"))) != NULL && n ne "")
+		if (mp.long_op(mp.hex_view, n) == NULL && ERRNO != NULL)
+			mp.alert(sprintf("Error opening '%s': %s", n, ERRNO));
+};
+
 /** default key bindings **/
 
 mp.keycodes['ctrl-n']		= 'next';
@@ -256,6 +265,7 @@ mp.actdesc['open_config_file']		= LL("Edit configuration file");
 mp.actdesc['sync']			= LL("Save modified texts");
 mp.actdesc['exec_command']		= LL("Run system command...");
 mp.actdesc['open_under_cursor']		= LL("Open file under cursor");
+mp.actdesc['hex_view']			= LL("Hexadecimal viewer...");
 
 /** code **/
 

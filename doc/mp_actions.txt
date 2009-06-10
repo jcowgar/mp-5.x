@@ -208,6 +208,13 @@ _Help on word over cursor_ (`f1')
 Picks the word under the cursor and asks the underlying system for help
 about that term.
 
+hex_view
+--------
+
+_Hexadecimal viewer..._
+
+Shows a dialog to open a read-only, hexadecimal view of a file.
+
 ignore_last_misspell
 --------------------
 

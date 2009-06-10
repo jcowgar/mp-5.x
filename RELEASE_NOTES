@@ -4,6 +4,7 @@ Minimum Profit Release Notes
 5.1.3
 -----
 
+ * A new hexadecimal viewer.
  * Fixed some clipboard issues and crashes.
  * win32 executable has been renamed to `mp-5.exe'.
  * Setting an empty encoding to fall back to system defaults
