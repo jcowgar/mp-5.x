@@ -456,3 +456,54 @@ sub mp.open(filename)
 
 	return d;
 }
+
+
+sub mp.hex_view(filename)
+/* shows a file as an hex dump */
+{
+	local f, c;
+
+	if ((f = open(filename, "rb")) == NULL)
+		return NULL;
+
+	local lines = 	[];
+	local l = 	[];
+	local offset = 	0;
+
+	while (1) {
+		if ((c = getchar(f)) != NULL)
+			push(l, c);
+
+		if (size(l) == 16 || c == NULL) {
+			local h = '';
+			local a = ' ';
+
+			/* add hex view */
+			foreach (v, l) {
+				h = h ~ sprintf(' %02X', ord(v));
+				a = a ~ ((ord(v) > 32 && ord(v) < 128) && v || ' ');
+			}
+
+			local n = 16 - size(l);
+
+			/* fill up to 16 */
+			while (n--) {
+				h = h ~ '   ';
+				a = a ~ ' ';
+			}
+
+			push(lines, join(' |', [ sprintf('| %04X', offset += 16), h, a, '']));
+			l = [];
+
+			if (c == NULL)
+				break;
+		}
+	}
+
+	close(f);
+
+	local d = mp.new('<' ~ filename ~ ' hex view>', lines);
+	d.read_only = 1;
+
+	return d;
+}
