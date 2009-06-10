@@ -626,6 +626,16 @@ mp.syntax.mp_templates = {
 };
 
 
+mp.syntax.hex_view = {
+	'id'		=> 'hex_view',
+	'name'		=> 'Hexadecimal view',
+	'defs'		=> [
+		'word1',		[ "/^\| [0-9A-F]+ \|/m" ],
+		'word2',		[ "/\|/" ]
+	]
+};
+
+
 /** code **/
 
 sub mp.detect_syntax(doc)

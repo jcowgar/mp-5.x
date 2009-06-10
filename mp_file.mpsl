@@ -522,6 +522,7 @@ sub mp.hex_view(filename)
 
 	local d = mp.new('<' ~ filename ~ ' hex view>', lines);
 	d.read_only = 1;
+	d.syntax = mp.syntax.hex_view;
 
 	return d;
 }
