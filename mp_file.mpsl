@@ -502,7 +502,8 @@ sub mp.hex_view(filename)
 				a = a ~ ' ';
 			}
 
-			push(lines, join(' |', [ sprintf('| %04X', offset += 16), h, a, '']));
+			push(lines, join(' |', [ sprintf('| %06X', offset), h, a, '']));
+			offset += 16;
 			l = [];
 
 			if (c == NULL)
