@@ -491,7 +491,14 @@ sub mp.hex_view(filename)
 			/* add hex view */
 			foreach (v, l) {
 				h = h ~ sprintf(' %02X', ord(v));
-				a = a ~ ((ord(v) > 32 && ord(v) < 128) && v || ' ');
+
+				if (ord(v) == 0x0a)
+					v = "\x{00b6}";
+				else
+				if (ord(v) < 32 || ord(v) > 126)
+					v = "\x{00b7}";
+
+				a = a ~ v;
 			}
 
 			local n = 16 - size(l);
