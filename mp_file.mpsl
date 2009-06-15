@@ -464,6 +464,9 @@ sub mp.open(filename)
 		close(f);
 	}
 
+	/* store the encoding */
+	d.encoding = DETECTED_ENCODING || ENCODING || '';
+
 	return d;
 }
 
