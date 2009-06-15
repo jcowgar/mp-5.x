@@ -463,6 +463,13 @@ sub mp.process_cmdline()
 		if (o eq '-t')
 			mp.open_tag(shift(ARGV));
 		else
+		if (o eq '-x') {
+			local s = shift(ARGV);
+
+			if (mp.hex_view(s) == NULL)
+				ERROR = sprintf(L("Cannot open '%s'"), s);
+		}
+		else
 		if (regex('/^\+/', o)) {
 			/* move to line */
 			line = o - 1;

@@ -48,7 +48,8 @@ The following options are avaiable:
  * -t tag: Edits the file where tag is defined (see ctags(1)).
  * -e mpsl_code: Executes MPSL code.
  * -f mpsl_script: Executes an MPSL script.
- * -d directory: Change working directory.
+ * -d directory: Changes working directory.
+ * -x file: opens file in the hexadecimal viewer.
  * NNN: Moves to line number NNN of last file.
 
 MPSL
