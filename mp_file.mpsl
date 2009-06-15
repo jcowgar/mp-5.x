@@ -304,7 +304,7 @@ sub mp.save(doc)
 		foreach (l, doc.txt.lines) {
 			/* write a line separator if it's not the first line */
 			if (nl)
-				write(f, mp.config.eol);
+				write(f, doc.eol || mp.config.eol);
 
 			write(f, l);
 			nl++;
