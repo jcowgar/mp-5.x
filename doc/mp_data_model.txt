@@ -29,6 +29,8 @@ document are the following:
    document. If it's NULL or an empty string, no special encoding
    was detected. If this field is set and the global encoding is not,
    it's used as the file encoding when saving.
+ * eol: The end of line sequence the loaded document originally had.
+   Only set if `mp.config.keep_eol' is set.
 
 The `txt' component contains the current state of the document:
 
