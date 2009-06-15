@@ -39,9 +39,8 @@ tags recursively in subdirectories.
 mp.config.eol
 -------------
 
-The end of line character (or characters). By default is "\n". Other useful
-values are "\r\n" for MSDOS / Windows systems, or "\r" for legacy MacOS
-systems.
+The end of line character sequence. By default is "\n" on Unix/Linux
+systems or "\r\n" on MSDOS / Windows.
 
 mp.config.font_face
 -------------------
@@ -69,6 +68,13 @@ compatible with `ispell', and by default it's "ispell -a". Other useful
 values are "aspell -a", if you have `aspell' installed (a better
 alternative), or "ispell -a -Tutf8", if you happen to be in an UTF-8
 environment and must use `ispell'.
+
+mp.config.keep_eol
+------------------
+
+If this option is set, each document will keep its original end of line
+sequence when saved. If not set, the string set in `mp.config.eol' will be
+used regardless of the original one (default: 1).
 
 mp.config.local_sessions
 ------------------------
