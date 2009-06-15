@@ -71,6 +71,9 @@ mp.actions['line_options']	= sub (d) {
 		{ 'label'	=> L("Line termination") ~ ':',
 		  'value'	=> lt,
 		  'type'	=> 'text' },
+		{ 'label'	=> L("Keep original end of lines") ~ ':',
+		  'value'	=> mp.config.keep_eol,
+		  'type'	=> 'checkbox' },
 		{ 'label'	=> L("Mark end of lines") ~ ':',
 		  'value'	=> mp.config.mark_eol,
 		  'type'	=> 'checkbox' }
@@ -80,7 +83,8 @@ mp.actions['line_options']	= sub (d) {
 		mp.config.word_wrap = t[0];
 		mp.config.auto_indent = t[1];
 		mp.config.eol = mp.backslash_codes(t[2], 0);
-		mp.config.mark_eol = t[3];
+		mp.config.keep_eol = t[3];
+		mp.config.mark_eol = t[4];
 	}
 };
 

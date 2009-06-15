@@ -470,6 +470,10 @@ sub mp.open(filename)
 	/* store the encoding */
 	d.encoding = DETECTED_ENCODING || ENCODING || '';
 
+	/* if original EOL is to be kept, store it */
+	if (mp.config.keep_eol)
+		d.eol = mp.last_seen_eol;
+
 	return d;
 }
 
