@@ -949,6 +949,10 @@ mpdm_t mp_plain_load(mpdm_t args)
 	mpdm_t a = MPDM_A(0);
 	mpdm_t v;
 	int chomped = 1;
+	int eol = 1;
+
+	/* clean last seen EOL */
+	mpdm_hset_s(mp, L"last_seen_eol", NULL);
 
 	while ((v = mpdm_read(f)) != NULL) {
 		const wchar_t *ptr = v->data;
@@ -956,8 +960,10 @@ mpdm_t mp_plain_load(mpdm_t args)
 
 		/* chomp */
 		if (size && ptr[size - 1] == L'\n') {
-			if (--size && ptr[size - 1] == L'\r')
+			if (--size && ptr[size - 1] == L'\r') {
 				--size;
+				eol = 2;
+			}
 		}
 		else
 			chomped = 0;
@@ -969,6 +975,9 @@ mpdm_t mp_plain_load(mpdm_t args)
 	/* if last line was chomped, add a last, empty one */
 	if (chomped)
 		mpdm_push(a, MPDM_LS(L""));
+
+	/* store the last seen EOL */
+	mpdm_hset_s(mp, L"last_seen_eol", MPDM_LS(eol == 2 ? L"\r\n" : L"\n"));
 
 	return a;
 }
