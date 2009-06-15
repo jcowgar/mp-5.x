@@ -11,6 +11,8 @@ Minimum Profit Release Notes
  * win32 executable has been renamed to `mp-5.exe'.
  * Setting an empty encoding (to fall back to system defaults)
    always work.
+ * The status line format string can also include the %e token
+   to show the encoding used by the document.
 
 5.1.2
 -----

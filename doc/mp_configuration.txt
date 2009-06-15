@@ -125,7 +125,7 @@ mp.config.status_format
 -----------------------
 
 The status format string to be shown in the status line. By default it's
-"%m%n %x,%y [%l] %R%O %s %t", where each percent-value means:
+"%m%n %x,%y [%l] %R%O %s %e %t", where each percent-value means:
 
  +----+---------------------------------------------------------+
  |Tag | Description                                             |
@@ -149,6 +149,9 @@ The status format string to be shown in the status line. By default it's
  | %t | Tag target over the cursor, or the empty string if none |
  +----+---------------------------------------------------------+
  | %n | Document name                                           |
+ +----+---------------------------------------------------------+
+ | %e | Encoding used in the file, or the empty string if using |
+ |    | current locale                                          |
  +----+---------------------------------------------------------+
  | %w | Number of words in the current document (or in the      |
  |    | current selection, if any). May be slow.                |

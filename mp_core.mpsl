@@ -53,7 +53,7 @@ else
 	mp.config.eol = "\n";
 
 /* status line */
-mp.config.status_format = "%m%n %x,%y [%l] %R%O %s %t";
+mp.config.status_format = "%m%n %x,%y [%l] %R%O %s %e %t";
 mp.status_line_info = {
 	'%V'	=>	mp.VERSION,
 	'%m'	=>	sub { mp.active.txt.mod && '*' || ''; },
@@ -66,6 +66,7 @@ mp.status_line_info = {
 	'%t'	=>	sub { mp.tags[mp.get_word(mp.active())].label; },
 	'%n'	=>	sub { mp.active.name; },
 	'%w'	=>	sub { mp.word_count(mp.active()); },
+	'%e'	=>	sub { mp.active.encoding || ''; },
 	'%%'	=>	'%'
 };
 
