@@ -122,16 +122,17 @@ sub mp.crypt1_load(fd, password)
 	while ((c = getchar(fd)) != NULL) {
 		/* decrypt byte and concat */
 		c = chr(ord(c) ^ mp.arcfour_byte());
-		l = l ~ c;
 
 		if (c eq "\n") {
-			/* end of line; chomp l and push it */
-			push(lines, mp.chomp(l));
+			/* end of line; push it and restart */
+			push(lines, l);
 			l = '';
 		}
+		else
+			l = l ~ c;
 	}
 
-	push(lines, mp.chomp(l));
+	push(lines, l);
 
 	return lines;
 }
@@ -155,7 +156,7 @@ sub mp.crypt1_save(fd, lines, password)
 	foreach (l, lines) {
 		/* write a line separator if it's not the first line */
 		if (nl)
-			l = mp.config.eol ~ l;
+			l = "\n" ~ l;
 
 		/* split by chars */
 		local lc = split(NULL, l);
