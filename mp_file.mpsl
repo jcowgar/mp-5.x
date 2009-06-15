@@ -287,6 +287,9 @@ sub mp.save(doc)
 	if (mp.config.unlink && (s = stat(doc.name)) != NULL)
 		unlink(doc.name);
 
+	/* set the encoding for this file opening */
+	TEMP_ENCODING = doc.encoding;
+
 	if ((f = open(doc.name, "wb")) == NULL) {
 		/* can't write? delete name */
 		doc.name = L("<unnamed>");
