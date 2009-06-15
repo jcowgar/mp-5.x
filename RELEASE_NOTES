@@ -7,6 +7,8 @@ Minimum Profit Release Notes
  * A new hexadecimal viewer.
  * Improved file encoding autodetection by looking at the
    UTF BOM marks.
+ * New configuration option `keep_eol', to keep the original
+   end of line sequence each document had.
  * Fixed some clipboard issues and crashes.
  * win32 executable has been renamed to `mp-5.exe'.
  * Setting an empty encoding (to fall back to system defaults)
