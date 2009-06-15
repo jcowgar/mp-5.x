@@ -25,6 +25,10 @@ document are the following:
  * redo: A list of values popped from the `undo' key.
  * read_only: If set to nonzero, the document is read-only and cannot
    be modified.
+ * encoding: The encoding that was autodetected when loading the
+   document. If it's NULL or an empty string, no special encoding
+   was detected. If this field is set and the global encoding is not,
+   it's used as the file encoding when saving.
 
 The `txt' component contains the current state of the document:
 
