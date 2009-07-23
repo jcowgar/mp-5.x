@@ -8,6 +8,7 @@ General Documentation
  * ./mp_configuration.html (Minimum Profit Configuration Directives).
  * ./mp_actions.html (Minimum Profit Action Reference).
  * ./mp_keycodes.html (Minimum Profit Keycodes).
+ * ./mp_encoding.html (Minimum Profit character encoding support).
  * ./mp_interactive_dialog_boxes.html (Creating interactive dialog boxes).
  * ./mp_cookbook.html (Minimum Profit Cookbook).
  * ./mp_api.html (Minimum Profit API).
