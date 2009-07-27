@@ -15,6 +15,7 @@ Minimum Profit Release Notes
    always work.
  * The status line format string can also include the %e token
    to show the encoding used by the document.
+ * Fixed win32 input processing for non-latin environments.
 
 5.1.2
 -----
