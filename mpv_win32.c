@@ -656,6 +656,27 @@ static void action_by_menu(int item)
 }
 
 
+static void dropped_files(HDROP hDrop)
+/* fill the mp.dropped_files array with the dropped files */
+{
+	mpdm_t a = MPDM_A(0);
+	char tmp[1024];
+	int n;
+
+	n = DragQueryFile(hDrop, 0xffffffff, NULL, sizeof(tmp) - 1);
+
+	while (--n >= 0) {
+		DragQueryFile(hDrop, n, tmp, sizeof(tmp) - 1);
+		mpdm_push(a, MPDM_MBS(tmp));
+	}
+
+	DragFinish(hDrop);
+
+	mpdm_hset_s(mp, L"dropped_files", a);
+	mp_process_event(MPDM_LS(L"dropped-files"));
+}
+
+
 #ifndef WM_MOUSEWHEEL
 #define WM_MOUSEWHEEL			0x020A
 #endif
@@ -674,11 +695,11 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		DragAcceptFiles(hwnd, TRUE);
 		return 0;
 
-/*	case WM_DROPFILES:
+	case WM_DROPFILES:
 
-		(void) load_dropped_files ((HANDLE) wparam, hwnd);
-		return(0);
-*/
+		dropped_files((HDROP) wparam);
+		return 0;
+
 	case WM_KEYUP:
 
 		is_wm_keydown = 0;
