@@ -674,6 +674,7 @@ static void dropped_files(HDROP hDrop)
 
 	mpdm_hset_s(mp, L"dropped_files", a);
 	mp_process_event(MPDM_LS(L"dropped-files"));
+	redraw();
 }
 
 
