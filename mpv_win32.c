@@ -1473,7 +1473,7 @@ static void register_functions(void)
 
 static mpdm_t win32_drv_startup(mpdm_t a)
 {
-	WNDCLASS wc;
+	WNDCLASSW wc;
 	RECT r;
 	mpdm_t v;
 
@@ -1491,12 +1491,12 @@ static mpdm_t win32_drv_startup(mpdm_t a)
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = NULL;
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = "minimumprofit5.x";
+	wc.lpszClassName = L"minimumprofit5.x";
 
-	RegisterClass(&wc);
+	RegisterClassW(&wc);
 
 	/* create the window */
-	hwnd = CreateWindow("minimumprofit5.x", "mp " VERSION,
+	hwnd = CreateWindowW(L"minimumprofit5.x", L"mp " VERSION,
 		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_VSCROLL,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,

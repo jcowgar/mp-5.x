@@ -29,7 +29,7 @@ Open Bugs
  * 1260: Apply Jeremy's outdent_block().
  * 1268: Implement mp.timer() in the KDE4 driver.
  * 1271: Section marks should be multiline.
- * 1276: Fix win32 processing of Unicode characters.
+ * 1277: Fix win32 window title.
 
 Pending Enhancements
 --------------------
@@ -331,5 +331,7 @@ Closed
    (Wed, 22 Apr 2009 08:52:43 +0200).
  * 1273: mp.repeated_words() leaves the last max_dist words
    unchecked (Tue, 28 Apr 2009 11:55:42 +0200).
+ * 1276: Fix win32 processing of Unicode characters
+   (Mon, 27 Jul 2009 16:52:20 +0200).
 
 Email bugs to angel@triptico.com
