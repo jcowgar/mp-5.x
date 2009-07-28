@@ -11,11 +11,11 @@ Minimum Profit Release Notes
    end of line sequence each document had.
  * Fixed some clipboard issues and crashes.
  * win32 executable has been renamed to `mp-5.exe'.
- * Setting an empty encoding (to fall back to system defaults)
-   always work.
  * The status line format string can also include the %e token
    to show the encoding used by the document.
- * Fixed win32 input processing for non-latin environments.
+ * Fixed win32 input processing in non-latin environments.
+ * Setting an empty encoding (to fall back to system defaults)
+   always work.
 
 5.1.2
 -----
