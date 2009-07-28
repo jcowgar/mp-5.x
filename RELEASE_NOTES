@@ -5,6 +5,8 @@ Minimum Profit Release Notes
 -----
 
  * A new hexadecimal viewer.
+ * New action 'open_dropped_files', to open files dropped from
+   the underlying system GUI.
  * Improved file encoding autodetection by looking at the
    UTF BOM marks.
  * New configuration option `keep_eol', to keep the original

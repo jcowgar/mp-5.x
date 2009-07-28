@@ -237,6 +237,12 @@ mp.actions['hex_view']	= sub (d) {
 			mp.alert(sprintf("Error opening '%s': %s", n, ERRNO));
 };
 
+mp.actions['open_dropped_files'] = sub (d) {
+	while (size(mp.dropped_files))
+		mp.open(shift(mp.dropped_files));
+};
+
+
 /** default key bindings **/
 
 mp.keycodes['ctrl-n']		= 'next';
@@ -245,6 +251,7 @@ mp.keycodes['ctrl-q']		= 'exit';
 mp.keycodes['ctrl-s']		= 'save';
 mp.keycodes['ctrl-w']		= 'close';
 mp.keycodes['ctrl-enter']	= 'open_under_cursor';
+mp.keycodes['dropped-files']	= 'open_dropped_files';
 
 mp.keycodes['close-window'] 	= 'exit';
 
@@ -266,6 +273,7 @@ mp.actdesc['sync']			= LL("Save modified texts");
 mp.actdesc['exec_command']		= LL("Run system command...");
 mp.actdesc['open_under_cursor']		= LL("Open file under cursor");
 mp.actdesc['hex_view']			= LL("Hexadecimal viewer...");
+mp.actdesc['open_dropped_files']	= LL("Open dropped files");
 
 /** code **/
 
