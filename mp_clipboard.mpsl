@@ -237,8 +237,18 @@ sub mp.paste(doc)
 	local t = mp.config.auto_indent;
 	mp.config.auto_indent = 0;
 
+	/* is there a block? replace it */
+	if (doc.txt.mark != NULL) {
+		/* move there */
+		doc.txt.x = doc.txt.mark.bx;
+		doc.txt.y = doc.txt.mark.by;
+
+		/* and delete the block */
+		mp.delete_mark(doc);
+	}
+
 	if (mp.clipboard_vertical == 0) {
-		/* normal selction in clipboard */
+		/* normal selection in clipboard */
 		mp.insert(doc, mp.clipboard);
 	}
 	else {
