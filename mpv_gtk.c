@@ -911,6 +911,14 @@ static gint motion_notify_event(GtkWidget *widget, GdkEventMotion * event, gpoin
 }
 
 
+static void drag_data_received(GtkWidget *widget, GdkDragContext *dc, gint x, gint y,
+				GtkSelectionData *data, guint info, guint time)
+/* 'drag_data_received' handler */
+{
+	printf("drag_data_received (unsupported)\n");
+}
+
+
 /** clipboard functions **/
 
 static void commit(GtkIMContext * i, char * str, gpointer u)
@@ -1586,6 +1594,10 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 	GdkScreen *screen;
 	mpdm_t v;
 	int w, h;
+	GtkTargetEntry targets[] = {
+		{ "text/plain",		0,	0 },
+		{ "text/uri-list",	0,	1 }
+	};
 
 	register_functions();
 
@@ -1665,6 +1677,12 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 
 	g_signal_connect(G_OBJECT(area), "scroll_event",
 		G_CALLBACK(scroll_event), NULL);
+
+	gtk_drag_dest_set(area, GTK_DEST_DEFAULT_ALL, targets,
+		sizeof(targets) / sizeof(GtkTargetEntry),
+		GDK_ACTION_COPY);
+	g_signal_connect(G_OBJECT(area), "drag_data_received",
+		G_CALLBACK(drag_data_received), NULL);
 
 	gtk_selection_add_target(area, GDK_SELECTION_PRIMARY,
 		GDK_SELECTION_TYPE_STRING, 1);
