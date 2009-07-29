@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:426
+#: mp_crypt.mpsl:32 mp_file.mpsl:447
 msgid "Password:"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Line to go to:"
 msgstr "Naar regelnummer:"
 
-#: mp_file.mpsl:31 mp_file.mpsl:282 mp_file.mpsl:329 mp_session.mpsl:64
+#: mp_file.mpsl:31 mp_file.mpsl:303 mp_file.mpsl:350 mp_session.mpsl:64
 #: mp_session.mpsl:72
 msgid "<unnamed>"
 msgstr "<nieuw bestand>"
@@ -184,23 +184,23 @@ msgid ""
 "\n"
 msgstr ""
 
-#: mp_core.mpsl:132
+#: mp_core.mpsl:139
 msgid "&File"
 msgstr "&Bestand"
 
-#: mp_core.mpsl:143
+#: mp_core.mpsl:151
 msgid "&Edit"
 msgstr "B&ewerk"
 
-#: mp_core.mpsl:154
+#: mp_core.mpsl:163
 msgid "&Search"
 msgstr "&Zoeken"
 
-#: mp_core.mpsl:163
+#: mp_core.mpsl:172
 msgid "&Go to"
 msgstr "&Ga naar"
 
-#: mp_core.mpsl:172
+#: mp_core.mpsl:181
 msgid "&Options"
 msgstr "&Opties"
 
@@ -262,11 +262,11 @@ msgstr "Pagina omlaag"
 msgid "Go to line..."
 msgstr "Ga naar regel..."
 
-#: mp_edit.mpsl:120
+#: mp_edit.mpsl:124
 msgid "Insert line"
 msgstr "Voeg regel toe"
 
-#: mp_edit.mpsl:123
+#: mp_edit.mpsl:127
 msgid "Insert tab"
 msgstr "Voeg tab toe"
 
@@ -276,27 +276,27 @@ msgstr "Wis het teken onder de aanwijzer"
 msgid "Delete char to the left of cursor"
 msgstr "Wis het teken links van de aanwijzer"
 
-#: mp_edit.mpsl:121
+#: mp_edit.mpsl:125
 msgid "Delete line"
 msgstr "Wis regel"
 
-#: mp_clipboard.mpsl:84
+#: mp_clipboard.mpsl:88
 msgid "Mark beginning/end of block"
 msgstr "Markeer begin/eind van een tekstblok"
 
-#: mp_clipboard.mpsl:83
+#: mp_clipboard.mpsl:87
 msgid "Unmark block"
 msgstr "Demarkeer tekstblok"
 
-#: mp_clipboard.mpsl:86
+#: mp_clipboard.mpsl:90
 msgid "Copy block"
 msgstr "Kopier tekstblok"
 
-#: mp_clipboard.mpsl:87
+#: mp_clipboard.mpsl:91
 msgid "Paste block"
 msgstr "Plak tekstblok"
 
-#: mp_clipboard.mpsl:88
+#: mp_clipboard.mpsl:92
 msgid "Cut block"
 msgstr "Knip tekstblok"
 
@@ -315,34 +315,34 @@ msgstr "Vervang..."
 msgid "Replace in all..."
 msgstr "Vervang in hele tekst..."
 
-#: mp_file.mpsl:247
+#: mp_file.mpsl:263
 msgid "Next"
 msgstr "Volgend bestand"
 
-#: mp_file.mpsl:244
+#: mp_file.mpsl:260
 msgid "New"
 msgstr "Nieuw"
 
-#: mp_file.mpsl:249
+#: mp_file.mpsl:265
 msgid "Open..."
 msgstr "Open..."
 
 msgid "Reopen..."
 msgstr "Heropen..."
 
-#: mp_file.mpsl:245
+#: mp_file.mpsl:261
 msgid "Save..."
 msgstr "Opslaan..."
 
-#: mp_file.mpsl:246
+#: mp_file.mpsl:262
 msgid "Save as..."
 msgstr "Opslaan als..."
 
-#: mp_file.mpsl:251
+#: mp_file.mpsl:267
 msgid "Close"
 msgstr "Sluiten"
 
-#: mp_file.mpsl:258
+#: mp_file.mpsl:274
 msgid "Open file under cursor"
 msgstr "Open bestand onder de aanwijzer"
 
@@ -378,7 +378,7 @@ msgstr "Geavanceerder zoeken"
 msgid "Help for word under cursor"
 msgstr "Hulp voor woord onder de aanwijzer"
 
-#: mp_file.mpsl:257
+#: mp_file.mpsl:273
 msgid "Run system command..."
 msgstr "Voor systeem commando uit..."
 
@@ -401,7 +401,7 @@ msgstr "Maak markering af..."
 msgid "Edit templates file"
 msgstr "Bewerk templates bestand"
 
-#: mp_file.mpsl:255
+#: mp_file.mpsl:271
 msgid "Edit configuration file"
 msgstr "Bewerk configuratie bestand"
 
@@ -419,7 +419,7 @@ msgstr "Menu"
 msgid "About..."
 msgstr "Over..."
 
-#: mp_file.mpsl:250
+#: mp_file.mpsl:266
 msgid "Exit"
 msgstr "Afsluiten"
 
@@ -440,7 +440,7 @@ msgstr "Gebruik muis om aan te wijzen"
 msgid "Execute editor function..."
 msgstr "Voor editor functies uit..."
 
-#: mp_file.mpsl:256
+#: mp_file.mpsl:272
 msgid "Save modified texts"
 msgstr "Bewaar gewijzigde teksten"
 
@@ -529,7 +529,7 @@ msgstr ""
 msgid "Jump to matching bracket"
 msgstr ""
 
-#: mp_file.mpsl:248
+#: mp_file.mpsl:264
 msgid "Previous"
 msgstr ""
 
@@ -614,27 +614,27 @@ msgstr ""
 msgid "Word wrapping must be set"
 msgstr ""
 
-#: mp_edit.mpsl:122
+#: mp_edit.mpsl:126
 msgid "Insert space"
 msgstr ""
 
-#: mp_edit.mpsl:124
+#: mp_edit.mpsl:128
 msgid "Delete character"
 msgstr ""
 
-#: mp_edit.mpsl:125
+#: mp_edit.mpsl:129
 msgid "Delete character to the left"
 msgstr ""
 
-#: mp_edit.mpsl:126
+#: mp_edit.mpsl:130
 msgid "Undo"
 msgstr ""
 
-#: mp_edit.mpsl:128
+#: mp_edit.mpsl:132
 msgid "Join a paragraph in one line"
 msgstr ""
 
-#: mp_edit.mpsl:129
+#: mp_edit.mpsl:133
 msgid "Word-wrap a paragraph"
 msgstr ""
 
@@ -647,7 +647,7 @@ msgstr ""
 msgid "Error saving file: %s"
 msgstr ""
 
-#: mp_file.mpsl:101
+#: mp_file.mpsl:101 mp_file.mpsl:235
 msgid "File to open:"
 msgstr ""
 
@@ -748,19 +748,19 @@ msgstr ""
 msgid "Line termination"
 msgstr ""
 
-#: mp_edit.mpsl:90
+#: mp_edit.mpsl:94
 msgid "Tab size"
 msgstr ""
 
-#: mp_edit.mpsl:94
+#: mp_edit.mpsl:98
 msgid "Convert tabs to spaces"
 msgstr ""
 
-#: mp_edit.mpsl:130
+#: mp_edit.mpsl:134
 msgid "Line options..."
 msgstr ""
 
-#: mp_edit.mpsl:131
+#: mp_edit.mpsl:135
 msgid "Tab options..."
 msgstr ""
 
@@ -779,7 +779,7 @@ msgstr ""
 msgid "Error reading from command '%s'"
 msgstr ""
 
-#: mp_file.mpsl:252
+#: mp_file.mpsl:268
 msgid "Revert"
 msgstr ""
 
@@ -845,7 +845,7 @@ msgstr ""
 msgid "Error writing to command '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:127
+#: mp_edit.mpsl:131
 msgid "Redo"
 msgstr ""
 
@@ -871,17 +871,17 @@ msgstr ""
 msgid "Save session"
 msgstr ""
 
-#: mp_core.mpsl:237
+#: mp_core.mpsl:247
 #, c-format
 msgid "Unknown action '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:443
+#: mp_edit.mpsl:447
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:399
+#: mp_file.mpsl:420
 #, c-format
 msgid "New file '%s'"
 msgstr ""
@@ -909,25 +909,25 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_core.mpsl:445
+#: mp_core.mpsl:455 mp_core.mpsl:473
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
-#: mp_core.mpsl:562
+#: mp_core.mpsl:579
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
 
-#: mp_clipboard.mpsl:89
+#: mp_clipboard.mpsl:94
 msgid "Mark using mouse dragging"
 msgstr ""
 
-#: mp_edit.mpsl:74
+#: mp_edit.mpsl:77
 msgid "Mark end of lines"
 msgstr ""
 
-#: mp_file.mpsl:253
+#: mp_file.mpsl:269
 msgid "Close all"
 msgstr ""
 
@@ -949,11 +949,11 @@ msgstr ""
 msgid "Build project..."
 msgstr ""
 
-#: mp_core.mpsl:217
+#: mp_core.mpsl:227
 msgid "Read-only document"
 msgstr ""
 
-#: mp_clipboard.mpsl:85
+#: mp_clipboard.mpsl:89
 msgid "Mark vertical block"
 msgstr ""
 
@@ -994,7 +994,7 @@ msgstr ""
 msgid "Search repeated word"
 msgstr ""
 
-#: mp_core.mpsl:393
+#: mp_core.mpsl:403
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1033,4 +1033,20 @@ msgstr ""
 
 #: mp_writing.mpsl:77
 msgid "Repeated words options..."
+msgstr ""
+
+#: mp_clipboard.mpsl:93
+msgid "Delete block"
+msgstr ""
+
+#: mp_edit.mpsl:74
+msgid "Keep original end of lines"
+msgstr ""
+
+#: mp_file.mpsl:275
+msgid "Hexadecimal viewer..."
+msgstr ""
+
+#: mp_file.mpsl:276
+msgid "Open dropped files"
 msgstr ""

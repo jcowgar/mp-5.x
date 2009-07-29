@@ -235,5 +235,9 @@ __I18N__ = {
 	"Number of letters at the start or end:" => "N\x{00fa}mero de letras al principio o final:",
 	"Maximum distance between words:" => "Distancia m\x{00e1}xima entre palabras:",
 	"Repeated words options..." => "Opciones de palabras repetidas...",
+	"Delete block" => "Borrar bloque",
+	"Keep original end of lines" => "Mantener fin de l\x{00ed}nea original",
+	"Hexadecimal viewer..." => "Visor hexadecimail...",
+	"Open dropped files" => "Abrir ficheros arrastrados",
 	"-" => "-"
 };
