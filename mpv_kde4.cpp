@@ -91,6 +91,8 @@ class MPArea : public QWidget
 		void mouseReleaseEvent(QMouseEvent *event);
 		void mouseMoveEvent(QMouseEvent *event);
 		void wheelEvent(QWheelEvent *event);
+		void dragEnterEvent(QDragEnterEvent *event);
+		void dropEvent(QDropEvent *event);
 		bool event(QEvent *event);
 
 	protected:
@@ -649,6 +651,24 @@ void MPArea::wheelEvent(QWheelEvent *event)
 }
 
 
+void MPArea::dragEnterEvent(QDragEnterEvent *event)
+{
+	if (event->mimData()->hasFormat("text/uri-list"))
+		event->acceptProposedAction();
+}
+
+
+void MPArea::dropEvent(QDropEvent *event)
+{
+	QString s = event->mimeData()->text();
+
+	event->acceptProposedAction();
+	mp_process_event(MPDM_LS(L"dropped-files"));
+
+	area->update();
+}
+
+
 /** MPArea slots **/
 
 void MPArea::from_scrollbar(int value)
@@ -726,6 +746,8 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	this->setWindowIcon(QIcon(QPixmap(mp_xpm)));
 
 	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
+
+	setAcceptDrops(true);
 }
 
 
