@@ -150,7 +150,8 @@ mp.menu = [
 	[
 		LL("&Edit"),
 		[ 'undo', 'redo', '-',
-			'cut_mark', 'copy_mark', 'paste_mark', 'delete_line', '-',
+			'cut_mark', 'copy_mark', 'paste_mark', 'delete_mark',
+			'delete_line', '-',
 			'mark',	'mark_vertical', 'unmark', '-',
 			'insert_template', '-',
 			'word_wrap_paragraph', 'join_paragraph', '-',
