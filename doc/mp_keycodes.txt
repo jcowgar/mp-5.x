@@ -84,6 +84,8 @@ Table with Minimum Profit's keycodes and their default assigned actions.
  +---------------------+------------------------+
  |              delete |                 delete |
  +---------------------+------------------------+
+ |       dropped-files |     open_dropped_files |
+ +---------------------+------------------------+
  |                 end |               move_eol |
  +---------------------+------------------------+
  |               enter |            insert_line |

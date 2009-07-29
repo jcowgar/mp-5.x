@@ -94,6 +94,13 @@ _Delete line_ (`ctrl-y')
 
 Deletes the line under the cursor.
 
+delete_mark
+-----------
+
+_Delete block_
+
+Deletes the currently selected block.
+
 document_list
 -------------
 
@@ -445,6 +452,13 @@ open_config_file
 _Edit configuration file_
 
 Opens the user configuration file for editing. It doesn't have to exist.
+
+open_dropped_files
+------------------
+
+_Open dropped files_ (`dropped-files')
+
+Opens all files dropped by the user from an external file manager.
 
 open_templates_file
 -------------------
