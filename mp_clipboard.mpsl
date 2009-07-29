@@ -52,6 +52,13 @@ mp.actions['cut_mark']	= sub (d) {
 					mp.busy(0);
 				};
 
+mp.actions['delete_mark'] = sub (d) {
+					mp.busy(1);
+					mp.stored_undo(d);
+					mp.delete_mark(d);
+					mp.busy(0);
+				};
+
 mp.actions['mouse_drag_mark'] = sub (d) {
 
 	/* no selection yet? move to initial click and mark */
@@ -83,6 +90,7 @@ mp.actdesc['mark_vertical']	= LL("Mark vertical block");
 mp.actdesc['copy_mark']		= LL("Copy block");
 mp.actdesc['paste_mark']	= LL("Paste block");
 mp.actdesc['cut_mark']		= LL("Cut block");
+mp.actdesc['delete_mark']	= LL("Delete block");
 mp.actdesc['mouse_drag_mark']	= LL("Mark using mouse dragging");
 
 /** code **/
