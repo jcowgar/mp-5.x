@@ -356,6 +356,8 @@ static void draw_filetabs(void)
 MPArea::MPArea(QWidget *parent) : QWidget(parent)
 {
 	setAttribute(Qt::WA_InputMethodEnabled, true);
+
+	setAcceptDrops(true);
 }
 
 
@@ -653,14 +655,35 @@ void MPArea::wheelEvent(QWheelEvent *event)
 
 void MPArea::dragEnterEvent(QDragEnterEvent *event)
 {
-	if (event->mimData()->hasFormat("text/uri-list"))
+	if (event->mimeData()->hasFormat("text/uri-list"))
 		event->acceptProposedAction();
 }
 
 
 void MPArea::dropEvent(QDropEvent *event)
 {
-	QString s = event->mimeData()->text();
+	int n;
+	mpdm_t v = qstring_to_str(event->mimeData()->text());
+	mpdm_t l = MPDM_A(0);
+
+	/* split the list of files */
+	v = mpdm_split(MPDM_LS(L"\n"), v);
+
+	for (n = 0; n < mpdm_size(v); n++) {
+		wchar_t *ptr;
+		mpdm_t w = mpdm_aget(v, n);
+
+		/* strip file:///, if found */
+		ptr = mpdm_string(w);
+
+		if (wcsncmp(ptr, L"file://", 7) == 0)
+			ptr += 7;
+
+		if (*ptr != L'\0')
+			mpdm_push(l, MPDM_S(ptr));
+	}
+
+	mpdm_hset_s(mp, L"dropped_files", l);
 
 	event->acceptProposedAction();
 	mp_process_event(MPDM_LS(L"dropped-files"));
@@ -746,8 +769,6 @@ MPWindow::MPWindow(QWidget *parent) : KMainWindow(parent)
 	this->setWindowIcon(QIcon(QPixmap(mp_xpm)));
 
 	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
-
-	setAcceptDrops(true);
 }
 
 
