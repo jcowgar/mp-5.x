@@ -555,9 +555,6 @@ static void win32_akey(int k)
 	wchar_t c[2];
 	wchar_t * ptr = NULL;
 
-	if (is_wm_keydown)
-		return;
-
 	/* set mp.shift_pressed */
 	if (GetKeyState(VK_SHIFT) & 0x8000)
 		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
@@ -576,7 +573,7 @@ static void win32_akey(int k)
 	case ctrl('j'):		ptr = L"ctrl-j"; break;
 	case ctrl('k'):		ptr = L"ctrl-k"; break;
 	case ctrl('l'):		ptr = L"ctrl-l"; break;
-	case ctrl('m'):		ptr = L"ctrl-m"; break;
+	case ctrl('m'):		/* same as ENTER */ break;
 	case ctrl('n'):		ptr = L"ctrl-n"; break;
 	case ctrl('o'):		ptr = L"ctrl-o"; break;
 	case ctrl('p'):		ptr = L"ctrl-p"; break;
