@@ -568,7 +568,7 @@ static void win32_akey(int k)
 	case ctrl('e'):		ptr = L"ctrl-e"; break;
 	case ctrl('f'):		ptr = L"ctrl-f"; break;
 	case ctrl('g'):		ptr = L"ctrl-g"; break;
-	case ctrl('h'):		ptr = L"ctrl-h"; break;
+	case ctrl('h'):		/* same as backspace */ break;
 	case ctrl('i'):		ptr = L"ctrl-i"; break;
 	case ctrl('j'):		ptr = L"ctrl-j"; break;
 	case ctrl('k'):		ptr = L"ctrl-k"; break;
