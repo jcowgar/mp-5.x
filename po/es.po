@@ -1033,7 +1033,7 @@ msgstr "Mantener fin de línea original"
 
 #: mp_file.mpsl:275
 msgid "Hexadecimal viewer..."
-msgstr "Visor hexadecimail..."
+msgstr "Visor hexadecimal..."
 
 #: mp_file.mpsl:276
 msgid "Open dropped files"

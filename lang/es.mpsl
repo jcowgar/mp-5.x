@@ -237,7 +237,7 @@ __I18N__ = {
 	"Repeated words options..." => "Opciones de palabras repetidas...",
 	"Delete block" => "Borrar bloque",
 	"Keep original end of lines" => "Mantener fin de l\x{00ed}nea original",
-	"Hexadecimal viewer..." => "Visor hexadecimail...",
+	"Hexadecimal viewer..." => "Visor hexadecimal...",
 	"Open dropped files" => "Abrir ficheros arrastrados",
 	"-" => "-"
 };
