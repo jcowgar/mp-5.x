@@ -105,7 +105,7 @@ static void update_window_size(void)
 
 	/* calculate the size in chars */
 	tx = ((rect.right - rect.left) / font_width) + 1;
-	ty = ((rect.bottom - rect.top - tab_height) / font_height) + 1;
+	ty = (rect.bottom - rect.top - tab_height) / font_height;
 
 	/* store the 'window' size */
 	v = mpdm_hget_s(mp, L"window");
