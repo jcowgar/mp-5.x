@@ -132,6 +132,7 @@ install: $(INSTALL_MSG) installdoc install-mo
 	install -m 644 lang/*.mpsl $(PREFIX)/share/$(APPNAME)/lang
 	./mkinstalldirs $(PREFIX)/share/man/man1
 	[ -f $(APPNAME).1 ] && install -m 644 $(APPNAME).1 $(PREFIX)/share/man/man1/$(APPNAME).1 || true
+	( cd $(MPSL) ; [ -x mpsl ] && install mpsl $(PREFIX)/bin || true )
 
 installdoc:
 	./mkinstalldirs $(PREFIX)/share/doc/$(APPNAME)
@@ -146,6 +147,7 @@ uninstall: uninstall-mo
 	rm -rf $(PREFIX)/share/$(APPNAME)
 	rm -rf $(PREFIX)/share/doc/$(APPNAME)
 	rm -f $(PREFIX)/share/man/man1/$(APPNAME).1
+	rm -f $(PREFIX)/bin/mpsl
 
 po/minimum-profit.pot:
 	xgettext -o $@ --language=C --keyword=L --keyword=LL mp*.c *.mpsl
