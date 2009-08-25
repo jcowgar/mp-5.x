@@ -372,12 +372,10 @@ sub mp.move_pgdn(doc)
 sub mp.move_left(doc)
 /* moves one char left */
 {
-	/* return 0 if on BOF */
-	if (doc.txt.x + doc.txt.y == 0)
-		return 0;
+	if (doc.txt.x + doc.txt.y)
+		mp.set_x(doc, doc.txt.x - 1);
 
-	mp.set_x(doc, doc.txt.x - 1);
-	return 1;
+	return doc;
 }
 
 
