@@ -170,6 +170,8 @@ sub mp.search_set_y(doc, y)
 	if (mp.config.move_seek_to_line != NULL &&
 	   (doc.txt.vy = doc.txt.y - mp.config.move_seek_to_line) < 0)
 		doc.txt.vy = 0;
+
+	return doc;
 }
 
 
@@ -329,11 +331,13 @@ sub mp.replace(doc, this, that)
 		'timeout' => time() + 4,
 		'string'  => sprintf(L("%d replaces"), cnt)
 	};
+
+	return doc;
 }
 
 
 sub mp.seek_prev_or_next_char(doc, func)
-/* moves to next or previous occurent of current char */
+/* moves to next or previous occurence of current char */
 {
 	local txt = doc.txt;
 
@@ -350,6 +354,8 @@ sub mp.seek_prev_or_next_char(doc, func)
 
 	/* move back */
 	mp.move_left(doc);
+
+	return doc;
 }
 
 
