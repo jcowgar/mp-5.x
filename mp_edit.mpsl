@@ -195,6 +195,8 @@ sub mp.break_line(doc, col)
 	txt.lines[txt.y] = w[1] || '';
 
 	txt.mod++;
+
+	return doc;
 }
 
 
@@ -212,6 +214,8 @@ sub mp.join_line(doc)
 
 		txt.mod++;
 	}
+
+	return doc;
 }
 
 
@@ -240,6 +244,8 @@ sub mp.delete_line(doc)
 	txt.x = mp.vx2x(txt.lines[txt.y], vx);
 
 	txt.mod++;
+
+	return doc;
 }
 
 
@@ -259,6 +265,8 @@ sub mp.delete_char(doc)
 	}
 
 	txt.mod++;
+
+	return doc;
 }
 
 
@@ -312,6 +320,8 @@ sub mp.delete_range(doc, bx, by, ex, ey, v)
 	}
 
 	txt.mod++;
+
+	return doc;
 }
 
 
@@ -329,6 +339,8 @@ sub mp.insert_string(doc, str)
 	txt.x += size(str);
 
 	txt.mod++;
+
+	return doc;
 }
 
 
@@ -344,7 +356,7 @@ sub mp.insert(doc, a)
 
 	/* empty array? return */
 	if ((s = size(a)) == 0)
-		return;
+		return doc;
 
 	/* paste first line into current position */
 	mp.insert_string(doc, a[0]);
@@ -369,6 +381,8 @@ sub mp.insert(doc, a)
 		while (n < s - 1)
 			txt.lines[txt.y++] = a[n++];
 	}
+
+	return doc;
 }
 
 
@@ -378,7 +392,7 @@ sub mp.wrap_words(doc)
 	local txt = doc.txt;
 
 	if (mp.config.word_wrap == 0)
-		return;
+		return doc;
 
 	/* take the column where the cursor is */
 	local c = mp.x2vx(txt.lines[txt.y], txt.x);
@@ -396,14 +410,14 @@ sub mp.wrap_words(doc)
 		/* delete the space at the end of the line */
 		txt.lines[txt.y - 1] = sregex("/[ \t]$/", txt.lines[txt.y - 1], NULL);
 	}
+
+	return doc;
 }
 
 
 sub mp.insert_space(doc)
 /* inserts a space, taking wordwrapping into account */
 {
-	local txt = doc.txt;
-
 	mp.wrap_words(doc);
 	mp.insert(doc, ' ');
 }
@@ -421,6 +435,8 @@ sub mp.insert_tab(doc)
 	}
 	else
 		mp.insert(doc, "\t");
+
+	return doc;
 }
 
 
@@ -447,6 +463,8 @@ sub mp.insert_keystroke(doc, key)
 			'string'	=> sprintf(L("Unbound keystroke '%s'"), key)
 		};
 	}
+
+	return doc;
 }
 
 
@@ -457,6 +475,8 @@ sub mp.store_undo(doc)
 {
 	queue(doc.undo, clone(doc.txt), mp.config.undo_levels);
 	doc.redo = [];
+
+	return doc;
 }
 
 
@@ -469,6 +489,8 @@ sub mp.undo(doc)
 		queue(doc.redo, clone(doc.txt), mp.config.undo_levels);
 		doc.txt = txt;
 	}
+
+	return doc;
 }
 
 
@@ -481,7 +503,10 @@ sub mp.redo(doc)
 		queue(doc.undo, clone(doc.txt), mp.config.undo_levels);
 		doc.txt = txt;
 	}
+
+	return doc;
 }
+
 
 /** paragraphs **/
 
@@ -502,6 +527,8 @@ sub mp.join_paragraph(doc)
 		/* really join */
 		mp.join_line(doc);
 	}
+
+	return doc;
 }
 
 
@@ -511,7 +538,7 @@ sub mp.word_wrap_paragraph(doc)
 	local txt = doc.txt;
 
 	if (mp.config.word_wrap == 0)
-		return;
+		return doc;
 
 	mp.join_paragraph(doc);
 
@@ -522,4 +549,6 @@ sub mp.word_wrap_paragraph(doc)
 		mp.move_left(doc);
 		mp.delete_char(doc);
 	}
+
+	return doc;
 }
