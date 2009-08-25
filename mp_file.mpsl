@@ -371,6 +371,8 @@ sub mp.next()
 {
 	if (++mp.active_i == size(mp.docs))
 		mp.active_i = 0;
+
+	return mp.active();
 }
 
 
@@ -379,6 +381,8 @@ sub mp.prev()
 {
 	if (--mp.active_i == -1)
 		mp.active_i = size(mp.docs) - 1;
+
+	return mp.active();
 }
 
 
@@ -393,6 +397,8 @@ sub mp.close()
 	/* rotate if it was the last one */
 	if (mp.active_i == size(mp.docs))
 		mp.active_i = 0;
+
+	/* cannot call mp.active() */
 }
 
 
