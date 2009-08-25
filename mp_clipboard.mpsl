@@ -54,7 +54,7 @@ mp.actions['cut_mark']	= sub (d) {
 
 mp.actions['delete_mark'] = sub (d) {
 					mp.busy(1);
-					mp.stored_undo(d);
+					mp.store_undo(d);
 					mp.delete_mark(d);
 					mp.busy(0);
 				};
