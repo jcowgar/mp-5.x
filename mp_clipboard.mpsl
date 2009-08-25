@@ -101,6 +101,8 @@ sub mp.unmark(doc)
 {
 	/* just destroy the mark */
 	doc.txt.mark = NULL;
+
+	return doc;
 }
 
 
@@ -156,6 +158,8 @@ sub mp.mark(doc)
 
 		txt.mark.incomplete = 0;
 	}
+
+	return doc;
 }
 
 
@@ -164,6 +168,8 @@ sub mp.mark_vertical(doc)
 {
 	mp.mark(doc);
 	doc.txt.mark.vertical = 1;
+
+	return doc;
 }
 
 
@@ -205,6 +211,8 @@ sub mp.copy(doc)
 		mp.clipboard_vertical = 0;
 		mp.drv.clip_to_sys();
 	}
+
+	return doc;
 }
 
 
@@ -214,14 +222,15 @@ sub mp.delete_mark(doc)
 	local txt = doc.txt;
 
 	/* no mark? done */
-	if (txt.mark == NULL)
-		return;
+	if (txt.mark != NULL) {
+		/* deletes the range */
+		mp.delete_range(doc, txt.mark.bx, txt.mark.by,
+					txt.mark.ex, txt.mark.ey, txt.mark.vertical);
 
-	/* deletes the range */
-	mp.delete_range(doc,
-		txt.mark.bx, txt.mark.by, txt.mark.ex, txt.mark.ey, txt.mark.vertical);
+		mp.unmark(doc);
+	}
 
-	mp.unmark(doc);
+	return doc;
 }
 
 
@@ -231,6 +240,8 @@ sub mp.cut(doc)
 	mp.copy(doc);
 	mp.delete_mark(doc);
 	mp.drv.clip_to_sys();
+
+	return doc;
 }
 
 
@@ -240,7 +251,7 @@ sub mp.paste(doc)
 	mp.drv.sys_to_clip();
 
 	if (size(mp.clipboard) == 0)
-		return;
+		return doc;
 
 	local t = mp.config.auto_indent;
 	mp.config.auto_indent = 0;
@@ -280,5 +291,8 @@ sub mp.paste(doc)
 		txt.y--;
 		txt.mod++;
 	}
+
 	mp.config.auto_indent = t;
+
+	return doc;
 }
