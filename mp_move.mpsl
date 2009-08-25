@@ -152,6 +152,8 @@ sub mp.move(doc, func)
 		else
 			func(doc);
 	}
+
+	return doc;
 }
 
 
@@ -309,6 +311,8 @@ sub mp.set_x(doc, x)
 		else
 			txt.x = x;
 	}
+
+	return doc;
 }
 
 
@@ -332,6 +336,8 @@ sub mp.set_y(doc, y)
 
 	/* adjust new x to match previously one */
 	txt.x = mp.vx2x(txt.lines[txt.y], vx);
+
+	return doc;
 }
 
 
@@ -386,6 +392,7 @@ sub mp.move_bol(doc)
 /* moves to the beginning of the line */
 {
 	doc.txt.x = 0;
+	return doc;
 }
 
 
@@ -393,6 +400,7 @@ sub mp.move_eol(doc)
 /* moves to the end of the line */
 {
 	doc.txt.x = size(doc.txt.lines[doc.txt.y]);
+	return doc;
 }
 
 
@@ -401,6 +409,7 @@ sub mp.move_bof(doc)
 {
 	doc.txt.x = 0;
 	doc.txt.y = 0;
+	return doc;
 }
 
 
@@ -449,6 +458,8 @@ sub mp.move_word_left(doc)
 		txt.y--;
 		txt.x = size(txt.lines[txt.y]);
 	}
+
+	return doc;
 }
 
 
@@ -474,6 +485,8 @@ sub mp.move_word_right(doc)
 		txt.y++;
 		txt.x = 0;
 	}
+
+	return doc;
 }
 
 
