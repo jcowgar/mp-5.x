@@ -21,10 +21,10 @@ Minimum Profit Scripting Language
 ---------------------------------
 
  * ./mpsl_overview.html (Overview). Introduction to MPSL.
+ * ./mpsl_reference.html (Reference). A reference to MPSL library functions and variables.
+ * ./mpsl_quickref.ps (Quick reference sheet) (A4 PostScript).
  * ./mpsl_internals.html (Internals). Notes about this particular
    MPSL implementation.
- * Reference. Reference of MPSL functions and variables (under construction).
- * ./mpsl_quickref.ps (Quick reference) (A4 PostScript).
  * ./mpsl_api.html (C API). Reference for using MPSL from inside C programs.
 
 Minimum Profit Data Manager
