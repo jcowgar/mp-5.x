@@ -512,7 +512,6 @@ static void win32_vkey(int c)
 		case VK_NEXT:		ptr = L"page-down"; break;
 		case VK_HOME:		ptr = L"home"; break;
 		case VK_END:		ptr = L"end"; break;
-		case VK_TAB:		ptr = L"tab"; break;
 		case VK_RETURN: 	ptr = L"enter"; break;
 		case VK_BACK:		ptr = L"backspace"; break;
 		case VK_DELETE: 	ptr = L"delete"; break;
