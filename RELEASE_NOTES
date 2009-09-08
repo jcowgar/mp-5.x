@@ -4,7 +4,7 @@ Minimum Profit Release Notes
 5.1.3
 -----
 
- * A new Qt driver (adapted from the KDE4 driver).
+ * A new Qt4 driver (adapted from the KDE4 driver).
  * A new hexadecimal viewer.
  * New action 'open_dropped_files', to open files dropped from
    the underlying system GUI.

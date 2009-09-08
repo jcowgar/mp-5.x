@@ -46,12 +46,12 @@ mp.config.font_face
 -------------------
 
 The font face to be used in GUI environments. By default it's "Mono" on
-Qt, GTK and KDE4 and "Lucida Console" on MS Windows.
+Qt4, GTK and KDE4 and "Lucida Console" on MS Windows.
 
 mp.config.font_size
 -------------------
 
-The font size to be used in GUI environments. By defaults it's 12 on Qt, KDE
+The font size to be used in GUI environments. By defaults it's 12 on Qt4, KDE
 and GTK and 14 on MS Windows.
 
 mp.config.global_replace

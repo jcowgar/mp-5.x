@@ -32,7 +32,7 @@ are the following:
  - Understandable interface: drop-down menus, reasonable default key bindings.
  - Configurable keys, menus and colors.
  - Text templates can be easily defined / accessed.
- - Multiplatform: Console/curses, Qt, GTK+, KDE4, MS Windows.
+ - Multiplatform: Console/curses, Qt4, GTK+, KDE4, MS Windows.
  - Automatic indentation, word wrapping, internal _grep_, learning /
    repeating functions.
  - Spellchecking support (via the ispell package).
