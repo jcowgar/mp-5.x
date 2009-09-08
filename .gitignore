@@ -10,4 +10,4 @@ mp-5.1
 po/*.mo
 po/minimum-profit.pot
 *.[oa]
-mpv_kde4.moc
+*.moc
