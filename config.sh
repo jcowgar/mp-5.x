@@ -290,6 +290,7 @@ else
 			fi
 
 			WITHOUT_GTK=1
+			WITHOUT_QT4=1
 		else
 			echo "No"
 		fi
