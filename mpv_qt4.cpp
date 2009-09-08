@@ -98,7 +98,7 @@ static void draw_status(void)
 
 MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 {
-	setWindowTitle("MP " VERSION);
+	setWindowTitle("mp-5");
 
 	menubar = this->menuBar();
 	build_menu();
@@ -187,13 +187,38 @@ bool MPWindow::event(QEvent *event)
 
 static mpdm_t qt4_drv_alert(mpdm_t a)
 {
+	/* 1# arg: prompt */
+	QMessageBox::information(0, "mp " VERSION, str_to_qstring(mpdm_aget(a, 0)));
+
 	return NULL;
 }
 
 
 static mpdm_t qt4_drv_confirm(mpdm_t a)
 {
-	return NULL;
+	int r;
+
+	/* 1# arg: prompt */
+	r = QMessageBox::question(0, "mp" VERSION,
+		str_to_qstring(mpdm_aget(a, 0)),
+		QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel
+	);
+
+	switch (r) {
+	case QMessageBox::Yes:
+		r = 1;
+		break;
+
+	case QMessageBox::No:
+		r = 2;
+		break;
+
+	case QMessageBox::Cancel:
+		r = 0;
+		break;
+	}
+
+	return MPDM_I(r);
 }
 
 
