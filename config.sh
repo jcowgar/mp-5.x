@@ -26,6 +26,7 @@ while [ $# -gt 0 ] ; do
 	--without-gtk)		WITHOUT_GTK=1 ;;
 	--without-win32)	WITHOUT_WIN32=1 ;;
 	--without-kde4)		WITHOUT_KDE4=1 ;;
+	--without-qt4)		WITHOUT_QT4=1 ;;
 	--help)			CONFIG_HELP=1 ;;
 
 	--mingw32)		CC=i586-mingw32msvc-cc
@@ -54,6 +55,7 @@ if [ "$CONFIG_HELP" = "1" ] ; then
 	echo "--without-gtk         Disable GTK interface detection."
 	echo "--without-win32       Disable win32 interface detection."
 	echo "--without-kde4        Disable KDE4 interface detection."
+	echo "--without-qt4         Disable Qt4 interface detection."
 	echo "--without-unix-glob   Disable glob.h usage (use workaround)."
 	echo "--with-included-regex Use included regex code (gnu_regex.c)."
 	echo "--with-pcre           Enable PCRE library detection."
@@ -302,30 +304,34 @@ echo -n "Testing for Qt4... "
 if [ "$WITHOUT_QT4" = "1" ] ; then
 	echo "Disabled"
 else
-	TMP_CFLAGS=$(pkg-config --cflags QtGui)
+	if which pkg-config > /dev/null
+	then
+		TMP_CFLAGS=$(pkg-config --cflags QtGui)
+		TMP_LDFLAGS=$(pkg-config --libs QtGui)
 
-	TMP_LDFLAGS=$(pkg-config --libs QtGui)
+		echo "#include <QtGui>" > .tmp.cpp
+		echo "int main(int argc, char *argv[]) { new QApplication(argc, argv) ; return 0; } " >> .tmp.cpp
 
-	echo "#include <QtGui>" > .tmp.cpp
-	echo "int main(int argc, char *argv[]) { new QApplication(argc, argv) ; return 0; } " >> .tmp.cpp
+		echo "$CPP $TMP_CFLAGS .tmp.cpp $TMP_LDFLAGS -o .tmp.o" >> .config.log
+		$CPP $TMP_CFLAGS .tmp.cpp $TMP_LDFLAGS -o .tmp.o 2>> .config.log
 
-	echo "$CPP $TMP_CFLAGS .tmp.cpp $TMP_LDFLAGS -o .tmp.o" >> .config.log
-	$CPP $TMP_CFLAGS .tmp.cpp $TMP_LDFLAGS -o .tmp.o 2>> .config.log
+		if [ $? = 0 ] ; then
+			echo $TMP_CFLAGS >> config.cflags
+			echo $TMP_LDFLAGS >> config.ldflags
 
-	if [ $? = 0 ] ; then
-		echo $TMP_CFLAGS >> config.cflags
-		echo $TMP_LDFLAGS >> config.ldflags
+			echo "#define CONFOPT_KDE4 1" >> config.h
+			echo "OK"
 
-		echo "#define CONFOPT_KDE4 1" >> config.h
-		echo "OK"
+			DRIVERS="qt4 $DRIVERS"
+			DRV_OBJS="mpv_qt4.o $DRV_OBJS"
+			if [ "$CCLINK" = "" ] ; then
+				CCLINK="g++"
+			fi
 
-		DRIVERS="qt4 $DRIVERS"
-		DRV_OBJS="mpv_qt4.o $DRV_OBJS"
-		if [ "$CCLINK" = "" ] ; then
-			CCLINK="g++"
+			WITHOUT_GTK=1
+		else
+			echo "No"
 		fi
-
-		WITHOUT_GTK=1
 	else
 		echo "No"
 	fi
