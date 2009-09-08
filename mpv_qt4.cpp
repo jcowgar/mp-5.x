@@ -254,7 +254,83 @@ static mpdm_t qt4_drv_savefile(mpdm_t a)
 
 static mpdm_t qt4_drv_form(mpdm_t a)
 {
-	return NULL;
+	int n;
+	mpdm_t widget_list;
+	QWidget *qlist[100];
+	mpdm_t r;
+
+	QDialog *dialog = new QDialog(window);
+
+	dialog->setModal(true);
+
+	widget_list = mpdm_aget(a, 0);
+
+	/* */
+
+	QDialogButtonBox *bb = new QDialogButtonBox(QDialogButtonBox::Ok |
+							QDialogButtonBox::Cancel);
+
+/*	connect(bb, SIGNAL(accepted()), dialog, SLOT(accept()));
+	connect(bb, SIGNAL(rejected()), dialog, SLOT(reject()));
+*/
+	QVBoxLayout *ml = new QVBoxLayout();
+	ml->addWidget(bb);
+
+	dialog->setLayout(ml);
+
+	n = dialog->exec();
+
+	if (!n)
+		return NULL;
+
+	r = MPDM_A(mpdm_size(widget_list));
+
+	/* fill the return values */
+	for (n = 0; n < mpdm_size(widget_list); n++) {
+		mpdm_t w = mpdm_aget(widget_list, n);
+		mpdm_t v = NULL;
+		wchar_t *type;
+
+		type = mpdm_string(mpdm_hget_s(w, L"type"));
+
+		if (wcscmp(type, L"text") == 0) {
+			mpdm_t h;
+			QComboBox *ql = (QComboBox *)qlist[n];
+
+			v = qstring_to_str(ql->currentText());
+
+			/* if it has history, add to it */
+			if ((h = mpdm_hget_s(w, L"history")) != NULL &&
+				v != NULL && mpdm_cmp(v, MPDM_LS(L"")) != 0) {
+				h = mp_get_history(h);
+
+				if (mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
+					mpdm_push(h, v);
+			}
+		}
+		else
+		if (wcscmp(type, L"password") == 0) {
+			QLineEdit *ql = (QLineEdit *)qlist[n];
+
+			v = qstring_to_str(ql->text());
+		}
+		else
+		if (wcscmp(type, L"checkbox") == 0) {
+			QCheckBox *qb = (QCheckBox *)qlist[n];
+
+			v = MPDM_I(qb->checkState() == Qt::Checked);
+		}
+		else
+		if (wcscmp(type, L"list") == 0) {
+			QListWidget *ql = (QListWidget *)qlist[n];
+
+			v = MPDM_I(ql->currentRow());
+		}
+
+		mpdm_aset(r, v, n);
+	}
+
+	return r;
 }
 
 
