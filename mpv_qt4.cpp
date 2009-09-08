@@ -185,13 +185,31 @@ static mpdm_t qt4_drv_confirm(mpdm_t a)
 
 static mpdm_t qt4_drv_openfile(mpdm_t a)
 {
-	return NULL;
+	QString r;
+	char tmp[128];
+
+	getcwd(tmp, sizeof(tmp));
+
+	/* 1# arg: prompt */
+	r = QFileDialog::getOpenFileName(window,
+		str_to_qstring(mpdm_aget(a, 0)), tmp);
+
+	return qstring_to_str(r);
 }
 
 
 static mpdm_t qt4_drv_savefile(mpdm_t a)
 {
-	return NULL;
+	QString r;
+	char tmp[128];
+
+	getcwd(tmp, sizeof(tmp));
+
+	/* 1# arg: prompt */
+	r = QFileDialog::getSaveFileName(window,
+		str_to_qstring(mpdm_aget(a, 0)), tmp);
+
+	return qstring_to_str(r);
 }
 
 
