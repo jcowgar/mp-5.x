@@ -44,6 +44,12 @@ mpv_kde4.o: mpv_kde4.cpp mpv_kde4.moc
 mpv_kde4.moc: mpv_kde4.cpp
 	$(MOC) -o mpv_kde4.moc mpv_kde4.cpp
 
+mpv_qt4.o: mpv_qt4.cpp mpv_qt4.moc
+	$(CPP) $(CFLAGS) -I. `cat config.cflags` -c $<
+
+mpv_qt4.moc: mpv_qt4.cpp
+	$(MOC) -o mpv_qt4.moc mpv_qt4.cpp
+
 mp_res.o: mp_res.rc
 	$(WINDRES) mp_res.rc mp_res.o
 

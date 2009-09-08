@@ -35,6 +35,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include "mpdm.h"
 #include "mpsl.h"
 #include "mp.h"
+#include "mp.xpm"
 
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
@@ -65,8 +66,6 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv);
 #include <KMessageBox>
 #include <KFileDialog>
 #include <KUrl>
-
-#include "mp.xpm"
 
 /** data **/
 
@@ -107,139 +106,11 @@ class MPArea : public QWidget
 /* global data */
 KApplication *app;
 MPWindow *window;
-MPArea *area;
 KMenuBar *menubar;
 KStatusBar *statusbar;
-QScrollBar *scrollbar;
 KTabBar *file_tabs;
 
-static int font_width = -1;
-static int font_height = -1;
-static int mouse_down = 0;
-static int key_down = 0;
-
-/** code **/
-
-static mpdm_t qstring_to_str(QString s)
-/* converts a QString to an MPDM string */
-{
-	mpdm_t r = NULL;
-
-	if (s != NULL) {
-		int t = s.size();
-		wchar_t *wptr = (wchar_t *)malloc((t + 1) * sizeof(wchar_t));
-
-		r = MPDM_ENS(wptr, t);
-
-		s.toWCharArray(wptr);
-		wptr[t] = L'\0';
-	}
-
-	return r;
-}
-
-
-QString str_to_qstring(mpdm_t s)
-/* converts an MPDM string to a QString */
-{
-	wchar_t *wptr = mpdm_string(s);
-	return QString::fromWCharArray(wptr);
-}
-
-
-#define MAX_COLORS 1000
-QPen inks[MAX_COLORS];
-QBrush papers[MAX_COLORS];
-bool underlines[MAX_COLORS];
-int normal_attr = 0;
-
-static void build_colors(void)
-/* builds the colors */
-{
-	mpdm_t colors;
-	mpdm_t l;
-	mpdm_t c;
-	int n, s;
-
-	/* gets the color definitions and attribute names */
-	colors = mpdm_hget_s(mp, L"colors");
-	l = mpdm_keys(colors);
-	s = mpdm_size(l);
-
-	/* loop the colors */
-	for (n = 0; n < s && (c = mpdm_aget(l, n)) != NULL; n++) {
-		int rgbi, rgbp;
-		mpdm_t d = mpdm_hget(colors, c);
-		mpdm_t v = mpdm_hget_s(d, L"gui");
-
-		/* store the 'normal' attribute */
-		if (wcscmp(mpdm_string(c), L"normal") == 0)
-			normal_attr = n;
-
-		/* store the attr */
-		mpdm_hset_s(d, L"attr", MPDM_I(n));
-
-		rgbi = mpdm_ival(mpdm_aget(v, 0));
-		rgbp = mpdm_ival(mpdm_aget(v, 1));
-
-		/* flags */
-		v = mpdm_hget_s(d, L"flags");
-
-		if (mpdm_seek_s(v, L"reverse", 1) != -1) {
-			int t = rgbi;
-			rgbi = rgbp;
-			rgbp = t;
-		}
-
-		underlines[n] = mpdm_seek_s(v, L"underline", 1) != -1 ? true : false;
-
-		inks[n] = QPen(QColor::fromRgbF(
-			(float) ((rgbi & 0x00ff0000) >> 16)	/ 256.0,
-			(float) ((rgbi & 0x0000ff00) >> 8)	/ 256.0,
-			(float) ((rgbi & 0x000000ff))		/ 256.0,
-			1));
-
-		papers[n] = QBrush(QColor::fromRgbF(
-			(float) ((rgbp & 0x00ff0000) >> 16)	/ 256.0,
-			(float) ((rgbp & 0x0000ff00) >> 8)	/ 256.0,
-			(float) ((rgbp & 0x000000ff))		/ 256.0,
-			1));
-	}
-}
-
-
-static QFont build_font(int rebuild)
-/* (re)builds the font */
-{
-	static QFont font;
-
-	if (rebuild) {
-		mpdm_t c;
-		char * font_face = (char *)"Mono";
-		int font_size = 12;
-
-		if ((c = mpdm_hget_s(mp, L"config")) != NULL) {
-			mpdm_t v;
-
-			if ((v = mpdm_hget_s(c, L"font_size")) != NULL)
-				font_size = mpdm_ival(v);
-			else
-				mpdm_hset_s(c, L"font_size", MPDM_I(font_size));
-
-			if ((v = mpdm_hget_s(c, L"font_face")) != NULL) {
-				v = MPDM_2MBS((wchar_t *)v->data);
-				font_face = (char *)v->data;
-			}
-			else
-				mpdm_hset_s(c, L"font_face", MPDM_MBS(font_face));
-		}
-
-		font = QFont(QString(font_face), font_size);
-	}
-
-	return font;
-}
-
+#include "mpv_qk_common.cpp"
 
 static void build_menu(void)
 /* builds the menu */
@@ -287,450 +158,10 @@ static void build_menu(void)
 }
 
 
-static int ignore_scrollbar_signal = 0;
-
-static void draw_scrollbar(void)
-{
-	static int ol = -1;
-	static int ovy = -1;
-	static int oty = -1;
-	mpdm_t txt = mpdm_hget_s(mp_active(), L"txt");
-	mpdm_t window = mpdm_hget_s(mp, L"window");
-	int vy = mpdm_ival(mpdm_hget_s(txt, L"vy"));
-	int ty = mpdm_ival(mpdm_hget_s(window, L"ty"));
-	int l = mpdm_size(mpdm_hget_s(txt, L"lines")) - ty;
-
-	if (ol != l || ovy != vy || oty != ty) {
-
-		ignore_scrollbar_signal = 1;
-
-		scrollbar->setMinimum(0);
-		scrollbar->setMaximum(ol = l);
-		scrollbar->setValue(ovy = vy);
-		scrollbar->setPageStep(oty = ty);
-
-		ignore_scrollbar_signal = 0;
-	}
-}
-
-
 static void draw_status(void)
 {
 	statusbar->changeItem(str_to_qstring(mp_build_status_line()), 0);
 }
-
-static void draw_filetabs(void)
-{
-	static mpdm_t last = NULL;
-	mpdm_t names;
-	int n, i;
-
-	names = mp_get_doc_names();
-
-	/* get mp.active_i now, because it can be changed
-	   from the signal handler */
-	i = mpdm_ival(mpdm_hget_s(mp, L"active_i"));
-
-	/* is the list different from the previous one? */
-	if (mpdm_cmp(names, last) != 0) {
-
-		while (file_tabs->count())
-			file_tabs->removeTab(0);
-
-		/* create the new ones */
-		for (n = 0; n < mpdm_size(names); n++)
-			file_tabs->addTab(str_to_qstring(mpdm_aget(names, n)));
-
-		/* store for the next time */
-		mpdm_unref(last);
-		last = mpdm_ref(names);
-	}
-
-	/* set the active one */
-	file_tabs->setCurrentIndex(i);
-}
-
-
-/** MPArea methods **/
-
-MPArea::MPArea(QWidget *parent) : QWidget(parent)
-{
-	setAttribute(Qt::WA_InputMethodEnabled, true);
-
-	setAcceptDrops(true);
-}
-
-
-bool MPArea::event(QEvent *event)
-{
-	/* special tab processing */
-	if (event->type() == QEvent::KeyPress) {
-		QKeyEvent *ke = (QKeyEvent *)event;
-
-		if (ke->key() == Qt::Key_Tab) {
-			mp_process_event(MPDM_LS(L"tab"));
-			area->update();
-			return true;
-		}
-	}
-
-	/* keep normal processing */
-	return QWidget::event(event);
-}
-
-void MPArea::paintEvent(QPaintEvent *) 
-{ 
-	mpdm_t w;
-	int n, m, y;
-	QFont font;
-	bool underline = false;
-
-	QPainter painter(this);
-
-	font = build_font(0);
-	font.setUnderline(false);
-	painter.setFont(font);
-
-	font_width = painter.fontMetrics().width("M");
-	font_height = painter.fontMetrics().height();
-
-	/* calculate window size */
-	w = mpdm_hget_s(mp, L"window");
-	mpdm_hset_s(w, L"tx", MPDM_I(this->width() / font_width));
-	mpdm_hset_s(w, L"ty", MPDM_I(this->height() / font_height));
-
-	w = mp_draw(mp_active(), 0);
-	y = painter.fontMetrics().ascent() + 1;
-
-	painter.setBackgroundMode(Qt::OpaqueMode);
-
-	painter.setBrush(papers[normal_attr]);
-	painter.drawRect(0, 0, this->width(), this->height());
-
-	for (n = 0; n < mpdm_size(w); n++) {
-		mpdm_t l = mpdm_aget(w, n);
-		int x = 0;
-
-		if (l == NULL)
-			continue;
-
-		for (m = 0; m < mpdm_size(l); m++) {
-			int attr;
-			mpdm_t s;
-
-			/* get the attribute and the string */
-			attr = mpdm_ival(mpdm_aget(l, m++));
-			s = mpdm_aget(l, m);
-
-			painter.setPen(inks[attr]);
-			painter.setBackground(papers[attr]);
-
-			QString qs = str_to_qstring(s);
-
-			if (underline != underlines[attr]) {
-				underline = underlines[attr];
-				font.setUnderline(underline);
-				painter.setFont(font);
-			}
-
-			painter.drawText(x, y, qs);
-
-			x += painter.fontMetrics().width(qs);
-		}
-
-		y += font_height;
-	}
-
-	draw_filetabs();
-	draw_scrollbar();
-	draw_status();
-
-	area->setFocus(Qt::OtherFocusReason);
-}
-
-
-void MPArea::inputMethodEvent(QInputMethodEvent *event)
-{
-	QString s = event->commitString();
-
-	mp_process_event(qstring_to_str(s));
-	area->update();
-}
-
-
-void MPArea::keyReleaseEvent(QKeyEvent *event)
-{
-	if (!event->isAutoRepeat()) {
-		key_down = 0;
-
-		if (mp_keypress_throttle(0))
-			area->update();
-	}
-}
-
-
-void MPArea::keyPressEvent(QKeyEvent *event)
-{
-	mpdm_t k = NULL;
-	wchar_t *ptr = NULL;
-
-	key_down = 1;
-
-	/* set mp.shift_pressed */
-	if (event->modifiers() & Qt::ShiftModifier)
-		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
-
-	if (event->modifiers() & Qt::ControlModifier) {
-		switch (event->key()) {
-		case Qt::Key_Up:		ptr = (wchar_t *) L"ctrl-cursor-up"; break;
-		case Qt::Key_Down:		ptr = (wchar_t *) L"ctrl-cursor-down"; break;
-		case Qt::Key_Left:		ptr = (wchar_t *) L"ctrl-cursor-left"; break;
-		case Qt::Key_Right:		ptr = (wchar_t *) L"ctrl-cursor-right"; break;
-		case Qt::Key_PageUp:		ptr = (wchar_t *) L"ctrl-page-up"; break;
-		case Qt::Key_PageDown:		ptr = (wchar_t *) L"ctrl-page-down"; break;
-		case Qt::Key_Home:		ptr = (wchar_t *) L"ctrl-home"; break;
-		case Qt::Key_End:		ptr = (wchar_t *) L"ctrl-end"; break;
-		case Qt::Key_Space:		ptr = (wchar_t *) L"ctrl-space"; break;
-		case Qt::Key_F1:		ptr = (wchar_t *) L"ctrl-f1"; break;
-		case Qt::Key_F2:		ptr = (wchar_t *) L"ctrl-f2"; break;
-		case Qt::Key_F3:		ptr = (wchar_t *) L"ctrl-f3"; break;
-		case Qt::Key_F4:		ptr = (wchar_t *) L"ctrl-f4"; break;
-		case Qt::Key_F5:		ptr = (wchar_t *) L"ctrl-f5"; break;
-		case Qt::Key_F6:		ptr = (wchar_t *) L"ctrl-f6"; break;
-		case Qt::Key_F7:		ptr = (wchar_t *) L"ctrl-f7"; break;
-		case Qt::Key_F8:		ptr = (wchar_t *) L"ctrl-f8"; break;
-		case Qt::Key_F9:		ptr = (wchar_t *) L"ctrl-f9"; break;
-		case Qt::Key_F10:		ptr = (wchar_t *) L"ctrl-f10"; break;
-		case Qt::Key_F11:		ptr = (wchar_t *) L"ctrl-f11"; break;
-		case Qt::Key_F12:		ptr = (wchar_t *) L"ctrl-f12"; break;
-		case 'A':			ptr = (wchar_t *) L"ctrl-a"; break;
-		case 'B':			ptr = (wchar_t *) L"ctrl-b"; break;
-		case 'C':			ptr = (wchar_t *) L"ctrl-c"; break;
-		case 'D':			ptr = (wchar_t *) L"ctrl-d"; break;
-		case 'E':			ptr = (wchar_t *) L"ctrl-e"; break;
-		case 'F':			ptr = (wchar_t *) L"ctrl-f"; break;
-		case 'G':			ptr = (wchar_t *) L"ctrl-g"; break;
-		case 'H':			ptr = (wchar_t *) L"ctrl-h"; break;
-		case 'I':			ptr = (wchar_t *) L"ctrl-i"; break;
-		case 'J':			ptr = (wchar_t *) L"ctrl-j"; break;
-		case 'K':			ptr = (wchar_t *) L"ctrl-k"; break;
-		case 'L':			ptr = (wchar_t *) L"ctrl-l"; break;
-		case 'M':			ptr = (wchar_t *) L"ctrl-m"; break;
-		case 'N':			ptr = (wchar_t *) L"ctrl-n"; break;
-		case 'O':			ptr = (wchar_t *) L"ctrl-o"; break;
-		case 'P':			ptr = (wchar_t *) L"ctrl-p"; break;
-		case 'Q':			ptr = (wchar_t *) L"ctrl-q"; break;
-		case 'R':			ptr = (wchar_t *) L"ctrl-r"; break;
-		case 'S':			ptr = (wchar_t *) L"ctrl-s"; break;
-		case 'T':			ptr = (wchar_t *) L"ctrl-t"; break;
-		case 'U':			ptr = (wchar_t *) L"ctrl-u"; break;
-		case 'V':			ptr = (wchar_t *) L"ctrl-v"; break;
-		case 'W':			ptr = (wchar_t *) L"ctrl-w"; break;
-		case 'X':			ptr = (wchar_t *) L"ctrl-x"; break;
-		case 'Y':			ptr = (wchar_t *) L"ctrl-y"; break;
-		case 'Z':			ptr = (wchar_t *) L"ctrl-z"; break;
-		case Qt::Key_Return:
-		case Qt::Key_Enter:		ptr = (wchar_t *) L"ctrl-enter"; break;
-
-		default:
-			break;
-		}
-	}
-	else {
-		switch (event->key()) {
-		case Qt::Key_Up:		ptr = (wchar_t *) L"cursor-up"; break;
-		case Qt::Key_Down:		ptr = (wchar_t *) L"cursor-down"; break;
-		case Qt::Key_Left:		ptr = (wchar_t *) L"cursor-left"; break;
-		case Qt::Key_Right:		ptr = (wchar_t *) L"cursor-right"; break;
-		case Qt::Key_PageUp:		ptr = (wchar_t *) L"page-up"; break;
-		case Qt::Key_PageDown:		ptr = (wchar_t *) L"page-down"; break;
-		case Qt::Key_Home:		ptr = (wchar_t *) L"home"; break;
-		case Qt::Key_End:		ptr = (wchar_t *) L"end"; break;
-		case Qt::Key_Space:		ptr = (wchar_t *) L"space"; break;
-		case Qt::Key_F1:		ptr = (wchar_t *) L"f1"; break;
-		case Qt::Key_F2:		ptr = (wchar_t *) L"f2"; break;
-		case Qt::Key_F3:		ptr = (wchar_t *) L"f3"; break;
-		case Qt::Key_F4:		ptr = (wchar_t *) L"f4"; break;
-		case Qt::Key_F5:		ptr = (wchar_t *) L"f5"; break;
-		case Qt::Key_F6:		ptr = (wchar_t *) L"f6"; break;
-		case Qt::Key_F7:		ptr = (wchar_t *) L"f7"; break;
-		case Qt::Key_F8:		ptr = (wchar_t *) L"f8"; break;
-		case Qt::Key_F9:		ptr = (wchar_t *) L"f9"; break;
-		case Qt::Key_F10:		ptr = (wchar_t *) L"f10"; break;
-		case Qt::Key_F11:		ptr = (wchar_t *) L"f11"; break;
-		case Qt::Key_F12:		ptr = (wchar_t *) L"f12"; break;
-		case Qt::Key_Insert:		ptr = (wchar_t *) L"insert"; break;
-		case Qt::Key_Backspace:		ptr = (wchar_t *) L"backspace"; break;
-		case Qt::Key_Delete:		ptr = (wchar_t *) L"delete"; break;
-		case Qt::Key_Return:
-		case Qt::Key_Enter:		ptr = (wchar_t *) L"enter"; break;
-		case Qt::Key_Escape:		ptr = (wchar_t *) L"escape"; break;
-
-		default:
-			break;
-		}
-	}
-
-	if (ptr == NULL)
-		k = qstring_to_str(event->text());
-	else
-		k = MPDM_S(ptr);
-
-	if (k != NULL)
-		mp_process_event(k);
-
-	if (mp_keypress_throttle(1))
-		area->update();
-}
-
-
-void MPArea::mousePressEvent(QMouseEvent *event)
-{
-	wchar_t *ptr = NULL;
-
-	mouse_down = 1;
-
-	QPoint pos = event->pos();
-
-	mpdm_hset_s(mp, L"mouse_x", MPDM_I(pos.x() / font_width));
-	mpdm_hset_s(mp, L"mouse_y", MPDM_I(pos.y() / font_height));
-
-	switch (event->button()) {
-	case Qt::LeftButton: ptr = (wchar_t *)L"mouse-left-button"; break;
-	case Qt::MidButton: ptr = (wchar_t *)L"mouse-middle-button"; break;
-	case Qt::RightButton: ptr = (wchar_t *)L"mouse-right-button"; break;
-	default:
-		break;
-	}
-
-	if (ptr != NULL)
-		mp_process_event(MPDM_S(ptr));
-
-	area->update();
-}
-
-
-void MPArea::mouseReleaseEvent(QMouseEvent *event)
-{
-	mouse_down = 0;
-}
-
-
-void MPArea::mouseMoveEvent(QMouseEvent *event)
-{
-	static int ox = 0;
-	static int oy = 0;
-
-	if (mouse_down) {
-		int x, y;
-
-		QPoint pos = event->pos();
-
-		/* mouse dragging */
-		x = pos.x() / font_width;
-		y = pos.y() / font_height;
-
-		if (ox != x && oy != y) {
-			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
-			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
-
-			mp_process_event(MPDM_LS(L"mouse-drag"));
-
-			area->update();
-		}
-	}
-}
-
-
-void MPArea::wheelEvent(QWheelEvent *event)
-{
-	if (event->delta() > 0)
-		mp_process_event(MPDM_S(L"mouse-wheel-up"));
-	else
-		mp_process_event(MPDM_S(L"mouse-wheel-down"));
-
-	area->update();
-}
-
-
-void MPArea::dragEnterEvent(QDragEnterEvent *event)
-{
-	if (event->mimeData()->hasFormat("text/uri-list"))
-		event->acceptProposedAction();
-}
-
-
-void MPArea::dropEvent(QDropEvent *event)
-{
-	int n;
-	mpdm_t v = qstring_to_str(event->mimeData()->text());
-	mpdm_t l = MPDM_A(0);
-
-	/* split the list of files */
-	v = mpdm_split(MPDM_LS(L"\n"), v);
-
-	for (n = 0; n < mpdm_size(v); n++) {
-		wchar_t *ptr;
-		mpdm_t w = mpdm_aget(v, n);
-
-		/* strip file:///, if found */
-		ptr = mpdm_string(w);
-
-		if (wcsncmp(ptr, L"file://", 7) == 0)
-			ptr += 7;
-
-		if (*ptr != L'\0')
-			mpdm_push(l, MPDM_S(ptr));
-	}
-
-	mpdm_hset_s(mp, L"dropped_files", l);
-
-	event->acceptProposedAction();
-	mp_process_event(MPDM_LS(L"dropped-files"));
-
-	area->update();
-}
-
-
-/** MPArea slots **/
-
-void MPArea::from_scrollbar(int value)
-{
-	if (!ignore_scrollbar_signal) {
-		mpdm_t v = mp_active();
-
-		mp_set_y(v, value);
-
-		/* set the vy to the same value */
-		v = mpdm_hget_s(v, L"txt");
-		mpdm_hset_s(v, L"vy", MPDM_I(value));
-
-		area->update();
-	}
-}
-
-
-void MPArea::from_filetabs(int value)
-{
-	if (value >= 0) {
-		/* sets the active one */
-		mpdm_hset_s(mp, L"active_i", MPDM_I(value));
-		area->update();
-	}
-}
-
-
-void MPArea::from_menu(QAction *action)
-{
-	mpdm_t label = qstring_to_str(action->text());
-	label = mpdm_sregex(MPDM_LS(L"/&/"), label, NULL, 0);
-
-	mpdm_t a = mpdm_hget_s(mp, L"actions_by_menu_label");
-
-	mp_process_action(mpdm_hget(a, label));
-	area->update();
-}
-
 
 /** MPWindow methods **/
 
@@ -800,11 +231,7 @@ bool MPWindow::event(QEvent *event)
 
 static mpdm_t kde4_drv_update_ui(mpdm_t a)
 {
-	build_font(1);
-	build_colors();
-	build_menu();
-
-	return NULL;
+	return qt4_drv_update_ui(a);
 }
 
 
@@ -1028,64 +455,31 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 
 static mpdm_t kde4_drv_busy(mpdm_t a)
 {
-	int onoff = mpdm_ival(mpdm_aget(a, 0));
-
-	window->setCursor(onoff ? Qt::WaitCursor : Qt::ArrowCursor);
-
-	return NULL;
+	return qt4_drv_busy(a);
 }
 
 
 static mpdm_t kde4_drv_main_loop(mpdm_t a)
 {
-	app->exec();
-
-	return NULL;
+	return qt4_drv_main_loop(a);
 }
 
 
 static mpdm_t kde4_drv_shutdown(mpdm_t a)
 {
-	mpdm_t v;
-
-	if ((v = mpdm_hget_s(mp, L"exit_message")) != NULL) {
-		mpdm_write_wcs(stdout, mpdm_string(v));
-		printf("\n");
-	}
-
-	return NULL;
+	return qt4_drv_shutdown(a);
 }
 
 
 static mpdm_t kde4_drv_clip_to_sys(mpdm_t a)
 {
-	mpdm_t v;
-
-	QClipboard *qc = QApplication::clipboard();
-
-	/* gets the clipboard and joins */
-	v = mpdm_hget_s(mp, L"clipboard");
-
-	if (mpdm_size(v) != 0) {
-		v = mpdm_join(MPDM_LS(L"\n"), v);
-		qc->setText(str_to_qstring(v), QClipboard::Selection);
-	}
-
-	return NULL;
+	return qt4_drv_clip_to_sys(a);
 }
 
 
 static mpdm_t kde4_drv_sys_to_clip(mpdm_t a)
 {
-	QClipboard *qc = QApplication::clipboard();
-	QString qs = qc->text(QClipboard::Selection);
-
-	/* split and set as the clipboard */
-	mpdm_hset_s(mp, L"clipboard", mpdm_split(MPDM_LS(L"\n"), 
-		qstring_to_str(qs)));
-	mpdm_hset_s(mp, L"clipboard_vertical", MPDM_I(0));
-
-	return NULL;
+	return qt4_drv_sys_to_clip(a);
 }
 
 

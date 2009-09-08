@@ -296,6 +296,41 @@ else
 	fi
 fi
 
+# Qt4
+
+echo -n "Testing for Qt4... "
+if [ "$WITHOUT_QT4" = "1" ] ; then
+	echo "Disabled"
+else
+	TMP_CFLAGS=$(pkg-config --cflags QtGui)
+
+	TMP_LDFLAGS=$(pkg-config --libs QtGui)
+
+	echo "#include <QtGui>" > .tmp.cpp
+	echo "int main(int argc, char *argv[]) { new QApplication(argc, argv) ; return 0; } " >> .tmp.cpp
+
+	echo "$CPP $TMP_CFLAGS .tmp.cpp $TMP_LDFLAGS -o .tmp.o" >> .config.log
+	$CPP $TMP_CFLAGS .tmp.cpp $TMP_LDFLAGS -o .tmp.o 2>> .config.log
+
+	if [ $? = 0 ] ; then
+		echo $TMP_CFLAGS >> config.cflags
+		echo $TMP_LDFLAGS >> config.ldflags
+
+		echo "#define CONFOPT_KDE4 1" >> config.h
+		echo "OK"
+
+		DRIVERS="qt4 $DRIVERS"
+		DRV_OBJS="mpv_qt4.o $DRV_OBJS"
+		if [ "$CCLINK" = "" ] ; then
+			CCLINK="g++"
+		fi
+
+		WITHOUT_GTK=1
+	else
+		echo "No"
+	fi
+fi
+
 # GTK
 echo -n "Testing for GTK... "
 
