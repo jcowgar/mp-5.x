@@ -108,7 +108,7 @@ MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 	this->statusBar()->addWidget(statusbar);
 
 	/* the full container */
-	QVBoxLayout *vb = new QVBoxLayout(this);
+	QVBoxLayout *vb = new QVBoxLayout();
 
 	file_tabs = new QTabBar();
 	file_tabs->setFocusPolicy(Qt::NoFocus);
