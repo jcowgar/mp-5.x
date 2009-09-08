@@ -47,6 +47,8 @@ class MPWindow : public QMainWindow
 		MPWindow(QWidget *parent = 0);
 		bool queryExit(void);
 		bool event(QEvent *event);
+
+		QSettings *settings;
 };
 
 class MPArea : public QWidget
@@ -100,6 +102,8 @@ static void draw_status(void)
 
 MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 {
+	setWindowTitle("MP " VERSION);
+
 	menubar = this->menuBar();
 	build_menu();
 
@@ -141,7 +145,21 @@ MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 
 	this->setWindowIcon(QIcon(QPixmap(mp_xpm)));
 
-//	this->setAutoSaveSettings(QLatin1String("MinimumProfit"), true);
+	settings = new QSettings("triptico.com", "MinimumProfit");
+
+	QPoint pos = settings->value("pos", QPoint(20, 20)).toPoint();
+	QSize size = settings->value("size", QSize(600, 400)).toSize();
+
+	move(pos);
+	resize(size);
+}
+
+
+static void save_settings(MPWindow *w)
+{
+	w->settings->setValue("pos", w->pos());
+	w->settings->setValue("size", w->size());
+	w->settings->sync();
 }
 
 
@@ -149,7 +167,7 @@ bool MPWindow::queryExit(void)
 {
 	mp_process_event(MPDM_LS(L"close-window"));
 
-//	this->saveAutoSaveSettings();
+	save_settings(this);
 
 	return mp_exit_requested ? true : false;
 }
@@ -161,7 +179,7 @@ bool MPWindow::event(QEvent *event)
 	bool r = QWidget::event(event);
 
 	if (mp_exit_requested) {
-//		this->saveAutoSaveSettings();
+		save_settings(this);
 		exit(0);
 	}
 
