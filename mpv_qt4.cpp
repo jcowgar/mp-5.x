@@ -81,7 +81,8 @@ class MPArea : public QWidget
 QApplication *app;
 MPWindow *window;
 QMenuBar *menubar;
-QStatusBar *statusbar;
+//QStatusBar *statusbar;
+QLabel *statusbar;
 QTabBar *file_tabs;
 
 #define MENU_CLASS QMenu
@@ -90,7 +91,7 @@ QTabBar *file_tabs;
 
 static void draw_status(void)
 {
-	statusbar->showMessage(str_to_qstring(mp_build_status_line()));
+	statusbar->setText(str_to_qstring(mp_build_status_line()));
 }
 
 
@@ -103,7 +104,8 @@ MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 	menubar = this->menuBar();
 	build_menu();
 
-	statusbar = this->statusBar();
+	statusbar = new QLabel();
+	this->statusBar()->addWidget(statusbar);
 
 	/* the full container */
 	QVBoxLayout *vb = new QVBoxLayout(this);
