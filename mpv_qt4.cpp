@@ -252,6 +252,22 @@ static mpdm_t qt4_drv_savefile(mpdm_t a)
 }
 
 
+class MPForm : public QDialog
+{
+public:
+	QDialogButtonBox *button_box;
+
+	MPForm(QWidget *parent = 0) : QDialog(parent)
+	{
+		button_box = new QDialogButtonBox(QDialogButtonBox::Ok |
+							QDialogButtonBox::Cancel);
+
+		connect(button_box, SIGNAL(accepted()), this, SLOT(accept()));
+		connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
+	}
+};
+
+
 static mpdm_t qt4_drv_form(mpdm_t a)
 {
 	int n;
@@ -259,7 +275,8 @@ static mpdm_t qt4_drv_form(mpdm_t a)
 	QWidget *qlist[100];
 	mpdm_t r;
 
-	QDialog *dialog = new QDialog(window);
+	MPForm *dialog = new MPForm(window);
+	dialog->setWindowTitle("mp " VERSION);
 
 	dialog->setModal(true);
 
@@ -355,15 +372,9 @@ static mpdm_t qt4_drv_form(mpdm_t a)
 
 	form->setLayout(fl);
 
-	QDialogButtonBox *bb = new QDialogButtonBox(QDialogButtonBox::Ok |
-							QDialogButtonBox::Cancel);
-
-/*	connect(bb, SIGNAL(accepted()), dialog, SLOT(accept()));
-	connect(bb, SIGNAL(rejected()), dialog, SLOT(reject()));
-*/
 	QVBoxLayout *ml = new QVBoxLayout();
 	ml->addWidget(form);
-	ml->addWidget(bb);
+	ml->addWidget(dialog->button_box);
 
 	dialog->setLayout(ml);
 
