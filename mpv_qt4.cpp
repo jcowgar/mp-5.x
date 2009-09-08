@@ -84,13 +84,9 @@ QMenuBar *menubar;
 QStatusBar *statusbar;
 QTabBar *file_tabs;
 
+#define MENU_CLASS QMenu
+
 #include "mpv_qk_common.cpp"
-
-static void build_menu(void)
-/* builds the menu */
-{
-}
-
 
 static void draw_status(void)
 {

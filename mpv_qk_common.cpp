@@ -34,7 +34,6 @@ static int key_down = 0;
 /** code **/
 
 static void draw_status(void);
-static void build_menu(void);
 
 static mpdm_t qstring_to_str(QString s)
 /* converts a QString to an MPDM string */
@@ -154,6 +153,52 @@ static QFont build_font(int rebuild)
 	}
 
 	return font;
+}
+
+
+static void build_menu(void)
+/* builds the menu */
+{
+	int n;
+	mpdm_t m;
+
+	/* gets the current menu */
+	if ((m = mpdm_hget_s(mp, L"menu")) == NULL)
+		return;
+
+	menubar->clear();
+
+	for (n = 0; n < mpdm_size(m); n++) {
+		mpdm_t mi;
+		mpdm_t v;
+		int i;
+
+		/* get the label */
+		mi = mpdm_aget(m, n);
+		v = mpdm_aget(mi, 0);
+
+		MENU_CLASS *menu = new MENU_CLASS(str_to_qstring(mpdm_gettext(v)));
+
+		/* get the items */
+		v = mpdm_aget(mi, 1);
+
+		for (i = 0; i < mpdm_size(v); i++) {
+			wchar_t *wptr;
+			mpdm_t w = mpdm_aget(v, i);
+
+			wptr = mpdm_string(w);
+
+			if (*wptr == L'-')
+				menu->addSeparator();
+			else
+				menu->addAction(str_to_qstring(
+					mp_menu_label(w)));
+		}
+
+		menubar->addMenu(menu);
+	}
+
+	menubar->show();
 }
 
 
