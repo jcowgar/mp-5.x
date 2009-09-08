@@ -265,7 +265,95 @@ static mpdm_t qt4_drv_form(mpdm_t a)
 
 	widget_list = mpdm_aget(a, 0);
 
-	/* */
+	QWidget *form = new QWidget();
+	QFormLayout *fl = new QFormLayout();
+
+	for (n = 0; n < mpdm_size(widget_list); n++) {
+		mpdm_t w = mpdm_aget(widget_list, n);
+		wchar_t *type;
+		mpdm_t t;
+		QLabel *ql = new QLabel("");
+
+		type = mpdm_string(mpdm_hget_s(w, L"type"));
+
+		if ((t = mpdm_hget_s(w, L"label")) != NULL) {
+			ql->setText(str_to_qstring(mpdm_gettext(t)));
+		}
+
+		t = mpdm_hget_s(w, L"value");
+
+		if (wcscmp(type, L"text") == 0) {
+			mpdm_t h;
+			QComboBox *qc = new QComboBox();
+
+			qc->setEditable(true);
+			qc->setMinimumContentsLength(30);
+			qc->setMaxVisibleItems(8);
+
+			if (t != NULL)
+				qc->setEditText(str_to_qstring(t));
+
+			qlist[n] = qc;
+
+			if ((h = mpdm_hget_s(w, L"history")) != NULL) {
+				int i;
+
+				/* has history; fill it */
+				h = mp_get_history(h);
+
+				for (i = mpdm_size(h) - 1; i >= 0; i--)
+					qc->addItem(str_to_qstring(mpdm_aget(h, i)));
+			}
+
+			fl->addRow(ql, qc);
+		}
+		else
+		if (wcscmp(type, L"password") == 0) {
+			QLineEdit *qe = new QLineEdit();
+
+			qe->setEchoMode(QLineEdit::Password);
+
+			qlist[n] = qe;
+
+			fl->addRow(ql, qe);
+		}
+		else
+		if (wcscmp(type, L"checkbox") == 0) {
+			QCheckBox *qc = new QCheckBox();
+
+			if (mpdm_ival(t))
+				qc->setCheckState(Qt::Checked);
+
+			qlist[n] = qc;
+
+			fl->addRow(ql, qc);
+		}
+		else
+		if (wcscmp(type, L"list") == 0) {
+			int i;
+			QListWidget *qlw = new QListWidget();
+			qlw->setMinimumWidth(480);
+
+			/* use a monospaced font */
+			qlw->setFont(QFont(QString("Mono")));
+
+			mpdm_t l = mpdm_hget_s(w, L"list");
+
+			for (i = 0; i < mpdm_size(l); i++)
+				qlw->addItem(str_to_qstring(mpdm_aget(l, i)));
+
+			qlw->setCurrentRow(mpdm_ival(t));
+
+			qlist[n] = qlw;
+
+			fl->addRow(ql, qlw);
+		}
+
+		if (n == 0)
+			qlist[n]->setFocus(Qt::OtherFocusReason);
+	}
+
+	form->setLayout(fl);
 
 	QDialogButtonBox *bb = new QDialogButtonBox(QDialogButtonBox::Ok |
 							QDialogButtonBox::Cancel);
@@ -274,6 +362,7 @@ static mpdm_t qt4_drv_form(mpdm_t a)
 	connect(bb, SIGNAL(rejected()), dialog, SLOT(reject()));
 */
 	QVBoxLayout *ml = new QVBoxLayout();
+	ml->addWidget(form);
 	ml->addWidget(bb);
 
 	dialog->setLayout(ml);
