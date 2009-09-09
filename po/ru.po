@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minimum Profit\n"
-"Report-Msgid-Bugs-To: alxorlov@pochta.ru\n"
+"Report-Msgid-Bugs-To: wc3site@gmail.com\n"
 "POT-Creation-Date: 2006-01-11 06:09+0100\n"
 "PO-Revision-Date: 2006-09-11 23:07+0300\n"
-"Last-Translator: Alexandr Orlov <alxorlov@pochta.ru>\n"
+"Last-Translator: ozo Patriarch <wc3site@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -626,7 +626,7 @@ msgstr "Поиск (grep) по файлам..."
 
 #: mp_crypt.mpsl:39
 msgid "Passwords don't match."
-msgstr ""
+msgstr "Не правильный пароль."
 
 #: mp_edit.mpsl:58
 msgid "Word wrapping must be set"
@@ -634,19 +634,19 @@ msgstr ""
 
 #: mp_edit.mpsl:133
 msgid "Insert space"
-msgstr ""
+msgstr "Вставить пробел"
 
 #: mp_edit.mpsl:135
 msgid "Delete character"
-msgstr ""
+msgstr "Удалить символ"
 
 #: mp_edit.mpsl:136
 msgid "Delete character to the left"
-msgstr ""
+msgstr "Удалить символ слева"
 
 #: mp_edit.mpsl:137
 msgid "Undo"
-msgstr ""
+msgstr "Отменить"
 
 #: mp_edit.mpsl:139
 msgid "Join a paragraph in one line"
@@ -658,105 +658,105 @@ msgstr ""
 
 #: mp_file.mpsl:48
 msgid "Save file as:"
-msgstr ""
+msgstr "Сохранить файл как:"
 
 #: mp_file.mpsl:55 mp_file.mpsl:67
 #, c-format
 msgid "Error saving file: %s"
-msgstr ""
+msgstr "Ошибка сохранения файла: %s"
 
 #: mp_file.mpsl:101 mp_file.mpsl:235
 msgid "File to open:"
-msgstr ""
+msgstr "Открыть файл:"
 
 #: mp_misc.mpsl:32
 msgid "Code to execute:"
-msgstr ""
+msgstr "Код для исполнения:"
 
 #: mp_misc.mpsl:46 mp_misc.mpsl:62
 msgid "Error: "
-msgstr ""
+msgstr "Ошибка: "
 
 #: mp_misc.mpsl:51
 msgid "Exit value:\n"
-msgstr ""
+msgstr "Код выхода:\n"
 
 #: mp_misc.mpsl:147
 msgid "Execute MPSL code..."
-msgstr ""
+msgstr "Выполнить MPSL код"
 
 #: mp_misc.mpsl:148
 msgid "Execute document as MPSL"
-msgstr ""
+msgstr "Выполнить как MPSL"
 
 #: mp_misc.mpsl:150
 msgid "Bigger font"
-msgstr ""
+msgstr "Увеличить шрифт"
 
 #: mp_misc.mpsl:151
 msgid "Smaller font"
-msgstr ""
+msgstr "Уменьшить шрифт"
 
 #: mp_move.mpsl:133
 msgid "Move cursor to mouse click"
-msgstr ""
+msgstr "Клик мышью"
 
 #: mp_move.mpsl:134
 msgid "Mouse wheel up"
-msgstr ""
+msgstr "Прокрутка мышью вверх"
 
 #: mp_move.mpsl:135
 msgid "Mouse wheel down"
-msgstr ""
+msgstr "Прокрутка мышью вниз"
 
 #: mp_search.mpsl:74
 msgid "Global replace:"
-msgstr ""
+msgstr "Глобальное перемещение:"
 
 #: mp_search.mpsl:116
 msgid "File(s) not found."
-msgstr ""
+msgstr "Файл(ы) не найден(ы)."
 
 msgid "Grep"
 msgstr ""
 
 #: mp_search.mpsl:151
 msgid "Search previous"
-msgstr ""
+msgstr "Найти предыдущее"
 
 #: mp_syntax.mpsl:42
 #, c-format
 msgid "No help for '%s'."
-msgstr ""
+msgstr "Нет помощи для '%s'"
 
 #: mp_syntax.mpsl:46
 #, c-format
 msgid "<help on '%s'>"
-msgstr ""
+msgstr "<Помощь по '%s'>"
 
 #: mp_syntax.mpsl:84
 msgid "Help on word over cursor"
-msgstr ""
+msgstr "Помощь по слову под курсором"
 
 #: mp_tags.mpsl:74
 msgid "No matching symbol found."
-msgstr ""
+msgstr "Не найдено подходящих символов"
 
 #: mp_tags.mpsl:73
 msgid "Select symbol:"
-msgstr ""
+msgstr "Выделить символ"
 
 #: mp_tags.mpsl:86
 msgid "Symbol completion..."
-msgstr ""
+msgstr "Завершить символ..."
 
 #: mp_tags.mpsl:161
 msgid "Tag not found."
-msgstr ""
+msgstr "Тэг не найден"
 
 #: mp_tags.mpsl:173
 msgid "Select tag:"
-msgstr ""
+msgstr "Выделить тэг"
 
 #: mp_templates.mpsl:40
 msgid "Template to insert:"
@@ -764,70 +764,224 @@ msgstr ""
 
 #: mp_edit.mpsl:78
 msgid "Line termination"
-msgstr ""
+msgstr "Строка завершения"
 
 #: mp_edit.mpsl:101
 msgid "Tab size"
-msgstr ""
+msgstr "Размер табуляции"
 
 #: mp_edit.mpsl:105
 msgid "Convert tabs to spaces"
-msgstr ""
+msgstr "Заменять табуляцию пробелами"
 
 #: mp_edit.mpsl:141
 msgid "Line options..."
-msgstr ""
+msgstr "Опции строки"
 
 #: mp_edit.mpsl:142
 msgid "Tab options..."
-msgstr ""
+msgstr "Опции табудяции"
 
 #: mp_file.mpsl:112
 msgid "File has changed. Are you sure?"
-msgstr ""
+msgstr "Файл был изменен. Вы уверены?"
 
 msgid "System command"
-msgstr ""
+msgstr "Системные комманды"
 
 msgid "Error writing command '%s'"
-msgstr ""
+msgstr "Ошибка записи комманды '%s'"
 
 #: mp_file.mpsl:182
 #, c-format
 msgid "Error reading from command '%s'"
-msgstr ""
+msgstr "Ошибка чтения комманды '%s'"
 
 #: mp_file.mpsl:268
 msgid "Revert"
-msgstr ""
+msgstr "Возвратиться"
 
 #: mp_misc.mpsl:78
 msgid "Encoding (utf-8, iso8859-1, etc.; empty, current locale)"
-msgstr ""
+msgstr "Кодировка(utf-8 и т.д. по умолчанию - локальная)"
 
 #: mp_misc.mpsl:85
 msgid "Invalid encoding "
-msgstr ""
+msgstr "Не правильная кодировка "
 
 #: mp_writing.mpsl:36
 #, c-format
 msgid "Lines: %d Words: %d"
-msgstr ""
+msgstr "Строк: %d Слов: %d"
 
 #: mp_misc.mpsl:149
 msgid "Set charset encoding..."
-msgstr ""
+msgstr "Установить кодировку"
 
 #: mp_writing.mpsl:76
 msgid "Count words"
-msgstr ""
+msgstr "Подсчитать слова"
 
 #: mp_spell.mpsl:42
 msgid "Toggle spellchecking"
-msgstr ""
+msgstr "Промежуточная проверка"
 
 #: mp_tui.mpsl:543
 msgid "Please, wait..."
+msgstr "Пожалусто, подождите"
+
+#: mp_file.mpsl:162
+#, c-format
+msgid "Error writing to command '%s'"
+msgstr "Ошибка записи комманды '%s'"
+
+#: mp_edit.mpsl:138
+msgid "Redo"
+msgstr "Еще раз"
+
+#: mp_tags.mpsl:85
+msgid "Complete..."
+msgstr "Завершено..."
+
+#: mp_tags.mpsl:209
+msgid "Select:"
+msgstr "Выбрать:"
+
+msgid "No session file was found to load"
+msgstr "Файл сессии не может быть загружен"
+
+msgid "Could not be found and was not opened"
+msgstr "Не найден и не загружен"
+
+#: mp_session.mpsl:43
+msgid "Load session"
+msgstr "Загрузить сессию"
+
+#: mp_session.mpsl:44
+msgid "Save session"
+msgstr "Сохранить сессию"
+
+#: mp_core.mpsl:247
+#, c-format
+msgid "Unknown action '%s'"
+msgstr "Неизвестное действие '%s'"
+
+#: mp_edit.mpsl:470
+#, c-format
+msgid "Unbound keystroke '%s'"
+msgstr "Неизвестное сочетание '%s'"
+
+#: mp_file.mpsl:426
+#, c-format
+msgid "New file '%s'"
+msgstr "Новый файл '%s'"
+
+#: mp_search.mpsl:332
+#, c-format
+msgid "%d replaces"
+msgstr "%d перемещено"
+
+msgid ""
+"Minimum Profit %s - Programmer Text Editor\n"
+"Copyright (C) Angel Ortega <angel@triptico.com>\n"
+"This software is covered by the GPL license. NO WARRANTY.\n"
+"\n"
+"Usage: mp-5 [options] [files...]\n"
+"\n"
+"Options:\n"
+"\n"
+" -t {tag}           Edits the file where tag is defined\n"
+" -e {mpsl_code}     Executes MPSL code\n"
+" -f {mpsl_script}   Executes MPSL script file\n"
+" +NNN               Moves to line number NNN of last file\n"
+"\n"
+"Homepage: http://www.triptico.com/software/mp.html\n"
+"Mailing list: mp-subscribe@lists.triptico.com\n"
+msgstr ""
+
+#: mp_core.mpsl:455 mp_core.mpsl:473
+#, c-format
+msgid "Cannot open '%s'"
+msgstr "Невозможно открыть '%s'"
+
+#: mp_core.mpsl:579
+#, c-format
+msgid "WARNING: %s version found is %s, but %s is needed"
+msgstr "Предупреждение: %s найдена версия %s, но %s необходима"
+
+#: mp_clipboard.mpsl:94
+msgid "Mark using mouse dragging"
+msgstr "Выделить используя мышь"
+
+#: mp_edit.mpsl:84
+msgid "Mark end of lines"
+msgstr "Помечать конец строки"
+
+#: mp_file.mpsl:269
+msgid "Close all"
+msgstr "Закрыть все"
+
+#: mp_build.mpsl:35
+msgid "No Makefile targets found."
+msgstr "Не найдено целей для Makefile'a"
+
+#: mp_build.mpsl:42
+msgid "Makefile target"
+msgstr "Цель для Makefile'a"
+
+msgid "No errors nor warnings found."
+msgstr "Нет ошибок"
+
+msgid "Errors and Warnings"
+msgstr "Ошибки и предупреждения"
+
+#: mp_build.mpsl:66
+msgid "Build project..."
+msgstr "Собрать проект..."
+
+#: mp_clipboard.mpsl:89
+msgid "Mark vertical block"
+msgstr "Выделить вертикальный блок"
+
+#: mp_core.mpsl:227
+msgid "Read-only document"
+msgstr "Документ только для чтения"
+
+#: mp_clipboard.mpsl:93
+msgid "Delete block"
+msgstr ""
+
+#: mp_core.mpsl:403
+#, c-format
+msgid ""
+"Minimum Profit %s - Programmer Text Editor\n"
+"Copyright (C) Angel Ortega <angel@triptico.com>\n"
+"This software is covered by the GPL license. NO WARRANTY.\n"
+"\n"
+"Usage: mp-5 [options] [files...]\n"
+"\n"
+"Options:\n"
+"\n"
+" -t {tag}           Edits the file where tag is defined\n"
+" -e {mpsl_code}     Executes MPSL code\n"
+" -f {mpsl_script}   Executes MPSL script file\n"
+" -d {directory}     Set current directory\n"
+" +NNN               Moves to line number NNN of last file\n"
+"\n"
+"Homepage: http://www.triptico.com/software/mp.html\n"
+"Mailing list: mp-subscribe@lists.triptico.com\n"
+msgstr ""
+
+#: mp_edit.mpsl:81
+msgid "Keep original end of lines"
+msgstr ""
+
+#: mp_file.mpsl:275
+msgid "Hexadecimal viewer..."
+msgstr ""
+
+#: mp_file.mpsl:276
+msgid "Open dropped files"
 msgstr ""
 
 #: mp_misc.mpsl:104
@@ -858,121 +1012,20 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_file.mpsl:162
-#, c-format
-msgid "Error writing to command '%s'"
+#: mp_search.mpsl:100
+msgid "Base directory (empty, current):"
 msgstr ""
 
-#: mp_edit.mpsl:138
-msgid "Redo"
+#: mp_search.mpsl:103
+msgid "Recursive?"
 msgstr ""
 
-#: mp_tags.mpsl:85
-msgid "Complete..."
+#: mp_spell.mpsl:43
+msgid "Search misspelled word"
 msgstr ""
 
-#: mp_tags.mpsl:209
-msgid "Select:"
-msgstr ""
-
-msgid "No session file was found to load"
-msgstr ""
-
-msgid "Could not be found and was not opened"
-msgstr ""
-
-#: mp_session.mpsl:43
-msgid "Load session"
-msgstr ""
-
-#: mp_session.mpsl:44
-msgid "Save session"
-msgstr ""
-
-#: mp_core.mpsl:247
-#, c-format
-msgid "Unknown action '%s'"
-msgstr ""
-
-#: mp_edit.mpsl:470
-#, c-format
-msgid "Unbound keystroke '%s'"
-msgstr ""
-
-#: mp_file.mpsl:426
-#, c-format
-msgid "New file '%s'"
-msgstr ""
-
-#: mp_search.mpsl:332
-#, c-format
-msgid "%d replaces"
-msgstr ""
-
-msgid ""
-"Minimum Profit %s - Programmer Text Editor\n"
-"Copyright (C) Angel Ortega <angel@triptico.com>\n"
-"This software is covered by the GPL license. NO WARRANTY.\n"
-"\n"
-"Usage: mp-5 [options] [files...]\n"
-"\n"
-"Options:\n"
-"\n"
-" -t {tag}           Edits the file where tag is defined\n"
-" -e {mpsl_code}     Executes MPSL code\n"
-" -f {mpsl_script}   Executes MPSL script file\n"
-" +NNN               Moves to line number NNN of last file\n"
-"\n"
-"Homepage: http://www.triptico.com/software/mp.html\n"
-"Mailing list: mp-subscribe@lists.triptico.com\n"
-msgstr ""
-
-#: mp_core.mpsl:455 mp_core.mpsl:473
-#, c-format
-msgid "Cannot open '%s'"
-msgstr ""
-
-#: mp_core.mpsl:579
-#, c-format
-msgid "WARNING: %s version found is %s, but %s is needed"
-msgstr ""
-
-#: mp_clipboard.mpsl:94
-msgid "Mark using mouse dragging"
-msgstr ""
-
-#: mp_edit.mpsl:84
-msgid "Mark end of lines"
-msgstr ""
-
-#: mp_file.mpsl:269
-msgid "Close all"
-msgstr ""
-
-#: mp_build.mpsl:35
-msgid "No Makefile targets found."
-msgstr ""
-
-#: mp_build.mpsl:42
-msgid "Makefile target"
-msgstr ""
-
-msgid "No errors nor warnings found."
-msgstr ""
-
-msgid "Errors and Warnings"
-msgstr ""
-
-#: mp_build.mpsl:66
-msgid "Build project..."
-msgstr ""
-
-#: mp_core.mpsl:227
-msgid "Read-only document"
-msgstr ""
-
-#: mp_clipboard.mpsl:89
-msgid "Mark vertical block"
+#: mp_spell.mpsl:44
+msgid "Ignore last misspelled word"
 msgstr ""
 
 #: mp_syntax.mpsl:55
@@ -991,56 +1044,6 @@ msgstr ""
 msgid "Section list..."
 msgstr ""
 
-#: mp_spell.mpsl:43
-msgid "Search misspelled word"
-msgstr ""
-
-#: mp_spell.mpsl:44
-msgid "Ignore last misspelled word"
-msgstr ""
-
-msgid "Number of letters at the start or end"
-msgstr ""
-
-msgid "Maximum distance"
-msgstr ""
-
-msgid "Search repeated words..."
-msgstr ""
-
-#: mp_writing.mpsl:78
-msgid "Search repeated word"
-msgstr ""
-
-#: mp_core.mpsl:403
-#, c-format
-msgid ""
-"Minimum Profit %s - Programmer Text Editor\n"
-"Copyright (C) Angel Ortega <angel@triptico.com>\n"
-"This software is covered by the GPL license. NO WARRANTY.\n"
-"\n"
-"Usage: mp-5 [options] [files...]\n"
-"\n"
-"Options:\n"
-"\n"
-" -t {tag}           Edits the file where tag is defined\n"
-" -e {mpsl_code}     Executes MPSL code\n"
-" -f {mpsl_script}   Executes MPSL script file\n"
-" -d {directory}     Set current directory\n"
-" +NNN               Moves to line number NNN of last file\n"
-"\n"
-"Homepage: http://www.triptico.com/software/mp.html\n"
-"Mailing list: mp-subscribe@lists.triptico.com\n"
-msgstr ""
-
-#: mp_search.mpsl:100
-msgid "Base directory (empty, current):"
-msgstr ""
-
-#: mp_search.mpsl:103
-msgid "Recursive?"
-msgstr ""
-
 #: mp_writing.mpsl:43
 msgid "Number of letters at the start or end:"
 msgstr ""
@@ -1053,18 +1056,6 @@ msgstr ""
 msgid "Repeated words options..."
 msgstr ""
 
-#: mp_clipboard.mpsl:93
-msgid "Delete block"
-msgstr ""
-
-#: mp_edit.mpsl:81
-msgid "Keep original end of lines"
-msgstr ""
-
-#: mp_file.mpsl:275
-msgid "Hexadecimal viewer..."
-msgstr ""
-
-#: mp_file.mpsl:276
-msgid "Open dropped files"
+#: mp_writing.mpsl:78
+msgid "Search repeated word"
 msgstr ""
