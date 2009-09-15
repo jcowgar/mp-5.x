@@ -751,6 +751,14 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		case GDK_F12:		ptr = L"ctrl-f12"; break;
 		case GDK_KP_Enter:
 		case GDK_Return:	ptr = L"ctrl-enter"; break;
+		case GDK_Cyrillic_shorti:	ptr = L"ctrl-q"; break;
+		case GDK_Cyrillic_yeru:	ptr = L"ctrl-s"; break;
+		case GDK_Cyrillic_ya:	ptr = L"ctrl-z"; break;
+		case GDK_Cyrillic_tse:	ptr = L"ctrl-w"; break;
+		case GDK_Cyrillic_shcha:	ptr = L"ctrl-o"; break;
+		case GDK_Cyrillic_che:	ptr = L"ctrl-x"; break;
+		case GDK_Cyrillic_em:	ptr = L"ctrl-v"; break;
+		case GDK_Cyrillic_es:	ptr = L"ctrl-c"; break;
 		}
 
 		if (ptr == NULL) {

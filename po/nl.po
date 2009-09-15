@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:447
+#: mp_crypt.mpsl:32 mp_file.mpsl:453
 msgid "Password:"
 msgstr ""
 
@@ -96,7 +96,7 @@ msgstr "In welke bestanden te zoeken (leeg, alles):"
 msgid "Tag to seek:"
 msgstr "Zoek markering:"
 
-#: mp_edit.mpsl:64
+#: mp_edit.mpsl:71
 msgid "Word wrap on column (0, no word wrap):"
 msgstr "Aantal tekens per regel (0, geen nieuwe regels):"
 
@@ -262,11 +262,11 @@ msgstr "Pagina omlaag"
 msgid "Go to line..."
 msgstr "Ga naar regel..."
 
-#: mp_edit.mpsl:124
+#: mp_edit.mpsl:131
 msgid "Insert line"
 msgstr "Voeg regel toe"
 
-#: mp_edit.mpsl:127
+#: mp_edit.mpsl:134
 msgid "Insert tab"
 msgstr "Voeg tab toe"
 
@@ -276,7 +276,7 @@ msgstr "Wis het teken onder de aanwijzer"
 msgid "Delete char to the left of cursor"
 msgstr "Wis het teken links van de aanwijzer"
 
-#: mp_edit.mpsl:125
+#: mp_edit.mpsl:132
 msgid "Delete line"
 msgstr "Wis regel"
 
@@ -365,7 +365,7 @@ msgstr "Bewaar tabs"
 msgid "Save LF as CR/LF"
 msgstr "Bewaar LF als CR/LF"
 
-#: mp_edit.mpsl:68
+#: mp_edit.mpsl:75
 msgid "Automatic indentation"
 msgstr "Automatisch inspringen"
 
@@ -610,31 +610,31 @@ msgstr ""
 msgid "Passwords don't match."
 msgstr ""
 
-#: mp_edit.mpsl:51
+#: mp_edit.mpsl:58
 msgid "Word wrapping must be set"
 msgstr ""
 
-#: mp_edit.mpsl:126
+#: mp_edit.mpsl:133
 msgid "Insert space"
 msgstr ""
 
-#: mp_edit.mpsl:128
+#: mp_edit.mpsl:135
 msgid "Delete character"
 msgstr ""
 
-#: mp_edit.mpsl:129
+#: mp_edit.mpsl:136
 msgid "Delete character to the left"
 msgstr ""
 
-#: mp_edit.mpsl:130
+#: mp_edit.mpsl:137
 msgid "Undo"
 msgstr ""
 
-#: mp_edit.mpsl:132
+#: mp_edit.mpsl:139
 msgid "Join a paragraph in one line"
 msgstr ""
 
-#: mp_edit.mpsl:133
+#: mp_edit.mpsl:140
 msgid "Word-wrap a paragraph"
 msgstr ""
 
@@ -744,23 +744,23 @@ msgstr ""
 msgid "Template to insert:"
 msgstr ""
 
-#: mp_edit.mpsl:71
+#: mp_edit.mpsl:78
 msgid "Line termination"
 msgstr ""
 
-#: mp_edit.mpsl:94
+#: mp_edit.mpsl:101
 msgid "Tab size"
 msgstr ""
 
-#: mp_edit.mpsl:98
+#: mp_edit.mpsl:105
 msgid "Convert tabs to spaces"
 msgstr ""
 
-#: mp_edit.mpsl:134
+#: mp_edit.mpsl:141
 msgid "Line options..."
 msgstr ""
 
-#: mp_edit.mpsl:135
+#: mp_edit.mpsl:142
 msgid "Tab options..."
 msgstr ""
 
@@ -845,7 +845,7 @@ msgstr ""
 msgid "Error writing to command '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:131
+#: mp_edit.mpsl:138
 msgid "Redo"
 msgstr ""
 
@@ -876,17 +876,17 @@ msgstr ""
 msgid "Unknown action '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:447
+#: mp_edit.mpsl:470
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:420
+#: mp_file.mpsl:426
 #, c-format
 msgid "New file '%s'"
 msgstr ""
 
-#: mp_search.mpsl:330
+#: mp_search.mpsl:332
 #, c-format
 msgid "%d replaces"
 msgstr ""
@@ -923,7 +923,7 @@ msgstr ""
 msgid "Mark using mouse dragging"
 msgstr ""
 
-#: mp_edit.mpsl:77
+#: mp_edit.mpsl:84
 msgid "Mark end of lines"
 msgstr ""
 
@@ -1039,7 +1039,7 @@ msgstr ""
 msgid "Delete block"
 msgstr ""
 
-#: mp_edit.mpsl:74
+#: mp_edit.mpsl:81
 msgid "Keep original end of lines"
 msgstr ""
 
