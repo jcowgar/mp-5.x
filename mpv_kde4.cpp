@@ -176,6 +176,7 @@ bool MPWindow::event(QEvent *event)
 
 	if (mp_exit_requested) {
 		this->saveAutoSaveSettings();
+		kde4_drv_shutdown(NULL);
 		exit(0);
 	}
 
