@@ -751,14 +751,32 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		case GDK_F12:		ptr = L"ctrl-f12"; break;
 		case GDK_KP_Enter:
 		case GDK_Return:	ptr = L"ctrl-enter"; break;
-		case GDK_Cyrillic_shorti:	ptr = L"ctrl-q"; break;
-		case GDK_Cyrillic_yeru:	ptr = L"ctrl-s"; break;
-		case GDK_Cyrillic_ya:	ptr = L"ctrl-z"; break;
+		case GDK_Cyrillic_ve:	ptr = L"ctrl-d"; break;
+		case GDK_Cyrillic_a:	ptr = L"ctrl-f"; break;
 		case GDK_Cyrillic_tse:	ptr = L"ctrl-w"; break;
+		case GDK_Cyrillic_de:	ptr = L"ctrl-l"; break;
+		case GDK_Cyrillic_ie:	ptr = L"ctrl-t"; break;
+		case GDK_Cyrillic_ef:	ptr = L"ctrl-a"; break;
+		case GDK_Cyrillic_ghe:	ptr = L"ctrl-u"; break;
+		case GDK_Cyrillic_i:	ptr = L"ctrl-b"; break;
+		case GDK_Cyrillic_shorti:	ptr = L"ctrl-q"; break;
+		case GDK_Cyrillic_ka:	ptr = L"ctrl-r"; break;
+		case GDK_Cyrillic_el:	ptr = L"ctrl-k"; break;
+		case GDK_Cyrillic_em:	ptr = L"ctrl-v"; break;
+		case GDK_Cyrillic_en:	ptr = L"ctrl-y"; break;
+		case GDK_Cyrillic_o:	ptr = L"ctrl-j"; break;
+		case GDK_Cyrillic_pe:	ptr = L"ctrl-g"; break;
+		case GDK_Cyrillic_ya:	ptr = L"ctrl-z"; break;
+		case GDK_Cyrillic_er:	ptr = L"ctrl-h"; break;
+		case GDK_Cyrillic_es:	ptr = L"ctrl-c"; break;
+		case GDK_Cyrillic_te:	ptr = L"ctrl-n"; break;
+		case GDK_Cyrillic_softsign:	ptr = L"ctrl-m"; break;
+		case GDK_Cyrillic_yeru:	ptr = L"ctrl-s"; break;
+		case GDK_Cyrillic_ze:	ptr = L"ctrl-p"; break;
+		case GDK_Cyrillic_sha:	ptr = L"ctrl-i"; break;
+		case GDK_Cyrillic_e:	ptr = L"ctrl-t"; break;
 		case GDK_Cyrillic_shcha:	ptr = L"ctrl-o"; break;
 		case GDK_Cyrillic_che:	ptr = L"ctrl-x"; break;
-		case GDK_Cyrillic_em:	ptr = L"ctrl-v"; break;
-		case GDK_Cyrillic_es:	ptr = L"ctrl-c"; break;
 		}
 
 		if (ptr == NULL) {
