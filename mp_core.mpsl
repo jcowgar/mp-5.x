@@ -412,9 +412,10 @@ sub mp.usage()
 		" -e {mpsl_code}     Executes MPSL code\n"\
 		" -f {mpsl_script}   Executes MPSL script file\n"\
 		" -d {directory}     Set current directory\n"\
+		" -x {file}          Open file in the hexadecimal viewer\n"\
 		" +NNN               Moves to line number NNN of last file\n"\
 		"\n"\
-		"Homepage: http://www.triptico.com/software/mp.html\n"\
+		"Homepage: http://triptico.com/software/mp.html\n"\
 		"Mailing list: mp-subscribe@lists.triptico.com\n"
 	), mp.VERSION);
 }

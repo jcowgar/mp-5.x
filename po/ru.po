@@ -881,30 +881,12 @@ msgstr "Новый файл '%s'"
 msgid "%d replaces"
 msgstr "%d перемещено"
 
-msgid ""
-"Minimum Profit %s - Programmer Text Editor\n"
-"Copyright (C) Angel Ortega <angel@triptico.com>\n"
-"This software is covered by the GPL license. NO WARRANTY.\n"
-"\n"
-"Usage: mp-5 [options] [files...]\n"
-"\n"
-"Options:\n"
-"\n"
-" -t {tag}           Edits the file where tag is defined\n"
-" -e {mpsl_code}     Executes MPSL code\n"
-" -f {mpsl_script}   Executes MPSL script file\n"
-" +NNN               Moves to line number NNN of last file\n"
-"\n"
-"Homepage: http://www.triptico.com/software/mp.html\n"
-"Mailing list: mp-subscribe@lists.triptico.com\n"
-msgstr ""
-
-#: mp_core.mpsl:455 mp_core.mpsl:473
+#: mp_core.mpsl:456 mp_core.mpsl:474
 #, c-format
 msgid "Cannot open '%s'"
 msgstr "Невозможно открыть '%s'"
 
-#: mp_core.mpsl:579
+#: mp_core.mpsl:580
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr "Предупреждение: %s найдена версия %s, но %s необходима"
@@ -949,27 +931,6 @@ msgstr "Документ только для чтения"
 
 #: mp_clipboard.mpsl:93
 msgid "Delete block"
-msgstr ""
-
-#: mp_core.mpsl:403
-#, c-format
-msgid ""
-"Minimum Profit %s - Programmer Text Editor\n"
-"Copyright (C) Angel Ortega <angel@triptico.com>\n"
-"This software is covered by the GPL license. NO WARRANTY.\n"
-"\n"
-"Usage: mp-5 [options] [files...]\n"
-"\n"
-"Options:\n"
-"\n"
-" -t {tag}           Edits the file where tag is defined\n"
-" -e {mpsl_code}     Executes MPSL code\n"
-" -f {mpsl_script}   Executes MPSL script file\n"
-" -d {directory}     Set current directory\n"
-" +NNN               Moves to line number NNN of last file\n"
-"\n"
-"Homepage: http://www.triptico.com/software/mp.html\n"
-"Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
 #: mp_edit.mpsl:81
@@ -1058,4 +1019,26 @@ msgstr ""
 
 #: mp_writing.mpsl:78
 msgid "Search repeated word"
+msgstr ""
+
+#: mp_core.mpsl:403
+#, c-format
+msgid ""
+"Minimum Profit %s - Programmer Text Editor\n"
+"Copyright (C) Angel Ortega <angel@triptico.com>\n"
+"This software is covered by the GPL license. NO WARRANTY.\n"
+"\n"
+"Usage: mp-5 [options] [files...]\n"
+"\n"
+"Options:\n"
+"\n"
+" -t {tag}           Edits the file where tag is defined\n"
+" -e {mpsl_code}     Executes MPSL code\n"
+" -f {mpsl_script}   Executes MPSL script file\n"
+" -d {directory}     Set current directory\n"
+" -x {file}          Open file in the hexadecimal viewer\n"
+" +NNN               Moves to line number NNN of last file\n"
+"\n"
+"Homepage: http://triptico.com/software/mp.html\n"
+"Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
