@@ -118,27 +118,10 @@ _Set charset encoding..._
 
 Shows a dialog asking for a string describing the charset encoding that will
 be used when saving or opening new documents. If an empty string is entered,
-the current locale will be used. the following set of character encodings are
-always available:
+the current locale will be used.
 
- * utf8.
-   Aliases are utf-8, UTF8 and UTF-8.
- * iso8859-1.
-   Aliases are iso-8859-1, ISO-8859-1, ISO8859-1, latin1, latin-1, LATIN1 and LATIN-1.
- * utf16 (with endianness detection on input and local endianness on output).
-   Aliases are utf-16, UTF16, UTF-16, ucs-2, UCS2, UCS-2.
- * utf16be (big endian).
-   Aliases are utf-16be, UTF16BE, UTF-16BE, ucs2be, UCS2BE, ucs-2be and UCS-2BE.
- * utf16le (little endian).
-   Aliases are utf-16le, UTF16LE, UTF-16LE, ucs2le, UCS2LE, ucs-2le and UCS-2LE.
- * utf32 (with endianness detection on input and local endianness on output).
-   Aliases are utf-32, UTF32, UTF-32, ucs-4, ucs4, UCS-4 and UCS4.
- * utf32be (big endian).
-   Aliases are utf-32be, UTF32BE, UTF-32BE, ucs4be, UCS4BE, ucs-4be and UCS-4BE.
- * utf32le (little endian).
-   Aliases are utf-42le, UTF42LE, UTF-42LE, ucs4le, UCS4LE, ucs-4le and UCS-4LE.
-
-If the 'iconv' library is available, there can be many more encodings.
+See ./mp_encoding.html (Mininum Profit character encoding support) for
+more information.
 
 eval
 ----
