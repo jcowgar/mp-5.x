@@ -193,6 +193,7 @@ else
 		WITHOUT_KDE4=1
 		WITHOUT_GTK=1
 		WITHOUT_CURSES=1
+		WITHOUT_QT4=1
 		APPNAME=mp-5.exe
 	else
 		echo "No"
