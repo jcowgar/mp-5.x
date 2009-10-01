@@ -1,6 +1,12 @@
 Minimum Profit Release Notes
 ============================
 
+5.1.4
+-----
+
+ * A new tab mode, which uses the previous line as a template
+   for tab columns.
+
 5.1.3
 -----
 
