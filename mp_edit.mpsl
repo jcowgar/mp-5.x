@@ -104,12 +104,16 @@ mp.actions['tab_options']	= sub (d) {
 		  'history'	=> 'tabsize' },
 		{ 'label'	=> L("Convert tabs to spaces") ~ ':',
 		  'type'	=> 'checkbox',
-		  'value'	=> mp.config.tabs_as_spaces }
+		  'value'	=> mp.config.tabs_as_spaces },
+		{ 'label'	=> L("Use previous line for tab columns") ~ ':',
+		  'type' 	=> 'checkbox',
+		  'value'	=> mp.config.dynamic_tabs }
 	] );
 
 	if (t != NULL) {
-		mp.config.tab_size = t[0];
+		mp.config.tab_size       = t[0];
 		mp.config.tabs_as_spaces = t[1];
+		mp.config.dynamic_tabs   = t[2];
 	}
 };
 
