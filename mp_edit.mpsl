@@ -433,6 +433,16 @@ sub mp.insert_space(doc)
 sub mp.insert_tab(doc)
 /* inserts a tab */
 {
+	if (doc.txt.y && mp.config.dynamic_tabs) {
+		local pl = doc.txt.lines[doc.txt.y - 1];
+
+		if ((pl = regex("/[^ \t]*[ \t]+/", pl, doc.txt.x)) != NULL) {
+			pl = sregex("/[^\t]/g", pl, ' ');
+			mp.insert(doc, pl);
+			return doc;
+		}
+	}
+
 	if (mp.config.tabs_as_spaces) {
 		/* number of spaces to insert */
 		local n = mp.config.tab_size -
