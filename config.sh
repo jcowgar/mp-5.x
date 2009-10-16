@@ -88,17 +88,17 @@ echo "# automatically created by config.sh - do not modify" > makefile.opts
 if [ "$CC" = "" ] ; then
 	CC=cc
 	# if CC is unset, try if gcc is available
-	which gcc > /dev/null && CC=gcc
+	which gcc > /dev/null 2>&1 && CC=gcc
 fi
 
 if [ "$CPP" = "" ] ; then
 	CPP=c++
 	# if CC is unset, try if gcc is available
-	which g++ > /dev/null && CPP=g++
+	which g++ > /dev/null 2>&1 && CPP=g++
 fi
 
 MOC="moc"
-which moc-qt4 > /dev/null && MOC=moc-qt4
+which moc-qt4 > /dev/null 2>&1 && MOC=moc-qt4
 
 echo "CC=$CC" >> makefile.opts
 echo "CPP=$CPP" >> makefile.opts
@@ -263,7 +263,7 @@ echo -n "Testing for KDE4... "
 if [ "$WITHOUT_KDE4" = "1" ] ; then
 	echo "Disabled"
 else
-	if which kde4-config > /dev/null
+	if which kde4-config > /dev/null 2>&1
 	then
 		TMP_CFLAGS=$(pkg-config --cflags QtCore)
 		TMP_CFLAGS="$TMP_CFLAGS -I`kde4-config --install include` -I`kde4-config --install include`KDE"
@@ -306,7 +306,7 @@ echo -n "Testing for Qt4... "
 if [ "$WITHOUT_QT4" = "1" ] ; then
 	echo "Disabled"
 else
-	if which pkg-config > /dev/null
+	if which pkg-config > /dev/null 2>&1
 	then
 		TMP_CFLAGS=$(pkg-config --cflags QtGui)
 		TMP_LDFLAGS=$(pkg-config --libs QtGui)
