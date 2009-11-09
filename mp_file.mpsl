@@ -223,7 +223,7 @@ mp.actions['open_under_cursor'] = sub (d) {
 		mp.search_set_y(n, l);
 	}
 	else
-	if ((w = mp.get_word(d, '/[a-z\._0-9\/ :-]+/i')) != NULL) {
+	if ((w = mp.get_word(d, '/[a-z\._0-9\/:-]+/i')) != NULL) {
 		mp.open(w);
 	}
 };
