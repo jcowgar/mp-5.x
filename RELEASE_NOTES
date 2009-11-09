@@ -6,6 +6,7 @@ Minimum Profit Release Notes
 
  * A new tab mode, which uses the previous line as a template
    for tab columns.
+ * Fixed action `open_under_cursor'.
 
 5.1.3
 -----
