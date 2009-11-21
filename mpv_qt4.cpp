@@ -321,6 +321,8 @@ static mpdm_t qt4_drv_form(mpdm_t a)
 				/* has history; fill it */
 				h = mp_get_history(h);
 
+				qc->addItem("");
+
 				for (i = mpdm_size(h) - 1; i >= 0; i--)
 					qc->addItem(str_to_qstring(mpdm_aget(h, i)));
 			}
