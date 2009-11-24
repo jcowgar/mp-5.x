@@ -31,6 +31,8 @@ static int font_height = -1;
 static int mouse_down = 0;
 static int key_down = 0;
 
+mpdm_t timer_func = NULL;
+
 /** code **/
 
 static void draw_status(void);
@@ -268,6 +270,9 @@ MPArea::MPArea(QWidget *parent) : QWidget(parent)
 	setAttribute(Qt::WA_InputMethodEnabled, true);
 
 	setAcceptDrops(true);
+
+	timer = new QTimer();
+	connect(timer, SIGNAL(timeout()), this, SLOT(from_timer()));
 }
 
 
@@ -642,6 +647,13 @@ void MPArea::from_menu(QAction *action)
 }
 
 
+void MPArea::from_timer(void)
+{
+	mpdm_exec(timer_func, NULL);
+	area->update();
+}
+
+
 /** driver functions **/
 
 static mpdm_t qt4_drv_update_ui(mpdm_t a)
@@ -716,3 +728,18 @@ static mpdm_t qt4_drv_sys_to_clip(mpdm_t a)
 	return NULL;
 }
 
+
+static mpdm_t qt4_drv_timer(mpdm_t a)
+{
+	int msecs = mpdm_ival(mpdm_aget(a, 0));
+
+	mpdm_unref(timer_func);
+	timer_func = mpdm_ref(mpdm_aget(a, 1));
+
+	if (timer_func == NULL)
+		area->timer->stop();
+	else
+		area->timer->start(msecs);
+
+	return NULL;
+}

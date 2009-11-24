@@ -94,6 +94,8 @@ class MPArea : public QWidget
 		void dropEvent(QDropEvent *event);
 		bool event(QEvent *event);
 
+		QTimer *timer;
+
 	protected:
 		void paintEvent(QPaintEvent *event);
 
@@ -101,6 +103,7 @@ class MPArea : public QWidget
 		void from_scrollbar(int);
 		void from_filetabs(int);
 		void from_menu(QAction *);
+		void from_timer(void);
 };
 
 /* global data */
@@ -439,6 +442,11 @@ static mpdm_t kde4_drv_sys_to_clip(mpdm_t a)
 }
 
 
+static mpdm_t kde4_drv_timer(mpdm_t a)
+{
+	return qt4_drv_timer(a);
+}
+
 static void register_functions(void)
 {
 	mpdm_t drv;
@@ -450,7 +458,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(kde4_drv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(kde4_drv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(kde4_drv_update_ui));
-/*	mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));*/
+	mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));
 	mpdm_hset_s(drv, L"busy", MPDM_X(kde4_drv_busy));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(kde4_drv_alert));

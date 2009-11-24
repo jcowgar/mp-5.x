@@ -68,6 +68,8 @@ class MPArea : public QWidget
 		void dropEvent(QDropEvent *event);
 		bool event(QEvent *event);
 
+		QTimer *timer;
+
 	protected:
 		void paintEvent(QPaintEvent *event);
 
@@ -75,6 +77,7 @@ class MPArea : public QWidget
 		void from_scrollbar(int);
 		void from_filetabs(int);
 		void from_menu(QAction *);
+		void from_timer(void);
 };
 
 /* global data */
@@ -450,7 +453,7 @@ static void register_functions(void)
 	mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(qt4_drv_clip_to_sys));
 	mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(qt4_drv_sys_to_clip));
 	mpdm_hset_s(drv, L"update_ui", MPDM_X(qt4_drv_update_ui));
-/*	mpdm_hset_s(drv, L"timer", MPDM_X(qt4_drv_timer));*/
+	mpdm_hset_s(drv, L"timer", MPDM_X(qt4_drv_timer));
 	mpdm_hset_s(drv, L"busy", MPDM_X(qt4_drv_busy));
 
 	mpdm_hset_s(drv, L"alert", MPDM_X(qt4_drv_alert));

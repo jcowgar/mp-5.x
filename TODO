@@ -27,7 +27,6 @@ Open Bugs
  * 1249: Change TUI dialogs to be really dialogs.
  * 1259: Apply Jeremy's indent_block().
  * 1260: Apply Jeremy's outdent_block().
- * 1268: Implement mp.timer() in the KDE4 driver.
  * 1271: Section marks should be multiline.
  * 1278: The Qt driver do not accept Qt-specific command line
    arguments.
@@ -335,5 +334,7 @@ Closed
  * 1277: Fix win32 window title (Tue, 28 Jul 2009 06:59:56 +0000).
  * 1266: Add a new tab style, in which the next tab column is taken from
    the previous line (Thu, 01 Oct 2009 10:48:37 +0200).
+ * 1268: Implement mp.timer() in the KDE4 driver
+   (Tue, 24 Nov 2009 12:50:32 +0100).
 
 Email bugs to angel@triptico.com
