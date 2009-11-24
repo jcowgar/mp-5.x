@@ -732,8 +732,9 @@ static mpdm_t qt4_drv_sys_to_clip(mpdm_t a)
 static mpdm_t qt4_drv_timer(mpdm_t a)
 {
 	int msecs = mpdm_ival(mpdm_aget(a, 0));
+	mpdm_t r;
 
-	mpdm_unref(timer_func);
+	r = mpdm_unref(timer_func);
 	timer_func = mpdm_ref(mpdm_aget(a, 1));
 
 	if (timer_func == NULL)
@@ -741,5 +742,5 @@ static mpdm_t qt4_drv_timer(mpdm_t a)
 	else
 		area->timer->start(msecs);
 
-	return NULL;
+	return r;
 }
