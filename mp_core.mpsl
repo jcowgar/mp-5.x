@@ -292,6 +292,10 @@ sub mp.process_event(k)
 	}
 
 	mp.shift_pressed = NULL;
+
+	/* if there is a keypress notifier function, call it */
+	if (is_exec(d.keypress))
+		d.keypress(d, k);
 }
 
 

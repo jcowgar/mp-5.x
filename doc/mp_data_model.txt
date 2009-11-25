@@ -31,6 +31,9 @@ document are the following:
    it's used as the file encoding when saving.
  * eol: The end of line sequence the loaded document originally had.
    Only set if `mp.config.keep_eol' is set.
+ * keypress: If this component is defined and is an executable function,
+   it's called with the document variable and the keypress identifier
+   as arguments after the keypress has been processed.
 
 The `txt' component contains the current state of the document:
 
