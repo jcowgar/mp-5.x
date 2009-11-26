@@ -1,0 +1,135 @@
+/*
+
+    Minimum Profit 5.x
+    A Programmer's Text Editor
+
+    Useless things.
+
+    Copyright (C) 1991-2009 Angel Ortega <angel@triptico.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+    http://www.triptico.com
+
+*/
+
+sub mp.random(range)
+{
+	if (mp.rnd_seed == NULL)
+		mp.rnd_seed = time();
+
+	mp.rnd_seed *= 58321;
+	mp.rnd_seed += 11113;
+	mp.rnd_seed &= 0xfffffff;
+
+	return mp.rnd_seed % range;
+}
+
+
+sub mp.maze(doc, keystroke)
+{
+	local tx = mp.window.tx;
+	local ty = mp.window.ty;
+
+	if (doc == NULL)
+		doc = mp.open('<maze>');
+
+	local maze = doc.maze;
+
+	print("mp.maze()\n");
+
+	if (maze == NULL || maze.tx != tx || maze.ty != ty) {
+		/* new or changed: rebuild everything */
+		maze = {};
+		maze.tx = tx;
+		maze.ty = ty;
+		doc.maze = maze;
+
+		/* ensure odd size */
+		if (!(tx & 1))
+			tx--;
+		if (!(ty & 1))
+			ty--;
+
+		/* init */
+		local w1 = map(sub { '%'; }, [1 .. tx]);
+		local w2 = map(sub { '#'; }, [1 .. (tx - 2)]);
+		ins(w2, '%', 0);
+		push(w2, '%');
+
+		maze.map = map(sub { clone(w2); }, [1 .. ty]);
+		ins(maze.map, clone(w1), 0);
+		push(maze.map, clone(w1));
+
+		/* build */
+		local x = 2;
+		local y = 2;
+		local stack = [];
+
+		while (1) {
+			local d = [];
+
+			/* clear */
+			maze.map[y][x] = ' ';
+
+			foreach (t, [[0, -1], [1, 0], [0, 1], [-1, 0]]) {
+				/* can space be opened? */
+				if (maze.map[y + t[0] * 2][x + t[1] * 2] eq '#')
+					push(d, t);
+			}
+
+			if (size(d)) {
+				/* more than one way? stack this position */
+				if (size(d) > 1)
+					push(stack, [y, x]);
+
+				/* pick one direction at random and move there */
+				local m = d[mp.random(size(d))];
+
+				y += m[0];
+				x += m[1];
+
+				maze.map[y][x] = ' ';
+
+				y += m[0];
+				x += m[1];
+			}
+			else {
+				/* no way from here: pop previous position */
+				if ((d = pop(stack)) == NULL)
+					break;
+
+				y = d[0];
+				x = d[1];
+			}
+		}
+
+		maze.x = 2 + mp.random(tx / 2) * 2;
+		maze.y = 2 + mp.random(ty / 2) * 2;
+
+		maze.map[maze.y][maze.x] = '@';
+
+		x = 2 + mp.random(tx / 2) * 2;
+		y = 2 + mp.random(ty / 2) * 2;
+
+		maze.map[y][x] = 'X';
+
+		doc.keypress = mp.maze();
+
+		doc.paint = sub(d) { map(sub(e) { [0, join('', e)];}, d.maze.map); };
+	}
+
+	return doc;
+}
