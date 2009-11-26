@@ -48,8 +48,6 @@ sub mp.maze(doc, keystroke)
 
 	local maze = doc.maze;
 
-	print("mp.maze()\n");
-
 	if (maze == NULL || maze.tx != tx || maze.ty != ty) {
 		/* new or changed: rebuild everything */
 		maze = {};
@@ -126,7 +124,7 @@ sub mp.maze(doc, keystroke)
 
 		maze.map[y][x] = 'X';
 
-		doc.keypress = mp.maze();
+		doc.keypress = sub(d, k) { mp.maze(d, k); };
 
 		doc.paint = sub(d) { map(sub(e) { [0, join('', e)];}, d.maze.map); };
 	}
