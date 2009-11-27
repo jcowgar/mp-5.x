@@ -25,7 +25,7 @@
 
 */
 
-sub mp.maze(doc, keystroke)
+sub mp.maze(doc, keycode)
 {
 	local tx = mp.window.tx;
 	local ty = mp.window.ty;
@@ -113,8 +113,35 @@ sub mp.maze(doc, keystroke)
 
 		doc.keypress = sub(d, k) { mp.maze(d, k); };
 
-		doc.paint = sub(d) { map(sub(e) { [0, join('', e)];}, d.maze.map); };
+		doc.paint = sub(d) { map(sub(e) { [8, join('', e)];}, d.maze.map); };
 	}
+
+	local x = maze.x;
+	local y = maze.y;
+
+	maze.map[y][x] = ' ';
+
+	if (keycode eq 'cursor-up')
+		y--;
+	if (keycode eq 'cursor-down')
+		y++;
+	if (keycode eq 'cursor-left')
+		x--;
+	if (keycode eq 'cursor-right')
+		x++;
+
+	if (maze.map[y][x] eq 'X') {
+		mp.alert("You won!");
+		doc.maze = NULL;
+		return doc;
+	}
+
+	if (maze.map[y][x] eq ' ') {
+		maze.x = x;
+		maze.y = y;
+	}
+
+	maze.map[maze.y][maze.x] = '@';
 
 	return doc;
 }
