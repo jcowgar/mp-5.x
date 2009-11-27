@@ -49,18 +49,11 @@ sub mp.maze(doc, keycode)
 			ty--;
 
 		/* init */
-		local w1 = map(sub { '%'; }, [1 .. tx]);
-		local w2 = map(sub { '#'; }, [1 .. (tx - 2)]);
-		ins(w2, '%', 0);
-		push(w2, '%');
-
-		maze.map = map(sub { clone(w2); }, [1 .. ty]);
-		ins(maze.map, clone(w1), 0);
-		push(maze.map, clone(w1));
+		maze.map = map(sub { map(sub { '#'; }, [1 .. tx]); }, [1 .. ty]);
 
 		/* build */
-		local x = 2;
-		local y = 2;
+		local x = 1;
+		local y = 1;
 		local stack = [];
 
 		while (1) {
@@ -71,7 +64,10 @@ sub mp.maze(doc, keycode)
 
 			foreach (t, [[0, -1], [1, 0], [0, 1], [-1, 0]]) {
 				/* can space be opened? */
-				if (maze.map[y + t[0] * 2][x + t[1] * 2] eq '#')
+				local ny = y + t[0] * 2;
+				local nx = x + t[1] * 2;
+
+				if (nx > 0 && ny > 0 && maze.map[ny][nx] eq '#')
 					push(d, t);
 			}
 
@@ -101,13 +97,13 @@ sub mp.maze(doc, keycode)
 			}
 		}
 
-		maze.x = 2 + random(tx / 2) * 2;
-		maze.y = 2 + random(ty / 2) * 2;
+		maze.x = 1 + random(tx / 2) * 2;
+		maze.y = 1 + random(ty / 2) * 2;
 
 		maze.map[maze.y][maze.x] = '@';
 
-		x = 2 + random(tx / 2) * 2;
-		y = 2 + random(ty / 2) * 2;
+		x = 1 + random(tx / 2) * 2;
+		y = 1 + random(ty / 2) * 2;
 
 		maze.map[y][x] = 'X';
 
