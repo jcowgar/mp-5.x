@@ -25,19 +25,6 @@
 
 */
 
-sub mp.random(range)
-{
-	if (mp.rnd_seed == NULL)
-		mp.rnd_seed = time();
-
-	mp.rnd_seed *= 58321;
-	mp.rnd_seed += 11113;
-	mp.rnd_seed &= 0xfffffff;
-
-	return mp.rnd_seed % range;
-}
-
-
 sub mp.maze(doc, keystroke)
 {
 	local tx = mp.window.tx;
@@ -94,7 +81,7 @@ sub mp.maze(doc, keystroke)
 					push(stack, [y, x]);
 
 				/* pick one direction at random and move there */
-				local m = d[mp.random(size(d))];
+				local m = d[random(size(d))];
 
 				y += m[0];
 				x += m[1];
@@ -114,13 +101,13 @@ sub mp.maze(doc, keystroke)
 			}
 		}
 
-		maze.x = 2 + mp.random(tx / 2) * 2;
-		maze.y = 2 + mp.random(ty / 2) * 2;
+		maze.x = 2 + random(tx / 2) * 2;
+		maze.y = 2 + random(ty / 2) * 2;
 
 		maze.map[maze.y][maze.x] = '@';
 
-		x = 2 + mp.random(tx / 2) * 2;
-		y = 2 + mp.random(ty / 2) * 2;
+		x = 2 + random(tx / 2) * 2;
+		y = 2 + random(ty / 2) * 2;
 
 		maze.map[y][x] = 'X';
 
