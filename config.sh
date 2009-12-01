@@ -321,7 +321,7 @@ else
 			echo $TMP_CFLAGS >> config.cflags
 			echo $TMP_LDFLAGS >> config.ldflags
 
-			echo "#define CONFOPT_KDE4 1" >> config.h
+			echo "#define CONFOPT_QT4 1" >> config.h
 			echo "OK"
 
 			DRIVERS="qt4 $DRIVERS"
