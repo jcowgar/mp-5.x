@@ -185,52 +185,58 @@ static mpdm_t nc_getkey(mpdm_t args)
 
 	if (shift) {
 		switch (f[0]) {
-		case L'0':		f = L"f10"; break;
-		case L'1':		f = L"f1"; break;
-		case L'2':		f = L"f2"; break;
-		case L'3':		f = L"f3"; break;
-		case L'4':		f = L"f4"; break;
-		case L'5':		f = L"f5"; break;
-		case L'6':		f = L"f6"; break;
-		case L'7':		f = L"f7"; break;
-		case L'8':		f = L"f8"; break;
-		case L'9':		f = L"f9"; break;
+		case L'0':			f = L"f10"; break;
+		case L'1':			f = L"f1"; break;
+		case L'2':			f = L"f2"; break;
+		case L'3':			f = L"f3"; break;
+		case L'4':			f = L"f4"; break;
+		case L'5':			f = L"f5"; break;
+		case L'6':			f = L"f6"; break;
+		case L'7':			f = L"f7"; break;
+		case L'8':			f = L"f8"; break;
+		case L'9':			f = L"f9"; break;
 		case KEY_LEFT:		f = L"ctrl-cursor-left"; break;
 		case KEY_RIGHT: 	f = L"ctrl-cursor-right"; break;
 		case KEY_DOWN:		f = L"ctrl-cursor-down"; break;
 		case KEY_UP:		f = L"ctrl-cursor-up"; break;
 		case KEY_END:		f = L"ctrl-end"; break;
 		case KEY_HOME:		f = L"ctrl-home"; break;
-		case L'\r':		f = L"ctrl-enter"; break;
-		case L'\e':		f = L"escape"; break;
+		case L'\r':			f = L"ctrl-enter"; break;
+		case L'\e':			f = L"escape"; break;
 		case KEY_ENTER:		f = L"ctrl-enter"; break;
-		case L' ':		f = L"ctrl-space"; break;
-		case L'a':		f = L"ctrl-a"; break;
-		case L'b':		f = L"ctrl-b"; break;
-		case L'c':		f = L"ctrl-c"; break;
-		case L'd':		f = L"ctrl-d"; break;
-		case L'e':		f = L"ctrl-e"; break;
-		case L'f':		f = L"ctrl-f"; break;
-		case L'g':		f = L"ctrl-g"; break;
-		case L'h':		f = L"ctrl-h"; break;
-		case L'i':		f = L"ctrl-i"; break;
-		case L'j':		f = L"ctrl-j"; break;
-		case L'k':		f = L"ctrl-k"; break;
-		case L'l':		f = L"ctrl-l"; break;
-		case L'm':		f = L"ctrl-m"; break;
-		case L'n':		f = L"ctrl-n"; break;
-		case L'o':		f = L"ctrl-o"; break;
-		case L'p':		f = L"ctrl-p"; break;
-		case L'q':		f = L"ctrl-q"; break;
-		case L'r':		f = L"ctrl-r"; break;
-		case L's':		f = L"ctrl-s"; break;
-		case L't':		f = L"ctrl-t"; break;
-		case L'u':		f = L"ctrl-u"; break;
-		case L'v':		f = L"ctrl-v"; break;
-		case L'w':		f = L"ctrl-w"; break;
-		case L'x':		f = L"ctrl-x"; break;
-		case L'y':		f = L"ctrl-y"; break;
-		case L'z':		f = L"ctrl-z"; break;
+		case L' ':			f = L"alt-space"; break;
+		case L'a':			f = L"alt-a"; break;
+		case L'b':			f = L"alt-b"; break;
+		case L'c':			f = L"alt-c"; break;
+		case L'd':			f = L"alt-d"; break;
+		case L'e':			f = L"alt-e"; break;
+		case L'f':			f = L"alt-f"; break;
+		case L'g':			f = L"alt-g"; break;
+		case L'h':			f = L"alt-h"; break;
+		case L'i':			f = L"alt-i"; break;
+		case L'j':			f = L"alt-j"; break;
+		case L'k':			f = L"alt-k"; break;
+		case L'l':			f = L"alt-l"; break;
+		case L'm':			f = L"alt-m"; break;
+		case L'n':			f = L"alt-n"; break;
+		case L'o':			f = L"alt-o"; break;
+		case L'p':			f = L"alt-p"; break;
+		case L'q':			f = L"alt-q"; break;
+		case L'r':			f = L"alt-r"; break;
+		case L's':			f = L"alt-s"; break;
+		case L't':			f = L"alt-t"; break;
+		case L'u':			f = L"alt-u"; break;
+		case L'v':			f = L"alt-v"; break;
+		case L'w':			f = L"alt-w"; break;
+		case L'x':			f = L"alt-x"; break;
+		case L'y':			f = L"alt-y"; break;
+		case L'z':			f = L"alt-z"; break;
+		case L'\'':			f = L"alt-'"; break;
+		case L',':			f = L"alt-,"; break;
+		case L'-':			f = L"alt--"; break;
+		case L'.':			f = L"alt-."; break;
+		case L'/':			f = L"alt-/"; break;
+		case L'=':			f = L"alt-="; break;
 		}
 
 		shift = 0;
@@ -250,12 +256,12 @@ static mpdm_t nc_getkey(mpdm_t args)
 		case KEY_DC:		f = L"delete"; break;
 		case 0x7f:
 		case KEY_BACKSPACE:
-		case L'\b':		f = L"backspace"; break;
+		case L'\b':			f = L"backspace"; break;
 		case L'\r':
 		case KEY_ENTER:		f = L"enter"; break;
-		case L'\t':		f = L"tab"; break;
+		case L'\t':			f = L"tab"; break;
 		case KEY_BTAB:		f = L"shift-tab"; break;
-		case L' ':		f = L"space"; break;
+		case L' ':			f = L"space"; break;
 		case KEY_F(1):		f = L"f1"; break;
 		case KEY_F(2):		f = L"f2"; break;
 		case KEY_F(3):		f = L"f3"; break;
@@ -290,7 +296,7 @@ static mpdm_t nc_getkey(mpdm_t args)
 		case ctrl('x'):		f = L"ctrl-x"; break;
 		case ctrl('y'):		f = L"ctrl-y"; break;
 		case ctrl('z'):		f = L"ctrl-z"; break;
-		case L'\e':		shift = 1; f = NULL; break;
+		case L'\e':			shift = 1; f = NULL; break;
 		}
 	}
 
