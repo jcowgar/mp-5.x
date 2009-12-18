@@ -186,7 +186,7 @@ sub mp.get_active_area(doc)
 
 
 /**
- * mp.copy - Copies to the clipboard
+ * mp.copy - Copies the selected block or a string to the clipboard
  * @doc: the source of the copy
  *
  * If @doc is a document, it copies to the clipboard the content of the
@@ -245,10 +245,20 @@ sub mp.cut(doc)
 }
 
 
+/**
+ * mp.paste - Pastes from the clipboard into a text or as a value
+ * @doc: the destination of the copy
+ *
+ * If @doc is NULL, returns the content of the clipboard as a
+ * scalar string; if it's not, is assumed to be a document and
+ * pastes the content of the clipboard into the cursor position.
+ */
 sub mp.paste(doc)
-/* pastes from the clipboard into a text */
 {
 	mp.drv.sys_to_clip();
+
+	if (doc == NULL)
+		return join("\n", mp.clipboard);
 
 	if (size(mp.clipboard) == 0)
 		return doc;
