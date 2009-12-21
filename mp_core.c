@@ -395,10 +395,25 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 			}
 		}
 		else {
-			/* it's a scalar: */
-			/* while the regex matches, fill attributes */
-			while (mpdm_regex(r, drw_2.v, o))
-				o = drw_fill_attr_regex(attr);
+			/* it's a scalar */
+
+			if (*mpdm_string(r) == L'%') {
+				/* it's a sscanf() expression */
+				mpdm_t v;
+
+				while ((v = mpdm_sscanf(r, drw_2.v, o)) && mpdm_size(v) == 2) {
+					int i = mpdm_ival(mpdm_aget(v, 0));
+					int s = mpdm_ival(mpdm_aget(v, 1)) - i;
+
+					o = drw_fill_attr(attr, i, s);
+				}
+			}
+			else {
+				/* it's a regex */
+				/* while the regex matches, fill attributes */
+				while (mpdm_regex(r, drw_2.v, o))
+					o = drw_fill_attr_regex(attr);
+			}
 		}
 	}
 }
