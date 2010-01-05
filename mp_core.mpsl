@@ -617,6 +617,7 @@ load("mp_keyseq.mpsl");
 load("mp_session.mpsl");
 load("mp_build.mpsl");
 load("mp_writing.mpsl");
+load("mp_toys.mpsl");
 
 mp.load_profile();
 mp.setup_language();
