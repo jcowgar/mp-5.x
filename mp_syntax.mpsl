@@ -636,6 +636,35 @@ mp.syntax.hex_view = {
 };
 
 
+mp.syntax.grutatxt = {
+	'id'		=> 'grutatxt',
+	'name'		=> 'Grutatxt',
+	'defs'		=> [
+		'word1',	[ "/[^\n]+\n[-=~]+\n/", "/ \* [^.\n:]+:/" ],
+		'comments',	[ "/\b_[^ \t\n][^_\n]*[^ \t\n]_\b/" ],
+		'word2',	[ "/\*[^ \t\n][^\*\n]*[^ \t\n]\*/" ],
+		'quotes',	[ "/`[^ \t\n][^'\n]*[^ \t\n]'/" ]
+	],
+	'section'	=> [ "/^[-=~]+$/" ],
+	'detect'	=>	sub (d) {
+		local n = 0;
+
+		/* search the first lines for a heading */
+		while (n < 40) {
+			local l = d.txt.lines[n++];
+
+			if (l == NULL)
+				break;
+
+			if (regex("/^[-=~]+$/", l))
+				return 1;
+		}
+
+		return 0;
+	}
+};
+
+
 /** code **/
 
 sub mp.detect_syntax(doc)

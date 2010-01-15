@@ -9,6 +9,7 @@ Minimum Profit Release Notes
  * Fixed action `open_under_cursor'.
  * The `mp.paste()' function returns the clipboard content
    as a string if called without arguments.
+ * New Grutatxt syntax highlighter.
 
 5.1.3
 -----
