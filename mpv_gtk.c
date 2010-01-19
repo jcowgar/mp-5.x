@@ -719,8 +719,8 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
 
 	/* reserve alt for menu mnemonics */
-	if (GDK_MOD1_MASK & event->state)
-		return(0);
+/*	if (GDK_MOD1_MASK & event->state)
+		return(0);*/
 
 	if (event->state & (GDK_CONTROL_MASK)) {
 		switch (event->keyval) {
@@ -809,6 +809,97 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer da
 			case 'X':		ptr = L"ctrl-x"; break;
 			case 'Y':		ptr = L"ctrl-y"; break;
 			case 'Z':		ptr = L"ctrl-z"; break;
+			}
+		}
+	}
+	else
+	if (event->state & (GDK_MOD1_MASK)) {
+		switch (event->keyval) {
+		case GDK_Up:		ptr = L"alt-cursor-up"; break;
+		case GDK_Down:		ptr = L"alt-cursor-down"; break;
+		case GDK_Left:		ptr = L"alt-cursor-left"; break;
+		case GDK_Right: 	ptr = L"alt-cursor-right"; break;
+		case GDK_Prior: 	ptr = L"alt-page-up"; break;
+		case GDK_Next:		ptr = L"alt-page-down"; break;
+		case GDK_Home:		ptr = L"alt-home"; break;
+		case GDK_End:		ptr = L"alt-end"; break;
+		case GDK_space:		ptr = L"alt-space"; break;
+		case GDK_KP_Add: 	ptr = L"alt-kp-plus"; break;
+		case GDK_KP_Subtract:	ptr = L"alt-kp-minus"; break;
+		case GDK_KP_Multiply:	ptr = L"alt-kp-multiply"; break;
+		case GDK_KP_Divide:	ptr = L"alt-kp-divide"; break;
+		case GDK_F1:		ptr = L"alt-f1"; break;
+		case GDK_F2:		ptr = L"alt-f2"; break;
+		case GDK_F3:		ptr = L"alt-f3"; break;
+		case GDK_F4:		ptr = L"alt-f4"; break;
+		case GDK_F5:		ptr = L"alt-f5"; break;
+		case GDK_F6:		ptr = L"alt-f6"; break;
+		case GDK_F7:		ptr = L"alt-f7"; break;
+		case GDK_F8:		ptr = L"alt-f8"; break;
+		case GDK_F9:		ptr = L"alt-f9"; break;
+		case GDK_F10:		ptr = L"alt-f10"; break;
+		case GDK_F11:		ptr = L"alt-f11"; break;
+		case GDK_F12:		ptr = L"alt-f12"; break;
+		case GDK_KP_Enter:
+		case GDK_Return:	ptr = L"alt-enter"; break;
+		case GDK_Cyrillic_ve:	ptr = L"alt-d"; break;
+		case GDK_Cyrillic_a:	ptr = L"alt-f"; break;
+		case GDK_Cyrillic_tse:	ptr = L"alt-w"; break;
+		case GDK_Cyrillic_de:	ptr = L"alt-l"; break;
+		case GDK_Cyrillic_ie:	ptr = L"alt-t"; break;
+		case GDK_Cyrillic_ef:	ptr = L"alt-a"; break;
+		case GDK_Cyrillic_ghe:	ptr = L"alt-u"; break;
+		case GDK_Cyrillic_i:	ptr = L"alt-b"; break;
+		case GDK_Cyrillic_shorti:	ptr = L"alt-q"; break;
+		case GDK_Cyrillic_ka:	ptr = L"alt-r"; break;
+		case GDK_Cyrillic_el:	ptr = L"alt-k"; break;
+		case GDK_Cyrillic_em:	ptr = L"alt-v"; break;
+		case GDK_Cyrillic_en:	ptr = L"alt-y"; break;
+		case GDK_Cyrillic_o:	ptr = L"alt-j"; break;
+		case GDK_Cyrillic_pe:	ptr = L"alt-g"; break;
+		case GDK_Cyrillic_ya:	ptr = L"alt-z"; break;
+		case GDK_Cyrillic_er:	ptr = L"alt-h"; break;
+		case GDK_Cyrillic_es:	ptr = L"alt-c"; break;
+		case GDK_Cyrillic_te:	ptr = L"alt-n"; break;
+		case GDK_Cyrillic_softsign:	ptr = L"alt-m"; break;
+		case GDK_Cyrillic_yeru:	ptr = L"alt-s"; break;
+		case GDK_Cyrillic_ze:	ptr = L"alt-p"; break;
+		case GDK_Cyrillic_sha:	ptr = L"alt-i"; break;
+		case GDK_Cyrillic_e:	ptr = L"alt-t"; break;
+		case GDK_Cyrillic_shcha:	ptr = L"alt-o"; break;
+		case GDK_Cyrillic_che:	ptr = L"alt-x"; break;
+		}
+
+		if (ptr == NULL) {
+			char c = event->keyval & 0xdf;
+
+			switch (c) {
+			case 'A':		ptr = L"alt-a"; break;
+			case 'B':		ptr = L"alt-b"; break;
+			case 'C':		ptr = L"alt-c"; break;
+			case 'D':		ptr = L"alt-d"; break;
+			case 'E':		ptr = L"alt-e"; break;
+			case 'F':		ptr = L"alt-f"; break;
+			case 'G':		ptr = L"alt-g"; break;
+			case 'H':		ptr = L"alt-h"; break;
+			case 'I':		ptr = L"alt-i"; break;
+			case 'J':		ptr = L"alt-j"; break;
+			case 'K':		ptr = L"alt-k"; break;
+			case 'L':		ptr = L"alt-l"; break;
+			case 'M':		ptr = L"alt-m"; break;
+			case 'N':		ptr = L"alt-n"; break;
+			case 'O':		ptr = L"alt-o"; break;
+			case 'P':		ptr = L"alt-p"; break;
+			case 'Q':		ptr = L"alt-q"; break;
+			case 'R':		ptr = L"alt-r"; break;
+			case 'S':		ptr = L"alt-s"; break;
+			case 'T':		ptr = L"alt-t"; break;
+			case 'U':		ptr = L"alt-u"; break;
+			case 'V':		ptr = L"alt-v"; break;
+			case 'W':		ptr = L"alt-w"; break;
+			case 'X':		ptr = L"alt-x"; break;
+			case 'Y':		ptr = L"alt-y"; break;
+			case 'Z':		ptr = L"alt-z"; break;
 			}
 		}
 	}
