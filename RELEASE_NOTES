@@ -4,6 +4,9 @@ Minimum Profit Release Notes
 5.1.4
 -----
 
+ * Support for Alt + keys (ASCII and movement) has been added,
+   and mostly left unbound to be used by the user for his own
+   keybindings.
  * A new tab mode, which uses the previous line as a template
    for tab columns.
  * Fixed action `open_under_cursor'.
