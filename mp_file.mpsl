@@ -251,6 +251,7 @@ mp.keycodes['ctrl-q']		= 'exit';
 mp.keycodes['ctrl-s']		= 'save';
 mp.keycodes['ctrl-w']		= 'close';
 mp.keycodes['ctrl-enter']	= 'open_under_cursor';
+mp.keycodes['alt-enter']	= 'open_under_cursor';
 mp.keycodes['dropped-files']	= 'open_dropped_files';
 
 mp.keycodes['close-window'] 	= 'exit';
