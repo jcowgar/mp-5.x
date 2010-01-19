@@ -465,8 +465,7 @@ static void win32_vkey(int c)
 	if (GetKeyState(VK_SHIFT) & 0x8000)
 		mpdm_hset_s(mp, L"shift_pressed", MPDM_I(1));
 
-	if (GetKeyState(VK_CONTROL) & 0x8000 ||
-	   GetKeyState(VK_MENU) & 0x8000) {
+	if (GetKeyState(VK_CONTROL) & 0x8000) {
 		switch (c) {
 		case VK_UP:		ptr = L"ctrl-cursor-up"; break;
 		case VK_DOWN:		ptr = L"ctrl-cursor-down"; break;
@@ -500,6 +499,37 @@ static void win32_vkey(int c)
 			maxed ^= 1;
 
 			break;
+		}
+	}
+	else
+	if (GetKeyState(VK_LMENU) & 0x8000) {
+		switch (c) {
+		case VK_UP:			ptr = L"alt-cursor-up"; break;
+		case VK_DOWN:		ptr = L"alt-cursor-down"; break;
+		case VK_LEFT:		ptr = L"alt-cursor-left"; break;
+		case VK_RIGHT:		ptr = L"alt-cursor-right"; break;
+		case VK_PRIOR:		ptr = L"alt-page-up"; break;
+		case VK_NEXT:		ptr = L"alt-page-down"; break;
+		case VK_HOME:		ptr = L"alt-home"; break;
+		case VK_END:		ptr = L"alt-end"; break;
+		case VK_SPACE:		ptr = L"alt-space"; break;
+		case VK_DIVIDE:		ptr = L"alt-kp-divide"; break;
+		case VK_MULTIPLY:	ptr = L"alt-kp-multiply"; break;
+		case VK_SUBTRACT:	ptr = L"alt-kp-minus"; break;
+		case VK_ADD:		ptr = L"alt-kp-plus"; break;
+		case VK_RETURN:		ptr = L"alt-enter"; break;
+		case VK_F1:			ptr = L"alt-f1"; break;
+		case VK_F2:			ptr = L"alt-f2"; break;
+		case VK_F3:			ptr = L"alt-f3"; break;
+		case VK_F4:			ptr = L"alt-f4"; break;
+		case VK_F5:			ptr = L"alt-f5"; break;
+		case VK_F6:			ptr = L"alt-f6"; break;
+		case VK_F7:			ptr = L"alt-f7"; break;
+		case VK_F8:			ptr = L"alt-f8"; break;
+		case VK_F9:			ptr = L"alt-f9"; break;
+		case VK_F10:		ptr = L"alt-f10"; break;
+		case VK_F11:		ptr = L"alt-f11"; break;
+		case VK_F12:		ptr = L"alt-f12"; break;
 		}
 	}
 	else {
