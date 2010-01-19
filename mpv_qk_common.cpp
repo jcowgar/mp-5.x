@@ -451,6 +451,63 @@ void MPArea::keyPressEvent(QKeyEvent *event)
 			break;
 		}
 	}
+	else
+	if (event->modifiers() & Qt::AltModifier) {
+		switch (event->key()) {
+		case Qt::Key_Up:		ptr = (wchar_t *) L"alt-cursor-up"; break;
+		case Qt::Key_Down:		ptr = (wchar_t *) L"alt-cursor-down"; break;
+		case Qt::Key_Left:		ptr = (wchar_t *) L"alt-cursor-left"; break;
+		case Qt::Key_Right:		ptr = (wchar_t *) L"alt-cursor-right"; break;
+		case Qt::Key_PageUp:		ptr = (wchar_t *) L"alt-page-up"; break;
+		case Qt::Key_PageDown:		ptr = (wchar_t *) L"alt-page-down"; break;
+		case Qt::Key_Home:		ptr = (wchar_t *) L"alt-home"; break;
+		case Qt::Key_End:		ptr = (wchar_t *) L"alt-end"; break;
+		case Qt::Key_Space:		ptr = (wchar_t *) L"alt-space"; break;
+		case Qt::Key_F1:		ptr = (wchar_t *) L"alt-f1"; break;
+		case Qt::Key_F2:		ptr = (wchar_t *) L"alt-f2"; break;
+		case Qt::Key_F3:		ptr = (wchar_t *) L"alt-f3"; break;
+		case Qt::Key_F4:		ptr = (wchar_t *) L"alt-f4"; break;
+		case Qt::Key_F5:		ptr = (wchar_t *) L"alt-f5"; break;
+		case Qt::Key_F6:		ptr = (wchar_t *) L"alt-f6"; break;
+		case Qt::Key_F7:		ptr = (wchar_t *) L"alt-f7"; break;
+		case Qt::Key_F8:		ptr = (wchar_t *) L"alt-f8"; break;
+		case Qt::Key_F9:		ptr = (wchar_t *) L"alt-f9"; break;
+		case Qt::Key_F10:		ptr = (wchar_t *) L"alt-f10"; break;
+		case Qt::Key_F11:		ptr = (wchar_t *) L"alt-f11"; break;
+		case Qt::Key_F12:		ptr = (wchar_t *) L"alt-f12"; break;
+		case 'A':			ptr = (wchar_t *) L"alt-a"; break;
+		case 'B':			ptr = (wchar_t *) L"alt-b"; break;
+		case 'C':			ptr = (wchar_t *) L"alt-c"; break;
+		case 'D':			ptr = (wchar_t *) L"alt-d"; break;
+		case 'E':			ptr = (wchar_t *) L"alt-e"; break;
+		case 'F':			ptr = (wchar_t *) L"alt-f"; break;
+		case 'G':			ptr = (wchar_t *) L"alt-g"; break;
+		case 'H':			ptr = (wchar_t *) L"alt-h"; break;
+		case 'I':			ptr = (wchar_t *) L"alt-i"; break;
+		case 'J':			ptr = (wchar_t *) L"alt-j"; break;
+		case 'K':			ptr = (wchar_t *) L"alt-k"; break;
+		case 'L':			ptr = (wchar_t *) L"alt-l"; break;
+		case 'M':			ptr = (wchar_t *) L"alt-m"; break;
+		case 'N':			ptr = (wchar_t *) L"alt-n"; break;
+		case 'O':			ptr = (wchar_t *) L"alt-o"; break;
+		case 'P':			ptr = (wchar_t *) L"alt-p"; break;
+		case 'Q':			ptr = (wchar_t *) L"alt-q"; break;
+		case 'R':			ptr = (wchar_t *) L"alt-r"; break;
+		case 'S':			ptr = (wchar_t *) L"alt-s"; break;
+		case 'T':			ptr = (wchar_t *) L"alt-t"; break;
+		case 'U':			ptr = (wchar_t *) L"alt-u"; break;
+		case 'V':			ptr = (wchar_t *) L"alt-v"; break;
+		case 'W':			ptr = (wchar_t *) L"alt-w"; break;
+		case 'X':			ptr = (wchar_t *) L"alt-x"; break;
+		case 'Y':			ptr = (wchar_t *) L"alt-y"; break;
+		case 'Z':			ptr = (wchar_t *) L"alt-z"; break;
+		case Qt::Key_Return:
+		case Qt::Key_Enter:		ptr = (wchar_t *) L"alt-enter"; break;
+
+		default:
+			break;
+		}
+	}
 	else {
 		switch (event->key()) {
 		case Qt::Key_Up:		ptr = (wchar_t *) L"cursor-up"; break;
