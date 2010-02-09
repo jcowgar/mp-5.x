@@ -32,6 +32,7 @@ mp.actions['menu']	= sub (d) { mp.drv.menu(); };
 mp.keycodes['ctrl-a']		= 'menu';
 mp.keycodes['alt-a']		= 'menu';
 mp.keycodes['ctrl-space']	= 'menu';
+mp.keycodes['alt-space']	= 'menu';
 
 /** action descriptions **/
 
