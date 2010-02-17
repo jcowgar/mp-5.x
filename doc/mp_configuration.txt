@@ -36,6 +36,12 @@ The external command to be executed when a tag search is requested. By
 default is `ctags *'. Other useful value is `ctags -R', that search for
 tags recursively in subdirectories.
 
+mp.config.dynamic_tabs
+----------------------
+
+Set to 1 if tab columns are to be inferred from the previous line
+(default: 0).
+
 mp.config.eol
 -------------
 
