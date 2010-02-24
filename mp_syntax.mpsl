@@ -155,7 +155,7 @@ mp.syntax.c = {
 			'/^/\*\*.*\*\*/$/m'			/* section mark */
 		]
 	],
-	'section'	=>	[ '/(^\/\*\*.*\*\*\/$|^#pragma mark|^\w.*\)$)/' ]
+	'section'	=>	[ '/(^\/\*\*.*\*\*\/$|^#pragma mark|^\w.*\)( \{)?$)/' ]
 };
 
 mp.syntax.rc = {
