@@ -96,7 +96,7 @@ mp.syntax.c = {
 	'id'		=>	'c',
 	'name'		=>	'C / C++',
 	'filenames'	=>	[ '/\.c$/i', '/\.h$/i', '/\.l$/i', '/\.y$/i', '/\.d$/i',
-				'/\.cpp$/i', '/\.hpp$/i', '/\.c++$/i', '/\.xpm$/i' ],
+				'/\.cpp$/i', '/\.hpp$/i', '/\.c++$/i', '/\.cxx$/i', '/\.xpm$/i' ],
 	'help'		=>	[ "man 2 %s", "man 3 %s" ],
 	'defs'		=>	[
 		'word1',	[
