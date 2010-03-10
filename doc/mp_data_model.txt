@@ -34,6 +34,16 @@ document are the following:
  * keypress: If this component is defined and is an executable function,
    it's called with the document variable and the keypress identifier
    as arguments after the keypress has been processed.
+ * paint: If this component is defined and is an executable function,
+   it's called with the document variable and an optimize boolean
+   argument _instead_ of the main document visualisation function. It
+   must return a valid display structure.
+ * post_paint: If this component is defined and is a list of executable
+   functions, they are called sequentially with the document and the
+   already processed display structure as arguments, one after the other.
+   These functions are used as display structure filters. A similar
+   but global list of display structure filtering functions can be
+   stored in `mp.post_paint'.
 
 The `txt' component contains the current state of the document:
 
