@@ -807,6 +807,7 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 	mpdm_t r = NULL;
 	static int ppp = 0;	/* previous private paint */
 	mpdm_t f;
+	int n;
 
 	/* if previous paint was private, disable optimizations */
 	if (ppp)
@@ -821,13 +822,17 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 			r = drw_draw(doc, optimize);
 	}
 
-	/* if there is a global post_paint function, execute it */
-	if ((f = mpdm_hget_s(mp, L"post_paint")) != NULL)
-		r = mpdm_exec_1(f, r);
+	/* if there is a global post_paint list of functions, execute it */
+	if ((f = mpdm_hget_s(mp, L"post_paint")) != NULL) {
+		for (n = 0; n < mpdm_size(f); n++)
+			r = mpdm_exec_2(mpdm_aget(f, n), doc, r);
+	}
 
-	/* if doc has a post_paint function, execute it */
-	if ((f = mpdm_hget_s(doc, L"post_paint")) != NULL)
-		r = mpdm_exec_1(f, r);
+	/* if doc has a post_paint list of functions, execute it */
+	if ((f = mpdm_hget_s(doc, L"post_paint")) != NULL) {
+		for (n = 0; n < mpdm_size(f); n++)
+			r = mpdm_exec_2(mpdm_aget(f, n), doc, r);
+	}
 
 	return r;
 }
