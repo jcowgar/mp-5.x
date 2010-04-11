@@ -101,40 +101,32 @@ mp.syntax.c = {
 	'defs'		=>	[
 		'word1',	[
 				mp.syn_token_list( [
-				"for", "while", "if", "switch", "case", "do",
-				"else", "break", "continue", "return",
-				"default", "goto", "main", "fopen", "fclose",
-				"fgets", "fgetc", "fputs", "fputc", "fprintf",
-				"putc", "printf", "sprintf", "strcpy", "strcat",
-				"strcmp", "strncmp", "strtok", "stricmp", "strchr",
-				"strrchr", "strlen", "memcmp", "memcpy", "malloc",
-				"free", "strncpy", "strncat", "snprintf", "strstr",
-				"memset", "memcpy", "va_start", "va_end", "vsprintf",
-				"vsnprintf", "atoi", "qsort", "bsearch", "getenv",
-				"fscanf", "popen", "pclose", "realloc", "fread",
-				"fwrite", "fseek", '\{', '\}', "putchar", "fflush",
-				"wcscmp", "swprintf", "wmemcpy", "swscanf", "sscanf",
-				"wcslen", "wmemset", "wcscpy", "wcsncpy", "wcscoll",
-				"mbstowcs", "wcstombs", "wprintf", "wcschr",
-				"wcsrchr", "wcsstr", "strdup", "wctomb", "mbtowc",
-				"mbrtowc", "wcrtomb", "open", "close", "read",
-				"write", "pipe", "fork", "dup", "dup2", "wait",
-				"execl", "execlp", "execle", "execv", "execvp",
-				"class", "template", "new", "delete", "emit",
-				"using", "namespace", "try", "catch", "throw"
+				"auto", "break", "case", "catch", "class", "const", "const_cast",
+				"continue", "default", "delete", "do", "dynamic_cast", "else", "enum",
+				"explicit", "extern", "for", "friend", "goto", "if", "inline", "mutable",
+				"namespace", "new", "operator", "private", "protected", "public",
+				"register", "reinterpret_cast", "restrict", "return", "sizeof", "static",
+				"static_cast", "struct", "switch", "template", "this", "throw", "try",
+				"typedef", "typeid", "typename", "union", "using", "virtual", "volatile",
+				"while", "not", "not_eq", "xor", "xor_eq", "or",  "or_eq", "and", "and_eq",
+				"bitor", "bitand", "compl"
 				])
 		],
 		'word2',	[
 				mp.syn_token_list( [
-				"char", "int", "long", "struct", "union", "const",
-				"void", "unsigned", "signed", "auto", "volatile",
-				"enum", "typedef", "float", "double", "extern",
-				"register", "short", "sizeof", "static", "far",
-				"near", "defined", "va_list", "size_t", "wchar_t",
-				"iconv_t", "virtual", "friend", "operator",
-				"public", "protected", "private", "slots", "signals"
+				"bool", "char", "double", "float", "int", "long", "short", "signed",
+				"unsigned", "wchar_t", "size_t", "ssize_t", "off_t", "wchar_t",
+				"ptrdiff_t", "void", "sig_atomic_t", "fpos_t", "clock_t", "time_t",
+				"va_list", "jmp_buf", "FILE", "DIR", "div_t", "ldiv_t", "mbstate_t",
+				"wctrans_t", "wint_t", "wctype_t", "complex", "int8_t", "int16_t",
+				"int32_t", "int64_t", "uint8_t", "uint16_t", "uint32_t", "uint64_t",
+				"int_least8_t", "int_least16_t", "int_least32_t", "int_least64_t",
+				"uint_least8_t", "uint_least16_t", "uint_least32_t", "uint_least64_t",
+				"int_fast8_t", "int_fast16_t", "int_fast32_t", "int_fast64_t",
+				"uint_fast8_t", "uint_fast16_t", "uint_fast32_t", "uint_fast64_t",
+				"intptr_t", "uintptr_t", "intmax_t", "uintmax_t"
 				 ]),
-				'/[-=<>:\?\+\*\/\!\%&\|]+/'
+				'/[-=<>:\?\+\*\/\!\%&\|~\^\.]+/'
 		],
 		'quotes',	[
 			/* from http://ad.hominem.org/log/2005/05/quoted_strings.php */
@@ -142,13 +134,16 @@ mp.syntax.c = {
 			"/'([^'\\\\\n]*(\\\\.[^'\\\\\n]*)*)'/",		/* single-quoted strings */
 			"/\b-?[0-9]+\b/",			/* numbers */
 			"/\b[0-9]+e[0-9]+\b/",			/* numbers in exp format */
+                        "/\b0[0-7]+\b/",                        /* octal numbers */
 			"/\b0x[0-9a-f]+\b/i",			/* hex numbers */
-			"/\b[0-9[:upper:]_]+\b/"		/* all-caps words */
+			"/\b__(DATE|FILE|LINE|STDC|TIME|STDC_HOSTED|STDC_VERSION|func)__\b/", /* ISO macros */
+                        "/\b(true|false|NULL)\b/"           /* symbolic constant names */
 		],
 		'comments',	[
 			[ '|/\*|', '|\*/|' ],			/* C-like */
+                        [ '|#if 0|', '#endif' ],                /* CPP "comments" */
 			'|//.*$|m',				/* C++ */
-			'/^\s*#[a-z]+/m'			/* CPP directives */
+			'/^\s*#\s*[a-z]+/m'			/* CPP directives */
 		],
 		'documentation',	[
 			[ "|/\*\*\n|", '|\*/|' ],		/* mp_doccer */
@@ -234,7 +229,7 @@ mp.syntax.perl = {
 			'/^## .*$/m',				/* section mark */
 			[ "/^=(head[1-4]|over|item|back|pod|begin|end|for)/m",
 				"/^=cut$/m" ]			/* POD */
-		]	
+		]
 	],
 	'detect'	=>	sub (d) {
 		/* take the first line */
@@ -483,7 +478,7 @@ mp.syntax.ruby = {
 			mp.syn_token_list( [
 				"BEGIN", "END", "alias", "and", "begin",
 				"break", "case", "class", "def", "defined",
-				"do", "else", "elsif", "end", "ensure", 
+				"do", "else", "elsif", "end", "ensure",
 				"false", "for", "if", "in", "module", "next",
 				"nil", "not", "or", "redo", "rescue", "retry",
 				"return", "self", "super", "then", "true",
