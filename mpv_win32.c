@@ -727,6 +727,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		dropped_files((HDROP) wparam);
 		return 0;
 
+	case WM_SYSKEYUP:
 	case WM_KEYUP:
 
 		is_wm_keydown = 0;
@@ -736,6 +737,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 
 		return 0;
 
+	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
 
 		win32_vkey(wparam);
