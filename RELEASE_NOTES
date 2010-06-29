@@ -13,6 +13,7 @@ Minimum Profit Release Notes
  * The `mp.paste()' function returns the clipboard content
    as a string if called without arguments.
  * New Grutatxt syntax highlighter.
+ * Fix F10 in Win32.
 
 5.1.3
 -----
