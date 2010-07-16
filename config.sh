@@ -366,6 +366,21 @@ else
 	fi
 fi
 
+# msgfnt
+echo -n "Testing for msgfmt... "
+
+if which msgfmt > /dev/null 2>&1 ; then
+	echo "OK"
+	echo "BUILDMO=build-mo" >> makefile.opts
+	echo "INSTALLMO=install-mo" >> makefile.opts
+	echo "UNINSTALLMO=uninstall-mo" >> makefile.opts
+else
+	echo "No"
+	echo "BUILDMO=" >> makefile.opts
+	echo "INSTALLMO=" >> makefile.opts
+	echo "UNINSTALLMO=" >> makefile.opts
+fi
+
 if [ "$CCLINK" = "" ] ; then
 	CCLINK=$CC
 fi
