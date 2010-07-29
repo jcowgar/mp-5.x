@@ -265,6 +265,11 @@ sub mp.delete_char(doc)
 {
 	local txt = doc.txt;
 
+	if (txt.mark != NULL) {
+		mp.delete_mark(doc);
+		return;
+	}
+
 	/* is it over the end of line? */
 	if (txt.x == size(txt.lines[txt.y]))
 		mp.join_line(doc);
@@ -341,6 +346,8 @@ sub mp.insert_string(doc, str)
 {
 	local txt = doc.txt;
 	local w;
+
+	mp.delete_mark(doc);
 
 	/* splice and change */
 	w = splice(txt.lines[txt.y], str, txt.x, 0);
@@ -474,7 +481,6 @@ sub mp.insert_keystroke(doc, key)
 {
 	if (size(key) == 1) {
 		mp.store_undo(doc);
-
 		mp.insert(doc, key);
 	}
 	else
