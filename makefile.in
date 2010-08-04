@@ -171,7 +171,7 @@ update-po:
 build-mo:
 	for i in po/*.po ; do \
 		B=`basename $$i .po` ; o=po/$$B.mo ; \
-		if [ $$i -nt $$o ] ; then msgfmt -o $$o $$i ; fi ; \
+		if [ $$i -nt $$o -o ! -f $$o ] ; then msgfmt -o $$o $$i ; fi ; \
 	done
 
 install-mo: build-mo
