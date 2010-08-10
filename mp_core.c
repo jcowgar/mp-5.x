@@ -469,7 +469,7 @@ static void drw_selection(void)
 	vertical  = mpdm_ival(mpdm_hget_s(mark, L"vertical"));
 
 	/* if block is not visible, return */
-	if (ey < drw_1.vy || by > drw_1.vy + drw_1.ty)
+	if (ey < drw_1.vy || by >= drw_1.vy + drw_1.ty)
 		return;
 
 	so = by < drw_1.vy ? drw_2.visible : drw_line_offset(by) + bx;
