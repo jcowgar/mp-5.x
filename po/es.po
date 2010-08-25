@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:453
+#: mp_crypt.mpsl:32 mp_file.mpsl:454
 msgid "Password:"
 msgstr "Palabra clave:"
 
@@ -34,7 +34,7 @@ msgstr "Funciones sin enlazar"
 msgid "Line to go to:"
 msgstr "Número de línea:"
 
-#: mp_file.mpsl:31 mp_file.mpsl:303 mp_file.mpsl:350 mp_session.mpsl:64
+#: mp_file.mpsl:31 mp_file.mpsl:304 mp_file.mpsl:351 mp_session.mpsl:64
 #: mp_session.mpsl:72
 msgid "<unnamed>"
 msgstr "<sin nombre>"
@@ -185,23 +185,23 @@ msgid ""
 "\n"
 msgstr ""
 
-#: mp_core.mpsl:139
+#: mp_core.mpsl:140
 msgid "&File"
 msgstr "&Archivo"
 
-#: mp_core.mpsl:151
+#: mp_core.mpsl:152
 msgid "&Edit"
 msgstr "&Editar"
 
-#: mp_core.mpsl:163
+#: mp_core.mpsl:164
 msgid "&Search"
 msgstr "&Buscar"
 
-#: mp_core.mpsl:172
+#: mp_core.mpsl:173
 msgid "&Go to"
 msgstr "&Ir A"
 
-#: mp_core.mpsl:181
+#: mp_core.mpsl:182
 msgid "&Options"
 msgstr "&Opciones"
 
@@ -211,63 +211,63 @@ msgstr "Menu"
 msgid "grep"
 msgstr "Grep"
 
-#: mp_move.mpsl:122
+#: mp_move.mpsl:126
 msgid "Line up"
 msgstr "Línea arriba"
 
-#: mp_move.mpsl:123
+#: mp_move.mpsl:127
 msgid "Line down"
 msgstr "Línea abajo"
 
-#: mp_move.mpsl:120
+#: mp_move.mpsl:124
 msgid "Character left"
 msgstr "Carácter a la izquierda"
 
-#: mp_move.mpsl:121
+#: mp_move.mpsl:125
 msgid "Character right"
 msgstr "Carácter a la derecha"
 
-#: mp_move.mpsl:130
+#: mp_move.mpsl:134
 msgid "Word left"
 msgstr "Palabra a la izquierda"
 
-#: mp_move.mpsl:131
+#: mp_move.mpsl:135
 msgid "Word right"
 msgstr "Palabra a la derecha"
 
-#: mp_move.mpsl:127
+#: mp_move.mpsl:131
 msgid "End of line"
 msgstr "Fin de la línea"
 
-#: mp_move.mpsl:126
+#: mp_move.mpsl:130
 msgid "Beginning of line"
 msgstr "Principio de la línea"
 
-#: mp_move.mpsl:129
+#: mp_move.mpsl:133
 msgid "End of document"
 msgstr "Fin del documento"
 
-#: mp_move.mpsl:128
+#: mp_move.mpsl:132
 msgid "Beginning of document"
 msgstr "Principio del documento"
 
-#: mp_move.mpsl:124
+#: mp_move.mpsl:128
 msgid "Page up"
 msgstr "Página arriba"
 
-#: mp_move.mpsl:125
+#: mp_move.mpsl:129
 msgid "Page down"
 msgstr "Página abajo"
 
-#: mp_move.mpsl:132
+#: mp_move.mpsl:136
 msgid "Go to line..."
 msgstr "Ir a la línea..."
 
-#: mp_edit.mpsl:131
+#: mp_edit.mpsl:135
 msgid "Insert line"
 msgstr "Insertar línea"
 
-#: mp_edit.mpsl:134
+#: mp_edit.mpsl:138
 msgid "Insert tab"
 msgstr "Insertar tabulador"
 
@@ -277,7 +277,7 @@ msgstr "Borrar carácter sobre el cursor"
 msgid "Delete char to the left of cursor"
 msgstr "Borrar carácter a la izquierda del cursor"
 
-#: mp_edit.mpsl:132
+#: mp_edit.mpsl:136
 msgid "Delete line"
 msgstr "Borrar línea"
 
@@ -316,34 +316,34 @@ msgstr "Reemplazar..."
 msgid "Replace in all..."
 msgstr "Reemplazar en todos..."
 
-#: mp_file.mpsl:263
+#: mp_file.mpsl:264
 msgid "Next"
 msgstr "Siguiente"
 
-#: mp_file.mpsl:260
+#: mp_file.mpsl:261
 msgid "New"
 msgstr "Nuevo"
 
-#: mp_file.mpsl:265
+#: mp_file.mpsl:266
 msgid "Open..."
 msgstr "Abrir..."
 
 msgid "Reopen..."
 msgstr "Reabrir..."
 
-#: mp_file.mpsl:261
+#: mp_file.mpsl:262
 msgid "Save..."
 msgstr "Guardar..."
 
-#: mp_file.mpsl:262
+#: mp_file.mpsl:263
 msgid "Save as..."
 msgstr "Guardar cómo..."
 
-#: mp_file.mpsl:267
+#: mp_file.mpsl:268
 msgid "Close"
 msgstr "Cerrar"
 
-#: mp_file.mpsl:274
+#: mp_file.mpsl:275
 msgid "Open file under cursor"
 msgstr "Abrir fichero bajo el cursor"
 
@@ -376,11 +376,11 @@ msgstr "Usar expresiones regulares"
 msgid "Help for word under cursor"
 msgstr "Ayuda para la palabra en el cursor"
 
-#: mp_file.mpsl:273
+#: mp_file.mpsl:274
 msgid "Run system command..."
 msgstr "Ejecutar comando del sistema..."
 
-#: mp_move.mpsl:86 mp_move.mpsl:136
+#: mp_move.mpsl:86 mp_move.mpsl:140
 msgid "Document list"
 msgstr "Lista de documentos"
 
@@ -399,7 +399,7 @@ msgstr "Completar tag..."
 msgid "Edit templates file"
 msgstr "Editar fichero de moldes"
 
-#: mp_file.mpsl:271
+#: mp_file.mpsl:272
 msgid "Edit configuration file"
 msgstr "Editar fichero de configuración"
 
@@ -409,7 +409,7 @@ msgstr "Word wrap..."
 msgid "Tab size..."
 msgstr "Tamaño del tabulador..."
 
-#: mp_drv.mpsl:37
+#: mp_drv.mpsl:39
 msgid "Menu"
 msgstr "Menú"
 
@@ -417,7 +417,7 @@ msgstr "Menú"
 msgid "About..."
 msgstr "Acerca de..."
 
-#: mp_file.mpsl:266
+#: mp_file.mpsl:267
 msgid "Exit"
 msgstr "Salir"
 
@@ -438,7 +438,7 @@ msgstr "Posicionar el cursor con el ratón"
 msgid "Execute editor function..."
 msgstr "Ejecutar función del editor..."
 
-#: mp_file.mpsl:272
+#: mp_file.mpsl:273
 msgid "Save modified texts"
 msgstr "Guardar textos modificados"
 
@@ -530,7 +530,7 @@ msgstr "Saltar al paréntesis, llave ó corchete que coincida"
 msgid "Mark column #80"
 msgstr "Marcar columna nº 80"
 
-#: mp_file.mpsl:264
+#: mp_file.mpsl:265
 msgid "Previous"
 msgstr "Anterior"
 
@@ -616,27 +616,27 @@ msgstr "Las palabras clave no coinciden."
 msgid "Word wrapping must be set"
 msgstr "El recorte de líneas debe estar activo."
 
-#: mp_edit.mpsl:133
+#: mp_edit.mpsl:137
 msgid "Insert space"
 msgstr "Insertar espacio"
 
-#: mp_edit.mpsl:135
+#: mp_edit.mpsl:139
 msgid "Delete character"
 msgstr "Borrar carácter"
 
-#: mp_edit.mpsl:136
+#: mp_edit.mpsl:140
 msgid "Delete character to the left"
 msgstr "Borrar carácter a la izquierda"
 
-#: mp_edit.mpsl:137
+#: mp_edit.mpsl:141
 msgid "Undo"
 msgstr "Deshacer"
 
-#: mp_edit.mpsl:139
+#: mp_edit.mpsl:143
 msgid "Join a paragraph in one line"
 msgstr "Juntar un párrafo en una sola línea"
 
-#: mp_edit.mpsl:140
+#: mp_edit.mpsl:144
 msgid "Word-wrap a paragraph"
 msgstr "Recortar por palabras un párrafo"
 
@@ -681,15 +681,15 @@ msgstr "Tipo de letra más grande"
 msgid "Smaller font"
 msgstr "Tipo de letra más pequeño"
 
-#: mp_move.mpsl:133
+#: mp_move.mpsl:137
 msgid "Move cursor to mouse click"
 msgstr "Mover el cursor al puntero del ratón"
 
-#: mp_move.mpsl:134
+#: mp_move.mpsl:138
 msgid "Mouse wheel up"
 msgstr "Rueda del ratón arriba"
 
-#: mp_move.mpsl:135
+#: mp_move.mpsl:139
 msgid "Mouse wheel down"
 msgstr "Rueda del ratón abajo"
 
@@ -758,11 +758,11 @@ msgstr "Tamaño del tabulador"
 msgid "Convert tabs to spaces"
 msgstr "Convertir tabuladores a espacios"
 
-#: mp_edit.mpsl:141
+#: mp_edit.mpsl:145
 msgid "Line options..."
 msgstr "Opciones de línea..."
 
-#: mp_edit.mpsl:142
+#: mp_edit.mpsl:146
 msgid "Tab options..."
 msgstr "Opciones de tabulación..."
 
@@ -775,7 +775,7 @@ msgstr "El fichero ha cambiado. ¿Está seguro?"
 msgid "Error reading from command '%s'"
 msgstr "Error leyendo desde el comando '%s'"
 
-#: mp_file.mpsl:268
+#: mp_file.mpsl:269
 msgid "Revert"
 msgstr "Revertir"
 
@@ -808,8 +808,6 @@ msgstr "Conmutar ortografía"
 msgid "Please, wait..."
 msgstr "Por favor, espere..."
 
-#: mp_misc.mpsl:104
-#, c-format
 msgid ""
 "\n"
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -841,7 +839,7 @@ msgstr ""
 msgid "Error writing to command '%s'"
 msgstr "Error escribiendo al comando '%s'"
 
-#: mp_edit.mpsl:138
+#: mp_edit.mpsl:142
 msgid "Redo"
 msgstr "Rehacer"
 
@@ -867,17 +865,17 @@ msgstr "Cargar sesión"
 msgid "Save session"
 msgstr "Guardar sesión"
 
-#: mp_core.mpsl:247
+#: mp_core.mpsl:248
 #, c-format
 msgid "Unknown action '%s'"
 msgstr "Acción '%s' desconocida"
 
-#: mp_edit.mpsl:470
+#: mp_edit.mpsl:490
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr "Tecla '%s' sin asociar"
 
-#: mp_file.mpsl:426
+#: mp_file.mpsl:427
 #, c-format
 msgid "New file '%s'"
 msgstr "Nuevo archivo '%s'"
@@ -887,12 +885,12 @@ msgstr "Nuevo archivo '%s'"
 msgid "%d replaces"
 msgstr "%d reemplazos"
 
-#: mp_core.mpsl:456 mp_core.mpsl:474
+#: mp_core.mpsl:461 mp_core.mpsl:479
 #, c-format
 msgid "Cannot open '%s'"
 msgstr "Imposible abrir '%s'"
 
-#: mp_core.mpsl:580
+#: mp_core.mpsl:585
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr "ADVERTENCIA: La versión de %s es la %s, pero se necesita la %s"
@@ -905,7 +903,7 @@ msgstr "Marcar arrastrando el ratón"
 msgid "Mark end of lines"
 msgstr "Marcar fines de línea"
 
-#: mp_file.mpsl:269
+#: mp_file.mpsl:270
 msgid "Close all"
 msgstr "Cerrar todo"
 
@@ -927,7 +925,7 @@ msgstr "Errores y advertencias"
 msgid "Build project..."
 msgstr "Construir proyecto..."
 
-#: mp_core.mpsl:227
+#: mp_core.mpsl:228
 msgid "Read-only document"
 msgstr "Documento de sólo lectura"
 
@@ -994,15 +992,15 @@ msgstr "Borrar bloque"
 msgid "Keep original end of lines"
 msgstr "Mantener fin de línea original"
 
-#: mp_file.mpsl:275
+#: mp_file.mpsl:276
 msgid "Hexadecimal viewer..."
 msgstr "Visor hexadecimal..."
 
-#: mp_file.mpsl:276
+#: mp_file.mpsl:277
 msgid "Open dropped files"
 msgstr "Abrir ficheros arrastrados"
 
-#: mp_core.mpsl:403
+#: mp_core.mpsl:408
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1040,3 +1038,35 @@ msgstr ""
 "\n"
 "Página web: http://triptico.com/software/mp.html\n"
 "Lista de distribución: mp-subscribe@lists.triptico.com\n"
+
+#: mp_edit.mpsl:108
+msgid "Use previous line for tab columns"
+msgstr "Usar la línea anterior para las columnas de tabulación"
+
+#: mp_misc.mpsl:104
+#, c-format
+msgid ""
+"\n"
+"Minimum Profit %s - Programmer Text Editor\n"
+"\n"
+"Components: MPDM %s, MPSL %s\n"
+"\n"
+"Copyright (C) 1991-2010 Angel Ortega <angel@triptico.com>\n"
+"\n"
+"This program is free software; you can redistribute it and/or\n"
+"modify it under the terms of the GNU General Public License\n"
+"as published by the Free Software Foundation; either version 2\n"
+"of the License, or (at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+"See the GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software Foundation,\n"
+"Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.\n"
+"\n"
+"Home page: http://www.triptico.com/software/mp.html\n"
+"Mailing list: mp-subscribe@lists.triptico.com\n"
+msgstr ""

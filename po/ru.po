@@ -10,23 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_core.mpsl:139
+#: mp_core.mpsl:140
 msgid "&File"
 msgstr "&Файл"
 
-#: mp_core.mpsl:151
+#: mp_core.mpsl:152
 msgid "&Edit"
 msgstr "&Правка"
 
-#: mp_core.mpsl:163
+#: mp_core.mpsl:164
 msgid "&Search"
 msgstr "&Поиск"
 
-#: mp_core.mpsl:172
+#: mp_core.mpsl:173
 msgid "&Go to"
 msgstr "&Переход"
 
-#: mp_core.mpsl:181
+#: mp_core.mpsl:182
 msgid "&Options"
 msgstr "&Параметры"
 
@@ -54,7 +54,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:453
+#: mp_crypt.mpsl:32 mp_file.mpsl:454
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -81,7 +81,7 @@ msgstr "Ошибка при выполнении функции пользова
 msgid "Line to go to:"
 msgstr "Перейти на строку:"
 
-#: mp_file.mpsl:31 mp_file.mpsl:303 mp_file.mpsl:350 mp_session.mpsl:64
+#: mp_file.mpsl:31 mp_file.mpsl:304 mp_file.mpsl:351 mp_session.mpsl:64
 #: mp_session.mpsl:72
 msgid "<unnamed>"
 msgstr "<безымянный>"
@@ -355,7 +355,7 @@ msgstr "Сортировать строки"
 msgid "Suspend application"
 msgstr "Приостановить приложение"
 
-#: mp_file.mpsl:272
+#: mp_file.mpsl:273
 msgid "Save modified texts"
 msgstr "Сохранить измененные тексты"
 
@@ -382,7 +382,7 @@ msgstr "Показать лог"
 msgid "Break hardlinks on write"
 msgstr "Разрушать жесткие ссылки при записи"
 
-#: mp_file.mpsl:262
+#: mp_file.mpsl:263
 msgid "Save as..."
 msgstr "Сохранить как..."
 
@@ -393,7 +393,7 @@ msgstr "Заменить..."
 msgid "Replace in all..."
 msgstr "Заменить везде..."
 
-#: mp_file.mpsl:261
+#: mp_file.mpsl:262
 msgid "Save..."
 msgstr "Сохранить..."
 
@@ -412,42 +412,42 @@ msgstr "Вставить блок"
 msgid "Play macro"
 msgstr "Воспроизвести макрос"
 
-#: mp_file.mpsl:264
+#: mp_file.mpsl:265
 msgid "Previous"
 msgstr "Предыдущий"
 
 msgid "Reopen..."
 msgstr "Открыть еще раз..."
 
-#: mp_file.mpsl:263
+#: mp_file.mpsl:264
 msgid "Next"
 msgstr "Следующий"
 
-#: mp_file.mpsl:265
+#: mp_file.mpsl:266
 msgid "Open..."
 msgstr "Открыть..."
 
-#: mp_move.mpsl:130
+#: mp_move.mpsl:134
 msgid "Word left"
 msgstr "Следующее слово"
 
-#: mp_move.mpsl:131
+#: mp_move.mpsl:135
 msgid "Word right"
 msgstr "Предыдущее слово"
 
-#: mp_file.mpsl:260
+#: mp_file.mpsl:261
 msgid "New"
 msgstr "Создать"
 
-#: mp_move.mpsl:122
+#: mp_move.mpsl:126
 msgid "Line up"
 msgstr "Предыдуюая строка"
 
-#: mp_move.mpsl:125
+#: mp_move.mpsl:129
 msgid "Page down"
 msgstr "Следующая страница"
 
-#: mp_move.mpsl:124
+#: mp_move.mpsl:128
 msgid "Page up"
 msgstr "Предыдущая страница"
 
@@ -455,11 +455,11 @@ msgstr "Предыдущая страница"
 msgid "Move to previous instance of current char"
 msgstr "Перейти назад к такому же символу"
 
-#: mp_move.mpsl:121
+#: mp_move.mpsl:125
 msgid "Character right"
 msgstr "Следующий символ"
 
-#: mp_file.mpsl:274
+#: mp_file.mpsl:275
 msgid "Open file under cursor"
 msgstr "Открыть файл под курсором"
 
@@ -471,37 +471,37 @@ msgstr "Искать текст..."
 msgid "Move to next instance of current char"
 msgstr "Перейти вперед к такому же символу"
 
-#: mp_move.mpsl:129
+#: mp_move.mpsl:133
 msgid "End of document"
 msgstr "Конец документа"
 
-#: mp_move.mpsl:127
+#: mp_move.mpsl:131
 msgid "End of line"
 msgstr "Конец строки"
 
-#: mp_move.mpsl:120
+#: mp_move.mpsl:124
 msgid "Character left"
 msgstr "Предыдущий символ"
 
-#: mp_move.mpsl:128
+#: mp_move.mpsl:132
 msgid "Beginning of document"
 msgstr "Начало документа"
 
-#: mp_move.mpsl:126
+#: mp_move.mpsl:130
 msgid "Beginning of line"
 msgstr "Начало строки"
 
 msgid "Select last succesful search"
 msgstr "Показать последний успешный поиск"
 
-#: mp_drv.mpsl:37
+#: mp_drv.mpsl:39
 msgid "Menu"
 msgstr "Меню"
 
 msgid "Position cursor with mouse"
 msgstr "Перемещение курсора мышью"
 
-#: mp_move.mpsl:123
+#: mp_move.mpsl:127
 msgid "Line down"
 msgstr "Следующая строка"
 
@@ -520,14 +520,14 @@ msgstr "Перейти на соответствующюю скобку"
 msgid "Insert new line below cursor"
 msgstr "Вставить новую строку от курсора"
 
-#: mp_edit.mpsl:134
+#: mp_edit.mpsl:138
 msgid "Insert tab"
 msgstr "Вставить символ табуляции"
 
 msgid "Help for word under cursor"
 msgstr "Справка о слове под курсором"
 
-#: mp_edit.mpsl:131
+#: mp_edit.mpsl:135
 msgid "Insert line"
 msgstr "Вставить строку"
 
@@ -542,7 +542,7 @@ msgstr "Вставить шаблон..."
 msgid "Mark beginning/end of block"
 msgstr "Пометить начало/конец блока"
 
-#: mp_move.mpsl:132
+#: mp_move.mpsl:136
 msgid "Go to line..."
 msgstr "Перейти к строке..."
 
@@ -556,18 +556,18 @@ msgstr "Заменить начертание буквы, если A-Z или a-
 msgid "Flip word case"
 msgstr "Заменить начертание слова"
 
-#: mp_file.mpsl:273
+#: mp_file.mpsl:274
 msgid "Run system command..."
 msgstr "Выполнить системную команду..."
 
 msgid "Execute editor function..."
 msgstr "Выполнить функцию редактора..."
 
-#: mp_move.mpsl:86 mp_move.mpsl:136
+#: mp_move.mpsl:86 mp_move.mpsl:140
 msgid "Document list"
 msgstr "Список документов"
 
-#: mp_file.mpsl:271
+#: mp_file.mpsl:272
 msgid "Edit configuration file"
 msgstr "Редактировать конфигурационный файл"
 
@@ -575,7 +575,7 @@ msgstr "Редактировать конфигурационный файл"
 msgid "Edit templates file"
 msgstr "Редактировать файл шаблонов"
 
-#: mp_file.mpsl:266
+#: mp_file.mpsl:267
 msgid "Exit"
 msgstr "Выход"
 
@@ -588,7 +588,7 @@ msgstr "Удалить до начала слова"
 msgid "Delete char to the left of cursor"
 msgstr "Удалить символ слева от курсора"
 
-#: mp_edit.mpsl:132
+#: mp_edit.mpsl:136
 msgid "Delete line"
 msgstr "Удалить строку"
 
@@ -607,7 +607,7 @@ msgstr "Вырезать блок"
 msgid "About..."
 msgstr "О программе..."
 
-#: mp_file.mpsl:267
+#: mp_file.mpsl:268
 msgid "Close"
 msgstr "Закрыть"
 
@@ -632,27 +632,27 @@ msgstr "Не правильный пароль."
 msgid "Word wrapping must be set"
 msgstr ""
 
-#: mp_edit.mpsl:133
+#: mp_edit.mpsl:137
 msgid "Insert space"
 msgstr "Вставить пробел"
 
-#: mp_edit.mpsl:135
+#: mp_edit.mpsl:139
 msgid "Delete character"
 msgstr "Удалить символ"
 
-#: mp_edit.mpsl:136
+#: mp_edit.mpsl:140
 msgid "Delete character to the left"
 msgstr "Удалить символ слева"
 
-#: mp_edit.mpsl:137
+#: mp_edit.mpsl:141
 msgid "Undo"
 msgstr "Отменить"
 
-#: mp_edit.mpsl:139
+#: mp_edit.mpsl:143
 msgid "Join a paragraph in one line"
 msgstr ""
 
-#: mp_edit.mpsl:140
+#: mp_edit.mpsl:144
 msgid "Word-wrap a paragraph"
 msgstr ""
 
@@ -697,15 +697,15 @@ msgstr "Увеличить шрифт"
 msgid "Smaller font"
 msgstr "Уменьшить шрифт"
 
-#: mp_move.mpsl:133
+#: mp_move.mpsl:137
 msgid "Move cursor to mouse click"
 msgstr "Клик мышью"
 
-#: mp_move.mpsl:134
+#: mp_move.mpsl:138
 msgid "Mouse wheel up"
 msgstr "Прокрутка мышью вверх"
 
-#: mp_move.mpsl:135
+#: mp_move.mpsl:139
 msgid "Mouse wheel down"
 msgstr "Прокрутка мышью вниз"
 
@@ -774,11 +774,11 @@ msgstr "Размер табуляции"
 msgid "Convert tabs to spaces"
 msgstr "Заменять табуляцию пробелами"
 
-#: mp_edit.mpsl:141
+#: mp_edit.mpsl:145
 msgid "Line options..."
 msgstr "Опции строки"
 
-#: mp_edit.mpsl:142
+#: mp_edit.mpsl:146
 msgid "Tab options..."
 msgstr "Опции табудяции"
 
@@ -797,7 +797,7 @@ msgstr "Ошибка записи комманды '%s'"
 msgid "Error reading from command '%s'"
 msgstr "Ошибка чтения комманды '%s'"
 
-#: mp_file.mpsl:268
+#: mp_file.mpsl:269
 msgid "Revert"
 msgstr "Возвратиться"
 
@@ -835,7 +835,7 @@ msgstr "Пожалусто, подождите"
 msgid "Error writing to command '%s'"
 msgstr "Ошибка записи комманды '%s'"
 
-#: mp_edit.mpsl:138
+#: mp_edit.mpsl:142
 msgid "Redo"
 msgstr "Еще раз"
 
@@ -861,17 +861,17 @@ msgstr "Загрузить сессию"
 msgid "Save session"
 msgstr "Сохранить сессию"
 
-#: mp_core.mpsl:247
+#: mp_core.mpsl:248
 #, c-format
 msgid "Unknown action '%s'"
 msgstr "Неизвестное действие '%s'"
 
-#: mp_edit.mpsl:470
+#: mp_edit.mpsl:490
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr "Неизвестное сочетание '%s'"
 
-#: mp_file.mpsl:426
+#: mp_file.mpsl:427
 #, c-format
 msgid "New file '%s'"
 msgstr "Новый файл '%s'"
@@ -881,12 +881,12 @@ msgstr "Новый файл '%s'"
 msgid "%d replaces"
 msgstr "%d перемещено"
 
-#: mp_core.mpsl:456 mp_core.mpsl:474
+#: mp_core.mpsl:461 mp_core.mpsl:479
 #, c-format
 msgid "Cannot open '%s'"
 msgstr "Невозможно открыть '%s'"
 
-#: mp_core.mpsl:580
+#: mp_core.mpsl:585
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr "Предупреждение: %s найдена версия %s, но %s необходима"
@@ -899,7 +899,7 @@ msgstr "Выделить используя мышь"
 msgid "Mark end of lines"
 msgstr "Помечать конец строки"
 
-#: mp_file.mpsl:269
+#: mp_file.mpsl:270
 msgid "Close all"
 msgstr "Закрыть все"
 
@@ -925,7 +925,7 @@ msgstr "Собрать проект..."
 msgid "Mark vertical block"
 msgstr "Выделить вертикальный блок"
 
-#: mp_core.mpsl:227
+#: mp_core.mpsl:228
 msgid "Read-only document"
 msgstr "Документ только для чтения"
 
@@ -937,16 +937,14 @@ msgstr ""
 msgid "Keep original end of lines"
 msgstr ""
 
-#: mp_file.mpsl:275
+#: mp_file.mpsl:276
 msgid "Hexadecimal viewer..."
 msgstr ""
 
-#: mp_file.mpsl:276
+#: mp_file.mpsl:277
 msgid "Open dropped files"
 msgstr ""
 
-#: mp_misc.mpsl:104
-#, c-format
 msgid ""
 "\n"
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1021,7 +1019,7 @@ msgstr ""
 msgid "Search repeated word"
 msgstr ""
 
-#: mp_core.mpsl:403
+#: mp_core.mpsl:408
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1040,5 +1038,37 @@ msgid ""
 " +NNN               Moves to line number NNN of last file\n"
 "\n"
 "Homepage: http://triptico.com/software/mp.html\n"
+"Mailing list: mp-subscribe@lists.triptico.com\n"
+msgstr ""
+
+#: mp_edit.mpsl:108
+msgid "Use previous line for tab columns"
+msgstr ""
+
+#: mp_misc.mpsl:104
+#, c-format
+msgid ""
+"\n"
+"Minimum Profit %s - Programmer Text Editor\n"
+"\n"
+"Components: MPDM %s, MPSL %s\n"
+"\n"
+"Copyright (C) 1991-2010 Angel Ortega <angel@triptico.com>\n"
+"\n"
+"This program is free software; you can redistribute it and/or\n"
+"modify it under the terms of the GNU General Public License\n"
+"as published by the Free Software Foundation; either version 2\n"
+"of the License, or (at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+"See the GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software Foundation,\n"
+"Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.\n"
+"\n"
+"Home page: http://www.triptico.com/software/mp.html\n"
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
