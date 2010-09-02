@@ -48,6 +48,7 @@ Pending Enhancements
  * 1225: Add a regex (or similar) filter for lines. Lines matching it
    (or not) won't appear on screen.
  * 1275: Add a 'Writing' menu bar.
+ * 1279: Add a new visual wrap mode.
 
 Closed
 ------
