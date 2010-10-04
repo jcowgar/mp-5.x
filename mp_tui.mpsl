@@ -321,7 +321,20 @@ sub mp.tui.confirm(msg, def, ypos)
 
 sub mp.tui.draw(doc)
 {
+	/* draw the document part */
 	mp.tui.doc_draw(doc);
+
+	/* draw the status line */
+	mp.tui.attr(mp.colors.normal.attr);
+	mp.tui.move(0, mp.window.ty - 1);
+	mp.tui.addstr(mp.build_status_line());
+
+	/* draw the 'menu' hint */
+	local t = "ctrl-a: " ~ L("Menu");
+	mp.tui.move(mp.window.tx - size(t), mp.window.ty - 1);
+	mp.tui.addstr(t);
+
+	mp.tui.refresh();
 }
 
 

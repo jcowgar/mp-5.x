@@ -328,31 +328,6 @@ static mpdm_t nc_addwstr(mpdm_t str)
 }
 
 
-static void draw_status(void)
-/* draws the status bar */
-{
-	mpdm_t t;
-
-	t = mp_build_status_line();
-
-	/* move to the last line, clear it and draw there */
-	wmove(cw, LINES - 1, 0);
-	wattrset(cw, nc_attrs[normal_attr]);
-	wclrtoeol(cw);
-	nc_addwstr(t);
-
-	/* draw the menu key hint, right-aligned */
-	if ((t = mpdm_hget_s(mp, L"menu_key_hint")) == NULL) {
-		t = MPDM_LS(L"ctrl-a: ");
-		t = mpdm_strcat(t, mpdm_gettext(MPDM_LS(L"Menu")));
-		mpdm_hset_s(mp, L"menu_key_hint", t);
-	}
-
-	wmove(cw, LINES - 1, COLS - mpdm_size(t));
-	nc_addwstr(t);
-}
-
-
 static mpdm_t nc_doc_draw(mpdm_t args)
 /* draws the document part */
 {
@@ -381,10 +356,6 @@ static mpdm_t nc_doc_draw(mpdm_t args)
 			nc_addwstr(s);
 		}
 	}
-
-	draw_status();
-
-	wrefresh(cw);
 
 	return NULL;
 }
