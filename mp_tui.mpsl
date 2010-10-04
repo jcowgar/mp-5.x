@@ -318,6 +318,13 @@ sub mp.tui.confirm(msg, def, ypos)
 	return ret;
 }
 
+
+sub mp.tui.draw(doc)
+{
+	mp.tui.doc_draw(doc);
+}
+
+
 /** interface **/
 
 sub mp.drv.alert(msg)
@@ -541,6 +548,16 @@ sub mp.drv.menu()
 sub mp.drv.busy(onoff)
 {
 	mp.tui.prompt(onoff && L("Please, wait...") || '');
+}
+
+
+sub mp.drv.main_loop()
+{
+	while (!mp.exit_requested()) {
+		mp.tui.draw(mp.active());
+
+		mp.process_event(mp.tui.getkey());
+	}
 }
 
 

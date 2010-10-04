@@ -353,15 +353,16 @@ static void draw_status(void)
 }
 
 
-static void nc_draw(mpdm_t doc)
-/* driver drawing function for cursesw */
+static mpdm_t nc_doc_draw(mpdm_t args)
+/* draws the document part */
 {
 	mpdm_t d;
 	int n, m;
 
 	werase(cw);
 
-	d = mp_draw(doc, 0);
+	d = mpdm_aget(args, 0);
+	d = mp_draw(d, 0);
 
 	for (n = 0; n < mpdm_size(d); n++) {
 		mpdm_t l = mpdm_aget(d, n);
@@ -384,6 +385,8 @@ static void nc_draw(mpdm_t doc)
 	draw_status();
 
 	wrefresh(cw);
+
+	return NULL;
 }
 
 
@@ -469,21 +472,6 @@ static mpdm_t ncursesw_drv_timer(mpdm_t a)
 	timer_func = mpdm_ref(func);
 
 	return r;
-}
-
-
-static mpdm_t ncursesw_drv_main_loop(mpdm_t a)
-/* curses driver main loop */
-{
-	while (! mp_exit_requested) {
-		/* get current document and draw it */
-		nc_draw(mp_active());
-
-		/* get key and process it */
-		mp_process_event(nc_getkey(NULL));
-	}
-
-	return NULL;
 }
 
 
@@ -601,7 +589,6 @@ static void register_functions(void)
 
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"timer", MPDM_X(ncursesw_drv_timer));
-	mpdm_hset_s(drv, L"main_loop", MPDM_X(ncursesw_drv_main_loop));
 	mpdm_hset_s(drv, L"shutdown", MPDM_X(ncursesw_drv_shutdown));
 
 	tui = mpsl_eval(MPDM_LS(L"load('mp_tui.mpsl');"), NULL);
@@ -625,6 +612,7 @@ static void register_functions(void)
 	mpdm_hset_s(tui, L"getxy", MPDM_X(tui_getxy));
 	mpdm_hset_s(tui, L"openpanel", MPDM_X(tui_openpanel));
 	mpdm_hset_s(tui, L"closepanel", MPDM_X(tui_closepanel));
+	mpdm_hset_s(tui, L"doc_draw", MPDM_X(nc_doc_draw));
 }
 
 
