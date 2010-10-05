@@ -334,6 +334,15 @@ sub mp.tui.draw(doc)
 	mp.tui.move(mp.window.tx - size(t), mp.window.ty - 1);
 	mp.tui.addstr(t);
 
+	/* if a hardware cursor is desired, set it */
+	if (mp.config.hw_cursor) {
+		mp.tui.move(
+			mp.x2vx(doc.txt.lines[doc.txt.y],
+				doc.txt.x - doc.txt.vx),
+			doc.txt.y - doc.txt.vy
+		);
+	}
+
 	mp.tui.refresh();
 }
 
