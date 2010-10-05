@@ -1,6 +1,12 @@
 Minimum Profit Release Notes
 ============================
 
+5.1.5
+-----
+
+ * New configuration option `mp.config.hw_cursor' to activate
+   the hardware cursor in text environments (disabled by default).
+
 5.1.4
 -----
 
