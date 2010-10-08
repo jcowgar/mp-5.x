@@ -479,6 +479,9 @@ sub mp.process_cmdline()
 				ERROR = sprintf(L("Cannot open '%s'"), s);
 		}
 		else
+		if (o eq '-txt')
+			mp.config.text_mode = 1;
+		else
 		if (regex('/^\+/', o)) {
 			/* move to line */
 			line = o - 1;

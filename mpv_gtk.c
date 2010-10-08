@@ -1877,6 +1877,12 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 int gtk_drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
+	int n;
+
+	for (n = 0; n < *argc; n++) {
+		if (strcmp(argv[0][n], "-txt") == 0)
+			return 0;
+	}
 
 	if (!gtk_init_check(argc, argv))
 		return 0;

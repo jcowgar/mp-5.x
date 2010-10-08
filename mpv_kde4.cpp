@@ -490,6 +490,12 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv)
 	mpdm_t drv;
 	KCmdLineOptions opts;
 	Display *x11_display;
+	int n;
+
+	for (n = 0; n < *argc; n++) {
+		if (strcmp(argv[0][n], "-txt") == 0)
+			return 0;
+	}
 
 	/* try connecting directly to the Xserver */
 	if ((x11_display = XOpenDisplay((char *)NULL)) == NULL)

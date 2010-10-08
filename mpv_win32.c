@@ -1570,6 +1570,12 @@ static mpdm_t win32_drv_startup(mpdm_t a)
 int win32_drv_detect(int * argc, char *** argv)
 {
 	mpdm_t drv;
+	int n;
+
+	for (n = 0; n < *argc; n++) {
+		if (strcmp(argv[0][n], "-txt") == 0)
+			return 0;
+	}
 
 	drv = mpdm_hget_s(mp, L"drv");
 	mpdm_hset_s(drv, L"id", MPDM_LS(L"win32"));
