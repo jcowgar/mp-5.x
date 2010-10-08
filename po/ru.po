@@ -186,7 +186,7 @@ msgstr ""
 msgid " [Y/N]"
 msgstr ""
 
-#: mp_tui.mpsl:325
+#: mp_tui.mpsl:354
 msgid " [ENTER]"
 msgstr " [ВВОД]"
 
@@ -494,7 +494,7 @@ msgstr "Начало строки"
 msgid "Select last succesful search"
 msgstr "Показать последний успешный поиск"
 
-#: mp_drv.mpsl:39
+#: mp_drv.mpsl:39 mp_tui.mpsl:333
 msgid "Menu"
 msgstr "Меню"
 
@@ -826,7 +826,7 @@ msgstr "Подсчитать слова"
 msgid "Toggle spellchecking"
 msgstr "Промежуточная проверка"
 
-#: mp_tui.mpsl:543
+#: mp_tui.mpsl:572
 msgid "Please, wait..."
 msgstr "Пожалусто, подождите"
 
@@ -881,12 +881,12 @@ msgstr "Новый файл '%s'"
 msgid "%d replaces"
 msgstr "%d перемещено"
 
-#: mp_core.mpsl:461 mp_core.mpsl:479
+#: mp_core.mpsl:462 mp_core.mpsl:480
 #, c-format
 msgid "Cannot open '%s'"
 msgstr "Невозможно открыть '%s'"
 
-#: mp_core.mpsl:585
+#: mp_core.mpsl:589
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr "Предупреждение: %s найдена версия %s, но %s необходима"
@@ -1019,8 +1019,6 @@ msgstr ""
 msgid "Search repeated word"
 msgstr ""
 
-#: mp_core.mpsl:408
-#, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
 "Copyright (C) Angel Ortega <angel@triptico.com>\n"
@@ -1070,5 +1068,28 @@ msgid ""
 "Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.\n"
 "\n"
 "Home page: http://www.triptico.com/software/mp.html\n"
+"Mailing list: mp-subscribe@lists.triptico.com\n"
+msgstr ""
+
+#: mp_core.mpsl:408
+#, c-format
+msgid ""
+"Minimum Profit %s - Programmer Text Editor\n"
+"Copyright (C) Angel Ortega <angel@triptico.com>\n"
+"This software is covered by the GPL license. NO WARRANTY.\n"
+"\n"
+"Usage: mp-5 [options] [files...]\n"
+"\n"
+"Options:\n"
+"\n"
+" -t {tag}           Edits the file where tag is defined\n"
+" -e {mpsl_code}     Executes MPSL code\n"
+" -f {mpsl_script}   Executes MPSL script file\n"
+" -d {directory}     Set current directory\n"
+" -x {file}          Open file in the hexadecimal viewer\n"
+" -txt               Use text mode instead of GUI\n"
+" +NNN               Moves to line number NNN of last file\n"
+"\n"
+"Homepage: http://triptico.com/software/mp.html\n"
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""

@@ -418,6 +418,7 @@ sub mp.usage()
 		" -f {mpsl_script}   Executes MPSL script file\n"\
 		" -d {directory}     Set current directory\n"\
 		" -x {file}          Open file in the hexadecimal viewer\n"\
+		" -txt               Use text mode instead of GUI\n"\
 		" +NNN               Moves to line number NNN of last file\n"\
 		"\n"\
 		"Homepage: http://triptico.com/software/mp.html\n"\
