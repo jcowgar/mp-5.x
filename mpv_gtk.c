@@ -1880,7 +1880,8 @@ int gtk_drv_detect(int * argc, char *** argv)
 	int n;
 
 	for (n = 0; n < *argc; n++) {
-		if (strcmp(argv[0][n], "-txt") == 0)
+		if (strcmp(argv[0][n], "-txt") == 0 ||
+			strcmp(argv[0][n], "-h") == 0)
 			return 0;
 	}
 
