@@ -522,6 +522,7 @@ extern "C" int kde4_drv_detect(int * argc, char *** argv)
 	opts.add("d {directory}", ki18n("Sets working directory"));
 	opts.add("x {file}", ki18n("Open file in the hexadecimal viewer"));
 	opts.add(" +NNN", ki18n("Moves to line number NNN of last file"));
+	opts.add("txt", ki18n("Use text mode instead of GUI"));
 	opts.add("+[file(s)]", ki18n("Documents to open"));
 	KCmdLineArgs::addCmdLineOptions(opts);
 
