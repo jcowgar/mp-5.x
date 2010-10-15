@@ -67,6 +67,7 @@ mp.actions['insert_next_item'] = sub(doc) {
 			n = r[1];
 	}
 
+	mp.store_undo(doc);
 	mp.insert(doc, ' * ' ~ (n + 1) ~ ': ');
 };
 
