@@ -57,6 +57,19 @@ mp.actions['build']	= sub(doc) {
 };
 
 
+mp.actions['insert_next_item'] = sub(doc) {
+	local n = 0;
+
+	foreach (l, doc.txt.lines) {
+		local r = regex(['/^ \* /', '/[0-9]+/', '/: /'], l);
+
+		if (r[1] > n)
+			n = r[1];
+	}
+
+	mp.insert(doc, ' * ' ~ (n + 1) ~ ': ');
+};
+
 /** Default key bindings **/
 
 mp.keycodes['f2'] = "build";
@@ -64,6 +77,8 @@ mp.keycodes['f2'] = "build";
 /** action descriptions **/
 
 mp.actdesc['build'] = LL("Build project...");
+mp.actdesc['insert_next_item'] = LL("Insert next item");
+
 
 /** code **/
 
