@@ -1115,7 +1115,7 @@ static void selection_get(GtkWidget * widget,
 	if (mpdm_size(d) == 0)
 		return;
 
-	d = mpdm_join(MPDM_LS(L"\n"), d);
+	d = mpdm_join_s(L"\n", d);
 
 	/* convert to current locale */
 	ptr = (unsigned char *) mpdm_wcstombs(d->data, &s);

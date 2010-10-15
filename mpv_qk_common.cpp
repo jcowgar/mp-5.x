@@ -764,7 +764,7 @@ static mpdm_t qt4_drv_clip_to_sys(mpdm_t a)
 	v = mpdm_hget_s(mp, L"clipboard");
 
 	if (mpdm_size(v) != 0) {
-		v = mpdm_join(MPDM_LS(L"\n"), v);
+		v = mpdm_join_s(L"\n", v);
 		qc->setText(str_to_qstring(v), QClipboard::Selection);
 	}
 
