@@ -9,6 +9,8 @@ Minimum Profit Release Notes
    the hardware cursor in text environments (disabled by default).
  * New action `insert_next_item', to insert a new enumeration
    item in a document.
+ * If a text mode menu panel do not fit vertically on the screen,
+   scroll menu items as necessary.
 
 5.1.4
 -----

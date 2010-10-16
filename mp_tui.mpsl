@@ -433,7 +433,7 @@ sub mp.drv.menu()
 	local key = NULL;
 
 	while (action == NULL && key ne 'escape') {
-		local pos, mo, my;
+		local pos, mo, my, vy;
 		local n = 0;
 
 		/* wrap */
@@ -484,34 +484,57 @@ sub mp.drv.menu()
 		if (pos[0] + pos[2] > mp.window.tx - 2)
 			pos[0] = mp.window.tx - pos[2] - 2;
 
+		local pty = size(mo);
+
+		if (pty > mp.window.ty - 3)
+			pty = mp.window.ty - 3;
+
 		mp.tui.refresh();
 		mp.tui.attr(mp.colors.menu.attr);
-		mp.tui.openpanel(pos[0], 1, pos[2] + 2, size(mo) + 2);
+		mp.tui.openpanel(pos[0], 1, pos[2] + 2, pty + 2);
 
 		my = 0;
+		vy = 0;
 
 		while (key ne 'escape') {
 			/* draw the options */
+			if (my < vy) vy = my;
+			if (my > vy + (pty - 1)) vy = my - (pty - 1);
+
 			n = 0;
-			while (n < size(mo)) {
-				local l = mp.menu_label(mo[n]);
+
+			while (n < pty) {
+				local l = mp.menu_label(mo[n + vy]);
 
 				/* set color */
-				if (n == my)
+				if (n == my - vy)
 					mp.tui.attr(mp.colors.cursor.attr);
 				else
 					mp.tui.attr(mp.colors.menu.attr);
 
-				if (l != NULL) {
-					mp.tui.move(1, 1 + n);
-					mp.tui.addstr(sprintf("%-" ~ pos[2] ~ "s", l));
-				}
+				mp.tui.move(1, 1 + n);
+				mp.tui.addstr(sprintf("%-" ~ pos[2] ~ "s", l || ''));
 
 				n++;
 			}
 
+			/* add visual cues that the menu is bigger */
+			if (size(mo) > pty) {
+				mp.tui.attr(mp.colors.menu.attr);
+
+				if (vy) {
+					mp.tui.move(pos[2], 1);
+					mp.tui.addstr('+');
+				}
+
+				if (pty + vy < size(mo)) {
+					mp.tui.move(pos[2], pty);
+					mp.tui.addstr('+');
+				}
+			}
+
 			/* move the hw cursor to the selected option */
-			mp.tui.move(1, 1 + my);
+			mp.tui.move(1, 1 + my - vy);
 
 			mp.tui.refresh();
 
