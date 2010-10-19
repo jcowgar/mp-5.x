@@ -117,6 +117,8 @@ mp.actions['tab_options']	= sub (d) {
 	}
 };
 
+mp.actions['toggle_insert'] = sub (d) { mp.config.insert = !mp.config.insert; };
+
 /** default key bindings **/
 
 mp.keycodes['enter']	= "insert_line";
@@ -129,6 +131,7 @@ mp.keycodes['ctrl-m']	= "insert_line";
 mp.keycodes['ctrl-y']	= "delete_line";
 mp.keycodes['ctrl-z']	= "undo";
 mp.keycodes['f4']	= "word_wrap_paragraph";
+mp.keycodes['insert']	= "toggle_insert";
 
 /** action descriptions **/
 
@@ -144,6 +147,7 @@ mp.actdesc['join_paragraph']	= LL("Join a paragraph in one line");
 mp.actdesc['word_wrap_paragraph'] = LL("Word-wrap a paragraph");
 mp.actdesc['line_options']	= LL("Line options...");
 mp.actdesc['tab_options']	= LL("Tab options...");
+mp.actdesc['toggle_insert'] = LL("Toggle insert/overwrite mode");
 
 /** code **/
 
@@ -350,7 +354,7 @@ sub mp.insert_string(doc, str)
 	mp.delete_mark(doc);
 
 	/* splice and change */
-	w = splice(txt.lines[txt.y], str, txt.x, 0);
+	w = splice(txt.lines[txt.y], str, txt.x, mp.config.insert && size(str) || 0);
 	txt.lines[txt.y] = w[0];
 
 	/* move right */
