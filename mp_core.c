@@ -981,8 +981,10 @@ mpdm_t mp_plain_load(mpdm_t args)
 	/* clean last seen EOL */
 	mpdm_hset_s(mp, L"last_seen_eol", NULL);
 
+	/* NOTE: this code rewrites a value, which is *illegal*,
+	   to avoid generating too much residual values */
 	while ((v = mpdm_read(f)) != NULL) {
-		const wchar_t *ptr = v->data;
+		wchar_t *ptr = (wchar_t *)v->data;
 		int size = v->size;
 
 		/* chomp */
@@ -991,12 +993,14 @@ mpdm_t mp_plain_load(mpdm_t args)
 				--size;
 				eol = 2;
 			}
+
+			ptr[size] = L'\0';
+			v->size = size;
 		}
 		else
 			chomped = 0;
 
-		mpdm_push(a, MPDM_NS(ptr, size));
-		mpdm_destroy(v);
+		mpdm_push(a, v);
 	}
 
 	/* if last line was chomped, add a last, empty one */
