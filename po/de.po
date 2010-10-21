@@ -526,14 +526,14 @@ msgstr "Zur zugehörigen Klammer"
 msgid "Insert new line below cursor"
 msgstr "Zeile unter dem Kursor einfügen"
 
-#: mp_edit.mpsl:138
+#: mp_edit.mpsl:141
 msgid "Insert tab"
 msgstr "Tabulator einfügen"
 
 msgid "Help for word under cursor"
 msgstr "Hilfe zum Wort über dem Kursor"
 
-#: mp_edit.mpsl:135
+#: mp_edit.mpsl:138
 msgid "Insert line"
 msgstr "Zeile an der Kursorposition einfügen"
 
@@ -594,7 +594,7 @@ msgstr "Löschen bis zum Anfang des Wortes"
 msgid "Delete char to the left of cursor"
 msgstr "Zeichen links vom Kursor löschen"
 
-#: mp_edit.mpsl:136
+#: mp_edit.mpsl:139
 msgid "Delete line"
 msgstr "Zeile löschen"
 
@@ -638,27 +638,27 @@ msgstr ""
 msgid "Word wrapping must be set"
 msgstr ""
 
-#: mp_edit.mpsl:137
+#: mp_edit.mpsl:140
 msgid "Insert space"
 msgstr ""
 
-#: mp_edit.mpsl:139
+#: mp_edit.mpsl:142
 msgid "Delete character"
 msgstr ""
 
-#: mp_edit.mpsl:140
+#: mp_edit.mpsl:143
 msgid "Delete character to the left"
 msgstr ""
 
-#: mp_edit.mpsl:141
+#: mp_edit.mpsl:144
 msgid "Undo"
 msgstr ""
 
-#: mp_edit.mpsl:143
+#: mp_edit.mpsl:146
 msgid "Join a paragraph in one line"
 msgstr ""
 
-#: mp_edit.mpsl:144
+#: mp_edit.mpsl:147
 msgid "Word-wrap a paragraph"
 msgstr ""
 
@@ -780,11 +780,11 @@ msgstr ""
 msgid "Convert tabs to spaces"
 msgstr ""
 
-#: mp_edit.mpsl:145
+#: mp_edit.mpsl:148
 msgid "Line options..."
 msgstr ""
 
-#: mp_edit.mpsl:146
+#: mp_edit.mpsl:149
 msgid "Tab options..."
 msgstr ""
 
@@ -832,7 +832,7 @@ msgstr ""
 msgid "Toggle spellchecking"
 msgstr ""
 
-#: mp_tui.mpsl:572
+#: mp_tui.mpsl:595
 msgid "Please, wait..."
 msgstr ""
 
@@ -867,7 +867,7 @@ msgstr ""
 msgid "Error writing to command '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:142
+#: mp_edit.mpsl:145
 msgid "Redo"
 msgstr ""
 
@@ -898,7 +898,7 @@ msgstr ""
 msgid "Unknown action '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:490
+#: mp_edit.mpsl:494
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr ""
@@ -949,7 +949,7 @@ msgstr ""
 msgid "Errors and Warnings"
 msgstr ""
 
-#: mp_build.mpsl:66
+#: mp_build.mpsl:80
 msgid "Build project..."
 msgstr ""
 
@@ -1107,4 +1107,12 @@ msgid ""
 "\n"
 "Homepage: http://triptico.com/software/mp.html\n"
 "Mailing list: mp-subscribe@lists.triptico.com\n"
+msgstr ""
+
+#: mp_build.mpsl:81
+msgid "Insert next item"
+msgstr ""
+
+#: mp_edit.mpsl:150
+msgid "Toggle insert/overwrite mode"
 msgstr ""

@@ -263,11 +263,11 @@ msgstr "Página abajo"
 msgid "Go to line..."
 msgstr "Ir a la línea..."
 
-#: mp_edit.mpsl:135
+#: mp_edit.mpsl:138
 msgid "Insert line"
 msgstr "Insertar línea"
 
-#: mp_edit.mpsl:138
+#: mp_edit.mpsl:141
 msgid "Insert tab"
 msgstr "Insertar tabulador"
 
@@ -277,7 +277,7 @@ msgstr "Borrar carácter sobre el cursor"
 msgid "Delete char to the left of cursor"
 msgstr "Borrar carácter a la izquierda del cursor"
 
-#: mp_edit.mpsl:136
+#: mp_edit.mpsl:139
 msgid "Delete line"
 msgstr "Borrar línea"
 
@@ -551,27 +551,27 @@ msgstr "Las palabras clave no coinciden."
 msgid "Word wrapping must be set"
 msgstr "El recorte de líneas debe estar activo."
 
-#: mp_edit.mpsl:137
+#: mp_edit.mpsl:140
 msgid "Insert space"
 msgstr "Insertar espacio"
 
-#: mp_edit.mpsl:139
+#: mp_edit.mpsl:142
 msgid "Delete character"
 msgstr "Borrar carácter"
 
-#: mp_edit.mpsl:140
+#: mp_edit.mpsl:143
 msgid "Delete character to the left"
 msgstr "Borrar carácter a la izquierda"
 
-#: mp_edit.mpsl:141
+#: mp_edit.mpsl:144
 msgid "Undo"
 msgstr "Deshacer"
 
-#: mp_edit.mpsl:143
+#: mp_edit.mpsl:146
 msgid "Join a paragraph in one line"
 msgstr "Juntar un párrafo en una sola línea"
 
-#: mp_edit.mpsl:144
+#: mp_edit.mpsl:147
 msgid "Word-wrap a paragraph"
 msgstr "Recortar por palabras un párrafo"
 
@@ -693,11 +693,11 @@ msgstr "Tamaño del tabulador"
 msgid "Convert tabs to spaces"
 msgstr "Convertir tabuladores a espacios"
 
-#: mp_edit.mpsl:145
+#: mp_edit.mpsl:148
 msgid "Line options..."
 msgstr "Opciones de línea..."
 
-#: mp_edit.mpsl:146
+#: mp_edit.mpsl:149
 msgid "Tab options..."
 msgstr "Opciones de tabulación..."
 
@@ -739,7 +739,7 @@ msgstr "Contar palabras"
 msgid "Toggle spellchecking"
 msgstr "Conmutar ortografía"
 
-#: mp_tui.mpsl:572
+#: mp_tui.mpsl:595
 msgid "Please, wait..."
 msgstr "Por favor, espere..."
 
@@ -774,7 +774,7 @@ msgstr ""
 msgid "Error writing to command '%s'"
 msgstr "Error escribiendo al comando '%s'"
 
-#: mp_edit.mpsl:142
+#: mp_edit.mpsl:145
 msgid "Redo"
 msgstr "Rehacer"
 
@@ -805,7 +805,7 @@ msgstr "Guardar sesión"
 msgid "Unknown action '%s'"
 msgstr "Acción '%s' desconocida"
 
-#: mp_edit.mpsl:490
+#: mp_edit.mpsl:494
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr "Tecla '%s' sin asociar"
@@ -856,7 +856,7 @@ msgstr "No se encontraron errores ni advertencias."
 msgid "Errors and Warnings"
 msgstr "Errores y advertencias"
 
-#: mp_build.mpsl:66
+#: mp_build.mpsl:80
 msgid "Build project..."
 msgstr "Construir proyecto..."
 
@@ -1007,3 +1007,11 @@ msgstr ""
 "\n"
 "Página web: http://triptico.com/software/mp.html\n"
 "Lista de distribución: mp-subscribe@lists.triptico.com\n"
+
+#: mp_build.mpsl:81
+msgid "Insert next item"
+msgstr "Insertar nuevo elemento"
+
+#: mp_edit.mpsl:150
+msgid "Toggle insert/overwrite mode"
+msgstr "Conmutar modo insertar/sobreescribir"
