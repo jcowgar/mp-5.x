@@ -63,9 +63,9 @@ mp.actions['eval_doc']	= sub (d) {
 
 			/* try to move the cursor to the line
 			   where the error was */
-			local l;
+			local l = regex( [ '/, line /', '/[0-9]+/' ], ERROR);
 
-			if ((l = regex( [ '/, line /', '/[0-9]+/' ], ERROR)) != NULL)
+			if (size(l) == 2)
 				mp.set_y(d, l[1]);
 
 			ERROR = NULL;
