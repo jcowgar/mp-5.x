@@ -337,7 +337,7 @@ static mpdm_t nc_doc_draw(mpdm_t args)
 	werase(cw);
 
 	d = mpdm_aget(args, 0);
-	d = mp_draw(d, 0);
+	d = mpdm_ref(mp_draw(d, 0));
 
 	for (n = 0; n < mpdm_size(d); n++) {
 		mpdm_t l = mpdm_aget(d, n);
@@ -356,6 +356,8 @@ static mpdm_t nc_doc_draw(mpdm_t args)
 			nc_addwstr(s);
 		}
 	}
+
+	mpdm_unref(d);
 
 	return NULL;
 }
@@ -386,7 +388,7 @@ static void build_colors(void)
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
 	color_names = mpdm_hget_s(mp, L"color_names");
-	l = mpdm_keys(colors);
+	l = mpdm_ref(mpdm_keys(colors));
 	s = mpdm_size(l);
 
 	/* redim the structures */
@@ -427,6 +429,8 @@ static void build_colors(void)
 
 	/* set the background filler */
 	wbkgdset(cw, ' ' | nc_attrs[normal_attr]);
+
+	mpdm_unref(l);
 }
 
 
@@ -435,14 +439,14 @@ static void build_colors(void)
 static mpdm_t ncursesw_drv_timer(mpdm_t a)
 {
 	mpdm_t func = mpdm_aget(a, 1);
-	mpdm_t r;
 
 	timer_msecs = mpdm_ival(mpdm_aget(a, 0));
 
-	r = mpdm_unref(timer_func);
-	timer_func = mpdm_ref(func);
+	mpdm_ref(func);
+	mpdm_unref(timer_func);
+	timer_func = func;
 
-	return r;
+	return NULL;
 }
 
 
