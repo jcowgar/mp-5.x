@@ -244,8 +244,9 @@ static int drw_prepare(mpdm_t doc)
 
 	drw_1.word_color_func = mpdm_hget_s(mp, L"word_color_func");
 
+	mpdm_ref(txt);
 	mpdm_unref(drw_1.txt);
-	drw_1.txt = mpdm_ref(txt);
+	drw_1.txt = txt;
 
 	drw_2.x = x;
 	drw_2.y = y;
@@ -347,12 +348,20 @@ static void drw_words(void)
 		int attr = -1;
 		mpdm_t v;
 
+		mpdm_ref(t);
+
 		if ((v = mpdm_hget(word_color, t)) != NULL)
 			attr = mpdm_ival(v);
-		else if (word_color_func != NULL)
-			attr = mpdm_ival(mpdm_exec_1(word_color_func, t));
+		else
+		if (word_color_func != NULL) {
+			v = mpdm_ref(mpdm_exec_1(word_color_func, t));
+			attr = mpdm_ival(v);
+			mpdm_unref(v);
+		}
 
 		o = drw_fill_attr_regex(attr);
+
+		mpdm_unref(t);
 	}
 }
 
@@ -369,19 +378,23 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 		/* if the regex is an array, it's a pair of
 		   'match from this' / 'match until this' */
 		if (r->flags & MPDM_MULTIPLE) {
+			mpdm_t t;
 			mpdm_t rs = mpdm_aget(r, 0);
 			mpdm_t re = mpdm_aget(r, 1);
 
-			while (mpdm_regex(rs, drw_2.v, o)) {
+			while ((t = mpdm_ref(mpdm_regex(rs, drw_2.v, o))) != NULL) {
 				int s;
+
+				mpdm_unref(t);
 
 				/* fill the matched part */
 				o = drw_fill_attr_regex(attr);
 
 				/* try to match the end */
-				if (mpdm_regex(re, drw_2.v, o)) {
+				if ((t = mpdm_ref(mpdm_regex(re, drw_2.v, o))) != NULL) {
 					/* found; fill the attribute
 					   to the end of the match */
+					mpdm_unref(t);
 					s = mpdm_regex_size + (mpdm_regex_offset - o);
 				}
 				else {
@@ -401,18 +414,24 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 				/* it's a sscanf() expression */
 				mpdm_t v;
 
-				while ((v = mpdm_sscanf(r, drw_2.v, o)) && mpdm_size(v) == 2) {
+				while ((v = mpdm_ref(mpdm_sscanf(r, drw_2.v, o))) && mpdm_size(v) == 2) {
 					int i = mpdm_ival(mpdm_aget(v, 0));
 					int s = mpdm_ival(mpdm_aget(v, 1)) - i;
 
 					o = drw_fill_attr(attr, i, s);
+
+					mpdm_unref(v);
 				}
 			}
 			else {
 				/* it's a regex */
 				/* while the regex matches, fill attributes */
-				while (mpdm_regex(r, drw_2.v, o))
+				mpdm_t t;
+
+				while ((t = mpdm_ref(mpdm_regex(r, drw_2.v, o))) != NULL) {
+					mpdm_unref(t);
 					o = drw_fill_attr_regex(attr);
+				}
 			}
 		}
 	}
@@ -824,14 +843,20 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 
 	/* if there is a global post_paint list of functions, execute it */
 	if ((f = mpdm_hget_s(mp, L"post_paint")) != NULL) {
-		for (n = 0; n < mpdm_size(f); n++)
-			r = mpdm_exec_2(mpdm_aget(f, n), doc, r);
+		for (n = 0; n < mpdm_size(f); n++) {
+			mpdm_t v = mpdm_ref(r);
+			r = mpdm_exec_2(mpdm_aget(f, n), doc, v);
+			mpdm_unref(v);
+		}
 	}
 
 	/* if doc has a post_paint list of functions, execute it */
 	if ((f = mpdm_hget_s(doc, L"post_paint")) != NULL) {
-		for (n = 0; n < mpdm_size(f); n++)
-			r = mpdm_exec_2(mpdm_aget(f, n), doc, r);
+		for (n = 0; n < mpdm_size(f); n++) {
+			mpdm_t v = mpdm_ref(r);
+			r = mpdm_exec_2(mpdm_aget(f, n), doc, v);
+			mpdm_unref(v);
+		}
 	}
 
 	return r;
