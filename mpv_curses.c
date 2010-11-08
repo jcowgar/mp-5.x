@@ -304,9 +304,14 @@ static mpdm_t nc_getkey(mpdm_t args)
 	if (f != NULL) {
 		mpdm_t t;
 
-		t = mpdm_ref(MPDM_S(f));
-		k = mp_process_keyseq(t);
-		mpdm_unref(t);
+		k = mpdm_ref(MPDM_S(f));
+
+		if ((t = mp_process_keyseq(k)) != k) {
+			mpdm_unref(k);
+			k = t;
+		}
+		else
+			mpdm_unrefnd(t);
 	}
 
 	return k;
