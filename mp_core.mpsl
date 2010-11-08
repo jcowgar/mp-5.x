@@ -248,6 +248,8 @@ sub mp.process_action(a)
 			'string'	=> sprintf(L("Unknown action '%s'"), a)
 		};
 	}
+
+	return NULL;
 }
 
 
@@ -296,6 +298,8 @@ sub mp.process_event(k)
 	/* if there is a keypress notifier function, call it */
 	if (is_exec(d.keypress))
 		d.keypress(d, k);
+
+	return NULL;
 }
 
 

@@ -121,6 +121,7 @@ static void build_fonts(HDC hdc)
 	int n;
 	int font_size = 10;
 	char * font_face = "Lucida Console";
+	mpdm_t v = NULL;
 	mpdm_t c;
 
 	if (font_normal != NULL) {
@@ -130,15 +131,13 @@ static void build_fonts(HDC hdc)
 
 	/* get current configuration */
 	if ((c = mpdm_hget_s(mp, L"config")) != NULL) {
-		mpdm_t v;
-
 		if ((v = mpdm_hget_s(c, L"font_size")) != NULL)
 			font_size = mpdm_ival(v);
 		else
 			mpdm_hset_s(c, L"font_size", MPDM_I(font_size));
 
 		if ((v = mpdm_hget_s(c, L"font_face")) != NULL) {
-			v = MPDM_2MBS(v->data);
+			v = mpdm_ref(MPDM_2MBS(v->data));
 			font_face = (char *)v->data;
 		}
 		else
@@ -162,6 +161,8 @@ static void build_fonts(HDC hdc)
 	font_width = tm.tmAveCharWidth;
 
 	update_window_size();
+
+	mpdm_unref(v);
 }
 
 
@@ -261,12 +262,14 @@ static void build_menu(void)
 				AppendMenu(submenu, MF_SEPARATOR, 0, NULL);
 			else {
 				MENUITEMINFO mi;
-				mpdm_t d = mp_menu_label(v);
+				mpdm_t d = mpdm_ref(mp_menu_label(v));
 
 				/* set the string */
 				ptr = mpdm_wcstombs(mpdm_string(d), NULL);
 				AppendMenu(submenu, MF_STRING, win32_menu_id, ptr);
 				free(ptr);
+
+				mpdm_unref(d);
 
 				/* store the action inside the menu */
 				memset(&mi, '\0', sizeof(mi));
@@ -368,11 +371,14 @@ void draw_status(void)
 {
 	mpdm_t t;
 
-	if (hwstatus != NULL && (t = mp_build_status_line()) != NULL) {
-		t = MPDM_2MBS(t->data);
+	if (hwstatus != NULL && (t = mpdm_ref(mp_build_status_line())) != NULL) {
+		mpdm_t v = mpdm_ref(MPDM_2MBS(t->data));
 
-		if (t->data != NULL)
-			SetWindowText(hwstatus, t->data);
+		if (v->data != NULL)
+			SetWindowText(hwstatus, v->data);
+
+		mpdm_unref(v);
+		mpdm_unref(t);
 	}
 }
 
@@ -401,6 +407,8 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 		EndPaint(hwnd, &ps);
 		return;
 	}
+
+	mpdm_ref(d);
 
 	/* select defaults to start painting */
 	SelectObject(hdc, font_normal);
@@ -442,6 +450,8 @@ static void win32_draw(HWND hwnd, mpdm_t doc)
 	}
 
 	EndPaint(hwnd, &ps);
+
+	mpdm_unref(d);
 
 	draw_filetabs();
 	draw_scrollbar();
@@ -566,7 +576,10 @@ static void win32_vkey(int c)
 	}
 
 	if (ptr != NULL) {
-		mp_process_event(MPDM_S(ptr));
+		mpdm_t v = mpdm_ref(MPDM_S(ptr));
+		mp_process_event(v);
+		mpdm_unref(v);
+
 		is_wm_keydown = 1;
 		mp_active();
 
@@ -629,7 +642,10 @@ static void win32_akey(int k)
 	}
 
 	if (ptr != NULL) {
-		mp_process_event(MPDM_S(ptr));
+		mpdm_t v = mpdm_ref(MPDM_S(ptr));
+		mp_process_event(v);
+		mpdm_unref(v);
+
 		mp_active();
 		redraw();
 	}
@@ -658,7 +674,10 @@ static void win32_vscroll(UINT wparam)
 	}
 
 	if (ptr != NULL) {
-		mp_process_event(MPDM_S(ptr));
+		mpdm_t v = mpdm_ref(MPDM_S(ptr));
+		mp_process_event(v);
+		mpdm_unref(v);
+
 		redraw();
 	}
 }
@@ -678,7 +697,7 @@ static void action_by_menu(int item)
 			mp_process_action((mpdm_t)mi.dwItemData);
 			mp_active();
 		}
-        }
+    }
 }
 
 
@@ -688,6 +707,7 @@ static void dropped_files(HDROP hDrop)
 	mpdm_t a = MPDM_A(0);
 	char tmp[1024];
 	int n;
+	mpdm_t v;
 
 	n = DragQueryFile(hDrop, 0xffffffff, NULL, sizeof(tmp) - 1);
 
@@ -699,7 +719,11 @@ static void dropped_files(HDROP hDrop)
 	DragFinish(hDrop);
 
 	mpdm_hset_s(mp, L"dropped_files", a);
-	mp_process_event(MPDM_LS(L"dropped-files"));
+
+	v = mpdm_ref(MPDM_LS(L"dropped-files"));
+	mp_process_event(v);
+	mpdm_unref(v);
+
 	redraw();
 }
 
@@ -796,7 +820,10 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		}
 
 		if (ptr != NULL) {
-			mp_process_event(MPDM_S(ptr));
+			mpdm_t v = mpdm_ref(MPDM_S(ptr));
+			mp_process_event(v);
+			mpdm_unref(v);
+
 			redraw();
 		}
 
@@ -810,13 +837,18 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 	case WM_MOUSEMOVE:
 
 		if (mouse_down) {
+			mpdm_t v;
+
 			x = (LOWORD(lparam)) / font_width;
 			y = (HIWORD(lparam) - tab_height) / font_height;
 
 			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
 			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
 
-			mp_process_event(MPDM_LS(L"mouse-drag"));
+			v = mpdm_ref(MPDM_LS(L"mouse-drag"));
+			mp_process_event(v);
+			mpdm_unref(v);
+
 			redraw();
 		}
 
@@ -830,7 +862,10 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 			ptr = L"mouse-wheel-down";
 
 		if (ptr != NULL) {
-			mp_process_event(MPDM_S(ptr));
+			mpdm_t v = mpdm_ref(MPDM_S(ptr));
+			mp_process_event(v);
+			mpdm_unref(v);
+
 			redraw();
 		}
 
@@ -845,8 +880,11 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 
 	case WM_CLOSE:
 
-		if (!mp_exit_requested)
-			mp_process_event(MPDM_LS(L"close-window"));
+		if (!mp_exit_requested) {
+			mpdm_t v = mpdm_ref(MPDM_LS(L"close-window"));
+			mp_process_event(v);
+			mpdm_unref(v);
+		}
 
 		if (mp_exit_requested)
 			DestroyWindow(hwnd);
@@ -873,7 +911,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		return 0;
 
 	case WM_TIMER:
-		mpdm_exec(timer_func, NULL);
+		mpdm_unref(mpdm_ref(mpdm_exec(timer_func, NULL)));
 		redraw();
 
 		return 0;
@@ -890,7 +928,7 @@ static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
 /* driver-dependent mp to system clipboard */
 {
 	HGLOBAL hclp;
-	mpdm_t d;
+	mpdm_t d, v;
 	char * ptr;
 	char * clpptr;
 	int s;
@@ -901,8 +939,8 @@ static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
 	if (mpdm_size(d) == 0)
 		return NULL;
 
-	d = mpdm_join_s(L"\r\n", d);
-	ptr = mpdm_wcstombs(d->data, &s);
+	v = mpdm_ref(mpdm_join_s(L"\r\n", d));
+	ptr = mpdm_wcstombs(v->data, &s);
 
 	/* allocates a handle and copies */
 	hclp = GlobalAlloc(GHND, s + 1);
@@ -917,6 +955,8 @@ static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
 	EmptyClipboard();
 	SetClipboardData(CF_TEXT, hclp);
 	CloseClipboard();
+
+	mpdm_unref(v);
 
 	return NULL;
 }
@@ -933,17 +973,20 @@ static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
 	CloseClipboard();
 
 	if (hclp && (ptr = GlobalLock(hclp)) != NULL) {
-		mpdm_t d;
+		mpdm_t d, v;
 
 		/* create a value and split */
-		d = MPDM_MBS(ptr);
-		d = mpdm_split_s(L"\r\n", d);
+		v = mpdm_ref(MPDM_MBS(ptr));
+		d = mpdm_ref(mpdm_split_s(L"\r\n", v));
 
 		/* and set as the clipboard */
 		mpdm_hset_s(mp, L"clipboard", d);
 		mpdm_hset_s(mp, L"clipboard_vertical", MPDM_I(0));
 
 		GlobalUnlock(hclp);
+
+		mpdm_unref(d);
+		mpdm_unref(v);
 	}
 
 	return NULL;
@@ -1451,7 +1494,6 @@ static mpdm_t win32_drv_timer(mpdm_t a)
 {
 	int msecs = mpdm_ival(mpdm_aget(a, 0));
 	mpdm_t func = mpdm_aget(a, 1);
-	mpdm_t r;
 
 	/* previously defined one? remove */
 	if (timer_func != NULL)
@@ -1461,10 +1503,11 @@ static mpdm_t win32_drv_timer(mpdm_t a)
 	if (msecs > 0 && func != NULL)
 		SetTimer(hwnd, 1, msecs, NULL);
 
-	r = mpdm_unref(timer_func);
-	timer_func = mpdm_ref(func);
+	mpdm_ref(func);
+	mpdm_unref(timer_func);
+	timer_func = func;
 
-	return r;
+	return NULL;
 }
 
 
