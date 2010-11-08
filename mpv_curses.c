@@ -179,7 +179,8 @@ static mpdm_t nc_getkey(mpdm_t args)
 	f = nc_getwch();
 
 	if (f[0] == -1) {
-		mpdm_exec(timer_func, NULL);
+		k = mpdm_ref(mpdm_exec(timer_func, NULL));
+		mpdm_unref(k);
 		return NULL;
 	}
 
@@ -300,11 +301,15 @@ static mpdm_t nc_getkey(mpdm_t args)
 		}
 	}
 
-	/* no known key? do nothing */
-	if(f == NULL)
-		return NULL;
+	if (f != NULL) {
+		mpdm_t t;
 
-	return mp_process_keyseq(MPDM_S(f));
+		t = mpdm_ref(MPDM_S(f));
+		k = mp_process_keyseq(t);
+		mpdm_unref(t);
+	}
+
+	return k;
 }
 
 
