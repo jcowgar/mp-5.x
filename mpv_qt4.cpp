@@ -102,23 +102,38 @@ static void draw_status(void)
 
 MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 {
+	QVBoxLayout *vb;
+	QHBoxLayout *hb;
+	int height;
+
 	setWindowTitle("mp-5");
 
-	menubar = this->menuBar();
+	menubar = new QMenuBar();
 	build_menu();
+
+	/* pick an optimal height for the menu & tabs */
+	height = menubar->sizeHint().height();
 
 	statusbar = new QLabel();
 	this->statusBar()->addWidget(statusbar);
 
-	/* the full container */
-	QVBoxLayout *vb = new QVBoxLayout();
-
 	file_tabs = new QTabBar();
 	file_tabs->setFocusPolicy(Qt::NoFocus);
 
-	QHBoxLayout *hb = new QHBoxLayout();
+	/* top area */
+	hb = new QHBoxLayout();
+	hb->setContentsMargins(0, 0, 0, 0);
+
+	hb->addWidget(menubar);
+	hb->addWidget(file_tabs);
+	QWidget *ta = new QWidget();
+	ta->setLayout(hb);
+	ta->setMaximumHeight(height);
 
 	/* main area */
+	hb = new QHBoxLayout();
+	hb->setContentsMargins(0, 0, 0, 0);
+
 	area = new MPArea();
 	scrollbar = new QScrollBar();
 	scrollbar->setFocusPolicy(Qt::NoFocus);
@@ -128,8 +143,12 @@ MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 	QWidget *cc = new QWidget();
 	cc->setLayout(hb);
 
-	vb->addWidget(file_tabs);
+	/* the full container */
+	vb = new QVBoxLayout();
+
+	vb->addWidget(ta);
 	vb->addWidget(cc);
+
 	QWidget *mc = new QWidget();
 	mc->setLayout(vb);
 
