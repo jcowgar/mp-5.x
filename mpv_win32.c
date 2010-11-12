@@ -578,9 +578,7 @@ static void win32_vkey(int c)
 	}
 
 	if (ptr != NULL) {
-		mpdm_t v = mpdm_ref(MPDM_S(ptr));
-		mp_process_event(v);
-		mpdm_unref(v);
+		mp_process_event(MPDM_S(ptr));
 
 		is_wm_keydown = 1;
 		mp_active();
@@ -644,9 +642,7 @@ static void win32_akey(int k)
 	}
 
 	if (ptr != NULL) {
-		mpdm_t v = mpdm_ref(MPDM_S(ptr));
-		mp_process_event(v);
-		mpdm_unref(v);
+		mp_process_event(MPDM_S(ptr));
 
 		mp_active();
 		redraw();
@@ -676,9 +672,7 @@ static void win32_vscroll(UINT wparam)
 	}
 
 	if (ptr != NULL) {
-		mpdm_t v = mpdm_ref(MPDM_S(ptr));
-		mp_process_event(v);
-		mpdm_unref(v);
+		mp_process_event(MPDM_S(ptr));
 
 		redraw();
 	}
@@ -709,7 +703,6 @@ static void dropped_files(HDROP hDrop)
 	mpdm_t a = MPDM_A(0);
 	char tmp[1024];
 	int n;
-	mpdm_t v;
 
     mpdm_ref(a);
 
@@ -724,11 +717,9 @@ static void dropped_files(HDROP hDrop)
 
 	mpdm_hset_s(mp, L"dropped_files", a);
 
-	v = mpdm_ref(MPDM_LS(L"dropped-files"));
-	mp_process_event(v);
-	mpdm_unref(v);
-
     mpdm_unref(a);
+
+	mp_process_event(MPDM_LS(L"dropped-files"));
 
 	redraw();
 }
@@ -826,9 +817,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		}
 
 		if (ptr != NULL) {
-			mpdm_t v = mpdm_ref(MPDM_S(ptr));
-			mp_process_event(v);
-			mpdm_unref(v);
+			mp_process_event(MPDM_S(ptr));
 
 			redraw();
 		}
@@ -843,17 +832,13 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 	case WM_MOUSEMOVE:
 
 		if (mouse_down) {
-			mpdm_t v;
-
 			x = (LOWORD(lparam)) / font_width;
 			y = (HIWORD(lparam) - tab_height) / font_height;
 
 			mpdm_hset_s(mp, L"mouse_to_x", MPDM_I(x));
 			mpdm_hset_s(mp, L"mouse_to_y", MPDM_I(y));
 
-			v = mpdm_ref(MPDM_LS(L"mouse-drag"));
-			mp_process_event(v);
-			mpdm_unref(v);
+			mp_process_event(MPDM_LS(L"mouse-drag"));
 
 			redraw();
 		}
@@ -868,9 +853,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 			ptr = L"mouse-wheel-down";
 
 		if (ptr != NULL) {
-			mpdm_t v = mpdm_ref(MPDM_S(ptr));
-			mp_process_event(v);
-			mpdm_unref(v);
+			mp_process_event(MPDM_S(ptr));
 
 			redraw();
 		}
@@ -886,11 +869,8 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 
 	case WM_CLOSE:
 
-		if (!mp_exit_requested) {
-			mpdm_t v = mpdm_ref(MPDM_LS(L"close-window"));
-			mp_process_event(v);
-			mpdm_unref(v);
-		}
+		if (!mp_exit_requested)
+			mp_process_event(MPDM_LS(L"close-window"));
 
 		if (mp_exit_requested)
 			DestroyWindow(hwnd);
