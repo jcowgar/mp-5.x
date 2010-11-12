@@ -59,8 +59,15 @@ static mpdm_t qstring_to_str(QString s)
 QString str_to_qstring(mpdm_t s)
 /* converts an MPDM string to a QString */
 {
-	wchar_t *wptr = mpdm_string(s);
-	return QString::fromWCharArray(wptr);
+	QString r;
+	wchar_t *wptr;
+
+	mpdm_ref(s);
+	wptr = mpdm_string(s);
+	r = QString::fromWCharArray(wptr);
+	mpdm_unref(s);
+
+	return r;
 }
 
 
