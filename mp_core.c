@@ -622,6 +622,8 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 	if (l == NULL)
 		l = MPDM_A(0);
 
+    mpdm_ref(l);
+
 	/* finish the string */
 	tmp[i] = L'\0';
 
@@ -643,6 +645,8 @@ static mpdm_t drw_push_pair(mpdm_t l, int i, int a, wchar_t * tmp)
 	/* store the attribute and the string */
 	mpdm_push(l, MPDM_I(a));
 	mpdm_push(l, MPDM_S(tmp));
+
+    mpdm_unrefnd(l);
 
 	return l;
 }
@@ -720,10 +724,13 @@ static mpdm_t drw_as_array(void)
 
 	/* the array of lines */
 	a = MPDM_A(drw_1.ty);
+    mpdm_ref(a);
 
 	/* push each line */
 	for (n = 0; n < drw_1.ty; n++)
 		mpdm_aset(a, drw_line(n), n);
+
+    mpdm_unrefnd(a);
 
 	return a;
 }
@@ -741,6 +748,8 @@ static mpdm_t drw_optimize_array(mpdm_t a, int optimize)
 		/* creates a copy */
 		r = mpdm_clone(a);
 
+        mpdm_ref(r);
+
 		/* compare each array */
 		while (n < mpdm_size(o) && n < mpdm_size(r)) {
 			/* if both lines are equal, optimize out */
@@ -749,6 +758,8 @@ static mpdm_t drw_optimize_array(mpdm_t a, int optimize)
 
 			n++;
 		}
+
+        mpdm_unrefnd(r);
 	}
 
 	mpdm_unref(drw_2.old);
@@ -998,10 +1009,13 @@ mpdm_t mp_plain_load(mpdm_t args)
 /* loads a plain file into an array (highly optimized one) */
 {
 	mpdm_t f = mpdm_aget(args, 0);
-	mpdm_t a = MPDM_A(0);
+	mpdm_t a;
 	mpdm_t v;
 	int chomped = 1;
 	int eol = 1;
+
+    a = MPDM_A(0);
+    mpdm_ref(a);
 
 	/* clean last seen EOL */
 	mpdm_hset_s(mp, L"last_seen_eol", NULL);
@@ -1035,6 +1049,8 @@ mpdm_t mp_plain_load(mpdm_t args)
 	/* store the last seen EOL */
 	mpdm_hset_s(mp, L"last_seen_eol", MPDM_LS(eol == 2 ? L"\r\n" : L"\n"));
 
+    mpdm_unrefnd(a);
+
 	return a;
 }
 
@@ -1066,15 +1082,12 @@ void mp_startup(int argc, char *argv[])
 	mpdm_hset_s(mp, L"VERSION", MPDM_S(L"" VERSION));
 
 	/* creates the INC (executable path) array */
-	INC = MPDM_A(0);
+	INC = mpdm_hset_s(mpdm_root(), L"INC", MPDM_A(0));
 
 	/* add installed library path */
 	mpdm_push(INC, mpdm_strcat(mpdm_hget_s(mpdm_root(), L"APPDIR"),
 				   MPDM_MBS(CONFOPT_APPNAME))
 	    );
-
-	/* set INC */
-	mpdm_hset_s(mpdm_root(), L"INC", INC);
 
 	if (!TRY_DRIVERS()) {
 		printf("No usable driver found; exiting.\n");
