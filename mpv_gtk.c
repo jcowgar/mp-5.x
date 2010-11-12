@@ -1741,9 +1741,13 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 	gtk_container_add(GTK_CONTAINER(window), vbox);
 
 	build_menu();
-	gtk_box_pack_start(GTK_BOX(vbox), menu_bar, FALSE, FALSE, 0);
 
-	gtk_box_pack_start(GTK_BOX(vbox), file_tabs, FALSE, FALSE, 0);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), menu_bar, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), file_tabs, TRUE, TRUE, 0);
+
+	gtk_notebook_popup_enable(GTK_NOTEBOOK(file_tabs));
 
 	/* horizontal box holding the text and the scrollbar */
 	hbox = gtk_hbox_new(FALSE, 2);
