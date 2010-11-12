@@ -176,7 +176,7 @@ static void build_colors(void)
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
-	l = mpdm_keys(colors);
+	l = mpdm_ref(mpdm_keys(colors));
 	s = mpdm_size(l);
 
 	/* redim the structures */
@@ -219,6 +219,8 @@ static void build_colors(void)
 			papers[n] = t;
 		}
 	}
+
+    mpdm_unref(l);
 
 	/* create the background brush */
 	bgbrush = CreateSolidBrush(papers[normal_attr]);
@@ -709,6 +711,8 @@ static void dropped_files(HDROP hDrop)
 	int n;
 	mpdm_t v;
 
+    mpdm_ref(a);
+
 	n = DragQueryFile(hDrop, 0xffffffff, NULL, sizeof(tmp) - 1);
 
 	while (--n >= 0) {
@@ -723,6 +727,8 @@ static void dropped_files(HDROP hDrop)
 	v = mpdm_ref(MPDM_LS(L"dropped-files"));
 	mp_process_event(v);
 	mpdm_unref(v);
+
+    mpdm_unref(a);
 
 	redraw();
 }
