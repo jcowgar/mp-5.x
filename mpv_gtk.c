@@ -135,15 +135,6 @@ static wchar_t * utf8_to_wcs(const char * ptr)
 }
 
 
-static char * localize(char * msg)
-{
-	mpdm_t v;
-
-	v = mpdm_gettext(MPDM_MBS(msg));
-	return wcs_to_utf8(v->data);
-}
-
-
 static void update_window_size(void)
 /* updates the viewport size in characters */
 {
@@ -182,6 +173,7 @@ static void build_fonts(void)
 	int font_size = 12;
 	const char * font_face = "Mono";
 	mpdm_t c;
+	mpdm_t w = NULL;
 
 	if(font != NULL)
 		pango_font_description_free(font);
@@ -196,8 +188,8 @@ static void build_fonts(void)
 			mpdm_hset_s(c, L"font_size", MPDM_I(font_size));
 
 		if ((v = mpdm_hget_s(c, L"font_face")) != NULL) {
-			v = MPDM_2MBS(v->data);
-			font_face = v->data;
+			w = mpdm_ref(MPDM_2MBS(v->data));
+			font_face = w->data;
 		}
 		else
 			mpdm_hset_s(c, L"font_face", MPDM_MBS(font_face));
@@ -208,6 +200,8 @@ static void build_fonts(void)
 
 	font = pango_font_description_from_string(tmp);
 	update_window_size();
+
+	mpdm_unref(w);
 }
 
 
@@ -232,7 +226,7 @@ static void build_colors(void)
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
-	l = mpdm_keys(colors);
+	l = mpdm_ref(mpdm_keys(colors));
 	s = mpdm_size(l);
 
 	/* redim the structures */
@@ -267,6 +261,8 @@ static void build_colors(void)
 			papers[n] = t;
 		}
 	}
+
+	mpdm_unref(l);
 }
 
 
@@ -291,6 +287,8 @@ static void build_submenu(GtkWidget * menu, mpdm_t labels)
 	int n;
 	GtkWidget * menu_item;
 
+	mpdm_ref(labels);
+
 	for (n = 0; n < mpdm_size(labels); n++) {
 		/* get the action */
 		mpdm_t v = mpdm_aget(labels, n);
@@ -300,11 +298,13 @@ static void build_submenu(GtkWidget * menu, mpdm_t labels)
 			menu_item = gtk_menu_item_new();
 		else {
 			char * ptr;
-			mpdm_t d = mp_menu_label(v);
+			mpdm_t d = mpdm_ref(mp_menu_label(v));
 
 			ptr = wcs_to_utf8(mpdm_string(d));
 			menu_item = gtk_menu_item_new_with_label(ptr);
 			g_free(ptr);
+
+			mpdm_unref(d);
 		}
 
 		gtk_menu_append(GTK_MENU(menu), menu_item);
@@ -312,6 +312,8 @@ static void build_submenu(GtkWidget * menu, mpdm_t labels)
 			G_CALLBACK(menu_item_callback), v);
 		gtk_widget_show(menu_item);
 	}
+
+	mpdm_unref(labels);
 }
 
 
@@ -448,12 +450,14 @@ static void draw_status(void)
 	char * ptr;
 
 	/* call mp.status_line() */
-	t = mp_build_status_line();
+	t = mpdm_ref(mp_build_status_line());
 
 	if (t != NULL && (ptr = wcs_to_utf8(t->data)) != NULL) {
 		gtk_label_set_text(GTK_LABEL(status), ptr);
 		g_free(ptr);
 	}
+
+	mpdm_unref(t);
 }
 
 
@@ -522,12 +526,6 @@ static void draw_scrollbar(void)
 
 	adjustment = gtk_range_get_adjustment(GTK_RANGE(scrollbar));
 
-/*	if((int)adjustment->upper==max &&
-	   (int)adjustment->page_size==size &&
-	   (int)adjustment->page_increment==size &&
-	   (int)adjustment->value==pos)
-		return;
-*/
 	/* disconnect to avoid infinite loops */
 	g_signal_handlers_disconnect_by_func(G_OBJECT(adjustment),
 		G_CALLBACK(value_changed), NULL);
@@ -569,6 +567,8 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 
 	if ((d = mp_draw(doc, optimize)) == NULL)
 		return;
+
+	mpdm_ref(d);
 
 	gr.x = 0;
 	gr.y = 0;
@@ -667,6 +667,8 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 
 		g_object_unref(pl);
 	}
+
+	mpdm_unref(d);
 
 	draw_filetabs();
 	draw_scrollbar();
@@ -1115,7 +1117,7 @@ static void selection_get(GtkWidget * widget,
 	if (mpdm_size(d) == 0)
 		return;
 
-	d = mpdm_join_s(L"\n", d);
+	d = mpdm_ref(mpdm_join_s(L"\n", d));
 
 	/* convert to current locale */
 	ptr = (unsigned char *) mpdm_wcstombs(d->data, &s);
@@ -1124,6 +1126,8 @@ static void selection_get(GtkWidget * widget,
         gtk_selection_data_set(sel, GDK_SELECTION_TYPE_STRING, 8, ptr, (gsize) s);
 
 	free(ptr);
+
+	mpdm_unref(d);
 }
 
 
@@ -1227,6 +1231,8 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 				g_free(ptr);
 			}
 
+			mpdm_ref(v);
+
 			/* if it has history, fill it */
 			if ((h = mpdm_hget_s(w, L"history")) != NULL &&
 				v != NULL && mpdm_cmp_s(v, L"") != 0) {
@@ -1235,6 +1241,8 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 				if (mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
 					mpdm_push(h, v);
 			}
+
+			mpdm_unrefnd(v);
 		}
 		else
 		if (wcscmp(wptr, L"checkbox") == 0) {
@@ -1621,7 +1629,6 @@ static mpdm_t gtk_drv_timer(mpdm_t a)
 	static guint prev = 0;
 	int msecs = mpdm_ival(mpdm_aget(a, 0));
 	mpdm_t func = mpdm_aget(a, 1);
-	mpdm_t r;
 
 	/* previously defined one? remove */
 	if (timer_func != NULL)
@@ -1631,10 +1638,11 @@ static mpdm_t gtk_drv_timer(mpdm_t a)
 	if (msecs > 0 && func != NULL)
 		prev = gtk_timeout_add(msecs, timer_callback, NULL);
 
-	r = mpdm_unref(timer_func);
-	timer_func = mpdm_ref(func);
+	mpdm_ref(func);
+	mpdm_unref(timer_func);
+	timer_func = func;
 
-	return r;
+	return NULL;
 }
 
 
@@ -1826,42 +1834,6 @@ static mpdm_t gtk_drv_startup(mpdm_t a)
 	gtk_label_set_justify(GTK_LABEL(status), GTK_JUSTIFY_LEFT);
 
 	gtk_widget_show_all(window);
-
-/*	_mpv_font_size--;
-	mpv_zoom(1);
-
-	if (mpv_gtk_maximize)
-		gtk_window_maximize(GTK_WINDOW(window));
-*/
-
-	/* set size */
-/*	if(!mpv_gtk_maximize)
-	{
-		if(_mpv_gtk_xpos >= 0 && _mpv_gtk_ypos >= 0)
-			gdk_window_move(GTK_WIDGET(window)->window,
-				_mpv_gtk_xpos, _mpv_gtk_ypos);
-
-		if(_mpv_gtk_width > 0 && _mpv_gtk_height > 0)
-		{
-			if(_mpv_gtk_width < 150) _mpv_gtk_width=150;
-			if(_mpv_gtk_height < 150) _mpv_gtk_height=150;
-
-			gtk_window_set_default_size(GTK_WINDOW(window),
-				_mpv_gtk_width, _mpv_gtk_height);
-
-			gdk_window_resize(GTK_WIDGET(window)->window,
-				_mpv_gtk_width, _mpv_gtk_height);
-		}
-	}
-*/
-	/* colors */
-/*	_mpv_create_colors();
-
-	fclose(stderr);
-
-	mp_log("X11 geometry set to %dx%d+%d+%d\n", _mpv_gtk_width, _mpv_gtk_height,
-		_mpv_gtk_xpos, _mpv_gtk_ypos);
-*/
 
 	/* set application icon */
 	pixmap = gdk_pixmap_create_from_xpm_d(window->window,
