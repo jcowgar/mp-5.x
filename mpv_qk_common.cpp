@@ -80,7 +80,7 @@ static void build_colors(void)
 
 	/* gets the color definitions and attribute names */
 	colors = mpdm_hget_s(mp, L"colors");
-	l = mpdm_keys(colors);
+	l = mpdm_ref(mpdm_keys(colors));
 	s = mpdm_size(l);
 
 	/* loop the colors */
@@ -122,6 +122,8 @@ static void build_colors(void)
 			(float) ((rgbp & 0x000000ff))		/ 256.0,
 			1));
 	}
+
+	mpdm_unref(l);
 }
 
 
@@ -134,6 +136,7 @@ static QFont build_font(int rebuild)
 		mpdm_t c;
 		char * font_face = (char *)"Mono";
 		int font_size = 12;
+		mpdm_t w = NULL;
 
 		if ((c = mpdm_hget_s(mp, L"config")) != NULL) {
 			mpdm_t v;
@@ -144,14 +147,15 @@ static QFont build_font(int rebuild)
 				mpdm_hset_s(c, L"font_size", MPDM_I(font_size));
 
 			if ((v = mpdm_hget_s(c, L"font_face")) != NULL) {
-				v = MPDM_2MBS((wchar_t *)v->data);
-				font_face = (char *)v->data;
+				w = mpdm_ref(MPDM_2MBS((wchar_t *)v->data));
+				font_face = (char *)w->data;
 			}
 			else
 				mpdm_hset_s(c, L"font_face", MPDM_MBS(font_face));
 		}
 
 		font = QFont(QString(font_face), font_size);
+		mpdm_unref(w);
 	}
 
 	return font;
@@ -322,6 +326,8 @@ void MPArea::paintEvent(QPaintEvent *)
 	painter.setBrush(papers[normal_attr]);
 	painter.drawRect(0, 0, this->width(), this->height());
 
+	mpdm_ref(w);
+
 	for (n = 0; n < mpdm_size(w); n++) {
 		mpdm_t l = mpdm_aget(w, n);
 		int x = 0;
@@ -355,6 +361,8 @@ void MPArea::paintEvent(QPaintEvent *)
 
 		y += font_height;
 	}
+
+	mpdm_unref(w);
 
 	draw_filetabs();
 	draw_scrollbar();
@@ -638,6 +646,8 @@ void MPArea::dropEvent(QDropEvent *event)
 	mpdm_t v = qstring_to_str(event->mimeData()->text());
 	mpdm_t l = MPDM_A(0);
 
+	mpdm_ref(l);
+
 	/* split the list of files */
 	v = mpdm_split_s(L"\n", v);
 
@@ -659,6 +669,8 @@ void MPArea::dropEvent(QDropEvent *event)
 
 	event->acceptProposedAction();
 	mp_process_event(MPDM_LS(L"dropped-files"));
+
+	mpdm_unref(l);
 
 	area->update();
 }
@@ -789,15 +801,16 @@ static mpdm_t qt4_drv_sys_to_clip(mpdm_t a)
 static mpdm_t qt4_drv_timer(mpdm_t a)
 {
 	int msecs = mpdm_ival(mpdm_aget(a, 0));
-	mpdm_t r;
+	mpdm_t func = mpdm_aget(a, 1);
 
-	r = mpdm_unref(timer_func);
-	timer_func = mpdm_ref(mpdm_aget(a, 1));
+	mpdm_ref(func);
+	mpdm_unref(timer_func);
+	timer_func = func;
 
 	if (timer_func == NULL)
 		area->timer->stop();
 	else
 		area->timer->start(msecs);
 
-	return r;
+	return NULL;
 }

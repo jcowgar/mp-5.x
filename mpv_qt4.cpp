@@ -393,6 +393,7 @@ static mpdm_t qt4_drv_form(mpdm_t a)
 		return NULL;
 
 	r = MPDM_A(mpdm_size(widget_list));
+	mpdm_ref(r);
 
 	/* fill the return values */
 	for (n = 0; n < mpdm_size(widget_list); n++) {
@@ -406,7 +407,7 @@ static mpdm_t qt4_drv_form(mpdm_t a)
 			mpdm_t h;
 			QComboBox *ql = (QComboBox *)qlist[n];
 
-			v = qstring_to_str(ql->currentText());
+			v = mpdm_ref(qstring_to_str(ql->currentText()));
 
 			/* if it has history, add to it */
 			if ((h = mpdm_hget_s(w, L"history")) != NULL &&
@@ -416,6 +417,8 @@ static mpdm_t qt4_drv_form(mpdm_t a)
 				if (mpdm_cmp(v, mpdm_aget(h, -1)) != 0)
 					mpdm_push(h, v);
 			}
+
+			mpdm_unrefnd(v);
 		}
 		else
 		if (wcscmp(type, L"password") == 0) {
@@ -438,6 +441,8 @@ static mpdm_t qt4_drv_form(mpdm_t a)
 
 		mpdm_aset(r, v, n);
 	}
+
+	mpdm_unrefnd(r);
 
 	return r;
 }
