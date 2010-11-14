@@ -121,11 +121,13 @@ static char * wcs_to_utf8(const wchar_t * wptr)
 
 static char *v_to_utf8(mpdm_t v)
 {
-	char *ptr;
+	char *ptr = NULL;
 
-	mpdm_ref(v);
-	ptr = wcs_to_utf8(mpdm_string(v));
-	mpdm_unref(v);
+	if (v != NULL) {
+		mpdm_ref(v);
+		ptr = wcs_to_utf8(mpdm_string(v));
+		mpdm_unref(v);
+	}
 
 	return ptr;
 }
@@ -309,13 +311,10 @@ static void build_submenu(GtkWidget * menu, mpdm_t labels)
 			menu_item = gtk_menu_item_new();
 		else {
 			char * ptr;
-			mpdm_t d = mpdm_ref(mp_menu_label(v));
 
-			ptr = wcs_to_utf8(mpdm_string(d));
+			ptr = v_to_utf8(mp_menu_label(v));
 			menu_item = gtk_menu_item_new_with_label(ptr);
 			g_free(ptr);
-
-			mpdm_unref(d);
 		}
 
 		gtk_menu_append(GTK_MENU(menu), menu_item);
@@ -358,7 +357,7 @@ static void build_menu(void)
 		mi = mpdm_aget(m, n);
 		v = mpdm_aget(mi, 0);
 
-		if ((ptr = wcs_to_utf8(mpdm_string(mpdm_gettext(v)))) == NULL)
+		if ((ptr = v_to_utf8(mpdm_gettext(v))) == NULL)
 			continue;
 
 		/* change the & by _ for the mnemonic */
@@ -423,7 +422,7 @@ static void draw_filetabs(void)
 			char * ptr;
 			mpdm_t v = mpdm_aget(names, n);
 
-			if ((ptr = wcs_to_utf8(v->data)) != NULL) {
+			if ((ptr = v_to_utf8(v)) != NULL) {
 				p = gtk_label_new(ptr);
 				gtk_widget_show(p);
 
@@ -457,18 +456,12 @@ static void draw_filetabs(void)
 static void draw_status(void)
 /* draws the status line */
 {
-	mpdm_t t;
 	char * ptr;
 
-	/* call mp.status_line() */
-	t = mpdm_ref(mp_build_status_line());
-
-	if (t != NULL && (ptr = wcs_to_utf8(t->data)) != NULL) {
+	if ((ptr = v_to_utf8(mp_build_status_line())) != NULL) {
 		gtk_label_set_text(GTK_LABEL(status), ptr);
 		g_free(ptr);
 	}
-
-	mpdm_unref(t);
 }
 
 
@@ -612,7 +605,7 @@ static void gtk_drv_paint(mpdm_t doc, int optimize)
 			s = mpdm_aget(l, m);
 
 			/* convert the string to utf8 */
-			ptr = wcs_to_utf8(s->data);
+			ptr = v_to_utf8(s);
 
 			/* add to the full line */
 			str = mpdm_poke(str, &p, ptr, strlen(ptr), 1);
@@ -1318,16 +1311,13 @@ static void build_form_data(mpdm_t widget_list)
 static mpdm_t gtk_drv_alert(mpdm_t a)
 /* alert driver function */
 {
-	wchar_t * wptr;
 	gchar * ptr;
 	GtkWidget * dlg;
 
 	build_form_data(NULL);
 
 	/* 1# arg: prompt */
-	wptr = mpdm_string(mpdm_aget(a, 0));
-
-	if ((ptr = wcs_to_utf8(wptr)) == NULL)
+	if ((ptr = v_to_utf8(mpdm_aget(a, 0))) == NULL)
 		return NULL;
 	
 	dlg = gtk_message_dialog_new(GTK_WINDOW(window), GTK_DIALOG_MODAL,
@@ -1345,7 +1335,6 @@ static mpdm_t gtk_drv_alert(mpdm_t a)
 static mpdm_t gtk_drv_confirm(mpdm_t a)
 /* confirm driver function */
 {
-	wchar_t * wptr;
 	char * ptr;
 	GtkWidget * dlg;
 	gint response;
@@ -1353,9 +1342,7 @@ static mpdm_t gtk_drv_confirm(mpdm_t a)
 	build_form_data(NULL);
 
 	/* 1# arg: prompt */
-	wptr = mpdm_string(mpdm_aget(a, 0));
-
-	if ((ptr = wcs_to_utf8(wptr)) == NULL)
+	if ((ptr = v_to_utf8(mpdm_aget(a, 0))) == NULL)
 		return NULL;
 	
 	dlg = gtk_message_dialog_new(GTK_WINDOW(window), GTK_DIALOG_MODAL,
@@ -1416,10 +1403,8 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 
 		if ((t = mpdm_hget_s(w, L"label")) != NULL) {
 			GtkWidget * label;
-			wchar_t * wptr;
 
-			if ((wptr = mpdm_string(mpdm_gettext(t))) != NULL &&
-				(ptr = wcs_to_utf8(wptr)) != NULL) {
+			if ((ptr = v_to_utf8(mpdm_gettext(t))) != NULL) {
 				label = gtk_label_new(ptr);
 				gtk_misc_set_alignment(GTK_MISC(label), 0, .5);
 
@@ -1438,7 +1423,6 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 		if (wcscmp(type, L"text") == 0) {
 			GList * combo_items = NULL;
 			mpdm_t h;
-			wchar_t * wptr;
 
 			widget = gtk_combo_new();
 			gtk_widget_set_size_request(widget, 300, -1);
@@ -1453,16 +1437,14 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 				h = mp_get_history(h);
 
 				for (i = 0; i < mpdm_size(h); i++) {
-					wptr = mpdm_string(mpdm_aget(h, i));
-					ptr = wcs_to_utf8(wptr);
+					ptr = v_to_utf8(mpdm_aget(h, i));
 
 					combo_items = g_list_prepend(combo_items, ptr);
 				}
 			}
 
 			if (t != NULL) {
-				wptr = mpdm_string(t);
-				ptr = wcs_to_utf8(wptr);
+				ptr = v_to_utf8(t);
 
 				combo_items = g_list_prepend(combo_items, ptr);
 			}
@@ -1515,9 +1497,7 @@ static mpdm_t gtk_drv_form(mpdm_t a)
 			l = mpdm_hget_s(w, L"list");
 
 			for (i = 0; i < mpdm_size(l); i++) {
-				wchar_t * wptr = mpdm_string(mpdm_aget(l, i));
-
-				if ((ptr = wcs_to_utf8(wptr)) != NULL) {
+				if ((ptr = v_to_utf8(mpdm_aget(l, i))) != NULL) {
 				    GtkTreeIter iter;
 				    gtk_list_store_append(list_store, &iter);
 				    gtk_list_store_set(list_store, &iter, 0, ptr, -1);
@@ -1561,18 +1541,15 @@ static mpdm_t run_filechooser(mpdm_t a, gboolean save)
 /* openfile driver function */
 {
 	GtkWidget * dlg;
-	wchar_t * wptr;
 	char * ptr;
 	mpdm_t ret = NULL;
 	gint response;
 
 	/* 1# arg: prompt */
-	wptr = mpdm_string(mpdm_aget(a, 0));
-
-	if ((ptr = wcs_to_utf8(wptr)) == NULL)
+	if ((ptr = v_to_utf8(mpdm_aget(a, 0))) == NULL)
 		return(NULL);
 
-    	if (!save) {
+   	if (!save) {
 		dlg = gtk_file_chooser_dialog_new(ptr, GTK_WINDOW(window),
 			GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, 
 			GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
