@@ -119,6 +119,17 @@ static char * wcs_to_utf8(const wchar_t * wptr)
 }
 
 
+static char *v_to_utf8(mpdm_t v)
+{
+	char *ptr;
+
+	mpdm_ref(v);
+	ptr = wcs_to_utf8(mpdm_string(v));
+	mpdm_unref(v);
+
+	return ptr;
+}
+
 static wchar_t * utf8_to_wcs(const char * ptr)
 /* converts utf-8 to wcs */
 {
