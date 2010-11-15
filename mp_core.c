@@ -742,6 +742,8 @@ static mpdm_t drw_optimize_array(mpdm_t a, int optimize)
 	mpdm_t o = drw_2.old;
 	mpdm_t r = a;
 
+	mpdm_ref(a);
+
 	if (optimize && o != NULL) {
 		int n = 0;
 
@@ -762,8 +764,11 @@ static mpdm_t drw_optimize_array(mpdm_t a, int optimize)
         mpdm_unrefnd(r);
 	}
 
+	mpdm_ref(a);
 	mpdm_unref(drw_2.old);
-	drw_2.old = mpdm_ref(a);
+	drw_2.old = a;
+
+	mpdm_unref(a);
 
 	return r;
 }
