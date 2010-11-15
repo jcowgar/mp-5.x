@@ -114,9 +114,6 @@ MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 	/* pick an optimal height for the menu & tabs */
 	height = menubar->sizeHint().height();
 
-	statusbar = new QLabel();
-	this->statusBar()->addWidget(statusbar);
-
 	file_tabs = new QTabBar();
 	file_tabs->setFocusPolicy(Qt::NoFocus);
 
@@ -151,6 +148,9 @@ MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 
 	QWidget *mc = new QWidget();
 	mc->setLayout(vb);
+
+	statusbar = new QLabel();
+	this->statusBar()->addWidget(statusbar);
 
 	setCentralWidget(mc);
 
