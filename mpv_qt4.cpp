@@ -108,7 +108,7 @@ MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 
 	setWindowTitle("mp-5");
 
-	menubar = new QMenuBar();
+	menubar = this->menuBar();
 	build_menu();
 
 	/* pick an optimal height for the menu & tabs */
