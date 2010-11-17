@@ -1159,7 +1159,7 @@ static void selection_received(GtkWidget * widget,
 }
 
 
-static mpdm_t gtk_drv_clip_to_sys(mpdm_t a)
+static mpdm_t gtk_drv_clip_to_sys(mpdm_t a, mpdm_t ctxt)
 /* driver-dependent mp to system clipboard */
 {
 	got_selection = gtk_selection_owner_set(area,
@@ -1169,7 +1169,7 @@ static mpdm_t gtk_drv_clip_to_sys(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_sys_to_clip(mpdm_t a)
+static mpdm_t gtk_drv_sys_to_clip(mpdm_t a, mpdm_t ctxt)
 /* driver-dependent system to mp clipboard */
 {
 	if (!got_selection) {
@@ -1274,7 +1274,7 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 
 static gint timer_callback(gpointer data)
 {
-	mpdm_exec(timer_func, NULL);
+	mpdm_exec(timer_func, NULL, NULL);
 	redraw();
 
 	return TRUE;
@@ -1308,7 +1308,7 @@ static void build_form_data(mpdm_t widget_list)
 	g_free(ptr); \
 	} while (0);
 
-static mpdm_t gtk_drv_alert(mpdm_t a)
+static mpdm_t gtk_drv_alert(mpdm_t a, mpdm_t ctxt)
 /* alert driver function */
 {
 	gchar * ptr;
@@ -1332,7 +1332,7 @@ static mpdm_t gtk_drv_alert(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_confirm(mpdm_t a)
+static mpdm_t gtk_drv_confirm(mpdm_t a, mpdm_t ctxt)
 /* confirm driver function */
 {
 	char * ptr;
@@ -1364,7 +1364,7 @@ static mpdm_t gtk_drv_confirm(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_form(mpdm_t a)
+static mpdm_t gtk_drv_form(mpdm_t a, mpdm_t ctxt)
 /* 'form' driver function */
 {
 	GtkWidget * dlg;
@@ -1586,21 +1586,21 @@ static mpdm_t run_filechooser(mpdm_t a, gboolean save)
 }
 
 
-static mpdm_t gtk_drv_openfile(mpdm_t a)
+static mpdm_t gtk_drv_openfile(mpdm_t a, mpdm_t ctxt)
 /* openfile driver function */
 {
 	return run_filechooser(a, FALSE);
 }
 
 
-static mpdm_t gtk_drv_savefile(mpdm_t a)
+static mpdm_t gtk_drv_savefile(mpdm_t a, mpdm_t ctxt)
 /* savefile driver function */
 {
 	return run_filechooser(a, TRUE);
 }
 
 
-static mpdm_t gtk_drv_update_ui(mpdm_t a)
+static mpdm_t gtk_drv_update_ui(mpdm_t a, mpdm_t ctxt)
 {
 	build_fonts();
 	build_colors();
@@ -1612,7 +1612,7 @@ static mpdm_t gtk_drv_update_ui(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_timer(mpdm_t a)
+static mpdm_t gtk_drv_timer(mpdm_t a, mpdm_t ctxt)
 {
 	static guint prev = 0;
 	int msecs = mpdm_ival(mpdm_aget(a, 0));
@@ -1634,7 +1634,7 @@ static mpdm_t gtk_drv_timer(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_busy(mpdm_t a)
+static mpdm_t gtk_drv_busy(mpdm_t a, mpdm_t ctxt)
 {
 	int onoff = mpdm_ival(mpdm_aget(a, 0));
 
@@ -1648,7 +1648,7 @@ static mpdm_t gtk_drv_busy(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_main_loop(mpdm_t a)
+static mpdm_t gtk_drv_main_loop(mpdm_t a, mpdm_t ctxt)
 /* main loop */
 {
 	if (!mp_exit_requested) {
@@ -1661,7 +1661,7 @@ static mpdm_t gtk_drv_main_loop(mpdm_t a)
 }
 
 
-static mpdm_t gtk_drv_shutdown(mpdm_t a)
+static mpdm_t gtk_drv_shutdown(mpdm_t a, mpdm_t ctxt)
 /* shutdown */
 {
 	mpdm_t v;
@@ -1697,7 +1697,7 @@ static void register_functions(void)
 }
 
 
-static mpdm_t gtk_drv_startup(mpdm_t a)
+static mpdm_t gtk_drv_startup(mpdm_t a, mpdm_t ctxt)
 /* driver initialization */
 {
 	GtkWidget * vbox;
