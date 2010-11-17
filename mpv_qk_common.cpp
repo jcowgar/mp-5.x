@@ -725,14 +725,14 @@ void MPArea::from_menu(QAction *action)
 
 void MPArea::from_timer(void)
 {
-	mpdm_exec(timer_func, NULL);
+	mpdm_exec(timer_func, NULL, NULL);
 	area->update();
 }
 
 
 /** driver functions **/
 
-static mpdm_t qt4_drv_update_ui(mpdm_t a)
+static mpdm_t qt4_drv_update_ui(mpdm_t a, mpdm_t ctxt)
 {
 	build_font(1);
 	build_colors();
@@ -742,7 +742,7 @@ static mpdm_t qt4_drv_update_ui(mpdm_t a)
 }
 
 
-static mpdm_t qt4_drv_busy(mpdm_t a)
+static mpdm_t qt4_drv_busy(mpdm_t a, mpdm_t ctxt)
 {
 	int onoff = mpdm_ival(mpdm_aget(a, 0));
 
@@ -752,7 +752,7 @@ static mpdm_t qt4_drv_busy(mpdm_t a)
 }
 
 
-static mpdm_t qt4_drv_main_loop(mpdm_t a)
+static mpdm_t qt4_drv_main_loop(mpdm_t a, mpdm_t ctxt)
 {
 	app->exec();
 
@@ -760,7 +760,7 @@ static mpdm_t qt4_drv_main_loop(mpdm_t a)
 }
 
 
-static mpdm_t qt4_drv_shutdown(mpdm_t a)
+static mpdm_t qt4_drv_shutdown(mpdm_t a, mpdm_t ctxt)
 {
 	mpdm_t v;
 
@@ -773,7 +773,7 @@ static mpdm_t qt4_drv_shutdown(mpdm_t a)
 }
 
 
-static mpdm_t qt4_drv_clip_to_sys(mpdm_t a)
+static mpdm_t qt4_drv_clip_to_sys(mpdm_t a, mpdm_t ctxt)
 {
 	mpdm_t v;
 
@@ -791,7 +791,7 @@ static mpdm_t qt4_drv_clip_to_sys(mpdm_t a)
 }
 
 
-static mpdm_t qt4_drv_sys_to_clip(mpdm_t a)
+static mpdm_t qt4_drv_sys_to_clip(mpdm_t a, mpdm_t ctxt)
 {
 	QClipboard *qc = QApplication::clipboard();
 	QString qs = qc->text(QClipboard::Selection);
@@ -805,7 +805,7 @@ static mpdm_t qt4_drv_sys_to_clip(mpdm_t a)
 }
 
 
-static mpdm_t qt4_drv_timer(mpdm_t a)
+static mpdm_t qt4_drv_timer(mpdm_t a, mpdm_t ctxt)
 {
 	int msecs = mpdm_ival(mpdm_aget(a, 0));
 	mpdm_t func = mpdm_aget(a, 1);

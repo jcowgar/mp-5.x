@@ -200,7 +200,7 @@ bool MPWindow::event(QEvent *event)
 
 	if (mp_exit_requested) {
 		save_settings(this);
-		qt4_drv_shutdown(NULL);
+		qt4_drv_shutdown(NULL, NULL);
 		exit(0);
 	}
 
@@ -210,7 +210,7 @@ bool MPWindow::event(QEvent *event)
 
 /** driver functions **/
 
-static mpdm_t qt4_drv_alert(mpdm_t a)
+static mpdm_t qt4_drv_alert(mpdm_t a, mpdm_t ctxt)
 {
 	/* 1# arg: prompt */
 	QMessageBox::information(0, "mp " VERSION, str_to_qstring(mpdm_aget(a, 0)));
@@ -219,7 +219,7 @@ static mpdm_t qt4_drv_alert(mpdm_t a)
 }
 
 
-static mpdm_t qt4_drv_confirm(mpdm_t a)
+static mpdm_t qt4_drv_confirm(mpdm_t a, mpdm_t ctxt)
 {
 	int r;
 
@@ -247,7 +247,7 @@ static mpdm_t qt4_drv_confirm(mpdm_t a)
 }
 
 
-static mpdm_t qt4_drv_openfile(mpdm_t a)
+static mpdm_t qt4_drv_openfile(mpdm_t a, mpdm_t ctxt)
 {
 	QString r;
 	char tmp[128];
@@ -262,7 +262,7 @@ static mpdm_t qt4_drv_openfile(mpdm_t a)
 }
 
 
-static mpdm_t qt4_drv_savefile(mpdm_t a)
+static mpdm_t qt4_drv_savefile(mpdm_t a, mpdm_t ctxt)
 {
 	QString r;
 	char tmp[128];
@@ -293,7 +293,7 @@ public:
 };
 
 
-static mpdm_t qt4_drv_form(mpdm_t a)
+static mpdm_t qt4_drv_form(mpdm_t a, mpdm_t ctxt)
 {
 	int n;
 	mpdm_t widget_list;
@@ -489,7 +489,7 @@ static void register_functions(void)
 }
 
 
-static mpdm_t qt4_drv_startup(mpdm_t a)
+static mpdm_t qt4_drv_startup(mpdm_t a, mpdm_t ctxt)
 /* driver initialization */
 {
 	register_functions();

@@ -188,13 +188,13 @@ bool MPWindow::event(QEvent *event)
 
 /** driver functions **/
 
-static mpdm_t kde4_drv_update_ui(mpdm_t a)
+static mpdm_t kde4_drv_update_ui(mpdm_t a, mpdm_t ctxt)
 {
 	return qt4_drv_update_ui(a);
 }
 
 
-static mpdm_t kde4_drv_alert(mpdm_t a)
+static mpdm_t kde4_drv_alert(mpdm_t a, mpdm_t ctxt)
 /* alert driver function */
 {
 	/* 1# arg: prompt */
@@ -204,7 +204,7 @@ static mpdm_t kde4_drv_alert(mpdm_t a)
 	return NULL;
 }
 
-static mpdm_t kde4_drv_confirm(mpdm_t a)
+static mpdm_t kde4_drv_confirm(mpdm_t a, mpdm_t ctxt)
 /* confirm driver function */
 {
 	int r;
@@ -231,7 +231,7 @@ static mpdm_t kde4_drv_confirm(mpdm_t a)
 }
 
 
-static mpdm_t kde4_drv_openfile(mpdm_t a)
+static mpdm_t kde4_drv_openfile(mpdm_t a, mpdm_t ctxt)
 {
 	QString r;
 	char tmp[128];
@@ -246,7 +246,7 @@ static mpdm_t kde4_drv_openfile(mpdm_t a)
 }
 
 
-static mpdm_t kde4_drv_savefile(mpdm_t a)
+static mpdm_t kde4_drv_savefile(mpdm_t a, mpdm_t ctxt)
 {
 	QString r;
 	char tmp[128];
@@ -261,7 +261,7 @@ static mpdm_t kde4_drv_savefile(mpdm_t a)
 }
 
 
-static mpdm_t kde4_drv_form(mpdm_t a)
+static mpdm_t kde4_drv_form(mpdm_t a, mpdm_t ctxt)
 {
 	int n;
 	mpdm_t widget_list;
@@ -412,37 +412,37 @@ static mpdm_t kde4_drv_form(mpdm_t a)
 }
 
 
-static mpdm_t kde4_drv_busy(mpdm_t a)
+static mpdm_t kde4_drv_busy(mpdm_t a, mpdm_t ctxt)
 {
 	return qt4_drv_busy(a);
 }
 
 
-static mpdm_t kde4_drv_main_loop(mpdm_t a)
+static mpdm_t kde4_drv_main_loop(mpdm_t a, mpdm_t ctxt)
 {
 	return qt4_drv_main_loop(a);
 }
 
 
-static mpdm_t kde4_drv_shutdown(mpdm_t a)
+static mpdm_t kde4_drv_shutdown(mpdm_t a, mpdm_t ctxt)
 {
 	return qt4_drv_shutdown(a);
 }
 
 
-static mpdm_t kde4_drv_clip_to_sys(mpdm_t a)
+static mpdm_t kde4_drv_clip_to_sys(mpdm_t a, mpdm_t ctxt)
 {
 	return qt4_drv_clip_to_sys(a);
 }
 
 
-static mpdm_t kde4_drv_sys_to_clip(mpdm_t a)
+static mpdm_t kde4_drv_sys_to_clip(mpdm_t a, mpdm_t ctxt)
 {
 	return qt4_drv_sys_to_clip(a);
 }
 
 
-static mpdm_t kde4_drv_timer(mpdm_t a)
+static mpdm_t kde4_drv_timer(mpdm_t a, mpdm_t ctxt)
 {
 	return qt4_drv_timer(a);
 }
@@ -469,7 +469,7 @@ static void register_functions(void)
 }
 
 
-static mpdm_t kde4_drv_startup(mpdm_t a)
+static mpdm_t kde4_drv_startup(mpdm_t a, mpdm_t ctxt)
 /* driver initialization */
 {
 	register_functions();
