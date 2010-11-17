@@ -897,7 +897,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		return 0;
 
 	case WM_TIMER:
-		mpdm_unref(mpdm_ref(mpdm_exec(timer_func, NULL)));
+		mpdm_unref(mpdm_ref(mpdm_exec(timer_func, NULL, NULL)));
 		redraw();
 
 		return 0;
@@ -910,7 +910,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 }
 
 
-static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
+static mpdm_t win32_drv_clip_to_sys(mpdm_t a, mpdm_t ctxt)
 /* driver-dependent mp to system clipboard */
 {
 	HGLOBAL hclp;
@@ -948,7 +948,7 @@ static mpdm_t win32_drv_clip_to_sys(mpdm_t a)
 }
 
 
-static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
+static mpdm_t win32_drv_sys_to_clip(mpdm_t a, mpdm_t ctxt)
 /* driver-dependent system to mp clipboard */
 {
 	HGLOBAL hclp;
@@ -979,7 +979,7 @@ static mpdm_t win32_drv_sys_to_clip(mpdm_t a)
 }
 
 
-static mpdm_t win32_drv_main_loop(mpdm_t a)
+static mpdm_t win32_drv_main_loop(mpdm_t a, mpdm_t ctxt)
 {
 	MSG msg;
 
@@ -996,7 +996,7 @@ static mpdm_t win32_drv_main_loop(mpdm_t a)
 }
 
 
-static mpdm_t win32_drv_shutdown(mpdm_t a)
+static mpdm_t win32_drv_shutdown(mpdm_t a, mpdm_t ctxt)
 {
 	mpdm_t v;
 
@@ -1012,7 +1012,7 @@ static mpdm_t win32_drv_shutdown(mpdm_t a)
 }
 
 
-static mpdm_t win32_drv_alert(mpdm_t a)
+static mpdm_t win32_drv_alert(mpdm_t a, mpdm_t ctxt)
 /* alert driver function */
 {
 	wchar_t * wptr;
@@ -1030,7 +1030,7 @@ static mpdm_t win32_drv_alert(mpdm_t a)
 }
 
 
-static mpdm_t win32_drv_confirm(mpdm_t a)
+static mpdm_t win32_drv_confirm(mpdm_t a, mpdm_t ctxt)
 /* confirm driver function */
 {
 	wchar_t * wptr;
@@ -1288,7 +1288,7 @@ LPWORD static build_control(LPWORD lpw, int x, int y,
 }
 
 
-static mpdm_t win32_drv_form(mpdm_t a)
+static mpdm_t win32_drv_form(mpdm_t a, mpdm_t ctxt)
 /* mp.drv.form() function */
 {
 	HGLOBAL hgbl;
@@ -1452,21 +1452,21 @@ static mpdm_t open_or_save(int o, mpdm_t a)
 }
 
 
-static mpdm_t win32_drv_openfile(mpdm_t a)
+static mpdm_t win32_drv_openfile(mpdm_t a, mpdm_t ctxt)
 /* openfile driver function */
 {
 	return open_or_save(1, a);
 }
 
 
-static mpdm_t win32_drv_savefile(mpdm_t a)
+static mpdm_t win32_drv_savefile(mpdm_t a, mpdm_t ctxt)
 /* savefile driver function */
 {
 	return open_or_save(0, a);
 }
 
 
-static mpdm_t win32_drv_update_ui(mpdm_t a)
+static mpdm_t win32_drv_update_ui(mpdm_t a, mpdm_t ctxt)
 {
 	build_fonts(GetDC(hwnd));
 	build_colors();
@@ -1476,7 +1476,7 @@ static mpdm_t win32_drv_update_ui(mpdm_t a)
 }
 
 
-static mpdm_t win32_drv_timer(mpdm_t a)
+static mpdm_t win32_drv_timer(mpdm_t a, mpdm_t ctxt)
 {
 	int msecs = mpdm_ival(mpdm_aget(a, 0));
 	mpdm_t func = mpdm_aget(a, 1);
@@ -1497,7 +1497,7 @@ static mpdm_t win32_drv_timer(mpdm_t a)
 }
 
 
-static mpdm_t win32_drv_busy(mpdm_t a)
+static mpdm_t win32_drv_busy(mpdm_t a, mpdm_t ctxt)
 {
 	int onoff = mpdm_ival(mpdm_aget(a, 0));
 
@@ -1529,7 +1529,7 @@ static void register_functions(void)
 }
 
 
-static mpdm_t win32_drv_startup(mpdm_t a)
+static mpdm_t win32_drv_startup(mpdm_t a, mpdm_t ctxt)
 {
 	WNDCLASSW wc;
 	RECT r;
@@ -1580,7 +1580,7 @@ static mpdm_t win32_drv_startup(mpdm_t a)
 		0, r.bottom - r.top - status_height,
 		r.right - r.left, status_height, hwnd, NULL, hinst, NULL);
 
-	win32_drv_update_ui(NULL);
+	win32_drv_update_ui(NULL, NULL);
 
 	SendMessage(hwstatus, WM_SETFONT, 
 		(WPARAM) GetStockObject(DEFAULT_GUI_FONT), 0);
