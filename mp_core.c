@@ -354,7 +354,7 @@ static void drw_words(void)
 			attr = mpdm_ival(v);
 		else
 		if (word_color_func != NULL) {
-			v = mpdm_ref(mpdm_exec_1(word_color_func, t));
+			v = mpdm_ref(mpdm_exec_1(word_color_func, t, NULL));
 			attr = mpdm_ival(v);
 			mpdm_unref(v);
 		}
@@ -851,7 +851,7 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 	if (doc != NULL) {
 		if ((f = mpdm_hget_s(doc, L"paint")) != NULL) {
 			ppp = 1;
-			r = mpdm_exec_2(f, doc, MPDM_I(optimize));
+			r = mpdm_exec_2(f, doc, MPDM_I(optimize), NULL);
 		}
 		else
 			r = drw_draw(doc, optimize);
@@ -861,7 +861,7 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 	if ((f = mpdm_hget_s(mp, L"post_paint")) != NULL) {
 		for (n = 0; n < mpdm_size(f); n++) {
 			mpdm_t v = mpdm_ref(r);
-			r = mpdm_exec_2(mpdm_aget(f, n), doc, v);
+			r = mpdm_exec_2(mpdm_aget(f, n), doc, v, NULL);
 			mpdm_unref(v);
 		}
 	}
@@ -870,7 +870,7 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 	if ((f = mpdm_hget_s(doc, L"post_paint")) != NULL) {
 		for (n = 0; n < mpdm_size(f); n++) {
 			mpdm_t v = mpdm_ref(r);
-			r = mpdm_exec_2(mpdm_aget(f, n), doc, v);
+			r = mpdm_exec_2(mpdm_aget(f, n), doc, v, NULL);
 			mpdm_unref(v);
 		}
 	}
@@ -914,74 +914,74 @@ int mp_keypress_throttle(int keydown)
 mpdm_t mp_active(void)
 /* interface to mp.active() */
 {
-	return mpdm_exec(mpdm_hget_s(mp, L"active"), NULL);
+	return mpdm_exec(mpdm_hget_s(mp, L"active"), NULL, NULL);
 }
 
 
 mpdm_t mp_process_action(mpdm_t action)
 /* interface to mp.process_action() */
 {
-	return mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action);
+	return mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action, NULL);
 }
 
 
 mpdm_t mp_process_event(mpdm_t keycode)
 /* interface to mp.process_event() */
 {
-	return mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode);
+	return mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode, NULL);
 }
 
 
 mpdm_t mp_set_y(mpdm_t doc, int y)
 /* interface to mp.set_y() */
 {
-	return mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y));
+	return mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y), NULL);
 }
 
 
 mpdm_t mp_build_status_line(void)
 /* interface to mp.build_status_line() */
 {
-	return mpdm_exec(mpdm_hget_s(mp, L"build_status_line"), NULL);
+	return mpdm_exec(mpdm_hget_s(mp, L"build_status_line"), NULL, NULL);
 }
 
 
 mpdm_t mp_get_history(mpdm_t key)
 /* interface to mp.get_history() */
 {
-	return mpdm_exec_1(mpdm_hget_s(mp, L"get_history"), key);
+	return mpdm_exec_1(mpdm_hget_s(mp, L"get_history"), key, NULL);
 }
 
 
 mpdm_t mp_get_doc_names(void)
 /* interface to mp.get_doc_names() */
 {
-	return mpdm_exec(mpdm_hget_s(mp, L"get_doc_names"), NULL);
+	return mpdm_exec(mpdm_hget_s(mp, L"get_doc_names"), NULL, NULL);
 }
 
 
 mpdm_t mp_menu_label(mpdm_t action)
 /* interface to mp.menu_label() */
 {
-	return mpdm_exec_1(mpdm_hget_s(mp, L"menu_label"), action);
+	return mpdm_exec_1(mpdm_hget_s(mp, L"menu_label"), action, NULL);
 }
 
 
 mpdm_t mp_pending_key(void)
 /* interface to mp.pending_key() */
 {
-	return mpdm_exec_1(mpdm_hget_s(mp, L"pending_key"), NULL);
+	return mpdm_exec_1(mpdm_hget_s(mp, L"pending_key"), NULL, NULL);
 }
 
 
 mpdm_t mp_process_keyseq(mpdm_t key)
 /* interface to mp.process_keyseq() */
 {
-	return mpdm_exec_1(mpdm_hget_s(mp, L"process_keyseq"), key);
+	return mpdm_exec_1(mpdm_hget_s(mp, L"process_keyseq"), key, NULL);
 }
 
 
-mpdm_t mp_exit(mpdm_t args)
+mpdm_t mp_exit(mpdm_t args, mpdm_t ctxt)
 /* exit the editor (set mp_exit_requested) */
 {
 	mp_exit_requested = 1;
@@ -990,27 +990,27 @@ mpdm_t mp_exit(mpdm_t args)
 }
 
 
-static mpdm_t exit_requested(mpdm_t args)
+static mpdm_t exit_requested(mpdm_t args, mpdm_t ctxt)
 /* returns the value of the mp_exit_requested variable */
 {
 	return MPDM_I(mp_exit_requested);
 }
 
 
-mpdm_t mp_vx2x(mpdm_t args)
+mpdm_t mp_vx2x(mpdm_t args, mpdm_t ctxt)
 /* interface to drw_vx2x() */
 {
 	return MPDM_I(drw_vx2x(mpdm_aget(args, 0), mpdm_ival(mpdm_aget(args, 1))));
 }
 
 
-mpdm_t mp_x2vx(mpdm_t args)
+mpdm_t mp_x2vx(mpdm_t args, mpdm_t ctxt)
 /* interface to drw_x2vx() */
 {
 	return MPDM_I(drw_x2vx(mpdm_aget(args, 0), mpdm_ival(mpdm_aget(args, 1))));
 }
 
-mpdm_t mp_plain_load(mpdm_t args)
+mpdm_t mp_plain_load(mpdm_t args, mpdm_t ctxt)
 /* loads a plain file into an array (highly optimized one) */
 {
 	mpdm_t f = mpdm_aget(args, 0);
@@ -1107,7 +1107,7 @@ void mp_mpsl(void)
 {
 	mpdm_t e;
 
-	mpsl_eval(MPDM_LS(L"load('mp_core.mpsl');"), NULL);
+	mpsl_eval(MPDM_LS(L"load('mp_core.mpsl');"), NULL, NULL);
 
 	if ((e = mpdm_hget_s(mpdm_root(), L"ERROR")) != NULL) {
 		mpdm_write_wcs(stdout, mpdm_string(e));
