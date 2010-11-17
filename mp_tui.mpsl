@@ -326,7 +326,7 @@ sub mp.tui.draw(doc)
 
 	/* draw the status line */
 	mp.tui.attr(mp.colors.normal.attr);
-	mp.tui.move(0, mp.window.ty - 1);
+	mp.tui.move(0, mp.window.ty - 1, 1);
 	mp.tui.addstr(mp.build_status_line());
 
 	/* draw the 'menu' hint */
