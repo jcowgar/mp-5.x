@@ -401,7 +401,7 @@ static void draw_filetabs(void)
 	mpdm_t names;
 	int n;
 
-	names = mp_get_doc_names();
+	names = mpdm_ref(mp_get_doc_names());
 
 	/* disconnect redraw signal to avoid infinite loops */
 	g_signal_handlers_disconnect_by_func(G_OBJECT(file_tabs),
@@ -440,6 +440,8 @@ static void draw_filetabs(void)
 		mpdm_unref(last);
 		last = mpdm_ref(names);
 	}
+
+	mpdm_unref(names);
 
 	/* set the active one */
 	gtk_notebook_set_page(GTK_NOTEBOOK(file_tabs),

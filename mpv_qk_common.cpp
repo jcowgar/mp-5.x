@@ -248,7 +248,7 @@ static void draw_filetabs(void)
 	mpdm_t names;
 	int n, i;
 
-	names = mp_get_doc_names();
+	names = mpdm_ref(mp_get_doc_names());
 
 	/* get mp.active_i now, because it can be changed
 	   from the signal handler */
@@ -268,6 +268,8 @@ static void draw_filetabs(void)
 		mpdm_unref(last);
 		last = mpdm_ref(names);
 	}
+
+	mpdm_unref(names);
 
 	/* set the active one */
 	file_tabs->setCurrentIndex(i);

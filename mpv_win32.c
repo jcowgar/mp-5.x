@@ -305,7 +305,7 @@ static void draw_filetabs(void)
 	if (hwtabs == NULL)
 		return;
 
-	names = mp_get_doc_names();
+	names = mpdm_ref(mp_get_doc_names());
 
 	/* is the list different from the previous one? */
 	if (mpdm_cmp(names, last) != 0) {
@@ -331,6 +331,8 @@ static void draw_filetabs(void)
 		/* store for the next time */
 		mpdm_unref(last); last = mpdm_ref(names);
 	}
+
+	mpdm_unref(names);
 
 	/* set the active one */
 	TabCtrl_SetCurSel(hwtabs, mpdm_ival(mpdm_hget_s(mp, L"active_i")));
