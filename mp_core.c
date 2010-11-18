@@ -909,24 +909,24 @@ mpdm_t mp_active(void)
 }
 
 
-mpdm_t mp_process_action(mpdm_t action)
+void mp_process_action(mpdm_t action)
 /* interface to mp.process_action() */
 {
-	return mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action, NULL);
+	mpdm_unref(mpdm_ref(mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action, NULL)));
 }
 
 
-mpdm_t mp_process_event(mpdm_t keycode)
+void mp_process_event(mpdm_t keycode)
 /* interface to mp.process_event() */
 {
-	return mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode, NULL);
+	mpdm_unref(mpdm_ref(mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode, NULL)));
 }
 
 
-mpdm_t mp_set_y(mpdm_t doc, int y)
+void mp_set_y(mpdm_t doc, int y)
 /* interface to mp.set_y() */
 {
-	return mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y), NULL);
+	mpdm_unref(mpdm_ref(mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y), NULL)));
 }
 
 
