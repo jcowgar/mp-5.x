@@ -353,11 +353,8 @@ static void drw_words(void)
 		if ((v = mpdm_hget(word_color, t)) != NULL)
 			attr = mpdm_ival(v);
 		else
-		if (word_color_func != NULL) {
-			v = mpdm_ref(mpdm_exec_1(word_color_func, t, NULL));
-			attr = mpdm_ival(v);
-			mpdm_unref(v);
-		}
+		if (word_color_func != NULL)
+			attr = mpdm_ival(mpdm_exec_1(word_color_func, t, NULL));
 
 		o = drw_fill_attr_regex(attr);
 
@@ -859,20 +856,14 @@ mpdm_t mp_draw(mpdm_t doc, int optimize)
 
 	/* if there is a global post_paint list of functions, execute it */
 	if ((f = mpdm_hget_s(mp, L"post_paint")) != NULL) {
-		for (n = 0; n < mpdm_size(f); n++) {
-			mpdm_t v = mpdm_ref(r);
-			r = mpdm_exec_2(mpdm_aget(f, n), doc, v, NULL);
-			mpdm_unref(v);
-		}
+		for (n = 0; n < mpdm_size(f); n++)
+			r = mpdm_exec_2(mpdm_aget(f, n), doc, r, NULL);
 	}
 
 	/* if doc has a post_paint list of functions, execute it */
 	if ((f = mpdm_hget_s(doc, L"post_paint")) != NULL) {
-		for (n = 0; n < mpdm_size(f); n++) {
-			mpdm_t v = mpdm_ref(r);
-			r = mpdm_exec_2(mpdm_aget(f, n), doc, v, NULL);
-			mpdm_unref(v);
-		}
+		for (n = 0; n < mpdm_size(f); n++)
+			r = mpdm_exec_2(mpdm_aget(f, n), doc, r, NULL);
 	}
 
 	return r;
