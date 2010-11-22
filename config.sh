@@ -18,6 +18,9 @@ CONF_ARGS="$*"
 # add a default value for WINDRES
 [ -z "$WINDRES" ] && WINDRES="windres"
 
+# No KDE4 by default
+WITHOUT_KDE4=1
+
 # parse arguments
 while [ $# -gt 0 ] ; do
 
@@ -25,7 +28,7 @@ while [ $# -gt 0 ] ; do
 	--without-curses)	WITHOUT_CURSES=1 ;;
 	--without-gtk)		WITHOUT_GTK=1 ;;
 	--without-win32)	WITHOUT_WIN32=1 ;;
-	--without-kde4)		WITHOUT_KDE4=1 ;;
+	--with-kde4)		WITHOUT_KDE4=0 ;;
 	--without-qt4)		WITHOUT_QT4=1 ;;
 	--help)			CONFIG_HELP=1 ;;
 
@@ -54,7 +57,7 @@ if [ "$CONFIG_HELP" = "1" ] ; then
 	echo "--without-curses      Disable curses (text) interface detection."
 	echo "--without-gtk         Disable GTK interface detection."
 	echo "--without-win32       Disable win32 interface detection."
-	echo "--without-kde4        Disable KDE4 interface detection."
+	echo "--with-kde4           Enable KDE4 interface detection."
 	echo "--without-qt4         Disable Qt4 interface detection."
 	echo "--without-unix-glob   Disable glob.h usage (use workaround)."
 	echo "--with-included-regex Use included regex code (gnu_regex.c)."
