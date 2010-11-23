@@ -5,6 +5,8 @@ Minimum Profit Release Notes
 -----
 
  * Fixed insert / overwrite mode.
+ * If a selection is invisible (incomplete or with the start and end
+   in the same character), a new keystroke does not jump to it.
  * New command line option `-txt' to use text mode (instead of GUI).
  * New configuration option `mp.config.hw_cursor' to activate
    the hardware cursor in text environments (disabled by default).
