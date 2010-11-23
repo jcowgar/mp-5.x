@@ -224,7 +224,8 @@ sub mp.delete_mark(doc)
 	/* no mark? done */
 	if (txt.mark != NULL) {
 		/* deletes the range */
-		mp.delete_range(doc, txt.mark.bx, txt.mark.by,
+        if (!txt.mark.incomplete)
+    		mp.delete_range(doc, txt.mark.bx, txt.mark.by,
 					txt.mark.ex, txt.mark.ey, txt.mark.vertical);
 
 		mp.unmark(doc);
