@@ -1109,6 +1109,52 @@ void mp_mpsl(void)
 
 void mp_shutdown(void)
 {
+    int n;
+
+    /* unref pending values */
+    mpdm_unref(drw_1.txt);
+    mpdm_unref(drw_2.v);
+    mpdm_unref(drw_2.old);
+
+    mpdm_unref(mpdm_root());
+    mpdm->low_threshold = 2;
+
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+    mpdm_sweep(-1);
+
+    for (n = 0; n < mpdm->count; n++) {
+        printf("%p %d\n", mpdm->cur, mpdm->cur->ref);
+
+        if (mpdm->cur->flags & MPDM_DELETED)
+            printf("DELETED\n");
+        else
+            mpdm_dump(mpdm->cur);
+
+        mpdm->cur = mpdm->cur->next;
+    }
+
 	mpsl_shutdown();
 }
 

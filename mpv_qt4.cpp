@@ -201,7 +201,7 @@ bool MPWindow::event(QEvent *event)
 	if (mp_exit_requested) {
 		save_settings(this);
 		qt4_drv_shutdown(NULL, NULL);
-		exit(0);
+		QApplication::exit(0);
 	}
 
 	return r;
