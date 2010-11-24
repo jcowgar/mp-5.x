@@ -1116,8 +1116,9 @@ void mp_shutdown(void)
     mpdm_unref(drw_2.v);
     mpdm_unref(drw_2.old);
 
+#ifdef DEBUG_CLEANUP
     mpdm_unref(mpdm_root());
-    mpdm->low_threshold = 2;
+    mpdm->low_threshold = 1;
 
     mpdm_sweep(-1);
     mpdm_sweep(-1);
@@ -1154,7 +1155,7 @@ void mp_shutdown(void)
 
         mpdm->cur = mpdm->cur->next;
     }
-
+#endif
 	mpsl_shutdown();
 }
 
