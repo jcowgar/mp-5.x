@@ -158,18 +158,31 @@ sub mp.tui.readline(prompt, history, default, flags)
 		}
 		else
 		if (k eq 'tab' && flags.file) {
-			local l = glob(r ~ '*');
+			local done = 0;
 
-			if (size(l)) {
-				local p = mp.tui.list(prompt, l, 0);
+			while (!done) {
+				local l = glob(r ~ '*');
 
-				if (p == NULL)
-					r = NULL;
-				else
-					r = l[p];
+				if (size(l)) {
+					ins(l, '../', 0);
 
-				break;
+					local p = mp.tui.list(prompt, l, 0);
+
+					if (p == NULL) {
+						r = NULL;
+						done = 1;
+					}
+					else {
+						r = l[p];
+
+						/* if it's not a directory, retry */
+						if (regex('@/$@', r) == NULL)
+							done = 1;
+					}
+				}
 			}
+
+			break;
 		}
 		else
 		if (size(k) == 1) {

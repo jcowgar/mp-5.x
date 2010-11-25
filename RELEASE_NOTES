@@ -10,6 +10,7 @@ Minimum Profit Release Notes
  * New command line option `-txt' to use text mode (instead of GUI).
  * New configuration option `mp.config.hw_cursor' to activate
    the hardware cursor in text environments (disabled by default).
+ * File opening in Curses is fully navegable.
  * New action `insert_next_item', to insert a new enumeration
    item in a document.
  * If a text mode menu panel do not fit vertically on the screen,

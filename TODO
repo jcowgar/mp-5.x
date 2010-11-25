@@ -39,7 +39,6 @@ Pending Enhancements
  * 1101: Paren matching should not be limited to just parentheses and
    similar, but to full strings (very useful for HTML open / close tags.)
  * 1109: Add jump to matching paren.
- * 1166: Add a file open navigator to TUI.
  * 1183: Many actions should operate only on the selection block
    (expand this issue).
  * 1203: Change the drawing engine to only apply the syntax highlighting
@@ -340,5 +339,7 @@ Closed
    the previous line (Thu, 01 Oct 2009 10:48:37 +0200).
  * 1268: Implement mp.timer() in the KDE4 driver
    (Tue, 24 Nov 2009 12:50:32 +0100).
+ * 1166: Add a file open navigator to TUI
+   (Thu, 25 Nov 2010 10:33:52 +0100).
 
 Email bugs to angel@triptico.com
