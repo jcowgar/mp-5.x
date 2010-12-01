@@ -912,21 +912,21 @@ mpdm_t mp_active(void)
 void mp_process_action(mpdm_t action)
 /* interface to mp.process_action() */
 {
-	mpdm_unref(mpdm_ref(mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action, NULL)));
+	mpdm_void(mpdm_exec_1(mpdm_hget_s(mp, L"process_action"), action, NULL));
 }
 
 
 void mp_process_event(mpdm_t keycode)
 /* interface to mp.process_event() */
 {
-	mpdm_unref(mpdm_ref(mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode, NULL)));
+	mpdm_void(mpdm_exec_1(mpdm_hget_s(mp, L"process_event"), keycode, NULL));
 }
 
 
 void mp_set_y(mpdm_t doc, int y)
 /* interface to mp.set_y() */
 {
-	mpdm_unref(mpdm_ref(mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y), NULL)));
+	mpdm_void(mpdm_exec_2(mpdm_hget_s(mp, L"set_y"), doc, MPDM_I(y), NULL));
 }
 
 

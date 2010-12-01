@@ -899,7 +899,7 @@ long STDCALL WndProc(HWND hwnd, UINT msg, UINT wparam, LONG lparam)
 		return 0;
 
 	case WM_TIMER:
-		mpdm_unref(mpdm_ref(mpdm_exec(timer_func, NULL, NULL)));
+		mpdm_void(mpdm_exec(timer_func, NULL, NULL));
 		redraw();
 
 		return 0;

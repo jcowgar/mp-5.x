@@ -179,8 +179,7 @@ static mpdm_t nc_getkey(mpdm_t args, mpdm_t ctxt)
 	f = nc_getwch();
 
 	if (f[0] == -1) {
-		k = mpdm_ref(mpdm_exec(timer_func, NULL, NULL));
-		mpdm_unref(k);
+		mpdm_void(mpdm_exec(timer_func, NULL, NULL));
 		return NULL;
 	}
 

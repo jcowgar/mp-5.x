@@ -1276,7 +1276,7 @@ static void clicked_ok(GtkWidget * widget, gpointer data)
 
 static gint timer_callback(gpointer data)
 {
-	mpdm_exec(timer_func, NULL, NULL);
+	mpdm_void(mpdm_exec(timer_func, NULL, NULL));
 	redraw();
 
 	return TRUE;

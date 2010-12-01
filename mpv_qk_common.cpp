@@ -727,7 +727,7 @@ void MPArea::from_menu(QAction *action)
 
 void MPArea::from_timer(void)
 {
-	mpdm_exec(timer_func, NULL, NULL);
+	mpdm_void(mpdm_exec(timer_func, NULL, NULL));
 	area->update();
 }
 
