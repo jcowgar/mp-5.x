@@ -375,23 +375,19 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 		/* if the regex is an array, it's a pair of
 		   'match from this' / 'match until this' */
 		if (r->flags & MPDM_MULTIPLE) {
-			mpdm_t t;
 			mpdm_t rs = mpdm_aget(r, 0);
 			mpdm_t re = mpdm_aget(r, 1);
 
-			while ((t = mpdm_ref(mpdm_regex(rs, drw_2.v, o))) != NULL) {
+			while (!mpdm_is_null(mpdm_regex(rs, drw_2.v, o))) {
 				int s;
-
-				mpdm_unref(t);
 
 				/* fill the matched part */
 				o = drw_fill_attr_regex(attr);
 
 				/* try to match the end */
-				if ((t = mpdm_ref(mpdm_regex(re, drw_2.v, o))) != NULL) {
+				if (!mpdm_is_null(mpdm_regex(re, drw_2.v, o))) {
 					/* found; fill the attribute
 					   to the end of the match */
-					mpdm_unref(t);
 					s = mpdm_regex_size + (mpdm_regex_offset - o);
 				}
 				else {
@@ -423,12 +419,8 @@ static void drw_multiline_regex(mpdm_t a, int attr)
 			else {
 				/* it's a regex */
 				/* while the regex matches, fill attributes */
-				mpdm_t t;
-
-				while ((t = mpdm_ref(mpdm_regex(r, drw_2.v, o))) != NULL) {
-					mpdm_unref(t);
+				while (!mpdm_is_null(mpdm_regex(r, drw_2.v, o)))
 					o = drw_fill_attr_regex(attr);
-				}
 			}
 		}
 	}
