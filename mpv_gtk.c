@@ -1718,6 +1718,8 @@ static mpdm_t gtk_drv_startup(mpdm_t a, mpdm_t ctxt)
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
+	gtk_window_set_title(GTK_WINDOW(window), "mp " VERSION);
+
 	/* get real screen and pick a usable size for the main area */
 	screen = gtk_window_get_screen(GTK_WINDOW(window));
 	w = (gdk_screen_get_width(screen) * 3) / 4;
