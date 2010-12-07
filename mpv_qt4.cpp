@@ -106,7 +106,7 @@ MPWindow::MPWindow(QWidget *parent) : QMainWindow(parent)
 	QHBoxLayout *hb;
 	int height;
 
-	setWindowTitle("mp-5");
+	setWindowTitle("mp-5 " VERSION);
 
 	menubar = this->menuBar();
 	build_menu();
