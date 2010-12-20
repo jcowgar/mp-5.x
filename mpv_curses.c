@@ -799,15 +799,15 @@ static void register_functions(void)
 	}*/
 
     /* execute tui */
-    mpdm_hset_s(tui, L"getkey", MPDM_X(nc_getkey));
-    mpdm_hset_s(tui, L"addstr", MPDM_X(tui_addstr));
-    mpdm_hset_s(tui, L"move", MPDM_X(tui_move));
-    mpdm_hset_s(tui, L"attr", MPDM_X(tui_attr));
-    mpdm_hset_s(tui, L"refresh", MPDM_X(tui_refresh));
-    mpdm_hset_s(tui, L"getxy", MPDM_X(tui_getxy));
-    mpdm_hset_s(tui, L"openpanel", MPDM_X(tui_openpanel));
+    mpdm_hset_s(tui, L"getkey",     MPDM_X(nc_getkey));
+    mpdm_hset_s(tui, L"addstr",     MPDM_X(tui_addstr));
+    mpdm_hset_s(tui, L"move",       MPDM_X(tui_move));
+    mpdm_hset_s(tui, L"attr",       MPDM_X(tui_attr));
+    mpdm_hset_s(tui, L"refresh",    MPDM_X(tui_refresh));
+    mpdm_hset_s(tui, L"getxy",      MPDM_X(tui_getxy));
+    mpdm_hset_s(tui, L"openpanel",  MPDM_X(tui_openpanel));
     mpdm_hset_s(tui, L"closepanel", MPDM_X(tui_closepanel));
-    mpdm_hset_s(tui, L"doc_draw", MPDM_X(nc_doc_draw));
+    mpdm_hset_s(tui, L"doc_draw",   MPDM_X(nc_doc_draw));
 }
 
 

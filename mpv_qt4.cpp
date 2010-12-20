@@ -41,8 +41,9 @@ extern "C" int qt4_drv_detect(int *argc, char ***argv);
 
 /** data **/
 
-class MPWindow:public QMainWindow {
-  public:
+class MPWindow : public QMainWindow
+{
+public:
     MPWindow(QWidget * parent = 0);
     bool queryExit(void);
     bool event(QEvent * event);
@@ -50,8 +51,11 @@ class MPWindow:public QMainWindow {
     QSettings *settings;
 };
 
-class MPArea:public QWidget {
-  Q_OBJECT public:
+class MPArea : public QWidget
+{
+    Q_OBJECT
+
+public:
     MPArea(QWidget * parent = 0);
     void inputMethodEvent(QInputMethodEvent * event);
     void keyPressEvent(QKeyEvent * event);
@@ -66,7 +70,7 @@ class MPArea:public QWidget {
 
     QTimer *timer;
 
-  protected:
+protected:
     void paintEvent(QPaintEvent * event);
 
     public slots: void from_scrollbar(int);
@@ -273,17 +277,20 @@ static mpdm_t qt4_drv_savefile(mpdm_t a, mpdm_t ctxt)
 }
 
 
-class MPForm:public QDialog {
-  public:
+class MPForm : public QDialog
+{
+public:
     QDialogButtonBox * button_box;
 
-  MPForm(QWidget * parent = 0):QDialog(parent) {
+    MPForm(QWidget * parent = 0) : QDialog(parent)
+    {
         button_box = new QDialogButtonBox(QDialogButtonBox::Ok |
                                           QDialogButtonBox::Cancel);
 
         connect(button_box, SIGNAL(accepted()), this, SLOT(accept()));
         connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
-}};
+    }
+};
 
 
 static mpdm_t qt4_drv_form(mpdm_t a, mpdm_t ctxt)
@@ -465,20 +472,18 @@ static void register_functions(void)
     mpdm_t drv;
 
     drv = mpdm_hget_s(mp, L"drv");
-    mpdm_hset_s(drv, L"main_loop", MPDM_X(qt4_drv_main_loop));
-    mpdm_hset_s(drv, L"shutdown", MPDM_X(qt4_drv_shutdown));
-
+    mpdm_hset_s(drv, L"main_loop",   MPDM_X(qt4_drv_main_loop));
+    mpdm_hset_s(drv, L"shutdown",    MPDM_X(qt4_drv_shutdown));
     mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(qt4_drv_clip_to_sys));
     mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(qt4_drv_sys_to_clip));
-    mpdm_hset_s(drv, L"update_ui", MPDM_X(qt4_drv_update_ui));
-    mpdm_hset_s(drv, L"timer", MPDM_X(qt4_drv_timer));
-    mpdm_hset_s(drv, L"busy", MPDM_X(qt4_drv_busy));
-
-    mpdm_hset_s(drv, L"alert", MPDM_X(qt4_drv_alert));
-    mpdm_hset_s(drv, L"confirm", MPDM_X(qt4_drv_confirm));
-    mpdm_hset_s(drv, L"openfile", MPDM_X(qt4_drv_openfile));
-    mpdm_hset_s(drv, L"savefile", MPDM_X(qt4_drv_savefile));
-    mpdm_hset_s(drv, L"form", MPDM_X(qt4_drv_form));
+    mpdm_hset_s(drv, L"update_ui",   MPDM_X(qt4_drv_update_ui));
+    mpdm_hset_s(drv, L"timer",       MPDM_X(qt4_drv_timer));
+    mpdm_hset_s(drv, L"busy",        MPDM_X(qt4_drv_busy));
+    mpdm_hset_s(drv, L"alert",       MPDM_X(qt4_drv_alert));
+    mpdm_hset_s(drv, L"confirm",     MPDM_X(qt4_drv_confirm));
+    mpdm_hset_s(drv, L"openfile",    MPDM_X(qt4_drv_openfile));
+    mpdm_hset_s(drv, L"savefile",    MPDM_X(qt4_drv_savefile));
+    mpdm_hset_s(drv, L"form",        MPDM_X(qt4_drv_form));
 }
 
 

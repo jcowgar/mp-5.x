@@ -2099,20 +2099,18 @@ static void register_functions(void)
     mpdm_t drv;
 
     drv = mpdm_hget_s(mp, L"drv");
-    mpdm_hset_s(drv, L"main_loop", MPDM_X(gtk_drv_main_loop));
-    mpdm_hset_s(drv, L"shutdown", MPDM_X(gtk_drv_shutdown));
-
+    mpdm_hset_s(drv, L"main_loop",   MPDM_X(gtk_drv_main_loop));
+    mpdm_hset_s(drv, L"shutdown",    MPDM_X(gtk_drv_shutdown));
     mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(gtk_drv_clip_to_sys));
     mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(gtk_drv_sys_to_clip));
-    mpdm_hset_s(drv, L"update_ui", MPDM_X(gtk_drv_update_ui));
-    mpdm_hset_s(drv, L"timer", MPDM_X(gtk_drv_timer));
-    mpdm_hset_s(drv, L"busy", MPDM_X(gtk_drv_busy));
-
-    mpdm_hset_s(drv, L"alert", MPDM_X(gtk_drv_alert));
-    mpdm_hset_s(drv, L"confirm", MPDM_X(gtk_drv_confirm));
-    mpdm_hset_s(drv, L"openfile", MPDM_X(gtk_drv_openfile));
-    mpdm_hset_s(drv, L"savefile", MPDM_X(gtk_drv_savefile));
-    mpdm_hset_s(drv, L"form", MPDM_X(gtk_drv_form));
+    mpdm_hset_s(drv, L"update_ui",   MPDM_X(gtk_drv_update_ui));
+    mpdm_hset_s(drv, L"timer",       MPDM_X(gtk_drv_timer));
+    mpdm_hset_s(drv, L"busy",        MPDM_X(gtk_drv_busy));
+    mpdm_hset_s(drv, L"alert",       MPDM_X(gtk_drv_alert));
+    mpdm_hset_s(drv, L"confirm",     MPDM_X(gtk_drv_confirm));
+    mpdm_hset_s(drv, L"openfile",    MPDM_X(gtk_drv_openfile));
+    mpdm_hset_s(drv, L"savefile",    MPDM_X(gtk_drv_savefile));
+    mpdm_hset_s(drv, L"form",        MPDM_X(gtk_drv_form));
 }
 
 

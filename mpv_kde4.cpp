@@ -69,15 +69,19 @@ extern "C" int kde4_drv_detect(int *argc, char ***argv);
 
 /** data **/
 
-class MPWindow:public KMainWindow {
-  public:
+class MPWindow : public KMainWindow
+{
+public:
     MPWindow(QWidget * parent = 0);
     bool queryExit(void);
     bool event(QEvent * event);
 };
 
-class MPArea:public QWidget {
-  Q_OBJECT public:
+class MPArea : public QWidget
+{
+    Q_OBJECT
+
+public:
     MPArea(QWidget * parent = 0);
     void inputMethodEvent(QInputMethodEvent * event);
     void keyPressEvent(QKeyEvent * event);
@@ -92,7 +96,7 @@ class MPArea:public QWidget {
 
     QTimer *timer;
 
-  protected:
+protected:
     void paintEvent(QPaintEvent * event);
 
     public slots: void from_scrollbar(int);
@@ -119,7 +123,7 @@ static void draw_status(void)
 
 /** MPWindow methods **/
 
-MPWindow::MPWindow(QWidget * parent):KMainWindow(parent)
+MPWindow::MPWindow(QWidget * parent) : KMainWindow(parent)
 {
     menubar = this->menuBar();
     build_menu();
@@ -448,20 +452,18 @@ static void register_functions(void)
     mpdm_t drv;
 
     drv = mpdm_hget_s(mp, L"drv");
-    mpdm_hset_s(drv, L"main_loop", MPDM_X(kde4_drv_main_loop));
-    mpdm_hset_s(drv, L"shutdown", MPDM_X(kde4_drv_shutdown));
-
+    mpdm_hset_s(drv, L"main_loop",   MPDM_X(kde4_drv_main_loop));
+    mpdm_hset_s(drv, L"shutdown",    MPDM_X(kde4_drv_shutdown));
     mpdm_hset_s(drv, L"clip_to_sys", MPDM_X(kde4_drv_clip_to_sys));
     mpdm_hset_s(drv, L"sys_to_clip", MPDM_X(kde4_drv_sys_to_clip));
-    mpdm_hset_s(drv, L"update_ui", MPDM_X(kde4_drv_update_ui));
-    mpdm_hset_s(drv, L"timer", MPDM_X(kde4_drv_timer));
-    mpdm_hset_s(drv, L"busy", MPDM_X(kde4_drv_busy));
-
-    mpdm_hset_s(drv, L"alert", MPDM_X(kde4_drv_alert));
-    mpdm_hset_s(drv, L"confirm", MPDM_X(kde4_drv_confirm));
-    mpdm_hset_s(drv, L"openfile", MPDM_X(kde4_drv_openfile));
-    mpdm_hset_s(drv, L"savefile", MPDM_X(kde4_drv_savefile));
-    mpdm_hset_s(drv, L"form", MPDM_X(kde4_drv_form));
+    mpdm_hset_s(drv, L"update_ui",   MPDM_X(kde4_drv_update_ui));
+    mpdm_hset_s(drv, L"timer",       MPDM_X(kde4_drv_timer));
+    mpdm_hset_s(drv, L"busy",        MPDM_X(kde4_drv_busy));
+    mpdm_hset_s(drv, L"alert",       MPDM_X(kde4_drv_alert));
+    mpdm_hset_s(drv, L"confirm",     MPDM_X(kde4_drv_confirm));
+    mpdm_hset_s(drv, L"openfile",    MPDM_X(kde4_drv_openfile));
+    mpdm_hset_s(drv, L"savefile",    MPDM_X(kde4_drv_savefile));
+    mpdm_hset_s(drv, L"form",        MPDM_X(kde4_drv_form));
 }
 
 
@@ -509,14 +511,14 @@ extern "C" int kde4_drv_detect(int *argc, char ***argv)
     KCmdLineArgs::init(*argc, *argv, &aboutData);
 
     /* command line options should be inserted here (I don't like this) */
-    opts.add("t {tag}", ki18n("Edits the file where tag is defined"));
-    opts.add("e {mpsl_code}", ki18n("Executes MPSL code"));
+    opts.add("t {tag}",         ki18n("Edits the file where tag is defined"));
+    opts.add("e {mpsl_code}",   ki18n("Executes MPSL code"));
     opts.add("f {mpsl_script}", ki18n("Executes MPSL script file"));
-    opts.add("d {directory}", ki18n("Sets working directory"));
-    opts.add("x {file}", ki18n("Open file in the hexadecimal viewer"));
-    opts.add(" +NNN", ki18n("Moves to line number NNN of last file"));
-    opts.add("txt", ki18n("Use text mode instead of GUI"));
-    opts.add("+[file(s)]", ki18n("Documents to open"));
+    opts.add("d {directory}",   ki18n("Sets working directory"));
+    opts.add("x {file}",        ki18n("Open file in the hexadecimal viewer"));
+    opts.add(" +NNN",           ki18n("Moves to line number NNN of last file"));
+    opts.add("txt",             ki18n("Use text mode instead of GUI"));
+    opts.add("+[file(s)]",      ki18n("Documents to open"));
     KCmdLineArgs::addCmdLineOptions(opts);
 
     /* this is where it crashes if no X server */
