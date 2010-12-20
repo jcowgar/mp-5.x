@@ -64,7 +64,7 @@ msgstr ""
 "#\n"
 "\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:454
+#: mp_crypt.mpsl:32 mp_file.mpsl:496
 msgid "Password:"
 msgstr "Passwort:"
 
@@ -91,7 +91,7 @@ msgstr "Fehler beim Ausführen der benutzerdefinierten Funktion!"
 msgid "Line to go to:"
 msgstr "Gehe zu Zeile:"
 
-#: mp_file.mpsl:31 mp_file.mpsl:304 mp_file.mpsl:351 mp_session.mpsl:64
+#: mp_file.mpsl:31 mp_file.mpsl:346 mp_file.mpsl:393 mp_session.mpsl:64
 #: mp_session.mpsl:72
 msgid "<unnamed>"
 msgstr "<unbenannt>"
@@ -109,7 +109,7 @@ msgstr "Fehler: Kann Datei '%s' nicht erstellen!"
 msgid "File has changed. Save changes?"
 msgstr "Die Datei wurde geändert. Änderungen speichern?"
 
-#: mp_file.mpsl:139
+#: mp_file.mpsl:139 mp_file.mpsl:189 qq.mpsl:3
 msgid "System command:"
 msgstr "System-Kommando:"
 
@@ -193,7 +193,7 @@ msgstr "N"
 msgid " [Y/N]"
 msgstr "[J/N]"
 
-#: mp_tui.mpsl:354
+#: mp_tui.mpsl:367
 msgid " [ENTER]"
 msgstr "[ENTER]"
 
@@ -244,11 +244,11 @@ msgstr ""
 "Modi für die Syntax-Hervorhebung:\n"
 "\t"
 
-#: mp_tui.mpsl:292
+#: mp_tui.mpsl:305
 msgid "Yes"
 msgstr "Ja"
 
-#: mp_tui.mpsl:293
+#: mp_tui.mpsl:306
 msgid "No"
 msgstr "Nein"
 
@@ -361,7 +361,7 @@ msgstr "Zeilen sortieren"
 msgid "Suspend application"
 msgstr "Editor-Schlafmodus"
 
-#: mp_file.mpsl:273
+#: mp_file.mpsl:314
 msgid "Save modified texts"
 msgstr "Alle geänderten Dateien speichern"
 
@@ -388,7 +388,7 @@ msgstr "Log-Datei zeigen"
 msgid "Break hardlinks on write"
 msgstr "Hardlinks beim Speichern trennen"
 
-#: mp_file.mpsl:263
+#: mp_file.mpsl:304
 msgid "Save as..."
 msgstr "Speichern unter..."
 
@@ -399,7 +399,7 @@ msgstr "Ersetzen..."
 msgid "Replace in all..."
 msgstr "Ersetzen in allen Dokumenten..."
 
-#: mp_file.mpsl:262
+#: mp_file.mpsl:303
 msgid "Save..."
 msgstr "Speichern..."
 
@@ -418,18 +418,18 @@ msgstr "Block einfügen"
 msgid "Play macro"
 msgstr "Makro ausführen"
 
-#: mp_file.mpsl:265
+#: mp_file.mpsl:306
 msgid "Previous"
 msgstr "Vorheriges Dokument fokusieren"
 
 msgid "Reopen..."
 msgstr "Erneut öffnen..."
 
-#: mp_file.mpsl:264
+#: mp_file.mpsl:305
 msgid "Next"
 msgstr "Nächstes Dokument fokusieren"
 
-#: mp_file.mpsl:266
+#: mp_file.mpsl:307
 msgid "Open..."
 msgstr "Öffnen..."
 
@@ -441,7 +441,7 @@ msgstr "Wort nach links"
 msgid "Word right"
 msgstr "Wort nach rechts"
 
-#: mp_file.mpsl:261
+#: mp_file.mpsl:302
 msgid "New"
 msgstr "Neu"
 
@@ -465,7 +465,7 @@ msgstr "Zum vorherigen Vorkommen des aktuellen Buchstabens"
 msgid "Character right"
 msgstr "Buchstabe nach rechts"
 
-#: mp_file.mpsl:275
+#: mp_file.mpsl:317
 msgid "Open file under cursor"
 msgstr "Datei über dem Kursor öffnen"
 
@@ -500,7 +500,7 @@ msgstr "Zum Anfang der Zeile"
 msgid "Select last succesful search"
 msgstr "Letzte erfolgreiche Suche markieren"
 
-#: mp_drv.mpsl:39 mp_tui.mpsl:333
+#: mp_drv.mpsl:39 mp_tui.mpsl:346
 msgid "Menu"
 msgstr "Menü"
 
@@ -562,7 +562,7 @@ msgstr "Groß- in Kleinbuchstabe und umgekehrt"
 msgid "Flip word case"
 msgstr "Groß- in Kleinbuchstaben und umgekehrt (Wort)"
 
-#: mp_file.mpsl:274
+#: mp_file.mpsl:315
 msgid "Run system command..."
 msgstr "System-Kommando ausführen"
 
@@ -573,7 +573,7 @@ msgstr "Editorfunktion ausführen..."
 msgid "Document list"
 msgstr "Liste der Dokumente"
 
-#: mp_file.mpsl:272
+#: mp_file.mpsl:313
 msgid "Edit configuration file"
 msgstr "Konfigurationsdatei bearbeiten"
 
@@ -581,7 +581,7 @@ msgstr "Konfigurationsdatei bearbeiten"
 msgid "Edit templates file"
 msgstr "Vorlagendatei bearbeiten"
 
-#: mp_file.mpsl:267
+#: mp_file.mpsl:308
 msgid "Exit"
 msgstr "Beenden"
 
@@ -613,7 +613,7 @@ msgstr "Block ausschneiden+kopieren"
 msgid "About..."
 msgstr "Über..."
 
-#: mp_file.mpsl:268
+#: mp_file.mpsl:309
 msgid "Close"
 msgstr "Schließen"
 
@@ -671,7 +671,7 @@ msgstr ""
 msgid "Error saving file: %s"
 msgstr ""
 
-#: mp_file.mpsl:101 mp_file.mpsl:235
+#: mp_file.mpsl:101 mp_file.mpsl:276
 msgid "File to open:"
 msgstr ""
 
@@ -803,7 +803,7 @@ msgstr ""
 msgid "Error reading from command '%s'"
 msgstr ""
 
-#: mp_file.mpsl:269
+#: mp_file.mpsl:310
 msgid "Revert"
 msgstr ""
 
@@ -832,7 +832,7 @@ msgstr ""
 msgid "Toggle spellchecking"
 msgstr ""
 
-#: mp_tui.mpsl:595
+#: mp_tui.mpsl:608
 msgid "Please, wait..."
 msgstr ""
 
@@ -903,7 +903,7 @@ msgstr ""
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:427
+#: mp_file.mpsl:469
 #, c-format
 msgid "New file '%s'"
 msgstr ""
@@ -913,12 +913,12 @@ msgstr ""
 msgid "%d replaces"
 msgstr ""
 
-#: mp_core.mpsl:462 mp_core.mpsl:480
+#: mp_core.mpsl:466 mp_core.mpsl:484
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
-#: mp_core.mpsl:589
+#: mp_core.mpsl:593
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
@@ -931,7 +931,7 @@ msgstr ""
 msgid "Mark end of lines"
 msgstr ""
 
-#: mp_file.mpsl:270
+#: mp_file.mpsl:311
 msgid "Close all"
 msgstr ""
 
@@ -1026,11 +1026,11 @@ msgstr ""
 msgid "Keep original end of lines"
 msgstr ""
 
-#: mp_file.mpsl:276
+#: mp_file.mpsl:318
 msgid "Hexadecimal viewer..."
 msgstr ""
 
-#: mp_file.mpsl:277
+#: mp_file.mpsl:319
 msgid "Open dropped files"
 msgstr ""
 
@@ -1086,7 +1086,7 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_core.mpsl:408
+#: mp_core.mpsl:412
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1115,4 +1115,8 @@ msgstr ""
 
 #: mp_edit.mpsl:150
 msgid "Toggle insert/overwrite mode"
+msgstr ""
+
+#: mp_file.mpsl:316
+msgid "Filter selection through system command..."
 msgstr ""

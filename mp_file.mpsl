@@ -184,6 +184,47 @@ mp.actions['exec_command']	= sub (d) {
 	}
 };
 
+mp.actions['filter_selection'] = sub (d) {
+    local t = mp.form( [
+        { 'label' => L("System command:"),
+            'type' => 'text',
+            'history' => 'system2'
+        }
+    ]);
+
+    if (t != NULL) {
+        local cmd = t[0];
+
+        mp.store_undo(d);
+
+        /* if there is no selection, take full document */
+        if (d.txt.mark == NULL) {
+            mp.move_bof(d);
+            mp.mark(d);
+            mp.move_eof(d);
+            mp.move_eol(d);
+            mp.mark(d);
+        }
+
+        /* take it out */
+        mp.cut(d);
+
+        /* now feed it to the command */
+        local p = popen2(cmd);
+
+        if (p != NULL) {
+            write(p[1], join("\n", mp.clipboard));
+            pclose(p[1]);
+
+            local l;
+            while ((l = read(p[0])) != NULL)
+                mp.insert(d, l);
+
+            pclose(p[0]);
+        }
+    }
+};
+
 mp.actions['close_all'] = sub {
 
 	local s;
@@ -258,23 +299,24 @@ mp.keycodes['close-window'] 	= 'exit';
 
 /** action descriptions **/
 
-mp.actdesc['new']	= LL("New");
-mp.actdesc['save']	= LL("Save...");
-mp.actdesc['save_as']	= LL("Save as...");
-mp.actdesc['next'] 	= LL("Next");
-mp.actdesc['prev'] 	= LL("Previous");
-mp.actdesc['open'] 	= LL("Open...");
-mp.actdesc['exit'] 	= LL("Exit");
-mp.actdesc['close'] 	= LL("Close");
-mp.actdesc['revert']	= LL("Revert");
-mp.actdesc['close_all']	= LL("Close all");
+mp.actdesc['new']                = LL("New");
+mp.actdesc['save']               = LL("Save...");
+mp.actdesc['save_as']            = LL("Save as...");
+mp.actdesc['next']               = LL("Next");
+mp.actdesc['prev']               = LL("Previous");
+mp.actdesc['open']               = LL("Open...");
+mp.actdesc['exit']               = LL("Exit");
+mp.actdesc['close']              = LL("Close");
+mp.actdesc['revert']             = LL("Revert");
+mp.actdesc['close_all']          = LL("Close all");
 
-mp.actdesc['open_config_file']		= LL("Edit configuration file");
-mp.actdesc['sync']			= LL("Save modified texts");
-mp.actdesc['exec_command']		= LL("Run system command...");
-mp.actdesc['open_under_cursor']		= LL("Open file under cursor");
-mp.actdesc['hex_view']			= LL("Hexadecimal viewer...");
-mp.actdesc['open_dropped_files']	= LL("Open dropped files");
+mp.actdesc['open_config_file']   = LL("Edit configuration file");
+mp.actdesc['sync']               = LL("Save modified texts");
+mp.actdesc['exec_command']       = LL("Run system command...");
+mp.actdesc['filter_selection']   = LL("Filter selection through system command...");
+mp.actdesc['open_under_cursor']  = LL("Open file under cursor");
+mp.actdesc['hex_view']           = LL("Hexadecimal viewer...");
+mp.actdesc['open_dropped_files'] = LL("Open dropped files");
 
 /** code **/
 

@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:454
+#: mp_crypt.mpsl:32 mp_file.mpsl:496
 msgid "Password:"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Line to go to:"
 msgstr "Naar regelnummer:"
 
-#: mp_file.mpsl:31 mp_file.mpsl:304 mp_file.mpsl:351 mp_session.mpsl:64
+#: mp_file.mpsl:31 mp_file.mpsl:346 mp_file.mpsl:393 mp_session.mpsl:64
 #: mp_session.mpsl:72
 msgid "<unnamed>"
 msgstr "<nieuw bestand>"
@@ -52,7 +52,7 @@ msgstr "Kan bestand '%s' niet aanmaken."
 msgid "File has changed. Save changes?"
 msgstr "Bestand veranderd. Wijzigingen Opslaan?"
 
-#: mp_file.mpsl:139
+#: mp_file.mpsl:139 mp_file.mpsl:189 qq.mpsl:3
 msgid "System command:"
 msgstr "Systeem commando:"
 
@@ -127,18 +127,18 @@ msgstr "N"
 msgid " [Y/N]"
 msgstr " [J/N]"
 
-#: mp_tui.mpsl:354
+#: mp_tui.mpsl:367
 msgid " [ENTER]"
 msgstr " [ENTER]"
 
 msgid "<about Minimum Profit>"
 msgstr "<over Minimum Profit>"
 
-#: mp_tui.mpsl:292
+#: mp_tui.mpsl:305
 msgid "Yes"
 msgstr "Ja"
 
-#: mp_tui.mpsl:293
+#: mp_tui.mpsl:306
 msgid "No"
 msgstr "Nee"
 
@@ -315,34 +315,34 @@ msgstr "Vervang..."
 msgid "Replace in all..."
 msgstr "Vervang in hele tekst..."
 
-#: mp_file.mpsl:264
+#: mp_file.mpsl:305
 msgid "Next"
 msgstr "Volgend bestand"
 
-#: mp_file.mpsl:261
+#: mp_file.mpsl:302
 msgid "New"
 msgstr "Nieuw"
 
-#: mp_file.mpsl:266
+#: mp_file.mpsl:307
 msgid "Open..."
 msgstr "Open..."
 
 msgid "Reopen..."
 msgstr "Heropen..."
 
-#: mp_file.mpsl:262
+#: mp_file.mpsl:303
 msgid "Save..."
 msgstr "Opslaan..."
 
-#: mp_file.mpsl:263
+#: mp_file.mpsl:304
 msgid "Save as..."
 msgstr "Opslaan als..."
 
-#: mp_file.mpsl:268
+#: mp_file.mpsl:309
 msgid "Close"
 msgstr "Sluiten"
 
-#: mp_file.mpsl:275
+#: mp_file.mpsl:317
 msgid "Open file under cursor"
 msgstr "Open bestand onder de aanwijzer"
 
@@ -378,7 +378,7 @@ msgstr "Geavanceerder zoeken"
 msgid "Help for word under cursor"
 msgstr "Hulp voor woord onder de aanwijzer"
 
-#: mp_file.mpsl:274
+#: mp_file.mpsl:315
 msgid "Run system command..."
 msgstr "Voor systeem commando uit..."
 
@@ -401,7 +401,7 @@ msgstr "Maak markering af..."
 msgid "Edit templates file"
 msgstr "Bewerk templates bestand"
 
-#: mp_file.mpsl:272
+#: mp_file.mpsl:313
 msgid "Edit configuration file"
 msgstr "Bewerk configuratie bestand"
 
@@ -411,7 +411,7 @@ msgstr "Woorden afkappen..."
 msgid "Tab size..."
 msgstr "Tab grootte..."
 
-#: mp_drv.mpsl:39 mp_tui.mpsl:333
+#: mp_drv.mpsl:39 mp_tui.mpsl:346
 msgid "Menu"
 msgstr "Menu"
 
@@ -419,7 +419,7 @@ msgstr "Menu"
 msgid "About..."
 msgstr "Over..."
 
-#: mp_file.mpsl:267
+#: mp_file.mpsl:308
 msgid "Exit"
 msgstr "Afsluiten"
 
@@ -440,7 +440,7 @@ msgstr "Gebruik muis om aan te wijzen"
 msgid "Execute editor function..."
 msgstr "Voor editor functies uit..."
 
-#: mp_file.mpsl:273
+#: mp_file.mpsl:314
 msgid "Save modified texts"
 msgstr "Bewaar gewijzigde teksten"
 
@@ -529,7 +529,7 @@ msgstr ""
 msgid "Jump to matching bracket"
 msgstr ""
 
-#: mp_file.mpsl:265
+#: mp_file.mpsl:306
 msgid "Previous"
 msgstr ""
 
@@ -647,7 +647,7 @@ msgstr ""
 msgid "Error saving file: %s"
 msgstr ""
 
-#: mp_file.mpsl:101 mp_file.mpsl:235
+#: mp_file.mpsl:101 mp_file.mpsl:276
 msgid "File to open:"
 msgstr ""
 
@@ -779,7 +779,7 @@ msgstr ""
 msgid "Error reading from command '%s'"
 msgstr ""
 
-#: mp_file.mpsl:269
+#: mp_file.mpsl:310
 msgid "Revert"
 msgstr ""
 
@@ -808,7 +808,7 @@ msgstr ""
 msgid "Toggle spellchecking"
 msgstr ""
 
-#: mp_tui.mpsl:595
+#: mp_tui.mpsl:608
 msgid "Please, wait..."
 msgstr ""
 
@@ -879,7 +879,7 @@ msgstr ""
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:427
+#: mp_file.mpsl:469
 #, c-format
 msgid "New file '%s'"
 msgstr ""
@@ -889,12 +889,12 @@ msgstr ""
 msgid "%d replaces"
 msgstr ""
 
-#: mp_core.mpsl:462 mp_core.mpsl:480
+#: mp_core.mpsl:466 mp_core.mpsl:484
 #, c-format
 msgid "Cannot open '%s'"
 msgstr ""
 
-#: mp_core.mpsl:589
+#: mp_core.mpsl:593
 #, c-format
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
@@ -907,7 +907,7 @@ msgstr ""
 msgid "Mark end of lines"
 msgstr ""
 
-#: mp_file.mpsl:270
+#: mp_file.mpsl:311
 msgid "Close all"
 msgstr ""
 
@@ -1002,11 +1002,11 @@ msgstr ""
 msgid "Keep original end of lines"
 msgstr ""
 
-#: mp_file.mpsl:276
+#: mp_file.mpsl:318
 msgid "Hexadecimal viewer..."
 msgstr ""
 
-#: mp_file.mpsl:277
+#: mp_file.mpsl:319
 msgid "Open dropped files"
 msgstr ""
 
@@ -1062,7 +1062,7 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_core.mpsl:408
+#: mp_core.mpsl:412
 #, c-format
 msgid ""
 "Minimum Profit %s - Programmer Text Editor\n"
@@ -1091,4 +1091,8 @@ msgstr ""
 
 #: mp_edit.mpsl:150
 msgid "Toggle insert/overwrite mode"
+msgstr ""
+
+#: mp_file.mpsl:316
+msgid "Filter selection through system command..."
 msgstr ""
