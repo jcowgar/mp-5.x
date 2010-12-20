@@ -185,118 +185,325 @@ static mpdm_t nc_getkey(mpdm_t args, mpdm_t ctxt)
 
     if (shift) {
         switch (f[0]) {
-        case L'0':      f = L"f10";              break;
-        case L'1':      f = L"f1";               break;
-        case L'2':      f = L"f2";               break;
-        case L'3':      f = L"f3";               break;
-        case L'4':      f = L"f4";               break;
-        case L'5':      f = L"f5";               break;
-        case L'6':      f = L"f6";               break;
-        case L'7':      f = L"f7";               break;
-        case L'8':      f = L"f8";               break;
-        case L'9':      f = L"f9";               break;
-        case KEY_LEFT:  f = L"alt-cursor-left";  break;
-        case KEY_RIGHT: f = L"alt-cursor-right"; break;
-        case KEY_DOWN:  f = L"alt-cursor-down";  break;
-        case KEY_UP:    f = L"alt-cursor-up";    break;
-        case KEY_END:   f = L"alt-end";          break;
-        case KEY_HOME:  f = L"alt-home";         break;
-        case L'\r':     f = L"alt-enter";        break;
-        case L'\e':     f = L"escape";           break;
-        case KEY_ENTER: f = L"alt-enter";        break;
-        case L' ':      f = L"alt-space";        break;
-        case L'a':      f = L"alt-a";            break;
-        case L'b':      f = L"alt-b";            break;
-        case L'c':      f = L"alt-c";            break;
-        case L'd':      f = L"alt-d";            break;
-        case L'e':      f = L"alt-e";            break;
-        case L'f':      f = L"alt-f";            break;
-        case L'g':      f = L"alt-g";            break;
-        case L'h':      f = L"alt-h";            break;
-        case L'i':      f = L"alt-i";            break;
-        case L'j':      f = L"alt-j";            break;
-        case L'k':      f = L"alt-k";            break;
-        case L'l':      f = L"alt-l";            break;
-        case L'm':      f = L"alt-m";            break;
-        case L'n':      f = L"alt-n";            break;
-        case L'o':      f = L"alt-o";            break;
-        case L'p':      f = L"alt-p";            break;
-        case L'q':      f = L"alt-q";            break;
-        case L'r':      f = L"alt-r";            break;
-        case L's':      f = L"alt-s";            break;
-        case L't':      f = L"alt-t";            break;
-        case L'u':      f = L"alt-u";            break;
-        case L'v':      f = L"alt-v";            break;
-        case L'w':      f = L"alt-w";            break;
-        case L'x':      f = L"alt-x";            break;
-        case L'y':      f = L"alt-y";            break;
-        case L'z':      f = L"alt-z";            break;
-        case L'\'':     f = L"alt-'";            break;
-        case L',':      f = L"alt-,";            break;
-        case L'-':      f = L"alt--";            break;
-        case L'.':      f = L"alt-.";            break;
-        case L'/':      f = L"alt-/";            break;
-        case L'=':      f = L"alt-=";            break;
+        case L'0':
+            f = L"f10";
+            break;
+        case L'1':
+            f = L"f1";
+            break;
+        case L'2':
+            f = L"f2";
+            break;
+        case L'3':
+            f = L"f3";
+            break;
+        case L'4':
+            f = L"f4";
+            break;
+        case L'5':
+            f = L"f5";
+            break;
+        case L'6':
+            f = L"f6";
+            break;
+        case L'7':
+            f = L"f7";
+            break;
+        case L'8':
+            f = L"f8";
+            break;
+        case L'9':
+            f = L"f9";
+            break;
+        case KEY_LEFT:
+            f = L"alt-cursor-left";
+            break;
+        case KEY_RIGHT:
+            f = L"alt-cursor-right";
+            break;
+        case KEY_DOWN:
+            f = L"alt-cursor-down";
+            break;
+        case KEY_UP:
+            f = L"alt-cursor-up";
+            break;
+        case KEY_END:
+            f = L"alt-end";
+            break;
+        case KEY_HOME:
+            f = L"alt-home";
+            break;
+        case L'\r':
+            f = L"alt-enter";
+            break;
+        case L'\e':
+            f = L"escape";
+            break;
+        case KEY_ENTER:
+            f = L"alt-enter";
+            break;
+        case L' ':
+            f = L"alt-space";
+            break;
+        case L'a':
+            f = L"alt-a";
+            break;
+        case L'b':
+            f = L"alt-b";
+            break;
+        case L'c':
+            f = L"alt-c";
+            break;
+        case L'd':
+            f = L"alt-d";
+            break;
+        case L'e':
+            f = L"alt-e";
+            break;
+        case L'f':
+            f = L"alt-f";
+            break;
+        case L'g':
+            f = L"alt-g";
+            break;
+        case L'h':
+            f = L"alt-h";
+            break;
+        case L'i':
+            f = L"alt-i";
+            break;
+        case L'j':
+            f = L"alt-j";
+            break;
+        case L'k':
+            f = L"alt-k";
+            break;
+        case L'l':
+            f = L"alt-l";
+            break;
+        case L'm':
+            f = L"alt-m";
+            break;
+        case L'n':
+            f = L"alt-n";
+            break;
+        case L'o':
+            f = L"alt-o";
+            break;
+        case L'p':
+            f = L"alt-p";
+            break;
+        case L'q':
+            f = L"alt-q";
+            break;
+        case L'r':
+            f = L"alt-r";
+            break;
+        case L's':
+            f = L"alt-s";
+            break;
+        case L't':
+            f = L"alt-t";
+            break;
+        case L'u':
+            f = L"alt-u";
+            break;
+        case L'v':
+            f = L"alt-v";
+            break;
+        case L'w':
+            f = L"alt-w";
+            break;
+        case L'x':
+            f = L"alt-x";
+            break;
+        case L'y':
+            f = L"alt-y";
+            break;
+        case L'z':
+            f = L"alt-z";
+            break;
+        case L'\'':
+            f = L"alt-'";
+            break;
+        case L',':
+            f = L"alt-,";
+            break;
+        case L'-':
+            f = L"alt--";
+            break;
+        case L'.':
+            f = L"alt-.";
+            break;
+        case L'/':
+            f = L"alt-/";
+            break;
+        case L'=':
+            f = L"alt-=";
+            break;
         }
 
         shift = 0;
     }
     else {
         switch (f[0]) {
-        case KEY_LEFT:      f = L"cursor-left";  break;
-        case KEY_RIGHT:     f = L"cursor-right"; break;
-        case KEY_UP:        f = L"cursor-up";    break;
-        case KEY_DOWN:      f = L"cursor-down";  break;
-        case KEY_PPAGE:     f = L"page-up";      break;
-        case KEY_NPAGE:     f = L"page-down";    break;
-        case KEY_HOME:      f = L"home";         break;
-        case KEY_END:       f = L"end";          break;
-        case KEY_LL:        f = L"end";          break;
-        case KEY_IC:        f = L"insert";       break;
-        case KEY_DC:        f = L"delete";       break;
+        case KEY_LEFT:
+            f = L"cursor-left";
+            break;
+        case KEY_RIGHT:
+            f = L"cursor-right";
+            break;
+        case KEY_UP:
+            f = L"cursor-up";
+            break;
+        case KEY_DOWN:
+            f = L"cursor-down";
+            break;
+        case KEY_PPAGE:
+            f = L"page-up";
+            break;
+        case KEY_NPAGE:
+            f = L"page-down";
+            break;
+        case KEY_HOME:
+            f = L"home";
+            break;
+        case KEY_END:
+            f = L"end";
+            break;
+        case KEY_LL:
+            f = L"end";
+            break;
+        case KEY_IC:
+            f = L"insert";
+            break;
+        case KEY_DC:
+            f = L"delete";
+            break;
         case 0x7f:
         case KEY_BACKSPACE:
-        case L'\b':         f = L"backspace";    break;
+        case L'\b':
+            f = L"backspace";
+            break;
         case L'\r':
-        case KEY_ENTER:     f = L"enter";        break;
-        case L'\t':         f = L"tab";          break;
-        case KEY_BTAB:      f = L"shift-tab";    break;
-        case L' ':          f = L"space";        break;
-        case KEY_F(1):      f = L"f1";           break;
-        case KEY_F(2):      f = L"f2";           break;
-        case KEY_F(3):      f = L"f3";           break;
-        case KEY_F(4):      f = L"f4";           break;
-        case KEY_F(5):      f = L"f5";           break;
-        case KEY_F(6):      f = L"f6";           break;
-        case KEY_F(7):      f = L"f7";           break;
-        case KEY_F(8):      f = L"f8";           break;
-        case KEY_F(9):      f = L"f9";           break;
-        case KEY_F(10):     f = L"f10";          break;
-        case ctrl(' '):     f = L"ctrl-space";   break;
-        case ctrl('a'):     f = L"ctrl-a";       break;
-        case ctrl('b'):     f = L"ctrl-b";       break;
-        case ctrl('c'):     f = L"ctrl-c";       break;
-        case ctrl('d'):     f = L"ctrl-d";       break;
-        case ctrl('e'):     f = L"ctrl-e";       break;
-        case ctrl('f'):     f = L"ctrl-f";       break;
-        case ctrl('g'):     f = L"ctrl-g";       break;
-        case ctrl('j'):     f = L"ctrl-j";       break;
-        case ctrl('k'):     f = L"ctrl-k";       break;
-        case ctrl('l'):     f = L"ctrl-l";       break;
-        case ctrl('n'):     f = L"ctrl-n";       break;
-        case ctrl('o'):     f = L"ctrl-o";       break;
-        case ctrl('p'):     f = L"ctrl-p";       break;
-        case ctrl('q'):     f = L"ctrl-q";       break;
-        case ctrl('r'):     f = L"ctrl-r";       break;
-        case ctrl('s'):     f = L"ctrl-s";       break;
-        case ctrl('t'):     f = L"ctrl-t";       break;
-        case ctrl('u'):     f = L"ctrl-u";       break;
-        case ctrl('v'):     f = L"ctrl-v";       break;
-        case ctrl('w'):     f = L"ctrl-w";       break;
-        case ctrl('x'):     f = L"ctrl-x";       break;
-        case ctrl('y'):     f = L"ctrl-y";       break;
-        case ctrl('z'):     f = L"ctrl-z";       break;
-        case L'\e':         shift = 1; f = NULL; break;
+        case KEY_ENTER:
+            f = L"enter";
+            break;
+        case L'\t':
+            f = L"tab";
+            break;
+        case KEY_BTAB:
+            f = L"shift-tab";
+            break;
+        case L' ':
+            f = L"space";
+            break;
+        case KEY_F(1):
+            f = L"f1";
+            break;
+        case KEY_F(2):
+            f = L"f2";
+            break;
+        case KEY_F(3):
+            f = L"f3";
+            break;
+        case KEY_F(4):
+            f = L"f4";
+            break;
+        case KEY_F(5):
+            f = L"f5";
+            break;
+        case KEY_F(6):
+            f = L"f6";
+            break;
+        case KEY_F(7):
+            f = L"f7";
+            break;
+        case KEY_F(8):
+            f = L"f8";
+            break;
+        case KEY_F(9):
+            f = L"f9";
+            break;
+        case KEY_F(10):
+            f = L"f10";
+            break;
+        case ctrl(' '):
+            f = L"ctrl-space";
+            break;
+        case ctrl('a'):
+            f = L"ctrl-a";
+            break;
+        case ctrl('b'):
+            f = L"ctrl-b";
+            break;
+        case ctrl('c'):
+            f = L"ctrl-c";
+            break;
+        case ctrl('d'):
+            f = L"ctrl-d";
+            break;
+        case ctrl('e'):
+            f = L"ctrl-e";
+            break;
+        case ctrl('f'):
+            f = L"ctrl-f";
+            break;
+        case ctrl('g'):
+            f = L"ctrl-g";
+            break;
+        case ctrl('j'):
+            f = L"ctrl-j";
+            break;
+        case ctrl('k'):
+            f = L"ctrl-k";
+            break;
+        case ctrl('l'):
+            f = L"ctrl-l";
+            break;
+        case ctrl('n'):
+            f = L"ctrl-n";
+            break;
+        case ctrl('o'):
+            f = L"ctrl-o";
+            break;
+        case ctrl('p'):
+            f = L"ctrl-p";
+            break;
+        case ctrl('q'):
+            f = L"ctrl-q";
+            break;
+        case ctrl('r'):
+            f = L"ctrl-r";
+            break;
+        case ctrl('s'):
+            f = L"ctrl-s";
+            break;
+        case ctrl('t'):
+            f = L"ctrl-t";
+            break;
+        case ctrl('u'):
+            f = L"ctrl-u";
+            break;
+        case ctrl('v'):
+            f = L"ctrl-v";
+            break;
+        case ctrl('w'):
+            f = L"ctrl-w";
+            break;
+        case ctrl('x'):
+            f = L"ctrl-x";
+            break;
+        case ctrl('y'):
+            f = L"ctrl-y";
+            break;
+        case ctrl('z'):
+            f = L"ctrl-z";
+            break;
+        case L'\e':
+            shift = 1;
+            f = NULL;
+            break;
         }
     }
 
@@ -592,15 +799,15 @@ static void register_functions(void)
 	}*/
 
     /* execute tui */
-    mpdm_hset_s(tui, L"getkey",     MPDM_X(nc_getkey));
-    mpdm_hset_s(tui, L"addstr",     MPDM_X(tui_addstr));
-    mpdm_hset_s(tui, L"move",       MPDM_X(tui_move));
-    mpdm_hset_s(tui, L"attr",       MPDM_X(tui_attr));
-    mpdm_hset_s(tui, L"refresh",    MPDM_X(tui_refresh));
-    mpdm_hset_s(tui, L"getxy",      MPDM_X(tui_getxy));
-    mpdm_hset_s(tui, L"openpanel",  MPDM_X(tui_openpanel));
+    mpdm_hset_s(tui, L"getkey", MPDM_X(nc_getkey));
+    mpdm_hset_s(tui, L"addstr", MPDM_X(tui_addstr));
+    mpdm_hset_s(tui, L"move", MPDM_X(tui_move));
+    mpdm_hset_s(tui, L"attr", MPDM_X(tui_attr));
+    mpdm_hset_s(tui, L"refresh", MPDM_X(tui_refresh));
+    mpdm_hset_s(tui, L"getxy", MPDM_X(tui_getxy));
+    mpdm_hset_s(tui, L"openpanel", MPDM_X(tui_openpanel));
     mpdm_hset_s(tui, L"closepanel", MPDM_X(tui_closepanel));
-    mpdm_hset_s(tui, L"doc_draw",   MPDM_X(nc_doc_draw));
+    mpdm_hset_s(tui, L"doc_draw", MPDM_X(nc_doc_draw));
 }
 
 
