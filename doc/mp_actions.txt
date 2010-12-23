@@ -154,6 +154,14 @@ _Exit_ (`ctrl-q')
 
 Closes all documents and exists Minimum Profit.
 
+filter_selection
+----------------
+
+_Filter selection through system command..._
+
+Filters the block selection (or the full document, if no selection is active)
+through a system command.
+
 find_tag
 --------
 
@@ -220,6 +228,19 @@ _Insert line_ (`enter')
 
 Inserts a new line. If the cursor is in the middle of a line,
 it's split in two.
+
+insert_next_item
+----------------
+
+_Insert next item_
+
+Inserts a new numbered item into the text. Numbered items are as this way:
+
+ * 1: 
+ * 2: 
+
+Every time a new item is requested, the current document is scanned for the
+greatest number and the next one is inserted.
 
 insert_space
 ------------
@@ -636,6 +657,13 @@ _Tab options..._
 
 Shows a dialog asking for tabulator configuration options, like tab size,
 convert to spaces, etc.
+
+toggle_insert
+-------------
+
+_Toggle insert/overwrite mode_ (`insert')
+
+Toggles between insert and overwrite modes.
 
 toggle_spellcheck
 -----------------

@@ -18,6 +18,8 @@ Table with Minimum Profit's keycodes and their default assigned actions.
  +---------------------+------------------------+
  |            alt-home |               move_bof |
  +---------------------+------------------------+
+ |           alt-space |                   menu |
+ +---------------------+------------------------+
  |           backspace |            delete_left |
  +---------------------+------------------------+
  |        close-window |                   exit |
@@ -129,6 +131,8 @@ Table with Minimum Profit's keycodes and their default assigned actions.
  |                  f9 |                   mark |
  +---------------------+------------------------+
  |                home |               move_bol |
+ +---------------------+------------------------+
+ |              insert |          toggle_insert |
  +---------------------+------------------------+
  |          mouse-drag |        mouse_drag_mark |
  +---------------------+------------------------+
