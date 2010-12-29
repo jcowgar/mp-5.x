@@ -128,6 +128,8 @@ win32dist: mp-5.exe
 	rm -rf win32
 
 innosetup: mp-5.exe
+	(DIR=`pwd` ; cd $(MPDM) ; make installdoc DOCDIR=$$DIR/doc)
+	(DIR=`pwd` ; cd $(MPSL) ; make installdoc DOCDIR=$$DIR/doc)
 	wine ~/.wine/fake_windows/Program\ Files/Inno\ Setup\ 5/ISCC.exe /O. /Fmp-$(VERSION) mp.iss
 
 install: $(INSTALL_MSG) installdoc $(INSTALLMO)
