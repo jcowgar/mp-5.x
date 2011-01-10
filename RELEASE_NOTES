@@ -6,7 +6,7 @@ Minimum Profit Release Notes
 
  * Fixed insert / overwrite mode.
  * New action `filter_selection', to filter the selection (or the
-   full document is no selection is done) through a system command.
+   full document if no selection is done) through a system command.
  * If a selection is invisible (incomplete or with the start and end
    in the same character), a new keystroke does not jump to it.
  * New command line option `-txt' to use text mode (instead of GUI).
