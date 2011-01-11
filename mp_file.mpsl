@@ -398,9 +398,6 @@ sub mp.create(filename, lines)
 
 	doc.syntax = NULL;
 
-	/* autodetect syntax */
-	mp.detect_syntax(doc);
-
 	return doc;
 }
 
@@ -413,6 +410,8 @@ sub mp.new(filename, lines)
 	/* store in the list and set as active */
 	push(mp.docs, doc);
 	mp.active_i = size(mp.docs) - 1;
+
+	mp.detect_syntax(doc);
 }
 
 
