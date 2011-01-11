@@ -412,6 +412,8 @@ sub mp.new(filename, lines)
 	mp.active_i = size(mp.docs) - 1;
 
 	mp.detect_syntax(doc);
+
+    return doc;
 }
 
 
