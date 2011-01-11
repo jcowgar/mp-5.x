@@ -9,6 +9,8 @@ Minimum Profit Release Notes
    full document if no selection is done) through a system command.
  * If a selection is invisible (incomplete or with the start and end
    in the same character), a new keystroke does not jump to it.
+ * If a block is selected, actions `word_wrap_paragraph' and
+   `join_paragraph' modify the full block.
  * New command line option `-txt' to use text mode (instead of GUI).
  * New configuration option `mp.config.hw_cursor' to activate
    the hardware cursor in text environments (disabled by default).

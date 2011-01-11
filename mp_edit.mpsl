@@ -54,12 +54,30 @@ mp.actions['join_paragraph']	= sub (d) { mp.store_undo(d); mp.join_paragraph(d);
 
 mp.actions['word_wrap_paragraph'] = sub (d) {
 
-	if(mp.config.word_wrap == 0)
-		mp.alert(L("Word wrapping must be set"));
-	else {
-		mp.store_undo(d);
-		mp.word_wrap_paragraph(d);
-	}
+    if(mp.config.word_wrap == 0)
+        mp.alert(L("Word wrapping must be set"));
+    else {
+        mp.store_undo(d);
+
+        if (d.txt.mark) {
+            mp.cut(d);
+
+            /* create a working document */
+            local p = mp.create('<wrk>', mp.clipboard);
+
+            /* while not at EOF, word wrap everything */
+            while (p.txt.y < size(p.txt.lines) - 1) {
+                mp.word_wrap_paragraph(p);
+                mp.move_down(p);
+                mp.move_down(p);
+            }
+
+            /* insert the content */
+            mp.insert(d, p.txt.lines);
+        }
+        else
+            mp.word_wrap_paragraph(d);
+    }
 };
 
 mp.actions['line_options']	= sub (d) {
