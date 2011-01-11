@@ -72,6 +72,16 @@ mp.actions['mouse_drag_mark'] = sub (d) {
 	mp.mark(d);
 };
 
+mp.actions['mark_all'] = sub (d) {
+    mp.move_bof(d);
+    mp.move_bol(d);
+    mp.mark(d);
+
+    mp.move_eof(d);
+    mp.move_eol(d);
+    mp.mark(d);
+};
+
 /** default key bindings **/
 
 mp.keycodes['f8']		= "unmark";
@@ -84,14 +94,15 @@ mp.keycodes['mouse-drag']	= "mouse_drag_mark";
 
 /** action descriptions **/
 
-mp.actdesc['unmark']		= LL("Unmark block");
-mp.actdesc['mark']		= LL("Mark beginning/end of block");
-mp.actdesc['mark_vertical']	= LL("Mark vertical block");
-mp.actdesc['copy_mark']		= LL("Copy block");
-mp.actdesc['paste_mark']	= LL("Paste block");
-mp.actdesc['cut_mark']		= LL("Cut block");
-mp.actdesc['delete_mark']	= LL("Delete block");
-mp.actdesc['mouse_drag_mark']	= LL("Mark using mouse dragging");
+mp.actdesc['unmark']            = LL("Unmark block");
+mp.actdesc['mark']              = LL("Mark beginning/end of block");
+mp.actdesc['mark_vertical']     = LL("Mark vertical block");
+mp.actdesc['copy_mark']         = LL("Copy block");
+mp.actdesc['paste_mark']        = LL("Paste block");
+mp.actdesc['cut_mark']          = LL("Cut block");
+mp.actdesc['delete_mark']       = LL("Delete block");
+mp.actdesc['mouse_drag_mark']   = LL("Mark using mouse dragging");
+mp.actdesc['mark_all']          = LL("Mark all");
 
 /** code **/
 

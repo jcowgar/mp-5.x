@@ -59,7 +59,7 @@ msgstr ""
 "#\n"
 "\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:496
+#: mp_crypt.mpsl:32 mp_file.mpsl:504
 msgid "Password:"
 msgstr "Lösenord:"
 
@@ -104,7 +104,7 @@ msgstr "Kan inte skapa filen '%s'."
 msgid "File has changed. Save changes?"
 msgstr "Filen har ändrats. Spara ändringar?"
 
-#: mp_file.mpsl:139 mp_file.mpsl:189 qq.mpsl:3
+#: mp_file.mpsl:139 mp_file.mpsl:189
 msgid "System command:"
 msgstr "Systemkommando:"
 
@@ -154,7 +154,7 @@ msgstr "grep"
 msgid "Tag to seek:"
 msgstr "Tagg-namn att söka:"
 
-#: mp_edit.mpsl:71
+#: mp_edit.mpsl:111
 msgid "Word wrap on column (0, no word wrap):"
 msgstr "Radbrytning vid kolumn (0, ingen radbrytning):"
 
@@ -318,7 +318,7 @@ msgstr "Minska teckenstorlek"
 msgid "Mark spelling errors"
 msgstr "Markera stavfel"
 
-#: mp_clipboard.mpsl:87
+#: mp_clipboard.mpsl:97
 msgid "Unmark block"
 msgstr "Avmarkera block"
 
@@ -344,7 +344,7 @@ msgstr "Spara LF som CR/LF"
 msgid "Save tabs"
 msgstr "Spara tabbtecken"
 
-#: mp_edit.mpsl:75
+#: mp_edit.mpsl:115
 msgid "Automatic indentation"
 msgstr "Automatisk indentering"
 
@@ -403,7 +403,7 @@ msgstr "Spela in makro"
 msgid "Reformat paragraph with word wrapping"
 msgstr "Formatera om paragraf med radbrytningar"
 
-#: mp_clipboard.mpsl:91
+#: mp_clipboard.mpsl:101
 msgid "Paste block"
 msgstr "Klistra in block"
 
@@ -519,14 +519,14 @@ msgstr "Hoppa till matchande parentes"
 msgid "Insert new line below cursor"
 msgstr "Infoga ny rad under nedanför markören"
 
-#: mp_edit.mpsl:141
+#: mp_edit.mpsl:181
 msgid "Insert tab"
 msgstr "Infoga tabbtecken"
 
 msgid "Help for word under cursor"
 msgstr "Hjälp om ord vid markören"
 
-#: mp_edit.mpsl:138
+#: mp_edit.mpsl:178
 msgid "Insert line"
 msgstr "Infoga rad"
 
@@ -537,7 +537,7 @@ msgstr "Infoga ny rad ovanför markören"
 msgid "Insert template..."
 msgstr "Infoga mall..."
 
-#: mp_clipboard.mpsl:88
+#: mp_clipboard.mpsl:98
 msgid "Mark beginning/end of block"
 msgstr "Markera början/slutet av blocket"
 
@@ -587,18 +587,18 @@ msgstr "Radera till början av ordet"
 msgid "Delete char to the left of cursor"
 msgstr "Radera tecken till vänster om markören"
 
-#: mp_edit.mpsl:139
+#: mp_edit.mpsl:179
 msgid "Delete line"
 msgstr "Radera rad"
 
 msgid "Delete all whitespace after cursor"
 msgstr "Radera alla blanktecken efter markören"
 
-#: mp_clipboard.mpsl:90
+#: mp_clipboard.mpsl:100
 msgid "Copy block"
 msgstr "Kopiera block"
 
-#: mp_clipboard.mpsl:92
+#: mp_clipboard.mpsl:102
 msgid "Cut block"
 msgstr "Klipp ut block"
 
@@ -627,31 +627,31 @@ msgstr "Grep (leta i) filer..."
 msgid "Passwords don't match."
 msgstr ""
 
-#: mp_edit.mpsl:58
+#: mp_edit.mpsl:80
 msgid "Word wrapping must be set"
 msgstr ""
 
-#: mp_edit.mpsl:140
+#: mp_edit.mpsl:180
 msgid "Insert space"
 msgstr ""
 
-#: mp_edit.mpsl:142
+#: mp_edit.mpsl:182
 msgid "Delete character"
 msgstr ""
 
-#: mp_edit.mpsl:143
+#: mp_edit.mpsl:183
 msgid "Delete character to the left"
 msgstr ""
 
-#: mp_edit.mpsl:144
+#: mp_edit.mpsl:184
 msgid "Undo"
 msgstr ""
 
-#: mp_edit.mpsl:146
+#: mp_edit.mpsl:186
 msgid "Join a paragraph in one line"
 msgstr ""
 
-#: mp_edit.mpsl:147
+#: mp_edit.mpsl:187
 msgid "Word-wrap a paragraph"
 msgstr ""
 
@@ -761,23 +761,23 @@ msgstr ""
 msgid "Template to insert:"
 msgstr ""
 
-#: mp_edit.mpsl:78
+#: mp_edit.mpsl:118
 msgid "Line termination"
 msgstr ""
 
-#: mp_edit.mpsl:101
+#: mp_edit.mpsl:141
 msgid "Tab size"
 msgstr ""
 
-#: mp_edit.mpsl:105
+#: mp_edit.mpsl:145
 msgid "Convert tabs to spaces"
 msgstr ""
 
-#: mp_edit.mpsl:148
+#: mp_edit.mpsl:188
 msgid "Line options..."
 msgstr ""
 
-#: mp_edit.mpsl:149
+#: mp_edit.mpsl:189
 msgid "Tab options..."
 msgstr ""
 
@@ -860,7 +860,7 @@ msgstr ""
 msgid "Error writing to command '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:145
+#: mp_edit.mpsl:185
 msgid "Redo"
 msgstr ""
 
@@ -891,12 +891,12 @@ msgstr ""
 msgid "Unknown action '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:494
+#: mp_edit.mpsl:534
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr ""
 
-#: mp_file.mpsl:469
+#: mp_file.mpsl:477
 #, c-format
 msgid "New file '%s'"
 msgstr ""
@@ -916,11 +916,11 @@ msgstr ""
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
 
-#: mp_clipboard.mpsl:94
+#: mp_clipboard.mpsl:104
 msgid "Mark using mouse dragging"
 msgstr ""
 
-#: mp_edit.mpsl:84
+#: mp_edit.mpsl:124
 msgid "Mark end of lines"
 msgstr ""
 
@@ -950,7 +950,7 @@ msgstr ""
 msgid "Read-only document"
 msgstr ""
 
-#: mp_clipboard.mpsl:89
+#: mp_clipboard.mpsl:99
 msgid "Mark vertical block"
 msgstr ""
 
@@ -1011,11 +1011,11 @@ msgstr ""
 msgid "Repeated words options..."
 msgstr ""
 
-#: mp_clipboard.mpsl:93
+#: mp_clipboard.mpsl:103
 msgid "Delete block"
 msgstr ""
 
-#: mp_edit.mpsl:81
+#: mp_edit.mpsl:121
 msgid "Keep original end of lines"
 msgstr ""
 
@@ -1047,7 +1047,7 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_edit.mpsl:108
+#: mp_edit.mpsl:148
 msgid "Use previous line for tab columns"
 msgstr ""
 
@@ -1106,10 +1106,14 @@ msgstr ""
 msgid "Insert next item"
 msgstr ""
 
-#: mp_edit.mpsl:150
+#: mp_edit.mpsl:190
 msgid "Toggle insert/overwrite mode"
 msgstr ""
 
 #: mp_file.mpsl:316
 msgid "Filter selection through system command..."
+msgstr ""
+
+#: mp_clipboard.mpsl:105
+msgid "Mark all"
 msgstr ""

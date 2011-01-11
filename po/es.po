@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp_crypt.mpsl:32 mp_file.mpsl:496
+#: mp_crypt.mpsl:32 mp_file.mpsl:504
 msgid "Password:"
 msgstr "Palabra clave:"
 
@@ -52,7 +52,7 @@ msgstr "Imposible crear fichero '%s'."
 msgid "File has changed. Save changes?"
 msgstr "El fichero ha cambiado. ¿Salvar cambios?"
 
-#: mp_file.mpsl:139 mp_file.mpsl:189 qq.mpsl:3
+#: mp_file.mpsl:139 mp_file.mpsl:189
 msgid "System command:"
 msgstr "Comando del sistema:"
 
@@ -96,7 +96,7 @@ msgstr "Ficheros en los que buscar (vacío, todos):"
 msgid "Tag to seek:"
 msgstr "Tag a buscar:"
 
-#: mp_edit.mpsl:71
+#: mp_edit.mpsl:111
 msgid "Word wrap on column (0, no word wrap):"
 msgstr "Word wrap en columna (0, ninguno):"
 
@@ -263,11 +263,11 @@ msgstr "Página abajo"
 msgid "Go to line..."
 msgstr "Ir a la línea..."
 
-#: mp_edit.mpsl:138
+#: mp_edit.mpsl:178
 msgid "Insert line"
 msgstr "Insertar línea"
 
-#: mp_edit.mpsl:141
+#: mp_edit.mpsl:181
 msgid "Insert tab"
 msgstr "Insertar tabulador"
 
@@ -277,27 +277,27 @@ msgstr "Borrar carácter sobre el cursor"
 msgid "Delete char to the left of cursor"
 msgstr "Borrar carácter a la izquierda del cursor"
 
-#: mp_edit.mpsl:139
+#: mp_edit.mpsl:179
 msgid "Delete line"
 msgstr "Borrar línea"
 
-#: mp_clipboard.mpsl:88
+#: mp_clipboard.mpsl:98
 msgid "Mark beginning/end of block"
 msgstr "Marcar principio/fin de bloque"
 
-#: mp_clipboard.mpsl:87
+#: mp_clipboard.mpsl:97
 msgid "Unmark block"
 msgstr "Desmarcar bloque"
 
-#: mp_clipboard.mpsl:90
+#: mp_clipboard.mpsl:100
 msgid "Copy block"
 msgstr "Copiar bloque"
 
-#: mp_clipboard.mpsl:91
+#: mp_clipboard.mpsl:101
 msgid "Paste block"
 msgstr "Pegar bloque"
 
-#: mp_clipboard.mpsl:92
+#: mp_clipboard.mpsl:102
 msgid "Cut block"
 msgstr "Cortar bloque"
 
@@ -366,7 +366,7 @@ msgstr "Guardar tabuladores"
 msgid "Save LF as CR/LF"
 msgstr "Guardar LF como CR/LF"
 
-#: mp_edit.mpsl:75
+#: mp_edit.mpsl:115
 msgid "Automatic indentation"
 msgstr "Indentación automática"
 
@@ -547,31 +547,31 @@ msgstr "Marcar errores ortográficos"
 msgid "Passwords don't match."
 msgstr "Las palabras clave no coinciden."
 
-#: mp_edit.mpsl:58
+#: mp_edit.mpsl:80
 msgid "Word wrapping must be set"
 msgstr "El recorte de líneas debe estar activo."
 
-#: mp_edit.mpsl:140
+#: mp_edit.mpsl:180
 msgid "Insert space"
 msgstr "Insertar espacio"
 
-#: mp_edit.mpsl:142
+#: mp_edit.mpsl:182
 msgid "Delete character"
 msgstr "Borrar carácter"
 
-#: mp_edit.mpsl:143
+#: mp_edit.mpsl:183
 msgid "Delete character to the left"
 msgstr "Borrar carácter a la izquierda"
 
-#: mp_edit.mpsl:144
+#: mp_edit.mpsl:184
 msgid "Undo"
 msgstr "Deshacer"
 
-#: mp_edit.mpsl:146
+#: mp_edit.mpsl:186
 msgid "Join a paragraph in one line"
 msgstr "Juntar un párrafo en una sola línea"
 
-#: mp_edit.mpsl:147
+#: mp_edit.mpsl:187
 msgid "Word-wrap a paragraph"
 msgstr "Recortar por palabras un párrafo"
 
@@ -681,23 +681,23 @@ msgstr "Seleccionar tag:"
 msgid "Template to insert:"
 msgstr "Plantilla a insertar:"
 
-#: mp_edit.mpsl:78
+#: mp_edit.mpsl:118
 msgid "Line termination"
 msgstr "Terminación de línea"
 
-#: mp_edit.mpsl:101
+#: mp_edit.mpsl:141
 msgid "Tab size"
 msgstr "Tamaño del tabulador"
 
-#: mp_edit.mpsl:105
+#: mp_edit.mpsl:145
 msgid "Convert tabs to spaces"
 msgstr "Convertir tabuladores a espacios"
 
-#: mp_edit.mpsl:148
+#: mp_edit.mpsl:188
 msgid "Line options..."
 msgstr "Opciones de línea..."
 
-#: mp_edit.mpsl:149
+#: mp_edit.mpsl:189
 msgid "Tab options..."
 msgstr "Opciones de tabulación..."
 
@@ -774,7 +774,7 @@ msgstr ""
 msgid "Error writing to command '%s'"
 msgstr "Error escribiendo al comando '%s'"
 
-#: mp_edit.mpsl:145
+#: mp_edit.mpsl:185
 msgid "Redo"
 msgstr "Rehacer"
 
@@ -805,12 +805,12 @@ msgstr "Guardar sesión"
 msgid "Unknown action '%s'"
 msgstr "Acción '%s' desconocida"
 
-#: mp_edit.mpsl:494
+#: mp_edit.mpsl:534
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr "Tecla '%s' sin asociar"
 
-#: mp_file.mpsl:469
+#: mp_file.mpsl:477
 #, c-format
 msgid "New file '%s'"
 msgstr "Nuevo archivo '%s'"
@@ -830,11 +830,11 @@ msgstr "Imposible abrir '%s'"
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr "ADVERTENCIA: La versión de %s es la %s, pero se necesita la %s"
 
-#: mp_clipboard.mpsl:94
+#: mp_clipboard.mpsl:104
 msgid "Mark using mouse dragging"
 msgstr "Marcar arrastrando el ratón"
 
-#: mp_edit.mpsl:84
+#: mp_edit.mpsl:124
 msgid "Mark end of lines"
 msgstr "Marcar fines de línea"
 
@@ -864,7 +864,7 @@ msgstr "Construir proyecto..."
 msgid "Read-only document"
 msgstr "Documento de sólo lectura"
 
-#: mp_clipboard.mpsl:89
+#: mp_clipboard.mpsl:99
 msgid "Mark vertical block"
 msgstr "Marcar bloque vertical"
 
@@ -919,11 +919,11 @@ msgstr "Distancia máxima entre palabras:"
 msgid "Repeated words options..."
 msgstr "Opciones de palabras repetidas..."
 
-#: mp_clipboard.mpsl:93
+#: mp_clipboard.mpsl:103
 msgid "Delete block"
 msgstr "Borrar bloque"
 
-#: mp_edit.mpsl:81
+#: mp_edit.mpsl:121
 msgid "Keep original end of lines"
 msgstr "Mantener fin de línea original"
 
@@ -935,7 +935,7 @@ msgstr "Visor hexadecimal..."
 msgid "Open dropped files"
 msgstr "Abrir ficheros arrastrados"
 
-#: mp_edit.mpsl:108
+#: mp_edit.mpsl:148
 msgid "Use previous line for tab columns"
 msgstr "Usar la línea anterior para las columnas de tabulación"
 
@@ -1012,10 +1012,14 @@ msgstr ""
 msgid "Insert next item"
 msgstr "Insertar nuevo elemento"
 
-#: mp_edit.mpsl:150
+#: mp_edit.mpsl:190
 msgid "Toggle insert/overwrite mode"
 msgstr "Conmutar modo insertar/sobreescribir"
 
 #: mp_file.mpsl:316
 msgid "Filter selection through system command..."
 msgstr "Filtrar selección mediante comando de sistema..."
+
+#: mp_clipboard.mpsl:105
+msgid "Mark all"
+msgstr "Marcar todo"

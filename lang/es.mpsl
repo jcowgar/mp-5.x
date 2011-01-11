@@ -242,5 +242,6 @@ __I18N__ = {
 	"Insert next item" => "Insertar nuevo elemento",
 	"Toggle insert/overwrite mode" => "Conmutar modo insertar/sobreescribir",
 	"Filter selection through system command..." => "Filtrar selecci\x{00f3}n mediante comando de sistema...",
+	"Mark all" => "Marcar todo",
 	"-" => "-"
 };
