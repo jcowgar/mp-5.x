@@ -376,8 +376,8 @@ sub mp.save(doc)
 }
 
 
-sub mp.new(filename, lines)
-/* creates a new document */
+sub mp.create(filename, lines)
+/* creates a document */
 {
 	local doc, txt;
 
@@ -398,14 +398,21 @@ sub mp.new(filename, lines)
 
 	doc.syntax = NULL;
 
-	/* store in the list and set as active */
-	push(mp.docs, doc);
-	mp.active_i = size(mp.docs) - 1;
-
 	/* autodetect syntax */
 	mp.detect_syntax(doc);
 
 	return doc;
+}
+
+
+sub mp.new(filename, lines)
+/* creates a new document */
+{
+    local doc = mp.create(filename, lines);
+
+	/* store in the list and set as active */
+	push(mp.docs, doc);
+	mp.active_i = size(mp.docs) - 1;
 }
 
 
