@@ -331,25 +331,39 @@ sub mp.paste(doc)
 sub mp.cut_lines_with_string(doc, str)
 {
     local r = [];
+    local p;
 
     if (str == NULL || str eq '')
         str = '^$';
 
     str = '/' ~ str ~ '/';
 
-    mp.move_bof(doc);
-    mp.move_bol(doc);
+    if (doc.txt.mark) {
+        mp.cut(doc);
 
-    while (doc.txt.y < size(doc.txt.lines) - 1) {
-        local l = doc.txt.lines[doc.txt.y];
+        /* create a temporary work document */
+        p = mp.create('<wrk>', mp.clipboard);
+    }
+    else
+        p = doc;
+
+    mp.move_bof(p);
+    mp.move_bol(p);
+
+    while (p.txt.y < size(p.txt.lines) - 1) {
+        local l = p.txt.lines[p.txt.y];
 
         if (regex(str, l) != NULL) {
             push(r, l);
-            mp.delete_line(doc);
+            mp.delete_line(p);
         }
         else
-            mp.move_down(doc);
+            mp.move_down(p);
     }
+
+    /* if p is the working document, move content back to doc */
+    if (p.name eq '<wrk>')
+        mp.insert(doc, p.txt.lines);
 
     mp.clipboard = r;
     mp.drv.clip_to_sys();
