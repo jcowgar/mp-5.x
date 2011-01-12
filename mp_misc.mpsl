@@ -53,7 +53,7 @@ mp.actions['eval']	= sub (d) {
 };
 
 mp.actions['eval_doc']	= sub (d) {
-	local t = join("\n", d.txt.lines);
+	local t = join("\n", mp.get_active_area(d));
 
 	if (t != NULL) {
 		t = eval(t);
