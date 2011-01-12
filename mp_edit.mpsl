@@ -55,6 +55,7 @@ mp.actions['join_paragraph'] = sub (d) {
     mp.store_undo(d);
 
     if (d.txt.mark) {
+        mp.busy(1);
         mp.cut(d);
 
         /* create a working document */
@@ -69,6 +70,7 @@ mp.actions['join_paragraph'] = sub (d) {
 
         /* insert the content */
         mp.insert(d, p.txt.lines);
+        mp.busy(0);
     }
     else
         mp.join_paragraph(d);
@@ -82,6 +84,7 @@ mp.actions['word_wrap_paragraph'] = sub (d) {
         mp.store_undo(d);
 
         if (d.txt.mark) {
+            mp.busy(1);
             mp.cut(d);
 
             /* create a working document */
@@ -96,6 +99,7 @@ mp.actions['word_wrap_paragraph'] = sub (d) {
 
             /* insert the content */
             mp.insert(d, p.txt.lines);
+            mp.busy(0);
         }
         else
             mp.word_wrap_paragraph(d);
