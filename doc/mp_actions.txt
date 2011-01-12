@@ -66,6 +66,14 @@ _Copy block_ (`ctrl-c')
 
 Copies the currently selected block to the clipboard.
 
+cut_lines_with_string
+---------------------
+
+_Cut lines containing a string..._
+
+Cuts to the clipboard all lines from the document or block that
+match a regular expression.
+
 cut_mark
 --------
 

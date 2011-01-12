@@ -82,6 +82,22 @@ mp.actions['mark_all'] = sub (d) {
     mp.mark(d);
 };
 
+mp.actions['cut_lines_with_string'] = sub (d) {
+    local r = mp.form([
+        { 'label'   => L("Cut lines containing:"),
+          'type'    => 'text',
+          'history' => 'cut_lines_with_string' }
+        ]);
+
+    if (r != NULL) {
+        mp.busy(1);
+        mp.store_undo(d);
+        mp.cut_lines_with_string(d, r[0]);
+        mp.busy(0);
+    }
+};
+
+
 /** default key bindings **/
 
 mp.keycodes['f8']           = "unmark";
@@ -94,15 +110,16 @@ mp.keycodes['mouse-drag']   = "mouse_drag_mark";
 
 /** action descriptions **/
 
-mp.actdesc['unmark']            = LL("Unmark block");
-mp.actdesc['mark']              = LL("Mark beginning/end of block");
-mp.actdesc['mark_vertical']     = LL("Mark vertical block");
-mp.actdesc['copy_mark']         = LL("Copy block");
-mp.actdesc['paste_mark']        = LL("Paste block");
-mp.actdesc['cut_mark']          = LL("Cut block");
-mp.actdesc['delete_mark']       = LL("Delete block");
-mp.actdesc['mouse_drag_mark']   = LL("Mark using mouse dragging");
-mp.actdesc['mark_all']          = LL("Mark all");
+mp.actdesc['unmark']                = LL("Unmark block");
+mp.actdesc['mark']                  = LL("Mark beginning/end of block");
+mp.actdesc['mark_vertical']         = LL("Mark vertical block");
+mp.actdesc['copy_mark']             = LL("Copy block");
+mp.actdesc['paste_mark']            = LL("Paste block");
+mp.actdesc['cut_mark']              = LL("Cut block");
+mp.actdesc['delete_mark']           = LL("Delete block");
+mp.actdesc['mouse_drag_mark']       = LL("Mark using mouse dragging");
+mp.actdesc['mark_all']              = LL("Mark all");
+mp.actdesc['cut_lines_with_string'] = LL("Cut lines containing a string...");
 
 
 /** code **/
@@ -327,6 +344,7 @@ sub mp.paste(doc)
  *
  * Cuts all lines from the document that matches @str, that is
  * a regular expression. The deleted lines are left in the clipboard.
+ * If a block is selected, only lines inside it are cut.
  */
 sub mp.cut_lines_with_string(doc, str)
 {

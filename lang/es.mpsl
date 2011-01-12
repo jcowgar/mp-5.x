@@ -245,5 +245,7 @@ __I18N__ = {
 	"Mark all" => "Marcar todo",
 	"Select action to execute:" => "Seleccionar acci\x{00f3}n a ejecutar:",
 	"Execute action on document..." => "Ejecutar acci\x{00f3}n sobre el documento...",
+	"Cut lines containing:" => "Cortar l\x{00ed}neas que contengan:",
+	"Cut lines containing a string..." => "Cortar l\x{00ed}neas que contengan una cadena...",
 	"-" => "-"
 };

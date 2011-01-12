@@ -13,6 +13,8 @@ Minimum Profit Release Notes
    `join_paragraph' and `eval_doc' act only on it.
  * New action `exec_action', that shows a list of actions to execute
    on the current document.
+ * New action `cut_lines_with_string', that cuts to the clipboard
+   all lines in a document or block that matches a regular expression.
  * New command line option `-txt' to use text mode (instead of GUI).
  * New configuration option `mp.config.hw_cursor' to activate
    the hardware cursor in text environments (disabled by default).

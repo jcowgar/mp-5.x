@@ -96,7 +96,7 @@ msgstr "File dove cercare:"
 msgid "Tag to seek:"
 msgstr "Tag da cercare:"
 
-#: mp_edit.mpsl:111
+#: mp_edit.mpsl:115
 msgid "Word wrap on column (0, no word wrap):"
 msgstr "Word wrap alla colonna:"
 
@@ -260,11 +260,11 @@ msgstr "Pagina giu'"
 msgid "Go to line..."
 msgstr "Vai a riga..."
 
-#: mp_edit.mpsl:178
+#: mp_edit.mpsl:182
 msgid "Insert line"
 msgstr "Inserisci riga"
 
-#: mp_edit.mpsl:181
+#: mp_edit.mpsl:185
 msgid "Insert tab"
 msgstr "Inserisci tabulazione"
 
@@ -274,27 +274,27 @@ msgstr "Elimina il carattere sopra il cursore"
 msgid "Delete char to the left of cursor"
 msgstr "Elimina il carattere alla sinistra del cursore"
 
-#: mp_edit.mpsl:179
+#: mp_edit.mpsl:183
 msgid "Delete line"
 msgstr "Elimina la riga"
 
-#: mp_clipboard.mpsl:98
+#: mp_clipboard.mpsl:114
 msgid "Mark beginning/end of block"
 msgstr "Marca la fine/inizio del blocco"
 
-#: mp_clipboard.mpsl:97
+#: mp_clipboard.mpsl:113
 msgid "Unmark block"
 msgstr "Smarca il blocco"
 
-#: mp_clipboard.mpsl:100
+#: mp_clipboard.mpsl:116
 msgid "Copy block"
 msgstr "Copia il blocco"
 
-#: mp_clipboard.mpsl:101
+#: mp_clipboard.mpsl:117
 msgid "Paste block"
 msgstr "Incolla il blocco"
 
-#: mp_clipboard.mpsl:102
+#: mp_clipboard.mpsl:118
 msgid "Cut block"
 msgstr "Taglia il blocco"
 
@@ -363,7 +363,7 @@ msgstr "Salva tabulazioni"
 msgid "Save LF as CR/LF"
 msgstr "Salva LF come CR/LF"
 
-#: mp_edit.mpsl:115
+#: mp_edit.mpsl:119
 msgid "Automatic indentation"
 msgstr "Indentazione automatica"
 
@@ -608,31 +608,31 @@ msgstr ""
 msgid "Passwords don't match."
 msgstr ""
 
-#: mp_edit.mpsl:80
+#: mp_edit.mpsl:82
 msgid "Word wrapping must be set"
 msgstr ""
 
-#: mp_edit.mpsl:180
+#: mp_edit.mpsl:184
 msgid "Insert space"
 msgstr ""
 
-#: mp_edit.mpsl:182
+#: mp_edit.mpsl:186
 msgid "Delete character"
 msgstr ""
 
-#: mp_edit.mpsl:183
+#: mp_edit.mpsl:187
 msgid "Delete character to the left"
 msgstr ""
 
-#: mp_edit.mpsl:184
+#: mp_edit.mpsl:188
 msgid "Undo"
 msgstr ""
 
-#: mp_edit.mpsl:186
+#: mp_edit.mpsl:190
 msgid "Join a paragraph in one line"
 msgstr ""
 
-#: mp_edit.mpsl:187
+#: mp_edit.mpsl:191
 msgid "Word-wrap a paragraph"
 msgstr ""
 
@@ -742,23 +742,23 @@ msgstr ""
 msgid "Template to insert:"
 msgstr ""
 
-#: mp_edit.mpsl:118
+#: mp_edit.mpsl:122
 msgid "Line termination"
 msgstr ""
 
-#: mp_edit.mpsl:141
+#: mp_edit.mpsl:145
 msgid "Tab size"
 msgstr ""
 
-#: mp_edit.mpsl:145
+#: mp_edit.mpsl:149
 msgid "Convert tabs to spaces"
 msgstr ""
 
-#: mp_edit.mpsl:188
+#: mp_edit.mpsl:192
 msgid "Line options..."
 msgstr ""
 
-#: mp_edit.mpsl:189
+#: mp_edit.mpsl:193
 msgid "Tab options..."
 msgstr ""
 
@@ -841,7 +841,7 @@ msgstr ""
 msgid "Error writing to command '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:185
+#: mp_edit.mpsl:189
 msgid "Redo"
 msgstr ""
 
@@ -872,7 +872,7 @@ msgstr ""
 msgid "Unknown action '%s'"
 msgstr ""
 
-#: mp_edit.mpsl:534
+#: mp_edit.mpsl:538
 #, c-format
 msgid "Unbound keystroke '%s'"
 msgstr ""
@@ -897,11 +897,11 @@ msgstr ""
 msgid "WARNING: %s version found is %s, but %s is needed"
 msgstr ""
 
-#: mp_clipboard.mpsl:104
+#: mp_clipboard.mpsl:120
 msgid "Mark using mouse dragging"
 msgstr ""
 
-#: mp_edit.mpsl:124
+#: mp_edit.mpsl:128
 msgid "Mark end of lines"
 msgstr ""
 
@@ -931,7 +931,7 @@ msgstr ""
 msgid "Read-only document"
 msgstr ""
 
-#: mp_clipboard.mpsl:99
+#: mp_clipboard.mpsl:115
 msgid "Mark vertical block"
 msgstr ""
 
@@ -992,11 +992,11 @@ msgstr ""
 msgid "Repeated words options..."
 msgstr ""
 
-#: mp_clipboard.mpsl:103
+#: mp_clipboard.mpsl:119
 msgid "Delete block"
 msgstr ""
 
-#: mp_edit.mpsl:121
+#: mp_edit.mpsl:125
 msgid "Keep original end of lines"
 msgstr ""
 
@@ -1028,7 +1028,7 @@ msgid ""
 "Mailing list: mp-subscribe@lists.triptico.com\n"
 msgstr ""
 
-#: mp_edit.mpsl:148
+#: mp_edit.mpsl:152
 msgid "Use previous line for tab columns"
 msgstr ""
 
@@ -1087,7 +1087,7 @@ msgstr ""
 msgid "Insert next item"
 msgstr ""
 
-#: mp_edit.mpsl:190
+#: mp_edit.mpsl:194
 msgid "Toggle insert/overwrite mode"
 msgstr ""
 
@@ -1095,7 +1095,7 @@ msgstr ""
 msgid "Filter selection through system command..."
 msgstr ""
 
-#: mp_clipboard.mpsl:105
+#: mp_clipboard.mpsl:121
 msgid "Mark all"
 msgstr ""
 
@@ -1105,4 +1105,12 @@ msgstr ""
 
 #: mp_misc.mpsl:167
 msgid "Execute action on document..."
+msgstr ""
+
+#: mp_clipboard.mpsl:87
+msgid "Cut lines containing:"
+msgstr ""
+
+#: mp_clipboard.mpsl:122
+msgid "Cut lines containing a string..."
 msgstr ""
