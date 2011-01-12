@@ -5,7 +5,7 @@
 
     Clipboard routines.
 
-    Copyright (C) 1991-2007 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2011 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -27,10 +27,10 @@
 
 /** editor actions **/
 
-
-mp.actions['unmark']	= sub (d) { mp.unmark(d); };
-mp.actions['mark']	= sub (d) { mp.mark(d); };
+mp.actions['unmark']        = sub (d) { mp.unmark(d); };
+mp.actions['mark']          = sub (d) { mp.mark(d); };
 mp.actions['mark_vertical'] = sub (d) { mp.mark_vertical(d); };
+
 mp.actions['copy_mark']	= sub (d) {
 					mp.busy(1);
 					mp.copy(d);
@@ -84,13 +84,13 @@ mp.actions['mark_all'] = sub (d) {
 
 /** default key bindings **/
 
-mp.keycodes['f8']		= "unmark";
-mp.keycodes['f9']		= "mark";
-mp.keycodes['ctrl-b']		= "mark_vertical";
-mp.keycodes['ctrl-c']		= "copy_mark";
-mp.keycodes['ctrl-v']		= "paste_mark";
-mp.keycodes['ctrl-x']		= "cut_mark";
-mp.keycodes['mouse-drag']	= "mouse_drag_mark";
+mp.keycodes['f8']           = "unmark";
+mp.keycodes['f9']           = "mark";
+mp.keycodes['ctrl-b']       = "mark_vertical";
+mp.keycodes['ctrl-c']       = "copy_mark";
+mp.keycodes['ctrl-v']       = "paste_mark";
+mp.keycodes['ctrl-x']       = "cut_mark";
+mp.keycodes['mouse-drag']   = "mouse_drag_mark";
 
 /** action descriptions **/
 
@@ -104,8 +104,8 @@ mp.actdesc['delete_mark']       = LL("Delete block");
 mp.actdesc['mouse_drag_mark']   = LL("Mark using mouse dragging");
 mp.actdesc['mark_all']          = LL("Mark all");
 
-/** code **/
 
+/** code **/
 
 sub mp.unmark(doc)
 /* unmarks the block */
@@ -317,4 +317,40 @@ sub mp.paste(doc)
 	mp.config.auto_indent = t;
 
 	return doc;
+}
+
+
+/**
+ * mp.cut_lines_with_string - Cuts all lines matching a string
+ * @doc: the document
+ * @str: the string to be matched
+ *
+ * Cuts all lines from the document that matches @str, that is
+ * a regular expression. The deleted lines are left in the clipboard.
+ */
+sub mp.cut_lines_with_string(doc, str)
+{
+    local r = [];
+
+    if (str == NULL || str eq '')
+        str = '^$';
+
+    str = '/' ~ str ~ '/';
+
+    mp.move_bof(doc);
+    mp.move_bol(doc);
+
+    while (doc.txt.y < size(doc.txt.lines) - 1) {
+        local l = doc.txt.lines[doc.txt.y];
+
+        if (regex(str, l) != NULL) {
+            push(r, l);
+            mp.delete_line(doc);
+        }
+        else
+            mp.move_down(doc);
+    }
+
+    mp.clipboard = r;
+    mp.drv.clip_to_sys();
 }
