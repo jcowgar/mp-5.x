@@ -243,5 +243,7 @@ __I18N__ = {
 	"Toggle insert/overwrite mode" => "Conmutar modo insertar/sobreescribir",
 	"Filter selection through system command..." => "Filtrar selecci\x{00f3}n mediante comando de sistema...",
 	"Mark all" => "Marcar todo",
+	"Select action to execute:" => "Seleccionar acci\x{00f3}n a ejecutar:",
+	"Execute action on document..." => "Ejecutar acci\x{00f3}n sobre el documento...",
 	"-" => "-"
 };

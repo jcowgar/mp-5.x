@@ -52,7 +52,7 @@ msgstr "Impossibile scrivere '%s'."
 msgid "File has changed. Save changes?"
 msgstr "Il file e' cambiato. Salvare i cambiamenti?"
 
-#: mp_file.mpsl:139 mp_file.mpsl:189
+#: mp_file.mpsl:139 mp_file.mpsl:189 qq.mpsl:3
 msgid "System command:"
 msgstr "Esegui:"
 
@@ -413,7 +413,7 @@ msgstr "Lunghezza del tab..."
 msgid "Menu"
 msgstr "Menu"
 
-#: mp_misc.mpsl:152
+#: mp_misc.mpsl:171
 msgid "About..."
 msgstr "Circa..."
 
@@ -661,19 +661,19 @@ msgstr ""
 msgid "Exit value:\n"
 msgstr ""
 
-#: mp_misc.mpsl:147
+#: mp_misc.mpsl:165
 msgid "Execute MPSL code..."
 msgstr ""
 
-#: mp_misc.mpsl:148
+#: mp_misc.mpsl:166
 msgid "Execute document as MPSL"
 msgstr ""
 
-#: mp_misc.mpsl:150
+#: mp_misc.mpsl:169
 msgid "Bigger font"
 msgstr ""
 
-#: mp_misc.mpsl:151
+#: mp_misc.mpsl:170
 msgid "Smaller font"
 msgstr ""
 
@@ -781,11 +781,11 @@ msgstr ""
 msgid "Revert"
 msgstr ""
 
-#: mp_misc.mpsl:78
+#: mp_misc.mpsl:96
 msgid "Encoding (utf-8, iso8859-1, etc.; empty, current locale)"
 msgstr ""
 
-#: mp_misc.mpsl:85
+#: mp_misc.mpsl:103
 msgid "Invalid encoding "
 msgstr ""
 
@@ -794,7 +794,7 @@ msgstr ""
 msgid "Lines: %d Words: %d"
 msgstr ""
 
-#: mp_misc.mpsl:149
+#: mp_misc.mpsl:168
 msgid "Set charset encoding..."
 msgstr ""
 
@@ -1032,7 +1032,7 @@ msgstr ""
 msgid "Use previous line for tab columns"
 msgstr ""
 
-#: mp_misc.mpsl:104
+#: mp_misc.mpsl:122
 #, c-format
 msgid ""
 "\n"
@@ -1097,4 +1097,12 @@ msgstr ""
 
 #: mp_clipboard.mpsl:105
 msgid "Mark all"
+msgstr ""
+
+#: mp_misc.mpsl:82
+msgid "Select action to execute:"
+msgstr ""
+
+#: mp_misc.mpsl:167
+msgid "Execute action on document..."
 msgstr ""
