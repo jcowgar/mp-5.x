@@ -137,6 +137,14 @@ _Execute document as MPSL_
 
 Executes the active document as MPSL code.
 
+exec_action
+-----------
+
+_Execute action on document..._
+
+Shows the full list of available actions in a dialog and ask the user
+to execute one of it over the current document.
+
 exec_command
 ------------
 
@@ -293,6 +301,13 @@ mark
 _Mark beginning/end of block_ (`f9')
 
 Marks the beginning or the end of the block.
+
+mark_all
+--------
+
+_Mark all_
+
+Marks (selects) all the document.
 
 mark_vertical
 -------------
