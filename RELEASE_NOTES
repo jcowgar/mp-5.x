@@ -11,6 +11,8 @@ Minimum Profit Release Notes
    in the same character), a new keystroke does not jump to it.
  * If a block is selected, actions `word_wrap_paragraph' and
    `join_paragraph' modify the full block.
+ * New action `exec_action', that shows a list of actions to execute
+   on the current document.
  * New command line option `-txt' to use text mode (instead of GUI).
  * New configuration option `mp.config.hw_cursor' to activate
    the hardware cursor in text environments (disabled by default).

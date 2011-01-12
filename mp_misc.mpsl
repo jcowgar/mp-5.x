@@ -5,7 +5,7 @@
 
     Miscellaneous editor actions.
 
-    Copyright (C) 1991-2010 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2011 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -71,6 +71,24 @@ mp.actions['eval_doc']	= sub (d) {
 			ERROR = NULL;
 		}
 	}
+};
+
+mp.actions['exec_action'] = sub(d) {
+    local l = mp.actions->keys()->sort();
+
+    l = map(sub (e) { e ~ ' - ' ~ L(mp.actdesc[e]); }, l);
+
+    local r = mp.form( [
+        { 'label'   => L("Select action to execute:"),
+          'type'    => 'list',
+          'list'    => l }
+        ]);
+
+    if (r != NULL) {
+        local a = regex('/^[^ ]+/', l[r[0]]);
+
+        mp.active()->mp.actions[a]();
+    }
 };
 
 mp.actions['encoding']	= sub (d) {
@@ -144,12 +162,13 @@ mp.keycodes['ctrl-kp-minus' ]	= 'zoom_out';
 
 /** action descriptions **/
 
-mp.actdesc['eval']			= LL("Execute MPSL code...");
-mp.actdesc['eval_doc']			= LL("Execute document as MPSL");
-mp.actdesc['encoding']			= LL("Set charset encoding...");
-mp.actdesc['zoom_in']			= LL("Bigger font");
-mp.actdesc['zoom_out']			= LL("Smaller font");
-mp.actdesc['about']			= LL("About...");
+mp.actdesc['eval']          = LL("Execute MPSL code...");
+mp.actdesc['eval_doc']      = LL("Execute document as MPSL");
+mp.actdesc['exec_action']   = LL("Execute action on document...");
+mp.actdesc['encoding']      = LL("Set charset encoding...");
+mp.actdesc['zoom_in']       = LL("Bigger font");
+mp.actdesc['zoom_out']      = LL("Smaller font");
+mp.actdesc['about']         = LL("About...");
 
 /** code **/
 
