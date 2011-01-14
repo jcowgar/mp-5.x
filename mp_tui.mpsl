@@ -290,6 +290,21 @@ sub mp.tui.list(prompt, data, pos)
 			pos = NULL;
 			break;
 		}
+        else
+        if ((ord(k) >= ord('a') && ord(k) <= ord('z')) ||
+            (ord(k) >= ord('A') && ord(k) <= ord('Z'))) {
+            /* search the first item >= k */
+            pos = 0;
+
+            while (pos < size(data) - 1) {
+                local c = regex('/^./', data[pos]);
+
+                if (ord(c) >= ord(k))
+                    break;
+
+                pos++;
+            }
+        }
 	}
 
 	return pos;
