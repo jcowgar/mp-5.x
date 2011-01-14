@@ -15,14 +15,16 @@ Minimum Profit Release Notes
    on the current document.
  * New action `cut_lines_with_string', that cuts to the clipboard
    all lines in a document or block that matches a regular expression.
- * New command line option `-txt' to use text mode (instead of GUI).
  * New configuration option `mp.config.hw_cursor' to activate
    the hardware cursor in text environments (disabled by default).
- * File opening in Curses is fully navegable.
+ * Several Text User Interface improvements, like
+    * File opening list is fully navegable (directories up and down),
+    * Selection lists accept letter keys to jump to elements,
+    * If a text mode menu panel do not fit vertically on the screen,
+      menu items are scrolled as needed.
  * New action `insert_next_item', to insert a new enumeration
    item in a document.
- * If a text mode menu panel do not fit vertically on the screen,
-   scroll menu items as necessary.
+ * New command line option `-txt' to use text mode (instead of GUI).
 
 5.1.4
 -----
