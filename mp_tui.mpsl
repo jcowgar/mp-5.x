@@ -164,7 +164,8 @@ sub mp.tui.readline(prompt, history, default, flags)
 				local l = glob(r ~ '*');
 
 				if (size(l)) {
-					ins(l, '../', 0);
+					ins(l, './', 0);
+					ins(l, '../', 1);
 
 					local p = mp.tui.list(prompt, l, 0);
 
