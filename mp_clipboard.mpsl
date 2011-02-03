@@ -371,7 +371,7 @@ sub mp.cut_lines_with_string(doc, str)
     while (p.txt.y < size(p.txt.lines) - 1) {
         local l = p.txt.lines[p.txt.y];
 
-        if (regex(str, l) != NULL) {
+        if (regex(l, str) != NULL) {
             push(r, l);
             mp.delete_line(p);
         }

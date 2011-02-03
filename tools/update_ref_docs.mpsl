@@ -29,7 +29,7 @@ sub load_ref_document(file)
 		l = sregex(l, "/\r?\n$/");
 
 		/* is the line only dashes? */
-		if (regex('/^-+$/', l)) {
+		if (regex(l, '/^-+$/')) {
 
 			/* pop last string */
 			local p = pop(d);

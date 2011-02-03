@@ -356,7 +356,7 @@ static void drw_words(void)
     /* get the word color function */
     word_color_func = mpdm_hget_s(mp, L"word_color_func");
 
-    while ((t = mpdm_regex(r, drw_2.v, o)) != NULL) {
+    while ((t = mpdm_regex(drw_2.v, r, o)) != NULL) {
         int attr = -1;
         mpdm_t v;
 
@@ -389,14 +389,14 @@ static void drw_multiline_regex(mpdm_t a, int attr)
             mpdm_t rs = mpdm_aget(r, 0);
             mpdm_t re = mpdm_aget(r, 1);
 
-            while (!mpdm_is_null(mpdm_regex(rs, drw_2.v, o))) {
+            while (!mpdm_is_null(mpdm_regex(drw_2.v, rs, o))) {
                 int s;
 
                 /* fill the matched part */
                 o = drw_fill_attr_regex(attr);
 
                 /* try to match the end */
-                if (!mpdm_is_null(mpdm_regex(re, drw_2.v, o))) {
+                if (!mpdm_is_null(mpdm_regex(drw_2.v, re, o))) {
                     /* found; fill the attribute
                        to the end of the match */
                     s = mpdm_regex_size + (mpdm_regex_offset - o);
@@ -431,7 +431,7 @@ static void drw_multiline_regex(mpdm_t a, int attr)
             else {
                 /* it's a regex */
                 /* while the regex matches, fill attributes */
-                while (!mpdm_is_null(mpdm_regex(r, drw_2.v, o)))
+                while (!mpdm_is_null(mpdm_regex(drw_2.v, r, o)))
                     o = drw_fill_attr_regex(attr);
             }
         }

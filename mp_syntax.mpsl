@@ -236,7 +236,7 @@ mp.syntax.perl = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang' for Perl? */
-		return regex('/^#!\s*/usr/bin/(env )?perl/', f);
+		return regex(f, '/^#!\s*/usr/bin/(env )?perl/');
 	},
 	'section'	=>	[ '/(^sub \w+|^package|^## )/' ]
 };
@@ -319,8 +319,8 @@ mp.syntax.sh = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang' for usual shells? */
-		return regex('/^#!\s*/bin/(sh|bash|csh|dash|ksh)/', f) ||
-		       regex('/^#!\s*/usr/bin/make -f/', f);
+		return regex(f, '/^#!\s*/bin/(sh|bash|csh|dash|ksh)/') ||
+		       regex(f, '/^#!\s*/usr/bin/make -f/');
 	},
 	'section'	=>	[ '/(^\w+\(\))/', '/^[A-Za-z0-9_\.-]+:/' ]
 };
@@ -464,7 +464,7 @@ mp.syntax.python = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang'? */
-		return regex('/^#!\s*/usr/bin/(env )?python/', f);
+		return regex(f, '/^#!\s*/usr/bin/(env )?python/');
 	},
 	'section'	=>	[ '/^[ \t]*def/' ]
 };
@@ -502,7 +502,7 @@ mp.syntax.ruby = {
 		local f = d.txt.lines[0];
 
 		/* is it a 'she-bang'? */
-		return regex('/^#!\s*/usr/bin/(env )?ruby/', f);
+		return regex(f, '/^#!\s*/usr/bin/(env )?ruby/');
 	}
 };
 
@@ -563,7 +563,7 @@ mp.syntax.xml = {
 		/* take the first line */
 		local f = d.txt.lines[0];
 
-		return regex('/<\?xml/', f);
+		return regex(f, '/<\?xml/');
 	}
 };
 
@@ -651,7 +651,7 @@ mp.syntax.grutatxt = {
 			if (l == NULL)
 				break;
 
-			if (regex("/^[-=~]+$/", l))
+			if (regex(l, "/^[-=~]+$/"))
 				return 1;
 		}
 
@@ -673,7 +673,7 @@ sub mp.detect_syntax(doc)
 
 		/* test the extensions */
 		foreach (ext, s.filenames) {
-			if (regex(ext, doc.name)) {
+			if (regex(doc.name, ext)) {
 				doc.syntax = s;
 				return;
 			}
@@ -748,7 +748,7 @@ sub mp.section_list(doc)
 
 		while ((l = doc.txt.lines[n]) != NULL) {
 			foreach (ex, doc.syntax.section) {
-				if (regex(ex, l)) {
+				if (regex(l, ex)) {
 					push(r, [ l, n ]);
 					break;
 				}

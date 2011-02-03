@@ -61,7 +61,7 @@ mp.actions['insert_next_item'] = sub(doc) {
 	local n = 0;
 
 	foreach (l, doc.txt.lines) {
-		local r = regex(['/^ \* /', '/[0-9]+/', '/: /'], l);
+		local r = regex(l, ['/^ \* /', '/[0-9]+/', '/: /']);
 
 		if (r[1] > n)
 			n = r[1];
@@ -95,7 +95,7 @@ sub mp.build_get_targets
 		while (l = read(f)) {
 			local t;
 
-			if (t = regex('/^[A-Za-z0-9_\.-]+:/', l))
+			if (t = regex(l, '/^[A-Za-z0-9_\.-]+:/'))
 				push(r, sregex(t, '/:/', ''));
 		}
 

@@ -177,7 +177,7 @@ sub mp.tui.readline(prompt, history, default, flags)
 						r = l[p];
 
 						/* if it's not a directory, retry */
-						if (regex('@/$@', r) == NULL)
+						if (regex(r, '@/$@') == NULL)
 							done = 1;
 					}
 				}
@@ -251,8 +251,7 @@ sub mp.tui.list(prompt, data, pos)
 			else
 				mp.tui.attr(mp.colors.normal.attr);
 
-			mp.tui.addstr(regex(r,
-				sprintf("%-" ~ mp.window.tx ~ "s", l)));
+			mp.tui.addstr(regex(sprintf("%-" ~ mp.window.tx ~ "s", l), r));
 
 			n++;
 		}
@@ -298,7 +297,7 @@ sub mp.tui.list(prompt, data, pos)
             pos = 0;
 
             while (pos < size(data) - 1) {
-                local c = regex('/^./', data[pos]);
+                local c = regex(data[pos], '/^./');
 
                 if (ord(c) >= ord(k))
                     break;
@@ -318,8 +317,8 @@ sub mp.tui.confirm(msg, def, ypos)
 	local ret = NULL;
 
 	/* get the initials for localized 'Yes' and 'No' */
-	y = regex('/^./', L("Yes"));
-	n = regex('/^./', L("No"));
+	y = regex(L("Yes"), '/^./');
+	n = regex(L("No"), '/^./');
 
 	/* add options */
 	msg = msg ~ ' (' ~ y ~ '/' ~ n ~ ')';
@@ -334,9 +333,9 @@ sub mp.tui.confirm(msg, def, ypos)
 	while (ret == NULL) {
 		local k = mp.tui.getkey();
 
-		if (regex('/^' ~ y ~ '$/i', k))
+		if (regex(k, '/^' ~ y ~ '$/i'))
 			ret = 1;
-		if (regex('/^' ~ n ~ '$/i', k))
+		if (regex(k, '/^' ~ n ~ '$/i'))
 			ret = 2;
 		if (k eq 'escape')
 			ret = 0;

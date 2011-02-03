@@ -66,7 +66,7 @@ sub mp.open_ispell_pipe
 	l = read(p);
 
 	/* check for the signature */
-	if (! regex('/^@\(#\) International Ispell/', l)) {
+	if (! regex(l, '/^@\(#\) International Ispell/')) {
 		pclose(p);
 		return NULL;
 	}
@@ -130,7 +130,7 @@ sub mp.is_word_misspelled(w)
 		t = read(mp.ispell_pipe);
 
 	/* take first char of the response */
-	l = regex('/^./', l);
+	l = regex(l, '/^./');
 
 	/* if it's not a '*' nor a '+', it's misspelled */
 	if (l ne '*' && l ne '+')
@@ -205,7 +205,7 @@ sub mp.search_misspelled(doc)
 		local l = txt.lines[y];
 		local w;
 
-		while ((w = regex(mp.word_regex, l, x)) != NULL) {
+		while ((w = regex(l, mp.word_regex, x)) != NULL) {
 			local n = regex();
 			local r = mp.is_word_misspelled(w);
 

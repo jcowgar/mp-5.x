@@ -168,7 +168,7 @@ sub mp.split_by_words(s, r)
 	if (r == NULL)
 		r = mp.word_regex;
 
-	return regex(r ~ 'g', s);
+	return regex(s, r ~ 'g');
 }
 
 
@@ -188,7 +188,7 @@ sub mp.split_line_by_words(doc, r)
 	if (r == NULL)
 		r = mp.word_regex;
 
-	while ((w = regex(r, l, c[0] + c[1])) != NULL) {
+	while ((w = regex(l, r, c[0] + c[1])) != NULL) {
 		/* store the word */
 		push(ol, w);
 

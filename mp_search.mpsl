@@ -259,7 +259,7 @@ sub mp.search_dir(doc, str, dir)
 
 	/* do the search */
 	local n = (dir == -1) && (size(lines) - 1) || 0;
-	while ((l = lines[n]) != NULL && regex(str, l) == NULL)
+	while ((l = lines[n]) != NULL && regex(l, str) == NULL)
 		n += dir;
 
 	r = regex();
@@ -392,7 +392,7 @@ sub mp.grep(rx, spec, base, rec, r)
 			while (l = read(f)) {
 				l = mp.chomp(l);
 
-				if (regex(rx, l)) {
+				if (regex(l, rx)) {
 					/* found; store line, filename and linenum */
 					push(r, [ fn, n, l ]);
 				}
@@ -407,7 +407,7 @@ sub mp.grep(rx, spec, base, rec, r)
 	if (rec) {
 		/* glob again, trying subdirectories */
 		foreach (fn, glob(NULL, base)) {
-			if (regex('@/$@', fn)) {
+			if (regex(fn, '@/$@')) {
 				r = mp.grep(rx, spec, fn, rec, r);
 			}
 		}

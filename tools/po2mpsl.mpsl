@@ -40,7 +40,7 @@ sub parse_po_file(pofile)
 
 			l = mp.chomp(l);
 
-			local s = regex([ '/^(msgid|msgstr)*/', '/\s*\".*\"$/' ], l);
+			local s = regex(l, [ '/^(msgid|msgstr)*/', '/\s*\".*\"$/' ]);
 			s[1] = convert_po_line(s[1]);
 
 			if (s[0] eq 'msgid') {

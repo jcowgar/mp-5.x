@@ -37,7 +37,7 @@ mp.actions['eval']	= sub (d) {
 	if (t != NULL) {
 		t = t[0];
 
-		if (! regex('/;\s*$/', t))
+		if (! regex(t, '/;\s*$/'))
 			t = t ~ ';';
 
 		t = eval(t);
@@ -63,7 +63,7 @@ mp.actions['eval_doc']	= sub (d) {
 
 			/* try to move the cursor to the line
 			   where the error was */
-			local l = regex( [ '/, line /', '/[0-9]+/' ], ERROR);
+			local l = regex(ERROR, [ '/, line /', '/[0-9]+/' ]);
 
 			if (size(l) == 2)
 				mp.set_y(d, l[1]);
@@ -85,7 +85,7 @@ mp.actions['exec_action'] = sub(d) {
         ]);
 
     if (r != NULL) {
-        local a = regex('/^[^ ]+/', l[r[0]]);
+        local a = regex(l[r[0]], '/^[^ ]+/');
 
         mp.active()->mp.actions[a]();
     }

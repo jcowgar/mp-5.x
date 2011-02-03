@@ -85,7 +85,7 @@ sub mp.read_templates_file()
 	mp.templates = {};
 
 	while (l = read(f)) {
-		if (regex("/^%%/", l)) {
+		if (regex(l, "/^%%/")) {
 			/* new template: store previous, if any */
 			if (k && v) {
 				push(n, k);

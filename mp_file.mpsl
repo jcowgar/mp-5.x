@@ -60,7 +60,7 @@ mp.actions['save_as']	= sub (d) {
 mp.actions['save']	= sub (d) {
 
 	/* name is <unnamed> or something similar; ask for one */
-	if (regex("/^<.+>$/", d.name))
+	if (regex(d.name, "/^<.+>$/"))
 		mp.actions.save_as(d);
 	else
 	if (mp.long_op(mp.save, d) == -1)
@@ -145,7 +145,7 @@ mp.actions['exec_command']	= sub (d) {
 		local cmd = t[0];
 
 		/* does it start with a pipe? */
-		if (regex('/^\|/', cmd)) {
+		if (regex(cmd, '/^\|/')) {
 			local p;
 
 			/* yes; current document should be fed to it */

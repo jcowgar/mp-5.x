@@ -76,7 +76,7 @@ mp.status_line_info = {
 mp.word_regex = "/[[:alnum:]_]+/i";
 
 /* if it does not work (i.e. not GNU regex), fall back */
-if (regex(mp.word_regex, "test") == NULL)
+if (regex("test", mp.word_regex) == NULL)
 	mp.word_regex = '/[A-Z_][A-Z0-9_]*/i';
 
 /* document list */
@@ -374,7 +374,7 @@ sub mp.menu_label(action)
 	foreach (i, sort(keys(mp.keycodes))) {
 		if (mp.keycodes[i] eq action) {
 			/* avoid mouse and window pseudo-keycodes */
-			if (!regex("/window/", i) && !regex("/mouse/", i)) {
+			if (!regex(i, "/window/") && !regex(i, "/mouse/")) {
 				l = l ~ ' [' ~ i ~ ']';
 				break;
 			}
@@ -390,7 +390,7 @@ sub mp.menu_label(action)
 sub mp.trim_with_ellipsis(str, max)
 /* trims the string to the last max characters, adding ellipsis if done */
 {
-	local v = regex('/.{' ~ max ~ '}$/', str);
+	local v = regex(str, '/.{' ~ max ~ '}$/');
 	return v && '...' ~ v || str;
 }
 
@@ -455,7 +455,7 @@ sub mp.process_cmdline()
 			/* execute code */
 			local c = shift(ARGV);
 
-			if (! regex('/;\s*$/', c))
+			if (! regex(c, '/;\s*$/'))
 				c = c ~ ';';
 
 			eval(c);
@@ -490,7 +490,7 @@ sub mp.process_cmdline()
 		if (o eq '-txt')
 			mp.config.text_mode = 1;
 		else
-		if (regex('/^\+/', o)) {
+		if (regex(o, '/^\+/')) {
 			/* move to line */
 			line = o - 1;
 		}

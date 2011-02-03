@@ -235,7 +235,7 @@ sub mp.break_line(doc, col)
 	if (mp.config.auto_indent) {
 		/* extract leading blanks in the original line
 		   to prepend them to the line to be inserted */
-		local i = regex("/^[ \t]*[-\+\*]?[ \t]+/", c, 0);
+		local i = regex(c, "/^[ \t]*[-\+\*]?[ \t]+/", 0);
 
 		/* substitute all non-tab characters with spaces */
 		i = sregex(i, "/[^\t]/g", " ");
@@ -464,7 +464,7 @@ sub mp.wrap_words(doc)
 	local c = mp.x2vx(txt.lines[txt.y], txt.x);
 
 	if (c >= mp.config.word_wrap &&
-		regex("/^.{1," ~ mp.config.word_wrap ~ "}[ \t]/", txt.lines[txt.y])) {
+		regex(txt.lines[txt.y], "/^.{1," ~ mp.config.word_wrap ~ "}[ \t]/")) {
 		local w;
 
 		/* take the coordinates */
@@ -495,7 +495,7 @@ sub mp.insert_tab(doc)
 	if (doc.txt.y && mp.config.dynamic_tabs) {
 		local pl = doc.txt.lines[doc.txt.y - 1];
 
-		if ((pl = regex("/[^ \t]*[ \t]+/", pl, doc.txt.x)) != NULL) {
+		if ((pl = regex(pl, "/[^ \t]*[ \t]+/", doc.txt.x)) != NULL) {
 			pl = sregex(pl, "/[^\t]/g", ' ');
 			mp.insert(doc, pl);
 			return doc;

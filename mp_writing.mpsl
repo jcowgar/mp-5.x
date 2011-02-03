@@ -132,7 +132,7 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 
 		if (l != NULL) {
 			/* process another word in the line */
-			if ((w = regex(mp.word_regex, l, x)) != NULL) {
+			if ((w = regex(l, mp.word_regex, x)) != NULL) {
 				/* get matching position */
 				local c = regex();
 
@@ -143,8 +143,8 @@ sub mp.repeated_words(doc, num_chars, max_dist)
 						w,
 						c[0] + size(w),
 						y,
-						lc(regex(s_rx, w)),
-						lc(regex(e_rx, w))
+						lc(regex(w, s_rx)),
+						lc(regex(w, e_rx))
 					], max_dist);
 				}
 
