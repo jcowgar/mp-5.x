@@ -19,7 +19,7 @@ sub convert_po_line(line)
 				e ;
 			},
 			line
-		), ''
+		)
 	);
 
 	return line;
@@ -66,7 +66,7 @@ sub parse_po_file(pofile)
 
 		foreach (l, v) {
 			if (size(l[1]))
-				push(r,	"\t\"" ~ join(l[0], '') ~ "\" => \"" ~ join(l[1], '') ~ "\",");
+				push(r,	"\t\"" ~ join(l[0]) ~ "\" => \"" ~ join(l[1]) ~ "\",");
 		}
 
 		push(r, "\t\"-\" => \"-\"\n};\n");
