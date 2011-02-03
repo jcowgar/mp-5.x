@@ -109,7 +109,7 @@ sub mp.maze(doc, keycode)
 
 		doc.keypress = sub(d, k) { mp.maze(d, k); };
 
-		doc.paint = sub(d) { map(sub(e) { [8, join('', e)];}, d.maze.map); };
+		doc.paint = sub(d) { map(sub(e) { [8, join(e, '')];}, d.maze.map); };
 	}
 
 	local x = maze.x;

@@ -1154,7 +1154,7 @@ static mpdm_t win32_drv_clip_to_sys(mpdm_t a, mpdm_t ctxt)
     if (mpdm_size(d) == 0)
         return NULL;
 
-    v = mpdm_ref(mpdm_join_s(L"\r\n", d));
+    v = mpdm_ref(mpdm_join_s(d, L"\r\n"));
     ptr = mpdm_wcstombs(v->data, &s);
 
     /* allocates a handle and copies */

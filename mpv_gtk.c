@@ -1519,7 +1519,7 @@ static void selection_get(GtkWidget * widget,
     if (mpdm_size(d) == 0)
         return;
 
-    d = mpdm_ref(mpdm_join_s(L"\n", d));
+    d = mpdm_ref(mpdm_join_s(d, L"\n"));
 
     /* convert to current locale */
     ptr = (unsigned char *) mpdm_wcstombs(d->data, &s);

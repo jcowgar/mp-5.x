@@ -466,7 +466,7 @@ sub mp.process_cmdline()
 				ERROR = sprintf(L("Cannot open '%s'"), s);
 			else {
 				mp.open(s);
-				eval(join("\n", mp.active.txt.lines));
+				eval(join(mp.active.txt.lines, "\n"));
 				mp.close();
 			}
 		}

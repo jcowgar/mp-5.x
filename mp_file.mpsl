@@ -213,7 +213,7 @@ mp.actions['filter_selection'] = sub (d) {
         local p = popen2(cmd);
 
         if (p != NULL) {
-            write(p[1], join("\n", mp.clipboard));
+            write(p[1], join(mp.clipboard, "\n"));
             pclose(p[1]);
 
             local l;
@@ -258,7 +258,7 @@ mp.actions['open_under_cursor'] = sub (d) {
 		local l = pop(w) - 1;
 
 		/* open the file, rejoining with : */
-		local n = mp.open(join(':', w));
+		local n = mp.open(join(w, ':'));
 
 		/* now move to the line */
 		mp.search_set_y(n, l);
@@ -584,7 +584,7 @@ sub mp.hex_view(filename)
 				a = a ~ ' ';
 			}
 
-			push(lines, join(' |', [ sprintf('| %06X', offset), h, a, '']));
+			push(lines, join([ sprintf('| %06X', offset), h, a, ''], ' |'));
 			offset += 16;
 			l = [];
 

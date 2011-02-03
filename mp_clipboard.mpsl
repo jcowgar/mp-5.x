@@ -287,7 +287,7 @@ sub mp.paste(doc)
 	mp.drv.sys_to_clip();
 
 	if (doc == NULL)
-		return join("\n", mp.clipboard);
+		return join(mp.clipboard, "\n");
 
 	if (size(mp.clipboard) == 0)
 		return doc;

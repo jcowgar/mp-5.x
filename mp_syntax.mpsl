@@ -90,7 +90,7 @@ mp.syntax = {};
 
 /** syntax definitions **/
 
-sub mp.syn_token_list(l) { '/\b(' ~ join("|", l) ~ ')\b/'; }
+sub mp.syn_token_list(l) { '/\b(' ~ join(l, "|") ~ ')\b/'; }
 
 mp.syntax.c = {
 	'id'		=>	'c',
@@ -333,7 +333,7 @@ mp.syntax.html = {
 	'defs'		=>	[
 		'word1',	[
 				"/<[\/]?[ \t]*(" ~
-				join("|", [
+				join([
 				"a", "abbr", "acronym", "address",
 				"area", "b", "base", "bdo", "big",
 				"blockquote", "body", "br", "button",
@@ -350,7 +350,7 @@ mp.syntax.html = {
 				"strong", "style", "sub", "sup", "table",
 				"tbody", "td", "textarea", "tfoot", "th",
 				"thead", "title", "tr", "tt", "ul",
-				"var" ] ) ~
+				"var" ], "|") ~
 				")[^<>]*>/i"
 		],
 		'word2',	[
