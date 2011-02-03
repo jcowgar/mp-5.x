@@ -35,7 +35,7 @@ sub load_ref_document(file)
 			local p = pop(d);
 
 			/* concat all data and reset */
-			local b = join("\n", d);
+			local b = join(d, "\n");
 			d = [];
 
 			/* flush previous data: is this the first one? */
@@ -53,7 +53,7 @@ sub load_ref_document(file)
 			/* if it's the empty string, it's the
 			   signature mark; we're done */
 			if (p eq '') {
-				r.sig = join("\n", [ l, read(f) ] );
+				r.sig = join([ l, read(f) ], "\n");
 				break;
 			}
 		}

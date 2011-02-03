@@ -137,7 +137,7 @@ machine:
  		else
  			push(cmd, 'lpr');
  
- 		local c = join('|', cmd);
+ 		local c = join(cmd, '|');
  
  		/* now pipe */
  		if ((f = popen(c, "w")) != NULL) {

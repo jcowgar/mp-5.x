@@ -13,14 +13,13 @@ sub convert_po_line(line)
 
 	line = split(line);
 
-	line = join('',
-			map(sub (e) {
+	line = join(map(sub (e) {
 				(ord(e) > 127) &&
 				sprintf("\\x{%04x}", ord(e)) ||
 				e ;
 			},
 			line
-		)
+		), ''
 	);
 
 	return line;
@@ -67,7 +66,7 @@ sub parse_po_file(pofile)
 
 		foreach (l, v) {
 			if (size(l[1]))
-				push(r,	"\t\"" ~ join('', l[0]) ~ "\" => \"" ~ join('', l[1]) ~ "\",");
+				push(r,	"\t\"" ~ join(l[0], '') ~ "\" => \"" ~ join(l[1], '') ~ "\",");
 		}
 
 		push(r, "\t\"-\" => \"-\"\n};\n");
@@ -78,7 +77,7 @@ sub parse_po_file(pofile)
 	/* back to default encoding */
 	encoding();
 
-	return join("\n", r);
+	return join(r, "\n");
 }
 
 /* main */
