@@ -157,7 +157,7 @@ sub mp.open_tag(tag)
 
 	/* greps all tags containing the tag, and returns the
 	   values from mp.tags */
-	if ((t = map(grep('/' ~ tag ~ '/', keys(mp.tags)), mp.tags)) == NULL) {
+	if ((t = map(grep(keys(mp.tags), '/' ~ tag ~ '/'), mp.tags)) == NULL) {
 		mp.alert(L("Tag not found."));
 		return;
 	}
@@ -198,7 +198,7 @@ sub mp.complete(d, list, label)
 	local word = mp.get_word(d);
 
 	/* takes all list elements starting with word */
-	if ((l = sort(grep('/^' ~ word ~ '/', list))) == NULL)
+	if ((l = sort(grep(list, '/^' ~ word ~ '/'))) == NULL)
 		return 0;
 
 	if (size(l) == 1)

@@ -194,7 +194,7 @@ value that accepts a document as the only argument.
 
 	mp.actions['sync'] = sub (d) {
 		/* save all modified documents */
-		foreach (local d, grep(sub (e) { e.txt.mod; }, mp.docs))
+		foreach (d, grep(mp.docs, sub (e) { e.txt.mod; }))
 			mp.actions.save(d);
 	};
 

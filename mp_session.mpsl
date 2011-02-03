@@ -61,7 +61,7 @@ sub mp.save_session()
 	filenames = [];
 	
 	/* no named files? exit doing nothing */
-	if (grep(sub (e) { e.name ne L("<unnamed>"); }, mp.docs) == NULL)
+	if (grep(mp.docs, sub (e) { e.name ne L("<unnamed>"); }) == NULL)
 		return -1;
 
 	if ((fh = open(mp.session_file(), "w")) == NULL) {

@@ -129,7 +129,7 @@ mp.actions['open_config_file']	= sub (d) {
 mp.actions['sync'] = sub (d) {
 
 	/* save all modified documents */
-	foreach (d, grep(sub (e) { e.txt.mod; }, mp.docs))
+	foreach (d, grep(mp.docs, sub (e) { e.txt.mod; }))
 		mp.actions.save(d);
 };
 
