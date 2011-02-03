@@ -1547,7 +1547,7 @@ static void selection_received(GtkWidget * widget,
         g_free(wptr);
 
         /* split and set as the clipboard */
-        mpdm_hset_s(mp, L"clipboard", mpdm_split_s(L"\n", d));
+        mpdm_hset_s(mp, L"clipboard", mpdm_split_s(d, L"\n"));
         mpdm_hset_s(mp, L"clipboard_vertical", MPDM_I(0));
 
         /* wait no more for the selection */

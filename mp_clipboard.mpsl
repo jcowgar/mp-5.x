@@ -233,7 +233,7 @@ sub mp.copy(doc)
 	}
 	else {
 		if (!is_array(doc))
-			doc = split("\n", doc);
+			doc = split(doc, "\n");
 
 		mp.clipboard = doc;
 		mp.clipboard_vertical = 0;

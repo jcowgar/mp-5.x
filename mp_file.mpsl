@@ -249,7 +249,7 @@ mp.actions['open_under_cursor'] = sub (d) {
 
 	/* is the word under cursor file:line: ? */
 	if ((w = mp.get_word(d, '/[a-z\._0-9\/ :-]+:[0-9]+: ?/i')) != NULL) {
-		w = split(':', w);
+		w = split(w, ':');
 
 		/* drop garbage */
 		pop(w);

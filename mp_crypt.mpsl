@@ -81,7 +81,7 @@ sub mp.arcfour_init(key)
 		return;
 
 	/* split as an array of characters */
-	local k = split(NULL, key);
+	local k = split(key);
 
 	/* init structures */
 	mp.arcfour = {};
@@ -159,7 +159,7 @@ sub mp.crypt1_save(fd, lines, password)
 			l = "\n" ~ l;
 
 		/* split by chars */
-		local lc = split(NULL, l);
+		local lc = split(l);
 
 		/* write each char xoring with next crypto-byte */
 		foreach (c, lc)

@@ -105,7 +105,7 @@ sub mp.load_session()
 
 	while (l = read(fh)) {
 		local data, doc;
-		data = split ("\t", mp.chomp(l));
+		data = split (mp.chomp(l), "\t");
 		
 		if (stat(data[0]) != NULL) {
 			doc = mp.open(data[0]);

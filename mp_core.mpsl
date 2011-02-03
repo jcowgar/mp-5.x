@@ -560,8 +560,8 @@ sub mp.setup_language()
 	if (gettext('&File') eq '&File' && ENV.LANG) {
 		/* no; try alternatives using the LANG variable */
 		local v = [ sregex('!/!g', ENV.LANG) ];	/* es_ES.UTF-8 */
-		push(v, shift(split('.', v[-1])));	/* es_ES */
-		push(v, shift(split('_', v[-1])));	/* es */
+		push(v, shift(split(v[-1], '.')));	/* es_ES */
+		push(v, shift(split(v[-1], '_')));	/* es */
 
 		foreach (l, v) {
 			eval('load("lang/' ~ l ~ '.mpsl");');
@@ -579,8 +579,7 @@ sub mp.normalize_version(vs)
 /* converts a version string to something usable with cmp() */
 {
 	map(sub(e) { sprintf("%03d", e); },
-		split('.',
-			sregex('/-.+$/', vs)));
+		split(sregex('/-.+$/', vs), '.'));
 }
 
 

@@ -78,7 +78,7 @@ sub mp.process_keyseq(key)
 sub mp.add_keyseq(seq, keycode)
 {
 	local p = mp.keyseq.store;
-	local l = split(NULL, seq);
+	local l = split(seq);
 	local v = pop(l);
 
 	/* split by character and store as a chain of hashes

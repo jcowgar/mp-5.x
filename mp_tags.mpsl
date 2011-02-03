@@ -117,7 +117,7 @@ sub mp.load_tags(force)
 	a = mp.colors.tag.attr;
 
 	while ((l = read(f))) {
-		local t = split("\t", l);
+		local t = split(l, "\t");
 		local l, r;
 
 		/* clean the regex 'markup' for the label */

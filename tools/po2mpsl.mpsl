@@ -11,7 +11,7 @@ sub convert_po_line(line)
 	line = sregex('/^\s*"/', line);
 	line = sregex('/"$/', line);
 
-	line = split(NULL, line);
+	line = split(line);
 
 	line = join('',
 			map(sub (e) {
@@ -87,8 +87,8 @@ foreach (f, glob('po/*.po')) { /**/
 	local output = parse_po_file(f);
 
 	/* strip extension and path */
-	f = shift(split('.po', f));
-	f = pop(split('/', f));
+	f = shift(split(f, '.po'));
+	f = pop(split(f, '/'));
 
 	local o = open('lang/' ~ f ~ '.mpsl', 'w');
 	write(o, output);

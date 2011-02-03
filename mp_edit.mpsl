@@ -418,7 +418,7 @@ sub mp.insert(doc, a)
 
 	/* if a is not an array, split it */
 	if (!is_array(a))
-		a = split("\n", a);
+		a = split(a, "\n");
 
 	/* empty array? return */
 	if ((s = size(a)) == 0)
