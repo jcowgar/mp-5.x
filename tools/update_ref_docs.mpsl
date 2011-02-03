@@ -45,7 +45,7 @@ sub load_ref_document(file)
 			}
 			else {
 				/* there is a previous one; store */
-				r.data[k] = sregex(sregex(b, "/\n$/"), "/^\n/");
+                r.data[k] = b->sregex("/\n$/")->sregex("/^\n/");
 			}
 
 			k = p;
