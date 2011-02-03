@@ -8,23 +8,17 @@
 
 sub convert_po_line(line)
 {
-	line = sregex(line, '/^\s*"/');
-	line = sregex(line, '/"$/');
-
-	line = split(line);
-
-	line = join(
-        map(
-            line,
-            sub (e) {
-                (ord(e) > 127) &&
-                sprintf("\\x{%04x}", ord(e)) ||
-                e;
-            }
-        )
-	);
-
-	return line;
+    return line->sregex('/^\s*"/')->
+                sregex('/"$/')->
+                split()->
+                map(
+                    sub (e) {
+                        (ord(e) > 127) &&
+                        sprintf("\\x{%04x}", ord(e)) ||
+                        e;
+                    }
+                )->
+                join();
 }
 
 
