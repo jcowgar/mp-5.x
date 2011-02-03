@@ -93,7 +93,7 @@ sub mp.read_templates_file()
 			}
 
 			/* strip prefix */
-			k = sregex("/^%%/", mp.chomp(l), NULL);
+			k = sregex(mp.chomp(l), "/^%%/");
 			v = NULL;
 		}
 		else {

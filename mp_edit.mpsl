@@ -238,10 +238,10 @@ sub mp.break_line(doc, col)
 		local i = regex("/^[ \t]*[-\+\*]?[ \t]+/", c, 0);
 
 		/* substitute all non-tab characters with spaces */
-		i = sregex("/[^\t]/g", i, " ");
+		i = sregex(i, "/[^\t]/g", " ");
 
 		/* delete any blank in the new line */
-		w[1] = sregex("/^[ \t]*/", w[1]);
+		w[1] = sregex(w[1], "/^[ \t]*/");
 
 		/* concatenate */
 		w[1] = i ~ w[1];
@@ -474,7 +474,7 @@ sub mp.wrap_words(doc)
 		mp.break_line(doc, w[1]);
 
 		/* delete the space at the end of the line */
-		txt.lines[txt.y - 1] = sregex("/[ \t]$/", txt.lines[txt.y - 1], NULL);
+		txt.lines[txt.y - 1] = sregex(txt.lines[txt.y - 1], "/[ \t]$/", NULL);
 	}
 
 	return doc;
@@ -496,7 +496,7 @@ sub mp.insert_tab(doc)
 		local pl = doc.txt.lines[doc.txt.y - 1];
 
 		if ((pl = regex("/[^ \t]*[ \t]+/", pl, doc.txt.x)) != NULL) {
-			pl = sregex("/[^\t]/g", pl, ' ');
+			pl = sregex(pl, "/[^\t]/g", ' ');
 			mp.insert(doc, pl);
 			return doc;
 		}
@@ -593,7 +593,7 @@ sub mp.join_paragraph(doc)
 
 	while ((l = txt.lines[txt.y + 1]) && size(l)) {
 		/* delete all leading blanks in the next line */
-		txt.lines[txt.y + 1] = sregex("/^[ \t]+/", txt.lines[txt.y + 1]);
+		txt.lines[txt.y + 1] = sregex(txt.lines[txt.y + 1], "/^[ \t]+/");
 
 		/* move to end of line and add a space separator */
 		mp.move_eol(doc);

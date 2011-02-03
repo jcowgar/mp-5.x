@@ -121,15 +121,15 @@ sub mp.load_tags(force)
 		local l, r;
 
 		/* clean the regex 'markup' for the label */
-		l = sregex('@^/\^@', t[2], '');
-		l = sregex('@\$/;"$@', l, '') ~ ' [' ~ t[1] ~ ']';
+		l = sregex(t[2], '@^/\^@', '');
+		l = sregex(l, '@\$/;"$@', '') ~ ' [' ~ t[1] ~ ']';
 
 		/* clean the regex itself */
-		r = sregex('@/;"$@', t[2], NULL);
-		r = sregex('@^/@', r, NULL);
+		r = sregex(t[2], '@/;"$@');
+		r = sregex(r, '@^/@');
 
 		/* escape all troublesome characters */
-		r = sregex("/([\(\)\*\?\[\{\}]|\])/g", r, sub (m) { '\' ~ m; });
+		r = sregex(r, "/([\(\)\*\?\[\{\}]|\])/g", sub (m) { '\' ~ m; });
 
 		/* store the tag information */
 		mp.tags[t[0]] = {

@@ -149,7 +149,7 @@ mp.actions['exec_command']	= sub (d) {
 			local p;
 
 			/* yes; current document should be fed to it */
-			cmd = sregex('/^\|/', cmd, NULL);
+			cmd = sregex(cmd, '/^\|/');
 
 			if ((p = popen(cmd, "w")) != NULL) {
 				foreach (l, mp.get_active_area(d))
@@ -323,7 +323,7 @@ mp.actdesc['open_dropped_files'] = LL("Open dropped files");
 sub mp.chomp(str)
 /* chomps the end of file chars from a string */
 {
-	sregex("/\r*\n*$/", str, NULL);
+	sregex(str, "/\r*\n*$/");
 }
 
 

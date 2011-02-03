@@ -301,8 +301,10 @@ sub mp.replace_1(doc, this, that)
 		txt = doc.txt;
 
 		/* substitute */
-		txt.lines[txt.y] = sregex(mp.prefix_regex(this),
-			txt.lines[txt.y], that, c[0]);
+		txt.lines[txt.y] = sregex(txt.lines[txt.y],
+                                mp.prefix_regex(this),
+                                that, c[0]
+                            );
 
 		/* move to correct position */
 		c = regex();

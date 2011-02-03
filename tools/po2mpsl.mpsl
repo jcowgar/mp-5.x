@@ -8,8 +8,8 @@
 
 sub convert_po_line(line)
 {
-	line = sregex('/^\s*"/', line);
-	line = sregex('/"$/', line);
+	line = sregex(line, '/^\s*"/');
+	line = sregex(line, '/"$/');
 
 	line = split(line);
 

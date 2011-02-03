@@ -96,7 +96,7 @@ sub mp.build_get_targets
 			local t;
 
 			if (t = regex('/^[A-Za-z0-9_\.-]+:/', l))
-				push(r, sregex('/:/', t, ''));
+				push(r, sregex(t, '/:/', ''));
 		}
 
 		close(f);

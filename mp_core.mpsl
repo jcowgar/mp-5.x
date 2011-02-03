@@ -314,7 +314,7 @@ sub mp.build_status_line()
 		mp.message = NULL;
 	}
 
-	return sregex("/%./g", mp.config.status_format, mp.status_line_info);
+	return sregex(mp.config.status_format, "/%./g", mp.status_line_info);
 }
 
 
@@ -322,8 +322,8 @@ sub mp.backslash_codes(s, d)
 /* encodes (d == 0) or decodes (d == 1) backslash codes
    (like \n, \r, etc.) */
 {
-	d &&	sregex("/[\r\n\t]/g", s, { "\r" => '\r', "\n" => '\n', "\t" => '\t'}) ||
-		sregex("/\\\\[rnt]/g", s, { '\r' => "\r", '\n' => "\n", '\t' => "\t"});
+	d && sregex(s, "/[\r\n\t]/g", { "\r" => '\r', "\n" => '\n', "\t" => '\t'}) ||
+		 sregex(s, "/\\\\[rnt]/g", { '\r' => "\r", '\n' => "\n", '\t' => "\t"});
 }
 
 
@@ -562,7 +562,7 @@ sub mp.setup_language()
 	/* test if gettext() can do a basic translation */
 	if (gettext('&File') eq '&File' && ENV.LANG) {
 		/* no; try alternatives using the LANG variable */
-		local v = [ sregex('!/!g', ENV.LANG) ];	/* es_ES.UTF-8 */
+		local v = [ sregex(ENV.LANG, '!/!g') ];	/* es_ES.UTF-8 */
 		push(v, shift(split(v[-1], '.')));	/* es_ES */
 		push(v, shift(split(v[-1], '_')));	/* es */
 
@@ -582,7 +582,7 @@ sub mp.normalize_version(vs)
 /* converts a version string to something usable with cmp() */
 {
 	map(
-		split(sregex('/-.+$/', vs), '.'),
+		split(sregex(vs, '/-.+$/'), '.'),
 		sub(e) { sprintf("%03d", e); }
 	);
 }
