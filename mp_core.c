@@ -64,7 +64,6 @@ struct drw_1_info {
     int preread_lines;          /* lines to pre-read (for synhi blocks) */
     int mark_eol;               /* mark end of lines */
     int redraw;                 /* redraw trigger */
-    int vwrap;                  /* visual wrap */
 };
 
 struct drw_1_info drw_1;
@@ -173,21 +172,17 @@ static int drw_adjust_x(int x, int y, int *vx, int tx, wchar_t * ptr)
     int n, m;
     int t = *vx;
 
-    if (drw_1.vwrap)
-        *vx = 0;
-    else {
-        /* calculate the column for the cursor position */
-        for (n = m = 0; n < x; n++, ptr++)
-            m += drw_wcwidth(m, *ptr);
+    /* calculate the column for the cursor position */
+    for (n = m = 0; n < x; n++, ptr++)
+        m += drw_wcwidth(m, *ptr);
 
-        /* if new cursor column is nearer the leftmost column, set */
-        if (m < *vx)
-            *vx = m;
+    /* if new cursor column is nearer the leftmost column, set */
+    if (m < *vx)
+        *vx = m;
 
-        /* if new cursor column is further the rightmost column, set */
-        if (m > *vx + (tx - 1))
-            *vx = m - (tx - 1);
-    }
+    /* if new cursor column is further the rightmost column, set */
+    if (m > *vx + (tx - 1))
+        *vx = m - (tx - 1);
 
     return t != *vx;
 }
@@ -226,7 +221,6 @@ static int drw_prepare(mpdm_t doc)
     drw_1.preread_lines = mpdm_ival(mpdm_hget_s(config, L"preread_lines"));
     drw_1.mark_eol      = mpdm_ival(mpdm_hget_s(config, L"mark_eol"));
     drw_1.t_lines       = mpdm_size(lines);
-    drw_1.vwrap         = mpdm_ival(mpdm_hget_s(config, L"visual_wrap"));
 
     /* adjust the visual y coordinate */
     if (drw_adjust_y(y, &drw_1.vy, drw_1.ty))
@@ -661,23 +655,13 @@ static mpdm_t drw_line(int line)
 {
     mpdm_t l = NULL;
     int m, i, t, n;
-    int o, a;
+    int o = drw_2.offsets[line + drw_1.p_lines];
+    int a = drw_2.attrs[o];
     wchar_t tmp[BUF_LINE];
     wchar_t c;
-    static int last_o = 0;
-
-    /* if visual wrapping and not in the first line,
-       pick where previous line left; otherwise, start
-       at this line's offset */
-    if (drw_1.vwrap && line > 0)
-        o = last_o;
-    else
-        o = drw_2.offsets[line + drw_1.p_lines];
-
-    a = drw_2.attrs[o];
 
     /* loop while not beyond the right margin */
-    for (m = i = 0; m < drw_1.vx + drw_1.tx - drw_1.vwrap; m += t, o++) {
+    for (m = i = 0; m < drw_1.vx + drw_1.tx; m += t, o++) {
         /* take char and size */
         c = drw_2.ptr[o];
         t = drw_wcwidth(m, c);
@@ -719,14 +703,9 @@ static mpdm_t drw_line(int line)
         a = drw_2.attrs[o];
 
         /* end of line? */
-        if (drw_2.ptr[o] == L'\0' || drw_2.ptr[o] == L'\n') {
-            o++;
+        if (drw_2.ptr[o] == L'\0' || drw_2.ptr[o] == L'\n')
             break;
-        }
     }
-
-    /* save position for later */
-    last_o = o;
 
     return drw_push_pair(l, i, a, tmp);
 }
