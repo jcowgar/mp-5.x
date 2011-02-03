@@ -157,7 +157,7 @@ sub mp.open_tag(tag)
 
 	/* greps all tags containing the tag, and returns the
 	   values from mp.tags */
-	if ((t = map(mp.tags, grep('/' ~ tag ~ '/', keys(mp.tags)))) == NULL) {
+	if ((t = map(grep('/' ~ tag ~ '/', keys(mp.tags)), mp.tags)) == NULL) {
 		mp.alert(L("Tag not found."));
 		return;
 	}
@@ -167,7 +167,7 @@ sub mp.open_tag(tag)
 		a = 0;
 	else {
 		/* build a list to ask the user */
-		local l = map(sub(e) { e.label; }, t);
+		local l = map(t, sub(e) { e.label; });
 
 		local r = mp.form( [
 			{ 'label'	=> L("Select tag:"),

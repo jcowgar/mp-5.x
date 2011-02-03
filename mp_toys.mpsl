@@ -49,7 +49,15 @@ sub mp.maze(doc, keycode)
 			ty--;
 
 		/* init */
-		maze.map = map(sub { map(sub { '#'; }, [1 .. tx]); }, [1 .. ty]);
+		maze.map = map(
+            [1 .. ty],
+            sub {
+                map(
+                    [1 .. tx],
+                    sub { '#'; }
+                );
+            }
+        );
 
 		/* build */
 		local x = 1;
@@ -109,7 +117,7 @@ sub mp.maze(doc, keycode)
 
 		doc.keypress = sub(d, k) { mp.maze(d, k); };
 
-		doc.paint = sub(d) { map(sub(e) { [8, join(e)];}, d.maze.map); };
+		doc.paint = sub(d) { map(d.maze.map, sub(e) { [8, join(e)];}); };
 	}
 
 	local x = maze.x;

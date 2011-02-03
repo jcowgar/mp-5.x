@@ -456,7 +456,13 @@ sub mp.close()
 sub mp.find_file_by_name(filename)
 /* finds an open file by its name */
 {
-	seek(map(sub(d) { d.name; }, mp.docs), filename);
+	seek(
+		map(
+			mp.docs,
+			sub(d) { d.name; }
+		),
+		filename
+	);
 }
 
 

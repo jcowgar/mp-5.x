@@ -76,7 +76,7 @@ mp.actions['eval_doc']	= sub (d) {
 mp.actions['exec_action'] = sub(d) {
     local l = mp.actions->keys()->sort();
 
-    l = map(sub (e) { e ~ ' - ' ~ L(mp.actdesc[e] || ''); }, l);
+    l = map(l, sub (e) { e ~ ' - ' ~ L(mp.actdesc[e] || ''); });
 
     local r = mp.form( [
         { 'label'   => L("Select action to execute:"),

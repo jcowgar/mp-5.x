@@ -418,7 +418,7 @@ static void drw_multiline_regex(mpdm_t a, int attr)
                 /* it's a sscanf() expression */
                 mpdm_t v;
 
-                while ((v = mpdm_ref(mpdm_sscanf(r, drw_2.v, o)))
+                while ((v = mpdm_ref(mpdm_sscanf(drw_2.v, r, o)))
                        && mpdm_size(v) == 2) {
                     int i = mpdm_ival(mpdm_aget(v, 0));
                     int s = mpdm_ival(mpdm_aget(v, 1)) - i;

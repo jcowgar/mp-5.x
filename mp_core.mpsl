@@ -398,9 +398,12 @@ sub mp.trim_with_ellipsis(str, max)
 sub mp.get_doc_names(max)
 /* returns an array with the trimmed names of the documents */
 {
-	map(sub(e) {
-		(e.txt.mod && '* ' || '') ~ mp.trim_with_ellipsis(e.name, (max || 24));
-	}, mp.docs);
+	map(
+		mp.docs,
+		sub(e) {
+			(e.txt.mod && '* ' || '') ~ mp.trim_with_ellipsis(e.name, (max || 24));
+		}
+	);
 }
 
 
@@ -578,8 +581,10 @@ sub mp.setup_language()
 sub mp.normalize_version(vs)
 /* converts a version string to something usable with cmp() */
 {
-	map(sub(e) { sprintf("%03d", e); },
-		split(sregex('/-.+$/', vs), '.'));
+	map(
+		split(sregex('/-.+$/', vs), '.'),
+		sub(e) { sprintf("%03d", e); }
+	);
 }
 
 

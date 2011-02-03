@@ -61,7 +61,7 @@ mp.actions['section_list'] = sub (d) {
 			{
 				'label'	=> L("Section list"),
 				'type'	=> 'list',
-				'list'	=> map(sub (e) { e[0]; }, l),
+				'list'	=> map(l, sub (e) { e[0]; }),
 				'value'	=> 0
 			}
 			]);
