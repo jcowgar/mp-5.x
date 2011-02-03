@@ -13,13 +13,15 @@ sub convert_po_line(line)
 
 	line = split(line);
 
-	line = join(map(sub (e) {
-				(ord(e) > 127) &&
-				sprintf("\\x{%04x}", ord(e)) ||
-				e ;
-			},
-			line
-		)
+	line = join(
+        map(
+            line,
+            sub (e) {
+                (ord(e) > 127) &&
+                sprintf("\\x{%04x}", ord(e)) ||
+                e;
+            }
+        )
 	);
 
 	return line;
