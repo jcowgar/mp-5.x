@@ -785,10 +785,10 @@ static void win32_akey(int k)
     case ctrl('g'):
         ptr = L"ctrl-g";
         break;
-    case ctrl('h'):            /* same as backspace */
+    case ctrl('h'):         /* same as backspace */
         break;
-    case ctrl('i'):
-        ptr = L"ctrl-i";
+    case ctrl('i'):         /* same as tab */
+        ptr = (GetKeyState(VK_SHIFT) & 0x8000) ? L"shift-tab" : L"tab";
         break;
     case ctrl('j'):
         ptr = L"ctrl-j";
