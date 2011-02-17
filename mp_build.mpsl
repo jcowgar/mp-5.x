@@ -5,7 +5,7 @@
 
     A simple IDE-like build system.
 
-    Copyright (C) 1991-2009 Angel Ortega <angel@triptico.com>
+    Copyright (C) 1991-2011 Angel Ortega <angel@triptico.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -133,5 +133,7 @@ sub mp.build_execute(target)
 		/* set the last search regex to match file:line strings,
 		   so that calling seek-next and seek-prev moves there */
 		mp.last_search = '/^[a-z\.\_0-9\/-]+:[0-9]+:/m';
+
+        mp.redraw();
 	}
 }
