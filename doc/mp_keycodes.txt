@@ -150,6 +150,8 @@ Table with Minimum Profit's keycodes and their default assigned actions.
  +---------------------+------------------------+
  |             page-up |              move_pgup |
  +---------------------+------------------------+
+ |           shift-tab |        insert_real_tab |
+ +---------------------+------------------------+
  |               space |           insert_space |
  +---------------------+------------------------+
  |                 tab |             insert_tab |

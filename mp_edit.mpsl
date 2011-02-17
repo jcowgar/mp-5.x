@@ -35,10 +35,11 @@ mp.actions['insert_line']	= sub (d) {
 	if (d.syntax == NULL) mp.detect_syntax(d);
 };
 
-mp.actions['delete_line']	= sub (d) { mp.store_undo(d); mp.delete_line(d); };
-mp.actions['insert_space']	= sub (d) { mp.store_undo(d); mp.insert_space(d); };
-mp.actions['insert_tab']	= sub (d) { mp.store_undo(d); mp.insert_tab(d); };
-mp.actions['delete']		= sub (d) { mp.store_undo(d); mp.delete_char(d); };
+mp.actions['delete_line']       = sub (d) { mp.store_undo(d); mp.delete_line(d); };
+mp.actions['insert_space']      = sub (d) { mp.store_undo(d); mp.insert_space(d); };
+mp.actions['insert_tab']        = sub (d) { mp.store_undo(d); mp.insert_tab(d); };
+mp.actions['insert_real_tab']   = sub (d) { mp.store_undo(d); mp.insert(d, "\t"); };
+mp.actions['delete']            = sub (d) { mp.store_undo(d); mp.delete_char(d); };
 
 mp.actions['delete_left']	= sub (d) {
 	if (d.txt.x + d.txt.y) {
@@ -165,33 +166,35 @@ mp.actions['toggle_insert'] = sub (d) { mp.config.insert = !mp.config.insert; };
 
 /** default key bindings **/
 
-mp.keycodes['enter']	= "insert_line";
-mp.keycodes['tab']	= "insert_tab";
-mp.keycodes['space']	= "insert_space";
-mp.keycodes['delete']	= "delete";
-mp.keycodes['backspace']= "delete_left";
-mp.keycodes['ctrl-i']	= "insert_tab";
-mp.keycodes['ctrl-m']	= "insert_line";
-mp.keycodes['ctrl-y']	= "delete_line";
-mp.keycodes['ctrl-z']	= "undo";
-mp.keycodes['f4']	= "word_wrap_paragraph";
-mp.keycodes['insert']	= "toggle_insert";
+mp.keycodes['enter']     = "insert_line";
+mp.keycodes['tab']       = "insert_tab";
+mp.keycodes['shift-tab'] = "insert_real_tab";
+mp.keycodes['space']     = "insert_space";
+mp.keycodes['delete']    = "delete";
+mp.keycodes['backspace'] = "delete_left";
+mp.keycodes['ctrl-i']    = "insert_tab";
+mp.keycodes['ctrl-m']    = "insert_line";
+mp.keycodes['ctrl-y']    = "delete_line";
+mp.keycodes['ctrl-z']    = "undo";
+mp.keycodes['f4']        = "word_wrap_paragraph";
+mp.keycodes['insert']    = "toggle_insert";
 
 /** action descriptions **/
 
-mp.actdesc['insert_line']	= LL("Insert line");
-mp.actdesc['delete_line']	= LL("Delete line");
-mp.actdesc['insert_space']	= LL("Insert space");
-mp.actdesc['insert_tab']	= LL("Insert tab");
-mp.actdesc['delete']		= LL("Delete character");
-mp.actdesc['delete_left']	= LL("Delete character to the left");
-mp.actdesc['undo']		= LL("Undo");
-mp.actdesc['redo']		= LL("Redo");
-mp.actdesc['join_paragraph']	= LL("Join a paragraph in one line");
-mp.actdesc['word_wrap_paragraph'] = LL("Word-wrap a paragraph");
-mp.actdesc['line_options']	= LL("Line options...");
-mp.actdesc['tab_options']	= LL("Tab options...");
-mp.actdesc['toggle_insert'] = LL("Toggle insert/overwrite mode");
+mp.actdesc['insert_line']           = LL("Insert line");
+mp.actdesc['delete_line']           = LL("Delete line");
+mp.actdesc['insert_space']          = LL("Insert space");
+mp.actdesc['insert_tab']            = LL("Insert tab");
+mp.actdesc['insert_real_tab']       = LL("Insert real tab character");
+mp.actdesc['delete']                = LL("Delete character");
+mp.actdesc['delete_left']           = LL("Delete character to the left");
+mp.actdesc['undo']                  = LL("Undo");
+mp.actdesc['redo']                  = LL("Redo");
+mp.actdesc['join_paragraph']        = LL("Join a paragraph in one line");
+mp.actdesc['word_wrap_paragraph']   = LL("Word-wrap a paragraph");
+mp.actdesc['line_options']          = LL("Line options...");
+mp.actdesc['tab_options']           = LL("Tab options...");
+mp.actdesc['toggle_insert']         = LL("Toggle insert/overwrite mode");
 
 /** code **/
 
