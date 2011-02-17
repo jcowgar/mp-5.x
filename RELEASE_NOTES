@@ -15,6 +15,9 @@ Minimum Profit Release Notes
    on the current document.
  * New action `cut_lines_with_string', that cuts to the clipboard
    all lines in a document or block that matches a regular expression.
+ * New action `insert_real_tab', bound to `shift-tab', to insert
+   a tab character (\t) regardless of whatever is set in the
+   `tabs_as_spaces' configuration variable.
  * New configuration option `mp.config.hw_cursor' to activate
    the hardware cursor in text environments (disabled by default).
  * Several Text User Interface improvements, like
