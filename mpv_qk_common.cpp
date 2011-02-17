@@ -303,6 +303,12 @@ bool MPArea::event(QEvent * event)
             area->update();
             return true;
         }
+        else
+        if (ke->key() == Qt::Key_Backtab) {
+            mp_process_event(MPDM_LS(L"shift-tab"));
+            area->update();
+            return true;
+        }
     }
 
     /* keep normal processing */

@@ -1324,6 +1324,9 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event,
         case GDK_Tab:
             ptr = L"tab";
             break;
+        case GDK_ISO_Left_Tab:
+            ptr = L"shift-tab";
+            break;
         case GDK_Escape:
             ptr = L"escape";
             break;
