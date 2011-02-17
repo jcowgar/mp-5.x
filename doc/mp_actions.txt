@@ -258,6 +258,16 @@ Inserts a new numbered item into the text. Numbered items are as this way:
 Every time a new item is requested, the current document is scanned for the
 greatest number and the next one is inserted.
 
+insert_real_tab
+---------------
+
+_Insert real tab character_ (`shift-tab')
+
+Inserts a tab character (\t or ASCII 9) in the cursor position.
+This is done regardless of the `tabs_as_spaces' configuration
+variable; see the `insert_tab' action for more configurable tab
+operations.
+
 insert_space
 ------------
 
@@ -270,7 +280,10 @@ insert_tab
 
 _Insert tab_ (`tab')
 
-Inserts a tabulator, triggering word wrapping, if active.
+Inserts a tabulator, triggering word wrapping, if active. The tab
+will be a real tab or a set of spaces regarding the `tabs_as_spaces'
+configuration variable. For a hardcoded tab character (\t) see
+the `insert_real_tab' action.
 
 insert_template
 ---------------
