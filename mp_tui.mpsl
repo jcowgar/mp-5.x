@@ -181,9 +181,12 @@ sub mp.tui.readline(prompt, history, default, flags)
 							done = 1;
 					}
 				}
+                else
+                    break;
 			}
 
-			break;
+            if (done)
+                break;
 		}
 		else
 		if (size(k) == 1) {
