@@ -680,7 +680,7 @@ static mpdm_t drw_line(int line)
 
             /* fill tabs with spaces */
             if (c == L'\0' || c == L'\t')
-                c = L' ';
+                c = drw_1.mark_eol ? L'\xb7' : L' ';
 
             /* fill EOLs with special marks or spaces */
             if (c == L'\n')
