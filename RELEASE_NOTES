@@ -20,9 +20,6 @@ Minimum Profit Release Notes
    - Fixed insert / overwrite mode.
    - If a selection is invisible (incomplete or with the start and end
      in the same character), a new keystroke does not jump to it.
- - General improvements:
-   - If a block is selected, actions `word_wrap_paragraph',
-     `join_paragraph' and `eval_doc' act only on it.
  - New configuration options:
    - `mp.config.hw_cursor': to activate the hardware cursor in
      text environments (disabled by default).
@@ -33,6 +30,11 @@ Minimum Profit Release Notes
      menu items are scrolled as needed.
  - New command line options:
    - `-txt': force text mode (instead of GUI).
+ - General improvements:
+   - If a block is selected, actions `word_wrap_paragraph',
+     `join_paragraph' and `eval_doc' act only on it.
+   - The internal engine has been partly rewritten, so it requires
+     less memory and it's a bit faster.
 
 5.1.4
 -----
