@@ -4,30 +4,35 @@ Minimum Profit Release Notes
 5.2.0
 -----
 
- * Fixed insert / overwrite mode.
- * New action `filter_selection', to filter the selection (or the
-   full document if no selection is done) through a system command.
- * If a selection is invisible (incomplete or with the start and end
-   in the same character), a new keystroke does not jump to it.
- * If a block is selected, actions `word_wrap_paragraph',
-   `join_paragraph' and `eval_doc' act only on it.
- * New action `exec_action', that shows a list of actions to execute
-   on the current document.
- * New action `cut_lines_with_string', that cuts to the clipboard
-   all lines in a document or block that matches a regular expression.
- * New action `insert_real_tab', bound to `shift-tab', to insert
-   a tab character (\t) regardless of whatever is set in the
-   `tabs_as_spaces' configuration variable.
- * New configuration option `mp.config.hw_cursor' to activate
-   the hardware cursor in text environments (disabled by default).
- * Several Text User Interface improvements, like
-    * File opening list is fully navegable (directories up and down),
-    * Selection lists accept letter keys to jump to elements,
-    * If a text mode menu panel do not fit vertically on the screen,
-      menu items are scrolled as needed.
- * New action `insert_next_item', to insert a new enumeration
-   item in a document.
- * New command line option `-txt' to use text mode (instead of GUI).
+ - New actions:
+   - `filter_selection': to filter the selection (or the
+     full document if no selection is done) through a system command.
+   - `exec_action': that shows a list of actions to execute
+     on the current document.
+   - `cut_lines_with_string': that cuts to the clipboard all lines
+     in a document or block that matches a regular expression.
+   - `insert_real_tab': bound to `shift-tab', to insert a tab
+     character (\t) regardless of whatever is set in the
+     `tabs_as_spaces' configuration variable.
+   - `insert_next_item': to insert a new enumeration item in
+     a document.
+ - Bugfixes:
+   - Fixed insert / overwrite mode.
+   - If a selection is invisible (incomplete or with the start and end
+     in the same character), a new keystroke does not jump to it.
+ - General improvements:
+   - If a block is selected, actions `word_wrap_paragraph',
+     `join_paragraph' and `eval_doc' act only on it.
+ - New configuration options:
+   - `mp.config.hw_cursor': to activate the hardware cursor in
+     text environments (disabled by default).
+ - Text user interface improvements:
+   - File opening list is fully navegable (directories up and down),
+   - Selection lists accept letter keys to jump to elements,
+   - If a text mode menu panel do not fit vertically on the screen,
+     menu items are scrolled as needed.
+ - New command line options:
+   - `-txt': force text mode (instead of GUI).
 
 5.1.4
 -----
