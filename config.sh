@@ -312,7 +312,7 @@ else
 	if which pkg-config > /dev/null 2>&1
 	then
 		TMP_CFLAGS=$(pkg-config --cflags QtGui)
-		TMP_LDFLAGS=$(pkg-config --libs QtGui)
+		TMP_LDFLAGS="$(pkg-config --libs QtGui) -lX11"
 
 		echo "#include <QtGui>" > .tmp.cpp
 		echo "int main(int argc, char *argv[]) { new QApplication(argc, argv) ; return 0; } " >> .tmp.cpp
