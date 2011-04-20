@@ -522,6 +522,12 @@ static void win32_vkey(int c)
         case VK_RETURN:
             ptr = L"ctrl-enter";
             break;
+        case VK_BACK:
+            ptr = L"ctrl-backspace";
+            break;
+       	case VK_DELETE:
+       	    ptr = L"ctrl-delete";
+            break;
         case VK_F1:
             ptr = L"ctrl-f1";
             break;
@@ -608,6 +614,12 @@ static void win32_vkey(int c)
             break;
         case VK_RETURN:
             ptr = L"alt-enter";
+            break;
+        case VK_BACK:
+            ptr = L"alt-backspace";
+            break;
+        case VK_DELETE:
+            ptr = L"alt-delete";
             break;
         case VK_F1:
             ptr = L"alt-f1";

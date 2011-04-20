@@ -564,6 +564,12 @@ void MPArea::keyPressEvent(QKeyEvent * event)
         case 'Z':
             ptr = (wchar_t *) L"ctrl-z";
             break;
+        case Qt::Key_Backspace:
+            ptr = (wchar_t *) L"ctrl-backspace";
+            break;
+        case Qt::Key_Delete:
+            ptr = (wchar_t *) L"ctrl-delete";
+            break;
         case Qt::Key_Return:
         case Qt::Key_Enter:
             ptr = (wchar_t *) L"ctrl-enter";
@@ -716,6 +722,12 @@ void MPArea::keyPressEvent(QKeyEvent * event)
             break;
         case 'Z':
             ptr = (wchar_t *) L"alt-z";
+            break;
+        case Qt::Key_Backspace:
+            ptr = (wchar_t *) L"alt-backspace";
+            break;
+        case Qt::Key_Delete:
+            ptr = (wchar_t *) L"alt-delete";
             break;
         case Qt::Key_Return:
         case Qt::Key_Enter:

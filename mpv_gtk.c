@@ -819,6 +819,12 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event,
         case GDK_Return:
             ptr = L"ctrl-enter";
             break;
+        case GDK_BackSpace:
+            ptr = L"ctrl-backspace";
+            break;
+        case GDK_Delete:
+            ptr = L"ctrl-delete";
+            break;
         case GDK_Cyrillic_ve:
             ptr = L"ctrl-d";
             break;
@@ -1065,6 +1071,12 @@ static gint key_press_event(GtkWidget * widget, GdkEventKey * event,
         case GDK_KP_Enter:
         case GDK_Return:
             ptr = L"alt-enter";
+            break;
+        case GDK_BackSpace:
+            ptr = L"alt-backspace";
+            break;
+        case GDK_Delete:
+            ptr = L"alt-delete";
             break;
         case GDK_Cyrillic_ve:
             ptr = L"alt-d";
