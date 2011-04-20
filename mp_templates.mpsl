@@ -32,7 +32,7 @@ mp.actions['insert_template']	 = sub(d) {
 	local l, t;
 
 	/* no local templates? do nothing */
-	if ((l = mp.long_op(mp.read_templates_file)) == NULL)
+	if ((l = mp.long_op(mp.read_templates_file, d)) == NULL)
 		return;
 
 	/* select one */
@@ -51,8 +51,19 @@ mp.actions['insert_template']	 = sub(d) {
 };
 
 mp.actions['open_templates_file'] = sub (d) {
+	local templates = glob(HOMEDIR ~ "/.mp_templates/*"); /* Treat as a dir */
 
-	mp.open(HOMEDIR ~ ".mp_templates");
+	if (size(templates) == 0) {
+		mp.open(HOMEDIR ~ ".mp_templates");
+	} else {
+		if ((t = mp.form( [
+			{ 'label'   => L("Template file to edit:"),
+			  'type'    => 'list',
+			  'list'    => templates }
+			])) == NULL)
+			return;
+		mp.open(templates[t[0]]);
+	}
 };
 
 /** default key bindings **/
@@ -68,14 +79,35 @@ mp.templates = {};
 
 /** code **/
 
-sub mp.read_templates_file()
-/* reads the $HOME/.mp_templates file into mp.templates */
+sub mp.read_templates_file(d)
+/* reads the $HOME/.mp_templates or $HOME/.mp_templates/{global,syntax.name} file into mp.templates */
 {
 	local f, l, k, v, n;
+	
+	local read_template = sub(filename) {
+		if ((f = open(filename, "r")) == NULL)
+			return NULL;
 
-	/* doesn't exist? just return */
-	if ((f = open(HOMEDIR ~ "/.mp_templates", "r")) == NULL)
-		return NULL;
+		while (l = read(f)) {
+			if (regex(l, "/^%%/")) {
+				/* new template: store previous, if any */
+				if (k && v) {
+					push(n, k);
+					mp.templates[k] = v;
+				}
+	
+				/* strip prefix */
+				k = sregex(mp.chomp(l), "/^%%/");
+				v = NULL;
+			}
+			else {
+				/* add to v */
+				v = v ~ l;
+			}
+		}
+
+		close(f);
+	};
 
 	k = NULL;
 	v = NULL;
@@ -84,22 +116,10 @@ sub mp.read_templates_file()
 	/* reset */
 	mp.templates = {};
 
-	while (l = read(f)) {
-		if (regex(l, "/^%%/")) {
-			/* new template: store previous, if any */
-			if (k && v) {
-				push(n, k);
-				mp.templates[k] = v;
-			}
-
-			/* strip prefix */
-			k = sregex(mp.chomp(l), "/^%%/");
-			v = NULL;
-		}
-		else {
-			/* add to v */
-			v = v ~ l;
-		}
+	read_template(HOMEDIR ~ "/.mp_templates");
+	read_template(HOMEDIR ~ "/.mp_templates/global");
+	if (d.syntax != NULL) {
+		read_template(HOMEDIR ~ "/.mp_templates/" ~ d.syntax.id);
 	}
 
 	/* store last value */
@@ -107,8 +127,6 @@ sub mp.read_templates_file()
 		push(n, k);
 		mp.templates[k] = v;
 	}
-
-	close(f);
 
 	/* returns keys(mp.templates), but in its original order */
 	return n;
