@@ -49,6 +49,81 @@ mp.actions['delete_left']	= sub (d) {
 	}
 };
 
+mp.actions['indent_block'] = sub (d) {
+	mp.store_undo(d);
+
+	if (d.txt.mark == NULL) {
+		mp.move(d, mp.move_bol);
+		mp.insert_tab(d);
+		return;
+	}
+	
+	local currentY = d.txt.y;
+	local startY   = d.txt.mark.by;
+	local endY     = d.txt.mark.ey;
+	local times    = endY - startY;
+	
+	mp.unmark(d);
+	
+	mp.set_y(d, startY);
+	/* use to be while d.txt.y <= endY, but that entered an endless loop when
+	   you were indenting a block including the very last line in the file */
+	while (times >= 0) {
+		mp.move(d, mp.move_bol);
+		mp.insert_tab(d);
+		mp.move(d, mp.move_down);
+		
+		times--;
+	}
+	
+	mp.set_y(d, startY);
+	mp.move(d, mp.move_bol);
+	mp.mark(d);
+	
+	mp.set_y(d, endY);
+	mp.move(d.mp_move_eol);
+	mp.mark(d);
+	
+	mp.set_y(d, currentY);
+};
+
+mp.actions['unindent_block'] = sub(d) {
+	mp.store_undo(d);
+
+	if (d.txt.mark == NULL) {
+		mp.unindent_line(d);
+		return;
+	}
+	
+	local currentY = d.txt.y;
+	local startY   = d.txt.mark.by;
+	local endY     = d.txt.mark.ey;
+	local times    = endY - startY;
+	
+	mp.unmark(d);
+	
+	mp.set_y(d, startY);
+	
+	/* use to be while d.txt.y <= endY, but that entered an endless loop when
+	   you were unindenting a block including the very last line in the file */
+	while (times >= 0) {
+		mp.unindent_line(d);
+		mp.move(d, mp.move_down);
+		
+		times--;
+	}
+	
+	mp.set_y(d, startY);
+	mp.move(d, mp.move_bol);
+	mp.mark(d);
+	
+	mp.set_y(d, endY);
+	mp.move(d.mp_move_eol);
+	mp.mark(d);
+	
+	mp.set_y(d, currentY);
+};
+
 mp.actions['undo']		= sub (d) { mp.undo(d); };
 mp.actions['redo']		= sub (d) { mp.redo(d); };
 
@@ -166,18 +241,20 @@ mp.actions['toggle_insert'] = sub (d) { mp.config.insert = !mp.config.insert; };
 
 /** default key bindings **/
 
-mp.keycodes['enter']     = "insert_line";
-mp.keycodes['tab']       = "insert_tab";
-mp.keycodes['shift-tab'] = "insert_real_tab";
-mp.keycodes['space']     = "insert_space";
-mp.keycodes['delete']    = "delete";
-mp.keycodes['backspace'] = "delete_left";
-mp.keycodes['ctrl-i']    = "insert_tab";
-mp.keycodes['ctrl-m']    = "insert_line";
-mp.keycodes['ctrl-y']    = "delete_line";
-mp.keycodes['ctrl-z']    = "undo";
-mp.keycodes['f4']        = "word_wrap_paragraph";
-mp.keycodes['insert']    = "toggle_insert";
+mp.keycodes['enter']            = "insert_line";
+mp.keycodes['tab']              = "insert_tab";
+mp.keycodes['shift-tab']        = "insert_real_tab";
+mp.keycodes['space']            = "insert_space";
+mp.keycodes['delete']           = "delete";
+mp.keycodes['backspace']        = "delete_left";
+mp.keycodes['ctrl-i']           = "insert_tab";
+mp.keycodes['ctrl-m']           = "insert_line";
+mp.keycodes['ctrl-y']           = "delete_line";
+mp.keycodes['alt-cursor-right'] = "indent_block";
+mp.keycodes['alt-cursor-left']  = "unindent_block";
+mp.keycodes['ctrl-z']           = "undo";
+mp.keycodes['f4']               = "word_wrap_paragraph";
+mp.keycodes['insert']           = "toggle_insert";
 
 /** action descriptions **/
 
@@ -188,6 +265,8 @@ mp.actdesc['insert_tab']            = LL("Insert tab");
 mp.actdesc['insert_real_tab']       = LL("Insert real tab character");
 mp.actdesc['delete']                = LL("Delete character");
 mp.actdesc['delete_left']           = LL("Delete character to the left");
+mp.actdesc['indent_block']          = LL("Indent block");
+mp.actdesc['unindent_block']        = LL("Unindent block");
 mp.actdesc['undo']                  = LL("Undo");
 mp.actdesc['redo']                  = LL("Redo");
 mp.actdesc['join_paragraph']        = LL("Join a paragraph in one line");
@@ -629,4 +708,29 @@ sub mp.word_wrap_paragraph(doc)
 	}
 
 	return doc;
+}
+
+/* indent/unindent support functions */
+
+sub mp.unindent_line(d)
+/* Unindent the current line by 1 tab or the indent size */
+{
+	local l = split(d.txt.lines[d.txt.y]);
+	
+	mp.move(d, mp.move_bol);
+	
+	if (cmp(l[0], "\t") == 0) {
+		mp.delete_char(d);
+	} else {
+		local i = 0;
+		while (i < mp.config.tab_size) {
+			if (cmp(l[i], " ") == 0) {
+				mp.delete_char(d);
+			} else {
+				break;
+			}
+			
+			i++;
+		}
+	}
 }
