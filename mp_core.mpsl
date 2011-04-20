@@ -47,6 +47,7 @@ mp.config.preread_lines = 60;
 mp.config.mark_eol = 0;
 mp.config.maximize = 0;
 mp.config.keep_eol = 1;
+mp.config.smart_bol = 0;
 
 /* default end of line, system dependent */
 if (mp.drv.id eq 'win32')

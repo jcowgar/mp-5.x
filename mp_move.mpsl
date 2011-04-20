@@ -33,7 +33,13 @@ mp.actions['move_up']		= sub (d) { mp.move(d, mp.move_up); };
 mp.actions['move_down']		= sub (d) { mp.move(d, mp.move_down); };
 mp.actions['move_pgup']		= sub (d) { mp.move(d, mp.move_pgup); };
 mp.actions['move_pgdn']		= sub (d) { mp.move(d, mp.move_pgdn); };
-mp.actions['move_bol']		= sub (d) { mp.move(d, mp.move_bol); };
+mp.actions['move_bol']		= sub (d) { 
+	if (mp.config.smart_bol) {
+		mp.move(d, mp.move_bol_smart); 
+	} else {
+		mp.move(d, mp.move_bol); 
+	}
+};
 mp.actions['move_eol']		= sub (d) { mp.move(d, mp.move_eol); };
 mp.actions['move_bof']		= sub (d) { mp.move(d, mp.move_bof); };
 mp.actions['move_eof']		= sub (d) { mp.move(d, mp.move_eof); };
@@ -395,6 +401,27 @@ sub mp.move_bol(doc)
 	return doc;
 }
 
+sub mp.move_bol_smart(doc)
+/* moves to the first non-whitespace or if already there the beginning of the line */
+{
+	local non_white = 0;
+	local l = split(doc.txt.lines[doc.txt.y]);
+
+	while (non_white < size(l) && 
+			(
+				cmp(l[non_white], " ") == 0 || 
+				cmp(l[non_white], "\t") == 0)
+			) 
+	{
+		non_white++;
+	}
+	
+	if (doc.txt.x == non_white) {
+		doc.txt.x = 0;
+	} else {
+		doc.txt.x = non_white;
+	}
+}
 
 sub mp.move_eol(doc)
 /* moves to the end of the line */
