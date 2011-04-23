@@ -2152,8 +2152,16 @@ static mpdm_t gtk_drv_startup(mpdm_t a, mpdm_t ctxt)
 
     /* get real screen and pick a usable size for the main area */
     screen = gtk_window_get_screen(GTK_WINDOW(window));
-    w = (gdk_screen_get_width(screen) * 3) / 4;
-    h = (gdk_screen_get_height(screen) * 2) / 3;
+    if (gdk_screen_get_n_monitors(screen) > 1) {
+    	GdkRectangle monitor_one_size;
+    	gdk_screen_get_monitor_geometry(screen, 0, &monitor_one_size);
+    	
+    	w = (monitor_one_size.width * 3) / 4;
+    	h = (monitor_one_size.height * 2) / 3;
+    } else {
+    	w = (gdk_screen_get_width(screen) * 3) / 4;
+    	h = (gdk_screen_get_height(screen) * 2) / 3;
+    }
 
     g_signal_connect(G_OBJECT(window), "delete_event",
                      G_CALLBACK(delete_event), NULL);
